@@ -23,20 +23,23 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.IncrementType
+import rahmouni.neil.counters.IncrementValueType
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
     androidx.compose.ui.ExperimentalComposeUiApi::class
 )
 @Composable
-fun DefaultIncrementOption(
+fun IncrementValueOption(
     incrementType: IncrementType,
+    incrementValueType: IncrementValueType,
     incrementValue: Int,
-    onSave: (IncrementType, Int) -> Unit
+    hasMinus: Boolean,
+    onSave: (IncrementValueType, Int) -> Unit
 ) {
     var openDialog by rememberSaveable { mutableStateOf(false) }
-    var dialogIncrementType by rememberSaveable { mutableStateOf(incrementType) }
-    var dialogIncrementValue by rememberSaveable { mutableStateOf(incrementValue.toString()) }
+    var dialogIncrementValueType by rememberSaveable { mutableStateOf(IncrementValueType.VALUE) }
+    var dialogIncrementValue by rememberSaveable { mutableStateOf("1") }
     var isDialogIncrementValueError by rememberSaveable { mutableStateOf(false) }
 
     val localHapticFeedback = LocalHapticFeedback.current
@@ -47,12 +50,29 @@ fun DefaultIncrementOption(
         return !isDialogIncrementValueError
     }
 
+    val titleStr = if (incrementType == IncrementType.VALUE) { //TODO i18n
+        if (hasMinus) "Increase/decrease by" else "Increase by"
+    } else {
+        "Default value when asking"
+    }
+
+    fun confirm() {
+        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+        if (validateDialogIncrementValue(dialogIncrementValue)) {
+            keyboardController?.hide()
+
+            onSave(dialogIncrementValueType, dialogIncrementValue.toInt())
+
+            openDialog = false
+        }
+    }
+
     ListItem(
-        text = { Text("Default increments") },
+        text = { androidx.compose.material.Text(titleStr) },
         secondaryText = {
-            Text(
-                incrementType.description.replace("%s", incrementValue.toString()),
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = .7f)
+            androidx.compose.material.Text(
+                incrementValueType.description.replace("%s", incrementValue.toString())
             )
         },
         modifier = Modifier
@@ -60,7 +80,7 @@ fun DefaultIncrementOption(
                 onClick = {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                    dialogIncrementType = incrementType
+                    dialogIncrementValueType = incrementValueType
                     dialogIncrementValue = incrementValue.toString()
                     isDialogIncrementValueError = false
                     openDialog = true
@@ -71,28 +91,25 @@ fun DefaultIncrementOption(
     if (openDialog) {
         AlertDialog(
             onDismissRequest = {
-                // Dismiss the dialog when the user clicks outside the dialog or on the back
-                // button. If you want to disable that functionality, simply use an empty
-                // onDismissRequest.
                 openDialog = false
             },
             title = {
-                Text(text = "Default increments") //TODO i18n
+                Text(titleStr)
             },
             text = {
                 Column {
-                    IncrementType.values().forEach {
+                    IncrementValueType.values().forEach {
                         Column(
                             Modifier
                                 .fillMaxWidth()
                                 .selectable(
-                                    selected = dialogIncrementType == it,
+                                    selected = dialogIncrementValueType == it,
                                     onClick = {
                                         localHapticFeedback.performHapticFeedback(
                                             HapticFeedbackType.LongPress
                                         )
 
-                                        dialogIncrementType = it
+                                        dialogIncrementValueType = it
                                     },
                                     role = Role.RadioButton
                                 )
@@ -104,7 +121,7 @@ fun DefaultIncrementOption(
                                 modifier = Modifier.height(56.dp)
                             ) {
                                 RadioButton(
-                                    selected = dialogIncrementType == it,
+                                    selected = dialogIncrementValueType == it,
                                     onClick = null // null recommended for accessibility with screenreaders
                                 )
                                 Text(
@@ -116,7 +133,7 @@ fun DefaultIncrementOption(
                             if (it.hasValue) {
                                 OutlinedTextField(
                                     value = dialogIncrementValue,
-                                    enabled = dialogIncrementType == it,
+                                    enabled = dialogIncrementValueType == it,
                                     onValueChange = { str ->
                                         isDialogIncrementValueError = false
                                         dialogIncrementValue = str
@@ -124,9 +141,7 @@ fun DefaultIncrementOption(
                                     singleLine = true,
                                     isError = isDialogIncrementValueError,
                                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                                    keyboardActions = KeyboardActions {
-                                        if (validateDialogIncrementValue(dialogIncrementValue)) keyboardController?.hide()
-                                    })
+                                    keyboardActions = KeyboardActions { confirm() })
                             }
                         }
                     }
@@ -135,15 +150,7 @@ fun DefaultIncrementOption(
             confirmButton = {
                 TextButton(
                     enabled = !isDialogIncrementValueError,
-                    onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                        if (validateDialogIncrementValue(dialogIncrementValue)) {
-                            onSave(dialogIncrementType, dialogIncrementValue.toInt())
-
-                            openDialog = false
-                        }
-                    }
+                    onClick = { confirm() }
                 ) {
                     Text("Save")
                 }

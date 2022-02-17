@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
@@ -16,11 +17,18 @@ fun CountersTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composab
             LocalContext.current
         )
 
-    val colors = if (darkTheme) {
-        darkColors(primary = dynamicDarkColorScheme(LocalContext.current).primary)
-    } else {
-        lightColors(primary = dynamicLightColorScheme(LocalContext.current).primary)
-    }
+    val colors = if (darkTheme)
+        darkColors(
+            primary = colorScheme.primary,
+            secondary = colorScheme.secondary,
+            surface = colorScheme.background
+        )
+    else
+        lightColors(
+            primary = colorScheme.primary,
+            secondary = colorScheme.secondary,
+        )
+
     androidx.compose.material.MaterialTheme(colors = colors, content = {
         MaterialTheme(
             colorScheme = colorScheme,

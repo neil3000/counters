@@ -2,13 +2,17 @@ package rahmouni.neil.counters
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material3.*
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import kotlin.math.roundToInt
 
@@ -35,12 +39,13 @@ fun RoundedBottomSheet(
 
     ModalBottomSheetLayout(
         sheetState = state,
-        sheetBackgroundColor = MaterialTheme.colorScheme.surface,
+        sheetBackgroundColor = MaterialTheme.colorScheme.background,
+        sheetElevation = 0.dp,
         sheetContent = {
             Column(
                 Modifier
                     .padding(top = 10.dp)
-                    .navigationBarsWithImePadding(),
+                    .navigationBarsPadding(),
                 Arrangement.spacedBy(8.dp)
             ) {
                 Surface(

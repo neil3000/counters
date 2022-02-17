@@ -10,29 +10,29 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import rahmouni.neil.counters.Counter
 import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.IncrementType
-import rahmouni.neil.counters.counterDao
+import rahmouni.neil.counters.IncrementValueType
+import rahmouni.neil.counters.database.Counter
+import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.new_counter.color_selector.CounterStyleSelector
-import rahmouni.neil.counters.new_counter.options.DefaultIncrementOption
+import rahmouni.neil.counters.new_counter.options.ButtonBehaviourOption
+import rahmouni.neil.counters.new_counter.options.IncrementValueOption
 import rahmouni.neil.counters.new_counter.options.MinusEnabledOption
-import rahmouni.neil.counters.ui.theme.CountersTheme
 
 @OptIn(ExperimentalComposeUiApi::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
-fun NewCounter(onCreate: (Counter) -> (Unit)) {
+fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (Unit)) {
     var name by rememberSaveable { mutableStateOf("") }
-    var incrementType by rememberSaveable { mutableStateOf(IncrementType.VALUE) }
+    var incrementType by rememberSaveable { mutableStateOf(IncrementType.ASK_EVERY_TIME) }
+    var incrementValueType by rememberSaveable { mutableStateOf(IncrementValueType.VALUE) }
     var incrementValue by rememberSaveable { mutableStateOf(1) }
     var isNameError by rememberSaveable { mutableStateOf(false) }
     var minusEnabled by rememberSaveable { mutableStateOf(false) }
@@ -70,18 +70,26 @@ fun NewCounter(onCreate: (Counter) -> (Unit)) {
         }
 
         Divider(Modifier.padding(16.dp, 16.dp, 16.dp, 0.dp))
-        DefaultIncrementOption(incrementType, incrementValue) { it, iv ->
+        ButtonBehaviourOption(incrementType) {
+            if (it!=incrementType) {
+                incrementValue = it.defaultIncrementValue
+            }
             incrementType = it
-            incrementValue = iv
+        }
+        if (incrementType == IncrementType.VALUE) {
+            Divider(Modifier.padding(horizontal = 16.dp))
+            MinusEnabledOption(minusEnabled) {
+                minusEnabled = it
+            }
         }
         Divider(Modifier.padding(horizontal = 16.dp))
-        MinusEnabledOption(minusEnabled) {
-            minusEnabled = it
+        IncrementValueOption(incrementType, incrementValueType, incrementValue, minusEnabled) { ivt, iv ->
+            incrementValueType = ivt
+            incrementValue = iv
         }
 
         Button(
             modifier = Modifier
-                .align(Alignment.End)
                 .padding(16.dp)
                 .fillMaxWidth(),
             enabled = !isNameError,
@@ -95,28 +103,22 @@ fun NewCounter(onCreate: (Counter) -> (Unit)) {
                             hasMinus = minusEnabled,
                             style = counterStyle,
                             incrementType = incrementType,
+                            incrementValueType = incrementValueType,
                             incrementValue = incrementValue
                         )
                         keyboardController?.hide()
-                        onCreate(counter.copy(uid = (counterDao?.addCounter(counter) ?: 0).toInt()))
+                        onCreate()
+                        mCountersListViewModel.addCounter(counter)
 
                         name = ""
                         minusEnabled = false
                         counterStyle = CounterStyle.DEFAULT
-                        incrementType = IncrementType.VALUE
+                        incrementType = IncrementType.ASK_EVERY_TIME
                         incrementValue = 1
                     }
                 }
             }) {
             Text("Create") //TODO i18n
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun NewCounterPreview() {
-    CountersTheme {
-        NewCounter {}
     }
 }
