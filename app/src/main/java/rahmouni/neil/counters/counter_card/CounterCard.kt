@@ -15,16 +15,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.gson.Gson
-import rahmouni.neil.counters.Counter
-import rahmouni.neil.counters.CounterStyle
-import rahmouni.neil.counters.ui.theme.CountersTheme
+import rahmouni.neil.counters.DEBUG_MODE
+import rahmouni.neil.counters.database.CounterAugmented
+import rahmouni.neil.counters.database.CountersListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CounterCard(data: Counter) {
+fun CounterCard(
+    data: CounterAugmented,
+    countersListViewModel: CountersListViewModel,
+    openNewIncrementSheet: (countersListViewModel: CountersListViewModel) -> (Unit)
+) {
     val interactionSource = remember { MutableInteractionSource() }
 
     val context = LocalContext.current
@@ -41,30 +43,35 @@ fun CounterCard(data: Counter) {
 
                 context.startActivity(
                     Intent(context, CounterActivity::class.java).putExtra(
-                        "counter",
-                        Gson().toJson(data)
+                        "counterID",
+                        data.uid
                     )
                 )
             } //TODO
         )
     ) {
         Column {
+            if (DEBUG_MODE) Text("id:" + data.uid.toString())
             Text(
                 text = data.displayName,
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(all = 8.dp)
             )
-            CounterCardButtons(data)
+            CounterCardButtons(data, countersListViewModel) {
+                openNewIncrementSheet(
+                    countersListViewModel
+                )
+            }
         }
     }
 
 }
-
+/*
 @Preview(showBackground = true, widthDp = 150)
 @Composable
 fun CounterCardPreview() {
     CountersTheme {
-        CounterCard(Counter(1, "Mollets", CounterStyle.SECONDARY, false))
+        CounterCard(Counter(1, "Mollets", CounterStyle.SECONDARY, false)) {}
     }
 }
 
@@ -72,6 +79,7 @@ fun CounterCardPreview() {
 @Composable
 fun CounterCardPreviewMinus() {
     CountersTheme {
-        CounterCard(Counter(1, "Mollets", CounterStyle.SECONDARY, true))
+        CounterCard(Counter(1, "Mollets", CounterStyle.SECONDARY, true)) {}
     }
 }
+*/
