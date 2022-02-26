@@ -25,11 +25,6 @@ fun CountersTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composab
             background = colorScheme.background,
             surface = colorScheme.surface,
             error = colorScheme.error,
-            onPrimary = colorScheme.onPrimary,
-            onSecondary = colorScheme.onSecondary,
-            onBackground = colorScheme.onBackground,
-            onSurface = colorScheme.onSurface,
-            onError = colorScheme.onError
         )
     else
         lightColors(
@@ -38,11 +33,6 @@ fun CountersTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composab
             background = colorScheme.background,
             surface = colorScheme.surface,
             error = colorScheme.error,
-            onPrimary = colorScheme.onPrimary,
-            onSecondary = colorScheme.onSecondary,
-            onBackground = colorScheme.onBackground,
-            onSurface = colorScheme.onSurface,
-            onError = colorScheme.onError
         )
 
 

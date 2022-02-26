@@ -33,7 +33,7 @@ import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsPadding
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
-import rahmouni.neil.counters.RoundedBottomSheet
+import rahmouni.neil.counters.utils.RoundedBottomSheet
 import rahmouni.neil.counters.database.CounterWithIncrements
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory

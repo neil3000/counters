@@ -35,6 +35,7 @@ import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
 import rahmouni.neil.counters.new_counter.NewCounter
 import rahmouni.neil.counters.ui.theme.CountersTheme
+import rahmouni.neil.counters.utils.RoundedBottomSheet
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -148,7 +149,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
             ) { _ ->
 
                 LazyVerticalGrid(
-                    cells = GridCells.Adaptive(minSize = 150.dp),
+                    cells = GridCells.Adaptive(minSize = 200.dp),
                     contentPadding = rememberInsetsPaddingValues(
                         insets = LocalWindowInsets.current.navigationBars,
                         applyBottom = true,

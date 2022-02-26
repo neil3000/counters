@@ -20,8 +20,10 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.IncrementType
+import rahmouni.neil.counters.IncrementValueType
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
+import kotlin.math.abs
 
 @Composable
 fun CounterCardButtons(
@@ -43,6 +45,8 @@ fun CounterCardButtonsDefault(
     val localHapticFeedback = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
 
+    val incValue = if (data.incrementValueType == IncrementValueType.VALUE) data.incrementValue else data.lastIncrement
+
     Row(
         horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
             .fillMaxWidth()
@@ -58,14 +62,14 @@ fun CounterCardButtonsDefault(
             when (data.incrementType) {
                 IncrementType.ASK_EVERY_TIME -> scope.launch { openNewIncrementSheet() }
                 IncrementType.VALUE -> countersListViewModel.addIncrement(
-                    data.incrementValue,
+                    incValue,
                     data.uid
                 )
             }
         }) {
             Icon(
-                imageVector = Icons.Filled.Add,
-                contentDescription = "Increase", //TODO i18n
+                imageVector = if (incValue >= 0) Icons.Filled.Add else Icons.Filled.Remove,
+                contentDescription = if (incValue >= 0) "Increase" else "Decrease", //TODO i18n
             )
         }
     }
@@ -79,10 +83,16 @@ fun CounterCardButtonsMinus(
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
 
+    val incValue =
+        abs(if (data.incrementValueType == IncrementValueType.VALUE) data.incrementValue else data.lastIncrement)
+
     Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
         IconButton(onClick = {
             localHapticFeedback.performHapticFeedback(LongPress)
-            countersListViewModel.addIncrement(-data.incrementValue, data.uid)
+            countersListViewModel.addIncrement(
+                -incValue,
+                data.uid
+            )
         }) {
             Icon(
                 imageVector = Icons.Filled.Remove,
@@ -95,7 +105,10 @@ fun CounterCardButtonsMinus(
         )
         IconButton(onClick = {
             localHapticFeedback.performHapticFeedback(LongPress)
-            countersListViewModel.addIncrement(data.incrementValue, data.uid)
+            countersListViewModel.addIncrement(
+                incValue,
+                data.uid
+            )
         }) {
             Icon(
                 imageVector = Icons.Filled.Add,
