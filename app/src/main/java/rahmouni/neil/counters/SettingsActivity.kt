@@ -14,7 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ListItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.StarOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -88,7 +89,7 @@ fun SettingsPage() {
                 androidx.compose.material.Surface {
                     ListItem(
                         text = { androidx.compose.material.Text("See on the Play Store") }, //TODO i18n
-                        icon = { Icon(Icons.Filled.Star, null) },
+                        icon = { Icon(Icons.Filled.StarOutline, null) },
                         modifier = Modifier
                             .clickable(
                                 onClick = {
@@ -106,6 +107,37 @@ fun SettingsPage() {
                             .padding(8.dp)
                     )
                 }
+                Divider()
+                androidx.compose.material.Surface {
+                    ListItem(
+                        text = { androidx.compose.material.Text("Report a bug") }, //TODO i18n
+                        icon = { Icon(Icons.Filled.BugReport, null) },
+                        modifier = Modifier
+                            .clickable(
+                                onClick = {
+                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                                    val intent = Intent(Intent.ACTION_SENDTO).apply {
+                                        type = "message/rfc822"
+                                        data =
+                                            Uri.parse("mailto:")
+                                        putExtra(
+                                            Intent.EXTRA_EMAIL,
+                                            arrayOf("contact-project+neil3000-counters-33617709-issue-@incoming.gitlab.com")
+                                        )
+                                        putExtra(Intent.EXTRA_SUBJECT, "Counters: Bug with...")
+                                        putExtra(
+                                            Intent.EXTRA_TEXT,
+                                            "Try to explain the issue as well as steps to reproduce it.\nFeel free to add screenshots, and don't forget to edit the subject !"
+                                        )
+                                    }
+                                    activity.startActivity(intent)
+                                }
+                            )
+                            .padding(8.dp)
+                    )
+                }
+                Divider()
             }
         },
     )
