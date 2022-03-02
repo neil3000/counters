@@ -23,5 +23,10 @@
             android:name=".counter_card.CounterActivity"
             android:theme="@style/Theme.Counters">
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Counters">
+        </activity>
     </application>
 </manifest>

@@ -1,5 +1,6 @@
 package rahmouni.neil.counters
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -23,6 +24,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
@@ -71,7 +73,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Home(countersListViewModel: CountersListViewModel) {
     val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior() }
-
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val localHapticFeedback = LocalHapticFeedback.current
 
@@ -117,7 +119,11 @@ fun Home(countersListViewModel: CountersListViewModel) {
                             )
                         },
                         actions = {
-                            IconButton(onClick = { /* doSomething() */ }) { //TODO add settings
+                            IconButton(onClick = {
+                                context.startActivity(
+                                    Intent(context, SettingsActivity::class.java)
+                                )
+                            }) {
                                 Icon(
                                     imageVector = Icons.Filled.MoreVert,
                                     contentDescription = "Settings" //TODO i18n
