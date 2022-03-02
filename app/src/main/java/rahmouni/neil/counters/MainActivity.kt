@@ -146,10 +146,9 @@ fun Home(countersListViewModel: CountersListViewModel) {
                         modifier = Modifier.navigationBarsPadding()
                     )
                 }
-            ) { _ ->
-
+            ) {
                 LazyVerticalGrid(
-                    cells = GridCells.Adaptive(minSize = 200.dp),
+                    cells = GridCells.Adaptive(minSize = 180.dp),
                     contentPadding = rememberInsetsPaddingValues(
                         insets = LocalWindowInsets.current.navigationBars,
                         applyBottom = true,
