@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ModalBottomSheetValue
@@ -16,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -28,16 +30,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsPadding
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
-import rahmouni.neil.counters.utils.RoundedBottomSheet
 import rahmouni.neil.counters.database.CounterWithIncrements
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
 import rahmouni.neil.counters.ui.theme.CountersTheme
+import rahmouni.neil.counters.utils.RoundedBottomSheet
 
 class CounterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,6 +89,8 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
     val bottomSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
     )
+
+    val navController = rememberNavController()
 
     val counterWithIncrements: CounterWithIncrements? by countersListViewModel.getCounterWithIncrements(
         counterID
@@ -133,30 +143,56 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                     )
                 },
                 content = { innerPadding ->
-                    LazyColumn(contentPadding = innerPadding) {
-                        if (counterWithIncrements!!.increments.isNotEmpty()) {
-                            items(counterWithIncrements!!.increments.reversed()) { increment ->
-                                IncrementEntry(increment, countersListViewModel)
-                                Divider()
+                    NavHost(navController = navController, startDestination = "entries", Modifier.padding(innerPadding)) {
+                        composable("entries") {
+                            LazyColumn {
+                                if (counterWithIncrements!!.increments.isNotEmpty()) {
+                                    items(counterWithIncrements!!.increments.reversed()) { increment ->
+                                        IncrementEntry(increment, countersListViewModel)
+                                        Divider()
+                                    }
+                                }
                             }
                         }
+                        composable("settings") { Text("settings") }
                     }
                 },
                 bottomBar = {
-                    var selectedItem by remember { mutableStateOf(0) }
-                    val items = listOf("Entries") //TODO i18n
-
                     Column {
                         NavigationBar {
-                            items.forEachIndexed { index, item ->
-                                NavigationBarItem(
-                                    icon = { Icon(Icons.Filled.List, contentDescription = null) },
-                                    label = { Text(item) },
-                                    selected = selectedItem == index,
-                                    onClick = { selectedItem = index },
-                                )
-                            }
+                            val navBackStackEntry by navController.currentBackStackEntryAsState()
+                            val currentDestination = navBackStackEntry?.destination
 
+                            NavigationBarItem(
+                                icon = { Icon(Icons.Filled.List, contentDescription = null) },
+                                label = { Text("Entries") },
+                                selected = currentDestination?.hierarchy?.any { it.route == "entries" } == true,
+                                onClick = {
+                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    navController.navigate("entries") {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                },
+                            )
+                            NavigationBarItem(
+                                icon = { Icon(Icons.Filled.Settings, contentDescription = null) },
+                                label = { Text("Settings") },
+                                selected = currentDestination?.hierarchy?.any { it.route == "settings" } == true,
+                                onClick = {
+                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    navController.navigate("settings") {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                },
+                            )
                         }
                         Surface(
                             modifier = Modifier
@@ -172,11 +208,3 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
         }
     }
 }
-
-/*@Preview(showBackground = true)
-@Composable
-fun CounterPagePreview() {
-    CountersTheme {
-        CounterPage(Counter(displayName = "Mollets"))
-    }
-}*/
