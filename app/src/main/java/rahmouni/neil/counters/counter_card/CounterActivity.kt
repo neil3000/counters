@@ -6,10 +6,9 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ModalBottomSheetValue
@@ -29,6 +28,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -91,6 +91,14 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
     )
 
     val navController = rememberNavController()
+    val offset = remember { Animatable(0F) }
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    LaunchedEffect(currentDestination) {
+        offset.animateTo(if (currentDestination?.hierarchy?.any { it.route == "entries" } == true) 0F else 100F,
+            tween(500))
+    }
 
     val counterWithIncrements: CounterWithIncrements? by countersListViewModel.getCounterWithIncrements(
         counterID
@@ -133,6 +141,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                     ExtendedFloatingActionButton(
                         icon = { Icon(Icons.Filled.Add, "New entry") }, //TODO i18n
                         text = { Text("New entry") },
+                        modifier = Modifier.offset(y = offset.value.dp),
                         onClick = {
                             localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
@@ -143,7 +152,11 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                     )
                 },
                 content = { innerPadding ->
-                    NavHost(navController = navController, startDestination = "entries", Modifier.padding(innerPadding)) {
+                    NavHost(
+                        navController = navController,
+                        startDestination = "entries",
+                        Modifier.padding(innerPadding)
+                    ) {
                         composable("entries") {
                             LazyColumn {
                                 if (counterWithIncrements!!.increments.isNotEmpty()) {
@@ -158,11 +171,8 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                     }
                 },
                 bottomBar = {
-                    Column {
+                    Column(Modifier.zIndex(1F)) {
                         NavigationBar {
-                            val navBackStackEntry by navController.currentBackStackEntryAsState()
-                            val currentDestination = navBackStackEntry?.destination
-
                             NavigationBarItem(
                                 icon = { Icon(Icons.Filled.List, contentDescription = null) },
                                 label = { Text("Entries") },
