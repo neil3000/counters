@@ -44,6 +44,7 @@ import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.database.CounterWithIncrements
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
+import rahmouni.neil.counters.options.DeleteOption
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 
@@ -97,67 +98,70 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
     val currentDestination = navBackStackEntry?.destination
     LaunchedEffect(currentDestination) {
         offset.animateTo(if (currentDestination?.hierarchy?.any { it.route == "entries" } == true) 0F else 100F,
-            tween(500))
+            tween(400))
     }
 
     val counterWithIncrements: CounterWithIncrements? by countersListViewModel.getCounterWithIncrements(
         counterID
     ).observeAsState()
 
-    if (counterWithIncrements != null) {
-        RoundedBottomSheet(bottomSheetState, false, {
+
+    RoundedBottomSheet(bottomSheetState, false, {
+        if (counterWithIncrements!=null) {
             NewIncrement(counterWithIncrements!!.counter, countersListViewModel) {
                 scope.launch {
                     bottomSheetState.hide()
                 }
             }
-        }) {
-            Scaffold(
-                modifier = Modifier
-                    .nestedScroll(scrollBehavior.nestedScrollConnection)
-                    .statusBarsPadding(),
-                topBar = {
-                    SmallTopAppBar(
-                        title = { Text(counterWithIncrements!!.counter.displayName) },
-                        navigationIcon = {
-                            IconButton(
-                                onClick = {
-                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+        }
+    }) {
+        Scaffold(
+            modifier = Modifier
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .statusBarsPadding(),
+            topBar = {
+                SmallTopAppBar(
+                    title = { Text(counterWithIncrements?.counter?.displayName ?: "Counter") },
+                    navigationIcon = {
+                        IconButton(
+                            onClick = {
+                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                                    activity?.finish()
-                                }
-                            ) {
-                                Icon(
-                                    Icons.Filled.ArrowBack,
-                                    contentDescription = "Back"
-                                ) //TODO i18n
+                                activity?.finish()
                             }
-                        },
-                        scrollBehavior = scrollBehavior
-                    )
-                },
-                floatingActionButtonPosition = FabPosition.End,
-                floatingActionButton = {
-                    ExtendedFloatingActionButton(
-                        icon = { Icon(Icons.Filled.Add, "New entry") }, //TODO i18n
-                        text = { Text("New entry") },
-                        modifier = Modifier.offset(y = offset.value.dp),
-                        onClick = {
-                            localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        ) {
+                            Icon(
+                                Icons.Filled.ArrowBack,
+                                contentDescription = "Back"
+                            ) //TODO i18n
+                        }
+                    },
+                    scrollBehavior = scrollBehavior
+                )
+            },
+            floatingActionButtonPosition = FabPosition.End,
+            floatingActionButton = {
+                ExtendedFloatingActionButton(
+                    icon = { Icon(Icons.Filled.Add, "New entry") }, //TODO i18n
+                    text = { Text("New entry") },
+                    modifier = Modifier.offset(y = offset.value.dp),
+                    onClick = {
+                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                            scope.launch {
-                                bottomSheetState.show()
-                            }
-                        },
-                    )
-                },
-                content = { innerPadding ->
-                    NavHost(
-                        navController = navController,
-                        startDestination = "entries",
-                        Modifier.padding(innerPadding)
-                    ) {
-                        composable("entries") {
+                        scope.launch {
+                            bottomSheetState.show()
+                        }
+                    },
+                )
+            },
+            content = { innerPadding ->
+                NavHost(
+                    navController = navController,
+                    startDestination = "entries",
+                    Modifier.padding(innerPadding)
+                ) {
+                    composable("entries") {
+                        if (counterWithIncrements!=null) {
                             LazyColumn {
                                 if (counterWithIncrements!!.increments.isNotEmpty()) {
                                     items(counterWithIncrements!!.increments.reversed()) { increment ->
@@ -167,54 +171,62 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                 }
                             }
                         }
-                        composable("settings") { Text("settings") }
                     }
-                },
-                bottomBar = {
-                    Column(Modifier.zIndex(1F)) {
-                        NavigationBar {
-                            NavigationBarItem(
-                                icon = { Icon(Icons.Filled.List, contentDescription = null) },
-                                label = { Text("Entries") },
-                                selected = currentDestination?.hierarchy?.any { it.route == "entries" } == true,
-                                onClick = {
-                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    navController.navigate("entries") {
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            saveState = true
-                                        }
-                                        launchSingleTop = true
-                                        restoreState = true
-                                    }
-                                },
-                            )
-                            NavigationBarItem(
-                                icon = { Icon(Icons.Filled.Settings, contentDescription = null) },
-                                label = { Text("Settings") },
-                                selected = currentDestination?.hierarchy?.any { it.route == "settings" } == true,
-                                onClick = {
-                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    navController.navigate("settings") {
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            saveState = true
-                                        }
-                                        launchSingleTop = true
-                                        restoreState = true
-                                    }
-                                },
-                            )
+                    composable("settings") {
+                        Column(Modifier.padding(innerPadding)) {
+                            DeleteOption {
+                                activity?.finish()
+                                countersListViewModel.deleteCounterById(counterID)
+                            }
+                            Divider()
                         }
-                        Surface(
-                            modifier = Modifier
-                                .navigationBarsHeight()
-                                .fillMaxWidth(),
-                            color = MaterialTheme.colorScheme.surface,
-                            shape = RectangleShape,
-                            tonalElevation = 3.dp
-                        ) {}
                     }
                 }
-            )
-        }
+            },
+            bottomBar = {
+                Column(Modifier.zIndex(1F)) {
+                    NavigationBar {
+                        NavigationBarItem(
+                            icon = { Icon(Icons.Filled.List, contentDescription = null) },
+                            label = { Text("Entries") },
+                            selected = currentDestination?.hierarchy?.any { it.route == "entries" } == true,
+                            onClick = {
+                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                navController.navigate("entries") {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
+                        )
+                        NavigationBarItem(
+                            icon = { Icon(Icons.Filled.Settings, contentDescription = null) },
+                            label = { Text("Settings") },
+                            selected = currentDestination?.hierarchy?.any { it.route == "settings" } == true,
+                            onClick = {
+                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                navController.navigate("settings") {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
+                        )
+                    }
+                    Surface(
+                        modifier = Modifier
+                            .navigationBarsHeight()
+                            .fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.surface,
+                        shape = RectangleShape,
+                        tonalElevation = 3.dp
+                    ) {}
+                }
+            }
+        )
     }
 }

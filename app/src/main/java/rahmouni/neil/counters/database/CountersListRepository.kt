@@ -17,4 +17,8 @@ class CountersListRepository(private val countersListDao: CountersListDao) {
     suspend fun deleteIncrement(increment: Increment) {
         countersListDao.deleteIncrement(increment)
     }
+
+    suspend fun deleteCounterById(counterID: Int) {
+        countersListDao.deleteCounterById(counterID)
+    }
 }

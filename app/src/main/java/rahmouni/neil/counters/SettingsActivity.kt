@@ -104,7 +104,6 @@ fun SettingsPage() {
                                     activity.startActivity(intent)
                                 }
                             )
-                            .padding(8.dp)
                     )
                 }
                 Divider()
@@ -134,7 +133,6 @@ fun SettingsPage() {
                                     activity.startActivity(intent)
                                 }
                             )
-                            .padding(8.dp)
                     )
                 }
                 Divider()

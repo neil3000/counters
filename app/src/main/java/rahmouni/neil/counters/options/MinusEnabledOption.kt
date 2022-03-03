@@ -1,4 +1,4 @@
-package rahmouni.neil.counters.new_counter.options
+package rahmouni.neil.counters.options
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable

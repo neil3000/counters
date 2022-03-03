@@ -23,9 +23,9 @@ import rahmouni.neil.counters.IncrementValueType
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.new_counter.color_selector.CounterStyleSelector
-import rahmouni.neil.counters.new_counter.options.ButtonBehaviourOption
-import rahmouni.neil.counters.new_counter.options.IncrementValueOption
-import rahmouni.neil.counters.new_counter.options.MinusEnabledOption
+import rahmouni.neil.counters.options.ButtonBehaviourOption
+import rahmouni.neil.counters.options.IncrementValueOption
+import rahmouni.neil.counters.options.MinusEnabledOption
 
 @OptIn(ExperimentalComposeUiApi::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable

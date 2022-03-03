@@ -1,10 +1,13 @@
-package rahmouni.neil.counters.new_counter.options
+package rahmouni.neil.counters.options
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,30 +18,61 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.IncrementType
+import rahmouni.neil.counters.IncrementValueType
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
     androidx.compose.ui.ExperimentalComposeUiApi::class
 )
 @Composable
-fun ButtonBehaviourOption(
+fun IncrementValueOption(
     incrementType: IncrementType,
-    onSave: (IncrementType) -> Unit
+    incrementValueType: IncrementValueType,
+    incrementValue: Int,
+    hasMinus: Boolean,
+    onSave: (IncrementValueType, Int) -> Unit
 ) {
     var openDialog by rememberSaveable { mutableStateOf(false) }
-    var dialogIncrementType by rememberSaveable { mutableStateOf(incrementType) }
+    var dialogIncrementValueType by rememberSaveable { mutableStateOf(IncrementValueType.VALUE) }
+    var dialogIncrementValue by rememberSaveable { mutableStateOf("1") }
     var isDialogIncrementValueError by rememberSaveable { mutableStateOf(false) }
 
     val localHapticFeedback = LocalHapticFeedback.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    fun validateDialogIncrementValue(text: String): Boolean {
+        isDialogIncrementValueError = text.toIntOrNull() == null || text.toInt() <= 0
+        return !isDialogIncrementValueError
+    }
+
+    val titleStr = if (incrementType == IncrementType.VALUE) { //TODO i18n
+        if (hasMinus) "Increase/decrease by" else "Increase by"
+    } else {
+        "Default value when asking"
+    }
+
+    fun confirm() {
+        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+        if (validateDialogIncrementValue(dialogIncrementValue)) {
+            keyboardController?.hide()
+
+            onSave(dialogIncrementValueType, dialogIncrementValue.toInt())
+
+            openDialog = false
+        }
+    }
 
     ListItem(
-        text = { androidx.compose.material.Text("Button behaviour") }, //TODO i18n
+        text = { androidx.compose.material.Text(titleStr) },
         secondaryText = {
             androidx.compose.material.Text(
-                incrementType.title,
+                incrementValueType.description.replace("%s", incrementValue.toString())
             )
         },
         modifier = Modifier
@@ -46,7 +80,8 @@ fun ButtonBehaviourOption(
                 onClick = {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                    dialogIncrementType = incrementType
+                    dialogIncrementValueType = incrementValueType
+                    dialogIncrementValue = incrementValue.toString()
                     isDialogIncrementValueError = false
                     openDialog = true
                 }
@@ -56,28 +91,25 @@ fun ButtonBehaviourOption(
     if (openDialog) {
         AlertDialog(
             onDismissRequest = {
-                // Dismiss the dialog when the user clicks outside the dialog or on the back
-                // button. If you want to disable that functionality, simply use an empty
-                // onDismissRequest.
                 openDialog = false
             },
             title = {
-                Text(text = "Button behaviour") //TODO i18n
+                Text(titleStr)
             },
             text = {
                 Column {
-                    IncrementType.values().forEach {
+                    IncrementValueType.values().forEach {
                         Column(
                             Modifier
                                 .fillMaxWidth()
                                 .selectable(
-                                    selected = dialogIncrementType == it,
+                                    selected = dialogIncrementValueType == it,
                                     onClick = {
                                         localHapticFeedback.performHapticFeedback(
                                             HapticFeedbackType.LongPress
                                         )
 
-                                        dialogIncrementType = it
+                                        dialogIncrementValueType = it
                                     },
                                     role = Role.RadioButton
                                 )
@@ -89,7 +121,7 @@ fun ButtonBehaviourOption(
                                 modifier = Modifier.height(56.dp)
                             ) {
                                 RadioButton(
-                                    selected = dialogIncrementType == it,
+                                    selected = dialogIncrementValueType == it,
                                     onClick = null // null recommended for accessibility with screenreaders
                                 )
                                 Text(
@@ -98,6 +130,19 @@ fun ButtonBehaviourOption(
                                     modifier = Modifier.padding(start = 16.dp)
                                 )
                             }
+                            if (it.hasValue) {
+                                OutlinedTextField(
+                                    value = dialogIncrementValue,
+                                    enabled = dialogIncrementValueType == it,
+                                    onValueChange = { str ->
+                                        isDialogIncrementValueError = false
+                                        dialogIncrementValue = str
+                                    },
+                                    singleLine = true,
+                                    isError = isDialogIncrementValueError,
+                                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                                    keyboardActions = KeyboardActions { confirm() })
+                            }
                         }
                     }
                 }
@@ -105,13 +150,7 @@ fun ButtonBehaviourOption(
             confirmButton = {
                 TextButton(
                     enabled = !isDialogIncrementValueError,
-                    onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                        onSave(dialogIncrementType)
-
-                        openDialog = false
-                    }
+                    onClick = { confirm() }
                 ) {
                     Text("Save")
                 }

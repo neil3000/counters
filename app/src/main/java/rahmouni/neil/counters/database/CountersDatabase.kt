@@ -8,7 +8,7 @@ import rahmouni.neil.counters.IncrementType
 import rahmouni.neil.counters.IncrementValueType
 
 
-@Database(entities = [Counter::class, Increment::class], version = 1)
+@Database(entities = [Counter::class, Increment::class], version = 2)
 abstract class CountersDatabase : RoomDatabase() {
     abstract fun countersListDao(): CountersListDao
 
@@ -58,7 +58,11 @@ data class CounterAugmented(
     @ColumnInfo(name = "last_increment") val lastIncrement: Int = 1
 )
 
-@Entity
+@Entity(foreignKeys = [ForeignKey(entity = Counter::class,
+    parentColumns = arrayOf("uid"),
+    childColumns = arrayOf("counterID"),
+    onDelete = ForeignKey.CASCADE)]
+)
 data class Increment(
     @PrimaryKey(autoGenerate = true) val uid: Int = 0,
     @ColumnInfo(name = "counterID") val counterID: Int,
@@ -104,4 +108,7 @@ interface CountersListDao {
 
     @Delete
     suspend fun deleteIncrement(increment: Increment)
+
+    @Query("DELETE FROM counter WHERE uid=:counterID")
+    suspend fun deleteCounterById(counterID: Int)
 }

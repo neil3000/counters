@@ -90,7 +90,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
 
     RoundedBottomSheet(bottomSheetNewIncrementState, false, {
         NewIncrement(
-            counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList[bottomSheetNewIncrementCounterID!! - 1],
+            counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid==bottomSheetNewIncrementCounterID },
             countersListViewModel = countersListViewModel
         ) {
             scope.launch {
