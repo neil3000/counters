@@ -17,7 +17,7 @@
       android:fillColor="@android:color/system_accent2_300"/>
   <path
       android:pathData="M190.154,24.955m-12.665,0a12.665,12.665 0,1 1,25.329 0a12.665,12.665 0,1 1,-25.329 0"
-      android:fillColor="@android:color/system_accent1_10"/>
+      android:fillColor="@android:color/system_neutral1_10"/>
   <path
       android:pathData="M602.636,582.174h-338a8.51,8.51 0,0 1,-8.5 -8.5v-405a8.51,8.51 0,0 1,8.5 -8.5h338a8.51,8.51 0,0 1,8.5 8.5v405A8.51,8.51 0,0 1,602.636 582.174Z"
       android:fillColor="@android:color/system_neutral2_100"/>
@@ -32,5 +32,5 @@
       android:fillColor="@android:color/system_accent1_300"/>
   <path
       android:pathData="M433.636,105.174m-12.182,0a12.182,12.182 0,1 1,24.364 0a12.182,12.182 0,1 1,-24.364 0"
-      android:fillColor="@android:color/system_accent1_10"/>
+      android:fillColor="@android:color/system_neutral1_10"/>
 </vector>
