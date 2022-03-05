@@ -7,8 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
@@ -21,14 +20,19 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.*
+import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.statusBarsPadding
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.counter_card.CounterCard
 import rahmouni.neil.counters.counter_card.NewIncrement
@@ -153,24 +157,43 @@ fun Home(countersListViewModel: CountersListViewModel) {
                     )
                 }
             ) {
-                LazyVerticalGrid(
-                    cells = GridCells.Adaptive(minSize = 180.dp),
-                    contentPadding = rememberInsetsPaddingValues(
-                        insets = LocalWindowInsets.current.navigationBars,
-                        applyBottom = true,
-                        additionalStart = 8.dp,
-                        additionalEnd = 8.dp
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    items(countersList) { counter ->
-                        CounterCard(counter, countersListViewModel) {
-                            bottomSheetNewIncrementCounterID = counter.uid
-                            scope.launch {
-                                bottomSheetNewIncrementState.show()
+                if (countersList.isNotEmpty()) {
+                    LazyVerticalGrid(
+                        cells = GridCells.Adaptive(minSize = 180.dp),
+                        contentPadding = rememberInsetsPaddingValues(
+                            insets = LocalWindowInsets.current.navigationBars,
+                            applyBottom = true,
+                            additionalStart = 8.dp,
+                            additionalEnd = 8.dp
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        items(countersList) { counter ->
+                            CounterCard(counter, countersListViewModel) {
+                                bottomSheetNewIncrementCounterID = counter.uid
+                                scope.launch {
+                                    bottomSheetNewIncrementState.show()
+                                }
                             }
                         }
+                    }
+                }else{
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                    ) {
+                        Icon(
+                            painterResource(id = R.drawable.ic_balloons),
+                            null,
+                            Modifier
+                                .fillMaxWidth(.5f),
+                            Color.Unspecified
+                        )
+                        Text("No counters yet", Modifier.padding(top = 24.dp), style = MaterialTheme.typography.headlineSmall)
                     }
                 }
             }
