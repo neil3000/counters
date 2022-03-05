@@ -4,7 +4,8 @@ import kotlinx.coroutines.flow.Flow
 
 class CountersListRepository(private val countersListDao: CountersListDao) {
     val allCounters: Flow<List<CounterAugmented>> = countersListDao.getAll()
-    fun getCounterWithIncrements(counterID: Int): Flow<CounterWithIncrements> = countersListDao.getCounterWithIncrements(counterID)
+    fun getCounterWithIncrements(counterID: Int): Flow<CounterWithIncrements> =
+        countersListDao.getCounterWithIncrements(counterID)
 
     suspend fun addIncrement(value: Int, counterID: Int) {
         countersListDao.addIncrement(value, counterID)
@@ -20,5 +21,9 @@ class CountersListRepository(private val countersListDao: CountersListDao) {
 
     suspend fun deleteCounterById(counterID: Int) {
         countersListDao.deleteCounterById(counterID)
+    }
+
+    suspend fun updateCounter(counter: Counter) {
+        countersListDao.updateCounter(counter)
     }
 }

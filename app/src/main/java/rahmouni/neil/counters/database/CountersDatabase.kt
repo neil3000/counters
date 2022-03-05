@@ -56,12 +56,27 @@ data class CounterAugmented(
     @ColumnInfo(name = "increment_value") val incrementValue: Int = 1,
     @ColumnInfo(name = "count") val count: Int = 0,
     @ColumnInfo(name = "last_increment") val lastIncrement: Int = 1
-)
+) {
+    fun toCounter(): Counter {
+        return Counter(
+            uid = uid,
+            displayName = displayName,
+            style = style,
+            hasMinus = hasMinus,
+            incrementType = incrementType,
+            incrementValueType = incrementValueType,
+            incrementValue = incrementValue
+        )
+    }
+}
 
-@Entity(foreignKeys = [ForeignKey(entity = Counter::class,
-    parentColumns = arrayOf("uid"),
-    childColumns = arrayOf("counterID"),
-    onDelete = ForeignKey.CASCADE)]
+@Entity(
+    foreignKeys = [ForeignKey(
+        entity = Counter::class,
+        parentColumns = arrayOf("uid"),
+        childColumns = arrayOf("counterID"),
+        onDelete = ForeignKey.CASCADE
+    )]
 )
 data class Increment(
     @PrimaryKey(autoGenerate = true) val uid: Int = 0,
@@ -111,4 +126,7 @@ interface CountersListDao {
 
     @Query("DELETE FROM counter WHERE uid=:counterID")
     suspend fun deleteCounterById(counterID: Int)
+
+    @Update
+    suspend fun updateCounter(counter: Counter)
 }

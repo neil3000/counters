@@ -70,20 +70,26 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
         }
 
         Divider(Modifier.padding(16.dp, 16.dp, 16.dp, 0.dp))
-        ButtonBehaviourOption(incrementType) {
-            if (it!=incrementType) {
+        ButtonBehaviourOption(incrementType, true) {
+            if (it != incrementType) {
                 incrementValue = it.defaultIncrementValue
             }
             incrementType = it
         }
         if (incrementType == IncrementType.VALUE) {
             Divider(Modifier.padding(horizontal = 16.dp))
-            MinusEnabledOption(minusEnabled) {
+            MinusEnabledOption(minusEnabled, true) {
                 minusEnabled = it
             }
         }
         Divider(Modifier.padding(horizontal = 16.dp))
-        IncrementValueOption(incrementType, incrementValueType, incrementValue, minusEnabled) { ivt, iv ->
+        IncrementValueOption(
+            incrementType,
+            incrementValueType,
+            incrementValue,
+            minusEnabled,
+            true
+        ) { ivt, iv ->
             incrementValueType = ivt
             incrementValue = iv
         }

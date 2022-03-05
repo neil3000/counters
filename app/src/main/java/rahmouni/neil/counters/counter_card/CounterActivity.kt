@@ -21,12 +21,15 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.view.WindowCompat
@@ -41,10 +44,16 @@ import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsPadding
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
+import rahmouni.neil.counters.IncrementType
+import rahmouni.neil.counters.IncrementValueType
+import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterWithIncrements
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
+import rahmouni.neil.counters.options.ButtonBehaviourOption
 import rahmouni.neil.counters.options.DeleteOption
+import rahmouni.neil.counters.options.IncrementValueOption
+import rahmouni.neil.counters.options.MinusEnabledOption
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 
@@ -107,7 +116,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
 
 
     RoundedBottomSheet(bottomSheetState, false, {
-        if (counterWithIncrements!=null) {
+        if (counterWithIncrements != null) {
             NewIncrement(counterWithIncrements!!.counter, countersListViewModel) {
                 scope.launch {
                     bottomSheetState.hide()
@@ -161,19 +170,82 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                     Modifier.padding(innerPadding)
                 ) {
                     composable("entries") {
-                        if (counterWithIncrements!=null) {
+                        if (counterWithIncrements != null && counterWithIncrements!!.increments.isNotEmpty()) {
                             LazyColumn {
-                                if (counterWithIncrements!!.increments.isNotEmpty()) {
-                                    items(counterWithIncrements!!.increments.reversed()) { increment ->
-                                        IncrementEntry(increment, countersListViewModel)
-                                        Divider()
-                                    }
+                                items(counterWithIncrements!!.increments.reversed()) { increment ->
+                                    IncrementEntry(increment, countersListViewModel)
+                                    Divider()
                                 }
+                            }
+                        } else {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                            ) {
+                                Icon(
+                                    painterResource(id = R.drawable.ic_empty_entries),
+                                    null,
+                                    Modifier
+                                        .fillMaxWidth(.5f),
+                                    Color.Unspecified
+                                )
+                                Text("No entries yet", Modifier.padding(top = 24.dp), style = MaterialTheme.typography.headlineSmall)
                             }
                         }
                     }
                     composable("settings") {
                         Column(Modifier.padding(innerPadding)) {
+                            ButtonBehaviourOption(
+                                counterWithIncrements?.counter?.incrementType
+                                    ?: IncrementType.ASK_EVERY_TIME
+                            ) {
+                                if (counterWithIncrements != null) {
+                                    countersListViewModel.updateCounter(
+                                        counterWithIncrements!!.counter.copy(
+                                            incrementType = it
+                                        ).toCounter()
+                                    )
+                                }
+                            }
+                            Divider()
+
+                            if (counterWithIncrements?.counter?.incrementType == IncrementType.VALUE) {
+                                MinusEnabledOption(
+                                    counterWithIncrements?.counter?.hasMinus ?: false,
+                                ) {
+                                    if (counterWithIncrements != null) {
+                                        countersListViewModel.updateCounter(
+                                            counterWithIncrements!!.counter.copy(
+                                                hasMinus = it
+                                            ).toCounter()
+                                        )
+                                    }
+                                }
+                                Divider()
+                            }
+
+                            IncrementValueOption(
+                                counterWithIncrements?.counter?.incrementType
+                                    ?: IncrementType.ASK_EVERY_TIME,
+                                counterWithIncrements?.counter?.incrementValueType
+                                    ?: IncrementValueType.VALUE,
+                                counterWithIncrements?.counter?.incrementValue ?: 1,
+                                counterWithIncrements?.counter?.hasMinus ?: false
+                            ) { ivt, v ->
+                                if (counterWithIncrements != null) {
+                                    countersListViewModel.updateCounter(
+                                        counterWithIncrements!!.counter.copy(
+                                            incrementValueType = ivt,
+                                            incrementValue = v
+                                        ).toCounter()
+                                    )
+                                }
+                            }
+                            Divider()
+
                             DeleteOption {
                                 activity?.finish()
                                 countersListViewModel.deleteCounterById(counterID)

@@ -23,6 +23,10 @@ class CountersListViewModel(private val repository: CountersListRepository) : Vi
     fun deleteCounterById(counterID: Int) = viewModelScope.launch {
         repository.deleteCounterById(counterID)
     }
+
+    fun updateCounter(counter: Counter) = viewModelScope.launch {
+        repository.updateCounter(counter)
+    }
 }
 
 class CountersListViewModelFactory(private val repository: CountersListRepository) :

@@ -8,6 +8,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.PlusOne
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,6 +37,7 @@ fun IncrementValueOption(
     incrementValueType: IncrementValueType,
     incrementValue: Int,
     hasMinus: Boolean,
+    inModal: Boolean = false,
     onSave: (IncrementValueType, Int) -> Unit
 ) {
     var openDialog by rememberSaveable { mutableStateOf(false) }
@@ -68,26 +71,31 @@ fun IncrementValueOption(
         }
     }
 
-    ListItem(
-        text = { androidx.compose.material.Text(titleStr) },
-        secondaryText = {
-            androidx.compose.material.Text(
-                incrementValueType.description.replace("%s", incrementValue.toString())
-            )
-        },
-        modifier = Modifier
-            .clickable(
-                onClick = {
-                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+    androidx.compose.material.Surface {
+        ListItem(
+            text = { androidx.compose.material.Text(titleStr) },
+            secondaryText = {
+                androidx.compose.material.Text(
+                    incrementValueType.description.replace("%s", incrementValue.toString())
+                )
+            },
+            icon = if (!inModal) {
+                { Icon(Icons.Outlined.PlusOne, null) }
+            } else null,
+            modifier = Modifier
+                .clickable(
+                    onClick = {
+                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                    dialogIncrementValueType = incrementValueType
-                    dialogIncrementValue = incrementValue.toString()
-                    isDialogIncrementValueError = false
-                    openDialog = true
-                }
-            )
-            .padding(8.dp)
-    )
+                        dialogIncrementValueType = incrementValueType
+                        dialogIncrementValue = incrementValue.toString()
+                        isDialogIncrementValueError = false
+                        openDialog = true
+                    }
+                )
+                .padding(if (inModal) 8.dp else 0.dp)
+        )
+    }
     if (openDialog) {
         AlertDialog(
             onDismissRequest = {
