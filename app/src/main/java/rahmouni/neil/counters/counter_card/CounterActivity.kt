@@ -50,10 +50,7 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterWithIncrements
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
-import rahmouni.neil.counters.options.ButtonBehaviourOption
-import rahmouni.neil.counters.options.DeleteOption
-import rahmouni.neil.counters.options.IncrementValueOption
-import rahmouni.neil.counters.options.MinusEnabledOption
+import rahmouni.neil.counters.options.*
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 
@@ -73,7 +70,6 @@ class CounterActivity : ComponentActivity() {
         setContent {
             CountersTheme {
                 ProvideWindowInsets {
-                    // A surface container using the 'background' color from the theme
                     androidx.compose.material.Surface {
                         Surface(
                             modifier = Modifier.fillMaxSize(),
@@ -204,6 +200,20 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                     }
                     composable("settings") {
                         Column(Modifier.padding(innerPadding)) {
+                            NameOption(
+                                counterWithIncrements?.counter?.displayName
+                                    ?: "Counter"
+                            ) {
+                                if (counterWithIncrements != null) {
+                                    countersListViewModel.updateCounter(
+                                        counterWithIncrements!!.counter.copy(
+                                            displayName = it
+                                        ).toCounter()
+                                    )
+                                }
+                            }
+                            Divider()
+
                             ButtonBehaviourOption(
                                 counterWithIncrements?.counter?.incrementType
                                     ?: IncrementType.ASK_EVERY_TIME
