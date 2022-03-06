@@ -74,13 +74,15 @@ class CounterActivity : ComponentActivity() {
             CountersTheme {
                 ProvideWindowInsets {
                     // A surface container using the 'background' color from the theme
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        CounterPage(
-                            counterID, countersListViewModel
-                        )
+                    androidx.compose.material.Surface {
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = MaterialTheme.colorScheme.background
+                        ) {
+                            CounterPage(
+                                counterID, countersListViewModel
+                            )
+                        }
                     }
                 }
             }
@@ -192,7 +194,11 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                         .fillMaxWidth(.5f),
                                     Color.Unspecified
                                 )
-                                Text("No entries yet", Modifier.padding(top = 24.dp), style = MaterialTheme.typography.headlineSmall)
+                                Text(
+                                    "No entries yet",
+                                    Modifier.padding(top = 24.dp),
+                                    style = MaterialTheme.typography.headlineSmall
+                                )
                             }
                         }
                     }

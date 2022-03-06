@@ -30,8 +30,10 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import com.google.accompanist.insets.*
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.statusBarsPadding
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.counter_card.CounterCard
@@ -57,12 +59,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             CountersTheme {
                 ProvideWindowInsets {
-                    // A surface container using the 'background' color from the theme
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        Home(countersListViewModel)
+                    androidx.compose.material.Surface {
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = MaterialTheme.colorScheme.background
+                        ) {
+                            Home(countersListViewModel)
+                        }
                     }
                 }
             }
@@ -94,7 +97,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
 
     RoundedBottomSheet(bottomSheetNewIncrementState, false, {
         NewIncrement(
-            counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid==bottomSheetNewIncrementCounterID },
+            counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid == bottomSheetNewIncrementCounterID },
             countersListViewModel = countersListViewModel
         ) {
             scope.launch {
@@ -178,7 +181,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                             }
                         }
                     }
-                }else{
+                } else {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center,
@@ -193,7 +196,11 @@ fun Home(countersListViewModel: CountersListViewModel) {
                                 .fillMaxWidth(.5f),
                             Color.Unspecified
                         )
-                        Text("No counters yet", Modifier.padding(top = 24.dp), style = MaterialTheme.typography.headlineSmall)
+                        Text(
+                            "No counters yet",
+                            Modifier.padding(top = 24.dp),
+                            style = MaterialTheme.typography.headlineSmall
+                        )
                     }
                 }
             }

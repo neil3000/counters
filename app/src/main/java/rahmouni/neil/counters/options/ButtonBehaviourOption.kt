@@ -37,30 +37,29 @@ fun ButtonBehaviourOption(
 
     val localHapticFeedback = LocalHapticFeedback.current
 
-    androidx.compose.material.Surface {
-        ListItem(
-            text = { androidx.compose.material.Text("Button behaviour") }, //TODO i18n
-            secondaryText = {
-                androidx.compose.material.Text(
-                    incrementType.title,
-                )
-            },
-            icon = if (!inModal) {
-                { Icon(Icons.Outlined.TouchApp, null) }
-            } else null,
-            modifier = Modifier
-                .clickable(
-                    onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+    ListItem(
+        text = { androidx.compose.material.Text("Button behaviour") }, //TODO i18n
+        secondaryText = {
+            androidx.compose.material.Text(
+                incrementType.title,
+            )
+        },
+        icon = if (!inModal) {
+            { Icon(Icons.Outlined.TouchApp, null) }
+        } else null,
+        modifier = Modifier
+            .clickable(
+                onClick = {
+                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                        dialogIncrementType = incrementType
-                        isDialogIncrementValueError = false
-                        openDialog = true
-                    }
-                )
-                .padding(if (inModal) 8.dp else 0.dp)
-        )
-    }
+                    dialogIncrementType = incrementType
+                    isDialogIncrementValueError = false
+                    openDialog = true
+                }
+            )
+            .padding(if (inModal) 8.dp else 0.dp)
+    )
+
     if (openDialog) {
         AlertDialog(
             onDismissRequest = {

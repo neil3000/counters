@@ -1,7 +1,6 @@
 package rahmouni.neil.counters.options
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
 import androidx.compose.material.icons.Icons
@@ -16,7 +15,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.unit.dp
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
@@ -30,20 +28,18 @@ fun DeleteOption(
 
     val localHapticFeedback = LocalHapticFeedback.current
 
-    androidx.compose.material.Surface {
-        ListItem(
-            text = { androidx.compose.material.Text("Delete counter") }, //TODO i18n
-            icon = { Icon(Icons.Outlined.Delete, null) },
-            modifier = Modifier
-                .clickable(
-                    onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+    ListItem(
+        text = { androidx.compose.material.Text("Delete counter") }, //TODO i18n
+        icon = { Icon(Icons.Outlined.Delete, null) },
+        modifier = Modifier
+            .clickable(
+                onClick = {
+                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                        openDialog = true
-                    }
-                )
-        )
-    }
+                    openDialog = true
+                }
+            )
+    )
     if (openDialog) {
         AlertDialog(
             onDismissRequest = {

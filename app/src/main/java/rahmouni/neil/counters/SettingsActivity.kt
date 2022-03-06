@@ -24,7 +24,6 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
@@ -40,12 +39,13 @@ class SettingsActivity : ComponentActivity() {
         setContent {
             CountersTheme {
                 ProvideWindowInsets {
-                    // A surface container using the 'background' color from the theme
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        SettingsPage()
+                    androidx.compose.material.Surface {
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = MaterialTheme.colorScheme.background
+                        ) {
+                            SettingsPage()
+                        }
                     }
                 }
             }
@@ -86,55 +86,53 @@ fun SettingsPage() {
         },
         content = { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
-                androidx.compose.material.Surface {
-                    ListItem(
-                        text = { androidx.compose.material.Text("See on the Play Store") }, //TODO i18n
-                        icon = { Icon(Icons.Filled.StarOutline, null) },
-                        modifier = Modifier
-                            .clickable(
-                                onClick = {
-                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                ListItem(
+                    text = { androidx.compose.material.Text("See on the Play Store") }, //TODO i18n
+                    icon = { Icon(Icons.Filled.StarOutline, null) },
+                    modifier = Modifier
+                        .clickable(
+                            onClick = {
+                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                                    val intent = Intent(Intent.ACTION_VIEW).apply {
-                                        data = Uri.parse(
-                                            "https://play.google.com/store/apps/details?id=rahmouni.neil.counters"
-                                        )
-                                        setPackage("com.android.vending")
-                                    }
-                                    activity.startActivity(intent)
+                                val intent = Intent(Intent.ACTION_VIEW).apply {
+                                    data = Uri.parse(
+                                        "https://play.google.com/store/apps/details?id=rahmouni.neil.counters"
+                                    )
+                                    setPackage("com.android.vending")
                                 }
-                            )
-                    )
-                }
+                                activity.startActivity(intent)
+                            }
+                        )
+                )
+
                 Divider()
-                androidx.compose.material.Surface {
-                    ListItem(
-                        text = { androidx.compose.material.Text("Report a bug") }, //TODO i18n
-                        icon = { Icon(Icons.Filled.BugReport, null) },
-                        modifier = Modifier
-                            .clickable(
-                                onClick = {
-                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                ListItem(
+                    text = { androidx.compose.material.Text("Report a bug") }, //TODO i18n
+                    icon = { Icon(Icons.Filled.BugReport, null) },
+                    modifier = Modifier
+                        .clickable(
+                            onClick = {
+                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                                    val intent = Intent(Intent.ACTION_SENDTO).apply {
-                                        type = "message/rfc822"
-                                        data =
-                                            Uri.parse("mailto:")
-                                        putExtra(
-                                            Intent.EXTRA_EMAIL,
-                                            arrayOf("contact-project+neil3000-counters-33617709-issue-@incoming.gitlab.com")
-                                        )
-                                        putExtra(Intent.EXTRA_SUBJECT, "Counters: Bug with...")
-                                        putExtra(
-                                            Intent.EXTRA_TEXT,
-                                            "Try to explain the issue as well as steps to reproduce it.\nFeel free to add screenshots, and don't forget to edit the subject !"
-                                        )
-                                    }
-                                    activity.startActivity(intent)
+                                val intent = Intent(Intent.ACTION_SENDTO).apply {
+                                    type = "message/rfc822"
+                                    data =
+                                        Uri.parse("mailto:")
+                                    putExtra(
+                                        Intent.EXTRA_EMAIL,
+                                        arrayOf("contact-project+neil3000-counters-33617709-issue-@incoming.gitlab.com")
+                                    )
+                                    putExtra(Intent.EXTRA_SUBJECT, "Counters: Bug with...")
+                                    putExtra(
+                                        Intent.EXTRA_TEXT,
+                                        "Try to explain the issue as well as steps to reproduce it.\nFeel free to add screenshots, and don't forget to edit the subject !"
+                                    )
                                 }
-                            )
-                    )
-                }
+                                activity.startActivity(intent)
+                            }
+                        )
+                )
+
                 Divider()
             }
         },

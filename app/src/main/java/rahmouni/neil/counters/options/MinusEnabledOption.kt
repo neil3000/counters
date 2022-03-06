@@ -24,31 +24,29 @@ fun MinusEnabledOption(
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
 
-    androidx.compose.material.Surface {
-        ListItem(
-            text = {
-                Text(
-                    "Show minus on home page",
-                )
-            }, //TODO i18n
-            icon = if (!inModal) {
-                { Icon(Icons.Outlined.Remove, null) }
-            } else null,
-            trailing = {
-                Switch(
-                    checked = enabled,
-                    onCheckedChange = null,
-                )
-            },
-            modifier = Modifier
-                .toggleable(
-                    value = enabled
-                ) {
-                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+    ListItem(
+        text = {
+            Text(
+                "Show minus on home page",
+            )
+        }, //TODO i18n
+        icon = if (!inModal) {
+            { Icon(Icons.Outlined.Remove, null) }
+        } else null,
+        trailing = {
+            Switch(
+                checked = enabled,
+                onCheckedChange = null,
+            )
+        },
+        modifier = Modifier
+            .toggleable(
+                value = enabled
+            ) {
+                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                    setEnabled(it)
-                }
-                .padding(if (inModal) 8.dp else 0.dp)
-        )
-    }
+                setEnabled(it)
+            }
+            .padding(if (inModal) 8.dp else 0.dp)
+    )
 }

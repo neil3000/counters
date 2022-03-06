@@ -71,31 +71,29 @@ fun IncrementValueOption(
         }
     }
 
-    androidx.compose.material.Surface {
-        ListItem(
-            text = { androidx.compose.material.Text(titleStr) },
-            secondaryText = {
-                androidx.compose.material.Text(
-                    incrementValueType.description.replace("%s", incrementValue.toString())
-                )
-            },
-            icon = if (!inModal) {
-                { Icon(Icons.Outlined.PlusOne, null) }
-            } else null,
-            modifier = Modifier
-                .clickable(
-                    onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+    ListItem(
+        text = { androidx.compose.material.Text(titleStr) },
+        secondaryText = {
+            androidx.compose.material.Text(
+                incrementValueType.description.replace("%s", incrementValue.toString())
+            )
+        },
+        icon = if (!inModal) {
+            { Icon(Icons.Outlined.PlusOne, null) }
+        } else null,
+        modifier = Modifier
+            .clickable(
+                onClick = {
+                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                        dialogIncrementValueType = incrementValueType
-                        dialogIncrementValue = incrementValue.toString()
-                        isDialogIncrementValueError = false
-                        openDialog = true
-                    }
-                )
-                .padding(if (inModal) 8.dp else 0.dp)
-        )
-    }
+                    dialogIncrementValueType = incrementValueType
+                    dialogIncrementValue = incrementValue.toString()
+                    isDialogIncrementValueError = false
+                    openDialog = true
+                }
+            )
+            .padding(if (inModal) 8.dp else 0.dp)
+    )
     if (openDialog) {
         AlertDialog(
             onDismissRequest = {
