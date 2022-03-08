@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="text_appName">Counters</string>
     <string name="action_newCounter_short">New counter</string>
     <string name="action_editName">Edit name</string>
     <string name="action_save_short">Save</string>
@@ -34,4 +34,5 @@
     <string name="text_defaultValueWhenAsking">Default value when asking</string>
     <string name="action_increase">Increase</string>
     <string name="action_decrease">Decrease</string>
+    <string name="text_appName">Counters</string>
 </resources>

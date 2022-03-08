@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_newCounter_short">Nouveau compteur</string>
+    <string name="action_editName">Modifier le nom</string>
+    <string name="action_save_short">Sauvegarder</string>
+    <string name="action_cancel_short">Annuler</string>
+    <string name="text_name">Nom</string>
+    <string name="text_settings">Paramètres</string>
+    <string name="action_back_short">Retour</string>
+    <string name="action_seeOnThePlayStore">Voir sur le Play Store</string>
+    <string name="text_name_short">Nom</string>
+    <string name="action_create_short">Créer</string>
+    <string name="action_addEntry_short">Ajouter une entrée</string>
+    <string name="action_newEntry_short">Nouvelle entrée</string>
+    <string name="text_entries_short">Entrées</string>
+    <string name="text_counterSettings_short">Paramètres</string>
+    <string name="action_deleteCounter">Supprimer le compteur</string>
+    <string name="action_deleteCounter_short">Supprimer le compteur</string>
+    <string name="action_delete_short">Supprimer</string>
+    <string name="action_deleteEntry">Supprimer l\'entrée</string>
+    <string name="text_buttonBehavior">Comportement du bouton</string>
+    <string name="action_increaseDecreaseBy">Augmenter/diminuer de</string>
+    <string name="action_increaseBy">Augmenter de</string>
+    <string name="text_defaultValueWhenAsking">Valeur présentée par défaut</string>
+    <string name="action_increase">Augmenter</string>
+    <string name="action_decrease">Diminuer</string>
+    <string name="text_appName">Compteurs</string>
+    <string name="action_askAmountEveryTime">Demander la valeur à chaque fois</string>
+    <string name="action_showMinusOnHomePage">Montrer le moins sur la page d\'accueil</string>
+    <string name="text_sameAsPreviousEntry_short">Comme l\'entrée précédente</string>
+    <string name="text_sameAsPreviousEntry">Même valeur que l\'entrée précédente</string>
+    <string name="text_fixedValue_short">Valeur fixe</string>
+    <string name="action_decreaseValue">Diminuer la valeur</string>
+    <string name="action_increaseValue">Augmenter la valeur</string>
+    <string name="action_reportBug">Signaler un bug</string>
+    <string name="action_directlyIncreaseByValue">Augmenter directement d\'une valeur</string>
+    <string name="confirmation_deleteCounter">Êtes-vous sûr de vouloir supprimer ce compteur ainsi que toutes ses entrées ? Cette opération ne pourra pas être annulée.</string>
+</resources>

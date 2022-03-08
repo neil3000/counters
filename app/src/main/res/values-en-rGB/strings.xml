@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="text_appName">Counters</string>
     <string name="action_newCounter_short">New counter</string>
     <string name="action_editName">Edit name</string>
     <string name="action_save_short">Save</string>
@@ -28,10 +28,11 @@
     <string name="confirmation_deleteCounter">Are you sure you want to delete this counter and all of its entries ? This action cannot be undone.</string>
     <string name="action_delete_short">Delete</string>
     <string name="action_deleteEntry">Delete entry</string>
-    <string name="text_buttonBehavior">Button behavior</string>
+    <string name="text_buttonBehavior">Button behaviour</string>
     <string name="action_increaseDecreaseBy">Increase/decrease by</string>
     <string name="action_increaseBy">Increase by</string>
     <string name="text_defaultValueWhenAsking">Default value when asking</string>
     <string name="action_increase">Increase</string>
     <string name="action_decrease">Decrease</string>
+    <string name="text_appName">Counters</string>
 </resources>

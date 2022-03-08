@@ -292,7 +292,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                         )
                         NavigationBarItem(
                             icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
-                            label = { Text(stringResource(R.string.name_counterSettings_short)) },
+                            label = { Text(stringResource(R.string.text_counterSettings_short)) },
                             selected = currentDestination?.hierarchy?.any { it.route == "settings" } == true,
                             onClick = {
                                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
