@@ -122,9 +122,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                 topBar = {
                     CenterAlignedTopAppBar(
                         title = {
-                            Text(
-                                text = "Counters"
-                            )
+                            Text(stringResource(R.string.text_appName))
                         },
                         actions = {
                             IconButton(onClick = {
@@ -198,7 +196,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                             Color.Unspecified
                         )
                         Text(
-                            "No counters yet",
+                            stringResource(R.string.text_noCountersYet),
                             Modifier.padding(top = 24.dp),
                             style = MaterialTheme.typography.headlineSmall
                         )

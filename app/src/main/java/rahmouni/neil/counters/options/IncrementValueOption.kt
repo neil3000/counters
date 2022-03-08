@@ -166,7 +166,7 @@ fun IncrementValueOption(
                     enabled = !isDialogIncrementValueError,
                     onClick = { confirm() }
                 ) {
-                    Text("Save")
+                    Text(stringResource(R.string.action_save_short))
                 }
             },
             dismissButton = {
@@ -177,7 +177,7 @@ fun IncrementValueOption(
                         openDialog = false
                     }
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel_short))
                 }
             }
         )

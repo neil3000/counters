@@ -192,7 +192,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                     Color.Unspecified
                                 )
                                 Text(
-                                    "No entries yet",
+                                    stringResource(R.string.text_noEntriesYet),
                                     Modifier.padding(top = 24.dp),
                                     style = MaterialTheme.typography.headlineSmall
                                 )

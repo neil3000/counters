@@ -34,4 +34,6 @@
     <string name="text_defaultValueWhenAsking">Default value when asking</string>
     <string name="action_increase">Increase</string>
     <string name="action_decrease">Decrease</string>
+    <string name="text_noCountersYet">No counters yet</string>
+    <string name="text_noEntriesYet">No entries yet</string>
 </resources>
