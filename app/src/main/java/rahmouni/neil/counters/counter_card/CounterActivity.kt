@@ -13,10 +13,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.List
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -30,6 +30,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.view.WindowCompat
@@ -138,9 +139,9 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                             }
                         ) {
                             Icon(
-                                Icons.Filled.ArrowBack,
-                                contentDescription = "Back"
-                            ) //TODO i18n
+                                Icons.Outlined.ArrowBack,
+                                contentDescription = stringResource(R.string.action_back_short)
+                            )
                         }
                     },
                     scrollBehavior = scrollBehavior
@@ -149,8 +150,8 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
             floatingActionButtonPosition = FabPosition.End,
             floatingActionButton = {
                 ExtendedFloatingActionButton(
-                    icon = { Icon(Icons.Filled.Add, "New entry") }, //TODO i18n
-                    text = { Text("New entry") },
+                    icon = { Icon(Icons.Outlined.Add, null) },
+                    text = { Text(stringResource(R.string.action_newEntry_short)) },
                     modifier = Modifier.offset(y = offset.value.dp),
                     onClick = {
                         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -275,8 +276,8 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                 Column(Modifier.zIndex(1F)) {
                     NavigationBar {
                         NavigationBarItem(
-                            icon = { Icon(Icons.Filled.List, contentDescription = null) },
-                            label = { Text("Entries") },
+                            icon = { Icon(Icons.Outlined.List, contentDescription = null) },
+                            label = { Text(stringResource(R.string.text_entries_short)) },
                             selected = currentDestination?.hierarchy?.any { it.route == "entries" } == true,
                             onClick = {
                                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -290,8 +291,8 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                             },
                         )
                         NavigationBarItem(
-                            icon = { Icon(Icons.Filled.Settings, contentDescription = null) },
-                            label = { Text("Settings") },
+                            icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
+                            label = { Text(stringResource(R.string.name_counterSettings_short)) },
                             selected = currentDestination?.hierarchy?.any { it.route == "settings" } == true,
                             onClick = {
                                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)

@@ -13,8 +13,8 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -28,6 +28,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.LocalWindowInsets
@@ -132,8 +133,8 @@ fun Home(countersListViewModel: CountersListViewModel) {
                                 )
                             }) {
                                 Icon(
-                                    imageVector = Icons.Filled.MoreVert,
-                                    contentDescription = "Settings" //TODO i18n
+                                    imageVector = Icons.Outlined.MoreVert,
+                                    contentDescription = stringResource(R.string.text_settings)
                                 )
                             }
                         },
@@ -142,13 +143,13 @@ fun Home(countersListViewModel: CountersListViewModel) {
                 },
                 floatingActionButton = {
                     ExtendedFloatingActionButton(
-                        text = { Text(text = "New counter") }, //TODO i18n
+                        text = { Text(stringResource(R.string.action_newCounter_short)) },
                         icon = {
                             Icon(
-                                imageVector = Icons.Filled.Add,
-                                contentDescription = "New counter"
+                                imageVector = Icons.Outlined.Add,
+                                contentDescription = null
                             )
-                        }, //TODO i18n
+                        },
                         onClick = {
                             scope.launch {
                                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.TextHandleMove)

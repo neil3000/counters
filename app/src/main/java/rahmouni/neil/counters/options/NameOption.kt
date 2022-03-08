@@ -19,7 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import rahmouni.neil.counters.R
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
@@ -56,7 +58,7 @@ fun NameOption(
     }
 
     ListItem(
-        text = { Text("Name") }, //TODO i18n
+        text = { Text(stringResource(R.string.text_name)) },
         secondaryText = {
             androidx.compose.material.Text(name)
         },
@@ -81,7 +83,7 @@ fun NameOption(
                 openDialog = false
             },
             title = {
-                Text("Edit name") //TODO i18n
+                Text(stringResource(R.string.action_editName))
             },
             icon = { Icon(Icons.Outlined.Title, null) },
             text = {
@@ -102,7 +104,7 @@ fun NameOption(
                     enabled = !isDialogNameError,
                     onClick = { confirm() }
                 ) {
-                    Text("Save") //TODO i18n
+                    Text(stringResource(R.string.action_save_short))
                 }
             },
             dismissButton = {
@@ -113,7 +115,7 @@ fun NameOption(
                         openDialog = false
                     }
                 ) {
-                    Text("Cancel") //TODO i18n
+                    Text(stringResource(R.string.action_cancel_short))
                 }
             }
         )

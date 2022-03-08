@@ -15,6 +15,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
+import rahmouni.neil.counters.R
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
@@ -29,7 +31,7 @@ fun DeleteOption(
     val localHapticFeedback = LocalHapticFeedback.current
 
     ListItem(
-        text = { androidx.compose.material.Text("Delete counter") }, //TODO i18n
+        text = { androidx.compose.material.Text(stringResource(R.string.action_deleteCounter)) },
         icon = { Icon(Icons.Outlined.Delete, null) },
         modifier = Modifier
             .clickable(
@@ -46,11 +48,11 @@ fun DeleteOption(
                 openDialog = false
             },
             title = {
-                Text(text = "Delete counter") //TODO i18n
+                Text(text = stringResource(R.string.action_deleteCounter_short))
             },
-            icon = { Icon(Icons.Outlined.DeleteForever, contentDescription = null) },
+            icon = { Icon(Icons.Outlined.DeleteForever, null) },
             text = {
-                Text("Are you sure you want to delete this counter and all of its entries ? This action cannot be undone.")
+                Text(stringResource(R.string.confirmation_deleteCounter))
             },
             confirmButton = {
                 TextButton(
@@ -62,7 +64,7 @@ fun DeleteOption(
                         openDialog = false
                     }
                 ) {
-                    Text("Delete") //TODO i18n
+                    Text(stringResource(R.string.action_delete_short))
                 }
             },
             dismissButton = {
@@ -73,7 +75,7 @@ fun DeleteOption(
                         openDialog = false
                     }
                 ) {
-                    Text("Cancel") //TODO i18n
+                    Text(stringResource(R.string.action_cancel_short))
                 }
             }
         )

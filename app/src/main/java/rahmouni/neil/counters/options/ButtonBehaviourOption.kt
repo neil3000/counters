@@ -17,9 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.IncrementType
+import rahmouni.neil.counters.R
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
@@ -38,10 +40,10 @@ fun ButtonBehaviourOption(
     val localHapticFeedback = LocalHapticFeedback.current
 
     ListItem(
-        text = { androidx.compose.material.Text("Button behaviour") }, //TODO i18n
+        text = { androidx.compose.material.Text(stringResource(R.string.text_buttonBehavior)) },
         secondaryText = {
             androidx.compose.material.Text(
-                incrementType.title,
+                stringResource(incrementType.title),
             )
         },
         icon = if (!inModal) {
@@ -69,7 +71,7 @@ fun ButtonBehaviourOption(
                 openDialog = false
             },
             title = {
-                Text(text = "Button behaviour") //TODO i18n
+                Text(stringResource(R.string.text_buttonBehavior))
             },
             text = {
                 Column {
@@ -97,10 +99,10 @@ fun ButtonBehaviourOption(
                             ) {
                                 RadioButton(
                                     selected = dialogIncrementType == it,
-                                    onClick = null // null recommended for accessibility with screenreaders
+                                    onClick = null
                                 )
                                 Text(
-                                    text = it.title,
+                                    text = stringResource(it.title),
                                     style = MaterialTheme.typography.bodyLarge,
                                     modifier = Modifier.padding(start = 16.dp)
                                 )
@@ -120,7 +122,7 @@ fun ButtonBehaviourOption(
                         openDialog = false
                     }
                 ) {
-                    Text("Save")
+                    Text(stringResource(R.string.action_save_short))
                 }
             },
             dismissButton = {
@@ -131,7 +133,7 @@ fun ButtonBehaviourOption(
                         openDialog = false
                     }
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel_short))
                 }
             }
         )

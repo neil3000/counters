@@ -21,11 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.IncrementType
 import rahmouni.neil.counters.IncrementValueType
+import rahmouni.neil.counters.R
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
@@ -53,11 +55,13 @@ fun IncrementValueOption(
         return !isDialogIncrementValueError
     }
 
-    val titleStr = if (incrementType == IncrementType.VALUE) { //TODO i18n
-        if (hasMinus) "Increase/decrease by" else "Increase by"
-    } else {
-        "Default value when asking"
-    }
+    val titleStr = stringResource(
+        if (incrementType == IncrementType.VALUE) {
+            if (hasMinus) R.string.action_increaseDecreaseBy else R.string.action_increaseBy
+        } else {
+            R.string.text_defaultValueWhenAsking
+        }
+    )
 
     fun confirm() {
         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -75,7 +79,11 @@ fun IncrementValueOption(
         text = { androidx.compose.material.Text(titleStr) },
         secondaryText = {
             androidx.compose.material.Text(
-                incrementValueType.description.replace("%s", incrementValue.toString())
+                if (incrementValueType.description == null)
+                    incrementValue.toString()
+                else stringResource(
+                    incrementValueType.description
+                )
             )
         },
         icon = if (!inModal) {
@@ -128,10 +136,10 @@ fun IncrementValueOption(
                             ) {
                                 RadioButton(
                                     selected = dialogIncrementValueType == it,
-                                    onClick = null // null recommended for accessibility with screenreaders
+                                    onClick = null
                                 )
                                 Text(
-                                    text = it.title,
+                                    text = stringResource(it.title),
                                     style = MaterialTheme.typography.bodyLarge,
                                     modifier = Modifier.padding(start = 16.dp)
                                 )

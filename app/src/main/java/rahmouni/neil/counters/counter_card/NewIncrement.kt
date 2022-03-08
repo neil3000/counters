@@ -5,8 +5,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircleOutline
-import androidx.compose.material.icons.filled.RemoveCircleOutline
+import androidx.compose.material.icons.outlined.AddCircleOutline
+import androidx.compose.material.icons.outlined.RemoveCircleOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -18,11 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.DEBUG_MODE
 import rahmouni.neil.counters.IncrementValueType
+import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 
@@ -70,7 +72,10 @@ fun NewIncrement(
                         value = (value.toInt() - 1).toString()
                     }
                 }, enabled = !isValueError) {
-                    Icon(Icons.Filled.RemoveCircleOutline, "Decrease value") //TODO i18n
+                    Icon(
+                        Icons.Outlined.RemoveCircleOutline,
+                        stringResource(R.string.action_decreaseValue)
+                    )
                 }
                 OutlinedTextField(
                     value = value,
@@ -92,7 +97,10 @@ fun NewIncrement(
                         value = (value.toInt() + 1).toString()
                     }
                 }, enabled = !isValueError) {
-                    Icon(Icons.Filled.AddCircleOutline, "Increase value") //TODO i18n
+                    Icon(
+                        Icons.Outlined.AddCircleOutline,
+                        stringResource(R.string.action_increaseValue)
+                    )
                 }
             }
             Button(
@@ -112,7 +120,7 @@ fun NewIncrement(
                         }
                     }
                 }) {
-                Text("Add entry") //TODO i18n
+                Text(stringResource(R.string.action_addEntry_short))
             }
         }
     }

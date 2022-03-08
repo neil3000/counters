@@ -12,7 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import rahmouni.neil.counters.R
 import rahmouni.neil.counters.utils.Switch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -26,10 +28,8 @@ fun MinusEnabledOption(
 
     ListItem(
         text = {
-            Text(
-                "Show minus on home page",
-            )
-        }, //TODO i18n
+            Text(stringResource(R.string.action_showMinusOnHomePage))
+        },
         icon = if (!inModal) {
             { Icon(Icons.Outlined.Remove, null) }
         } else null,

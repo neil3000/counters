@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -17,10 +17,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType.Companion.LongPress
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.IncrementType
 import rahmouni.neil.counters.IncrementValueType
+import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import kotlin.math.abs
@@ -45,7 +47,8 @@ fun CounterCardButtonsDefault(
     val localHapticFeedback = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
 
-    val incValue = if (data.incrementValueType == IncrementValueType.VALUE) data.incrementValue else data.lastIncrement
+    val incValue =
+        if (data.incrementValueType == IncrementValueType.VALUE) data.incrementValue else data.lastIncrement
 
     Row(
         horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
@@ -68,8 +71,8 @@ fun CounterCardButtonsDefault(
             }
         }) {
             Icon(
-                imageVector = if (incValue >= 0) Icons.Filled.Add else Icons.Filled.Remove,
-                contentDescription = if (incValue >= 0) "Increase" else "Decrease", //TODO i18n
+                imageVector = if (incValue >= 0) Icons.Outlined.Add else Icons.Outlined.Remove,
+                contentDescription = stringResource(if (incValue >= 0) R.string.action_increase else R.string.action_decrease),
             )
         }
     }
@@ -95,8 +98,8 @@ fun CounterCardButtonsMinus(
             )
         }) {
             Icon(
-                imageVector = Icons.Filled.Remove,
-                contentDescription = "Decrease", //TODO i18n
+                imageVector = Icons.Outlined.Remove,
+                contentDescription = stringResource(R.string.action_decrease),
             )
         }
         Text(
@@ -111,8 +114,8 @@ fun CounterCardButtonsMinus(
             )
         }) {
             Icon(
-                imageVector = Icons.Filled.Add,
-                contentDescription = "Increase", //TODO i18n
+                imageVector = Icons.Outlined.Add,
+                contentDescription = stringResource(R.string.action_increase),
             )
         }
     }

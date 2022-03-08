@@ -15,11 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.IncrementType
 import rahmouni.neil.counters.IncrementValueType
+import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.new_counter.color_selector.CounterStyleSelector
@@ -57,7 +59,7 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
                 name = it
                 isNameError = false
             },
-            label = { Text(if (isNameError) "Name*" else "Name") }, //TODO i18n
+            label = { Text(stringResource(R.string.text_name_short) + if (isNameError) "*" else "") },
             singleLine = true,
             isError = isNameError,
             keyboardActions = KeyboardActions {
@@ -124,7 +126,7 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
                     }
                 }
             }) {
-            Text("Create") //TODO i18n
+            Text(stringResource(R.string.action_create_short))
         }
     }
 }

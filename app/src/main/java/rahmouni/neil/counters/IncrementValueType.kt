@@ -1,7 +1,6 @@
 package rahmouni.neil.counters
 
-//TODO i18n
-enum class IncrementValueType(val title: String, val description: String, val hasValue: Boolean) {
-    PREVIOUS("Same as previous value", "Same amount as previous entry", false),
-    VALUE("Fixed value", "%s", true),
+enum class IncrementValueType(val title: Int, val description: Int?, val hasValue: Boolean) {
+    PREVIOUS(R.string.text_sameAsPreviousEntry_short, R.string.text_sameAsPreviousEntry, false),
+    VALUE(R.string.text_fixedValue_short, null, true),
 }
