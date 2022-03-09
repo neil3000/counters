@@ -114,7 +114,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
     ).observeAsState()
 
 
-    RoundedBottomSheet(bottomSheetState, false, {
+    RoundedBottomSheet(bottomSheetState, {
         if (counterWithIncrements != null) {
             NewIncrement(counterWithIncrements!!.counter, countersListViewModel) {
                 scope.launch {

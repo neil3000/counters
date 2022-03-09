@@ -1,6 +1,10 @@
 package rahmouni.neil.counters.utils
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
@@ -8,11 +12,20 @@ import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
+import rahmouni.neil.counters.DEBUG_MODE
 import kotlin.math.roundToInt
 
 const val CORNER_RADIUS = 16
@@ -21,10 +34,15 @@ const val CORNER_RADIUS = 16
 @Composable
 fun RoundedBottomSheet(
     state: ModalBottomSheetState,
-    reachTop: Boolean,
     content: @Composable () -> Unit,
     childContent: @Composable () -> Unit
 ) {
+
+    val localConfiguration = LocalConfiguration.current
+    val context = LocalContext.current
+
+    var reachTop by rememberSaveable { mutableStateOf(false) }
+
     fun getCornerRadius(): Int {
         if (reachTop) {
             if (state.currentValue == ModalBottomSheetValue.Expanded && state.progress.to == ModalBottomSheetValue.HalfExpanded) {
@@ -41,27 +59,39 @@ fun RoundedBottomSheet(
         sheetBackgroundColor = MaterialTheme.colorScheme.background,
         sheetElevation = 0.dp,
         sheetContent = {
-            Column(
+            LazyColumn(
                 modifier = Modifier
                     .padding(top = 10.dp)
-                    .navigationBarsPadding(),
+                    .navigationBarsPadding()
+                    .onGloballyPositioned { layoutCoordinates ->
+                        reachTop =
+                            layoutCoordinates.size.height >= localConfiguration.screenHeightDp * context.resources.displayMetrics.density
+                    },
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Surface(
-                    modifier = Modifier
-                        .width(32.dp)
-                        .height(4.dp)
-                        .align(Alignment.CenterHorizontally),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    shape = RoundedCornerShape(16.dp)
-                ) {}
-                content()
+                item {
+                    Surface(
+                        modifier = Modifier
+                            .width(32.dp)
+                            .height(4.dp)
+                            .align(Alignment.CenterHorizontally),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        shape = RoundedCornerShape(16.dp)
+                    ) {}
+                }
+                if (DEBUG_MODE) {
+                    item {
+                        Text("screenHeight=" + localConfiguration.screenHeightDp * context.resources.displayMetrics.density + " | reachTop=" + reachTop)
+                    }
+                }
+                item {
+                    content()
+                }
             }
         },
         sheetShape = RoundedCornerShape(getCornerRadius().dp, getCornerRadius().dp, 0.dp, 0.dp)
     ) {
         childContent()
     }
-
 }

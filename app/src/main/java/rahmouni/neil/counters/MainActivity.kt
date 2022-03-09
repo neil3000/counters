@@ -96,7 +96,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
     )
     var bottomSheetNewIncrementCounterID: Int? by rememberSaveable { mutableStateOf(null) }
 
-    RoundedBottomSheet(bottomSheetNewIncrementState, false, {
+    RoundedBottomSheet(bottomSheetNewIncrementState, {
         NewIncrement(
             counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid == bottomSheetNewIncrementCounterID },
             countersListViewModel = countersListViewModel
@@ -108,7 +108,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
 
         }
     }) {
-        RoundedBottomSheet(bottomSheetNewCounterState, false, {
+        RoundedBottomSheet(bottomSheetNewCounterState, {
             NewCounter(countersListViewModel) {
                 scope.launch {
                     bottomSheetNewCounterState.hide()
@@ -150,9 +150,9 @@ fun Home(countersListViewModel: CountersListViewModel) {
                         },
                         onClick = {
                             scope.launch {
-                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                                bottomSheetNewCounterState.show()
+                                bottomSheetNewCounterState.animateTo(ModalBottomSheetValue.Expanded)
                             }
                         },
                         modifier = Modifier.navigationBarsPadding()
