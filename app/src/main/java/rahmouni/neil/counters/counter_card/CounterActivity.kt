@@ -44,13 +44,12 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsPadding
 import kotlinx.coroutines.launch
-import rahmouni.neil.counters.CountersApplication
-import rahmouni.neil.counters.IncrementType
-import rahmouni.neil.counters.IncrementValueType
+import rahmouni.neil.counters.*
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterWithIncrements
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
+import rahmouni.neil.counters.options.CounterStyleOption
 import rahmouni.neil.counters.options.*
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.RoundedBottomSheet
@@ -209,6 +208,17 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                     countersListViewModel.updateCounter(
                                         counterWithIncrements!!.counter.copy(
                                             displayName = it
+                                        ).toCounter()
+                                    )
+                                }
+                            }
+                            Divider()
+
+                            CounterStyleOption(counterWithIncrements?.counter?.style ?: CounterStyle.DEFAULT) {
+                                if (counterWithIncrements != null) {
+                                    countersListViewModel.updateCounter(
+                                        counterWithIncrements!!.counter.copy(
+                                            style = it
                                         ).toCounter()
                                     )
                                 }
