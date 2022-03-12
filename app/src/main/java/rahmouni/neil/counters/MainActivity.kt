@@ -42,7 +42,6 @@ import rahmouni.neil.counters.counter_card.NewIncrement
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
-import rahmouni.neil.counters.new_counter.NewCounter
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 

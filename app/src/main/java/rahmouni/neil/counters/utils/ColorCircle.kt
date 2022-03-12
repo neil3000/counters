@@ -1,4 +1,4 @@
-package rahmouni.neil.counters.new_counter.color_selector
+package rahmouni.neil.counters.utils
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape

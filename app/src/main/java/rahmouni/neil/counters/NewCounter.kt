@@ -1,4 +1,4 @@
-package rahmouni.neil.counters.new_counter
+package rahmouni.neil.counters
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,13 +18,9 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import rahmouni.neil.counters.CounterStyle
-import rahmouni.neil.counters.IncrementType
-import rahmouni.neil.counters.IncrementValueType
-import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.new_counter.color_selector.CounterStyleSelector
+import rahmouni.neil.counters.options.CounterStyleOption
 import rahmouni.neil.counters.options.ButtonBehaviourOption
 import rahmouni.neil.counters.options.IncrementValueOption
 import rahmouni.neil.counters.options.MinusEnabledOption
@@ -54,7 +50,7 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
             value = name,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp, 16.dp, 16.dp, bottom=0.dp),
             onValueChange = {
                 name = it
                 isNameError = false
@@ -67,11 +63,10 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
             },
         )
 
-        CounterStyleSelector(counterStyle) {
+        CounterStyleOption(counterStyle, true) {
             counterStyle = it
         }
-
-        Divider(Modifier.padding(16.dp, 16.dp, 16.dp, 0.dp))
+        Divider(Modifier.padding(horizontal = 16.dp))
         ButtonBehaviourOption(incrementType, true) {
             if (it != incrementType) {
                 incrementValue = it.defaultIncrementValue

@@ -1,19 +1,28 @@
-package rahmouni.neil.counters.new_counter.color_selector
+package rahmouni.neil.counters.options
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.CounterStyle
-import rahmouni.neil.counters.ui.theme.CountersTheme
+import rahmouni.neil.counters.utils.ColorCircle
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun CounterStyleSelector(styleSelected: CounterStyle, onChange: (CounterStyle) -> Unit) {
+fun CounterStyleOption(
+    styleSelected: CounterStyle,
+    inModal: Boolean = false,
+    onChange: (CounterStyle) -> Unit
+) {
     LazyRow(
-        Modifier.fillMaxWidth(),
+        Modifier
+            .fillMaxWidth()
+            .padding(if (inModal) 16.dp else 8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -25,13 +34,5 @@ fun CounterStyleSelector(styleSelected: CounterStyle, onChange: (CounterStyle) -
                 onChange(CounterStyle.values()[it])
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CounterStyleSelectorPreview() {
-    CountersTheme {
-        CounterStyleSelector(CounterStyle.DEFAULT) {}
     }
 }
