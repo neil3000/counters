@@ -123,7 +123,7 @@ fun SettingsPage() {
                                     Intent.EXTRA_EMAIL,
                                     arrayOf("contact-project+neil3000-counters-33617709-issue-@incoming.gitlab.com")
                                 )
-                                putExtra(Intent.EXTRA_SUBJECT, "Counters: Bug with...")
+                                putExtra(Intent.EXTRA_SUBJECT, "Bug with...")
                                 putExtra(
                                     Intent.EXTRA_TEXT,
                                     "Try to explain the issue as well as steps to reproduce it.\nFeel free to add screenshots, and don't forget to edit the subject !"
