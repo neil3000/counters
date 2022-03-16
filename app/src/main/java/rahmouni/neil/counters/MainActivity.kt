@@ -7,7 +7,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -20,22 +21,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.rememberInsetsPaddingValues
-import com.google.accompanist.insets.statusBarsPadding
+import com.google.accompanist.insets.*
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.counter_card.CounterCard
 import rahmouni.neil.counters.counter_card.NewIncrement
@@ -43,6 +37,7 @@ import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
 import rahmouni.neil.counters.ui.theme.CountersTheme
+import rahmouni.neil.counters.utils.FullscreenDynamicSVG
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 
 class MainActivity : ComponentActivity() {
@@ -180,36 +175,9 @@ fun Home(countersListViewModel: CountersListViewModel) {
                         }
                     }
                 } else {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                    ) {
-                        Icon(
-                            painterResource(id = R.drawable.ic_balloons),
-                            null,
-                            Modifier
-                                .fillMaxWidth(.5f),
-                            Color.Unspecified
-                        )
-                        Text(
-                            stringResource(R.string.text_noCountersYet),
-                            Modifier.padding(top = 24.dp),
-                            style = MaterialTheme.typography.headlineSmall
-                        )
-                    }
+                    FullscreenDynamicSVG(R.drawable.ic_balloons, R.string.text_noCountersYet)
                 }
             }
         }
     }
 }
-
-/*@Preview(showBackground = true)
-@Composable
-fun HomePreview() {
-    CountersTheme {
-        Home()
-    }
-}*/

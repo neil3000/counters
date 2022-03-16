@@ -54,22 +54,4 @@ fun CounterCard(
             }
         }
     }
-
 }
-/*
-@Preview(showBackground = true, widthDp = 150)
-@Composable
-fun CounterCardPreview() {
-    CountersTheme {
-        CounterCard(Counter(1, "Mollets", CounterStyle.SECONDARY, false)) {}
-    }
-}
-
-@Preview(showBackground = true, widthDp = 150)
-@Composable
-fun CounterCardPreviewMinus() {
-    CountersTheme {
-        CounterCard(Counter(1, "Mollets", CounterStyle.SECONDARY, true)) {}
-    }
-}
-*/
