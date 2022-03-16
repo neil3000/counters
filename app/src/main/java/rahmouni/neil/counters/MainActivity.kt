@@ -8,9 +8,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
@@ -160,7 +160,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
             ) {
                 if (countersList.isNotEmpty()) {
                     LazyVerticalGrid(
-                        cells = GridCells.Adaptive(minSize = 180.dp),
+                        columns = GridCells.Adaptive(minSize = 180.dp),
                         contentPadding = rememberInsetsPaddingValues(
                             insets = LocalWindowInsets.current.navigationBars,
                             applyBottom = true,

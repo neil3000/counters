@@ -49,7 +49,6 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterWithIncrements
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
-import rahmouni.neil.counters.options.CounterStyleOption
 import rahmouni.neil.counters.options.*
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.RoundedBottomSheet
@@ -199,85 +198,90 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                         }
                     }
                     composable("settings") {
-                        Column(Modifier.padding(innerPadding)) {
-                            NameOption(
-                                counterWithIncrements?.counter?.displayName
-                                    ?: "Counter"
-                            ) {
-                                if (counterWithIncrements != null) {
-                                    countersListViewModel.updateCounter(
-                                        counterWithIncrements!!.counter.copy(
-                                            displayName = it
-                                        ).toCounter()
-                                    )
-                                }
-                            }
-                            Divider()
-
-                            CounterStyleOption(counterWithIncrements?.counter?.style ?: CounterStyle.DEFAULT) {
-                                if (counterWithIncrements != null) {
-                                    countersListViewModel.updateCounter(
-                                        counterWithIncrements!!.counter.copy(
-                                            style = it
-                                        ).toCounter()
-                                    )
-                                }
-                            }
-                            Divider()
-
-                            ButtonBehaviourOption(
-                                counterWithIncrements?.counter?.incrementType
-                                    ?: IncrementType.ASK_EVERY_TIME
-                            ) {
-                                if (counterWithIncrements != null) {
-                                    countersListViewModel.updateCounter(
-                                        counterWithIncrements!!.counter.copy(
-                                            incrementType = it
-                                        ).toCounter()
-                                    )
-                                }
-                            }
-                            Divider()
-
-                            if (counterWithIncrements?.counter?.incrementType == IncrementType.VALUE) {
-                                MinusEnabledOption(
-                                    counterWithIncrements?.counter?.hasMinus ?: false,
+                        LazyColumn(contentPadding = innerPadding) {
+                            item {
+                                NameOption(
+                                    counterWithIncrements?.counter?.displayName
+                                        ?: "Counter"
                                 ) {
                                     if (counterWithIncrements != null) {
                                         countersListViewModel.updateCounter(
                                             counterWithIncrements!!.counter.copy(
-                                                hasMinus = it
+                                                displayName = it
                                             ).toCounter()
                                         )
                                     }
                                 }
                                 Divider()
-                            }
 
-                            IncrementValueOption(
-                                counterWithIncrements?.counter?.incrementType
-                                    ?: IncrementType.ASK_EVERY_TIME,
-                                counterWithIncrements?.counter?.incrementValueType
-                                    ?: IncrementValueType.VALUE,
-                                counterWithIncrements?.counter?.incrementValue ?: 1,
-                                counterWithIncrements?.counter?.hasMinus ?: false
-                            ) { ivt, v ->
-                                if (counterWithIncrements != null) {
-                                    countersListViewModel.updateCounter(
-                                        counterWithIncrements!!.counter.copy(
-                                            incrementValueType = ivt,
-                                            incrementValue = v
-                                        ).toCounter()
-                                    )
+
+                                CounterStyleOption(
+                                    counterWithIncrements?.counter?.style ?: CounterStyle.DEFAULT
+                                ) {
+                                    if (counterWithIncrements != null) {
+                                        countersListViewModel.updateCounter(
+                                            counterWithIncrements!!.counter.copy(
+                                                style = it
+                                            ).toCounter()
+                                        )
+                                    }
                                 }
-                            }
-                            Divider()
+                                Divider()
 
-                            DeleteOption {
-                                activity?.finish()
-                                countersListViewModel.deleteCounterById(counterID)
+                                ButtonBehaviourOption(
+                                    counterWithIncrements?.counter?.incrementType
+                                        ?: IncrementType.ASK_EVERY_TIME
+                                ) {
+                                    if (counterWithIncrements != null) {
+                                        countersListViewModel.updateCounter(
+                                            counterWithIncrements!!.counter.copy(
+                                                incrementType = it
+                                            ).toCounter()
+                                        )
+                                    }
+                                }
+                                Divider()
+
+                                if (counterWithIncrements?.counter?.incrementType == IncrementType.VALUE) {
+                                    MinusEnabledOption(
+                                        counterWithIncrements?.counter?.hasMinus ?: false,
+                                    ) {
+                                        if (counterWithIncrements != null) {
+                                            countersListViewModel.updateCounter(
+                                                counterWithIncrements!!.counter.copy(
+                                                    hasMinus = it
+                                                ).toCounter()
+                                            )
+                                        }
+                                    }
+                                    Divider()
+                                }
+
+                                IncrementValueOption(
+                                    counterWithIncrements?.counter?.incrementType
+                                        ?: IncrementType.ASK_EVERY_TIME,
+                                    counterWithIncrements?.counter?.incrementValueType
+                                        ?: IncrementValueType.VALUE,
+                                    counterWithIncrements?.counter?.incrementValue ?: 1,
+                                    counterWithIncrements?.counter?.hasMinus ?: false
+                                ) { ivt, v ->
+                                    if (counterWithIncrements != null) {
+                                        countersListViewModel.updateCounter(
+                                            counterWithIncrements!!.counter.copy(
+                                                incrementValueType = ivt,
+                                                incrementValue = v
+                                            ).toCounter()
+                                        )
+                                    }
+                                }
+                                Divider()
+
+                                DeleteOption {
+                                    activity?.finish()
+                                    countersListViewModel.deleteCounterById(counterID)
+                                }
+                                Divider()
                             }
-                            Divider()
                         }
                     }
                 }
