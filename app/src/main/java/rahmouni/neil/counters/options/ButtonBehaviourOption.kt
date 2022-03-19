@@ -73,6 +73,7 @@ fun ButtonBehaviourOption(
             title = {
                 Text(stringResource(R.string.text_buttonBehavior))
             },
+            icon = { Icon(Icons.Outlined.TouchApp, null) },
             text = {
                 Column {
                     IncrementType.values().forEach {
