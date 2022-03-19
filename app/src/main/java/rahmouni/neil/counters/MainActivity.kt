@@ -120,8 +120,6 @@ fun Home(countersListViewModel: CountersListViewModel) {
                         },
                         actions = {
                             IconButton(onClick = {
-                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
                                 context.startActivity(
                                     Intent(context, SettingsActivity::class.java)
                                 )

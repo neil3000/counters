@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Title
 import androidx.compose.material3.*
@@ -22,6 +21,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.R
+import rahmouni.neil.counters.utils.AutoFocusOutlinedTextField
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
@@ -34,9 +34,8 @@ fun NameOption(
     onSave: (String) -> Unit
 ) {
     var openDialog by rememberSaveable { mutableStateOf(false) }
-    var dialogName by rememberSaveable { mutableStateOf("Counter") }
+    var dialogName by rememberSaveable { mutableStateOf("") }
     var isDialogNameError by rememberSaveable { mutableStateOf(false) }
-
     val localHapticFeedback = LocalHapticFeedback.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -45,15 +44,18 @@ fun NameOption(
         return !isDialogNameError
     }
 
+    fun closeDialog() {
+        keyboardController?.hide()
+        openDialog = false
+    }
+
     fun confirm() {
         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
         if (validateDialogName(dialogName)) {
-            keyboardController?.hide()
-
             onSave(dialogName)
 
-            openDialog = false
+            closeDialog()
         }
     }
 
@@ -80,7 +82,7 @@ fun NameOption(
     if (openDialog) {
         AlertDialog(
             onDismissRequest = {
-                openDialog = false
+                closeDialog()
             },
             title = {
                 Text(stringResource(R.string.action_editName))
@@ -88,15 +90,14 @@ fun NameOption(
             icon = { Icon(Icons.Outlined.Title, null) },
             text = {
                 Column {
-                    OutlinedTextField(
+                    AutoFocusOutlinedTextField(
                         value = dialogName,
-                        onValueChange = { str ->
-                            isDialogNameError = false
-                            dialogName = str
-                        },
-                        singleLine = true,
                         isError = isDialogNameError,
-                        keyboardActions = KeyboardActions { confirm() })
+                        keyboardActions = KeyboardActions { confirm() }
+                    ) {
+                        isDialogNameError = false
+                        dialogName = it
+                    }
                 }
             },
             confirmButton = {
@@ -112,7 +113,7 @@ fun NameOption(
                     onClick = {
                         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                        openDialog = false
+                        closeDialog()
                     }
                 ) {
                     Text(stringResource(R.string.action_cancel_short))
