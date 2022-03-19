@@ -1,6 +1,7 @@
 package rahmouni.neil.counters.utils
 
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -12,7 +13,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import kotlinx.coroutines.android.awaitFrame
 
 @Composable
-fun AutoFocusOutlinedTextField(value: String, isError: Boolean, keyboardActions: KeyboardActions, onValueChange: (value: String) -> Unit) {
+fun AutoFocusOutlinedTextField(
+    value: String,
+    isError: Boolean,
+    keyboardActions: KeyboardActions,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(),
+    enabled: Boolean = true,
+    onValueChange: (value: String) -> Unit
+) {
     var dialogNameStr by rememberSaveable { mutableStateOf(value) }
     var dialogName by remember { mutableStateOf(TextFieldValue()) }
     val focusRequester = remember { FocusRequester() }
@@ -28,7 +36,10 @@ fun AutoFocusOutlinedTextField(value: String, isError: Boolean, keyboardActions:
         singleLine = true,
         modifier = Modifier.focusRequester(focusRequester),
         isError = isError,
-        keyboardActions = keyboardActions)
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        enabled = enabled
+    )
 
 
     LaunchedEffect(Unit) {
@@ -43,5 +54,9 @@ fun AutoFocusOutlinedTextField(value: String, isError: Boolean, keyboardActions:
         awaitFrame()
         awaitFrame()
         focusRequester.requestFocus()
+    }
+    // Autofocus when enabled after being disabled
+    LaunchedEffect(enabled) {
+        if (enabled) focusRequester.requestFocus()
     }
 }
