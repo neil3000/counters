@@ -42,6 +42,13 @@ fun AutoFocusOutlinedTextField(
     )
 
 
+    // enabled in LaunchedEffect so it requests focus if enabled after being disabled
+    LaunchedEffect(enabled) {
+        // autofocus the TextField. Two awaitFrame are required bc one only works sometimes
+        awaitFrame()
+        awaitFrame()
+        focusRequester.requestFocus()
+    }
     LaunchedEffect(Unit) {
         // dialogName cannot be a rememberSaveable so it is a remember.
         // To save its value, we use dialogNameStr and update dialogName when the component is refreshed.
@@ -49,14 +56,5 @@ fun AutoFocusOutlinedTextField(
             text = dialogNameStr,
             selection = TextRange(dialogNameStr.length, dialogNameStr.length)
         )
-
-        // autofocus the TextField. Two awaitFrame are required bc one only works sometimes
-        awaitFrame()
-        awaitFrame()
-        focusRequester.requestFocus()
-    }
-    // Autofocus when enabled after being disabled
-    LaunchedEffect(enabled) {
-        if (enabled) focusRequester.requestFocus()
     }
 }
