@@ -11,13 +11,12 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PlusOne
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -25,9 +24,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.android.awaitFrame
+import kotlinx.coroutines.launch
 import rahmouni.neil.counters.IncrementType
 import rahmouni.neil.counters.IncrementValueType
 import rahmouni.neil.counters.R
+import rahmouni.neil.counters.utils.AutoFocusOutlinedTextField
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
@@ -63,15 +65,18 @@ fun IncrementValueOption(
         }
     )
 
+    fun closeDialog() {
+        keyboardController?.hide()
+        openDialog = false
+    }
+
     fun confirm() {
         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
         if (validateDialogIncrementValue(dialogIncrementValue)) {
-            keyboardController?.hide()
-
             onSave(dialogIncrementValueType, dialogIncrementValue.toInt())
 
-            openDialog = false
+            closeDialog()
         }
     }
 
@@ -105,7 +110,7 @@ fun IncrementValueOption(
     if (openDialog) {
         AlertDialog(
             onDismissRequest = {
-                openDialog = false
+                closeDialog()
             },
             title = {
                 Text(titleStr)
@@ -145,14 +150,13 @@ fun IncrementValueOption(
                                 )
                             }
                             if (it.hasValue) {
-                                OutlinedTextField(
+                                AutoFocusOutlinedTextField(
                                     value = dialogIncrementValue,
                                     enabled = dialogIncrementValueType == it,
                                     onValueChange = { str ->
                                         isDialogIncrementValueError = false
                                         dialogIncrementValue = str
                                     },
-                                    singleLine = true,
                                     isError = isDialogIncrementValueError,
                                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                                     keyboardActions = KeyboardActions { confirm() })
@@ -174,7 +178,7 @@ fun IncrementValueOption(
                     onClick = {
                         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                        openDialog = false
+                        closeDialog()
                     }
                 ) {
                     Text(stringResource(R.string.action_cancel_short))
