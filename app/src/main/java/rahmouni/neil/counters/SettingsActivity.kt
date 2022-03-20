@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -144,11 +145,9 @@ fun SettingsPage() {
                         onClick = {
                             localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                            activity.startActivity(
-                                Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse("https://gitlab.com/neil3000/counters/-/wikis/Counters:-Privacy-policy")
-                                )
+                            CustomTabsIntent.Builder().build().launchUrl(
+                                activity,
+                                Uri.parse("https://gitlab.com/neil3000/counters/-/wikis/Counters:-Privacy-policy")
                             )
                         }
                     )
