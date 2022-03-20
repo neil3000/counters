@@ -15,6 +15,7 @@ import androidx.compose.material.ListItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.BugReport
+import androidx.compose.material.icons.outlined.Policy
 import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -105,8 +106,8 @@ fun SettingsPage() {
                         }
                     )
             )
-
             Divider()
+
             ListItem(
                 text = { androidx.compose.material.Text(stringResource(R.string.action_reportBug)) },
                 icon = { Icon(Icons.Outlined.BugReport, null) },
@@ -133,7 +134,25 @@ fun SettingsPage() {
                         }
                     )
             )
+            Divider()
 
+            ListItem(
+                text = { androidx.compose.material.Text("Privacy Policy") }, //TODO i18n
+                icon = { Icon(Icons.Outlined.Policy, null) },
+                modifier = Modifier
+                    .clickable(
+                        onClick = {
+                            localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                            activity.startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse("https://gitlab.com/neil3000/counters/-/wikis/Counters:-Privacy-policy")
+                                )
+                            )
+                        }
+                    )
+            )
             Divider()
         }
     }
