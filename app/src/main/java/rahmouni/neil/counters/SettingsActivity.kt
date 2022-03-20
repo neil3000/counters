@@ -138,7 +138,7 @@ fun SettingsPage() {
             Divider()
 
             ListItem(
-                text = { androidx.compose.material.Text("Privacy Policy") }, //TODO i18n
+                text = { androidx.compose.material.Text(stringResource(R.string.text_privacyPolicy)) },
                 icon = { Icon(Icons.Outlined.Policy, null) },
                 modifier = Modifier
                     .clickable(
