@@ -22,11 +22,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import rahmouni.neil.counters.DEBUG_MODE
 import rahmouni.neil.counters.IncrementValueType
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
+import rahmouni.neil.counters.prefs
 
 @OptIn(ExperimentalComposeUiApi::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
@@ -58,7 +58,7 @@ fun NewIncrement(
         }
 
         Column {
-            if (DEBUG_MODE) Text("id:" + counter.uid + " | ivt:" + counter.incrementValueType + " | iv:" + counter.incrementValue + " | li:" + counter.lastIncrement)
+            if (prefs.debugMode) Text("id:" + counter.uid + " | ivt:" + counter.incrementValueType + " | iv:" + counter.incrementValue + " | li:" + counter.lastIncrement)
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier
