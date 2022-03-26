@@ -1,7 +1,6 @@
 package rahmouni.neil.counters
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -17,6 +16,7 @@ import androidx.compose.material.ListItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.BugReport
+import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -27,6 +27,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
@@ -69,7 +70,7 @@ fun SettingsPage() {
         android.provider.Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0
     ) != 0
 
-    var debugMode: Boolean? by rememberSaveable {mutableStateOf(prefs.debugMode)}
+    var debugMode: Boolean? by rememberSaveable { mutableStateOf(prefs.debugMode) }
 
     Scaffold(
         modifier = Modifier
@@ -148,8 +149,9 @@ fun SettingsPage() {
             if (showDebug) {
                 ListItem(
                     text = { androidx.compose.material.Text("DEBUG_MODE") },
-                    secondaryText = { androidx.compose.material.Text("For experimental users onlyREQUIRES RESTART(shown because you have dev settings turned on)") },
-                    icon = { Icon(Icons.Outlined.BugReport, null) },
+                    secondaryText = { androidx.compose.material.Text("For experimental users only\nShown because you have dev settings turned on\n\nREQUIRES RESTART") },
+                    icon = { Icon(Icons.Outlined.Code, null) },
+                    singleLineSecondaryText = false,
                     trailing = {
                         Switch(
                             checked = debugMode ?: false,
@@ -164,7 +166,7 @@ fun SettingsPage() {
 
                             prefs.debugMode = it
                             debugMode = it
-                        }
+                        }.padding(bottom=8.dp)
                 )
                 Divider()
             }
