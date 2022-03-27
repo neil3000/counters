@@ -4,11 +4,18 @@ import android.content.Context
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import rahmouni.neil.counters.CounterStyle
+import rahmouni.neil.counters.GroupType
 import rahmouni.neil.counters.IncrementType
 import rahmouni.neil.counters.IncrementValueType
 
-
-@Database(entities = [Counter::class, Increment::class], version = 2)
+@Database(
+    entities = [Counter::class, Increment::class],
+    autoMigrations = [
+        AutoMigration(from = 2, to = 3)
+    ],
+    exportSchema = true,
+    version = 3
+)
 abstract class CountersDatabase : RoomDatabase() {
     abstract fun countersListDao(): CountersListDao
 
@@ -44,6 +51,7 @@ data class Counter(
     @ColumnInfo(name = "increment_type") val incrementType: IncrementType = IncrementType.VALUE,
     @ColumnInfo(name = "increment_value_type") val incrementValueType: IncrementValueType = IncrementValueType.VALUE,
     @ColumnInfo(name = "increment_value") val incrementValue: Int = 1,
+    @ColumnInfo(name = "group_type", defaultValue = "NEVER") val groupType: GroupType = GroupType.NEVER,
 )
 
 data class CounterAugmented(
@@ -54,6 +62,8 @@ data class CounterAugmented(
     @ColumnInfo(name = "increment_type") val incrementType: IncrementType = IncrementType.VALUE,
     @ColumnInfo(name = "increment_value_type") val incrementValueType: IncrementValueType = IncrementValueType.VALUE,
     @ColumnInfo(name = "increment_value") val incrementValue: Int = 1,
+    @ColumnInfo(name = "group_type", defaultValue = "NEVER") val groupType: GroupType = GroupType.NEVER,
+
     @ColumnInfo(name = "count") val count: Int = 0,
     @ColumnInfo(name = "last_increment") val lastIncrement: Int = 1
 ) {

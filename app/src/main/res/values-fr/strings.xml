@@ -37,4 +37,6 @@
     <string name="confirmation_deleteCounter">Êtes-vous sûr de vouloir supprimer ce compteur ainsi que toutes ses entrées ? Cette opération ne pourra pas être annulée.</string>
     <string name="text_noCountersYet">Pas encore de compteurs</string>
     <string name="text_noEntriesYet">Pas encore d\'entrées</string>
+    <string name="text_never">Jamais</string>
+    <string name="text_everyDay">Jamais</string>
 </resources>
