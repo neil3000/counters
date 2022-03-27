@@ -26,7 +26,7 @@ abstract class CountersDatabase : RoomDatabase() {
                     context.applicationContext,
                     CountersDatabase::class.java,
                     "counters_database"
-                ).fallbackToDestructiveMigration().build()
+                ).build()
                 INSTANCE = instance
                 // return instance
                 instance
