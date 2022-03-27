@@ -169,7 +169,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                             LazyColumn {
                                 items(counterWithIncrements!!.increments.reversed()) { increment ->
                                     IncrementEntry(increment, countersListViewModel)
-                                    Divider()
+                                    MenuDefaults.Divider()
                                 }
                             }
                         } else {
@@ -194,7 +194,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                         )
                                     }
                                 }
-                                Divider()
+                                MenuDefaults.Divider()
 
 
                                 CounterStyleOption(
@@ -208,7 +208,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                         )
                                     }
                                 }
-                                Divider()
+                                MenuDefaults.Divider()
 
                                 ButtonBehaviourOption(
                                     counterWithIncrements?.counter?.incrementType
@@ -222,7 +222,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                         )
                                     }
                                 }
-                                Divider()
+                                MenuDefaults.Divider()
 
                                 if (counterWithIncrements?.counter?.incrementType == IncrementType.VALUE) {
                                     MinusEnabledOption(
@@ -236,7 +236,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                             )
                                         }
                                     }
-                                    Divider()
+                                    MenuDefaults.Divider()
                                 }
 
                                 IncrementValueOption(
@@ -256,13 +256,13 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                         )
                                     }
                                 }
-                                Divider()
+                                MenuDefaults.Divider()
 
                                 DeleteOption {
                                     activity?.finish()
                                     countersListViewModel.deleteCounterById(counterID)
                                 }
-                                Divider()
+                                MenuDefaults.Divider()
                             }
                         }
                     }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -66,7 +67,7 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
         CounterStyleOption(counterStyle, true) {
             counterStyle = it
         }
-        Divider(Modifier.padding(horizontal = 16.dp))
+        MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
         ButtonBehaviourOption(incrementType, true) {
             if (it != incrementType) {
                 incrementValue = it.defaultIncrementValue
@@ -74,12 +75,12 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
             incrementType = it
         }
         if (incrementType == IncrementType.VALUE) {
-            Divider(Modifier.padding(horizontal = 16.dp))
+            MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
             MinusEnabledOption(minusEnabled, true) {
                 minusEnabled = it
             }
         }
-        Divider(Modifier.padding(horizontal = 16.dp))
+        MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
         IncrementValueOption(
             incrementType,
             incrementValueType,

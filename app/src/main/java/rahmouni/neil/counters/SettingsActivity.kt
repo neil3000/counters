@@ -106,7 +106,7 @@ fun SettingsPage() {
                     )
             )
 
-            Divider()
+            MenuDefaults.Divider()
             ListItem(
                 text = { androidx.compose.material.Text(stringResource(R.string.action_reportBug)) },
                 icon = { Icon(Icons.Outlined.BugReport, null) },
@@ -134,7 +134,7 @@ fun SettingsPage() {
                     )
             )
 
-            Divider()
+            MenuDefaults.Divider()
         }
     }
 }
