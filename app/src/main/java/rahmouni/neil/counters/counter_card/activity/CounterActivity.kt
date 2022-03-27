@@ -1,4 +1,4 @@
-package rahmouni.neil.counters.counter_card
+package rahmouni.neil.counters.counter_card.activity
 
 import android.app.Activity
 import android.os.Bundle
@@ -9,8 +9,6 @@ import androidx.activity.viewModels
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
@@ -41,14 +39,13 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsPadding
 import kotlinx.coroutines.launch
-import rahmouni.neil.counters.*
+import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
+import rahmouni.neil.counters.counter_card.NewIncrement
 import rahmouni.neil.counters.database.CounterWithIncrements
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
-import rahmouni.neil.counters.options.*
 import rahmouni.neil.counters.ui.theme.CountersTheme
-import rahmouni.neil.counters.utils.FullscreenDynamicSVG
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 
 class CounterActivity : ComponentActivity() {
@@ -165,106 +162,14 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                     Modifier.padding(innerPadding)
                 ) {
                     composable("entries") {
-                        if (counterWithIncrements != null && counterWithIncrements!!.increments.isNotEmpty()) {
-                            LazyColumn {
-                                items(counterWithIncrements!!.increments.reversed()) { increment ->
-                                    IncrementEntry(increment, countersListViewModel)
-                                    MenuDefaults.Divider()
-                                }
-                            }
-                        } else {
-                            FullscreenDynamicSVG(
-                                R.drawable.ic_empty_entries,
-                                R.string.text_noEntriesYet
-                            )
-                        }
+                        CounterEntries(counterWithIncrements, countersListViewModel, innerPadding)
                     }
                     composable("settings") {
-                        LazyColumn(contentPadding = innerPadding) {
-                            item {
-                                NameOption(
-                                    counterWithIncrements?.counter?.displayName
-                                        ?: "Counter"
-                                ) {
-                                    if (counterWithIncrements != null) {
-                                        countersListViewModel.updateCounter(
-                                            counterWithIncrements!!.counter.copy(
-                                                displayName = it
-                                            ).toCounter()
-                                        )
-                                    }
-                                }
-                                MenuDefaults.Divider()
-
-
-                                CounterStyleOption(
-                                    counterWithIncrements?.counter?.style ?: CounterStyle.DEFAULT
-                                ) {
-                                    if (counterWithIncrements != null) {
-                                        countersListViewModel.updateCounter(
-                                            counterWithIncrements!!.counter.copy(
-                                                style = it
-                                            ).toCounter()
-                                        )
-                                    }
-                                }
-                                MenuDefaults.Divider()
-
-                                ButtonBehaviourOption(
-                                    counterWithIncrements?.counter?.incrementType
-                                        ?: IncrementType.ASK_EVERY_TIME
-                                ) {
-                                    if (counterWithIncrements != null) {
-                                        countersListViewModel.updateCounter(
-                                            counterWithIncrements!!.counter.copy(
-                                                incrementType = it
-                                            ).toCounter()
-                                        )
-                                    }
-                                }
-                                MenuDefaults.Divider()
-
-                                if (counterWithIncrements?.counter?.incrementType == IncrementType.VALUE) {
-                                    MinusEnabledOption(
-                                        counterWithIncrements?.counter?.hasMinus ?: false,
-                                    ) {
-                                        if (counterWithIncrements != null) {
-                                            countersListViewModel.updateCounter(
-                                                counterWithIncrements!!.counter.copy(
-                                                    hasMinus = it
-                                                ).toCounter()
-                                            )
-                                        }
-                                    }
-                                    MenuDefaults.Divider()
-                                }
-
-                                IncrementValueOption(
-                                    counterWithIncrements?.counter?.incrementType
-                                        ?: IncrementType.ASK_EVERY_TIME,
-                                    counterWithIncrements?.counter?.incrementValueType
-                                        ?: IncrementValueType.VALUE,
-                                    counterWithIncrements?.counter?.incrementValue ?: 1,
-                                    counterWithIncrements?.counter?.hasMinus ?: false
-                                ) { ivt, v ->
-                                    if (counterWithIncrements != null) {
-                                        countersListViewModel.updateCounter(
-                                            counterWithIncrements!!.counter.copy(
-                                                incrementValueType = ivt,
-                                                incrementValue = v
-                                            ).toCounter()
-                                        )
-                                    }
-                                }
-                                MenuDefaults.Divider()
-
-                                DeleteOption {
-                                    activity?.finish()
-                                    countersListViewModel.deleteCounterById(counterID)
-                                }
-                                MenuDefaults.Divider()
-                            }
-                        }
+                        CounterSettings(
+                            counterWithIncrements?.counter,
+                            countersListViewModel,
+                            innerPadding
+                        )
                     }
                 }
             },

@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import rahmouni.neil.counters.CounterStyle
-import rahmouni.neil.counters.GroupType
 import rahmouni.neil.counters.IncrementType
 import rahmouni.neil.counters.IncrementValueType
+import rahmouni.neil.counters.ResetType
 
 @Database(
     entities = [Counter::class, Increment::class],
@@ -51,7 +51,10 @@ data class Counter(
     @ColumnInfo(name = "increment_type") val incrementType: IncrementType = IncrementType.VALUE,
     @ColumnInfo(name = "increment_value_type") val incrementValueType: IncrementValueType = IncrementValueType.VALUE,
     @ColumnInfo(name = "increment_value") val incrementValue: Int = 1,
-    @ColumnInfo(name = "group_type", defaultValue = "NEVER") val groupType: GroupType = GroupType.NEVER,
+    @ColumnInfo(
+        name = "reset_type",
+        defaultValue = "NEVER"
+    ) val resetType: ResetType = ResetType.NEVER,
 )
 
 data class CounterAugmented(
@@ -62,7 +65,10 @@ data class CounterAugmented(
     @ColumnInfo(name = "increment_type") val incrementType: IncrementType = IncrementType.VALUE,
     @ColumnInfo(name = "increment_value_type") val incrementValueType: IncrementValueType = IncrementValueType.VALUE,
     @ColumnInfo(name = "increment_value") val incrementValue: Int = 1,
-    @ColumnInfo(name = "group_type", defaultValue = "NEVER") val groupType: GroupType = GroupType.NEVER,
+    @ColumnInfo(
+        name = "reset_type",
+        defaultValue = "NEVER"
+    ) val resetType: ResetType = ResetType.NEVER,
 
     @ColumnInfo(name = "count") val count: Int = 0,
     @ColumnInfo(name = "last_increment") val lastIncrement: Int = 1
@@ -75,7 +81,8 @@ data class CounterAugmented(
             hasMinus = hasMinus,
             incrementType = incrementType,
             incrementValueType = incrementValueType,
-            incrementValue = incrementValue
+            incrementValue = incrementValue,
+            resetType = resetType
         )
     }
 }

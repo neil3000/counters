@@ -38,4 +38,8 @@
     <string name="text_noEntriesYet">No entries yet</string>
     <string name="text_never">Never</string>
     <string name="text_everyDay">Every day</string>
+    <string name="text_reset">Reset</string>
+    <string name="action_reset">Reset</string>
+    <string name="text_never_resets">Never resets</string>
+    <string name="text_resetsEveryDayToX">Resets every day to %d</string>
 </resources>
