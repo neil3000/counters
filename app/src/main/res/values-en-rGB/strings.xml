@@ -43,4 +43,8 @@
     <string name="text_resetsEveryDayToX">Resets every day to %d</string>
     <string name="text_reset">Reset</string>
     <string name="action_reset">Reset</string>
+    <string name="text_everyWeek">Every week</string>
+    <string name="text_resetsEveryWeekToX">Resets every week to %d</string>
+    <string name="text_everyMonth">Every month</string>
+    <string name="text_resetsEveryMonthToX">Resets every month to %d</string>
 </resources>

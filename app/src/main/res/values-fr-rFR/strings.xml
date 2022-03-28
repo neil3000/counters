@@ -37,10 +37,14 @@
     <string name="confirmation_deleteCounter">Êtes-vous sûr de vouloir supprimer ce compteur ainsi que toutes ses entrées ? Cette opération ne pourra pas être annulée.</string>
     <string name="text_noEntriesYet">Pas encore d\'entrées</string>
     <string name="text_noCountersYet">Pas encore de compteurs</string>
-    <string name="text_never">Chaque jour</string>
+    <string name="text_never">Jamais</string>
     <string name="text_everyDay">Chaque jour</string>
     <string name="text_reset">Remise à zéro</string>
     <string name="action_reset">Remettre à zéro</string>
     <string name="text_never_resets">Ne se réinitialise jamais</string>
-    <string name="text_resetsEveryDayToX">Se éinitialise chaque jour à %d</string>
+    <string name="text_resetsEveryDayToX">Se réinitialise chaque jour à %d</string>
+    <string name="text_everyWeek">Chaque semaine</string>
+    <string name="text_everyMonth">Chaque mois</string>
+    <string name="text_resetsEveryWeekToX">Se réinitialise chaque semaine à %d</string>
+    <string name="text_resetsEveryMonthToX">Se réinitialise chaque mois à %d</string>
 </resources>
