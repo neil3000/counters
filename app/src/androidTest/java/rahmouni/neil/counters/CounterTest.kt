@@ -4,6 +4,10 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import org.junit.Rule
 import org.junit.Test
+import org.junit.experimental.categories.Category
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import java.util.*
 
 class CounterTest {
 
@@ -29,12 +33,12 @@ class CounterTest {
     }
 
     @Test
-    fun changeResetType() {
+    fun changeResetTypeFromSettings() {
+        val counterName = createTestCounter(composeTestRule)
+        navigateToCounterSettings(composeTestRule, counterName)
+
         for (resetType in ResetType.values()) {
-            val counterName = createTestCounter(composeTestRule)
-            navigateToCounterSettings(composeTestRule, counterName)
             changeResetTypeTo(composeTestRule, resetType)
-            navigateToHomeScreen(composeTestRule)
         }
     }
 }
