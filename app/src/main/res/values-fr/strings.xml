@@ -10,7 +10,6 @@
     <string name="action_seeOnThePlayStore">Voir sur le Play Store</string>
     <string name="text_name_short">Nom</string>
     <string name="action_create_short">Créer</string>
-    <string name="action_addEntry_short">Ajouter une entrée</string>
     <string name="action_newEntry_short">Nouvelle entrée</string>
     <string name="text_entries_short">Entrées</string>
     <string name="text_counterSettings_short">Paramètres</string>
@@ -47,4 +46,5 @@
     <string name="text_everyMonth">Chaque mois</string>
     <string name="text_resetsEveryWeekToX">Se réinitialise chaque semaine à %d</string>
     <string name="text_resetsEveryMonthToX">Se réinitialise chaque mois à %d</string>
+    <string name="action_addEntry">Ajouter une entrée</string>
 </resources>

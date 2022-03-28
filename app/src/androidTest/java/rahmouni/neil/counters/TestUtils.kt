@@ -93,3 +93,30 @@ fun navigateToHomeScreen(
         .onNodeWithText(composeTestRule.activity.getString(R.string.text_appName))
         .assertExists()
 }
+
+fun counterCardIncrease(
+    composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>,
+    counterName: String
+) {
+    // Click on plus button
+    composeTestRule
+        .onNodeWithTag(counterName+"_CARD_INCREASE")
+        .assertHasClickAction()
+        .performClick()
+
+    // Click on add entry
+    composeTestRule
+        .onNodeWithText(composeTestRule.activity.getString(R.string.action_addEntry))
+        .assertHasClickAction()
+        .performClick()
+}
+
+fun assertCounterCardCount(
+    composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>,
+    counterName: String,
+    value: Int
+) {
+    composeTestRule
+        .onNodeWithText(counterName)
+        .assertTextContains(value.toString())
+}

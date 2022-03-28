@@ -116,7 +116,7 @@ fun NewIncrement(
                         }
                     }
                 }) {
-                Text(stringResource(R.string.action_addEntry_short))
+                Text(stringResource(R.string.action_addEntry))
             }
         }
     }

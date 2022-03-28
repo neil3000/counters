@@ -19,7 +19,7 @@
     <string name="text_fixedValue_short">Fixed value</string>
     <string name="action_decreaseValue">Decrease value</string>
     <string name="action_increaseValue">Increase value</string>
-    <string name="action_addEntry_short">Add entry</string>
+    <string name="action_addEntry">Add entry</string>
     <string name="action_newEntry_short">New entry</string>
     <string name="text_entries_short">Entries</string>
     <string name="text_counterSettings_short">Settings</string>

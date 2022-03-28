@@ -17,6 +17,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType.Companion.LongPress
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -59,7 +60,7 @@ fun CounterCardButtonsDefault(
             text = data.count.toString(),
             style = MaterialTheme.typography.headlineLarge,
         )
-        IconButton(onClick = {
+        IconButton(modifier = Modifier.testTag(data.displayName+if (incValue >= 0) "_CARD_INCREASE" else "_CARD_DECREASE"), onClick = {
             localHapticFeedback.performHapticFeedback(LongPress)
 
             when (data.incrementType) {

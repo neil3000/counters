@@ -37,4 +37,30 @@ class CounterTest {
             changeResetTypeTo(composeTestRule, resetType)
         }
     }
+
+    @Test
+    fun cardIncrease() {
+        val counterName = createTestCounter(composeTestRule)
+        counterCardIncrease(composeTestRule, counterName)
+        assertCounterCardCount(composeTestRule, counterName, 1)
+    }
+
+    // Don't know how to change system date, or "wait" without pausing real device
+    /*@Test
+    fun waitForReset() {
+        val counterName = createTestCounter(composeTestRule)
+        navigateToCounterSettings(composeTestRule, counterName)
+
+        /*for (resetType in ResetType.values()) {
+            changeResetTypeTo(composeTestRule, resetType)
+        }*/
+        changeResetTypeTo(composeTestRule, ResetType.DAY)
+        navigateToHomeScreen(composeTestRule)
+        counterCardIncrease(composeTestRule, counterName)
+        Thread.sleep(ResetType.DAY.testMillis)
+
+        await().atLeast(ResetType.DAY.testMillis, TimeUnit.MILLISECONDS)
+
+        assertCounterCardCount(composeTestRule, counterName, 0)
+    }*/
 }
