@@ -25,6 +25,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -129,7 +130,8 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
                                 activity?.finish()
-                            }
+                            },
+                            modifier = Modifier.testTag("BACK_ARROW")
                         ) {
                             Icon(
                                 Icons.Outlined.ArrowBack,

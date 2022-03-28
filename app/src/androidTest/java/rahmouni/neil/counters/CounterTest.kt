@@ -1,10 +1,9 @@
 package rahmouni.neil.counters
 
-import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithText
 import org.junit.Rule
 import org.junit.Test
-import java.util.*
 
 class CounterTest {
 
@@ -19,33 +18,23 @@ class CounterTest {
     }
 
     @Test
-    fun createDefaultCounter() {
-        val counterName = "Test " + UUID.randomUUID().toString().substring(0,10)
+    fun createCounter() {
+        createTestCounter(composeTestRule)
+    }
 
-        // Click on the fab
-        composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.action_newCounter_short))
-            .assertHasClickAction()
-            .performClick()
+    @Test
+    fun openCounterSettings() {
+        val counterName = createTestCounter(composeTestRule)
+        navigateToCounterSettings(composeTestRule, counterName)
+    }
 
-        // Put "Test name" in the Name field
-        composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.text_name))
-            .assertExists()
-            .performClick()
-            .assertIsFocused()
-            .performTextInput(counterName)
-
-        // Click on the "Create" button
-        composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.action_create_short))
-            .assertHasClickAction()
-            .performClick()
-
-        // Verify if counter created with default value 0
-        composeTestRule
-            .onNodeWithText(counterName)
-            .assertHasClickAction()
-            .assertTextContains("0")
+    @Test
+    fun changeResetType() {
+        for (resetType in ResetType.values()) {
+            val counterName = createTestCounter(composeTestRule)
+            navigateToCounterSettings(composeTestRule, counterName)
+            changeResetTypeTo(composeTestRule, resetType)
+            navigateToHomeScreen(composeTestRule)
+        }
     }
 }
