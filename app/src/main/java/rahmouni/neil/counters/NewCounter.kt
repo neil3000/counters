@@ -17,10 +17,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.options.CounterStyleOption
-import rahmouni.neil.counters.options.ButtonBehaviourOption
-import rahmouni.neil.counters.options.IncrementValueOption
-import rahmouni.neil.counters.options.MinusEnabledOption
+import rahmouni.neil.counters.options.*
 
 @OptIn(ExperimentalComposeUiApi::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
@@ -32,6 +29,7 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
     var isNameError by rememberSaveable { mutableStateOf(false) }
     var minusEnabled by rememberSaveable { mutableStateOf(false) }
     var counterStyle by rememberSaveable { mutableStateOf(CounterStyle.DEFAULT) }
+    var resetType by rememberSaveable { mutableStateOf(ResetType.NEVER) }
 
     val localHapticFeedback = LocalHapticFeedback.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -88,6 +86,11 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
             incrementValue = iv
         }
 
+        MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
+        ResetTypeOption(resetType, true) {
+            resetType = it
+        }
+
         Button(
             modifier = Modifier
                 .padding(16.dp)
@@ -104,7 +107,8 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
                             style = counterStyle,
                             incrementType = incrementType,
                             incrementValueType = incrementValueType,
-                            incrementValue = incrementValue
+                            incrementValue = incrementValue,
+                            resetType = resetType,
                         )
                         keyboardController?.hide()
                         onCreate()
@@ -115,6 +119,7 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
                         counterStyle = CounterStyle.DEFAULT
                         incrementType = IncrementType.ASK_EVERY_TIME
                         incrementValue = 1
+                        resetType = ResetType.NEVER
                     }
                 }
             }) {

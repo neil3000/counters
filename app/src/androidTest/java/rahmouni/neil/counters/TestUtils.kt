@@ -5,15 +5,14 @@ import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import java.util.*
 
-fun createTestCounter(composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>): String {
-    val counterName = "Test " + UUID.randomUUID().toString().substring(0, 8)
-
-    // Click on the fab
+fun openNewCounterModal(composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>) {
     composeTestRule
         .onNodeWithText(composeTestRule.activity.getString(R.string.action_newCounter_short))
         .assertHasClickAction()
         .performClick()
+}
 
+fun setCounterNameFromModal(composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>, counterName: String) {
     // Put "Test name" in the Name field
     composeTestRule
         .onNodeWithText(composeTestRule.activity.getString(R.string.text_name))
@@ -21,19 +20,28 @@ fun createTestCounter(composeTestRule: AndroidComposeTestRule<ActivityScenarioRu
         .performClick()
         .assertIsFocused()
         .performTextInput(counterName)
+}
 
+fun setRandomCounterNameFromModal(composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>): String {
+    val counterName = "Test " + UUID.randomUUID().toString().substring(0, 8)
+
+    setCounterNameFromModal(composeTestRule, counterName)
+
+    return counterName
+}
+
+fun createCounterFromModal(composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>) {
     // Click on the "Create" button
     composeTestRule
         .onNodeWithText(composeTestRule.activity.getString(R.string.action_create_short))
         .assertHasClickAction()
         .performClick()
+}
 
-    // Verify if counter created with default value 0
-    composeTestRule
-        .onNodeWithText(counterName)
-        .assertHasClickAction()
-        .assertTextContains("0")
-
+fun createTestCounter(composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>): String {
+    openNewCounterModal(composeTestRule)
+    val counterName = setRandomCounterNameFromModal(composeTestRule)
+    createCounterFromModal(composeTestRule)
     return counterName
 }
 
@@ -64,7 +72,6 @@ fun changeResetTypeTo(
     // Click on the right ResetType
     composeTestRule
         .onNodeWithText(composeTestRule.activity.getString(resetType.title))
-        .assertHasClickAction()
         .performClick()
 
     // Click on save button of dialog
@@ -72,7 +79,9 @@ fun changeResetTypeTo(
         .onNodeWithText(composeTestRule.activity.getString(R.string.action_save_short))
         .assertHasClickAction()
         .performClick()
+}
 
+fun assertResetTypeFromSettingsIs(composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>, resetType: ResetType) {
     // Check if the reset field has changed
     composeTestRule
         .onNodeWithText(composeTestRule.activity.getString(resetType.formatted, 0))

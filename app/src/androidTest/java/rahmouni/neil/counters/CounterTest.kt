@@ -19,7 +19,8 @@ class CounterTest {
 
     @Test
     fun createCounter() {
-        createTestCounter(composeTestRule)
+        val counterName = createTestCounter(composeTestRule)
+        assertCounterCardCount(composeTestRule, counterName, 0)
     }
 
     @Test
@@ -35,6 +36,21 @@ class CounterTest {
 
         for (resetType in ResetType.values()) {
             changeResetTypeTo(composeTestRule, resetType)
+            assertResetTypeFromSettingsIs(composeTestRule, resetType)
+        }
+    }
+
+    @Test
+    fun changeResetTypeFromModal() {
+        for (resetType in ResetType.values()) {
+            openNewCounterModal(composeTestRule)
+            val counterName = setRandomCounterNameFromModal(composeTestRule)
+            changeResetTypeTo(composeTestRule, resetType)
+            assertResetTypeFromSettingsIs(composeTestRule, resetType)
+            createCounterFromModal(composeTestRule)
+            navigateToCounterSettings(composeTestRule, counterName)
+            assertResetTypeFromSettingsIs(composeTestRule, resetType)
+            navigateToHomeScreen(composeTestRule)
         }
     }
 
