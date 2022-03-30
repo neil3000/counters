@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -20,10 +17,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.options.CounterStyleOption
-import rahmouni.neil.counters.options.ButtonBehaviourOption
-import rahmouni.neil.counters.options.IncrementValueOption
-import rahmouni.neil.counters.options.MinusEnabledOption
+import rahmouni.neil.counters.options.*
 
 @OptIn(ExperimentalComposeUiApi::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
@@ -35,6 +29,7 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
     var isNameError by rememberSaveable { mutableStateOf(false) }
     var minusEnabled by rememberSaveable { mutableStateOf(false) }
     var counterStyle by rememberSaveable { mutableStateOf(CounterStyle.DEFAULT) }
+    var resetType by rememberSaveable { mutableStateOf(ResetType.NEVER) }
 
     val localHapticFeedback = LocalHapticFeedback.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -66,7 +61,7 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
         CounterStyleOption(counterStyle, true) {
             counterStyle = it
         }
-        Divider(Modifier.padding(horizontal = 16.dp))
+        MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
         ButtonBehaviourOption(incrementType, true) {
             if (it != incrementType) {
                 incrementValue = it.defaultIncrementValue
@@ -74,12 +69,12 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
             incrementType = it
         }
         if (incrementType == IncrementType.VALUE) {
-            Divider(Modifier.padding(horizontal = 16.dp))
+            MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
             MinusEnabledOption(minusEnabled, true) {
                 minusEnabled = it
             }
         }
-        Divider(Modifier.padding(horizontal = 16.dp))
+        MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
         IncrementValueOption(
             incrementType,
             incrementValueType,
@@ -89,6 +84,11 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
         ) { ivt, iv ->
             incrementValueType = ivt
             incrementValue = iv
+        }
+
+        MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
+        ResetTypeOption(resetType, true) {
+            resetType = it
         }
 
         Button(
@@ -107,7 +107,8 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
                             style = counterStyle,
                             incrementType = incrementType,
                             incrementValueType = incrementValueType,
-                            incrementValue = incrementValue
+                            incrementValue = incrementValue,
+                            resetType = resetType,
                         )
                         keyboardController?.hide()
                         onCreate()
@@ -118,6 +119,7 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
                         counterStyle = CounterStyle.DEFAULT
                         incrementType = IncrementType.ASK_EVERY_TIME
                         incrementValue = 1
+                        resetType = ResetType.NEVER
                     }
                 }
             }) {

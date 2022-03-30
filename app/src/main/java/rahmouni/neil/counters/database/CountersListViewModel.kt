@@ -2,11 +2,22 @@ package rahmouni.neil.counters.database
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
+import rahmouni.neil.counters.ResetType
 
 class CountersListViewModel(private val repository: CountersListRepository) : ViewModel() {
     val allCounters: LiveData<List<CounterAugmented>> = repository.allCounters.asLiveData()
     fun getCounterWithIncrements(counterID: Int): LiveData<CounterWithIncrements> =
         repository.getCounterWithIncrements(counterID).asLiveData()
+
+    fun getCounterIncrementGroups(
+        counterID: Int,
+        resetType: ResetType
+    ): LiveData<List<IncrementGroup>> =
+        repository.getCounterIncrementGroups(
+            counterID,
+            resetType.entriesGroup1!!,
+            resetType.entriesGroup2!!
+            ).asLiveData()
 
     fun addIncrement(value: Int, counterID: Int) = viewModelScope.launch {
         repository.addIncrement(value, counterID)

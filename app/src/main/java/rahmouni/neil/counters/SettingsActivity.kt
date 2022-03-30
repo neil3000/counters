@@ -118,7 +118,7 @@ fun SettingsPage() {
                         }
                     )
             )
-            Divider()
+            MenuDefaults.Divider()
 
             ListItem(
                 text = { androidx.compose.material.Text(stringResource(R.string.action_reportBug)) },
@@ -146,7 +146,7 @@ fun SettingsPage() {
                         }
                     )
             )
-            Divider()
+            MenuDefaults.Divider()
 
             ListItem(
                 text = { androidx.compose.material.Text(stringResource(R.string.text_privacyPolicy)) },
@@ -163,7 +163,7 @@ fun SettingsPage() {
                         }
                     )
             )
-            Divider()
+            MenuDefaults.Divider()
 
             if (showDebug) {
                 ListItem(
@@ -187,7 +187,7 @@ fun SettingsPage() {
                             debugMode = it
                         }.padding(bottom=8.dp)
                 )
-                Divider()
+                MenuDefaults.Divider()
             }
         }
     }

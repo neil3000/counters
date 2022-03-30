@@ -151,6 +151,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                                 bottomSheetNewCounterState.animateTo(ModalBottomSheetValue.Expanded)
                             }
                         },
+                        containerColor = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.navigationBarsPadding()
                     )
                 }
