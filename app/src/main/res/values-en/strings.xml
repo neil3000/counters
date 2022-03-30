@@ -37,4 +37,5 @@
     <string name="text_appName">Counters</string>
     <string name="text_noCountersYet">No counters yet</string>
     <string name="text_noEntriesYet">No entries yet</string>
+    <string name="text_privacyPolicy">Privacy policy</string>
 </resources>

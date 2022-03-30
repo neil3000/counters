@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +16,7 @@ import androidx.compose.material.ListItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.BugReport
+import androidx.compose.material.icons.outlined.Policy
 import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -105,8 +107,8 @@ fun SettingsPage() {
                         }
                     )
             )
-
             Divider()
+
             ListItem(
                 text = { androidx.compose.material.Text(stringResource(R.string.action_reportBug)) },
                 icon = { Icon(Icons.Outlined.BugReport, null) },
@@ -133,7 +135,23 @@ fun SettingsPage() {
                         }
                     )
             )
+            Divider()
 
+            ListItem(
+                text = { androidx.compose.material.Text(stringResource(R.string.text_privacyPolicy)) },
+                icon = { Icon(Icons.Outlined.Policy, null) },
+                modifier = Modifier
+                    .clickable(
+                        onClick = {
+                            localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                            CustomTabsIntent.Builder().build().launchUrl(
+                                activity,
+                                Uri.parse("https://gitlab.com/neil3000/counters/-/wikis/Counters:-Privacy-policy")
+                            )
+                        }
+                    )
+            )
             Divider()
         }
     }
