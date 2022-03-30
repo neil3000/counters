@@ -7,6 +7,7 @@ import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.IncrementType
 import rahmouni.neil.counters.IncrementValueType
 import rahmouni.neil.counters.ResetType
+import java.sql.Date
 
 @Database(
     entities = [Counter::class, Increment::class],
@@ -117,8 +118,8 @@ data class CounterWithIncrements(
 
 data class IncrementGroup(
     @ColumnInfo(name = "count") val count: Int = 0,
-    @ColumnInfo(name = "date") val date: String = "",
-    @ColumnInfo(name = "uids") val uids: String = "",
+    @ColumnInfo(name = "date") val date: String,
+    @ColumnInfo(name = "uids") val uids: String = "test",
 )
 
 @Dao
@@ -135,9 +136,9 @@ interface CountersListDao {
     fun getCounterWithIncrements(counterID: Int): Flow<CounterWithIncrements>
 
     @Query(
-        "SELECT SUM(value) as count, date(timestamp, :groupQuery) as date, GROUP_CONCAT(uid, ',') AS uids FROM increment WHERE counterID=:counterID GROUP BY date(timestamp, 'localtime', :groupQuery)"
+        "SELECT SUM(value) as count, date(timestamp, :groupQuery1, :groupQuery2) as date, GROUP_CONCAT(uid, ',') AS uids FROM increment WHERE counterID=:counterID GROUP BY date(timestamp, 'localtime', :groupQuery1, :groupQuery2)"
     )
-    fun getCounterIncrementGroups(counterID: Int, groupQuery: String): Flow<List<IncrementGroup>>
+    fun getCounterIncrementGroups(counterID: Int, groupQuery1: String, groupQuery2: String): Flow<List<IncrementGroup>>
 
     @Query("SELECT * FROM counter WHERE uid=:counterID")
     fun getCounter(counterID: Int): Flow<Counter>

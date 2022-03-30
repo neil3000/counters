@@ -1,11 +1,10 @@
-package rahmouni.neil.counters.counter_card
+package rahmouni.neil.counters.counter_card.activity
 
 import android.annotation.SuppressLint
 import android.text.format.DateUtils
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
@@ -16,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -39,26 +37,29 @@ fun IncrementEntry(increment: Increment, countersListViewModel: CountersListView
     format.timeZone = TimeZone.getTimeZone("UTC")
     val date: Date? = format.parse(increment.timestamp)
 
-    Surface {
-        ListItem(
-            text = { Text(increment.value.toString()) },
-            secondaryText = { Text(if (date!=null) DateUtils.getRelativeTimeSpanString(date.time).toString() else "Error") },
-            trailing = {
-                IconButton(onClick = {
-                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+    ListItem(
+        text = { Text(increment.value.toString()) },
+        secondaryText = {
+            Text(
+                if (date != null) DateUtils.getRelativeTimeSpanString(date.time)
+                    .toString() else "Error"
+            )
+        },
+        trailing = {
+            IconButton(onClick = {
+                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                    scope.launch {
-                        countersListViewModel.deleteIncrement(increment)
-                    }
-                }) {
-                    Icon(
-                        Icons.Outlined.Delete,
-                        stringResource(R.string.action_deleteEntry),
-                        tint = MaterialTheme.colorScheme.outline
-                    )
+                scope.launch {
+                    countersListViewModel.deleteIncrement(increment)
                 }
-            },
-            modifier = Modifier.padding(start = 8.dp)
-        )
-    }
+            }) {
+                Icon(
+                    Icons.Outlined.Delete,
+                    stringResource(R.string.action_deleteEntry),
+                    tint = MaterialTheme.colorScheme.outline
+                )
+            }
+        },
+        modifier = Modifier.padding(start = 8.dp)
+    )
 }
