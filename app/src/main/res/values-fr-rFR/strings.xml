@@ -47,4 +47,7 @@
     <string name="text_resetsEveryWeekToX">Se réinitialise chaque semaine à %d</string>
     <string name="text_resetsEveryMonthToX">Se réinitialise chaque mois à %d</string>
     <string name="action_addEntry">Ajouter une entrée</string>
+    <string name="text_thisMonth">Ce Mois-ci</string>
+    <string name="text_today">Aujourd\'hui</string>
+    <string name="text_thisWeek">Cette Semaine</string>
 </resources>

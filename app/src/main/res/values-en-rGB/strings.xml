@@ -47,5 +47,7 @@
     <string name="text_everyMonth">Every month</string>
     <string name="text_resetsEveryMonthToX">Resets every month to %d</string>
     <string name="action_addEntry">Add entry</string>
-    <string name="text_thisMonthX">\"This month: %d\"</string>
+    <string name="text_thisMonth">This Month</string>
+    <string name="text_today">Today</string>
+    <string name="text_thisWeek">This week</string>
 </resources>

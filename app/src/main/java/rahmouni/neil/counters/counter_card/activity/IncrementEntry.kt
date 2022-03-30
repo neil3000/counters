@@ -1,6 +1,7 @@
 package rahmouni.neil.counters.counter_card.activity
 
 import android.annotation.SuppressLint
+import android.text.format.DateFormat
 import android.text.format.DateUtils
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
@@ -15,11 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.R
+import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.Increment
 import java.text.SimpleDateFormat
@@ -28,9 +31,13 @@ import java.util.*
 @SuppressLint("SimpleDateFormat")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun IncrementEntry(increment: Increment, countersListViewModel: CountersListViewModel) {
+fun IncrementEntry(
+    increment: Increment,
+    countersListViewModel: CountersListViewModel,
+    resetType: ResetType = ResetType.NEVER
+) {
     val localHapticFeedback = LocalHapticFeedback.current
-
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -41,8 +48,30 @@ fun IncrementEntry(increment: Increment, countersListViewModel: CountersListView
         text = { Text(increment.value.toString()) },
         secondaryText = {
             Text(
-                if (date != null) DateUtils.getRelativeTimeSpanString(date.time)
-                    .toString() else "Error"
+                if (date != null) {
+                    when (resetType) {
+                        ResetType.NEVER -> DateUtils.getRelativeTimeSpanString(date.time).toString()
+                        ResetType.DAY -> DateFormat.getTimeFormat(context).format(date)
+                        ResetType.WEEK -> DateFormat.format(
+                            DateFormat.getBestDateTimePattern(
+                                Locale.getDefault(),
+                                "EEEE"
+                            ), date
+                        ).toString()
+                            .replaceFirstChar { it.uppercase() } + ", " + DateFormat.getTimeFormat(
+                            context
+                        ).format(date)
+                        ResetType.MONTH -> DateFormat.format(
+                            DateFormat.getBestDateTimePattern(
+                                Locale.getDefault(),
+                                "EEEE d"
+                            ), date
+                        ).toString()
+                            .replaceFirstChar { it.uppercase() } + ", " + DateFormat.getTimeFormat(
+                            context
+                        ).format(date)
+                    }
+                } else "Error"
             )
         },
         trailing = {

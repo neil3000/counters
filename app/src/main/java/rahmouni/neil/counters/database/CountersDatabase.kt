@@ -136,7 +136,7 @@ interface CountersListDao {
     fun getCounterWithIncrements(counterID: Int): Flow<CounterWithIncrements>
 
     @Query(
-        "SELECT SUM(value) as count, date(timestamp, :groupQuery1, :groupQuery2) as date, GROUP_CONCAT(uid, ',') AS uids FROM increment WHERE counterID=:counterID GROUP BY date(timestamp, 'localtime', :groupQuery1, :groupQuery2)"
+        "SELECT SUM(value) as count, date(timestamp, :groupQuery1, :groupQuery2) as date, GROUP_CONCAT(uid, ',') AS uids FROM increment WHERE counterID=:counterID GROUP BY date(timestamp, 'localtime', :groupQuery1, :groupQuery2) ORDER BY timestamp DESC"
     )
     fun getCounterIncrementGroups(counterID: Int, groupQuery1: String, groupQuery2: String): Flow<List<IncrementGroup>>
 

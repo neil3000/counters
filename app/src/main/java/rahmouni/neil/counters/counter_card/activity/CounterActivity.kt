@@ -148,6 +148,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                     icon = { Icon(Icons.Outlined.Add, null) },
                     text = { Text(stringResource(R.string.action_newEntry_short)) },
                     modifier = Modifier.offset(y = offset.value.dp),
+                    containerColor = MaterialTheme.colorScheme.primary,
                     onClick = {
                         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 

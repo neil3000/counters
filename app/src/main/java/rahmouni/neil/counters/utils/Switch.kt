@@ -7,8 +7,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import rahmouni.neil.counters.ui.theme.CountersTheme
 
 @Composable
 fun Switch(
@@ -29,20 +27,4 @@ fun Switch(
         interactionSource = interactionSource,
         colors = colors,
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SwitchPreview() {
-    CountersTheme {
-        Switch(false) {}
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SwitchPreviewChecked() {
-    CountersTheme {
-        Switch(true) {}
-    }
 }
