@@ -96,7 +96,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
     )
 
     val navController = rememberNavController()
-    val offset = remember { Animatable(0F) }
+    val offset = remember { Animatable(0F) } // for the fab animation
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination

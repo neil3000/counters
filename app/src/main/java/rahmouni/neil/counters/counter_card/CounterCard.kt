@@ -13,9 +13,9 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
-import rahmouni.neil.counters.DEBUG_MODE
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
+import rahmouni.neil.counters.prefs
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,7 +41,7 @@ fun CounterCard(
         }
     ) {
         Column {
-            if (DEBUG_MODE) Text("id:" + data.uid.toString())
+            if (prefs.debugMode) Text("id:" + data.uid.toString())
             Text(
                 text = data.displayName,
                 style = MaterialTheme.typography.titleSmall,
