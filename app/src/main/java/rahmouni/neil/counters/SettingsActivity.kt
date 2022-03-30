@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.Code
+import androidx.compose.material.icons.outlined.Policy
 import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -132,7 +134,7 @@ fun SettingsPage() {
                                     Uri.parse("mailto:")
                                 putExtra(
                                     Intent.EXTRA_EMAIL,
-                                    arrayOf("contact-project+neil3000-counters-33617709-issue-@incoming.gitlab.com")
+                                    arrayOf("bugs.counters@rahmouni.dev")
                                 )
                                 putExtra(Intent.EXTRA_SUBJECT, "Bug with...")
                                 putExtra(
@@ -141,6 +143,23 @@ fun SettingsPage() {
                                 )
                             }
                             activity.startActivity(intent)
+                        }
+                    )
+            )
+            Divider()
+
+            ListItem(
+                text = { androidx.compose.material.Text(stringResource(R.string.text_privacyPolicy)) },
+                icon = { Icon(Icons.Outlined.Policy, null) },
+                modifier = Modifier
+                    .clickable(
+                        onClick = {
+                            localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                            CustomTabsIntent.Builder().build().launchUrl(
+                                activity,
+                                Uri.parse("https://gitlab.com/neil3000/counters/-/wikis/Counters:-Privacy-policy")
+                            )
                         }
                     )
             )
