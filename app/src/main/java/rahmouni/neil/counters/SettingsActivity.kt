@@ -123,7 +123,7 @@ fun SettingsPage() {
                                     Uri.parse("mailto:")
                                 putExtra(
                                     Intent.EXTRA_EMAIL,
-                                    arrayOf("contact-project+neil3000-counters-33617709-issue-@incoming.gitlab.com")
+                                    arrayOf("bugs.counters@rahmouni.dev")
                                 )
                                 putExtra(Intent.EXTRA_SUBJECT, "Bug with...")
                                 putExtra(
