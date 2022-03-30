@@ -50,4 +50,5 @@
     <string name="text_thisMonth">This Month</string>
     <string name="text_today">Today</string>
     <string name="text_thisWeek">This week</string>
+    <string name="text_privacyPolicy">Privacy policy</string>
 </resources>
