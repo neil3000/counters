@@ -64,16 +64,16 @@ fun CounterEntries(
                         ) {
                             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                                 Text(
-                                    when {
-                                        it == 0 -> stringResource(counterWithIncrements.counter.resetType.headerTitle)
-                                        date != null -> DateFormat.format(
+                                    if (date != null) {
+                                        if (it == 0 && (Date().time - date.time)/(1000*60*60) < counterWithIncrements.counter.resetType.millisGroup)
+                                            stringResource(counterWithIncrements.counter.resetType.headerTitle)
+                                        else DateFormat.format(
                                             DateFormat.getBestDateTimePattern(
                                                 Locale.getDefault(),
                                                 counterWithIncrements.counter.resetType.headerFormat
                                             ), date
                                         ).toString().replaceFirstChar { it.uppercase() }
-                                        else -> "Error"
-                                    },
+                                    } else "Error",
                                     style = MaterialTheme.typography.titleLarge,
                                     modifier = Modifier.padding(24.dp)
                                 )
