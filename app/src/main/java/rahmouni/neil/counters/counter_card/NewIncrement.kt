@@ -3,14 +3,10 @@ package rahmouni.neil.counters.counter_card
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AddCircleOutline
 import androidx.compose.material.icons.outlined.RemoveCircleOutline
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -22,11 +18,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import rahmouni.neil.counters.DEBUG_MODE
 import rahmouni.neil.counters.IncrementValueType
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
+import rahmouni.neil.counters.prefs
 
 @OptIn(ExperimentalComposeUiApi::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
@@ -58,7 +54,7 @@ fun NewIncrement(
         }
 
         Column {
-            if (DEBUG_MODE) Text("id:" + counter.uid + " | ivt:" + counter.incrementValueType + " | iv:" + counter.incrementValue + " | li:" + counter.lastIncrement)
+            if (prefs.debugMode) Text("id:" + counter.uid + " | ivt:" + counter.incrementValueType + " | iv:" + counter.incrementValue + " | li:" + counter.lastIncrement)
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier
@@ -120,7 +116,7 @@ fun NewIncrement(
                         }
                     }
                 }) {
-                Text(stringResource(R.string.action_addEntry_short))
+                Text(stringResource(R.string.action_addEntry))
             }
         }
     }

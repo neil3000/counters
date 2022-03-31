@@ -25,7 +25,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
-import rahmouni.neil.counters.DEBUG_MODE
+import rahmouni.neil.counters.prefs
 import kotlin.math.roundToInt
 
 const val CORNER_RADIUS = 16
@@ -80,9 +80,9 @@ fun RoundedBottomSheet(
                         shape = RoundedCornerShape(16.dp)
                     ) {}
                 }
-                if (DEBUG_MODE) {
+                if (prefs.debugMode) {
                     item {
-                        Text("screenHeight=" + localConfiguration.screenHeightDp * context.resources.displayMetrics.density + " | reachTop=" + reachTop)
+                        Text("screenHeight=" + localConfiguration.screenHeightDp * context.resources.displayMetrics.density + " | reachTop=" + reachTop + " | cornerRadius=" + getCornerRadius())
                     }
                 }
                 item {

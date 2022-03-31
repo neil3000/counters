@@ -10,7 +10,6 @@
     <string name="action_seeOnThePlayStore">Voir sur le Play Store</string>
     <string name="text_name_short">Nom</string>
     <string name="action_create_short">Créer</string>
-    <string name="action_addEntry_short">Ajouter une entrée</string>
     <string name="action_newEntry_short">Nouvelle entrée</string>
     <string name="text_entries_short">Entrées</string>
     <string name="text_counterSettings_short">Paramètres</string>
@@ -37,4 +36,19 @@
     <string name="confirmation_deleteCounter">Êtes-vous sûr de vouloir supprimer ce compteur ainsi que toutes ses entrées ? Cette opération ne pourra pas être annulée.</string>
     <string name="text_noCountersYet">Pas encore de compteurs</string>
     <string name="text_noEntriesYet">Pas encore d\'entrées</string>
+    <string name="text_never">Jamais</string>
+    <string name="text_everyDay">Chaque jour</string>
+    <string name="text_reset">Remise à zéro</string>
+    <string name="action_reset">Remettre à zéro</string>
+    <string name="text_never_resets">Ne se réinitialise jamais</string>
+    <string name="text_resetsEveryDayToX">Se réinitialise chaque jour à %d</string>
+    <string name="text_everyWeek">Chaque semaine</string>
+    <string name="text_everyMonth">Chaque mois</string>
+    <string name="text_resetsEveryWeekToX">Se réinitialise chaque semaine à %d</string>
+    <string name="text_resetsEveryMonthToX">Se réinitialise chaque mois à %d</string>
+    <string name="action_addEntry">Ajouter une entrée</string>
+    <string name="text_thisMonth">Ce Mois-ci</string>
+    <string name="text_today">Aujourd\'hui</string>
+    <string name="text_thisWeek">Cette Semaine</string>
+    <string name="text_privacyPolicy">Politique de confidentialité</string>
 </resources>

@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".counter_card.CounterActivity"
+            android:name=".counter_card.activity.CounterActivity"
             android:theme="@style/Theme.Counters">
         </activity>
         <activity

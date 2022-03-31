@@ -15,7 +15,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -127,7 +127,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                                 )
                             }) {
                                 Icon(
-                                    imageVector = Icons.Outlined.MoreVert,
+                                    imageVector = Icons.Outlined.Settings,
                                     contentDescription = stringResource(R.string.text_settings)
                                 )
                             }
@@ -151,6 +151,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                                 bottomSheetNewCounterState.animateTo(ModalBottomSheetValue.Expanded)
                             }
                         },
+                        containerColor = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.navigationBarsPadding()
                     )
                 }
