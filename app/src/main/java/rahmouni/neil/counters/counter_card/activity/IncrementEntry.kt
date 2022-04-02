@@ -1,6 +1,9 @@
 package rahmouni.neil.counters.counter_card.activity
 
 import android.annotation.SuppressLint
+import android.icu.text.SimpleDateFormat
+import android.text.format.DateFormat
+import android.text.format.DateUtils
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
@@ -23,8 +26,7 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.Increment
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.util.*
 
 @SuppressLint("SimpleDateFormat")
 @OptIn(ExperimentalMaterialApi::class)
@@ -38,14 +40,36 @@ fun IncrementEntry(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
+    /*val date =
+        LocalDateTime.parse(increment.timestamp, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))*/
+    val date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(increment.timestamp)
+
     ListItem(
         text = { Text(increment.value.toString()) },
         secondaryText = {
             Text(
-                LocalDateTime.parse(
-                    increment.timestamp,
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                ).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                when (resetType) {
+                    ResetType.NEVER -> DateUtils.getRelativeTimeSpanString(date.time).toString()
+                    ResetType.DAY -> DateFormat.getTimeFormat(context).format(date)
+                    ResetType.WEEK -> DateFormat.format(
+                        DateFormat.getBestDateTimePattern(
+                            Locale.getDefault(),
+                            "EEEE"
+                        ), date
+                    ).toString()
+                        .replaceFirstChar { it.uppercase() } + ", " + DateFormat.getTimeFormat(
+                        context
+                    ).format(date)
+                    ResetType.MONTH -> DateFormat.format(
+                        DateFormat.getBestDateTimePattern(
+                            Locale.getDefault(),
+                            "MMMM d"
+                        ), date
+                    ).toString()
+                        .replaceFirstChar { it.uppercase() } + ", " + DateFormat.getTimeFormat(
+                        context
+                    ).format(date)
+                }
             )
         },
         trailing = {

@@ -41,7 +41,7 @@ enum class ResetType(
     WEEK(
         R.string.text_everyWeek,
         R.string.text_resetsEveryWeekToX,
-        "weekday 1",
+        "weekday 0", //TODO
         "-7 days",
         R.string.text_thisWeek,
         "MMM d",

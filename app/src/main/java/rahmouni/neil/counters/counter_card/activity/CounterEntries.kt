@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuDefaults
@@ -49,9 +48,9 @@ fun CounterEntries(
 
             if (incrementGroups != null) {
                 LazyColumn(contentPadding = innerPadding) {
-                    itemsIndexed(incrementGroups!!) { it, incrementGroup ->
+                    items(incrementGroups!!) { ig ->
                         val date = LocalDate.parse(
-                            incrementGroup.date,
+                            ig.date,
                             DateTimeFormatter.ofPattern("yyyy-MM-dd")
                         )
 
@@ -64,7 +63,8 @@ fun CounterEntries(
                         ) {
                             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                                 Text(
-                                    counter.resetType.format(date)?:stringResource(counter.resetType.headerTitle),
+                                    counter.resetType.format(date)
+                                        ?: stringResource(counter.resetType.headerTitle),
                                     style = MaterialTheme.typography.titleLarge,
                                     modifier = Modifier.padding(24.dp)
                                 )
@@ -75,7 +75,7 @@ fun CounterEntries(
                                     tonalElevation = 2.dp
                                 ) {
                                     Text(
-                                        incrementGroup.count.toString(),
+                                        ig.count.toString(),
                                         style = MaterialTheme.typography.titleLarge,
                                         modifier = Modifier.padding(
                                             horizontal = 24.dp,
@@ -87,7 +87,7 @@ fun CounterEntries(
                         }
                         Column {
                             for (increment in increments.filter {
-                                incrementGroup.uids.split(
+                                ig.uids.split(
                                     ','
                                 ).contains(it.uid.toString())
                             }) {
