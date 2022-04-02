@@ -7,7 +7,6 @@ import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.IncrementType
 import rahmouni.neil.counters.IncrementValueType
 import rahmouni.neil.counters.ResetType
-import java.sql.Date
 
 @Database(
     entities = [Counter::class, Increment::class],
@@ -107,15 +106,6 @@ data class Increment(
     ) val timestamp: String = "CURRENT_TIMESTAMP"
 )
 
-data class CounterWithIncrements(
-    @Embedded val counter: CounterAugmented,
-    @Relation(
-        parentColumn = "uid",
-        entityColumn = "counterID"
-    )
-    val increments: List<Increment>
-)
-
 data class IncrementGroup(
     @ColumnInfo(name = "count") val count: Int = 0,
     @ColumnInfo(name = "date") val date: String,
@@ -125,29 +115,40 @@ data class IncrementGroup(
 @Dao
 interface CountersListDao {
     @Query(
-        "SELECT counter.*,sub.total_count,sub2.last_increment,sub3.count FROM counter LEFT JOIN (SELECT counterID, SUM(value) as total_count FROM increment GROUP BY counterID) as sub ON sub.counterID=counter.uid LEFT JOIN (SELECT counterID,value as last_increment,Max(timestamp) as timestamp FROM increment GROUP BY counterID) as sub2 ON sub2.counterID=counter.uid LEFT JOIN (SELECT counterID, SUM(value) as count FROM increment  JOIN counter ON counter.uid=increment.counterID WHERE (counter.reset_type='NEVER') OR (counter.reset_type='DAY' AND date(timestamp, 'localtime') >= date('now', 'localtime')) OR (counter.reset_type='WEEK' AND date(timestamp, 'localtime') >= date('now', 'localtime', 'weekday 0', '-7 days')) OR (counter.reset_type='MONTH' AND date(timestamp, 'localtime') >= date('now', 'localtime', 'start of month')) GROUP BY counterID) as sub3 ON sub3.counterID=counter.uid"
+        "SELECT counter.*,sub.total_count,sub2.last_increment,sub3.count FROM counter LEFT JOIN (SELECT counterID, SUM(value) as total_count FROM increment GROUP BY counterID) as sub ON sub.counterID=counter.uid LEFT JOIN (SELECT counterID,value as last_increment,Max(timestamp) as timestamp FROM increment GROUP BY counterID) as sub2 ON sub2.counterID=counter.uid LEFT JOIN (SELECT counterID, SUM(value) as count FROM increment  JOIN counter ON counter.uid=increment.counterID WHERE (counter.reset_type='NEVER') OR (counter.reset_type='DAY' AND date(timestamp) >= date('now')) OR (counter.reset_type='WEEK' AND date(timestamp) >= date('now', 'localtime', 'weekday 0', '-7 days')) OR (counter.reset_type='MONTH' AND date(timestamp) >= date('now', 'start of month')) GROUP BY counterID) as sub3 ON sub3.counterID=counter.uid"
     )
     fun getAll(): Flow<List<CounterAugmented>>
 
-    @Transaction
     @Query(
-        "SELECT counter.*,sub.total_count,sub2.last_increment,sub3.count FROM counter LEFT JOIN (SELECT counterID, SUM(value) as total_count FROM increment GROUP BY counterID) as sub ON sub.counterID=counter.uid LEFT JOIN (SELECT counterID,value as last_increment,Max(timestamp) as timestamp FROM increment GROUP BY counterID) as sub2 ON sub2.counterID=counter.uid LEFT JOIN (SELECT counterID, SUM(value) as count FROM increment  JOIN counter ON counter.uid=increment.counterID WHERE (counter.reset_type='NEVER') OR (counter.reset_type='DAY' AND date(timestamp, 'localtime') >= date('now', 'localtime')) OR (counter.reset_type='WEEK' AND date(timestamp, 'localtime') >= date('now', 'localtime', 'weekday 0', '-7 days')) OR (counter.reset_type='MONTH' AND date(timestamp, 'localtime') >= date('now', 'localtime', 'start of month')) GROUP BY counterID) as sub3 ON sub3.counterID=counter.uid WHERE counter.uid=:counterID"
+        "SELECT counter.*,sub.total_count,sub2.last_increment,sub3.count FROM counter LEFT JOIN (SELECT counterID, SUM(value) as total_count FROM increment GROUP BY counterID) as sub ON sub.counterID=counter.uid LEFT JOIN (SELECT counterID,value as last_increment,Max(timestamp) as timestamp FROM increment GROUP BY counterID) as sub2 ON sub2.counterID=counter.uid LEFT JOIN (SELECT counterID, SUM(value) as count FROM increment  JOIN counter ON counter.uid=increment.counterID WHERE (counter.reset_type='NEVER') OR (counter.reset_type='DAY' AND date(timestamp) >= date('now')) OR (counter.reset_type='WEEK' AND date(timestamp) >= date('now', 'localtime', 'weekday 0', '-7 days')) OR (counter.reset_type='MONTH' AND date(timestamp) >= date('now', 'start of month')) GROUP BY counterID) as sub3 ON sub3.counterID=counter.uid WHERE counter.uid=:counterID"
     )
-    fun getCounterWithIncrements(counterID: Int): Flow<CounterWithIncrements>
+    fun getCounter(counterID: Int): Flow<CounterAugmented>
 
     @Query(
-        "SELECT SUM(value) as count, date(timestamp, :groupQuery1, :groupQuery2) as date, GROUP_CONCAT(uid, ',') AS uids FROM increment WHERE counterID=:counterID GROUP BY date(timestamp, 'localtime', :groupQuery1, :groupQuery2) ORDER BY timestamp DESC"
+        "SELECT * FROM increment WHERE counterID=:counterID ORDER BY timestamp DESC"
     )
-    fun getCounterIncrementGroups(counterID: Int, groupQuery1: String, groupQuery2: String): Flow<List<IncrementGroup>>
+    fun getCounterIncrements(counterID: Int): Flow<List<Increment>>
 
-    @Query("SELECT * FROM counter WHERE uid=:counterID")
-    fun getCounter(counterID: Int): Flow<Counter>
+    @Query(
+        "SELECT SUM(value) as count, date(timestamp, :groupQuery1, :groupQuery2) as date, GROUP_CONCAT(uid, ',') AS uids FROM increment WHERE counterID=:counterID GROUP BY date(timestamp, :groupQuery1, :groupQuery2) ORDER BY timestamp DESC"
+    )
+    fun getCounterIncrementGroups(
+        counterID: Int,
+        groupQuery1: String,
+        groupQuery2: String
+    ): Flow<List<IncrementGroup>>
 
-    @Query("INSERT INTO increment (value, counterID) VALUES(:value, :counterID)")
-    suspend fun addIncrement(value: Int, counterID: Int): Long
+    @Insert
+    suspend fun addIncrement(increment: Increment)
+
+    @Insert
+    fun testAddIncrement(increment: Increment)
 
     @Insert
     suspend fun addCounter(counter: Counter): Long
+
+    @Insert
+    fun testAddCounter(counter: Counter): Long
 
     @Delete
     suspend fun deleteIncrement(increment: Increment)

@@ -6,8 +6,11 @@ import rahmouni.neil.counters.ResetType
 
 class CountersListViewModel(private val repository: CountersListRepository) : ViewModel() {
     val allCounters: LiveData<List<CounterAugmented>> = repository.allCounters.asLiveData()
-    fun getCounterWithIncrements(counterID: Int): LiveData<CounterWithIncrements> =
-        repository.getCounterWithIncrements(counterID).asLiveData()
+    fun getCounterIncrements(counterID: Int): LiveData<List<Increment>> =
+        repository.getCounterIncrements(counterID).asLiveData()
+
+    fun getCounter(counterID: Int): LiveData<CounterAugmented> =
+        repository.getCounter(counterID).asLiveData()
 
     fun getCounterIncrementGroups(
         counterID: Int,
@@ -17,7 +20,7 @@ class CountersListViewModel(private val repository: CountersListRepository) : Vi
             counterID,
             resetType.entriesGroup1!!,
             resetType.entriesGroup2!!
-            ).asLiveData()
+        ).asLiveData()
 
     fun addIncrement(value: Int, counterID: Int) = viewModelScope.launch {
         repository.addIncrement(value, counterID)

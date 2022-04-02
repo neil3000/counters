@@ -43,9 +43,10 @@ import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.counter_card.NewIncrement
-import rahmouni.neil.counters.database.CounterWithIncrements
+import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
+import rahmouni.neil.counters.database.Increment
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 
@@ -103,14 +104,12 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
             tween(400))
     }
 
-    val counterWithIncrements: CounterWithIncrements? by countersListViewModel.getCounterWithIncrements(
-        counterID
-    ).observeAsState()
-
+    val counter: CounterAugmented? by countersListViewModel.getCounter(counterID).observeAsState()
+    val increments: List<Increment>? by countersListViewModel.getCounterIncrements(counterID).observeAsState()
 
     RoundedBottomSheet(bottomSheetState, {
-        if (counterWithIncrements != null) {
-            NewIncrement(counterWithIncrements!!.counter, countersListViewModel) {
+        if (counter != null) {
+            NewIncrement(counter, countersListViewModel) {
                 scope.launch {
                     bottomSheetState.hide()
                 }
@@ -123,7 +122,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                 .statusBarsPadding(),
             topBar = {
                 SmallTopAppBar(
-                    title = { Text(counterWithIncrements?.counter?.displayName ?: "Counter") },
+                    title = { Text(counter?.displayName ?: "Counter") },
                     navigationIcon = {
                         IconButton(
                             onClick = {
@@ -165,11 +164,11 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                     Modifier.padding(innerPadding)
                 ) {
                     composable("entries") {
-                        CounterEntries(counterWithIncrements, countersListViewModel, innerPadding)
+                        CounterEntries(counter, increments, countersListViewModel, innerPadding)
                     }
                     composable("settings") {
                         CounterSettings(
-                            counterWithIncrements?.counter,
+                            counter,
                             countersListViewModel,
                             innerPadding
                         )
