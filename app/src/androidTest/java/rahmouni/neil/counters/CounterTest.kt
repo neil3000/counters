@@ -1,6 +1,9 @@
 package rahmouni.neil.counters
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
 import rahmouni.neil.counters.testViews.HomeScreenTestView
@@ -85,5 +88,11 @@ class CounterTest {
             .openNewEntryModalOfCounterIncrease()
             .addEntry()
             .assertCounterValueIs(1)
+    }
+
+    @Test
+    fun test() {
+                HomeScreenTestView(rule)
+                    .populateDatabaseWithResetEntries()
     }
 }

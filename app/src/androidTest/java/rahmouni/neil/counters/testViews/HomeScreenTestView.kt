@@ -6,8 +6,13 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.MainActivity
 import rahmouni.neil.counters.R
+import rahmouni.neil.counters.database.Counter
+import rahmouni.neil.counters.database.Increment
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class HomeScreenTestView(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>,
@@ -24,20 +29,20 @@ class HomeScreenTestView(
     }
 
     fun openCounter(name: String? = null): EntriesTabTestView {
-        if (name==null && counterName==null) throwCounterInitializationException()
+        if (name == null && counterName == null) throwCounterInitializationException()
 
         composeTestRule
-            .onNodeWithText(name?:counterName!!)
+            .onNodeWithText(name ?: counterName!!)
             .performClick()
 
         return EntriesTabTestView(composeTestRule, counterName)
     }
 
     fun openNewEntryModalOfCounterIncrease(name: String? = null): HomeScreenNewEntryModalTestView {
-        if (name==null && counterName==null) throwCounterInitializationException()
+        if (name == null && counterName == null) throwCounterInitializationException()
 
         composeTestRule
-            .onNodeWithTag(counterName+"_CARD_INCREASE")
+            .onNodeWithTag(counterName + "_CARD_INCREASE")
             .performClick()
 
         return HomeScreenNewEntryModalTestView(composeTestRule, counterName)
@@ -54,20 +59,20 @@ class HomeScreenTestView(
     }
 
     fun assertCounterExists(name: String? = null): HomeScreenTestView {
-        if (name==null && counterName==null) throwCounterInitializationException()
+        if (name == null && counterName == null) throwCounterInitializationException()
 
         composeTestRule
-            .onNodeWithText(name?:counterName!!)
+            .onNodeWithText(name ?: counterName!!)
             .assertExists()
 
         return this
     }
 
     fun assertCounterValueIs(value: Int, name: String? = null): HomeScreenTestView {
-        if (name==null && counterName==null) throwCounterInitializationException()
+        if (name == null && counterName == null) throwCounterInitializationException()
 
         composeTestRule
-            .onNodeWithText(name?:counterName!!)
+            .onNodeWithText(name ?: counterName!!)
             .assertTextContains(value.toString())
 
         return this
@@ -77,5 +82,20 @@ class HomeScreenTestView(
 
     private fun throwCounterInitializationException() {
         throw Exception("Test counter not created & counter name not specified. One of those has to exist for this to work.")
+    }
+
+    fun populateDatabaseWithResetEntries() {
+        val uid: Long =
+            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Test ENTRIES"))
+        for (i in 0..59) {
+            CountersApplication.instance.countersListRepository.testAddIncrement(
+                Increment(
+                    counterID = uid.toInt(),
+                    value = i + 1,
+                    timestamp = LocalDateTime.now().minusDays(i.toLong())
+                        .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                )
+            )
+        }
     }
 }
