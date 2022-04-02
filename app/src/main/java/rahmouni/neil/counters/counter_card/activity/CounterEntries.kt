@@ -1,16 +1,29 @@
 package rahmouni.neil.counters.counter_card.activity
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuDefaults
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.Increment
+import rahmouni.neil.counters.database.IncrementGroup
 import rahmouni.neil.counters.utils.FullscreenDynamicSVG
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @SuppressLint("SimpleDateFormat")
 @Composable
@@ -29,7 +42,7 @@ fun CounterEntries(
                 }
             }
         } else {
-            /*val incrementGroups: List<IncrementGroup>? by countersListViewModel.getCounterIncrementGroups(
+            val incrementGroups: List<IncrementGroup>? by countersListViewModel.getCounterIncrementGroups(
                 counter.uid,
                 counter.resetType
             ).observeAsState()
@@ -37,7 +50,10 @@ fun CounterEntries(
             if (incrementGroups != null) {
                 LazyColumn(contentPadding = innerPadding) {
                     itemsIndexed(incrementGroups!!) { it, incrementGroup ->
-                        var date = SimpleDateFormat("yyyy-MM-dd").parse(incrementGroup.date)
+                        val date = LocalDate.parse(
+                            incrementGroup.date,
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        )
 
                         Surface(
                             color = MaterialTheme.colorScheme.secondaryContainer,
@@ -48,16 +64,7 @@ fun CounterEntries(
                         ) {
                             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                                 Text(
-                                    if (date != null) {
-                                        if (it == 0 && (Date().time - date.time)/(1000*60*60) < counterWithIncrements.counter.resetType.millisGroup)
-                                            stringResource(counterWithIncrements.counter.resetType.headerTitle)
-                                        else DateFormat.format(
-                                            DateFormat.getBestDateTimePattern(
-                                                Locale.getDefault(),
-                                                counterWithIncrements.counter.resetType.headerFormat
-                                            ), date
-                                        ).toString().replaceFirstChar { it.uppercase() }
-                                    } else "Error",
+                                    counter.resetType.format(date)?:stringResource(counter.resetType.headerTitle),
                                     style = MaterialTheme.typography.titleLarge,
                                     modifier = Modifier.padding(24.dp)
                                 )
@@ -79,7 +86,7 @@ fun CounterEntries(
                             }
                         }
                         Column {
-                            for (increment in counterWithIncrements.increments.reversed().filter {
+                            for (increment in increments.filter {
                                 incrementGroup.uids.split(
                                     ','
                                 ).contains(it.uid.toString())
@@ -87,14 +94,14 @@ fun CounterEntries(
                                 IncrementEntry(
                                     increment,
                                     countersListViewModel,
-                                    counterWithIncrements.counter.resetType
+                                    counter.resetType
                                 )
                                 MenuDefaults.Divider()
                             }
                         }
                     }
                 }
-            }*/
+            }
         }
     } else {
         FullscreenDynamicSVG(

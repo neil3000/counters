@@ -42,8 +42,10 @@ fun IncrementEntry(
         text = { Text(increment.value.toString()) },
         secondaryText = {
             Text(
-                LocalDateTime.parse(increment.timestamp, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                LocalDateTime.parse(
+                    increment.timestamp,
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                ).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
             )
         },
         trailing = {

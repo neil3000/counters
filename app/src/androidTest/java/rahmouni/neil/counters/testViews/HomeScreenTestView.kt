@@ -93,7 +93,7 @@ class HomeScreenTestView(
                     counterID = uid.toInt(),
                     value = i + 1,
                     timestamp = LocalDateTime.now().minusDays(i.toLong())
-                        .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                 )
             )
         }
