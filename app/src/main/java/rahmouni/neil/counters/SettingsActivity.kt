@@ -8,6 +8,7 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +16,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.ListItem
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Code
+import androidx.compose.material.icons.outlined.Policy
+import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -31,6 +35,7 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.ui.theme.CountersTheme
+import rahmouni.neil.counters.utils.SettingsDots
 import rahmouni.neil.counters.utils.Switch
 
 class SettingsActivity : ComponentActivity() {
@@ -60,14 +65,14 @@ class SettingsActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
 fun SettingsPage() {
-    val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior() }
+    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
+    val scrollBehavior = remember(decayAnimationSpec) {
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
+    }
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
 
     val remoteConfig = FirebaseRemoteConfig.getInstance()
-    remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
-
-    remoteConfig.fetchAndActivate()
 
     val showDebug = android.provider.Settings.Secure.getInt(
         activity.contentResolver,
@@ -81,8 +86,11 @@ fun SettingsPage() {
             .nestedScroll(scrollBehavior.nestedScrollConnection)
             .statusBarsPadding(),
         topBar = {
-            SmallTopAppBar(
+            LargeTopAppBar(
                 title = { Text(stringResource(R.string.text_settings)) },
+                actions = {
+                    SettingsDots {}
+                },
                 navigationIcon = {
                     IconButton(
                         onClick = {
@@ -115,34 +123,6 @@ fun SettingsPage() {
                                     "https://play.google.com/store/apps/details?id=rahmouni.neil.counters"
                                 )
                                 setPackage("com.android.vending")
-                            }
-                            activity.startActivity(intent)
-                        }
-                    )
-            )
-            MenuDefaults.Divider()
-
-            ListItem(
-                text = { androidx.compose.material.Text(stringResource(R.string.action_reportBug)) },
-                icon = { Icon(Icons.Outlined.BugReport, null) },
-                modifier = Modifier
-                    .clickable(
-                        onClick = {
-                            localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                            val intent = Intent(Intent.ACTION_SENDTO).apply {
-                                type = "message/rfc822"
-                                data =
-                                    Uri.parse("mailto:")
-                                putExtra(
-                                    Intent.EXTRA_EMAIL,
-                                    arrayOf(remoteConfig.getString("feedback_email"))
-                                )
-                                putExtra(Intent.EXTRA_SUBJECT, "Bug with...")
-                                putExtra(
-                                    Intent.EXTRA_TEXT,
-                                    "Try to explain the issue as well as steps to reproduce it.\nFeel free to add screenshots, and don't forget to edit the subject !"
-                                )
                             }
                             activity.startActivity(intent)
                         }

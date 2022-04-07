@@ -49,6 +49,7 @@ import rahmouni.neil.counters.database.CountersListViewModelFactory
 import rahmouni.neil.counters.database.Increment
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.RoundedBottomSheet
+import rahmouni.neil.counters.utils.SettingsDots
 
 class CounterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,7 +106,8 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
     }
 
     val counter: CounterAugmented? by countersListViewModel.getCounter(counterID).observeAsState()
-    val increments: List<Increment>? by countersListViewModel.getCounterIncrements(counterID).observeAsState()
+    val increments: List<Increment>? by countersListViewModel.getCounterIncrements(counterID)
+        .observeAsState()
 
     RoundedBottomSheet(bottomSheetState, {
         if (counter != null) {
@@ -123,6 +125,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
             topBar = {
                 SmallTopAppBar(
                     title = { Text(counter?.displayName ?: "Counter") },
+                    actions = { SettingsDots {} },
                     navigationIcon = {
                         IconButton(
                             onClick = {

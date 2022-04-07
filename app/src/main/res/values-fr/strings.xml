@@ -54,4 +54,6 @@
     <string name="text_day">Jour</string>
     <string name="text_week">Semaine</string>
     <string name="text_month">Mois</string>
+    <string name="text_more_options">Plus d\'options</string>
+    <string name="action_sendFeedback">Envoyer des commentaires</string>
 </resources>
