@@ -15,11 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.ListItem
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.BugReport
-import androidx.compose.material.icons.outlined.Code
-import androidx.compose.material.icons.outlined.Policy
-import androidx.compose.material.icons.outlined.StarOutline
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -33,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.Switch
 
@@ -66,6 +63,11 @@ fun SettingsPage() {
     val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior() }
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
+
+    val remoteConfig = FirebaseRemoteConfig.getInstance()
+    remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+
+    remoteConfig.fetchAndActivate()
 
     val showDebug = android.provider.Settings.Secure.getInt(
         activity.contentResolver,
@@ -134,7 +136,7 @@ fun SettingsPage() {
                                     Uri.parse("mailto:")
                                 putExtra(
                                     Intent.EXTRA_EMAIL,
-                                    arrayOf("bugs.counters@rahmouni.dev")
+                                    arrayOf(remoteConfig.getString("feedback_email"))
                                 )
                                 putExtra(Intent.EXTRA_SUBJECT, "Bug with...")
                                 putExtra(
@@ -158,7 +160,7 @@ fun SettingsPage() {
 
                             CustomTabsIntent.Builder().build().launchUrl(
                                 activity,
-                                Uri.parse("https://gitlab.com/neil3000/counters/-/wikis/Counters:-Privacy-policy")
+                                Uri.parse(remoteConfig.getString("privacy_policy_url"))
                             )
                         }
                     )
@@ -185,7 +187,8 @@ fun SettingsPage() {
 
                             prefs.debugMode = it
                             debugMode = it
-                        }.padding(bottom=8.dp)
+                        }
+                        .padding(bottom = 8.dp)
                 )
                 MenuDefaults.Divider()
             }

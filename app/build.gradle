@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -63,6 +65,9 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.4.0"
 
     implementation "androidx.compose.ui:ui:1.2.0-alpha06"
+    implementation 'com.google.firebase:firebase-analytics-ktx:20.1.2'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.9'
+    implementation 'com.google.firebase:firebase-config-ktx:21.0.2'
     // Tooling support (Previews, etc.)
     debugImplementation("androidx.compose.ui:ui-tooling:1.1.1")
     implementation "androidx.compose.ui:ui-tooling-preview:1.1.1"
