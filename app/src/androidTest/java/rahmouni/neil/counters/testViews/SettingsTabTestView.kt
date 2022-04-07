@@ -1,6 +1,5 @@
 package rahmouni.neil.counters.testViews
 
-import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -15,6 +14,14 @@ class SettingsTabTestView(
     private val counterName: String? = null
 ) {
     //----------- ACTIONS ----------//
+
+    fun openEntriesTab(): EntriesTabTestView {
+        composeTestRule
+            .onNodeWithText(composeTestRule.activity.getString(R.string.text_entries_short))
+            .performClick()
+
+        return EntriesTabTestView(composeTestRule, counterName)
+    }
 
     fun setResetType(resetType: ResetType): SettingsTabTestView {
         composeTestRule

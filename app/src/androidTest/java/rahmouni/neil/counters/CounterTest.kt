@@ -1,9 +1,6 @@
 package rahmouni.neil.counters
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
 import rahmouni.neil.counters.testViews.HomeScreenTestView
@@ -91,8 +88,69 @@ class CounterTest {
     }
 
     @Test
-    fun test() {
-                HomeScreenTestView(rule)
-                    .populateDatabaseWithResetEntries()
+    fun resetTypesChangeDefaultGroup() {
+        val homeScreen = HomeScreenTestView(rule)
+            .openNewCounterModal()
+            .setRandomName()
+            .create()
+            .openNewEntryModalOfCounterIncrease()
+            .addEntry()
+            .openCounter()
+
+        for (rt in ResetType.values()) {
+            homeScreen
+                .openSettingsTab()
+                .setResetType(rt)
+                .openHomeScreen()
+                .openCounter()
+                .assertResetTypeGroupSelectedIs(rt)
+        }
+    }
+
+    @Test
+    fun resetTypesCurrentGroupHeaderTitle() {
+        val homeScreen = HomeScreenTestView(rule)
+            .openNewCounterModal()
+            .setRandomName()
+            .create()
+            .openNewEntryModalOfCounterIncrease()
+            .addEntry()
+            .openCounter()
+
+        for (rt in ResetType.values()) {
+            homeScreen
+                .openSettingsTab()
+                .setResetType(rt)
+                .openHomeScreen()
+                .openCounter()
+
+            if (rt==ResetType.NEVER) {
+                homeScreen.assertNoHeaderExists()
+            }else{
+                homeScreen.assertFirstHeaderTitleIs(rt.headerTitle)
+            }
+        }
+    }
+
+    @Test
+    fun groupTypesCurrentGroupHeaderTitle() {
+        val homeScreen = HomeScreenTestView(rule)
+            .openNewCounterModal()
+            .setRandomName()
+            .create()
+            .openNewEntryModalOfCounterIncrease()
+            .addEntry()
+            .openCounter()
+
+        for (rt in ResetType.values()) {
+            homeScreen
+                .setGroupTypeOfResetType(rt)
+
+            if (rt==ResetType.NEVER) {
+                homeScreen.assertNoHeaderExists()
+            }else{
+                homeScreen.assertFirstHeaderTitleIs(rt.headerTitle)
+            }
+        }
     }
 }

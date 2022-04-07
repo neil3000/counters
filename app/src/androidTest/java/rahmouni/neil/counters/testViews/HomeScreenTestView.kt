@@ -12,11 +12,13 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.Increment
 import java.time.LocalDateTime
+import java.time.Month
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 class HomeScreenTestView(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>,
-    private val counterName: String? = null
+    private var counterName: String? = null
 ) {
     //----------- ACTIONS ----------//
 
@@ -84,18 +86,22 @@ class HomeScreenTestView(
         throw Exception("Test counter not created & counter name not specified. One of those has to exist for this to work.")
     }
 
-    fun populateDatabaseWithResetEntries() {
+    fun createEntriesTestCounter(): HomeScreenTestView {
+        counterName = "Test " + UUID.randomUUID().toString().substring(0, 8)
+
         val uid: Long =
-            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Test ENTRIES"))
+            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = counterName!!))
         for (i in 0..59) {
             CountersApplication.instance.countersListRepository.testAddIncrement(
                 Increment(
                     counterID = uid.toInt(),
                     value = i + 1,
-                    timestamp = LocalDateTime.now().minusDays(i.toLong())
+                    timestamp = LocalDateTime.of(2022, Month.APRIL, 3, 18, 48).minusDays(i.toLong())
                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                 )
             )
         }
+
+        return this
     }
 }

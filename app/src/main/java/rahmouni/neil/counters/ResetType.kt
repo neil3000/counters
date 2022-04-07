@@ -1,9 +1,7 @@
 package rahmouni.neil.counters
 
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.time.temporal.WeekFields
+import android.annotation.SuppressLint
+import java.text.SimpleDateFormat
 import java.util.*
 
 enum class ResetType(
@@ -12,8 +10,7 @@ enum class ResetType(
     val entriesGroup1: String?,
     val entriesGroup2: String?,
     val headerTitle: Int,
-    val headerFormat: String,
-    val format: (LocalDate) -> String?
+    val format: (Calendar) -> String?
 ) {
     NEVER(
         R.string.text_never,
@@ -21,48 +18,67 @@ enum class ResetType(
         null,
         null,
         -1,
-        "",
         { null }
     ),
+
+    @SuppressLint("SimpleDateFormat")
     DAY(
         R.string.text_everyDay,
         R.string.text_resetsEveryDayToX,
         "start of day",
         "start of day",
         R.string.text_today,
-        "MMM d",
-        {
-            if (it != LocalDate.now())
-                it.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG))
-                    .removeSuffix(it.year.toString())
+        { d ->
+            val cal = Calendar.getInstance()
+            cal.set(Calendar.HOUR_OF_DAY, 0)
+            cal.set(Calendar.MINUTE, 0)
+            cal.set(Calendar.SECOND, 0)
+            cal.set(Calendar.MILLISECOND, 0)
+
+            if (d.time.before(cal.time))
+                SimpleDateFormat("MMMM d").format(d.time)
             else null
         }
     ),
+
+    @SuppressLint("SimpleDateFormat")
     WEEK(
         R.string.text_everyWeek,
         R.string.text_resetsEveryWeekToX,
-        "weekday 0", //TODO
+        "weekday 1", //TODO
         "-7 days",
         R.string.text_thisWeek,
-        "MMM d",
-        {
-            if (it.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) != LocalDate.now()
-                    .get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear())
-            )
-                it.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()).toString()
-            else null
+        { d ->
+            val cal = Calendar.getInstance()
+            cal.set(Calendar.DAY_OF_WEEK, 2)
+            cal.set(Calendar.HOUR_OF_DAY, 0)
+            cal.set(Calendar.MINUTE, 0)
+            cal.set(Calendar.SECOND, 0)
+            cal.set(Calendar.MILLISECOND, 0)
+
+            if (d.time.before(cal.time)) {
+                SimpleDateFormat("MMMM d").format(d.time)
+            } else null
         }
     ),
+
+    @SuppressLint("SimpleDateFormat")
     MONTH(
         R.string.text_everyMonth,
         R.string.text_resetsEveryMonthToX,
         "start of month",
         "start of month",
         R.string.text_thisMonth,
-        "MMMM",
-        {
-            if (it.isBefore(LocalDate.now().withDayOfMonth(1)))
-                it.month.getDisplayName(java.time.format.TextStyle.FULL, Locale.getDefault()).replaceFirstChar { it.uppercase() }
+        { d ->
+            val cal = Calendar.getInstance()
+            cal.set(Calendar.DAY_OF_MONTH, 1)
+            cal.set(Calendar.HOUR_OF_DAY, 0)
+            cal.set(Calendar.MINUTE, 0)
+            cal.set(Calendar.SECOND, 0)
+            cal.set(Calendar.MILLISECOND, 0)
+
+            if (d.time.before(cal.time))
+                SimpleDateFormat("MMMM").format(d.time)
             else null
         }
     )
