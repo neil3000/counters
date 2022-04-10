@@ -6,7 +6,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.google.firebase.analytics.ktx.logEvent
 import rahmouni.neil.counters.CounterStyle
+import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.IncrementType
 import rahmouni.neil.counters.IncrementValueType
 import rahmouni.neil.counters.ResetType
@@ -103,6 +105,12 @@ fun CounterSettings(
                     ?: ResetType.NEVER
             ) {
                 if (counter != null) {
+
+                    analytics?.logEvent("updated_counter") {
+                        param("From_ResetType", counter.resetType.toString())
+                        param("To_ResetType", it.toString())
+                    }
+
                     countersListViewModel.updateCounter(
                         counter.copy(
                             resetType = it

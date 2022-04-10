@@ -8,4 +8,10 @@
         <key>feedback_email</key>
         <value>counters@rahmouni.dev</value>
     </entry>
+
+    <!-- EXPERIMENTS -->
+    <entry>
+        <key>experiment__small_entries_fab</key>
+        <value>false</value>
+    </entry>
 </defaultsMap>

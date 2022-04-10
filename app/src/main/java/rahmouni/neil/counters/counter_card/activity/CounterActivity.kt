@@ -39,6 +39,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsPadding
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
@@ -90,6 +91,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
     val activity = (LocalContext.current as? Activity)
     val localHapticFeedback = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
+    val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     val bottomSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
@@ -146,19 +148,35 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
             },
             floatingActionButtonPosition = FabPosition.End,
             floatingActionButton = {
-                ExtendedFloatingActionButton(
-                    icon = { Icon(Icons.Outlined.Add, null) },
-                    text = { Text(stringResource(R.string.action_newEntry_short)) },
-                    modifier = Modifier.offset(y = offset.value.dp),
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                if (remoteConfig.getBoolean("experiment__small_entries_fab")) {
+                    FloatingActionButton(
+                        modifier = Modifier.offset(y = offset.value.dp),
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        onClick = {
+                            localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                        scope.launch {
-                            bottomSheetState.show()
-                        }
-                    },
-                )
+                            scope.launch {
+                                bottomSheetState.show()
+                            }
+                        },
+                    ) {
+                        Icon(Icons.Outlined.Add, stringResource(R.string.action_newEntry_short))
+                    }
+                } else {
+                    ExtendedFloatingActionButton(
+                        icon = { Icon(Icons.Outlined.Add, null) },
+                        text = { Text(stringResource(R.string.action_newEntry_short)) },
+                        modifier = Modifier.offset(y = offset.value.dp),
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        onClick = {
+                            localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                            scope.launch {
+                                bottomSheetState.show()
+                            }
+                        },
+                    )
+                }
             },
             content = { innerPadding ->
                 NavHost(

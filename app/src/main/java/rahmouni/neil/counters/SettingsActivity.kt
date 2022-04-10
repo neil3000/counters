@@ -36,7 +36,6 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
-import rahmouni.neil.counters.utils.Switch
 
 class SettingsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -154,7 +153,7 @@ fun SettingsPage() {
                     icon = { Icon(Icons.Outlined.Code, null) },
                     singleLineSecondaryText = false,
                     trailing = {
-                        Switch(
+                        rahmouni.neil.counters.utils.Switch(
                             checked = debugMode ?: false,
                             onCheckedChange = null,
                         )
