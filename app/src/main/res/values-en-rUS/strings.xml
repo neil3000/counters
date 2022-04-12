@@ -54,4 +54,19 @@
     <string name="text_day">Day</string>
     <string name="text_week">Week</string>
     <string name="text_month">Month</string>
+    <string name="text_more_options">More options</string>
+    <string name="action_sendFeedback">Send Feedback</string>
+    <string name="header_general">General</string>
+    <string name="text_localeDefault">Locale default</string>
+    <string name="text_monday">Monday</string>
+    <string name="text_sunday">Sunday</string>
+    <string name="text_weekNumberInYear">Week number in year</string>
+    <string name="text_firstDayOfTheWeek">First day of the week</string>
+    <string name="action_displayWeekAs">Display week as</string>
+    <string name="text_about">About</string>
+    <string name="text_weekX">Week %d</string>
+    <string name="action_resetAnalyticsData">Reset analytics data</string>
+    <string name="text_crashReports">Crash reports</string>
+    <string name="text_analytics">Analytics</string>
+    <string name="text_dataAndPrivacy"><![CDATA[Data & Privacy]]></string>
 </resources>

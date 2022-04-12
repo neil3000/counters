@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.MenuDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -14,7 +17,9 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.google.firebase.analytics.ktx.logEvent
 import kotlinx.coroutines.launch
+import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.options.*
@@ -45,7 +50,7 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
             value = name,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 16.dp, 16.dp, bottom=0.dp),
+                .padding(16.dp, 16.dp, 16.dp, bottom = 0.dp),
             onValueChange = {
                 name = it
                 isNameError = false
@@ -113,6 +118,10 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
                         keyboardController?.hide()
                         onCreate()
                         mCountersListViewModel.addCounter(counter)
+
+                        analytics?.logEvent("created_counter") {
+                            param("ResetType", resetType.toString())
+                        }
 
                         name = ""
                         minusEnabled = false

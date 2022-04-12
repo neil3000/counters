@@ -124,9 +124,9 @@ class CounterTest {
                 .openHomeScreen()
                 .openCounter()
 
-            if (rt==ResetType.NEVER) {
+            if (rt == ResetType.NEVER) {
                 homeScreen.assertNoHeaderExists()
-            }else{
+            } else {
                 homeScreen.assertFirstHeaderTitleIs(rt.headerTitle)
             }
         }
@@ -146,11 +146,27 @@ class CounterTest {
             homeScreen
                 .setGroupTypeOfResetType(rt)
 
-            if (rt==ResetType.NEVER) {
+            if (rt == ResetType.NEVER) {
                 homeScreen.assertNoHeaderExists()
-            }else{
+            } else {
                 homeScreen.assertFirstHeaderTitleIs(rt.headerTitle)
             }
         }
+    }
+
+    @Test
+    fun openSettings() {
+        HomeScreenTestView(rule)
+            .openSettings()
+            .assertTitleExists()
+
+    }
+
+    @Test
+    fun openDataSettings() {
+        HomeScreenTestView(rule)
+            .openSettings()
+            .openDataSettingsScreen()
+            .assertTitleExists()
     }
 }

@@ -30,15 +30,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.*
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
+import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.counter_card.CounterCard
 import rahmouni.neil.counters.counter_card.NewIncrement
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
+import rahmouni.neil.counters.settings.SettingsActivity
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.FullscreenDynamicSVG
 import rahmouni.neil.counters.utils.RoundedBottomSheet
+import rahmouni.neil.counters.utils.SettingsDots
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +70,15 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+        val remoteConfig = FirebaseRemoteConfig.getInstance()
+        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+        remoteConfig.fetchAndActivate()
+
+        FirebaseCrashlytics.getInstance()
+            .setCrashlyticsCollectionEnabled(prefs.crashlyticsEnabled && !BuildConfig.DEBUG)
+
+        analytics?.setAnalyticsCollectionEnabled(prefs.analyticsEnabled && !BuildConfig.DEBUG)
     }
 }
 
@@ -119,17 +133,22 @@ fun Home(countersListViewModel: CountersListViewModel) {
                             Text(stringResource(R.string.text_appName))
                         },
                         actions = {
-                            IconButton(onClick = {
-                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            SettingsDots {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.text_settings)) },
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Outlined.Settings,
+                                            contentDescription = null
+                                        )
+                                    },
+                                    onClick = {
+                                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                                context.startActivity(
-                                    Intent(context, SettingsActivity::class.java)
-                                )
-                            }) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Settings,
-                                    contentDescription = stringResource(R.string.text_settings)
-                                )
+                                        context.startActivity(
+                                            Intent(context, SettingsActivity::class.java)
+                                        )
+                                    })
                             }
                         },
                         scrollBehavior = scrollBehavior

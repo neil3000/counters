@@ -15,7 +15,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.utils.Switch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -34,7 +33,7 @@ fun MinusEnabledOption(
             { Icon(Icons.Outlined.Remove, null) }
         } else null,
         trailing = {
-            Switch(
+            rahmouni.neil.counters.utils.Switch(
                 checked = enabled,
                 onCheckedChange = null,
             )

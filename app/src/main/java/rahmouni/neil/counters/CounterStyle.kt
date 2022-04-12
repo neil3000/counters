@@ -4,8 +4,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-enum class CounterStyle(ordinal: Int) {
-    DEFAULT(0), SECONDARY(1), PRIMARY(2), TERTIARY(3);
+enum class CounterStyle {
+    DEFAULT, SECONDARY, PRIMARY, TERTIARY;
 
     @Composable
     fun getBackGroundColor(): Color {

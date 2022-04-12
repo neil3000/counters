@@ -24,7 +24,12 @@
             android:theme="@style/Theme.Counters">
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".settings.SettingsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Counters">
+        </activity>
+        <activity
+            android:name=".settings.DataSettingsActivity"
             android:exported="true"
             android:theme="@style/Theme.Counters">
         </activity>

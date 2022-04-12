@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -11,8 +13,8 @@ android {
         applicationId "rahmouni.neil.counters"
         minSdk 21
         targetSdk 31
-        versionCode 14
-        versionName "1.8.2"
+        versionCode 15
+        versionName "1.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -62,15 +64,18 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.4.1"
     implementation "androidx.activity:activity-ktx:1.4.0"
 
-    implementation "androidx.compose.ui:ui:1.2.0-alpha06"
+    implementation "androidx.compose.ui:ui:1.2.0-alpha07"
+    implementation 'com.google.firebase:firebase-analytics-ktx:20.1.2'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.9'
+    implementation 'com.google.firebase:firebase-config-ktx:21.0.2'
     // Tooling support (Previews, etc.)
     debugImplementation("androidx.compose.ui:ui-tooling:1.1.1")
     implementation "androidx.compose.ui:ui-tooling-preview:1.1.1"
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
-    implementation("androidx.compose.foundation:foundation:1.2.0-alpha06")
+    implementation("androidx.compose.foundation:foundation:1.2.0-alpha07")
     // Material Design
     implementation("androidx.compose.material:material:1.1.1")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha08")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha09")
     // Material design icons
     implementation("androidx.compose.material:material-icons-core:1.1.1")
     implementation("androidx.compose.material:material-icons-extended:1.1.1")
@@ -86,7 +91,7 @@ dependencies {
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-alpha05"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-alpha06"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-common-java8:2.4.1"
     implementation "androidx.compose.runtime:runtime-livedata:1.1.1"

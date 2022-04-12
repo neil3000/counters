@@ -5,11 +5,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MenuDefaults
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.R
@@ -32,11 +36,13 @@ fun CounterEntries(
     countersListViewModel: CountersListViewModel,
     innerPadding: PaddingValues
 ) {
+    val context = LocalContext.current
+
     if (counter != null && increments?.isNotEmpty() == true) {
         var resetType: ResetType by rememberSaveable { mutableStateOf(counter.resetType) }
         val incrementGroupsList: List<IncrementGroup> by countersListViewModel.getCounterIncrementGroups(
             counter.uid,
-            if (resetType==ResetType.NEVER) ResetType.DAY else resetType
+            if (resetType == ResetType.NEVER) ResetType.DAY else resetType
         ).observeAsState(
             listOf()
         )
@@ -76,9 +82,8 @@ fun CounterEntries(
 
                     item {
                         Header(
-                            title = resetType.format(
-                                date
-                            ) ?: stringResource(resetType.headerTitle), ig.count.toString()
+                            title = resetType.format(date, context)
+                                ?: stringResource(resetType.headerTitle), ig.count.toString()
                         )
                     }
                     items(increments.filter {

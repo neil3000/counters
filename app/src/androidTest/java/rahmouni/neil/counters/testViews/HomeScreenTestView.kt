@@ -50,6 +50,17 @@ class HomeScreenTestView(
         return HomeScreenNewEntryModalTestView(composeTestRule, counterName)
     }
 
+    fun openSettings(): SettingsTestView {
+        composeTestRule
+            .onNodeWithTag("SETTINGS_DOTS")
+            .performClick()
+        composeTestRule
+            .onNodeWithText(composeTestRule.activity.getString(R.string.text_settings))
+            .performClick()
+
+        return SettingsTestView(composeTestRule, counterName)
+    }
+
     //---------- ASSERTS ----------//
 
     fun assertTitleExists(): HomeScreenTestView {

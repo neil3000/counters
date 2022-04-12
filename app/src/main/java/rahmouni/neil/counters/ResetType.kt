@@ -1,6 +1,7 @@
 package rahmouni.neil.counters
 
 import android.annotation.SuppressLint
+import android.content.Context
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -10,7 +11,7 @@ enum class ResetType(
     val entriesGroup1: String?,
     val entriesGroup2: String?,
     val headerTitle: Int,
-    val format: (Calendar) -> String?
+    val format: (Calendar, Context) -> String?
 ) {
     NEVER(
         R.string.text_never,
@@ -18,7 +19,7 @@ enum class ResetType(
         null,
         null,
         -1,
-        { null }
+        { _, _ -> null }
     ),
 
     @SuppressLint("SimpleDateFormat")
@@ -28,7 +29,7 @@ enum class ResetType(
         "start of day",
         "start of day",
         R.string.text_today,
-        { d ->
+        { d, _ ->
             val cal = Calendar.getInstance()
             cal.set(Calendar.HOUR_OF_DAY, 0)
             cal.set(Calendar.MINUTE, 0)
@@ -45,19 +46,26 @@ enum class ResetType(
     WEEK(
         R.string.text_everyWeek,
         R.string.text_resetsEveryWeekToX,
-        "weekday 1", //TODO
+        "weekday %d",
         "-7 days",
         R.string.text_thisWeek,
-        { d ->
+        { d, context ->
             val cal = Calendar.getInstance()
-            cal.set(Calendar.DAY_OF_WEEK, 2)
+            cal.set(
+                Calendar.DAY_OF_WEEK,
+                prefs.startWeekDay.calendar ?: (Calendar.getInstance().firstDayOfWeek - 1)
+            )
+            cal.add(Calendar.WEEK_OF_MONTH, -1)
             cal.set(Calendar.HOUR_OF_DAY, 0)
             cal.set(Calendar.MINUTE, 0)
             cal.set(Calendar.SECOND, 0)
             cal.set(Calendar.MILLISECOND, 0)
 
             if (d.time.before(cal.time)) {
-                SimpleDateFormat("MMMM d").format(d.time)
+                when (prefs.weekDisplay) {
+                    WeekDisplay.FIRST_DAY -> SimpleDateFormat("MMMM d").format(d.time)
+                    else -> context.getString(R.string.text_weekX, d.get(Calendar.WEEK_OF_YEAR))
+                }
             } else null
         }
     ),
@@ -69,7 +77,7 @@ enum class ResetType(
         "start of month",
         "start of month",
         R.string.text_thisMonth,
-        { d ->
+        { d, _ ->
             val cal = Calendar.getInstance()
             cal.set(Calendar.DAY_OF_MONTH, 1)
             cal.set(Calendar.HOUR_OF_DAY, 0)
