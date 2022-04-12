@@ -8,9 +8,11 @@ import androidx.compose.material.icons.outlined.Feedback
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.R
@@ -27,7 +29,9 @@ fun SettingsDots(
 
     var expanded by remember { mutableStateOf(false) }
 
-    IconButton(onClick = {
+    IconButton(
+        modifier = Modifier.testTag("SETTINGS_DOTS"),
+        onClick = {
         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
         expanded = true
     }) {

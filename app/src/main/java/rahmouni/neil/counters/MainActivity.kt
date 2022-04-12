@@ -30,13 +30,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.*
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
+import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.counter_card.CounterCard
 import rahmouni.neil.counters.counter_card.NewIncrement
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
+import rahmouni.neil.counters.settings.SettingsActivity
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.FullscreenDynamicSVG
 import rahmouni.neil.counters.utils.RoundedBottomSheet
@@ -71,6 +74,11 @@ class MainActivity : ComponentActivity() {
         val remoteConfig = FirebaseRemoteConfig.getInstance()
         remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
         remoteConfig.fetchAndActivate()
+
+        FirebaseCrashlytics.getInstance()
+            .setCrashlyticsCollectionEnabled(prefs.crashlyticsEnabled && !BuildConfig.DEBUG)
+
+        analytics?.setAnalyticsCollectionEnabled(prefs.analyticsEnabled && !BuildConfig.DEBUG)
     }
 }
 

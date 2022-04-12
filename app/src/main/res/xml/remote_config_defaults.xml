@@ -8,6 +8,10 @@
         <key>feedback_email</key>
         <value>counters@rahmouni.dev</value>
     </entry>
+    <entry>
+        <key>play_store_url</key>
+        <value>https://play.google.com/store/apps/details?id=rahmouni.neil.counters</value>
+    </entry>
 
     <!-- EXPERIMENTS -->
     <entry>

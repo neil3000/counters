@@ -56,4 +56,17 @@
     <string name="text_month">Mois</string>
     <string name="text_more_options">Plus d\'options</string>
     <string name="action_sendFeedback">Envoyer des commentaires</string>
+    <string name="action_displayWeekAs">Afficher les semaines en</string>
+    <string name="header_general">Général</string>
+    <string name="text_localeDefault">Valeur par défaut de la langue</string>
+    <string name="text_monday">Lundi</string>
+    <string name="text_sunday">Dimanche</string>
+    <string name="text_weekNumberInYear">Numéro de semaine dans l\'année</string>
+    <string name="text_firstDayOfTheWeek">Premier jour de la semaine</string>
+    <string name="text_dataAndPrivacy"><![CDATA[Données & Vie privée]]></string>
+    <string name="text_about">À propos</string>
+    <string name="text_weekX">Semaine %d</string>
+    <string name="action_resetAnalyticsData">Réinitialisation des données d\'analytics</string>
+    <string name="text_crashReports">Rapports de crash</string>
+    <string name="text_analytics">Analytics</string>
 </resources>

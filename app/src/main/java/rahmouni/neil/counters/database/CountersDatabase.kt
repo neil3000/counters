@@ -34,7 +34,7 @@ abstract class CountersDatabase : RoomDatabase() {
                     context.applicationContext,
                     CountersDatabase::class.java,
                     "counters_database"
-                ).build()
+                ).fallbackToDestructiveMigrationFrom(1).build()
                 INSTANCE = instance
                 // return instance
                 instance
@@ -116,14 +116,14 @@ data class IncrementGroup(
 @Dao
 interface CountersListDao {
     @Query(
-        "SELECT counter.*,sub.total_count,sub2.last_increment,sub3.count FROM counter LEFT JOIN (SELECT counterID, SUM(value) as total_count FROM increment GROUP BY counterID) as sub ON sub.counterID=counter.uid LEFT JOIN (SELECT counterID,value as last_increment,Max(timestamp) as timestamp FROM increment GROUP BY counterID) as sub2 ON sub2.counterID=counter.uid LEFT JOIN (SELECT counterID, SUM(value) as count FROM increment  JOIN counter ON counter.uid=increment.counterID WHERE (counter.reset_type='NEVER') OR (counter.reset_type='DAY' AND date(timestamp) >= date('now')) OR (counter.reset_type='WEEK' AND date(timestamp) >= date('now', 'localtime', 'weekday 1', '-7 days')) OR (counter.reset_type='MONTH' AND date(timestamp) >= date('now', 'start of month')) GROUP BY counterID) as sub3 ON sub3.counterID=counter.uid"
+        "SELECT counter.*,sub.total_count,sub2.last_increment,sub3.count FROM counter LEFT JOIN (SELECT counterID, SUM(value) as total_count FROM increment GROUP BY counterID) as sub ON sub.counterID=counter.uid LEFT JOIN (SELECT counterID,value as last_increment,Max(timestamp) as timestamp FROM increment GROUP BY counterID) as sub2 ON sub2.counterID=counter.uid LEFT JOIN (SELECT counterID, SUM(value) as count FROM increment  JOIN counter ON counter.uid=increment.counterID WHERE (counter.reset_type='NEVER') OR (counter.reset_type='DAY' AND date(timestamp) >= date('now')) OR (counter.reset_type='WEEK' AND date(timestamp) >= date('now', 'localtime', 'weekday '+:weekday, '-7 days')) OR (counter.reset_type='MONTH' AND date(timestamp) >= date('now', 'start of month')) GROUP BY counterID) as sub3 ON sub3.counterID=counter.uid"
     )
-    fun getAll(): Flow<List<CounterAugmented>>
+    fun getAll(weekday: String): Flow<List<CounterAugmented>>
 
     @Query(
-        "SELECT counter.*,sub.total_count,sub2.last_increment,sub3.count FROM counter LEFT JOIN (SELECT counterID, SUM(value) as total_count FROM increment GROUP BY counterID) as sub ON sub.counterID=counter.uid LEFT JOIN (SELECT counterID,value as last_increment,Max(timestamp) as timestamp FROM increment GROUP BY counterID) as sub2 ON sub2.counterID=counter.uid LEFT JOIN (SELECT counterID, SUM(value) as count FROM increment  JOIN counter ON counter.uid=increment.counterID WHERE (counter.reset_type='NEVER') OR (counter.reset_type='DAY' AND date(timestamp) >= date('now')) OR (counter.reset_type='WEEK' AND date(timestamp) >= date('now', 'localtime', 'weekday 1', '-7 days')) OR (counter.reset_type='MONTH' AND date(timestamp) >= date('now', 'start of month')) GROUP BY counterID) as sub3 ON sub3.counterID=counter.uid WHERE counter.uid=:counterID"
+        "SELECT counter.*,sub.total_count,sub2.last_increment,sub3.count FROM counter LEFT JOIN (SELECT counterID, SUM(value) as total_count FROM increment GROUP BY counterID) as sub ON sub.counterID=counter.uid LEFT JOIN (SELECT counterID,value as last_increment,Max(timestamp) as timestamp FROM increment GROUP BY counterID) as sub2 ON sub2.counterID=counter.uid LEFT JOIN (SELECT counterID, SUM(value) as count FROM increment  JOIN counter ON counter.uid=increment.counterID WHERE (counter.reset_type='NEVER') OR (counter.reset_type='DAY' AND date(timestamp) >= date('now')) OR (counter.reset_type='WEEK' AND date(timestamp) >= date('now', 'localtime', 'weekday '+:weekday, '-7 days')) OR (counter.reset_type='MONTH' AND date(timestamp) >= date('now', 'start of month')) GROUP BY counterID) as sub3 ON sub3.counterID=counter.uid WHERE counter.uid=:counterID"
     )
-    fun getCounter(counterID: Int): Flow<CounterAugmented>
+    fun getCounter(counterID: Int, weekday: String): Flow<CounterAugmented>
 
     @Query(
         "SELECT * FROM increment WHERE counterID=:counterID ORDER BY timestamp DESC"
