@@ -2,17 +2,19 @@ package rahmouni.neil.counters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import rahmouni.neil.counters.settings.WeekDisplay
+import rahmouni.neil.counters.utils.tiles.TileDialogRadioListEnum
 import java.text.SimpleDateFormat
 import java.util.*
 
 enum class ResetType(
-    val title: Int,
-    val formatted: Int,
+    private val title: Int,
+    private val formatted: Int,
     val entriesGroup1: String?,
     val entriesGroup2: String?,
     val headerTitle: Int,
     val format: (Calendar, Context) -> String?
-) {
+): TileDialogRadioListEnum {
     NEVER(
         R.string.text_never,
         R.string.text_never_resets,
@@ -25,7 +27,7 @@ enum class ResetType(
     @SuppressLint("SimpleDateFormat")
     DAY(
         R.string.text_everyDay,
-        R.string.text_resetsEveryDayToX,
+        R.string.text_resetsEveryDay,
         "start of day",
         "start of day",
         R.string.text_today,
@@ -45,7 +47,7 @@ enum class ResetType(
     @SuppressLint("SimpleDateFormat")
     WEEK(
         R.string.text_everyWeek,
-        R.string.text_resetsEveryWeekToX,
+        R.string.text_resetsEveryWeek,
         "weekday %d",
         "-7 days",
         R.string.text_thisWeek,
@@ -73,7 +75,7 @@ enum class ResetType(
     @SuppressLint("SimpleDateFormat")
     MONTH(
         R.string.text_everyMonth,
-        R.string.text_resetsEveryMonthToX,
+        R.string.text_resetsEveryMonth,
         "start of month",
         "start of month",
         R.string.text_thisMonth,
@@ -89,5 +91,13 @@ enum class ResetType(
                 SimpleDateFormat("MMMM").format(d.time)
             else null
         }
-    )
+    );
+
+    override fun title(): Int {
+        return this.title
+    }
+
+    override fun formatted(): Int {
+        return this.formatted
+    }
 }

@@ -15,7 +15,19 @@
 
     <!-- EXPERIMENTS -->
     <entry>
-        <key>experiment__small_entries_fab</key>
+        <key>issue71__new_selectable_chips</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>issue65__header_fix</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>issue54__reset_value_setting</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>issue73__home_fab_secondary</key>
         <value>false</value>
     </entry>
 </defaultsMap>

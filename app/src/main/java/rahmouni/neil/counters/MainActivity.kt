@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -29,7 +30,9 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import com.google.accompanist.insets.*
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
@@ -92,6 +95,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val localHapticFeedback = LocalHapticFeedback.current
+    val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     val countersList: List<CounterAugmented> by countersListViewModel.allCounters.observeAsState(
         listOf()
@@ -170,7 +174,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                                 bottomSheetNewCounterState.animateTo(ModalBottomSheetValue.Expanded)
                             }
                         },
-                        containerColor = MaterialTheme.colorScheme.primary,
+                        containerColor = if (remoteConfig.getBoolean("issue73__home_fab_secondary")) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.primary,
                         modifier = Modifier.navigationBarsPadding()
                     )
                 }
@@ -178,14 +182,10 @@ fun Home(countersListViewModel: CountersListViewModel) {
                 if (countersList.isNotEmpty()) {
                     LazyVerticalGrid(
                         columns = GridCells.Adaptive(minSize = 180.dp),
-                        contentPadding = rememberInsetsPaddingValues(
-                            insets = LocalWindowInsets.current.navigationBars,
-                            applyBottom = true,
-                            additionalStart = 8.dp,
-                            additionalEnd = 8.dp
-                        ),
+                        contentPadding = it,
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.padding(8.dp)
                     ) {
                         items(countersList) { counter ->
                             CounterCard(counter, countersListViewModel) {

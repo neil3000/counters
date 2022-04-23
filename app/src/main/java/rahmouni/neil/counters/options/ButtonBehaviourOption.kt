@@ -43,7 +43,7 @@ fun ButtonBehaviourOption(
         text = { androidx.compose.material.Text(stringResource(R.string.text_buttonBehavior)) },
         secondaryText = {
             androidx.compose.material.Text(
-                stringResource(incrementType.title),
+                stringResource(incrementType.title()),
             )
         },
         icon = if (!inModal) {
@@ -103,7 +103,7 @@ fun ButtonBehaviourOption(
                                     onClick = null
                                 )
                                 Text(
-                                    text = stringResource(it.title),
+                                    text = stringResource(it.title()),
                                     style = MaterialTheme.typography.bodyLarge,
                                     modifier = Modifier.padding(start = 16.dp)
                                 )

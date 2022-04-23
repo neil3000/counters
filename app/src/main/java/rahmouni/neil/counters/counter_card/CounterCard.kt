@@ -3,10 +3,7 @@ package rahmouni.neil.counters.counter_card
 import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -22,23 +19,25 @@ import rahmouni.neil.counters.prefs
 @Composable
 fun CounterCard(
     data: CounterAugmented,
-    countersListViewModel: CountersListViewModel,
-    openNewIncrementSheet: (countersListViewModel: CountersListViewModel) -> (Unit)
+    countersListViewModel: CountersListViewModel?,
+    openNewIncrementSheet: ((countersListViewModel: CountersListViewModel) -> (Unit))?
 ) {
     val context = LocalContext.current
     val localHapticFeedback = LocalHapticFeedback.current
 
     Card(
-        containerColor = data.style.getBackGroundColor(),
+        colors = CardDefaults.cardColors(containerColor = data.style.getBackGroundColor()),
         onClick = {
-            localHapticFeedback.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+            if (openNewIncrementSheet != null) {
+                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-            context.startActivity(
-                Intent(context, CounterActivity::class.java).putExtra(
-                    "counterID",
-                    data.uid
+                context.startActivity(
+                    Intent(context, CounterActivity::class.java).putExtra(
+                        "counterID",
+                        data.uid
+                    )
                 )
-            )
+            }
         }
     ) {
         Column {
@@ -49,9 +48,11 @@ fun CounterCard(
                 modifier = Modifier.padding(all = 8.dp)
             )
             CounterCardButtons(data, countersListViewModel) {
-                openNewIncrementSheet(
-                    countersListViewModel
-                )
+                if (openNewIncrementSheet != null && countersListViewModel != null) {
+                    openNewIncrementSheet(
+                        countersListViewModel
+                    )
+                }
             }
         }
     }

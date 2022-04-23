@@ -1,111 +1,107 @@
-package rahmouni.neil.counters.options
+package rahmouni.neil.counters.utils.tiles
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Title
-import androidx.compose.material3.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.utils.AutoFocusOutlinedTextField
 
-@OptIn(
-    ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
-    androidx.compose.ui.ExperimentalComposeUiApi::class
-)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
-fun NameOption(
-    name: String,
-    inModal: Boolean = false,
+fun TileTextInput(
+    title: String,
+    dialogTitle: String? = null,
+    icon: ImageVector,
+    confirmString: String? = null,
+    value: String,
+    validateInput: (String) -> Boolean,
     onSave: (String) -> Unit
 ) {
-    var openDialog by rememberSaveable { mutableStateOf(false) }
-    var dialogName by rememberSaveable { mutableStateOf("") }
-    var isDialogNameError by rememberSaveable { mutableStateOf(false) }
-    val localHapticFeedback = LocalHapticFeedback.current
     val keyboardController = LocalSoftwareKeyboardController.current
+    val localHapticFeedback = LocalHapticFeedback.current
 
-    fun validateDialogName(text: String): Boolean {
-        isDialogNameError = text.count() < 1
-        return !isDialogNameError
-    }
+    var openDialog by rememberSaveable { mutableStateOf(false) }
+    var dialogValue by rememberSaveable { mutableStateOf(value) }
+    var isError by rememberSaveable { mutableStateOf(false) }
 
     fun closeDialog() {
         keyboardController?.hide()
         openDialog = false
+        dialogValue = value
+        isError = false
     }
 
     fun confirm() {
         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-        if (validateDialogName(dialogName)) {
-            onSave(dialogName)
+        if (validateInput(dialogValue)) {
+            onSave(dialogValue)
 
-            closeDialog()
+            keyboardController?.hide()
+            openDialog = false
+        } else {
+            isError = true
         }
     }
 
     ListItem(
-        text = { Text(stringResource(R.string.text_name)) },
-        secondaryText = {
-            androidx.compose.material.Text(name)
-        },
-        icon = if (!inModal) {
-            { Icon(Icons.Outlined.Title, null) }
-        } else null,
+        text = { androidx.compose.material.Text(title) },
+        secondaryText = { androidx.compose.material.Text(value) },
+        singleLineSecondaryText = true,
+        icon = { Icon(icon, null) },
         modifier = Modifier
             .clickable(
                 onClick = {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                    dialogName = name
-                    isDialogNameError = false
                     openDialog = true
                 }
             )
-            .padding(if (inModal) 8.dp else 0.dp)
     )
+
     if (openDialog) {
         AlertDialog(
             onDismissRequest = {
                 closeDialog()
             },
             title = {
-                Text(stringResource(R.string.action_editName))
+                Text(dialogTitle ?: title)
             },
-            icon = { Icon(Icons.Outlined.Title, null) },
+            icon = { Icon(icon, null) },
             text = {
-                Column {
-                    AutoFocusOutlinedTextField(
-                        value = dialogName,
-                        isError = isDialogNameError,
-                        keyboardActions = KeyboardActions { confirm() }
-                    ) {
-                        isDialogNameError = false
-                        dialogName = it
-                    }
+                AutoFocusOutlinedTextField(
+                    value = dialogValue,
+                    isError = isError,
+                    keyboardActions = KeyboardActions { confirm() }
+                ) {
+                    isError = false
+                    dialogValue = it
                 }
             },
             confirmButton = {
                 TextButton(
-                    enabled = !isDialogNameError,
-                    onClick = { confirm() }
+                    onClick = {
+                        confirm()
+                    }
                 ) {
-                    Text(stringResource(R.string.action_save_short))
+                    Text(confirmString ?: stringResource(R.string.action_save_short))
                 }
             },
             dismissButton = {

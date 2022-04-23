@@ -1,7 +1,9 @@
 package rahmouni.neil.counters.testViews
 
-import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import rahmouni.neil.counters.MainActivity
 import rahmouni.neil.counters.R
@@ -42,7 +44,7 @@ class NewCounterModalTestView(
             .onNodeWithText(composeTestRule.activity.getString(R.string.text_reset))
             .performClick()
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(resetType.title))
+            .onNodeWithText(composeTestRule.activity.getString(resetType.title()))
             .performClick()
         composeTestRule
             .onNodeWithText(composeTestRule.activity.getString(R.string.action_save_short))
@@ -55,7 +57,7 @@ class NewCounterModalTestView(
 
     fun assertResetTypeIs(resetType: ResetType): NewCounterModalTestView {
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(resetType.formatted, 0))
+            .onNodeWithText(composeTestRule.activity.getString(resetType.formatted(), 0))
             .assertExists()
 
         return this

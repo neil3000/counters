@@ -6,7 +6,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -52,7 +52,7 @@ fun ResetTypeOption(
     ListItem(
         text = { Text(stringResource(R.string.text_reset)) },
         secondaryText = {
-            androidx.compose.material.Text(stringResource(resetType.formatted, 0))
+            androidx.compose.material.Text(stringResource(resetType.formatted(), 0))
         },
         icon = if (!inModal) {
             { Icon(Icons.Outlined.Event, null) }
@@ -106,7 +106,7 @@ fun ResetTypeOption(
                                     onClick = null
                                 )
                                 Text(
-                                    text = stringResource(it.title),
+                                    text = stringResource(it.title()),
                                     style = MaterialTheme.typography.bodyLarge,
                                     modifier = Modifier.padding(start = 16.dp)
                                 )

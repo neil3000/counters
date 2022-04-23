@@ -18,7 +18,8 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 fun TileStartActivity(
     title: String,
     icon: ImageVector,
-    activity: Class<*>
+    activity: Class<*>,
+    extras: (Intent) -> (Intent) = { it }
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
     val context = LocalContext.current
@@ -32,7 +33,7 @@ fun TileStartActivity(
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
                     context.startActivity(
-                        Intent(context, activity)
+                        extras(Intent(context, activity))
                     )
                 }
             )
