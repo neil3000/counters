@@ -12,7 +12,7 @@ import java.io.Serializable
 @Database(
     entities = [Counter::class, Increment::class],
     autoMigrations = [
-        AutoMigration(from = 2, to = 3)
+        //AutoMigration(from = 2, to = 3)
     ],
     exportSchema = true,
     version = 3
