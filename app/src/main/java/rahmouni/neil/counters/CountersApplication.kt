@@ -6,6 +6,7 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import rahmouni.neil.counters.database.CountersDatabase
 import rahmouni.neil.counters.database.CountersListRepository
+import rahmouni.neil.counters.settings.Prefs
 
 val prefs: Prefs by lazy {
     CountersApplication.prefs!!

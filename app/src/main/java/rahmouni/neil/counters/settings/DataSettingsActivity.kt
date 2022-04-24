@@ -30,7 +30,7 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
-import rahmouni.neil.counters.utils.tiles.TileClick
+import rahmouni.neil.counters.utils.tiles.TileConfirmation
 import rahmouni.neil.counters.utils.tiles.TileOpenCustomTab
 import rahmouni.neil.counters.utils.tiles.TileSwitch
 
@@ -117,9 +117,11 @@ fun DataSettingsPage() {
                 }
             }
             item {
-                TileClick(
+                TileConfirmation(
                     title = stringResource(R.string.action_resetAnalyticsData),
                     icon = Icons.Outlined.RestartAlt,
+                    message = stringResource(R.string.confirmation_resetAnalytics),
+                    confirmString = stringResource(R.string.action_reset_short)
                 ){
                     analytics?.logEvent("reset_analytics", null)
 

@@ -1,4 +1,4 @@
-package rahmouni.neil.counters
+package rahmouni.neil.counters.settings
 
 import android.content.Context
 import android.content.SharedPreferences

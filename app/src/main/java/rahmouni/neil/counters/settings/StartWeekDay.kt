@@ -1,5 +1,6 @@
-package rahmouni.neil.counters
+package rahmouni.neil.counters.settings
 
+import rahmouni.neil.counters.R
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioListEnum
 
 enum class StartWeekDay(private val title: Int, val groupQuery: String?, val calendar: Int?) : TileDialogRadioListEnum {

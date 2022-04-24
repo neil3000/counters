@@ -1,9 +1,0 @@
-Counters is an app that lets you create simple counters to track pretty much anything !
-
-Features:
- - Multiple counters
- - Counters can automatically reset every day / week / month
- - Works with Material You (changes color based on your wallpaper or theme)
- - No ads & no paid content
-
-Track habits, workout progress, medication and improve your productivity !

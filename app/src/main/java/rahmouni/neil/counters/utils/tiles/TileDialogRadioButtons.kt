@@ -3,11 +3,7 @@ package rahmouni.neil.counters.utils.tiles
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
@@ -30,7 +26,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.R
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
+@OptIn(
+    ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
     ExperimentalAnimationApi::class
 )
 @Composable
@@ -73,47 +70,52 @@ fun TileDialogRadioButtons(
             },
             icon = { Icon(icon, null) },
             text = {
-                LazyColumn {
+                Column(Modifier.width(IntrinsicSize.Max)) {
                     values.forEach {
-                        item {
-                            val animatedColor = animateColorAsState(
-                                if (dialogValue == it) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.background.copy(
-                                    alpha = .99f
-                                )
-                            )
-                            val animatedCorners =
-                                animateDpAsState(if (dialogValue == it) 24.dp else 16.dp)
+                        val animatedColor = animateColorAsState(
+                            if (dialogValue == it) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.surface
+                        )
+                        val animatedCorners =
+                            animateDpAsState(if (dialogValue == it) 28.dp else 16.dp)
 
-                            Surface(
-                                color = animatedColor.value,
-                                shape = RoundedCornerShape(animatedCorners.value),
-                                modifier = Modifier.padding(4.dp),
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .selectable(
-                                            selected = dialogValue == it,
-                                            onClick = {
-                                                localHapticFeedback.performHapticFeedback(
-                                                    HapticFeedbackType.LongPress
-                                                )
+                        Surface(
+                            color = animatedColor.value,
+                            tonalElevation = -LocalAbsoluteTonalElevation.current,
+                            shape = RoundedCornerShape(animatedCorners.value),
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .requiredWidthIn(min = 280.dp),
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier
+                                    .selectable(
+                                        selected = dialogValue == it,
+                                        onClick = {
+                                            localHapticFeedback.performHapticFeedback(
+                                                HapticFeedbackType.LongPress
+                                            )
 
-                                                dialogValue = it
-                                            },
-                                            role = Role.RadioButton
-                                        )
-                                        .padding(16.dp),
-                                ) {
-                                    Text(
-                                        text = stringResource(it.title()),
-                                        color = contentColorFor(animatedColor.value),
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        modifier = Modifier.padding(4.dp)
+                                            dialogValue = it
+                                        },
+                                        role = Role.RadioButton
                                     )
-                                    AnimatedVisibility(dialogValue == it, enter = scaleIn(), exit = scaleOut()) {
+                                    .padding(16.dp)
+                                    .fillMaxWidth(1f)
+                            ) {
+                                Text(
+                                    text = stringResource(it.title()),
+                                    color = contentColorFor(animatedColor.value),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    modifier = Modifier.padding(4.dp)
+                                )
+                                Box(Modifier.padding(start = 16.dp).width(24.dp)) {
+                                    this@Column.AnimatedVisibility(
+                                        dialogValue == it,
+                                        enter = scaleIn(),
+                                        exit = scaleOut()
+                                    ) {
                                         Icon(
                                             Icons.Outlined.Check,
                                             null

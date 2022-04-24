@@ -1,9 +1,0 @@
-Compteurs est une application qui vous permet de créer des compteurs simples pour suivre ou compter tout ce que vous voulez !
-
-Caractéristiques :
- - Multiples compteurs en même temps
- - Les compteurs peuvent se réinitialiser automatiquement chaque jour / semaine / mois
- - Fonctionne avec Material You (change de couleur en fonction de votre fond d'écran ou de votre thème)
- - Pas de publicité ni de contenu payant
-
-Suivez vos habitudes, votre progression en sport, la prise de médicaments et améliorez votre productivité !

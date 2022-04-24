@@ -12,10 +12,11 @@ import java.io.Serializable
 @Database(
     entities = [Counter::class, Increment::class],
     autoMigrations = [
-        AutoMigration(from = 2, to = 3)
+        AutoMigration(from = 2, to = 3),
+        AutoMigration(from = 3, to = 4)
     ],
     exportSchema = true,
-    version = 3
+    version = 4
 )
 abstract class CountersDatabase : RoomDatabase() {
     abstract fun countersListDao(): CountersListDao
@@ -56,6 +57,10 @@ data class Counter(
         name = "reset_type",
         defaultValue = "NEVER"
     ) val resetType: ResetType = ResetType.NEVER,
+    @ColumnInfo(
+        name = "reset_value",
+        defaultValue = "0"
+    ) val resetValue: Int = 0,
 )
 
 data class CounterAugmented(
@@ -70,6 +75,10 @@ data class CounterAugmented(
         name = "reset_type",
         defaultValue = "NEVER"
     ) val resetType: ResetType = ResetType.NEVER,
+    @ColumnInfo(
+        name = "reset_value",
+        defaultValue = "0"
+    ) val resetValue: Int = 0,
 
     @ColumnInfo(name = "total_count") val totalCount: Int = 0,
     @ColumnInfo(name = "last_increment") val lastIncrement: Int = 1,
@@ -84,7 +93,8 @@ data class CounterAugmented(
             incrementType = incrementType,
             incrementValueType = incrementValueType,
             incrementValue = incrementValue,
-            resetType = resetType
+            resetType = resetType,
+            resetValue = resetValue
         )
     }
 }

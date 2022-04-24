@@ -23,12 +23,20 @@ class SettingsTabTestView(
         return EntriesTabTestView(composeTestRule, counterName)
     }
 
+    fun openHomeScreenSettings(): HomeScreenSettingsTestView {
+        composeTestRule
+            .onNodeWithText(composeTestRule.activity.getString(R.string.text_homeScreenSettings))
+            .performClick()
+
+        return HomeScreenSettingsTestView(composeTestRule, counterName)
+    }
+
     fun setResetType(resetType: ResetType): SettingsTabTestView {
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.text_reset))
+            .onNodeWithText(composeTestRule.activity.getString(R.string.text_frequency))
             .performClick()
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(resetType.title))
+            .onNodeWithText(composeTestRule.activity.getString(resetType.title()))
             .performClick()
         composeTestRule
             .onNodeWithText(composeTestRule.activity.getString(R.string.action_save_short))
@@ -49,7 +57,7 @@ class SettingsTabTestView(
 
     fun assertResetTypeIs(resetType: ResetType): SettingsTabTestView {
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(resetType.formatted, 0))
+            .onNodeWithText(composeTestRule.activity.getString(resetType.formatted(), 0))
             .assertExists()
 
         return this

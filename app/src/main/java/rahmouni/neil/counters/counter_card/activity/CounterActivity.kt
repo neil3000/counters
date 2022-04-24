@@ -6,9 +6,14 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
@@ -17,8 +22,14 @@ import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -39,7 +50,6 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsPadding
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
@@ -84,28 +94,26 @@ class CounterActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class,
+    ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalAnimationApi::class
+)
 @Composable
 fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
     val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior() }
-    val activity = (LocalContext.current as? Activity)
+    val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     val bottomSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
     )
 
     val navController = rememberNavController()
-    val offset = remember { Animatable(0F) } // for the fab animation
+    val windowSize = calculateWindowSizeClass(activity = activity)
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    LaunchedEffect(currentDestination) {
-        offset.animateTo(if (currentDestination?.hierarchy?.any { it.route == "entries" } == true) 0F else 100F,
-            tween(400))
-    }
 
     val counter: CounterAugmented? by countersListViewModel.getCounter(counterID).observeAsState()
     val increments: List<Increment>? by countersListViewModel.getCounterIncrements(counterID)
@@ -133,7 +141,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                             onClick = {
                                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                                activity?.finish()
+                                activity.finish()
                             },
                             modifier = Modifier.testTag("BACK_ARROW")
                         ) {
@@ -148,41 +156,44 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
             },
             floatingActionButtonPosition = FabPosition.End,
             floatingActionButton = {
-                if (remoteConfig.getBoolean("experiment__small_entries_fab")) {
-                    FloatingActionButton(
-                        modifier = Modifier.offset(y = offset.value.dp),
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        onClick = {
-                            localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                AnimatedVisibility(
+                    currentDestination?.route == "entries",
+                    enter = slideInVertically{ 200 },
+                    exit = slideOutVertically{ 200 }
+                ) {
+                    if (windowSize.widthSizeClass == WindowWidthSizeClass.Compact) {
+                        FloatingActionButton(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            onClick = {
+                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                            scope.launch {
-                                bottomSheetState.show()
-                            }
-                        },
-                    ) {
-                        Icon(Icons.Outlined.Add, stringResource(R.string.action_newEntry_short))
+                                scope.launch {
+                                    bottomSheetState.show()
+                                }
+                            },
+                        ) {
+                            Icon(Icons.Outlined.Add, stringResource(R.string.action_newEntry_short))
+                        }
+                    } else {
+                        ExtendedFloatingActionButton(
+                            icon = { Icon(Icons.Outlined.Add, null) },
+                            text = { Text(stringResource(R.string.action_newEntry_short)) },
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            onClick = {
+                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                                scope.launch {
+                                    bottomSheetState.show()
+                                }
+                            },
+                        )
                     }
-                } else {
-                    ExtendedFloatingActionButton(
-                        icon = { Icon(Icons.Outlined.Add, null) },
-                        text = { Text(stringResource(R.string.action_newEntry_short)) },
-                        modifier = Modifier.offset(y = offset.value.dp),
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        onClick = {
-                            localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                            scope.launch {
-                                bottomSheetState.show()
-                            }
-                        },
-                    )
                 }
             },
             content = { innerPadding ->
                 NavHost(
                     navController = navController,
-                    startDestination = "entries",
-                    Modifier.padding(innerPadding)
+                    startDestination = "entries"
                 ) {
                     composable("entries") {
                         CounterEntries(counter, increments, countersListViewModel, innerPadding)

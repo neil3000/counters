@@ -29,8 +29,6 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.StartWeekDay
-import rahmouni.neil.counters.WeekDisplay
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
@@ -120,7 +118,7 @@ fun SettingsPage() {
                     title = stringResource(R.string.text_firstDayOfTheWeek),
                     icon = Icons.Outlined.CalendarViewMonth,
                     values = StartWeekDay.values().toList(),
-                    selected = startWeekDay?:StartWeekDay.LOCALE,
+                    selected = startWeekDay?: StartWeekDay.LOCALE,
                 ) {
                     startWeekDay = it as StartWeekDay
                     prefs.startWeekDay = it
@@ -131,7 +129,7 @@ fun SettingsPage() {
                     title = stringResource(R.string.action_displayWeekAs),
                     icon = Icons.Outlined.Tag,
                     values = WeekDisplay.values().toList(),
-                    selected = weekDisplay?:WeekDisplay.NUMBER,
+                    selected = weekDisplay?: WeekDisplay.NUMBER,
                 ) {
                     weekDisplay = it as WeekDisplay
                     prefs.weekDisplay = it
@@ -146,7 +144,7 @@ fun SettingsPage() {
             }
             item { MenuDefaults.Divider() }
 
-            item { TileHeader(stringResource(R.string.text_about)) }
+            item { TileHeader(stringResource(R.string.header_about)) }
             item {
                 TileOpenPlayStoreUrl(
                     title = stringResource(R.string.action_seeOnThePlayStore),

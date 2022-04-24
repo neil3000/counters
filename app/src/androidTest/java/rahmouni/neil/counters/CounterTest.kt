@@ -169,4 +169,16 @@ class CounterTest {
             .openDataSettingsScreen()
             .assertTitleExists()
     }
+
+    @Test
+    fun openHomeScreenSettings() {
+        HomeScreenTestView(rule)
+            .openNewCounterModal()
+            .setRandomName()
+            .create()
+            .openCounter()
+            .openSettingsTab()
+            .openHomeScreenSettings()
+            .assertTitleExists()
+    }
 }
