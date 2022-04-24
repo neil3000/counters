@@ -1,0 +1,3 @@
+ - Refonte des paramètres des compteurs
+ - Améliorations du design de l'application
+ - Diverses corrections de bugs

@@ -1,0 +1,3 @@
+ - Redesigned the counters settings
+ - Tweaks to the design
+ - Various fixes
