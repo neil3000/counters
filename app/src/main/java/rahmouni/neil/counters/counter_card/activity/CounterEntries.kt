@@ -33,7 +33,6 @@ fun CounterEntries(
     counter: CounterAugmented?,
     increments: List<Increment>?,
     countersListViewModel: CountersListViewModel,
-    innerPadding: PaddingValues
 ) {
     val context = LocalContext.current
     val remoteConfig = FirebaseRemoteConfig.getInstance()
@@ -47,7 +46,7 @@ fun CounterEntries(
             listOf()
         )
 
-        LazyColumn(contentPadding = innerPadding) {
+        LazyColumn {
             item {
                 Row(
                     modifier = Modifier

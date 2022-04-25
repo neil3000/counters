@@ -38,4 +38,8 @@
         <key>issue55__changelog_setting</key>
         <value>false</value>
     </entry>
+    <entry>
+        <key>issue70__navigation_rail</key>
+        <value>false</value>
+    </entry>
 </defaultsMap>

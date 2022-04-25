@@ -1,7 +1,6 @@
 package rahmouni.neil.counters.counter_card.activity
 
 import android.app.Activity
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
@@ -24,13 +23,12 @@ import rahmouni.neil.counters.utils.tiles.*
 @Composable
 fun CounterSettings(
     counter: CounterAugmented?,
-    countersListViewModel: CountersListViewModel,
-    innerPadding: PaddingValues
+    countersListViewModel: CountersListViewModel
 ) {
     val activity = (LocalContext.current as Activity)
     val remoteConfig = FirebaseRemoteConfig.getInstance()
 
-    LazyColumn(contentPadding = innerPadding) {
+    LazyColumn {
         item {
             TileHeader(stringResource(R.string.header_general))
         }
