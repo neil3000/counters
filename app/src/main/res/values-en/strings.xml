@@ -82,4 +82,5 @@
     <string name="text_colorSelected">Color selected</string>
     <string name="text_buttons">Buttons</string>
     <string name="text_homeScreenSettings">Home screen settings</string>
+    <string name="text_changelog">Changelog</string>
 </resources>

@@ -82,4 +82,5 @@
     <string name="action_showMinusButton">Afficher le bouton moins</string>
     <string name="text_colorSelected">Couleur sélectionnée</string>
     <string name="text_buttons">Boutons</string>
+    <string name="text_changelog">Nouveautés et changements</string>
 </resources>

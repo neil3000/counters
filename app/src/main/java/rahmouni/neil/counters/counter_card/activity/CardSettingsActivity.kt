@@ -152,8 +152,8 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
         floatingActionButton = {
             AnimatedVisibility(
                 edited,
-                enter = slideInVertically { 200 },
-                exit = slideOutVertically { 200 }
+                enter = slideInVertically { 300 },
+                exit = slideOutVertically { 300 }
             ) {
                 ExtendedFloatingActionButton(
                     icon = { Icon(Icons.Outlined.Check, null) },
@@ -231,7 +231,7 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
                     title = stringResource(R.string.text_buttonBehavior),
                     icon = Icons.Outlined.TouchApp,
                     values = IncrementType.values().toList(),
-                    selected = counter?.incrementType ?: IncrementType.ASK_EVERY_TIME
+                    selected = incrementType
                 ) {
                     incrementType = it as IncrementType
                     if (incrementType != IncrementType.VALUE) minusEnabled = false

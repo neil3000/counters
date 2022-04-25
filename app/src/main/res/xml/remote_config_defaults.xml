@@ -12,6 +12,10 @@
         <key>play_store_url</key>
         <value>https://play.google.com/store/apps/details?id=rahmouni.neil.counters</value>
     </entry>
+    <entry>
+        <key>changelog_url</key>
+        <value>https://gitlab.com/neil3000/counters/-/wikis/Changelog</value>
+    </entry>
 
     <!-- EXPERIMENTS -->
     <entry>
@@ -28,6 +32,10 @@
     </entry>
     <entry>
         <key>issue73__home_fab_secondary</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>issue55__changelog_setting</key>
         <value>false</value>
     </entry>
 </defaultsMap>
