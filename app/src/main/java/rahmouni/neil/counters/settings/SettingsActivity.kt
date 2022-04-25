@@ -8,10 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material.ListItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
@@ -23,7 +20,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
@@ -32,10 +28,7 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
-import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
-import rahmouni.neil.counters.utils.tiles.TileHeader
-import rahmouni.neil.counters.utils.tiles.TileOpenPlayStoreUrl
-import rahmouni.neil.counters.utils.tiles.TileStartActivity
+import rahmouni.neil.counters.utils.tiles.*
 
 class SettingsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -152,33 +145,41 @@ fun SettingsPage() {
                     url = remoteConfig.getString("play_store_url")
                 )
             }
-            if (showDebug) {
+            if (remoteConfig.getBoolean("issue55__changelog_setting")) {
                 item {
-                    ListItem(
-                        text = { androidx.compose.material.Text("DEBUG_MODE") },
-                        secondaryText = { androidx.compose.material.Text("For experimental users only\nShown because you have dev settings turned on\n\nREQUIRES RESTART") },
-                        icon = { Icon(Icons.Outlined.Code, null) },
-                        singleLineSecondaryText = false,
-                        trailing = {
-                            rahmouni.neil.counters.utils.Switch(
-                                checked = debugMode ?: false,
-                                onCheckedChange = null,
-                            )
-                        },
-                        modifier = Modifier
-                            .toggleable(
-                                value = debugMode ?: false
-                            ) {
-                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                                prefs.debugMode = it
-                                debugMode = it
-                            }
-                            .padding(bottom = 8.dp)
+                    TileOpenCustomTab(
+                        title = stringResource(R.string.text_changelog),
+                        icon = Icons.Outlined.NewReleases,
+                        url = remoteConfig.getString("changelog_url")
                     )
                 }
             }
             item { MenuDefaults.Divider() }
+            if (showDebug) {
+                item { TileHeader("Debug") }
+                item {
+                    TileClick(
+                        title = "\n" +
+                                "For experimental users only\n" +
+                                "Shown because you have dev settings turned on\n" +
+                                "\n" +
+                                "SOME CHANGES APPLY ON RESTART" +
+                                "\n",
+                        icon = null
+                    ) {}
+                }
+                item {
+                    TileSwitch(
+                        title = "DEBUG_MODE",
+                        icon = Icons.Outlined.Code,
+                        checked = debugMode ?: false
+                    ) {
+                        prefs.debugMode = it
+                        debugMode = it
+                    }
+                }
+                item { MenuDefaults.Divider() }
+            }
         }
     }
 }
