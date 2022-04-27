@@ -181,4 +181,10 @@ class CounterTest {
             .openHomeScreenSettings()
             .assertTitleExists()
     }
+
+    @Test
+    fun test() {
+        HomeScreenTestView(rule)
+            .createEntriesTestCounter()
+    }
 }

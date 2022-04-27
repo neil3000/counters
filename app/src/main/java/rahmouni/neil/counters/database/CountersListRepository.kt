@@ -17,7 +17,7 @@ class CountersListRepository(private val countersListDao: CountersListDao) {
         groupQuery2: String
     ): Flow<List<IncrementGroup>> = countersListDao.getCounterIncrementGroups(
         counterID,
-        groupQuery1.replaceFirst("%d", prefs.startWeekDay.groupQuery?:(Calendar.getInstance().firstDayOfWeek-1).toString()),
+        groupQuery1.replaceFirst("%d", prefs.startWeekDay.groupQuery?:((Calendar.getInstance().firstDayOfWeek-2)%7).toString()),
         groupQuery2
     )
 
