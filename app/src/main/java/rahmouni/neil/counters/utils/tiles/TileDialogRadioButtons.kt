@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.R
 
 @OptIn(
@@ -38,8 +39,9 @@ fun TileDialogRadioButtons(
     selected: TileDialogRadioListEnum,
     onChange: (TileDialogRadioListEnum) -> Unit
 ) {
-
     val localHapticFeedback = LocalHapticFeedback.current
+    val remoteConfig = FirebaseRemoteConfig.getInstance()
+
     var openDialog by rememberSaveable { mutableStateOf(false) }
     var dialogValue by rememberSaveable { mutableStateOf(selected) }
 
@@ -72,8 +74,10 @@ fun TileDialogRadioButtons(
             text = {
                 Column(Modifier.width(IntrinsicSize.Max)) {
                     values.forEach {
+                        val color =
+                            if (remoteConfig.getBoolean("issue82__tile_radio_buttons_color")) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.tertiaryContainer
                         val animatedColor = animateColorAsState(
-                            if (dialogValue == it) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.surface
+                            if (dialogValue == it) color else MaterialTheme.colorScheme.surface
                         )
                         val animatedCorners =
                             animateDpAsState(if (dialogValue == it) 28.dp else 16.dp)
@@ -110,7 +114,10 @@ fun TileDialogRadioButtons(
                                     style = MaterialTheme.typography.bodyLarge,
                                     modifier = Modifier.padding(4.dp)
                                 )
-                                Box(Modifier.padding(start = 16.dp).width(24.dp)) {
+                                Box(
+                                    Modifier
+                                        .padding(start = 16.dp)
+                                        .width(24.dp)) {
                                     this@Column.AnimatedVisibility(
                                         dialogValue == it,
                                         enter = scaleIn(),

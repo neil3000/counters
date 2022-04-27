@@ -42,4 +42,8 @@
         <key>issue70__navigation_rail</key>
         <value>false</value>
     </entry>
+    <entry>
+        <key>issue82__tile_radio_buttons_color</key>
+        <value>false</value>
+    </entry>
 </defaultsMap>
