@@ -38,5 +38,10 @@
             android:exported="true"
             android:theme="@style/Theme.Counters">
         </activity>
+        <activity
+            android:name=".utils.feedback.FeedbackActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Counters">
+        </activity>
     </application>
 </manifest>

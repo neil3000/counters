@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
 import androidx.compose.material.icons.Icons
@@ -18,6 +19,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -36,7 +38,9 @@ fun TileDialogRadioButtons(
     title: String,
     icon: ImageVector,
     values: List<TileDialogRadioListEnum>,
-    selected: TileDialogRadioListEnum,
+    selected: TileDialogRadioListEnum?,
+    defaultSecondary: String? = null,
+    enabled: Boolean = true,
     onChange: (TileDialogRadioListEnum) -> Unit
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
@@ -52,11 +56,15 @@ fun TileDialogRadioButtons(
 
     ListItem(
         text = { androidx.compose.material.Text(title) },
-        secondaryText = { androidx.compose.material.Text(stringResource(selected.formatted())) },
+        secondaryText = {
+            androidx.compose.material.Text(if (selected != null) stringResource(selected.formatted()) else defaultSecondary!!)
+        },
         singleLineSecondaryText = true,
         icon = { Icon(icon, null) },
         modifier = Modifier
+            .alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
             .clickable(
+                enabled = enabled,
                 onClick = {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
@@ -117,7 +125,8 @@ fun TileDialogRadioButtons(
                                 Box(
                                     Modifier
                                         .padding(start = 16.dp)
-                                        .width(24.dp)) {
+                                        .width(24.dp)
+                                ) {
                                     this@Column.AnimatedVisibility(
                                         dialogValue == it,
                                         enter = scaleIn(),
@@ -136,13 +145,16 @@ fun TileDialogRadioButtons(
 
             },
             confirmButton = {
-                TextButton(onClick = {
-                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                TextButton(
+                    enabled = dialogValue!=null,
+                    onClick = {
+                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                    onChange(dialogValue)
+                        onChange(dialogValue!!)
 
-                    openDialog = false
-                }) {
+                        openDialog = false
+                    }
+                ) {
                     Text(stringResource(R.string.action_save_short))
                 }
             },

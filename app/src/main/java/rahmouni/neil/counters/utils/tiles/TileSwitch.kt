@@ -19,6 +19,7 @@ import rahmouni.neil.counters.utils.Switch
 @Composable
 fun TileSwitch(
     title: String,
+    description: String? = null,
     icon: ImageVector,
     checked: Boolean,
     enabled: Boolean = true,
@@ -27,15 +28,13 @@ fun TileSwitch(
     val localHapticFeedback = LocalHapticFeedback.current
 
     ListItem(
-        text = {
-            Text(
-                title,
-                Modifier.alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
-            )
-        },
+        text = { Text(title) },
+        secondaryText = if (description!=null) { { Text(description) } } else null,
+        singleLineSecondaryText = true,
         icon = { Icon(icon, null) },
-        trailing = { Switch(checked = checked, onCheckedChange = null, enabled = enabled) },
+        trailing = { Switch(checked = checked, onCheckedChange = null) },
         modifier = Modifier
+            .alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
             .toggleable(
                 value = checked,
                 role = Role.Switch,

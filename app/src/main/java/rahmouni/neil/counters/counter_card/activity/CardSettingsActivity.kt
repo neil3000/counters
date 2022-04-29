@@ -11,6 +11,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
@@ -130,7 +131,7 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
             LargeTopAppBar(
                 title = { Text(stringResource(R.string.text_homeScreenSettings)) },
                 actions = {
-                    SettingsDots {}
+                    SettingsDots(screenName = "CardSettingsActivity") {}
                 },
                 navigationIcon = {
                     IconButton(
@@ -205,19 +206,21 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
             }
 
             item {
-                Row(
+                LazyRow(
                     Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     CounterStyle.values().forEach {
-                        TileColorSelection(
-                            color = it.getBackGroundColor(),
-                            selected = counterStyle == it
-                        ) {
-                            counterStyle = it
-                            checkEdited()
+                        item {
+                            TileColorSelection(
+                                color = it.getBackGroundColor(),
+                                selected = counterStyle == it
+                            ) {
+                                counterStyle = it
+                                checkEdited()
+                            }
                         }
                     }
                 }

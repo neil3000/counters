@@ -80,7 +80,7 @@ fun DataSettingsPage() {
             LargeTopAppBar(
                 title = { Text(stringResource(R.string.text_dataAndPrivacy)) },
                 actions = {
-                    SettingsDots {}
+                    SettingsDots(screenName = "DataSettingsActivity") {}
                 },
                 navigationIcon = {
                     IconButton(

@@ -83,4 +83,27 @@
     <string name="text_colorSelected">Couleur sélectionnée</string>
     <string name="text_buttons">Boutons</string>
     <string name="text_changelog">Nouveautés et changements</string>
+    <string name="text_otherScreen">Autre écran</string>
+    <string name="text_previousScreen">Écran précédent</string>
+    <string name="text_bugReport">Rapport de bug</string>
+    <string name="text_featureRequest">Demande de fonctionnalité</string>
+    <string name="action_send">Envoyer</string>
+    <string name="action_selectACategory">Sélectionnez une catégorie</string>
+    <string name="text_category">Catégorie</string>
+    <string name="text_translationError">Erreur de traduction</string>
+    <string name="text_bugLocation">Emplacement du bug</string>
+    <string name="text_errorLocation">Emplacement de l\'erreur</string>
+    <string name="text_currentScreen">Écran actuel</string>
+    <string name="text_onThePreviousScreen">Sur l\'écran précédent</string>
+    <string name="text_onAnotherScreen">Sur un autre écran</string>
+    <string name="text_describeTheIssueAndStepsToReproduceIt">Décrivez le problème, ainsi que les étapes pour le reproduire si possible</string>
+    <string name="text_describeTheFeatureAndHowItWouldWork">Décrire la fonctionnalité ainsi que son fonctionnement</string>
+    <string name="describeWhereTranslationErrorIsAndHowShouldBeChanged">Décrivez l\'emplacement de l\'erreur et la manière dont elle devrait être corrigée, si possible.</string>
+    <string name="text_description">Description</string>
+    <string name="error_noAppToSendEmails">Vous n\'avez pas d\'application pour envoyer des emails, veuillez en installer une pour continuer.</string>
+    <string name="action_sendDeviceModel">Envoyer le modèle de l\'appareil</string>
+    <string name="text_widget">Widget</string>
+    <string name="text_inAWidget">Dans un Widget</string>
+    <string name="text_notification">Notification</string>
+    <string name="text_inANotification">Dans une notification</string>
 </resources>

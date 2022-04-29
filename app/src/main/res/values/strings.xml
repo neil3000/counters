@@ -82,4 +82,27 @@
     <string name="text_colorSelected">Color selected</string>
     <string name="text_buttons">Buttons</string>
     <string name="text_changelog">Changelog</string>
+    <string name="text_bugReport">Bug report</string>
+    <string name="text_featureRequest">Feature request</string>
+    <string name="action_send">Send</string>
+    <string name="action_selectACategory">Select a category</string>
+    <string name="text_category">Category</string>
+    <string name="text_translationError">Translation error</string>
+    <string name="text_bugLocation">Bug location</string>
+    <string name="text_errorLocation">Error location</string>
+    <string name="text_currentScreen">Current screen</string>
+    <string name="text_otherScreen">Other screen</string>
+    <string name="text_previousScreen">Previous screen</string>
+    <string name="text_onThePreviousScreen">On the previous screen</string>
+    <string name="text_onAnotherScreen">On another screen</string>
+    <string name="text_describeTheIssueAndStepsToReproduceIt">Describe the issue, as well as steps to reproduce it if possible</string>
+    <string name="text_describeTheFeatureAndHowItWouldWork">Describe the feature and how it would work</string>
+    <string name="describeWhereTranslationErrorIsAndHowShouldBeChanged">Describe where the error is and how it should be changed, if possible</string>
+    <string name="text_description">Description</string>
+    <string name="error_noAppToSendEmails">You don\'t have any app to send emails, please install one to continue</string>
+    <string name="action_sendDeviceModel">Send device model</string>
+    <string name="text_widget">Widget</string>
+    <string name="text_inAWidget">In a Widget</string>
+    <string name="text_notification">Notification</string>
+    <string name="text_inANotification">In a notification</string>
 </resources>

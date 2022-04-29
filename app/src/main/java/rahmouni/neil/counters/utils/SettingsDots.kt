@@ -1,8 +1,6 @@
 package rahmouni.neil.counters.utils
 
-import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Feedback
 import androidx.compose.material.icons.outlined.MoreVert
@@ -14,27 +12,27 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.R
+import rahmouni.neil.counters.utils.feedback.FeedbackActivity
 
 @Composable
 fun SettingsDots(
     feedback: Boolean = true,
+    screenName: String,
     feedbackDivider: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
-    val activity = (LocalContext.current as Activity)
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
+    val context = LocalContext.current
 
     var expanded by remember { mutableStateOf(false) }
 
     IconButton(
         modifier = Modifier.testTag("SETTINGS_DOTS"),
         onClick = {
-        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-        expanded = true
-    }) {
+            localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+            expanded = true
+        }) {
         Icon(
             Icons.Outlined.MoreVert,
             contentDescription = stringResource(R.string.text_more_options)
@@ -53,16 +51,12 @@ fun SettingsDots(
                 onClick = {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                    val intent = Intent(Intent.ACTION_SENDTO).apply {
-                        type = "message/rfc822"
-                        data =
-                            Uri.parse("mailto:")
-                        putExtra(
-                            Intent.EXTRA_EMAIL,
-                            arrayOf(remoteConfig.getString("feedback_email"))
+                    context.startActivity(
+                        Intent(context, FeedbackActivity::class.java).putExtra(
+                            "screenName",
+                            screenName
                         )
-                    }
-                    activity.startActivity(intent)
+                    )
                 },
                 leadingIcon = {
                     Icon(

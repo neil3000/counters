@@ -121,7 +121,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
 
     val bottomBarVisible =
         !remoteConfig.getBoolean("issue70__navigation_rail") &&
-        windowSize.widthSizeClass == WindowWidthSizeClass.Compact || windowSize.heightSizeClass == WindowHeightSizeClass.Compact
+                windowSize.widthSizeClass == WindowWidthSizeClass.Compact || windowSize.heightSizeClass == WindowHeightSizeClass.Compact
 
     val navItemsLabels = listOf(R.string.text_entries_short, R.string.text_counterSettings_short)
     val navItemsRoutes = listOf("entries", "settings")
@@ -169,7 +169,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
             topBar = {
                 SmallTopAppBar(
                     title = { Text(counter?.displayName ?: "Counter") },
-                    actions = { SettingsDots {} },
+                    actions = { SettingsDots(screenName = "CounterActivity") {} },
                     navigationIcon = {
                         IconButton(
                             onClick = {
@@ -231,7 +231,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                     },
                                     label = { Text(stringResource(item)) },
                                     selected = currentDestination?.hierarchy?.any { it.route == navItemsRoutes[index] } == true,
-                                    modifier = Modifier.padding(vertical = 8.dp),
+                                    modifier = Modifier.padding(vertical = 6.dp),
                                     onClick = {
                                         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 

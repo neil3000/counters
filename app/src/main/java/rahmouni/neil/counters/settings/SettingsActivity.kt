@@ -83,7 +83,7 @@ fun SettingsPage() {
             LargeTopAppBar(
                 title = { Text(stringResource(R.string.text_settings)) },
                 actions = {
-                    SettingsDots {}
+                    SettingsDots(screenName = "SettingsActivity") {}
                 },
                 navigationIcon = {
                     IconButton(

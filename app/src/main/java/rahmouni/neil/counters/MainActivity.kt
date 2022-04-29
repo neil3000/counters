@@ -137,7 +137,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                             Text(stringResource(R.string.text_appName))
                         },
                         actions = {
-                            SettingsDots {
+                            SettingsDots(screenName = "MainActivity") {
                                 DropdownMenuItem(
                                     text = { Text(stringResource(R.string.text_settings)) },
                                     leadingIcon = {
