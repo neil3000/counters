@@ -1,7 +1,9 @@
 package rahmouni.neil.counters.database
 
 import androidx.lifecycle.*
+import com.google.firebase.analytics.ktx.logEvent
 import kotlinx.coroutines.launch
+import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.ResetType
 
 class CountersListViewModel(private val repository: CountersListRepository) : ViewModel() {
@@ -24,6 +26,10 @@ class CountersListViewModel(private val repository: CountersListRepository) : Vi
 
     fun addIncrement(value: Int, counterID: Int) = viewModelScope.launch {
         repository.addIncrement(value, counterID)
+
+        analytics?.logEvent("add_increment") {
+            param("increment_value", value.toLong())
+        }
     }
 
     fun addCounter(counter: Counter) = viewModelScope.launch {

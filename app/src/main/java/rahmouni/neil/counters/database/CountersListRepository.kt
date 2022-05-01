@@ -6,18 +6,19 @@ import rahmouni.neil.counters.prefs
 import java.util.*
 
 class CountersListRepository(private val countersListDao: CountersListDao) {
-    val allCounters: Flow<List<CounterAugmented>> = countersListDao.getAll(prefs.startWeekDay.groupQuery?:(Calendar.getInstance().firstDayOfWeek-1).toString())
+    private val weekday = prefs.startWeekDay.groupQuery?:((Calendar.getInstance().firstDayOfWeek-2)%7).toString()
+
+    val allCounters: Flow<List<CounterAugmented>> = countersListDao.getAll(weekday)
     fun getCounterIncrements(counterID: Int): Flow<List<Increment>> =
         countersListDao.getCounterIncrements(counterID)
-
-    fun getCounter(counterID: Int): Flow<CounterAugmented> = countersListDao.getCounter(counterID, prefs.startWeekDay.groupQuery?:(Calendar.getInstance().firstDayOfWeek-1).toString())
+    fun getCounter(counterID: Int): Flow<CounterAugmented> = countersListDao.getCounter(counterID, weekday)
     fun getCounterIncrementGroups(
         counterID: Int,
         groupQuery1: String,
         groupQuery2: String
     ): Flow<List<IncrementGroup>> = countersListDao.getCounterIncrementGroups(
         counterID,
-        groupQuery1.replaceFirst("%d", prefs.startWeekDay.groupQuery?:((Calendar.getInstance().firstDayOfWeek-2)%7).toString()),
+        groupQuery1.replaceFirst("%d", weekday),
         groupQuery2
     )
 
