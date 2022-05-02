@@ -11,14 +11,12 @@ enum class ResetType(
     private val title: Int,
     private val formatted: Int,
     val entriesGroup1: String?,
-    val entriesGroup2: String?,
     val headerTitle: Int,
     val format: (Calendar, Context) -> String?
 ): TileDialogRadioListEnum {
     NEVER(
         R.string.text_never,
         R.string.text_never_resets,
-        null,
         null,
         -1,
         { _, _ -> null }
@@ -28,7 +26,6 @@ enum class ResetType(
     DAY(
         R.string.text_everyDay,
         R.string.text_resetsEveryDay,
-        "start of day",
         "start of day",
         R.string.text_today,
         { d, _ ->
@@ -49,15 +46,13 @@ enum class ResetType(
         R.string.text_everyWeek,
         R.string.text_resetsEveryWeek,
         "weekday %d",
-        "-7 days",
         R.string.text_thisWeek,
         { d, context ->
             val cal = Calendar.getInstance()
             cal.set(
                 Calendar.DAY_OF_WEEK,
-                prefs.startWeekDay.calendar ?: (Calendar.getInstance().firstDayOfWeek - 1)
+                (Calendar.getInstance().firstDayOfWeek-2)%7
             )
-            cal.add(Calendar.WEEK_OF_MONTH, -1)
             cal.set(Calendar.HOUR_OF_DAY, 0)
             cal.set(Calendar.MINUTE, 0)
             cal.set(Calendar.SECOND, 0)
@@ -76,7 +71,6 @@ enum class ResetType(
     MONTH(
         R.string.text_everyMonth,
         R.string.text_resetsEveryMonth,
-        "start of month",
         "start of month",
         R.string.text_thisMonth,
         { d, _ ->

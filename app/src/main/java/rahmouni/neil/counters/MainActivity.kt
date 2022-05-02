@@ -38,7 +38,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.counter_card.CounterCard
-import rahmouni.neil.counters.counter_card.NewIncrement
+import rahmouni.neil.counters.counter_card.NewIncrementExperiment
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
@@ -109,7 +109,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
     var bottomSheetNewIncrementCounterID: Int? by rememberSaveable { mutableStateOf(null) }
 
     RoundedBottomSheet(bottomSheetNewIncrementState, {
-        NewIncrement(
+        NewIncrementExperiment(
             counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid == bottomSheetNewIncrementCounterID },
             countersListViewModel = countersListViewModel
         ) {

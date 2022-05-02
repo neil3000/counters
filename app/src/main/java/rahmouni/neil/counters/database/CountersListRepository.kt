@@ -15,11 +15,9 @@ class CountersListRepository(private val countersListDao: CountersListDao) {
     fun getCounterIncrementGroups(
         counterID: Int,
         groupQuery1: String,
-        groupQuery2: String
     ): Flow<List<IncrementGroup>> = countersListDao.getCounterIncrementGroups(
         counterID,
-        groupQuery1.replaceFirst("%d", weekday),
-        groupQuery2
+        groupQuery1.replaceFirst("%d", weekday)
     )
 
     suspend fun addIncrement(value: Int, counterID: Int) {

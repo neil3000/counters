@@ -20,8 +20,7 @@ class CountersListViewModel(private val repository: CountersListRepository) : Vi
     ): LiveData<List<IncrementGroup>> =
         repository.getCounterIncrementGroups(
             counterID,
-            resetType.entriesGroup1!!,
-            resetType.entriesGroup2!!
+            resetType.entriesGroup1!!
         ).asLiveData()
 
     fun addIncrement(value: Int, counterID: Int) = viewModelScope.launch {
