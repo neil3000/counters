@@ -6,9 +6,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import rahmouni.neil.counters.CountersApplication
-import rahmouni.neil.counters.MainActivity
-import rahmouni.neil.counters.R
+import rahmouni.neil.counters.*
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.Increment
 import java.time.LocalDateTime
@@ -112,6 +110,112 @@ class HomeScreenTestView(
                 )
             )
         }
+
+        return this
+    }
+
+    fun createUSScreenshotCounters(): HomeScreenTestView {
+        val pushupsUid: Long =
+            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Push-ups", resetType = ResetType.DAY, style = CounterStyle.SECONDARY))
+        val waterUid: Long =
+            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Water drinks", style = CounterStyle.PRIMARY))
+        val medicationUid: Long =
+            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Medication"))
+        val weightUid: Long =
+            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Weight (kg)"))
+        val lapMinutesUid: Long =
+            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Lap minutes", style = CounterStyle.TERTIARY))
+        for (i in 0..8) {
+            CountersApplication.instance.countersListRepository.testAddIncrement(
+                Increment(
+                    counterID = pushupsUid.toInt(),
+                    value = listOf(30, 30, 25, 30, 35, 35, 30, 30, 25)[i],
+                    timestamp = LocalDateTime.now().minusDays(listOf(0,0,1,1,1,2,2,2,3)[i].toLong())
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd "))+listOf("07:32:30","08:01:30","07:24:30","16:58:30","22:24:30","07:16:30","17:13:30","22:09:30","22:18:30")[i]
+                )
+            )
+        }
+        CountersApplication.instance.countersListRepository.testAddIncrement(
+            Increment(
+                counterID = waterUid.toInt(),
+                value = 3,
+                timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            )
+        )
+        CountersApplication.instance.countersListRepository.testAddIncrement(
+            Increment(
+                counterID = medicationUid.toInt(),
+                value = 1,
+                timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            )
+        )
+        CountersApplication.instance.countersListRepository.testAddIncrement(
+            Increment(
+                counterID = weightUid.toInt(),
+                value = 62,
+                timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            )
+        )
+        CountersApplication.instance.countersListRepository.testAddIncrement(
+            Increment(
+                counterID = lapMinutesUid.toInt(),
+                value = 12,
+                timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            )
+        )
+
+        return this
+    }
+
+    fun createFRScreenshotCounters(): HomeScreenTestView {
+        val pushupsUid: Long =
+            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Pompes", resetType = ResetType.DAY, style = CounterStyle.SECONDARY))
+        val waterUid: Long =
+            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Verres d'eau", style = CounterStyle.PRIMARY))
+        val medicationUid: Long =
+            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Médicaments"))
+        val weightUid: Long =
+            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Poids (kg)"))
+        val lapMinutesUid: Long =
+            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Minutes par tour", style = CounterStyle.TERTIARY))
+        for (i in 0..8) {
+            CountersApplication.instance.countersListRepository.testAddIncrement(
+                Increment(
+                    counterID = pushupsUid.toInt(),
+                    value = listOf(30, 30, 25, 30, 35, 35, 30, 30, 25)[i],
+                    timestamp = LocalDateTime.now().minusDays(listOf(0,0,1,1,1,2,2,2,3)[i].toLong())
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd "))+listOf("07:32:30","08:01:30","07:24:30","16:58:30","22:24:30","07:16:30","17:13:30","22:09:30","22:18:30")[i]
+                )
+            )
+        }
+        CountersApplication.instance.countersListRepository.testAddIncrement(
+            Increment(
+                counterID = waterUid.toInt(),
+                value = 3,
+                timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            )
+        )
+        CountersApplication.instance.countersListRepository.testAddIncrement(
+            Increment(
+                counterID = medicationUid.toInt(),
+                value = 1,
+                timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            )
+        )
+        CountersApplication.instance.countersListRepository.testAddIncrement(
+            Increment(
+                counterID = weightUid.toInt(),
+                value = 62,
+                timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            )
+        )
+        CountersApplication.instance.countersListRepository.testAddIncrement(
+            Increment(
+                counterID = lapMinutesUid.toInt(),
+                value = 12,
+                timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            )
+        )
 
         return this
     }

@@ -5,6 +5,7 @@ import org.junit.Rule
 import org.junit.Test
 import rahmouni.neil.counters.testViews.HomeScreenTestView
 
+
 class CounterTest {
 
     @get:Rule
@@ -185,6 +186,6 @@ class CounterTest {
     @Test
     fun test() {
         HomeScreenTestView(rule)
-            .createEntriesTestCounter()
+            .createFRScreenshotCounters()
     }
 }

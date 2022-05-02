@@ -121,8 +121,8 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
         .observeAsState()
 
     val bottomBarVisible =
-        !remoteConfig.getBoolean("issue70__navigation_rail") &&
-                windowSize.widthSizeClass == WindowWidthSizeClass.Compact || windowSize.heightSizeClass == WindowHeightSizeClass.Compact
+        !remoteConfig.getBoolean("issue70__navigation_rail") ||
+                (windowSize.widthSizeClass == WindowWidthSizeClass.Compact || windowSize.heightSizeClass != WindowHeightSizeClass.Compact)
 
     val navItemsLabels = listOf(R.string.text_entries_short, R.string.text_counterSettings_short)
     val navItemsRoutes = listOf("entries", "settings")
@@ -205,22 +205,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                         enter = slideInVertically { 200 },
                         exit = slideOutVertically { 200 }
                     ) {
-                        if (windowSize.widthSizeClass == WindowWidthSizeClass.Compact) {
-                            smallFab()
-                        } else {
-                            ExtendedFloatingActionButton(
-                                icon = { Icon(Icons.Outlined.Add, null) },
-                                text = { Text(stringResource(R.string.action_newEntry_short)) },
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                onClick = {
-                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                                    scope.launch {
-                                        bottomSheetState.show()
-                                    }
-                                },
-                            )
-                        }
+                        smallFab()
                     }
                 }
             },
