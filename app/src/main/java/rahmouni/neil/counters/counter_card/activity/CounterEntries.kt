@@ -1,7 +1,10 @@
 package rahmouni.neil.counters.counter_card.activity
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MenuDefaults
@@ -92,12 +95,12 @@ fun CounterEntries(
                         if (remoteConfig.getBoolean("issue65__header_fix")) {
                             HeaderExperiment(
                                 title = resetType.format(date, context)
-                                    ?: stringResource(resetType.headerTitle), ig.count.toString()
+                                    ?: stringResource(resetType.headerTitle), (ig.count+counter.resetValue).toString()
                             )
                         }else{
                             Header(
                                 title = resetType.format(date, context)
-                                    ?: stringResource(resetType.headerTitle), ig.count.toString()
+                                    ?: stringResource(resetType.headerTitle), (ig.count+counter.resetValue).toString()
                             )
                         }
                     }

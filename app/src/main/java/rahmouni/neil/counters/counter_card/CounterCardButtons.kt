@@ -57,7 +57,7 @@ fun CounterCardButtonsDefault(
             .padding(start = 8.dp)
     ) {
         Text(
-            text = data.count.toString(),
+            text = (data.count+data.resetValue).toString(),
             style = MaterialTheme.typography.headlineLarge,
         )
         IconButton(
@@ -111,7 +111,7 @@ fun CounterCardButtonsMinus(
             )
         }
         Text(
-            text = data.count.toString(),
+            text = (data.count+data.resetValue).toString(),
             style = MaterialTheme.typography.headlineLarge,
         )
         IconButton(onClick = {

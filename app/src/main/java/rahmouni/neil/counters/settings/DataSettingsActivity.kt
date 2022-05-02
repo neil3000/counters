@@ -25,6 +25,7 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import rahmouni.neil.counters.BuildConfig
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.prefs
@@ -106,7 +107,8 @@ fun DataSettingsPage() {
                 TileSwitch(
                     title = stringResource(R.string.text_analytics),
                     icon = Icons.Outlined.ShowChart,
-                    checked = analyticsEnabled?:true,
+                    checked = analyticsEnabled?:true && !BuildConfig.DEBUG,
+                    enabled = !BuildConfig.DEBUG
                 ){
                     analytics?.logEvent("changed_settings") {
                         param("Analytics", it.toString())
@@ -132,7 +134,8 @@ fun DataSettingsPage() {
                 TileSwitch(
                     title = stringResource(R.string.text_crashReports),
                     icon = Icons.Outlined.BugReport,
-                    checked = crashlyticsEnabled?:true
+                    checked = crashlyticsEnabled?:true && !BuildConfig.DEBUG,
+                    enabled = !BuildConfig.DEBUG
                 ){
                     analytics?.logEvent("changed_settings") {
                         param("Crashlytics", it.toString())
