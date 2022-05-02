@@ -54,6 +54,7 @@ import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.counter_card.NewIncrement
+import rahmouni.neil.counters.counter_card.NewIncrementExperiment
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
@@ -155,9 +156,17 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
 
     RoundedBottomSheet(bottomSheetState, {
         if (counter != null) {
-            NewIncrement(counter, countersListViewModel) {
-                scope.launch {
-                    bottomSheetState.hide()
+            if (remoteConfig.getBoolean("issue84__new_increment_redesign")) {
+                NewIncrementExperiment(counter, countersListViewModel) {
+                    scope.launch {
+                        bottomSheetState.hide()
+                    }
+                }
+            }else {
+                NewIncrement(counter, countersListViewModel) {
+                    scope.launch {
+                        bottomSheetState.hide()
+                    }
                 }
             }
         }
