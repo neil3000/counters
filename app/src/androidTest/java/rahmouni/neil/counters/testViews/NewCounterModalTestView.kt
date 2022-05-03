@@ -41,7 +41,7 @@ class NewCounterModalTestView(
 
     fun setResetType(resetType: ResetType): NewCounterModalTestView {
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.text_reset))
+            .onNodeWithText(composeTestRule.activity.getString(R.string.text_resetFrequency))
             .performClick()
         composeTestRule
             .onNodeWithText(composeTestRule.activity.getString(resetType.title()))

@@ -36,6 +36,7 @@ import rahmouni.neil.counters.R
 @Composable
 fun TileDialogRadioButtons(
     title: String,
+    dialogTitle: String? = null,
     icon: ImageVector,
     values: List<TileDialogRadioListEnum>,
     selected: TileDialogRadioListEnum?,
@@ -76,7 +77,7 @@ fun TileDialogRadioButtons(
         AlertDialog(
             onDismissRequest = { closeDialog() },
             title = {
-                Text(title)
+                Text(dialogTitle?:title)
             },
             icon = { Icon(icon, null) },
             text = {

@@ -109,7 +109,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
     )
     var bottomSheetNewIncrementCounterID: Int? by rememberSaveable { mutableStateOf(null) }
 
-    RoundedBottomSheet(bottomSheetNewIncrementState, {
+    RoundedBottomSheet(bottomSheetNewIncrementState, (if (remoteConfig.getBoolean("issue84__new_increment_redesign")) 1.dp else 0.dp), {
         if (remoteConfig.getBoolean("issue84__new_increment_redesign")) {
             NewIncrementExperiment(
                 counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid == bottomSheetNewIncrementCounterID },
@@ -134,7 +134,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
             }
         }
     }) {
-        RoundedBottomSheet(bottomSheetNewCounterState, {
+        RoundedBottomSheet(bottomSheetNewCounterState, (if (remoteConfig.getBoolean("issue85__new_counter_redesign")) 1.dp else 0.dp), {
             if (remoteConfig.getBoolean("issue85__new_counter_redesign")) {
                 NewCounterExperiment(countersListViewModel) {
                     scope.launch {

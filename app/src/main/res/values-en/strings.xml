@@ -107,4 +107,5 @@
     <string name="text_otherScreen">Other screen</string>
     <string name="text_previousScreen">Previous screen</string>
     <string name="text_defaultEntryValue">Default entry value</string>
+    <string name="text_resetFrequency">Reset frequency</string>
 </resources>

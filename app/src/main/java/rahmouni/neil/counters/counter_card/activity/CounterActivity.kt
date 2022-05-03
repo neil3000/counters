@@ -154,7 +154,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
         }
     }
 
-    RoundedBottomSheet(bottomSheetState, {
+    RoundedBottomSheet(bottomSheetState, (if (remoteConfig.getBoolean("issue84__new_increment_redesign")) 1.dp else 0.dp), {
         if (counter != null) {
             if (remoteConfig.getBoolean("issue84__new_increment_redesign")) {
                 NewIncrementExperiment(counter, countersListViewModel) {

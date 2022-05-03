@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import rahmouni.neil.counters.prefs
@@ -34,6 +35,7 @@ const val CORNER_RADIUS = 16
 @Composable
 fun RoundedBottomSheet(
     state: ModalBottomSheetState,
+    tonalElevation: Dp = 0.dp,
     content: @Composable () -> Unit,
     childContent: @Composable () -> Unit
 ) {
@@ -56,37 +58,38 @@ fun RoundedBottomSheet(
 
     ModalBottomSheetLayout(
         sheetState = state,
-        sheetBackgroundColor = MaterialTheme.colorScheme.background,
-        sheetElevation = 0.dp,
+        sheetBackgroundColor = MaterialTheme.colorScheme.surface,
         sheetContent = {
-            LazyColumn(
-                modifier = Modifier
-                    .padding(top = 10.dp)
-                    .navigationBarsPadding()
-                    .onGloballyPositioned { layoutCoordinates ->
-                        reachTop =
-                            layoutCoordinates.size.height >= localConfiguration.screenHeightDp * context.resources.displayMetrics.density
-                    },
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                item {
-                    Surface(
-                        modifier = Modifier
-                            .width(32.dp)
-                            .height(4.dp)
-                            .align(Alignment.CenterHorizontally),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        shape = RoundedCornerShape(16.dp)
-                    ) {}
-                }
-                if (prefs.debugMode) {
+            Surface(tonalElevation = tonalElevation) {
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                        .navigationBarsPadding()
+                        .onGloballyPositioned { layoutCoordinates ->
+                            reachTop =
+                                layoutCoordinates.size.height >= localConfiguration.screenHeightDp * context.resources.displayMetrics.density
+                        },
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     item {
-                        Text("screenHeight=" + localConfiguration.screenHeightDp * context.resources.displayMetrics.density + " | reachTop=" + reachTop + " | cornerRadius=" + getCornerRadius())
+                        Surface(
+                            modifier = Modifier
+                                .width(32.dp)
+                                .height(4.dp)
+                                .align(Alignment.CenterHorizontally),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            shape = RoundedCornerShape(16.dp)
+                        ) {}
                     }
-                }
-                item {
-                    content()
+                    if (prefs.debugMode) {
+                        item {
+                            Text("screenHeight=" + localConfiguration.screenHeightDp * context.resources.displayMetrics.density + " | reachTop=" + reachTop + " | cornerRadius=" + getCornerRadius())
+                        }
+                    }
+                    item {
+                        content()
+                    }
                 }
             }
         },

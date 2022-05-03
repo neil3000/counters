@@ -125,7 +125,8 @@ fun NewIncrement(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class,
+@OptIn(
+    ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class,
     ExperimentalMaterial3Api::class
 )
 @Composable
@@ -174,19 +175,23 @@ fun NewIncrementExperiment(
                     .fillMaxWidth()
                     .padding(16.dp),
             ) {
-                FilledTonalIconButton(onClick = {
-                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                FilledIconButton(
+                    colors = IconButtonDefaults.filledIconButtonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                    onClick = {
+                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                    if (validateValue(value)) {
-                        value = (value.toInt() - 1).toString()
-                    }
-                }, enabled = !isValueError) {
+                        if (validateValue(value)) {
+                            value = (value.toInt() - 1).toString()
+                        }
+                    },
+                    enabled = !isValueError
+                ) {
                     Icon(
                         Icons.Outlined.Remove,
                         stringResource(R.string.action_decreaseValue)
                     )
                 }
-                OutlinedTextField(
+                TextField(
                     value = value,
                     onValueChange = { str ->
                         isValueError = false
@@ -199,13 +204,17 @@ fun NewIncrementExperiment(
                     keyboardActions = KeyboardActions {
                         addIncrement()
                     })
-                FilledTonalIconButton(onClick = {
-                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                FilledIconButton(
+                    colors = IconButtonDefaults.filledIconButtonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                    onClick = {
+                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                    if (validateValue(value)) {
-                        value = (value.toInt() + 1).toString()
-                    }
-                }, enabled = !isValueError) {
+                        if (validateValue(value)) {
+                            value = (value.toInt() + 1).toString()
+                        }
+                    },
+                    enabled = !isValueError
+                ) {
                     Icon(
                         Icons.Outlined.Add,
                         stringResource(R.string.action_increaseValue)

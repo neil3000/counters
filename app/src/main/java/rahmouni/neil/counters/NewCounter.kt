@@ -1,13 +1,15 @@
 package rahmouni.neil.counters
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material3.Button
-import androidx.compose.material3.MenuDefaults
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Event
+import androidx.compose.material.icons.outlined.Pin
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -18,11 +20,15 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.options.*
+import rahmouni.neil.counters.utils.tiles.TileColorSelection
+import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
+import rahmouni.neil.counters.utils.tiles.TileNumberInput
 
 @OptIn(ExperimentalComposeUiApi::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
@@ -141,17 +147,15 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
 @Composable
 fun NewCounterExperiment(mCountersListViewModel: CountersListViewModel, onCreate: () -> (Unit)) {
     var name by rememberSaveable { mutableStateOf("") }
-    var incrementType by rememberSaveable { mutableStateOf(IncrementType.ASK_EVERY_TIME) }
-    var incrementValueType by rememberSaveable { mutableStateOf(IncrementValueType.VALUE) }
-    var incrementValue by rememberSaveable { mutableStateOf(1) }
     var isNameError by rememberSaveable { mutableStateOf(false) }
-    var minusEnabled by rememberSaveable { mutableStateOf(false) }
     var counterStyle by rememberSaveable { mutableStateOf(CounterStyle.DEFAULT) }
     var resetType by rememberSaveable { mutableStateOf(ResetType.NEVER) }
+    var resetValue by rememberSaveable { mutableStateOf(0) }
 
     val localHapticFeedback = LocalHapticFeedback.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
+    val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     fun validateName(text: String): Boolean {
         isNameError = text.count() < 1
@@ -159,7 +163,7 @@ fun NewCounterExperiment(mCountersListViewModel: CountersListViewModel, onCreate
     }
 
     Column(Modifier.fillMaxWidth()) {
-        OutlinedTextField(
+        TextField(
             value = name,
             modifier = Modifier
                 .fillMaxWidth()
@@ -176,37 +180,49 @@ fun NewCounterExperiment(mCountersListViewModel: CountersListViewModel, onCreate
             },
         )
 
-        CounterStyleOption(counterStyle, true) {
+        /*CounterStyleOption(counterStyle, true) {
             counterStyle = it
-        }
-        MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
-        ButtonBehaviourOption(incrementType, true) {
-            if (it != incrementType) {
-                incrementValue = it.defaultIncrementValue
+        }*/
+
+        LazyRow(
+            Modifier.fillMaxWidth().padding(16.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            CounterStyle.values().forEach {
+                item {
+                    TileColorSelection(
+                        color = it.getBackGroundColor(),
+                        selected = counterStyle == it
+                    ) {
+                        counterStyle = it
+                    }
+                }
             }
-            incrementType = it
-        }
-        if (incrementType == IncrementType.VALUE) {
-            MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
-            MinusEnabledOption(minusEnabled, true) {
-                minusEnabled = it
-            }
-        }
-        MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
-        IncrementValueOption(
-            incrementType,
-            incrementValueType,
-            incrementValue,
-            minusEnabled,
-            true
-        ) { ivt, iv ->
-            incrementValueType = ivt
-            incrementValue = iv
         }
 
         MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
-        ResetTypeOption(resetType, true) {
-            resetType = it
+        TileDialogRadioButtons(
+            title = stringResource(R.string.text_resetFrequency),
+            dialogTitle = stringResource(R.string.text_reset),
+            icon = Icons.Outlined.Event,
+            values = ResetType.values().toList(),
+            selected = resetType
+        ) {
+            resetType = it as ResetType
+        }
+
+        if (remoteConfig.getBoolean("issue54__reset_value_setting")) {
+            MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
+            TileNumberInput(
+                title = stringResource(R.string.text_resetValue),
+                dialogTitle = stringResource(R.string.action_resetTo),
+                icon = Icons.Outlined.Pin,
+                value = resetValue,
+                format = R.string.text_resetsToX,
+                enabled = resetType != ResetType.NEVER
+            ) {
+                resetValue = it
+            }
         }
 
         Button(
@@ -221,11 +237,7 @@ fun NewCounterExperiment(mCountersListViewModel: CountersListViewModel, onCreate
                     scope.launch {
                         val counter = Counter(
                             displayName = name,
-                            hasMinus = minusEnabled,
                             style = counterStyle,
-                            incrementType = incrementType,
-                            incrementValueType = incrementValueType,
-                            incrementValue = incrementValue,
                             resetType = resetType,
                         )
                         keyboardController?.hide()
@@ -237,11 +249,9 @@ fun NewCounterExperiment(mCountersListViewModel: CountersListViewModel, onCreate
                         }
 
                         name = ""
-                        minusEnabled = false
                         counterStyle = CounterStyle.DEFAULT
-                        incrementType = IncrementType.ASK_EVERY_TIME
-                        incrementValue = 1
                         resetType = ResetType.NEVER
+                        resetValue = 0
                     }
                 }
             }) {

@@ -50,7 +50,7 @@ data class Counter(
     @ColumnInfo(name = "display_name") val displayName: String,
     @ColumnInfo(name = "style") val style: CounterStyle = CounterStyle.DEFAULT,
     @ColumnInfo(name = "has_minus") val hasMinus: Boolean = false,
-    @ColumnInfo(name = "increment_type") val incrementType: IncrementType = IncrementType.VALUE,
+    @ColumnInfo(name = "increment_type") val incrementType: IncrementType = IncrementType.ASK_EVERY_TIME,
     @ColumnInfo(name = "increment_value_type") val incrementValueType: IncrementValueType = IncrementValueType.VALUE,
     @ColumnInfo(name = "increment_value") val incrementValue: Int = 1,
     @ColumnInfo(
@@ -68,7 +68,7 @@ data class CounterAugmented(
     @ColumnInfo(name = "display_name") val displayName: String,
     @ColumnInfo(name = "style") val style: CounterStyle = CounterStyle.DEFAULT,
     @ColumnInfo(name = "has_minus") val hasMinus: Boolean = false,
-    @ColumnInfo(name = "increment_type") val incrementType: IncrementType = IncrementType.VALUE,
+    @ColumnInfo(name = "increment_type") val incrementType: IncrementType = IncrementType.ASK_EVERY_TIME,
     @ColumnInfo(name = "increment_value_type") val incrementValueType: IncrementValueType = IncrementValueType.VALUE,
     @ColumnInfo(name = "increment_value") val incrementValue: Int = 1,
     @ColumnInfo(
