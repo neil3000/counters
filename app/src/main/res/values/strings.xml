@@ -105,4 +105,5 @@
     <string name="text_inAWidget">In a Widget</string>
     <string name="text_notification">Notification</string>
     <string name="text_inANotification">In a notification</string>
+    <string name="text_defaultEntryValue">Default entry value</string>
 </resources>

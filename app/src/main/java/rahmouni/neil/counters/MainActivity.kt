@@ -135,9 +135,17 @@ fun Home(countersListViewModel: CountersListViewModel) {
         }
     }) {
         RoundedBottomSheet(bottomSheetNewCounterState, {
-            NewCounter(countersListViewModel) {
-                scope.launch {
-                    bottomSheetNewCounterState.hide()
+            if (remoteConfig.getBoolean("issue85__new_counter_redesign")) {
+                NewCounterExperiment(countersListViewModel) {
+                    scope.launch {
+                        bottomSheetNewCounterState.hide()
+                    }
+                }
+            }else {
+                NewCounter(countersListViewModel) {
+                    scope.launch {
+                        bottomSheetNewCounterState.hide()
+                    }
                 }
             }
         }) {
@@ -188,7 +196,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                                 bottomSheetNewCounterState.animateTo(ModalBottomSheetValue.Expanded)
                             }
                         },
-                        containerColor = if (remoteConfig.getBoolean("issue73__home_fab_secondary")) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.primary,
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
                         modifier = Modifier.navigationBarsPadding()
                     )
                 }

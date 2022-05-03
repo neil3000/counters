@@ -33,50 +33,6 @@ fun SelectableChip(
     val localHapticFeedback = LocalHapticFeedback.current
 
     val animatedColor = animateColorAsState(
-        if (selected) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.surfaceVariant
-    )
-
-    Surface(shape = RoundedCornerShape(8.dp), color = animatedColor.value) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .selectable(
-                    selected = selected,
-                    onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                        if (selected) onUnselected() else onSelected()
-                    })
-                .padding(horizontal = 12.dp)
-        ) {
-            Text(text, Modifier.padding(vertical = 8.dp))
-            AnimatedVisibility(
-                selected,
-                enter = scaleIn() + expandHorizontally(),
-                exit = scaleOut() + shrinkHorizontally()
-            ) {
-                Icon(
-                    Icons.Outlined.Check,
-                    null,
-                    Modifier.padding(start = 6.dp)
-                )
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalAnimationApi::class)
-@Composable
-fun SelectableChipExperiment(
-    text: String,
-    selected: Boolean,
-    onUnselected: () -> Unit,
-    onSelected: () -> Unit,
-) {
-    val localHapticFeedback = LocalHapticFeedback.current
-
-    val animatedColor = animateColorAsState(
         if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
     )
     val animatedBorderWidth = animateDpAsState(
@@ -86,7 +42,10 @@ fun SelectableChipExperiment(
     Surface(
         shape = RoundedCornerShape(8.dp),
         color = animatedColor.value,
-        border = BorderStroke(animatedBorderWidth.value, MaterialTheme.colorScheme.outline.copy(alpha=.75f))
+        border = BorderStroke(
+            animatedBorderWidth.value,
+            MaterialTheme.colorScheme.outline.copy(alpha = .75f)
+        )
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

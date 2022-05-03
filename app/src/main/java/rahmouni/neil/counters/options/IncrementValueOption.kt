@@ -59,7 +59,7 @@ fun IncrementValueOption(
         if (incrementType == IncrementType.VALUE) {
             if (hasMinus) R.string.action_increaseDecreaseBy else R.string.action_increaseBy
         } else {
-            R.string.text_defaultValueWhenAsking
+            R.string.text_defaultEntryValue
         }
     )
 

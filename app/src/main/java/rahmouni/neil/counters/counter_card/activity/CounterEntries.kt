@@ -19,14 +19,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.Increment
 import rahmouni.neil.counters.database.IncrementGroup
-import rahmouni.neil.counters.utils.*
+import rahmouni.neil.counters.utils.FullscreenDynamicSVG
+import rahmouni.neil.counters.utils.Header
+import rahmouni.neil.counters.utils.SelectableChip
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -38,7 +39,7 @@ fun CounterEntries(
     countersListViewModel: CountersListViewModel,
 ) {
     val context = LocalContext.current
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
+    //val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     if (counter != null && increments?.isNotEmpty() == true) {
         var resetType: ResetType by rememberSaveable { mutableStateOf(counter.resetType) }
@@ -61,20 +62,11 @@ fun CounterEntries(
                     )
                 ) {
                     for (groupType in GroupType.values()) {
-                        if (remoteConfig.getBoolean("issue71__new_selectable_chips")) {
-                            SelectableChipExperiment(
-                                text = stringResource(groupType.title),
-                                selected = groupType.resetType == resetType,
-                                onUnselected = { resetType = ResetType.NEVER }) {
-                                resetType = groupType.resetType
-                            }
-                        } else {
-                            SelectableChip(
-                                text = stringResource(groupType.title),
-                                selected = groupType.resetType == resetType,
-                                onUnselected = { resetType = ResetType.NEVER }) {
-                                resetType = groupType.resetType
-                            }
+                        SelectableChip(
+                            text = stringResource(groupType.title),
+                            selected = groupType.resetType == resetType,
+                            onUnselected = { resetType = ResetType.NEVER }) {
+                            resetType = groupType.resetType
                         }
                     }
                 }
@@ -92,17 +84,11 @@ fun CounterEntries(
                     date.time = SimpleDateFormat("yyyy-MM-dd").parse(ig.date)!!
 
                     item {
-                        if (remoteConfig.getBoolean("issue65__header_fix")) {
-                            HeaderExperiment(
-                                title = resetType.format(date, context)
-                                    ?: stringResource(resetType.headerTitle), (ig.count+counter.resetValue).toString()
-                            )
-                        }else{
-                            Header(
-                                title = resetType.format(date, context)
-                                    ?: stringResource(resetType.headerTitle), (ig.count+counter.resetValue).toString()
-                            )
-                        }
+                        Header(
+                            title = resetType.format(date, context)
+                                ?: stringResource(resetType.headerTitle),
+                            (ig.count + counter.resetValue).toString()
+                        )
                     }
                     items(increments.filter {
                         ig.uids.split(
