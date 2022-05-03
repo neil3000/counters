@@ -111,7 +111,7 @@ fun SettingsPage() {
                     title = stringResource(R.string.text_firstDayOfTheWeek),
                     icon = Icons.Outlined.CalendarViewMonth,
                     values = StartWeekDay.values().toList(),
-                    selected = startWeekDay?: StartWeekDay.LOCALE,
+                    selected = startWeekDay ?: StartWeekDay.LOCALE,
                 ) {
                     startWeekDay = it as StartWeekDay
                     prefs.startWeekDay = it
@@ -122,7 +122,7 @@ fun SettingsPage() {
                     title = stringResource(R.string.action_displayWeekAs),
                     icon = Icons.Outlined.Tag,
                     values = WeekDisplay.values().toList(),
-                    selected = weekDisplay?: WeekDisplay.NUMBER,
+                    selected = weekDisplay ?: WeekDisplay.NUMBER,
                 ) {
                     weekDisplay = it as WeekDisplay
                     prefs.weekDisplay = it
@@ -145,16 +145,15 @@ fun SettingsPage() {
                     url = remoteConfig.getString("play_store_url")
                 )
             }
-            if (remoteConfig.getBoolean("issue55__changelog_setting")) {
-                item {
-                    TileOpenCustomTab(
-                        title = stringResource(R.string.text_changelog),
-                        icon = Icons.Outlined.NewReleases,
-                        url = remoteConfig.getString("changelog_url")
-                    )
-                }
+            item {
+                TileOpenCustomTab(
+                    title = stringResource(R.string.text_changelog),
+                    icon = Icons.Outlined.NewReleases,
+                    url = remoteConfig.getString("changelog_url")
+                )
             }
             item { MenuDefaults.Divider() }
+
             if (showDebug) {
                 item { TileHeader("Debug") }
                 item {
