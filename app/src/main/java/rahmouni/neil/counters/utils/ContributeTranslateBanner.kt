@@ -8,7 +8,7 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -53,27 +53,15 @@ fun ContributeTranslateBanner() {
         exit = shrinkVertically(shrinkTowards = Alignment.Top)
     ) {
         Card(
-            onClick = {
-                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                sendEmail(activity, remoteConfig.getString("feedback_email"), "Want to help translate in " + bannerData.language)
-            },
-            Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
+            Modifier.padding(16.dp).fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
         ) {
-            Box(Modifier.fillMaxWidth()) {
-                IconButton(onClick = {
-                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                    bannerDismissed = true
-                    prefs.contributeTranslateBannerDismissed = true
-                }, Modifier.align(Alignment.TopEnd)) {
-                    Icon(Icons.Outlined.Close, stringResource(R.string.action_dismiss))
-                }
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)) {
                 Row(
-                    Modifier.padding(16.dp),
+                    Modifier.padding(8.dp),
                     Arrangement.spacedBy(24.dp),
                     Alignment.CenterVertically
                 ) {
@@ -86,9 +74,40 @@ fun ContributeTranslateBanner() {
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         Text(bannerData.title ?: "", style = MaterialTheme.typography.titleLarge)
                         Text(
-                            stringResource(R.string.banner_contributeTranslate, bannerData.language?:""),
+                            stringResource(
+                                R.string.banner_contributeTranslate,
+                                bannerData.language ?: ""
+                            ),
                             style = MaterialTheme.typography.bodyMedium
                         )
+                    }
+                }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton({
+                               localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                        bannerDismissed = true
+                        prefs.contributeTranslateBannerDismissed = true
+                    }, Modifier.padding(horizontal = 8.dp)) {
+                        Text(stringResource(R.string.action_dismiss))
+                    }
+                    Button({
+                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                        sendEmail(
+                            activity,
+                            remoteConfig.getString("feedback_email"),
+                            "Want to help translate in " + bannerData.language
+                        )
+                    }) {
+                        Text(stringResource(R.string.action_letsGo))
+                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                        Icon(Icons.Outlined.ArrowForward, null)
                     }
                 }
             }

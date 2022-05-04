@@ -108,5 +108,6 @@
     <string name="text_defaultEntryValue">Default entry value</string>
     <string name="text_resetFrequency">Reset frequency</string>
     <string name="action_dismiss">Dismiss</string>
-    <string name="banner_contributeTranslate" translatable="false">Would you like to contribute &amp; help translating this app into %s? :D\nIf you want to and think that you can, click me!</string>
+    <string name="banner_contributeTranslate" translatable="false">Would you like to contribute &amp; help translating this app into %s? :D</string>
+    <string name="action_letsGo">Let\'s go</string>
 </resources>

@@ -109,4 +109,5 @@
     <string name="text_defaultEntryValue">Valeur d\'entrée par défaut</string>
     <string name="text_resetFrequency">Fréquence de réinitialisation</string>
     <string name="action_dismiss">Fermer</string>
+    <string name="action_letsGo">C\'est parti</string>
 </resources>
