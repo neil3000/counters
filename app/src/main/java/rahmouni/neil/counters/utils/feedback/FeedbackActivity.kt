@@ -85,6 +85,8 @@ fun FeedbackPage(previousScreen: String) {
         "$MANUFACTURER $MODEL"
     }
 
+    val canSend = feedbackType != null && description != ""
+
     Scaffold(
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection)
@@ -115,14 +117,14 @@ fun FeedbackPage(previousScreen: String) {
                     Icon(
                         Icons.Outlined.Send,
                         null,
-                        Modifier.alpha(if (feedbackType != null) ContentAlpha.high else ContentAlpha.disabled)
+                        Modifier.alpha(if (canSend) ContentAlpha.high else ContentAlpha.disabled)
                     )
                 },
-                containerColor = if (feedbackType != null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
+                containerColor = if (canSend) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
                 modifier = Modifier
                     .navigationBarsPadding(),
                 onClick = {
-                    if (feedbackType != null) {
+                    if (canSend) {
                         val intent = Intent(Intent.ACTION_SENDTO).apply {
                             type = "message/rfc822"
                             data =
