@@ -29,6 +29,7 @@ import rahmouni.neil.counters.options.*
 import rahmouni.neil.counters.utils.tiles.TileColorSelection
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
 import rahmouni.neil.counters.utils.tiles.TileNumberInput
+import rahmouni.neil.counters.utils.tiles.tile_color_selection.Size
 
 @OptIn(ExperimentalComposeUiApi::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
@@ -194,7 +195,8 @@ fun NewCounterExperiment(mCountersListViewModel: CountersListViewModel, onCreate
                 item {
                     TileColorSelection(
                         color = it.getBackGroundColor(),
-                        selected = counterStyle == it
+                        selected = counterStyle == it,
+                        size = Size.SMALL
                     ) {
                         counterStyle = it
                     }

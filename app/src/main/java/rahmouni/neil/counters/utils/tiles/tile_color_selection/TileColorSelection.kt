@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
+import rahmouni.neil.counters.utils.tiles.tile_color_selection.Size
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 fun TileColorSelection(
     color: Color,
     selected: Boolean,
+    size: Size = Size.BIG,
     onSelection: () -> Unit
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
@@ -44,8 +46,8 @@ fun TileColorSelection(
                 color = color,
                 shape = CircleShape,
                 modifier = Modifier
-                    .padding(12.dp)
-                    .size(54.dp)
+                    .padding(size.circlePadding)
+                    .size(size.circleSize)
             )
             {
                 AnimatedVisibility(
@@ -56,12 +58,12 @@ fun TileColorSelection(
                     Surface(
                         color = MaterialTheme.colorScheme.primary,
                         shape = CircleShape,
-                        modifier = Modifier.padding(12.dp)
+                        modifier = Modifier.padding(size.selectedPadding)
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Check,
                             contentDescription = null,
-                            Modifier.requiredSize(16.dp)
+                            Modifier.requiredSize(size.iconSize)
                         )
                     }
                 }
