@@ -33,6 +33,7 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import rahmouni.neil.counters.BuildConfig
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
@@ -131,17 +132,17 @@ fun FeedbackPage(previousScreen: String) {
                                 Intent.EXTRA_TEXT,
                                 when (feedbackType!!) {
                                     FeedbackType.BUG ->
-                                        "SCREEN: " + (if (feedbackLocation == FeedbackLocation.PREVIOUS) previousScreen else "null") + "\n" +
-                                                "DEVICE: " + (if (sendDeviceModel) device else "null") + "\n" +
-                                                "DESC:\n" +
-                                                description
+                                        "VERSION: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
+                                                "SCREEN: ${if (feedbackLocation == FeedbackLocation.PREVIOUS) previousScreen else "null"}\n" +
+                                                "DEVICE: ${if (sendDeviceModel) device else "null"}\n" +
+                                                "DESC:\n$description"
                                     FeedbackType.FEATURE ->
-                                        "DESC:\n" +
-                                                description
+                                        "VERSION: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
+                                                "DESC:\n$description"
                                     FeedbackType.TRANSLATION ->
-                                        "SCREEN: " + (if (feedbackLocation == FeedbackLocation.PREVIOUS) previousScreen else "null") + "\n" +
-                                                "DESC:\n" +
-                                                description
+                                        "VERSION: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
+                                                "SCREEN: ${if (feedbackLocation == FeedbackLocation.PREVIOUS) previousScreen else "null"}\n" +
+                                                "DESC:\n$description"
                                 }
                             )
                         }

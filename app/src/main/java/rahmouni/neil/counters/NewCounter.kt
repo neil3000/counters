@@ -185,7 +185,9 @@ fun NewCounterExperiment(mCountersListViewModel: CountersListViewModel, onCreate
         }*/
 
         LazyRow(
-            Modifier.fillMaxWidth().padding(16.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             CounterStyle.values().forEach {
