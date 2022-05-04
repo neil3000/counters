@@ -111,11 +111,16 @@ fun FeedbackPage(previousScreen: String) {
         },
         floatingActionButton = {
             LargeFloatingActionButton(
-                content = { Icon(Icons.Outlined.Send, null) },
-                containerColor = MaterialTheme.colorScheme.primary,
+                content = {
+                    Icon(
+                        Icons.Outlined.Send,
+                        null,
+                        Modifier.alpha(if (feedbackType != null) ContentAlpha.high else ContentAlpha.disabled)
+                    )
+                },
+                containerColor = if (feedbackType != null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
                 modifier = Modifier
-                    .navigationBarsPadding()
-                    .alpha(if (feedbackType != null) ContentAlpha.high else ContentAlpha.disabled),
+                    .navigationBarsPadding(),
                 onClick = {
                     if (feedbackType != null) {
                         val intent = Intent(Intent.ACTION_SENDTO).apply {
