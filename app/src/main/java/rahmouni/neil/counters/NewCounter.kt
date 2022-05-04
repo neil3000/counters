@@ -239,13 +239,16 @@ fun NewCounterExperiment(mCountersListViewModel: CountersListViewModel, onCreate
                             displayName = name,
                             style = counterStyle,
                             resetType = resetType,
+                            resetValue = resetValue
                         )
                         keyboardController?.hide()
                         onCreate()
                         mCountersListViewModel.addCounter(counter)
 
                         analytics?.logEvent("created_counter") {
+                            param("Style", counterStyle.toString())
                             param("ResetType", resetType.toString())
+                            param("ResetValue", resetValue.toLong())
                         }
 
                         name = ""
