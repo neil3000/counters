@@ -16,6 +16,10 @@
         <key>changelog_url</key>
         <value>https://gitlab.com/neil3000/counters/-/wikis/Changelog</value>
     </entry>
+    <entry>
+        <key>contribute_translate_banner</key>
+        <value>{"title": null, "language": null}</value>
+    </entry>
 
     <!-- EXPERIMENTS -->
     <entry>

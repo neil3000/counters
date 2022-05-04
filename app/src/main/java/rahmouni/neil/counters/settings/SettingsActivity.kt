@@ -28,6 +28,7 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
+import rahmouni.neil.counters.utils.sendEmail
 import rahmouni.neil.counters.utils.tiles.*
 
 class SettingsActivity : ComponentActivity() {
@@ -151,6 +152,14 @@ fun SettingsPage() {
                     icon = Icons.Outlined.NewReleases,
                     url = remoteConfig.getString("changelog_url")
                 )
+            }
+            item {
+                TileClick(
+                    title = "Contribute & help translating the app",
+                    icon = Icons.Outlined.Translate
+                ){
+                    sendEmail(activity, remoteConfig.getString("feedback_email"), "Want to help translate")
+                }
             }
             item { MenuDefaults.Divider() }
 

@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -45,6 +46,7 @@ import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
 import rahmouni.neil.counters.settings.SettingsActivity
 import rahmouni.neil.counters.ui.theme.CountersTheme
+import rahmouni.neil.counters.utils.ContributeTranslateBanner
 import rahmouni.neil.counters.utils.FullscreenDynamicSVG
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 import rahmouni.neil.counters.utils.SettingsDots
@@ -202,18 +204,20 @@ fun Home(countersListViewModel: CountersListViewModel) {
                 }
             ) {
                 if (countersList.isNotEmpty()) {
-                    LazyVerticalGrid(
-                        columns = GridCells.Adaptive(minSize = 180.dp),
-                        contentPadding = it,
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.padding(8.dp)
-                    ) {
-                        items(countersList) { counter ->
-                            CounterCard(counter, countersListViewModel) {
-                                bottomSheetNewIncrementCounterID = counter.uid
-                                scope.launch {
-                                    bottomSheetNewIncrementState.show()
+                    Column(Modifier.padding(it)) {
+                        ContributeTranslateBanner()
+                        LazyVerticalGrid(
+                            columns = GridCells.Adaptive(minSize = 180.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.padding(8.dp)
+                        ) {
+                            items(countersList) { counter ->
+                                CounterCard(counter, countersListViewModel) {
+                                    bottomSheetNewIncrementCounterID = counter.uid
+                                    scope.launch {
+                                        bottomSheetNewIncrementState.show()
+                                    }
                                 }
                             }
                         }

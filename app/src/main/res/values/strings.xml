@@ -62,7 +62,7 @@
     <string name="text_weekNumberInYear">Week number in year</string>
     <string name="text_firstDayOfTheWeek">First day of the week</string>
     <string name="action_displayWeekAs">Display week as</string>
-    <string name="text_dataAndPrivacy"><![CDATA[Data & Privacy]]></string>
+    <string name="text_dataAndPrivacy">Data &amp; Privacy</string>
     <string name="header_about">About</string>
     <string name="text_weekX">Week %d</string>
     <string name="action_resetAnalyticsData">Reset analytics data</string>
@@ -107,4 +107,6 @@
     <string name="text_inANotification">In a notification</string>
     <string name="text_defaultEntryValue">Default entry value</string>
     <string name="text_resetFrequency">Reset frequency</string>
+    <string name="action_dismiss">Dismiss</string>
+    <string name="banner_contributeTranslate" translatable="false">Would you like to contribute &amp; help translating this app into %s? :D\nIf you want to and think that you can, click me!</string>
 </resources>
