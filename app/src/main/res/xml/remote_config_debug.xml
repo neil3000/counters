@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>privacy_policy_url</key>
+        <value>https://gitlab.com/neil3000/counters/-/wikis/Counters:-Privacy-policy</value>
+    </entry>
+    <entry>
+        <key>feedback_email</key>
+        <value>counters@rahmouni.dev</value>
+    </entry>
+    <entry>
+        <key>play_store_url</key>
+        <value>https://play.google.com/store/apps/details?id=rahmouni.neil.counters</value>
+    </entry>
+    <entry>
+        <key>changelog_url</key>
+        <value>https://gitlab.com/neil3000/counters/-/wikis/Changelog</value>
+    </entry>
+    <entry>
+        <key>contribute_translate_banner</key>
+        <value>{"title": "Bonjour !", "language": "French"}</value>
+    </entry>
+
+    <!-- EXPERIMENTS -->
+    <entry>
+        <key>issue54__reset_value_setting</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>issue70__navigation_rail</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>issue82__tile_radio_buttons_color</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>issue84__new_increment_redesign</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>issue85__new_counter_redesign</key>
+        <value>true</value>
+    </entry>
+</defaultsMap>

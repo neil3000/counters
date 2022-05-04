@@ -175,8 +175,7 @@ fun NewIncrementExperiment(
                     .fillMaxWidth()
                     .padding(16.dp),
             ) {
-                FilledIconButton(
-                    colors = IconButtonDefaults.filledIconButtonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                FilledTonalIconButton(
                     onClick = {
                         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
@@ -204,8 +203,7 @@ fun NewIncrementExperiment(
                     keyboardActions = KeyboardActions {
                         addIncrement()
                     })
-                FilledIconButton(
-                    colors = IconButtonDefaults.filledIconButtonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                FilledTonalIconButton(
                     onClick = {
                         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 

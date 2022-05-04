@@ -33,6 +33,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743616795299:android:21e3a4792e11eb7006e516",
+        "android_client_info": {
+          "package_name": "rahmouni.neil.counters.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "743616795299-gafce95g6fd558cj3qh91c6tlclu7h7q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVB4KH4wqvdSG5yPPJjgBZOIJwdn8owF4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "743616795299-gafce95g6fd558cj3qh91c6tlclu7h7q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

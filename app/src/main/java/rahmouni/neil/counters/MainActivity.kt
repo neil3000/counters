@@ -78,8 +78,8 @@ class MainActivity : ComponentActivity() {
         }
 
         val remoteConfig = FirebaseRemoteConfig.getInstance()
-        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
-        remoteConfig.fetchAndActivate()
+        remoteConfig.setDefaultsAsync(if (BuildConfig.DEBUG) R.xml.remote_config_debug else R.xml.remote_config_defaults)
+        if (!BuildConfig.DEBUG) remoteConfig.fetchAndActivate()
 
         FirebaseCrashlytics.getInstance()
             .setCrashlyticsCollectionEnabled(prefs.crashlyticsEnabled && !BuildConfig.DEBUG)
@@ -198,7 +198,6 @@ fun Home(countersListViewModel: CountersListViewModel) {
                                 bottomSheetNewCounterState.animateTo(ModalBottomSheetValue.Expanded)
                             }
                         },
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
                         modifier = Modifier.navigationBarsPadding()
                     )
                 }
