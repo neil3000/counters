@@ -42,4 +42,8 @@
         <key>issue85__new_counter_redesign</key>
         <value>true</value>
     </entry>
+    <entry>
+        <key>issue20__graph</key>
+        <value>true</value>
+    </entry>
 </defaultsMap>

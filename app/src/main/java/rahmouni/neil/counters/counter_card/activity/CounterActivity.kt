@@ -14,10 +14,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.List
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -55,6 +52,7 @@ import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.counter_card.NewIncrement
 import rahmouni.neil.counters.counter_card.NewIncrementExperiment
+import rahmouni.neil.counters.counter_card.activity.graph.CounterGraph
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
@@ -124,9 +122,18 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
         !remoteConfig.getBoolean("issue70__navigation_rail") ||
                 (windowSize.widthSizeClass == WindowWidthSizeClass.Compact || windowSize.heightSizeClass != WindowHeightSizeClass.Compact)
 
-    val navItemsLabels = listOf(R.string.text_entries_short, R.string.text_counterSettings_short)
-    val navItemsRoutes = listOf("entries", "settings")
-    val navItemsIcons = listOf(Icons.Outlined.List, Icons.Outlined.Settings)
+    val navItemsLabels =
+        if (remoteConfig.getBoolean("issue20__graph"))
+            listOf(R.string.text_entries_short, R.string.text_graph_short, R.string.text_counterSettings_short)
+        else listOf(R.string.text_entries_short, R.string.text_counterSettings_short)
+    val navItemsRoutes =
+        if (remoteConfig.getBoolean("issue20__graph"))
+            listOf("entries", "graph", "settings")
+        else listOf("entries", "settings")
+    val navItemsIcons =
+        if (remoteConfig.getBoolean("issue20__graph"))
+            listOf(Icons.Outlined.List, Icons.Outlined.ShowChart, Icons.Outlined.Settings)
+        else listOf(Icons.Outlined.List, Icons.Outlined.Settings)
 
     fun moveToRoute(route: String) {
         navController.navigate(route) {
@@ -241,6 +248,9 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                     ) {
                         composable("entries") {
                             CounterEntries(counter, increments, countersListViewModel)
+                        }
+                        composable("graph") {
+                            CounterGraph(counter, countersListViewModel)
                         }
                         composable("settings") {
                             CounterSettings(counter, countersListViewModel)

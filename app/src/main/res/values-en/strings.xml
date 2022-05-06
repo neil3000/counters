@@ -110,4 +110,9 @@
     <string name="text_resetFrequency">Reset frequency</string>
     <string name="action_dismiss">Dismiss</string>
     <string name="action_letsGo">Let\'s go</string>
+    <string name="text_graph_short">Graph</string>
+    <string name="text_groupedByDay">Grouped by day</string>
+    <string name="text_groupedByWeek">Grouped by week</string>
+    <string name="text_dontGroup">Don\'t group</string>
+    <string name="text_notGrouped">Not grouped</string>
 </resources>

@@ -110,4 +110,9 @@
     <string name="action_dismiss">Dismiss</string>
     <string name="banner_contributeTranslate" translatable="false">Would you like to contribute &amp; help translating this app into %s? :D</string>
     <string name="action_letsGo">Let\'s go</string>
+    <string name="text_graph_short">Graph</string>
+    <string name="text_groupedByDay">Grouped by day</string>
+    <string name="text_groupedByWeek">Grouped by week</string>
+    <string name="text_dontGroup">Don\'t group</string>
+    <string name="text_notGrouped">Not grouped</string>
 </resources>

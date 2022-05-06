@@ -13,8 +13,8 @@ android {
         applicationId "rahmouni.neil.counters"
         minSdk 21
         targetSdk 31
-        versionCode 27
-        versionName "1.15"
+        versionCode 28
+        versionName "1.15.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -124,4 +124,6 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.4.2")
 
     implementation "androidx.browser:browser:1.4.0"
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
