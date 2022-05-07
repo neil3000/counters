@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 @Composable
 fun TileClick(
     title: String,
+    description: String? = null,
     icon: ImageVector?,
     onClick: () -> Unit
 ) {
@@ -22,6 +23,8 @@ fun TileClick(
 
     ListItem(
         text = { Text(title) },
+        secondaryText = if (description!=null) { { Text(description) } } else null,
+        singleLineSecondaryText = true,
         icon = if (icon != null) {
             { Icon(icon, null) }
         } else null,

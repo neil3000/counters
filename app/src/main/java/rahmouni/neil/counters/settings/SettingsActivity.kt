@@ -186,6 +186,9 @@ fun SettingsPage() {
                         debugMode = it
                     }
                 }
+                item {
+                    TileRemoteConfig()
+                }
                 item { MenuDefaults.Divider() }
             }
         }
