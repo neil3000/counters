@@ -117,4 +117,5 @@
     <string name="text_notGrouped">Non groupé</string>
     <string name="text_entriesGrouping">Regroupement des entrées</string>
     <string name="action_groupEntriesBy">Regrouper les entrées par</string>
+    <string name="action_sendAndroidVersion">Envoyer la version d\'Android</string>
 </resources>

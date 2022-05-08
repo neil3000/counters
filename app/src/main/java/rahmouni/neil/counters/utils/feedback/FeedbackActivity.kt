@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Build.MANUFACTURER
 import android.os.Build.MODEL
 import android.os.Bundle
@@ -77,6 +78,7 @@ fun FeedbackPage(previousScreen: String) {
     var feedbackType: FeedbackType? by rememberSaveable { mutableStateOf(null) }
     var feedbackLocation by rememberSaveable { mutableStateOf(FeedbackLocation.PREVIOUS) }
     var sendDeviceModel by rememberSaveable { mutableStateOf(true) }
+    var sendAndroidVersion by rememberSaveable { mutableStateOf(true) }
     var description by rememberSaveable { mutableStateOf("") }
 
     val device = if (MODEL.startsWith(MANUFACTURER, ignoreCase = true)) {
@@ -84,6 +86,7 @@ fun FeedbackPage(previousScreen: String) {
     } else {
         "$MANUFACTURER $MODEL"
     }
+    val androidVersion = "${Build.VERSION.RELEASE} (${Build.VERSION.SDK_INT})"
 
     val canSend = feedbackType != null && description != ""
 
@@ -142,6 +145,7 @@ fun FeedbackPage(previousScreen: String) {
                                         "VERSION: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
                                                 "SCREEN: ${if (feedbackLocation == FeedbackLocation.PREVIOUS) previousScreen else "null"}\n" +
                                                 "DEVICE: ${if (sendDeviceModel) device else "null"}\n" +
+                                                "ANDROID_VERSION: ${if (sendDeviceModel) androidVersion else "null"}\n" +
                                                 "DESC:\n$description"
                                     FeedbackType.FEATURE ->
                                         "VERSION: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
@@ -199,6 +203,17 @@ fun FeedbackPage(previousScreen: String) {
                     enabled = feedbackType == FeedbackType.BUG
                 ) {
                     sendDeviceModel = it
+                }
+            }
+            item {
+                TileSwitch(
+                    title = stringResource(R.string.action_sendAndroidVersion),
+                    description = androidVersion,
+                    icon = Icons.Outlined.Android,
+                    checked = feedbackType == FeedbackType.BUG && sendAndroidVersion,
+                    enabled = feedbackType == FeedbackType.BUG
+                ) {
+                    sendAndroidVersion = it
                 }
             }
             item {

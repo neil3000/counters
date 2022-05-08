@@ -117,4 +117,5 @@
     <string name="text_notGrouped">Not grouped</string>
     <string name="text_entriesGrouping">Entries grouping</string>
     <string name="action_groupEntriesBy">Group entries by</string>
+    <string name="action_sendAndroidVersion">Send Android version</string>
 </resources>
