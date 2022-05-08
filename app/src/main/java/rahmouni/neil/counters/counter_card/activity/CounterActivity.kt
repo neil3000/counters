@@ -119,7 +119,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
         .observeAsState()
 
     val bottomBarVisible =
-        windowSize.widthSizeClass == WindowWidthSizeClass.Compact || windowSize.heightSizeClass != WindowHeightSizeClass.Compact
+        windowSize.widthSizeClass == WindowWidthSizeClass.Compact && windowSize.heightSizeClass != WindowHeightSizeClass.Compact
 
     val navItemsLabels =
         if (remoteConfig.getBoolean("issue20__graph"))
