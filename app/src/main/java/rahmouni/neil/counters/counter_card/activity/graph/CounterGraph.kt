@@ -16,7 +16,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.github.mikephil.charting.animation.Easing
@@ -29,26 +29,29 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
+import rahmouni.neil.counters.database.Increment
 import rahmouni.neil.counters.database.IncrementGroup
 import rahmouni.neil.counters.utils.FullscreenDynamicSVG
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
+import java.text.SimpleDateFormat
+import java.util.*
 
 @SuppressLint("SimpleDateFormat")
 @Composable
 fun CounterGraph(
     counter: CounterAugmented?,
+    increments: List<Increment>?,
     countersListViewModel: CountersListViewModel,
 ) {
-    val context = LocalContext.current
     //val remoteConfig = FirebaseRemoteConfig.getInstance()
 
-    if (counter != null) {
+    if (counter != null && increments?.isNotEmpty() == true) {
+        var groupType: GraphGroupType by rememberSaveable { mutableStateOf(GraphGroupType.DAY) }
+
         val incrementGroupsList: List<IncrementGroup> by countersListViewModel.getCounterIncrementGroups(
             counter.uid,
-            ResetType.DAY
+            if (groupType.resetType == ResetType.NEVER) ResetType.DAY else groupType.resetType
         ).observeAsState(listOf())
-
-        var groupType: GraphGroupType? by rememberSaveable { mutableStateOf(GraphGroupType.DAY) }
 
         if (incrementGroupsList.isNotEmpty()) {
             val primaryColor = MaterialTheme.colorScheme.primary.toArgb()
@@ -60,21 +63,6 @@ fun CounterGraph(
                     AndroidView(
                         factory = { ctx ->
                             BarChart(ctx).apply {
-                                val entries: ArrayList<BarEntry> = ArrayList()
-
-                                for (i in incrementGroupsList.indices) entries.add(
-                                    BarEntry(
-                                        i.toFloat(),
-                                        incrementGroupsList[i].count.toFloat()
-                                    )
-                                )
-
-                                val barDataSet = BarDataSet(entries, "")
-                                barDataSet.color = primaryColor
-                                barDataSet.valueTextColor = onBackgroundColor
-
-                                data = BarData(barDataSet)
-
                                 axisLeft.setDrawGridLines(true)
                                 xAxis.setDrawGridLines(false)
                                 xAxis.setDrawAxisLine(false)
@@ -83,6 +71,7 @@ fun CounterGraph(
                                 xAxis.granularity = 1f
                                 xAxis.labelRotationAngle = +90f
                                 xAxis.textColor = onPrimaryColor
+                                xAxis.setDrawLabels(false) //TODO remove
                                 axisLeft.axisLineColor = onBackgroundColor
                                 axisLeft.textColor = onBackgroundColor
 
@@ -94,23 +83,84 @@ fun CounterGraph(
                                 setScaleEnabled(false)
                                 setPinchZoom(false)
                                 isDoubleTapToZoomEnabled = false
-
-                                animateXY(1000, 2000, Easing.EaseOutQuart)
-
-                                invalidate()
                             }
                         },
                         Modifier
                             .padding(8.dp)
                             .fillMaxWidth()
-                            .aspectRatio(1.5f)
+                            .aspectRatio(1.5f),
+                        update = {
+                            it.apply {
+                                val list = incrementGroupsList.toMutableList()
+                                var i = 0
+                                clear()
+
+                                val entries: ArrayList<BarEntry> = ArrayList()
+
+                                if (groupType.resetType == ResetType.NEVER) {
+                                    for (inc in increments) {
+                                        entries.add(
+                                            0,
+                                            BarEntry(
+                                                -i.toFloat(),
+                                                (inc.value + counter.resetValue).toFloat()
+                                            )
+                                        )
+                                        i++
+                                    }
+                                } else {
+                                    while (list.isNotEmpty() && i < 1000) {
+                                        val cal = Calendar.getInstance()
+                                        cal.set(Calendar.HOUR_OF_DAY, 0)
+                                        cal.set(Calendar.MINUTE, 0)
+                                        cal.set(Calendar.SECOND, 0)
+                                        cal.set(Calendar.MILLISECOND, 0)
+
+                                        groupType.offset(cal, i)
+
+                                        val gDate = Calendar.getInstance()
+                                        gDate.clear()
+                                        gDate.set(Calendar.HOUR_OF_DAY, 1)
+                                        gDate.time =
+                                            SimpleDateFormat("yyyy-MM-dd").parse(list.first().date)!!
+
+                                        var value = counter.resetValue
+                                        if (gDate.equals(cal)) {
+                                            value += list.first().count
+                                            list.removeFirst()
+                                        }
+
+                                        entries.add(
+                                            0,
+                                            BarEntry(
+                                                -i.toFloat(),
+                                                value.toFloat()
+                                            )
+                                        )
+
+                                        i++
+                                    }
+                                }
+
+                                val barDataSet = BarDataSet(entries, "")
+                                barDataSet.color = primaryColor
+                                barDataSet.valueTextColor = onBackgroundColor
+
+                                data = BarData(barDataSet)
+
+                                animateXY(1000, 2000, Easing.EaseOutQuart)
+
+                                notifyDataSetChanged()
+                                invalidate()
+                            }
+                        }
                     )
                 }
 
                 item {
                     TileDialogRadioButtons(
-                        title = "Entries grouping",
-                        dialogTitle = "Group entries by",
+                        title = stringResource(R.string.text_entriesGrouping),
+                        dialogTitle = stringResource(R.string.action_groupEntriesBy),
                         icon = Icons.Outlined.GroupWork,
                         values = GraphGroupType.values().asList(),
                         selected = groupType

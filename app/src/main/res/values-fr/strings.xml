@@ -110,4 +110,11 @@
     <string name="text_resetFrequency">Fréquence de réinitialisation</string>
     <string name="action_dismiss">Fermer</string>
     <string name="action_letsGo">C\'est parti</string>
+    <string name="text_graph_short">Graphique</string>
+    <string name="text_groupedByDay">Regroupés par jour</string>
+    <string name="text_groupedByWeek">Regroupés par semaine</string>
+    <string name="text_dontGroup">Ne pas grouper</string>
+    <string name="text_notGrouped">Non groupé</string>
+    <string name="text_entriesGrouping">Regroupement des entrées</string>
+    <string name="action_groupEntriesBy">Regrouper les entrées par</string>
 </resources>

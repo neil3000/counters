@@ -250,7 +250,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                             CounterEntries(counter, increments, countersListViewModel)
                         }
                         composable("graph") {
-                            CounterGraph(counter, countersListViewModel)
+                            CounterGraph(counter, increments, countersListViewModel)
                         }
                         composable("settings") {
                             CounterSettings(counter, countersListViewModel)

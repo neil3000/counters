@@ -46,4 +46,8 @@
         <key>issue20__graph</key>
         <value>true</value>
     </entry>
+    <entry>
+        <key>issue103__color_tile_new_animation</key>
+        <value>true</value>
+    </entry>
 </defaultsMap>
