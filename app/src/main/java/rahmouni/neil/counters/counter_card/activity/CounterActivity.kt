@@ -119,12 +119,15 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
         .observeAsState()
 
     val bottomBarVisible =
-        !remoteConfig.getBoolean("issue70__navigation_rail") ||
-                (windowSize.widthSizeClass == WindowWidthSizeClass.Compact || windowSize.heightSizeClass != WindowHeightSizeClass.Compact)
+        windowSize.widthSizeClass == WindowWidthSizeClass.Compact || windowSize.heightSizeClass != WindowHeightSizeClass.Compact
 
     val navItemsLabels =
         if (remoteConfig.getBoolean("issue20__graph"))
-            listOf(R.string.text_entries_short, R.string.text_graph_short, R.string.text_counterSettings_short)
+            listOf(
+                R.string.text_entries_short,
+                R.string.text_graph_short,
+                R.string.text_counterSettings_short
+            )
         else listOf(R.string.text_entries_short, R.string.text_counterSettings_short)
     val navItemsRoutes =
         if (remoteConfig.getBoolean("issue20__graph"))
@@ -161,23 +164,26 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
         }
     }
 
-    RoundedBottomSheet(bottomSheetState, (if (remoteConfig.getBoolean("issue84__new_increment_redesign")) 1.dp else 0.dp), {
-        if (counter != null) {
-            if (remoteConfig.getBoolean("issue84__new_increment_redesign")) {
-                NewIncrementExperiment(counter, countersListViewModel) {
-                    scope.launch {
-                        bottomSheetState.hide()
+    RoundedBottomSheet(
+        bottomSheetState,
+        (if (remoteConfig.getBoolean("issue84__new_increment_redesign")) 1.dp else 0.dp),
+        {
+            if (counter != null) {
+                if (remoteConfig.getBoolean("issue84__new_increment_redesign")) {
+                    NewIncrementExperiment(counter, countersListViewModel) {
+                        scope.launch {
+                            bottomSheetState.hide()
+                        }
                     }
-                }
-            }else {
-                NewIncrement(counter, countersListViewModel) {
-                    scope.launch {
-                        bottomSheetState.hide()
+                } else {
+                    NewIncrement(counter, countersListViewModel) {
+                        scope.launch {
+                            bottomSheetState.hide()
+                        }
                     }
                 }
             }
-        }
-    }) {
+        }) {
         Scaffold(
             modifier = Modifier
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
