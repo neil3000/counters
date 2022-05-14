@@ -38,6 +38,7 @@ import rahmouni.neil.counters.BuildConfig
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
+import rahmouni.neil.counters.utils.tiles.TileHeader
 import rahmouni.neil.counters.utils.tiles.TileSwitch
 
 class FeedbackActivity : ComponentActivity() {
@@ -129,9 +130,7 @@ fun FeedbackPage(previousScreen: String) {
                 onClick = {
                     if (canSend) {
                         val intent = Intent(Intent.ACTION_SENDTO).apply {
-                            type = "message/rfc822"
-                            data =
-                                Uri.parse("mailto:")
+                            setDataAndType(Uri.parse("mailto:"), "message/rfc822")
                             putExtra(
                                 Intent.EXTRA_EMAIL,
                                 arrayOf(remoteConfig.getString("feedback_email"))
@@ -172,6 +171,7 @@ fun FeedbackPage(previousScreen: String) {
         }
     ) { innerPadding ->
         LazyColumn(contentPadding = innerPadding, modifier = Modifier.fillMaxHeight()) {
+            item { TileHeader(stringResource(R.string.header_general)) }
             item {
                 TileDialogRadioButtons(
                     title = stringResource(R.string.text_category),
@@ -195,6 +195,26 @@ fun FeedbackPage(previousScreen: String) {
                 }
             }
             item {
+                Column(Modifier.padding(16.dp)) {
+                    TextField(
+                        label = { Text(stringResource(R.string.text_description)) },
+                        value = description,
+                        onValueChange = { description = it },
+                        singleLine = false,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Text(
+                        text = stringResource(feedbackType?.describe ?: FeedbackType.BUG.describe),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+                    )
+                }
+            }
+            item { MenuDefaults.Divider() }
+
+            item { TileHeader(stringResource(R.string.header_data)) }
+            item {
                 TileSwitch(
                     title = stringResource(R.string.action_sendDeviceModel),
                     description = device,
@@ -214,23 +234,6 @@ fun FeedbackPage(previousScreen: String) {
                     enabled = feedbackType == FeedbackType.BUG
                 ) {
                     sendAndroidVersion = it
-                }
-            }
-            item {
-                Column(Modifier.padding(16.dp)) {
-                    TextField(
-                        label = { Text(stringResource(R.string.text_description)) },
-                        value = description,
-                        onValueChange = { description = it },
-                        singleLine = false,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Text(
-                        text = stringResource(feedbackType?.describe ?: FeedbackType.BUG.describe),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.padding(start = 16.dp, top = 4.dp)
-                    )
                 }
             }
         }

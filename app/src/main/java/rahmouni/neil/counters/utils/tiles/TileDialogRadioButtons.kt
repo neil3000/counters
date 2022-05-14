@@ -26,7 +26,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.R
 
 @OptIn(
@@ -45,7 +44,7 @@ fun TileDialogRadioButtons(
     onChange: (TileDialogRadioListEnum) -> Unit
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
+    //val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     var openDialog by rememberSaveable { mutableStateOf(false) }
     var dialogValue by rememberSaveable { mutableStateOf(selected) }
@@ -77,14 +76,13 @@ fun TileDialogRadioButtons(
         AlertDialog(
             onDismissRequest = { closeDialog() },
             title = {
-                Text(dialogTitle?:title)
+                Text(dialogTitle ?: title)
             },
             icon = { Icon(icon, null) },
             text = {
                 Column(Modifier.width(IntrinsicSize.Max)) {
                     values.forEach {
-                        val color =
-                            if (remoteConfig.getBoolean("issue82__tile_radio_buttons_color")) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.tertiaryContainer
+                        val color = MaterialTheme.colorScheme.primaryContainer
                         val animatedColor = animateColorAsState(
                             if (dialogValue == it) color else MaterialTheme.colorScheme.surface
                         )
@@ -147,7 +145,7 @@ fun TileDialogRadioButtons(
             },
             confirmButton = {
                 TextButton(
-                    enabled = dialogValue!=null,
+                    enabled = dialogValue != null,
                     onClick = {
                         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
