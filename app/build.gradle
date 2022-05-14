@@ -70,7 +70,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.4.1"
     implementation "androidx.activity:activity-ktx:1.4.0"
 
-    implementation "androidx.compose.ui:ui:1.2.0-alpha08"
+    implementation "androidx.compose.ui:ui:1.2.0-beta01"
     implementation 'com.google.firebase:firebase-analytics-ktx:21.0.0'
     implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.10'
     implementation 'com.google.firebase:firebase-config-ktx:21.1.0'
@@ -78,11 +78,11 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling:1.1.1")
     implementation "androidx.compose.ui:ui-tooling-preview:1.1.1"
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
-    implementation("androidx.compose.foundation:foundation:1.2.0-alpha08")
+    implementation("androidx.compose.foundation:foundation:1.2.0-beta01")
     // Material Design
     implementation("androidx.compose.material:material:1.1.1")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha10")
-    implementation("androidx.compose.material3:material3-window-size-class:1.0.0-alpha10")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha11")
+    implementation("androidx.compose.material3:material3-window-size-class:1.0.0-alpha11")
     // Material design icons
     implementation("androidx.compose.material:material-icons-core:1.1.1")
     implementation("androidx.compose.material:material-icons-extended:1.1.1")
@@ -98,15 +98,15 @@ dependencies {
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-beta01"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-rc01"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-common-java8:2.4.1"
     implementation "androidx.compose.runtime:runtime-livedata:1.1.1"
 
 
     // Kotlin components
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
 
     // UI
     implementation "androidx.constraintlayout:constraintlayout:2.1.3"

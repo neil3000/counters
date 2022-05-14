@@ -10,11 +10,7 @@ import androidx.compose.material.icons.outlined.Science
 import androidx.compose.material.icons.outlined.TextFields
 import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -28,7 +24,7 @@ fun TileRemoteConfig() {
     val localHapticFeedback = LocalHapticFeedback.current
     val remoteConfig = FirebaseRemoteConfig.getInstance()
 
-    var openDialog by rememberSaveable { mutableStateOf(false) }
+    var openDialog by remember { mutableStateOf(false) }
 
     ListItem(
         text = { androidx.compose.material.Text("Remote Config") },
@@ -98,7 +94,7 @@ fun TileRemoteConfig() {
                     }
                 }
             },
-            dismissButton = {
+            confirmButton = {
                 TextButton(
                     onClick = {
                         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -108,8 +104,7 @@ fun TileRemoteConfig() {
                 ) {
                     Text(stringResource(R.string.action_dismiss))
                 }
-            },
-            confirmButton = {}
+            }
         )
     }
 }

@@ -155,15 +155,17 @@ fun SettingsPage() {
             }
             item {
                 TileClick(
-                    title = "Contribute & help translating the app",
+                    title = R.string.text_helpTranslateTheApp,
                     icon = Icons.Outlined.Translate
                 ){
                     sendEmail(activity, remoteConfig.getString("feedback_email"), "Want to help translate")
                 }
             }
-            item { MenuDefaults.Divider() }
+            
 
             if (showDebug) {
+                item { MenuDefaults.Divider() }
+
                 item { TileHeader("Debug") }
                 item {
                     TileClick(
@@ -189,7 +191,6 @@ fun SettingsPage() {
                 item {
                     TileRemoteConfig()
                 }
-                item { MenuDefaults.Divider() }
             }
         }
     }

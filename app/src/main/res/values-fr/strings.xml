@@ -118,4 +118,6 @@
     <string name="text_entriesGrouping">Regroupement des entrées</string>
     <string name="action_groupEntriesBy">Regrouper les entrées par</string>
     <string name="action_sendAndroidVersion">Envoyer la version d\'Android</string>
+    <string name="text_saturday">Samedi</string>
+    <string name="text_helpTranslateTheApp">Aidez à traduire l\'application</string>
 </resources>
