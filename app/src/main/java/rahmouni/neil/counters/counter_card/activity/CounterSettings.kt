@@ -38,7 +38,7 @@ fun CounterSettings(
                 dialogTitle = stringResource(R.string.action_editName),
                 icon = Icons.Outlined.Title,
                 value = counter?.displayName ?: "Counter",
-                validateInput = { it.count() >= 1 }
+                validateInput = { it.isNotEmpty() }
             ) {
                 if (counter != null) {
                     countersListViewModel.updateCounter(

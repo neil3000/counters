@@ -130,7 +130,7 @@ fun FeedbackPage(previousScreen: String) {
                 onClick = {
                     if (canSend) {
                         val intent = Intent(Intent.ACTION_SENDTO).apply {
-                            setDataAndType(Uri.parse("mailto:"), "message/rfc822")
+                            data = Uri.parse("mailto:")
                             putExtra(
                                 Intent.EXTRA_EMAIL,
                                 arrayOf(remoteConfig.getString("feedback_email"))
