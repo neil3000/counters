@@ -120,4 +120,5 @@
     <string name="action_sendAndroidVersion">Envoyer la version d\'Android</string>
     <string name="text_saturday">Samedi</string>
     <string name="text_helpTranslateTheApp">Aidez à traduire l\'application</string>
+    <string name="text_helpDiagnoseIssuesWithinTheapp">Aide à diagnostiquer les problèmes dans l\'appli</string>
 </resources>

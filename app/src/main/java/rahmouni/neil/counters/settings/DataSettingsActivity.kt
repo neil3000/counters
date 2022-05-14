@@ -133,6 +133,7 @@ fun DataSettingsPage() {
             item {
                 TileSwitch(
                     title = stringResource(R.string.text_crashReports),
+                    description = if (remoteConfig.getBoolean("issue110__crashlytics_description")) stringResource(R.string.text_helpDiagnoseIssuesWithinTheapp) else null,
                     icon = Icons.Outlined.BugReport,
                     checked = crashlyticsEnabled?:true && !BuildConfig.DEBUG,
                     enabled = !BuildConfig.DEBUG
