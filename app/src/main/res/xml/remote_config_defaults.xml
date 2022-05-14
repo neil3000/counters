@@ -50,4 +50,8 @@
         <key>issue117__m3_filter_chip</key>
         <value>false</value>
     </entry>
+    <entry>
+        <key>issue116__m3_switches</key>
+        <value>false</value>
+    </entry>
 </defaultsMap>
