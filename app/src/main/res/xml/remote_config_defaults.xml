@@ -46,4 +46,8 @@
         <key>issue110__crashlytics_description</key>
         <value>false</value>
     </entry>
+    <entry>
+        <key>issue117__m3_filter_chip</key>
+        <value>false</value>
+    </entry>
 </defaultsMap>

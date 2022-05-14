@@ -107,9 +107,9 @@ fun DataSettingsPage() {
                 TileSwitch(
                     title = stringResource(R.string.text_analytics),
                     icon = Icons.Outlined.ShowChart,
-                    checked = analyticsEnabled?:true && !BuildConfig.DEBUG,
+                    checked = analyticsEnabled ?: true && !BuildConfig.DEBUG,
                     enabled = !BuildConfig.DEBUG
-                ){
+                ) {
                     analytics?.logEvent("changed_settings") {
                         param("Analytics", it.toString())
                     }
@@ -124,7 +124,7 @@ fun DataSettingsPage() {
                     icon = Icons.Outlined.RestartAlt,
                     message = stringResource(R.string.confirmation_resetAnalytics),
                     confirmString = stringResource(R.string.action_reset_short)
-                ){
+                ) {
                     analytics?.logEvent("reset_analytics", null)
 
                     analytics?.resetAnalyticsData()
@@ -133,11 +133,13 @@ fun DataSettingsPage() {
             item {
                 TileSwitch(
                     title = stringResource(R.string.text_crashReports),
-                    description = if (remoteConfig.getBoolean("issue110__crashlytics_description")) stringResource(R.string.text_helpDiagnoseIssuesWithinTheapp) else null,
+                    description = if (remoteConfig.getBoolean("issue110__crashlytics_description")) stringResource(
+                        R.string.text_helpDiagnoseIssuesWithinTheApp
+                    ) else null,
                     icon = Icons.Outlined.BugReport,
-                    checked = crashlyticsEnabled?:true && !BuildConfig.DEBUG,
+                    checked = crashlyticsEnabled ?: true && !BuildConfig.DEBUG,
                     enabled = !BuildConfig.DEBUG
-                ){
+                ) {
                     analytics?.logEvent("changed_settings") {
                         param("Crashlytics", it.toString())
                     }
