@@ -6,7 +6,6 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -58,7 +57,7 @@ class SettingsActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
 fun SettingsPage() {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
+        val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = remember(decayAnimationSpec) {
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
     }
@@ -78,8 +77,8 @@ fun SettingsPage() {
 
     Scaffold(
         modifier = Modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .statusBarsPadding(),
+            .statusBarsPadding()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
                 title = { Text(stringResource(R.string.text_settings)) },
@@ -104,8 +103,7 @@ fun SettingsPage() {
             )
         },
     ) { innerPadding ->
-        LazyColumn(contentPadding = innerPadding, modifier = Modifier.fillMaxHeight()) {
-
+        LazyColumn(contentPadding = innerPadding) {
             item { TileHeader(stringResource(R.string.header_general)) }
             item {
                 TileDialogRadioButtons(
@@ -155,7 +153,7 @@ fun SettingsPage() {
             }
             item {
                 TileClick(
-                    title = R.string.text_helpTranslateTheApp,
+                    title = stringResource(R.string.text_helpTranslateTheApp),
                     icon = Icons.Outlined.Translate
                 ){
                     sendEmail(activity, remoteConfig.getString("feedback_email"), "Want to help translate")
