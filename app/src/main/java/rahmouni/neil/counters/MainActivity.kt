@@ -6,7 +6,6 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,10 +33,8 @@ import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
-import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.counter_card.CounterCard
 import rahmouni.neil.counters.counter_card.NewIncrement
 import rahmouni.neil.counters.counter_card.NewIncrementExperiment
@@ -76,20 +73,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-        val remoteConfig = FirebaseRemoteConfig.getInstance()
-        remoteConfig.setDefaultsAsync(if (BuildConfig.DEBUG) R.xml.remote_config_debug else R.xml.remote_config_defaults)
-        if (!BuildConfig.DEBUG) remoteConfig.fetchAndActivate()
-
-        FirebaseCrashlytics.getInstance()
-            .setCrashlyticsCollectionEnabled(prefs.crashlyticsEnabled && !BuildConfig.DEBUG)
-
-        analytics?.setAnalyticsCollectionEnabled(prefs.analyticsEnabled && !BuildConfig.DEBUG)
     }
 }
 
 @OptIn(
-    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class,
     androidx.compose.material.ExperimentalMaterialApi::class
 )
 @Composable
@@ -111,46 +99,52 @@ fun Home(countersListViewModel: CountersListViewModel) {
     )
     var bottomSheetNewIncrementCounterID: Int? by rememberSaveable { mutableStateOf(null) }
 
-    RoundedBottomSheet(bottomSheetNewIncrementState, (if (remoteConfig.getBoolean("issue84__new_increment_redesign")) 1.dp else 0.dp), {
-        if (remoteConfig.getBoolean("issue84__new_increment_redesign")) {
-            NewIncrementExperiment(
-                counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid == bottomSheetNewIncrementCounterID },
-                countersListViewModel = countersListViewModel
-            ) {
-                scope.launch {
-                    bottomSheetNewIncrementState.hide()
-                    bottomSheetNewIncrementCounterID = null
-                }
-
-            }
-        } else {
-            NewIncrement(
-                counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid == bottomSheetNewIncrementCounterID },
-                countersListViewModel = countersListViewModel
-            ) {
-                scope.launch {
-                    bottomSheetNewIncrementState.hide()
-                    bottomSheetNewIncrementCounterID = null
-                }
-
-            }
-        }
-    }) {
-        RoundedBottomSheet(bottomSheetNewCounterState, (if (remoteConfig.getBoolean("issue85__new_counter_redesign")) 1.dp else 0.dp), {
-            if (remoteConfig.getBoolean("issue85__new_counter_redesign")) {
-                NewCounterExperiment(countersListViewModel) {
+    RoundedBottomSheet(
+        bottomSheetNewIncrementState,
+        (if (remoteConfig.getBoolean("issue84__new_increment_redesign")) 1.dp else 0.dp),
+        {
+            if (remoteConfig.getBoolean("issue84__new_increment_redesign")) {
+                NewIncrementExperiment(
+                    counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid == bottomSheetNewIncrementCounterID },
+                    countersListViewModel = countersListViewModel
+                ) {
                     scope.launch {
-                        bottomSheetNewCounterState.hide()
+                        bottomSheetNewIncrementState.hide()
+                        bottomSheetNewIncrementCounterID = null
                     }
+
                 }
-            }else {
-                NewCounter(countersListViewModel) {
+            } else {
+                NewIncrement(
+                    counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid == bottomSheetNewIncrementCounterID },
+                    countersListViewModel = countersListViewModel
+                ) {
                     scope.launch {
-                        bottomSheetNewCounterState.hide()
+                        bottomSheetNewIncrementState.hide()
+                        bottomSheetNewIncrementCounterID = null
                     }
+
                 }
             }
         }) {
+        RoundedBottomSheet(
+            bottomSheetNewCounterState,
+            (if (remoteConfig.getBoolean("issue85__new_counter_redesign")) 1.dp else 0.dp),
+            {
+                if (remoteConfig.getBoolean("issue85__new_counter_redesign")) {
+                    NewCounterExperiment(countersListViewModel) {
+                        scope.launch {
+                            bottomSheetNewCounterState.hide()
+                        }
+                    }
+                } else {
+                    NewCounter(countersListViewModel) {
+                        scope.launch {
+                            bottomSheetNewCounterState.hide()
+                        }
+                    }
+                }
+            }) {
             Scaffold(
                 modifier = Modifier
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
