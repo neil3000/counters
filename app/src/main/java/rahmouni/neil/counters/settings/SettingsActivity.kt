@@ -25,6 +25,7 @@ import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import rahmouni.neil.counters.BuildConfig
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
@@ -59,7 +60,7 @@ class SettingsActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
 fun SettingsPage() {
-        val decayAnimationSpec = rememberSplineBasedDecay<Float>()
+    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = remember(decayAnimationSpec) {
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
     }
@@ -129,6 +130,16 @@ fun SettingsPage() {
                     prefs.weekDisplay = it
                 }
             }
+            if (remoteConfig.getBoolean("issue114__gfit_integration")) {
+                item {
+                    TileSwitchStartActivity(
+                        title = stringResource(R.string.text_healthConnectIntegration),
+                        icon = Icons.Outlined.FitnessCenter,
+                        checked = BuildConfig.FLAVOR == "minApi27",
+                        activity = HealthConnectSettingsActivity::class.java,
+                    ) {}
+                }
+            }
             item {
                 TileStartActivity(
                     title = stringResource(R.string.text_dataAndPrivacy),
@@ -157,11 +168,15 @@ fun SettingsPage() {
                 TileClick(
                     title = stringResource(R.string.text_helpTranslateTheApp),
                     icon = Icons.Outlined.Translate
-                ){
-                    sendEmail(activity, remoteConfig.getString("feedback_email"), "Want to help translate")
+                ) {
+                    sendEmail(
+                        activity,
+                        remoteConfig.getString("feedback_email"),
+                        "Want to help translate"
+                    )
                 }
             }
-            
+
 
             if (showDebug) {
                 item { MenuDefaults.Divider() }

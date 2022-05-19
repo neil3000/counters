@@ -36,17 +36,16 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.counter_card.CounterCard
-import rahmouni.neil.counters.counter_card.NewIncrement
-import rahmouni.neil.counters.counter_card.NewIncrementExperiment
+import rahmouni.neil.counters.counter_card.new_increment.NewIncrement
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
 import rahmouni.neil.counters.settings.SettingsActivity
 import rahmouni.neil.counters.ui.theme.CountersTheme
-import rahmouni.neil.counters.utils.ContributeTranslateBanner
 import rahmouni.neil.counters.utils.FullscreenDynamicSVG
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 import rahmouni.neil.counters.utils.SettingsDots
+import rahmouni.neil.counters.utils.banner.ContributeTranslateBanner
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,30 +100,17 @@ fun Home(countersListViewModel: CountersListViewModel) {
 
     RoundedBottomSheet(
         bottomSheetNewIncrementState,
-        (if (remoteConfig.getBoolean("issue84__new_increment_redesign")) 1.dp else 0.dp),
+        1.dp,
         {
-            if (remoteConfig.getBoolean("issue84__new_increment_redesign")) {
-                NewIncrementExperiment(
-                    counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid == bottomSheetNewIncrementCounterID },
-                    countersListViewModel = countersListViewModel
-                ) {
-                    scope.launch {
-                        bottomSheetNewIncrementState.hide()
-                        bottomSheetNewIncrementCounterID = null
-                    }
-
+            NewIncrement(
+                counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid == bottomSheetNewIncrementCounterID },
+                countersListViewModel = countersListViewModel
+            ) {
+                scope.launch {
+                    bottomSheetNewIncrementState.hide()
+                    bottomSheetNewIncrementCounterID = null
                 }
-            } else {
-                NewIncrement(
-                    counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid == bottomSheetNewIncrementCounterID },
-                    countersListViewModel = countersListViewModel
-                ) {
-                    scope.launch {
-                        bottomSheetNewIncrementState.hide()
-                        bottomSheetNewIncrementCounterID = null
-                    }
 
-                }
             }
         }) {
         RoundedBottomSheet(

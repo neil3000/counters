@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="rahmouni.neil.counters">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="rahmouni.neil.counters">
 
     <application
         android:name=".CountersApplication"
@@ -42,5 +44,14 @@
             android:exported="true"
             android:theme="@style/Theme.Counters">
         </activity>
+        <activity
+            android:name=".settings.HealthConnectSettingsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Counters">
+        </activity>
     </application>
+
+    <queries>
+        <package android:name="com.google.android.apps.healthdata" />
+    </queries>
 </manifest>

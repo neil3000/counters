@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Remove
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -33,7 +34,7 @@ fun MinusEnabledOption(
             { Icon(Icons.Outlined.Remove, null) }
         } else null,
         trailing = {
-            rahmouni.neil.counters.utils.Switch(
+            Switch(
                 checked = enabled,
                 onCheckedChange = null,
             )

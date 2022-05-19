@@ -27,10 +27,6 @@
         <value>true</value>
     </entry>
     <entry>
-        <key>issue84__new_increment_redesign</key>
-        <value>true</value>
-    </entry>
-    <entry>
         <key>issue85__new_counter_redesign</key>
         <value>true</value>
     </entry>
@@ -51,11 +47,15 @@
         <value>true</value>
     </entry>
     <entry>
-        <key>issue116__m3_switches</key>
+        <key>issue120__card_preview_tablet</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>issue120__card_preview_tablet</key>
+        <key>issue121__new_increment_date</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>issue114__gfit_integration</key>
         <value>true</value>
     </entry>
 </defaultsMap>

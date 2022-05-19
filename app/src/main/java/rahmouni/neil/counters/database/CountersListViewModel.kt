@@ -23,8 +23,8 @@ class CountersListViewModel(private val repository: CountersListRepository) : Vi
             resetType.entriesGroup1!!
         ).asLiveData()
 
-    fun addIncrement(value: Int, counterID: Int) = viewModelScope.launch {
-        repository.addIncrement(value, counterID)
+    fun addIncrement(value: Int, counterID: Int, date: String? = null) = viewModelScope.launch {
+        repository.addIncrement(value, counterID, date)
 
         analytics?.logEvent("add_increment") {
             param("increment_value", value.toLong())

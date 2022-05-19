@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -27,19 +26,17 @@ fun TileSwitch(
     onChange: (Boolean) -> Unit
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
+    //val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     ListItem(
         text = { Text(title) },
-        secondaryText = if (description!=null) { { Text(description) } } else null,
+        secondaryText = if (description != null) {
+            { Text(description) }
+        } else null,
         singleLineSecondaryText = true,
         icon = { Icon(icon, null) },
         trailing = {
-            if (remoteConfig.getBoolean("issue116__m3_switches")) {
-                Switch(checked = checked, onCheckedChange = null)
-            } else {
-                rahmouni.neil.counters.utils.Switch(checked = checked, onCheckedChange = null)
-            }
+            Switch(checked = checked, onCheckedChange = null)
         },
         modifier = Modifier
             .alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)

@@ -20,12 +20,12 @@ class CountersListRepository(private val countersListDao: CountersListDao) {
         groupQuery1.replaceFirst("%d", weekday)
     )
 
-    suspend fun addIncrement(value: Int, counterID: Int) {
+    suspend fun addIncrement(value: Int, counterID: Int, date: String?) {
         countersListDao.addIncrement(
             Increment(
                 value = value,
                 counterID = counterID,
-                timestamp = DateFormat.format("yyyy-MM-dd HH:mm:ss", Date()).toString()
+                timestamp = date ?: DateFormat.format("yyyy-MM-dd HH:mm:ss", Date()).toString()
             )
         )
     }

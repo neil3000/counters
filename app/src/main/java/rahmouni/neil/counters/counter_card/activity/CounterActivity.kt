@@ -7,7 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.*
@@ -50,9 +49,8 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.counter_card.NewIncrement
-import rahmouni.neil.counters.counter_card.NewIncrementExperiment
 import rahmouni.neil.counters.counter_card.activity.graph.CounterGraph
+import rahmouni.neil.counters.counter_card.new_increment.NewIncrement
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
@@ -95,7 +93,7 @@ class CounterActivity : ComponentActivity() {
 
 @OptIn(
     ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class,
-    ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalAnimationApi::class
+    ExperimentalMaterial3WindowSizeClassApi::class
 )
 @Composable
 fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
@@ -166,24 +164,17 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
 
     RoundedBottomSheet(
         bottomSheetState,
-        (if (remoteConfig.getBoolean("issue84__new_increment_redesign")) 1.dp else 0.dp),
+        1.dp,
         {
             if (counter != null) {
-                if (remoteConfig.getBoolean("issue84__new_increment_redesign")) {
-                    NewIncrementExperiment(counter, countersListViewModel) {
-                        scope.launch {
-                            bottomSheetState.hide()
-                        }
-                    }
-                } else {
-                    NewIncrement(counter, countersListViewModel) {
-                        scope.launch {
-                            bottomSheetState.hide()
-                        }
+                NewIncrement(counter, countersListViewModel) {
+                    scope.launch {
+                        bottomSheetState.hide()
                     }
                 }
             }
-        }) {
+        }
+    ) {
         Scaffold(
             modifier = Modifier
                 .nestedScroll(scrollBehavior.nestedScrollConnection)

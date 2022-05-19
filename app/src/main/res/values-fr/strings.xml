@@ -122,4 +122,7 @@
     <string name="text_helpTranslateTheApp">Aidez à traduire l\'application</string>
     <string name="text_helpDiagnoseIssuesWithinTheApp">Aide à diagnostiquer les problèmes dans l\'appli</string>
     <string name="header_data">Données</string>
+    <string name="action_setToLastValue_short">Mettre à la dernière entrée</string>
+    <string name="action_editDate_short">Modifier la date</string>
+    <string name="action_clearDate">Effacer la date</string>
 </resources>

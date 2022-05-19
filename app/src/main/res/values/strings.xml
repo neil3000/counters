@@ -122,4 +122,9 @@
     <string name="text_helpTranslateTheApp">Help translate the app</string>
     <string name="text_helpDiagnoseIssuesWithinTheApp">Help diagnose issues within the app</string>
     <string name="header_data">Data</string>
+    <string name="action_setToLastValue_short">Set to last value</string>
+    <string name="action_editDate_short">Edit date</string>
+    <string name="action_clearDate">Clear date</string>
+    <string name="text_healthConnect">Health Connect</string>
+    <string name="text_healthConnectIntegration">Health Connect integration</string>
 </resources>

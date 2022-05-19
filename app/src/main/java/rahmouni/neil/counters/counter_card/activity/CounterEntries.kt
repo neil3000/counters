@@ -1,7 +1,6 @@
 package rahmouni.neil.counters.counter_card.activity
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +18,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -36,7 +36,7 @@ import rahmouni.neil.counters.utils.Header
 import java.text.SimpleDateFormat
 import java.util.*
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("SimpleDateFormat")
 @Composable
 fun CounterEntries(
@@ -79,7 +79,7 @@ fun CounterEntries(
                                         if (groupType.resetType == resetType) ResetType.NEVER else groupType.resetType
                                 },
                                 label = { Text(stringResource(groupType.title)) },
-                                selectedIcon = { Icon(Icons.Outlined.Check, null) }
+                                selectedIcon = { Icon(Icons.Outlined.Check, null, Modifier.scale(.75f)) }
                             )
                         } else {
                             rahmouni.neil.counters.utils.SelectableChip(

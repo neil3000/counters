@@ -13,8 +13,8 @@ android {
         applicationId "rahmouni.neil.counters"
         minSdk 21
         targetSdk 31
-        versionCode 33
-        versionName "1.16.1"
+        versionCode 34
+        versionName "1.17.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -25,6 +25,22 @@ android {
                 arguments += ["room.schemaLocation":
                                       "$projectDir/schemas".toString()]
             }
+        }
+    }
+
+    flavorDimensions "api"
+    productFlavors {
+        create("minApi27") {
+            dimension = "api"
+            minSdk = 27
+            versionCode = 270000 + (android.defaultConfig.versionCode ?: 0)
+            versionNameSuffix = ".00.27"
+        }
+        create("minApi21") {
+            dimension = "api"
+            minSdk = 21
+            versionCode = 210000 + (android.defaultConfig.versionCode ?: 0)
+            versionNameSuffix = ".00.21"
         }
     }
 
@@ -130,4 +146,11 @@ dependencies {
     implementation "androidx.browser:browser:1.4.0"
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+
+    //Health & Connect
+
+    minApi21CompileOnly 'androidx.health:health-connect-client:1.0.0-alpha01'
+    minApi27Implementation 'androidx.health:health-connect-client:1.0.0-alpha01'
 }

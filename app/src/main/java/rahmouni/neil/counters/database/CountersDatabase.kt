@@ -119,7 +119,7 @@ data class Increment(
 
 data class IncrementGroup(
     @ColumnInfo(name = "count") val count: Int = 0,
-    @ColumnInfo(name = "date") val date: String = "2000-01-01",
+    @ColumnInfo(name = "date", defaultValue = "2000-01-01") val date: String = "2000-01-01",
     @ColumnInfo(name = "uids") val uids: String,
 ) : Serializable
 

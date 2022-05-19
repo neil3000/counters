@@ -113,6 +113,17 @@ fun CounterSettings(
         item {
             TileHeader(stringResource(R.string.header_other))
         }
+        if (remoteConfig.getBoolean("issue114__gfit_integration")) {
+            item {
+                TileSwitch(
+                    title = "Google Fit integration", //TODO
+                    icon = Icons.Outlined.FitnessCenter,
+                    checked = true
+                ) {
+
+                }
+            }
+        }
         item {
             IncrementValueOption(
                 counter?.incrementType
