@@ -1,96 +1,124 @@
 package rahmouni.neil.counters.ui.theme
 
-import android.graphics.Color
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
+/**
+ * Light default theme color scheme
+ */
+private val LightDefaultColorScheme = lightColorScheme(
+    primary = Purple40,
+    onPrimary = Color.White,
+    primaryContainer = Purple90,
+    onPrimaryContainer = Purple10,
+    secondary = Orange40,
+    onSecondary = Color.White,
+    secondaryContainer = Orange90,
+    onSecondaryContainer = Orange10,
+    tertiary = Blue40,
+    onTertiary = Color.White,
+    tertiaryContainer = Blue90,
+    onTertiaryContainer = Blue10,
+    error = Red40,
+    onError = Color.White,
+    errorContainer = Red90,
+    onErrorContainer = Red10,
+    background = DarkPurpleGray99,
+    onBackground = DarkPurpleGray10,
+    surface = DarkPurpleGray99,
+    onSurface = DarkPurpleGray10,
+    surfaceVariant = PurpleGray90,
+    onSurfaceVariant = PurpleGray30,
+    outline = PurpleGray50
+)
+
+/**
+ * Dark default theme color scheme
+ */
+private val DarkDefaultColorScheme = darkColorScheme(
+    primary = Purple80,
+    onPrimary = Purple20,
+    primaryContainer = Purple30,
+    onPrimaryContainer = Purple90,
+    secondary = Orange80,
+    onSecondary = Orange20,
+    secondaryContainer = Orange30,
+    onSecondaryContainer = Orange90,
+    tertiary = Blue80,
+    onTertiary = Blue20,
+    tertiaryContainer = Blue30,
+    onTertiaryContainer = Blue90,
+    error = Red80,
+    onError = Red20,
+    errorContainer = Red30,
+    onErrorContainer = Red90,
+    background = DarkPurpleGray10,
+    onBackground = DarkPurpleGray90,
+    surface = DarkPurpleGray10,
+    onSurface = DarkPurpleGray90,
+    surfaceVariant = PurpleGray30,
+    onSurfaceVariant = PurpleGray80,
+    outline = PurpleGray60
+)
+
+/**
+ * Now in Android theme.
+ *
+ * The order of precedence for the color scheme is: Dynamic color > Android theme > Default theme.
+ * Dark theme is independent as all the aforementioned color schemes have light and dark versions.
+ * The default theme color scheme is used by default.
+ *
+ * @param darkTheme Whether the theme should use a dark color scheme (follows system by default).
+ * @param dynamicColor Whether the theme should use a dynamic color scheme (Android 12+ only).
+ */
 @Composable
-fun CountersTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    fun color(hex: String): androidx.compose.ui.graphics.Color {
-        return androidx.compose.ui.graphics.Color(Color.parseColor(hex))
+fun CountersTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    dynamicColor: Boolean = true,
+    content: @Composable () -> Unit
+) {
+    val colorScheme = when {
+        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+            val context = LocalContext.current
+            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        }
+        darkTheme -> DarkDefaultColorScheme
+        else -> LightDefaultColorScheme
     }
 
-    val colorScheme =
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            if (darkTheme) dynamicDarkColorScheme(LocalContext.current) else dynamicLightColorScheme(
-                LocalContext.current
-            )
-        } else {
-            if (darkTheme) darkColorScheme(
-                primary = color("#acc7ff"),
-                onPrimary = color("#032f67"),
-                primaryContainer = color("#24457f"),
-                onPrimaryContainer = color("#d6e2ff"),
-                inversePrimary = color("#3e5e98"),
-                secondary = color("#bfc6dc"),
-                onSecondary = color("#283041"),
-                secondaryContainer = color("#3f4758"),
-                onSecondaryContainer = color("#dbe2f9"),
-                tertiary = color("#e5b7e9"),
-                onTertiary = color("#44234c"),
-                tertiaryContainer = color("#5d3a63"),
-                onTertiaryContainer = color("#ffd6ff"),
-                outline = color("#8e919a"),
-                background = color("#1b1b1d"),
-                onBackground = color("#e3e1e6"),
-                surface = color("#1b1b1d"),
-                onSurface = color("#e3e1e6"),
-                surfaceVariant = color("#44464e"),
-                onSurfaceVariant = color("#c4c6d0"),
-                inverseSurface = color("#e3e1e6"),
-                inverseOnSurface = color("#303033"),
-            ) else lightColorScheme(
-                primary = color("#3e5e98"),
-                onPrimary = color("#ffffff"),
-                primaryContainer = color("#d6e2ff"),
-                onPrimaryContainer = color("#001a43"),
-                inversePrimary = color("#acc7ff"),
-                secondary = color("#575e71"),
-                onSecondary = color("#ffffff"),
-                secondaryContainer = color("#dbe2f9"),
-                onSecondaryContainer = color("#131c2c"),
-                tertiary = color("#77517d"),
-                onTertiary = color("#ffffff"),
-                tertiaryContainer = color("#ffd6ff"),
-                onTertiaryContainer = color("#2d0d35"),
-                outline = color("#73767e"),
-                background = color("#fdfbff"),
-                onBackground = color("#1b1b1d"),
-                surface = color("#fdfbff"),
-                onSurface = color("#1b1b1d"),
-                surfaceVariant = color("#e0e2ec"),
-                onSurfaceVariant = color("#44464e"),
-                inverseSurface = color("#303033"),
-                inverseOnSurface = color("#f2f0f4")
-            )
-        }
-
-    val colors = if (darkTheme)
-        darkColors(
-            primary = colorScheme.primary,
-            secondary = colorScheme.secondary,
-            background = colorScheme.background,
-            surface = colorScheme.surface,
-            error = colorScheme.error,
+    val backgroundTheme = when {
+        darkTheme -> BackgroundTheme(
+            color = colorScheme.surface,
+            tonalElevation = 2.dp
         )
-    else
-        lightColors(
-            primary = colorScheme.primary,
-            secondary = colorScheme.secondary,
-            background = colorScheme.background,
-            surface = colorScheme.surface,
-            error = colorScheme.error,
+        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> BackgroundTheme(
+            color = colorScheme.surface,
+            tonalElevation = 2.dp,
         )
-
-
-    androidx.compose.material.MaterialTheme(colors = colors, content = {
+        else -> BackgroundTheme(
+            color = colorScheme.surface,
+            tonalElevation = 2.dp,
+        )
+    }
+    CompositionLocalProvider(staticCompositionLocalOf { BackgroundTheme() } provides backgroundTheme) {
         MaterialTheme(
-            content = content,
-            colorScheme = colorScheme
+            colorScheme = colorScheme,
+            content = content
         )
-    })
+    }
 }
+
+@Immutable
+data class BackgroundTheme(
+    val color: Color = Color.Unspecified,
+    val tonalElevation: Dp = Dp.Unspecified
+)

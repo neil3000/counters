@@ -72,9 +72,9 @@ class CardSettingsActivity : ComponentActivity() {
                     androidx.compose.material.Surface {
                         Surface(
                             modifier = Modifier.fillMaxSize(),
-                            color = MaterialTheme.colorScheme.surface,
-                            tonalElevation = 1.dp
-                        ) {
+                            tonalElevation = 1.dp,
+                            color = MaterialTheme.colorScheme.surface
+                            ) {
                             if (remoteConfig.getBoolean("issue120__card_preview_tablet")) {
                                 CardSettingsPageNew(
                                     counterID, countersListViewModel
