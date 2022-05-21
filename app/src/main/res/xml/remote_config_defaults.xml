@@ -20,6 +20,15 @@
         <key>contribute_translate_banner</key>
         <value>{"title": null, "language": null}</value>
     </entry>
+    <entry>
+        <key>healthConnect_androidMinSdk_url</key>
+        <value>https://developer.android.com/guide/health-and-fitness/health-connect/frequently-asked-questions#q_does_health_connect_support_android_phones_without_google_play_services_installed</value>
+    </entry>
+    <entry>
+        <key>healthConnect_androidMinSdkWiki_url</key>
+        <value>https://gitlab.com/neil3000/counters/-/wikis/Health-Connect-error</value>
+    </entry>
+
 
     <!-- EXPERIMENTS -->
     <entry>

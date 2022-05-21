@@ -127,4 +127,6 @@
     <string name="action_clearDate">Clear date</string>
     <string name="text_healthConnect">Health Connect</string>
     <string name="text_healthConnectIntegration">Health Connect integration</string>
+    <string name="text_information">Information</string>
+    <string name="action_learnMore">Learn more</string>
 </resources>

@@ -25,8 +25,8 @@ import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import rahmouni.neil.counters.BuildConfig
 import rahmouni.neil.counters.R
+import rahmouni.neil.counters.healthConnect
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
@@ -128,16 +128,6 @@ fun SettingsPage() {
                 ) {
                     weekDisplay = it as WeekDisplay
                     prefs.weekDisplay = it
-                }
-            }
-            if (remoteConfig.getBoolean("issue114__gfit_integration")) {
-                item {
-                    TileSwitchStartActivity(
-                        title = stringResource(R.string.text_healthConnectIntegration),
-                        icon = Icons.Outlined.FitnessCenter,
-                        checked = BuildConfig.FLAVOR == "minApi27",
-                        activity = HealthConnectSettingsActivity::class.java,
-                    ) {}
                 }
             }
             item {

@@ -13,10 +13,11 @@ import java.io.Serializable
     entities = [Counter::class, Increment::class],
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
-        AutoMigration(from = 3, to = 4)
+        AutoMigration(from = 3, to = 4),
+        AutoMigration(from = 4, to = 5)
     ],
     exportSchema = true,
-    version = 4
+    version = 5
 )
 abstract class CountersDatabase : RoomDatabase() {
     abstract fun countersListDao(): CountersListDao
@@ -61,6 +62,10 @@ data class Counter(
         name = "reset_value",
         defaultValue = "0"
     ) val resetValue: Int = 0,
+    @ColumnInfo(
+        name = "health_connect_enabled",
+        defaultValue = "false"
+    ) val healthConnectEnabled: Boolean = false,
 )
 
 data class CounterAugmented(
@@ -79,6 +84,10 @@ data class CounterAugmented(
         name = "reset_value",
         defaultValue = "0"
     ) val resetValue: Int = 0,
+    @ColumnInfo(
+        name = "health_connect_enabled",
+        defaultValue = "false"
+    ) val healthConnectEnabled: Boolean = false,
 
     @ColumnInfo(name = "total_count") val totalCount: Int = 0,
     @ColumnInfo(name = "last_increment") val lastIncrement: Int = 1,
@@ -94,7 +103,8 @@ data class CounterAugmented(
             incrementValueType = incrementValueType,
             incrementValue = incrementValue,
             resetType = resetType,
-            resetValue = resetValue
+            resetValue = resetValue,
+            healthConnectEnabled = healthConnectEnabled
         )
     }
 }

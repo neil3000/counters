@@ -10,11 +10,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import rahmouni.neil.counters.*
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
-import rahmouni.neil.counters.IncrementType
-import rahmouni.neil.counters.IncrementValueType
-import rahmouni.neil.counters.R
-import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.options.IncrementValueOption
@@ -115,12 +112,20 @@ fun CounterSettings(
         }
         if (remoteConfig.getBoolean("issue114__gfit_integration")) {
             item {
-                TileSwitch(
-                    title = "Google Fit integration", //TODO
+                TileSwitchStartActivity(
+                    title = stringResource(R.string.text_healthConnectIntegration),
                     icon = Icons.Outlined.FitnessCenter,
-                    checked = true
+                    checked = healthConnect.isAvailable(activity), //TODO add condition inside counter
+                    switchEnabled = healthConnect.isAvailable(activity),
+                    activity = HealthConnectSettingsActivity::class.java,
                 ) {
-
+                    if (counter != null) {
+                        countersListViewModel.updateCounter(
+                            counter.copy(
+                                healthConnectEnabled = it
+                            ).toCounter()
+                        )
+                    }
                 }
             }
         }

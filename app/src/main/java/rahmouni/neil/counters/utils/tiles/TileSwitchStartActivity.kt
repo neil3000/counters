@@ -29,7 +29,8 @@ fun TileSwitchStartActivity(
     icon: ImageVector,
     activity: Class<*>,
     checked: Boolean,
-    enabled: Boolean = true,
+    tileEnabled: Boolean = true,
+    switchEnabled: Boolean = true,
     extras: (Intent) -> (Intent) = { it },
     onChange: (Boolean) -> Unit
 ) {
@@ -45,8 +46,8 @@ fun TileSwitchStartActivity(
             singleLineSecondaryText = true,
             icon = { Icon(icon, null) },
             modifier = Modifier
-                .alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
-                .clickable(enabled = enabled) {
+                .alpha(if (tileEnabled) ContentAlpha.high else ContentAlpha.disabled)
+                .clickable(enabled = tileEnabled) {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
                     context.startActivity(
@@ -63,6 +64,7 @@ fun TileSwitchStartActivity(
         )
         Switch(
             checked = checked,
+            enabled =  switchEnabled,
             modifier = Modifier.padding(horizontal = 16.dp),
             onCheckedChange = {
                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)

@@ -1,4 +1,4 @@
-package rahmouni.neil.counters.utils
+package rahmouni.neil.counters.utils.header
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Header(
+fun HeaderText(
     title: String,
     secondary: String?,
 ) {

@@ -1,7 +1,6 @@
 package rahmouni.neil.counters
 
 import android.app.Application
-import androidx.health.connect.client.HealthConnectClient
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
@@ -18,15 +17,17 @@ val prefs: Prefs by lazy {
     CountersApplication.prefs!!
 }
 
+val healthConnect: HealthConnect = CountersApplication.healthConnect
+
 class CountersApplication : Application() {
     private val database by lazy { CountersDatabase.getInstance(this) }
     val countersListRepository by lazy { CountersListRepository(database.countersListDao()) }
-    var healthConnectClient: HealthConnectClient? = null
 
     companion object {
         var prefs: Prefs? = null
         var analytics: FirebaseAnalytics? = null
         var crashlytics: FirebaseCrashlytics? = null
+        var healthConnect: HealthConnect = HealthConnect()
 
         lateinit var instance: CountersApplication
             private set
@@ -52,10 +53,8 @@ class CountersApplication : Application() {
         analytics = Firebase.analytics
         analytics?.setAnalyticsCollectionEnabled(rahmouni.neil.counters.prefs.analyticsEnabled && !BuildConfig.DEBUG)
 
-        if (BuildConfig.FLAVOR == "minApi27") {
-            if (HealthConnectClient.isAvailable(this)) {
-                healthConnectClient = HealthConnectClient.getOrCreate(this)
-            }
+        if (healthConnect.isAvailable(this)) {
+            healthConnect.initialize(this)
         }
 
         super.onCreate()

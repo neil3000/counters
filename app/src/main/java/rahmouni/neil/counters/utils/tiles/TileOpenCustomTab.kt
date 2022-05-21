@@ -1,8 +1,6 @@
 package rahmouni.neil.counters.utils.tiles
 
 import android.app.Activity
-import android.net.Uri
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.clickable
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
@@ -14,6 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import rahmouni.neil.counters.utils.openChromeCustomTab
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -33,10 +32,7 @@ fun TileOpenCustomTab(
                 onClick = {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                    CustomTabsIntent.Builder().build().launchUrl(
-                        activity,
-                        Uri.parse(url)
-                    )
+                    openChromeCustomTab(activity, url)
                 }
             )
     )

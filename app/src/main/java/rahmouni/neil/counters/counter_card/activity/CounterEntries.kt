@@ -32,7 +32,7 @@ import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.Increment
 import rahmouni.neil.counters.database.IncrementGroup
 import rahmouni.neil.counters.utils.FullscreenDynamicSVG
-import rahmouni.neil.counters.utils.Header
+import rahmouni.neil.counters.utils.header.HeaderText
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -105,7 +105,7 @@ fun CounterEntries(
                     date.time = SimpleDateFormat("yyyy-MM-dd").parse(ig.date)!!
 
                     item {
-                        Header(
+                        HeaderText(
                             title = resetType.format(date, context)
                                 ?: stringResource(resetType.headerTitle),
                             (ig.count + counter.resetValue).toString()
