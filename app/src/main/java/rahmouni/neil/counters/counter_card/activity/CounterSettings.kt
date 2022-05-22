@@ -24,6 +24,7 @@ fun CounterSettings(
 ) {
     val activity = (LocalContext.current as Activity)
     val remoteConfig = FirebaseRemoteConfig.getInstance()
+    val context = LocalContext.current
 
     LazyColumn {
         item {
@@ -115,17 +116,21 @@ fun CounterSettings(
                 TileSwitchStartActivity(
                     title = stringResource(R.string.text_healthConnectIntegration),
                     icon = Icons.Outlined.FitnessCenter,
-                    checked = healthConnect.isAvailable(activity), //TODO add condition inside counter
-                    switchEnabled = healthConnect.isAvailable(activity),
+                    checked = (counter?.healthConnectEnabled ?: false)
+                            && healthConnect.isAvailable(context),
+                    switchEnabled = healthConnect.isAvailable(context),
                     activity = HealthConnectSettingsActivity::class.java,
-                ) {
-                    if (counter != null) {
-                        countersListViewModel.updateCounter(
-                            counter.copy(
-                                healthConnectEnabled = it
-                            ).toCounter()
-                        )
+                    extras = {
+                        if (counter != null) {
+                            it.putExtra("counterID", counter.uid)
+                        } else it
                     }
+                ) {
+                    countersListViewModel.updateCounter(
+                        counter!!.copy(
+                            healthConnectEnabled = it
+                        ).toCounter()
+                    )
                 }
             }
         }

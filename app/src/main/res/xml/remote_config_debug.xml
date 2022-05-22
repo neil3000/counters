@@ -28,6 +28,10 @@
         <key>healthConnect_androidMinSdkWiki_url</key>
         <value>https://gitlab.com/neil3000/counters/-/wikis/Health-Connect-error</value>
     </entry>
+    <entry>
+        <key>healthConnect_playStore_url</key>
+        <value>https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata</value>
+    </entry>
 
     <!-- EXPERIMENTS -->
     <entry>

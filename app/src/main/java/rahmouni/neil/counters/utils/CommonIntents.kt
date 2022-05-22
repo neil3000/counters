@@ -35,3 +35,10 @@ fun openChromeCustomTab(activity: Activity, url: String) {
         Uri.parse(url)
     )
 }
+
+fun openPlayStoreUrl(activity: Activity, url: String) {
+    activity.startActivity(Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.parse(url)
+        setPackage("com.android.vending")
+    })
+}

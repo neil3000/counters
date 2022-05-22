@@ -5,6 +5,7 @@ import com.google.firebase.analytics.ktx.logEvent
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.ResetType
+import rahmouni.neil.counters.healthConnect
 
 class CountersListViewModel(private val repository: CountersListRepository) : ViewModel() {
     val allCounters: LiveData<List<CounterAugmented>> = repository.allCounters.asLiveData()
@@ -23,11 +24,14 @@ class CountersListViewModel(private val repository: CountersListRepository) : Vi
             resetType.entriesGroup1!!
         ).asLiveData()
 
-    fun addIncrement(value: Int, counterID: Int, date: String? = null) = viewModelScope.launch {
+    fun addIncrement(value: Int, counterID: Int, logHealthConnect: Boolean, date: String? = null) = viewModelScope.launch {
         repository.addIncrement(value, counterID, date)
 
         analytics?.logEvent("add_increment") {
             param("increment_value", value.toLong())
+        }
+        if (logHealthConnect) {
+            healthConnect.writeActivitySession()
         }
     }
 

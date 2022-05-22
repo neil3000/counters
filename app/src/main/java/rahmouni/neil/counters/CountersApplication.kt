@@ -9,6 +9,8 @@ import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderF
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import rahmouni.neil.counters.database.CountersDatabase
 import rahmouni.neil.counters.database.CountersListRepository
 import rahmouni.neil.counters.settings.Prefs
@@ -53,8 +55,9 @@ class CountersApplication : Application() {
         analytics = Firebase.analytics
         analytics?.setAnalyticsCollectionEnabled(rahmouni.neil.counters.prefs.analyticsEnabled && !BuildConfig.DEBUG)
 
-        if (healthConnect.isAvailable(this)) {
-            healthConnect.initialize(this)
+        val context = this.applicationContext
+        MainScope().launch {
+            healthConnect.initialize(context)
         }
 
         super.onCreate()

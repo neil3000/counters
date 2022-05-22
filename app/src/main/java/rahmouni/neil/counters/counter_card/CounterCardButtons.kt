@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Remove
@@ -16,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType.Companion.LongPress
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -26,6 +26,7 @@ import rahmouni.neil.counters.IncrementValueType
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
+import rahmouni.neil.counters.healthConnect
 import kotlin.math.abs
 
 @Composable
@@ -38,7 +39,6 @@ fun CounterCardButtons(
     return CounterCardButtonsDefault(data, countersListViewModel) { openNewIncrementSheet() }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CounterCardButtonsDefault(
     data: CounterAugmented,
@@ -47,6 +47,7 @@ fun CounterCardButtonsDefault(
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     val incValue =
         if (data.incrementValueType == IncrementValueType.VALUE) data.incrementValue else data.lastIncrement
@@ -57,7 +58,7 @@ fun CounterCardButtonsDefault(
             .padding(start = 8.dp)
     ) {
         Text(
-            text = (data.count+data.resetValue).toString(),
+            text = (data.count + data.resetValue).toString(),
             style = MaterialTheme.typography.headlineLarge,
         )
         IconButton(
@@ -70,7 +71,8 @@ fun CounterCardButtonsDefault(
                         IncrementType.ASK_EVERY_TIME -> scope.launch { openNewIncrementSheet() }
                         IncrementType.VALUE -> countersListViewModel.addIncrement(
                             incValue,
-                            data.uid
+                            data.uid,
+                            healthConnect.isAvailable(context) && data.healthConnectEnabled
                         )
                     }
                 }
@@ -90,6 +92,7 @@ fun CounterCardButtonsMinus(
     countersListViewModel: CountersListViewModel?
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
+    val context = LocalContext.current
 
     val incValue =
         abs(if (data.incrementValueType == IncrementValueType.VALUE) data.incrementValue else data.lastIncrement)
@@ -101,7 +104,8 @@ fun CounterCardButtonsMinus(
 
                 countersListViewModel.addIncrement(
                     -incValue,
-                    data.uid
+                    data.uid,
+                    healthConnect.isAvailable(context) && data.healthConnectEnabled
                 )
             }
         }) {
@@ -111,7 +115,7 @@ fun CounterCardButtonsMinus(
             )
         }
         Text(
-            text = (data.count+data.resetValue).toString(),
+            text = (data.count + data.resetValue).toString(),
             style = MaterialTheme.typography.headlineLarge,
         )
         IconButton(onClick = {
@@ -120,7 +124,8 @@ fun CounterCardButtonsMinus(
 
                 countersListViewModel.addIncrement(
                     incValue,
-                    data.uid
+                    data.uid,
+                    healthConnect.isAvailable(context) && data.healthConnectEnabled
                 )
             }
         }) {

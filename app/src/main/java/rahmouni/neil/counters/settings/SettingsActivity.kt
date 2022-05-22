@@ -26,10 +26,10 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.healthConnect
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
+import rahmouni.neil.counters.utils.openPlayStoreUrl
 import rahmouni.neil.counters.utils.sendEmail
 import rahmouni.neil.counters.utils.tiles.*
 
@@ -141,11 +141,12 @@ fun SettingsPage() {
 
             item { TileHeader(stringResource(R.string.header_about)) }
             item {
-                TileOpenPlayStoreUrl(
+                TileClick(
                     title = stringResource(R.string.action_seeOnThePlayStore),
                     icon = Icons.Outlined.StarOutline,
-                    url = remoteConfig.getString("play_store_url")
-                )
+                ) {
+                    openPlayStoreUrl(activity, remoteConfig.getString("play_store_url"))
+                }
             }
             item {
                 TileOpenCustomTab(

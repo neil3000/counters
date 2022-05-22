@@ -64,12 +64,13 @@ fun TileSwitchStartActivity(
         )
         Switch(
             checked = checked,
-            enabled =  switchEnabled,
-            modifier = Modifier.padding(horizontal = 16.dp),
             onCheckedChange = {
                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
                 onChange(!checked)
-            })
+            },
+            Modifier.padding(horizontal = 16.dp),
+            enabled = switchEnabled,
+        )
     }
 }

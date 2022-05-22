@@ -129,4 +129,10 @@
     <string name="text_healthConnectIntegration">Health Connect integration</string>
     <string name="text_information">Information</string>
     <string name="action_learnMore">Learn more</string>
+    <string name="text_notDone">Not done</string>
+    <string name="text_done">Done</string>
+    <string name="action_continue">Continue</string>
+    <string name="text_stepX">Step %d</string>
+    <string name="action_installHealthConnectApp">Install the Health Connect app</string>
+    <string name="action_acceptPermissions">Accept permissions</string>
 </resources>

@@ -1,6 +1,7 @@
 package rahmouni.neil.counters.counter_card.activity
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -78,7 +79,10 @@ class HealthConnectSettingsActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
-fun HealthConnectSettingsPage(counterID: Int, countersListViewModel: CountersListViewModel) {
+fun HealthConnectSettingsPage(
+    counterID: Int,
+    countersListViewModel: CountersListViewModel,
+) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = remember(decayAnimationSpec) {
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
@@ -142,18 +146,16 @@ fun HealthConnectSettingsPage(counterID: Int, countersListViewModel: CountersLis
             }
             item {
                 HeaderSwitch(
-                    title = "Use Health Connect",
+                    title = "Sync with Health Connect",
                     checked = (counter?.healthConnectEnabled ?: false)
                             && healthConnect.isAvailable(activity),
                     enabled = healthConnect.isAvailable(activity)
                 ) { //TODO str
-                    if (counter != null) {
-                        countersListViewModel.updateCounter(
-                            counter!!.copy(
-                                healthConnectEnabled = it
-                            ).toCounter()
-                        )
-                    }
+                    countersListViewModel.updateCounter(
+                        counter!!.copy(
+                            healthConnectEnabled = it
+                        ).toCounter()
+                    )
                 }
             }
             when {
@@ -166,7 +168,9 @@ fun HealthConnectSettingsPage(counterID: Int, countersListViewModel: CountersLis
                         Button({
                             localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                            //TODO start setup
+                            activity.startActivity(
+                                Intent(activity, HealthConnectSetupActivity::class.java)
+                            )
                         }) {
                             Text(stringResource(R.string.action_letsGo))
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
@@ -213,7 +217,7 @@ fun HealthConnectSettingsPage(counterID: Int, countersListViewModel: CountersLis
 
             item {
                 ActivityInfo( //TODO str
-                    "Synchronize your counters with Health Connect compatible apps, such as Google Fit or Samsung Health.",
+                    "Synchronize this counter with Health Connect compatible apps, such as Google Fit or Samsung Health.",
                     Modifier.padding(24.dp)
                 )
             }
