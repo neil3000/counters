@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import rahmouni.neil.counters.prefs
@@ -35,7 +34,6 @@ const val CORNER_RADIUS = 16
 @Composable
 fun RoundedBottomSheet(
     state: ModalBottomSheetState,
-    tonalElevation: Dp = 0.dp,
     content: @Composable () -> Unit,
     childContent: @Composable () -> Unit
 ) {
@@ -60,7 +58,7 @@ fun RoundedBottomSheet(
         sheetState = state,
         sheetBackgroundColor = MaterialTheme.colorScheme.surface,
         sheetContent = {
-            Surface(tonalElevation = tonalElevation) {
+            Surface(tonalElevation = 1.dp) {
                 LazyColumn(
                     modifier = Modifier
                         .padding(top = 10.dp)

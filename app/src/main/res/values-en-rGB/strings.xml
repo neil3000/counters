@@ -3,4 +3,6 @@
     <string name="text_buttonBehavior">Button behaviour</string>
     <string name="text_colorSelected">Colour selected</string>
     <string name="text_synchronization">Synchronisation</string>
+    <string name="text_dynamicColors">Dynamic colours</string>
+    <string name="text_basicColors">Basic colours</string>
 </resources>

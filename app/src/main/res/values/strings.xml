@@ -151,4 +151,6 @@
     <string name="text_ropeJumps">Rope jumps</string>
     <string name="text_synchronization">Synchronization</string>
     <string name="action_linkToHealthConnect">Link to Health Connect</string>
+    <string name="text_dynamicColors">Dynamic colors</string>
+    <string name="text_basicColors">Basic colors</string>
 </resources>

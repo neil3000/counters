@@ -1,37 +1,112 @@
 package rahmouni.neil.counters.options
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CounterStyle
-import rahmouni.neil.counters.utils.ColorCircle
+import rahmouni.neil.counters.R
+import rahmouni.neil.counters.utils.tiles.TileColorSelection
+import rahmouni.neil.counters.utils.tiles.tile_color_selection.Size
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    androidx.compose.ui.ExperimentalComposeUiApi::class
+)
 @Composable
 fun CounterStyleOption(
-    styleSelected: CounterStyle,
-    inModal: Boolean = false,
+    selected: CounterStyle,
+    size: Size = Size.BIG,
     onChange: (CounterStyle) -> Unit
 ) {
-    LazyRow(
-        Modifier
-            .fillMaxWidth()
-            .padding(if (inModal) 16.dp else 8.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        items(CounterStyle.values().size) {
-            ColorCircle(
-                counterStyle = CounterStyle.values()[it],
-                selected = styleSelected.ordinal == it
+    val remoteConfig = FirebaseRemoteConfig.getInstance()
+
+    var dynamic by rememberSaveable { mutableStateOf(true) }
+
+    LaunchedEffect(key1 = selected) {
+        dynamic = selected.isDynamic
+    }
+
+    if (remoteConfig.getBoolean("issue130__static_colors")) {
+        Column {
+            Box {
+                listOf(true, false).forEach { bo ->
+                    this@Column.AnimatedVisibility(
+                        dynamic == bo,
+                        enter = slideInHorizontally(initialOffsetX = { if (bo) -it else it }),
+                        exit = slideOutHorizontally(targetOffsetX = { if (bo) -it else it })
+                    ) {
+                        LazyRow(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(top = 8.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            CounterStyle.values().forEach { cs ->
+                                if (cs.isDynamic == bo) {
+                                    item {
+                                        TileColorSelection(
+                                            color = cs.getBackGroundColor(),
+                                            selected = selected == cs,
+                                            size = size
+                                        ) {
+                                            onChange(cs)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
             ) {
-                onChange(CounterStyle.values()[it])
+                FilterChip(
+                    selected = dynamic,
+                    onClick = { dynamic = true },
+                    label = { Text(stringResource(R.string.text_dynamicColors)) },
+                )
+                FilterChip(
+                    selected = !dynamic,
+                    onClick = { dynamic = false },
+                    label = { Text(stringResource(R.string.text_basicColors)) },
+                )
+            }
+        }
+    } else {
+        LazyRow(
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            CounterStyle.values().forEach {
+                if (it.isDynamic) {
+                    item {
+                        TileColorSelection(
+                            color = it.getBackGroundColor(),
+                            selected = selected == it,
+                            size = size
+                        ) {
+                            onChange(it)
+                        }
+                    }
+                }
             }
         }
     }

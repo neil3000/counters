@@ -33,7 +33,6 @@ import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.counter_card.CounterCard
 import rahmouni.neil.counters.counter_card.new_increment.NewIncrement
@@ -85,7 +84,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val localHapticFeedback = LocalHapticFeedback.current
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
+    //val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     val countersList: List<CounterAugmented> by countersListViewModel.allCounters.observeAsState(
         listOf()
@@ -100,7 +99,6 @@ fun Home(countersListViewModel: CountersListViewModel) {
 
     RoundedBottomSheet(
         bottomSheetNewIncrementState,
-        1.dp,
         {
             NewIncrement(
                 counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid == bottomSheetNewIncrementCounterID },
@@ -115,19 +113,10 @@ fun Home(countersListViewModel: CountersListViewModel) {
         }) {
         RoundedBottomSheet(
             bottomSheetNewCounterState,
-            (if (remoteConfig.getBoolean("issue85__new_counter_redesign")) 1.dp else 0.dp),
             {
-                if (remoteConfig.getBoolean("issue85__new_counter_redesign")) {
-                    NewCounterExperiment(countersListViewModel) {
-                        scope.launch {
-                            bottomSheetNewCounterState.hide()
-                        }
-                    }
-                } else {
-                    NewCounter(countersListViewModel) {
-                        scope.launch {
-                            bottomSheetNewCounterState.hide()
-                        }
+                NewCounter(countersListViewModel) {
+                    scope.launch {
+                        bottomSheetNewCounterState.hide()
                     }
                 }
             }) {

@@ -39,10 +39,6 @@
         <value>true</value>
     </entry>
     <entry>
-        <key>issue85__new_counter_redesign</key>
-        <value>true</value>
-    </entry>
-    <entry>
         <key>issue20__graph</key>
         <value>true</value>
     </entry>
@@ -59,15 +55,15 @@
         <value>true</value>
     </entry>
     <entry>
-        <key>issue120__card_preview_tablet</key>
-        <value>true</value>
-    </entry>
-    <entry>
         <key>issue121__new_increment_date</key>
         <value>true</value>
     </entry>
     <entry>
         <key>issue114__gfit_integration</key>
         <value>true</value>
+    </entry>
+    <entry>
+        <key>issue130__static_colors</key>
+        <value>false</value>
     </entry>
 </defaultsMap>

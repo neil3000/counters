@@ -150,4 +150,6 @@
     <string name="text_information">Information</string>
     <string name="text_synchronization">Synchronisation</string>
     <string name="action_linkToHealthConnect">Lier avec Health Connect</string>
+    <string name="text_dynamicColors">Couleurs dynamiques</string>
+    <string name="text_basicColors">Couleurs de base</string>
 </resources>

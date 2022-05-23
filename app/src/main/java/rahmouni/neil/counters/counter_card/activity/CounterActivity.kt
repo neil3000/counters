@@ -164,7 +164,6 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
 
     RoundedBottomSheet(
         bottomSheetState,
-        1.dp,
         {
             if (counter != null) {
                 NewIncrement(counter, countersListViewModel) {
