@@ -148,4 +148,6 @@
     <string name="text_plank">Planche</string>
     <string name="text_ropeJumps">Sauts à la corde</string>
     <string name="text_information">Information</string>
+    <string name="text_synchronization">Synchronisation</string>
+    <string name="action_linkToHealthConnect">Lier avec Health Connect</string>
 </resources>

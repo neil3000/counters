@@ -149,4 +149,6 @@
     <string name="text_jumpingJacks">Jumping jacks</string>
     <string name="text_plank">Plank</string>
     <string name="text_ropeJumps">Rope jumps</string>
+    <string name="action_linkToHealthConnect">Link to Health Connect</string>
+    <string name="text_synchronization">Synchronization</string>
 </resources>

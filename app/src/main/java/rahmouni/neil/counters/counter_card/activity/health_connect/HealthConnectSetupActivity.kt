@@ -129,16 +129,16 @@ fun HealthConnectSetupPage(
                         tonalElevation = -LocalAbsoluteTonalElevation.current
                     ) {
                         Icon(
-                            Icons.Outlined.Link, "Link Health Connect",
+                            Icons.Outlined.Link, stringResource(R.string.action_linkToHealthConnect),
                             Modifier
                                 .fillMaxSize()
                                 .padding(24.dp)
-                        ) //TODO str
+                        )
                     }
                     Text(
-                        "Link Health Connect",
+                        stringResource(R.string.action_linkToHealthConnect),
                         style = MaterialTheme.typography.headlineSmall
-                    ) //TODO str
+                    )
                 }
             }
             item {

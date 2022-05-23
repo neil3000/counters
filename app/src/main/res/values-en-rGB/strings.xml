@@ -2,4 +2,5 @@
 <resources>
     <string name="text_buttonBehavior">Button behaviour</string>
     <string name="text_colorSelected">Colour selected</string>
+    <string name="text_synchronization">Synchronisation</string>
 </resources>

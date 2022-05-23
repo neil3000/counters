@@ -155,7 +155,7 @@ fun HealthConnectSettingsPage(
             }
             item {
                 HeaderSwitch(
-                    title = "Sync with Health Connect", //TODO str
+                    title = stringResource(R.string.text_synchronization),
                     checked = (counter?.healthConnectEnabled ?: false)
                             && healthConnect.isAvailable(),
                     enabled = healthConnect.isAvailable()
