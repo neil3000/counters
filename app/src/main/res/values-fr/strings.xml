@@ -125,4 +125,27 @@
     <string name="action_setToLastValue_short">Mettre à la dernière entrée</string>
     <string name="action_editDate_short">Modifier la date</string>
     <string name="action_clearDate">Effacer la date</string>
+    <string name="text_healthConnectIntegration">Intégration de Health Connect</string>
+    <string name="action_learnMore">En savoir plus</string>
+    <string name="text_notDone">Non validé</string>
+    <string name="text_done">Validé</string>
+    <string name="action_continue">Continuer</string>
+    <string name="text_stepX">Étape %d</string>
+    <string name="action_installHealthConnectApp">Installer l\'application Health Connect</string>
+    <string name="action_acceptPermissions">Accepter les permissions</string>
+    <string name="action_continueAnyway">Continuer quand même</string>
+    <string name="text_incompatibleDevice">Appareil Incompatible</string>
+    <string name="text_healthConnectRequiresHavingAtLeastAndroidOreoToWork">Health Connect nécessite d\'avoir au moins Android Oreo (8.1) pour fonctionner.</string>
+    <string name="action_synchronizeThisCounterWithHealthConnectCompatibleApps">Synchronisez ce compteur avec les applications compatibles avec Health Connect, telles que Google Fit ou Samsung Health.</string>
+    <string name="action_startSetup">Commencer la configuration</string>
+    <string name="action_startSetupToLinkCountersAndHealthConnect">Commencer la configuration pour lier Compteurs &amp; Health Connect</string>
+    <string name="action_openHealthConnect">Ouvrir Health Connect</string>
+    <string name="text_squats">Squats</string>
+    <string name="text_activityType">Type d\'activité</string>
+    <string name="text_burpees">Burpees</string>
+    <string name="text_crunches">Crunches</string>
+    <string name="text_jumpingJacks">Jumping jacks</string>
+    <string name="text_plank">Planche</string>
+    <string name="text_ropeJumps">Sauts à la corde</string>
+    <string name="text_information">Information</string>
 </resources>

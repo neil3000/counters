@@ -145,4 +145,8 @@
     <string name="text_squats">Squats</string>
     <string name="text_activityType">Activity Type</string>
     <string name="text_burpees">Burpees</string>
+    <string name="text_crunches">Crunches</string>
+    <string name="text_jumpingJacks">Jumping jacks</string>
+    <string name="text_plank">Plank</string>
+    <string name="text_ropeJumps">Rope jumps</string>
 </resources>
