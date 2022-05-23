@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType.Companion.LongPress
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -47,7 +46,6 @@ fun CounterCardButtonsDefault(
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
 
     val incValue =
         if (data.incrementValueType == IncrementValueType.VALUE) data.incrementValue else data.lastIncrement
@@ -71,8 +69,8 @@ fun CounterCardButtonsDefault(
                         IncrementType.ASK_EVERY_TIME -> scope.launch { openNewIncrementSheet() }
                         IncrementType.VALUE -> countersListViewModel.addIncrement(
                             incValue,
-                            data.uid,
-                            healthConnect.isAvailable(context) && data.healthConnectEnabled
+                            data.toCounter(),
+                            healthConnect.isAvailable() && data.healthConnectEnabled
                         )
                     }
                 }
@@ -92,7 +90,6 @@ fun CounterCardButtonsMinus(
     countersListViewModel: CountersListViewModel?
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
-    val context = LocalContext.current
 
     val incValue =
         abs(if (data.incrementValueType == IncrementValueType.VALUE) data.incrementValue else data.lastIncrement)
@@ -104,8 +101,8 @@ fun CounterCardButtonsMinus(
 
                 countersListViewModel.addIncrement(
                     -incValue,
-                    data.uid,
-                    healthConnect.isAvailable(context) && data.healthConnectEnabled
+                    data.toCounter(),
+                    healthConnect.isAvailable() && data.healthConnectEnabled
                 )
             }
         }) {
@@ -124,8 +121,8 @@ fun CounterCardButtonsMinus(
 
                 countersListViewModel.addIncrement(
                     incValue,
-                    data.uid,
-                    healthConnect.isAvailable(context) && data.healthConnectEnabled
+                    data.toCounter(),
+                    healthConnect.isAvailable() && data.healthConnectEnabled
                 )
             }
         }) {

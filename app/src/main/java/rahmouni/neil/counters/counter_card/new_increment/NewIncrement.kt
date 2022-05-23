@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -46,7 +45,6 @@ fun NewIncrement(
         val localHapticFeedback = LocalHapticFeedback.current
         val keyboardController = LocalSoftwareKeyboardController.current
         val scope = rememberCoroutineScope()
-        val context = LocalContext.current
 
         var value by rememberSaveable { mutableStateOf("1") }
         var isValueError by rememberSaveable { mutableStateOf(false) }
@@ -64,8 +62,8 @@ fun NewIncrement(
                     onCreate()
                     countersListViewModel.addIncrement(
                         value.toInt(),
-                        counter.uid,
-                        healthConnect.isAvailable(context) && counter.healthConnectEnabled,
+                        counter.toCounter(),
+                        healthConnect.isAvailable() && counter.healthConnectEnabled,
                         date
                     )
                     value = counter.incrementValue.toString()

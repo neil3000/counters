@@ -6,6 +6,9 @@ import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.healthConnect
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 class CountersListViewModel(private val repository: CountersListRepository) : ViewModel() {
     val allCounters: LiveData<List<CounterAugmented>> = repository.allCounters.asLiveData()
@@ -24,14 +27,20 @@ class CountersListViewModel(private val repository: CountersListRepository) : Vi
             resetType.entriesGroup1!!
         ).asLiveData()
 
-    fun addIncrement(value: Int, counterID: Int, logHealthConnect: Boolean, date: String? = null) = viewModelScope.launch {
-        repository.addIncrement(value, counterID, date)
+    fun addIncrement(value: Int, counter: Counter, logHealthConnect: Boolean, date: String? = null) = viewModelScope.launch {
+        repository.addIncrement(value, counter.uid, date)
 
         analytics?.logEvent("add_increment") {
             param("increment_value", value.toLong())
         }
         if (logHealthConnect) {
-            healthConnect.writeActivitySession()
+            healthConnect.writeActivitySession(
+                if (date==null) ZonedDateTime.now()
+                else ZonedDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.systemDefault())),
+                counter.displayName,
+                counter.healthConnectType,
+                value
+            )
         }
     }
 

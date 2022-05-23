@@ -12,6 +12,7 @@ import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.*
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
+import rahmouni.neil.counters.counter_card.activity.health_connect.HealthConnectSettingsActivity
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.options.IncrementValueOption
@@ -24,7 +25,6 @@ fun CounterSettings(
 ) {
     val activity = (LocalContext.current as Activity)
     val remoteConfig = FirebaseRemoteConfig.getInstance()
-    val context = LocalContext.current
 
     LazyColumn {
         item {
@@ -117,8 +117,8 @@ fun CounterSettings(
                     title = stringResource(R.string.text_healthConnectIntegration),
                     icon = Icons.Outlined.FitnessCenter,
                     checked = (counter?.healthConnectEnabled ?: false)
-                            && healthConnect.isAvailable(context),
-                    switchEnabled = healthConnect.isAvailable(context),
+                            && healthConnect.isAvailable(),
+                    switchEnabled = healthConnect.isAvailable(),
                     activity = HealthConnectSettingsActivity::class.java,
                     extras = {
                         if (counter != null) {

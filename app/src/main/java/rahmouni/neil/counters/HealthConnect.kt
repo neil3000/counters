@@ -5,28 +5,34 @@ import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.metadata.DataOrigin
 import androidx.health.connect.client.metadata.Metadata
 import androidx.health.connect.client.permission.Permission
+import androidx.health.connect.client.records.ActivitySession
 import androidx.health.connect.client.records.Repetitions
+import rahmouni.neil.counters.counter_card.activity.health_connect.HealthConnectType
+import java.time.ZonedDateTime
 import java.util.*
 
 class HealthConnect {
     private var client: HealthConnectClient? = null
     private var hasPermissions: Boolean = false
-    val permissions = Permission.createWritePermission(Repetitions::class)
+    private var isClientAvailable: Boolean = false
+    val permissions = setOf(Permission.createWritePermission(Repetitions::class), Permission.createWritePermission(ActivitySession::class))
 
     suspend fun initialize(context: Context) {
-        if (hasSufficientSdk() && isClientAvailable(context)) client =
+        isClientAvailable = HealthConnectClient.isAvailable(context)
+
+        if (hasSufficientSdk() && isClientAvailable()) client =
             HealthConnectClient.getOrCreate(context)
 
-        hasPermissions = client?.permissionController?.getGrantedPermissions(setOf(permissions))
-            ?.contains(permissions) == true
+        hasPermissions = client?.permissionController?.getGrantedPermissions(permissions)
+            ?.containsAll(permissions) == true
     }
 
-    fun isAvailable(context: Context): Boolean {
-        return hasSufficientSdk() && isClientAvailable(context) && hasPermissions()
+    fun isAvailable(): Boolean {
+        return hasSufficientSdk() && isClientAvailable() && hasPermissions()
     }
 
-    fun isClientAvailable(context: Context): Boolean {
-        return HealthConnectClient.isAvailable(context)
+    fun isClientAvailable(): Boolean {
+        return isClientAvailable
     }
 
     fun hasSufficientSdk(): Boolean {
@@ -37,26 +43,31 @@ class HealthConnect {
         return hasPermissions
     }
 
-    suspend fun writeActivitySession() {
-        if (hasPermissions()) {
-            client?.insertRecords(
-                listOf(
-                    Repetitions(
-                        120,
-                        Repetitions.ActivityType.SQUAT,
-                        Date().toInstant().minusMillis(1000 * 60 * 30),
-                        null,
-                        endTime = Date().toInstant(),
-                        null,
-                        metadata = Metadata(
-                            dataOrigin = DataOrigin("rahmouni.neil.counters"),
-                            lastModifiedTime = Date().toInstant()
-                        )
+    suspend fun writeActivitySession(dateTime: ZonedDateTime, counterName: String, healthConnectType: HealthConnectType, count: Int) {
+        client?.insertRecords(
+            listOf(
+                ActivitySession(
+                    healthConnectType.activitySessionType,
+                    counterName,
+                    null,
+                    dateTime.toInstant().minusMillis((1000 * 60 * count).toLong()),
+                    dateTime.offset,
+                    dateTime.toInstant(),
+                    dateTime.offset
+                ),
+                Repetitions(
+                    count.toLong(),
+                    healthConnectType.repetitionsType,
+                    dateTime.toInstant().minusMillis((1000 * 60 * count).toLong()),
+                    dateTime.offset,
+                    dateTime.toInstant(),
+                    dateTime.offset,
+                    metadata = Metadata(
+                        dataOrigin = DataOrigin("rahmouni.neil.counters"),
+                        lastModifiedTime = Date().toInstant()
                     )
                 )
             )
-        } else {
-
-        }
+        )
     }
 }

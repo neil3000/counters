@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.R
 
 @OptIn(
-    ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterialApi::class,
     ExperimentalAnimationApi::class
 )
 @Composable
@@ -49,11 +49,6 @@ fun TileDialogRadioButtons(
     var openDialog by rememberSaveable { mutableStateOf(false) }
     var dialogValue by rememberSaveable { mutableStateOf(selected) }
 
-    fun closeDialog() {
-        openDialog = false
-        dialogValue = selected
-    }
-
     ListItem(
         text = { androidx.compose.material.Text(title) },
         secondaryText = {
@@ -68,13 +63,14 @@ fun TileDialogRadioButtons(
                 onClick = {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
+                    dialogValue = selected
                     openDialog = true
                 }
             )
     )
     if (openDialog) {
         AlertDialog(
-            onDismissRequest = { closeDialog() },
+            onDismissRequest = { openDialog = false },
             title = {
                 Text(dialogTitle ?: title)
             },
@@ -162,7 +158,7 @@ fun TileDialogRadioButtons(
                     onClick = {
                         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                        closeDialog()
+                        openDialog = false
                     }
                 ) {
                     Text(stringResource(R.string.action_cancel_short))

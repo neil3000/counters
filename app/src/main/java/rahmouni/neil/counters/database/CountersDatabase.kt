@@ -7,6 +7,7 @@ import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.IncrementType
 import rahmouni.neil.counters.IncrementValueType
 import rahmouni.neil.counters.ResetType
+import rahmouni.neil.counters.counter_card.activity.health_connect.HealthConnectType
 import java.io.Serializable
 
 @Database(
@@ -66,6 +67,10 @@ data class Counter(
         name = "health_connect_enabled",
         defaultValue = "false"
     ) val healthConnectEnabled: Boolean = false,
+    @ColumnInfo(
+        name = "health_connect_type",
+        defaultValue = "SQUAT"
+    ) val healthConnectType: HealthConnectType = HealthConnectType.SQUAT,
 )
 
 data class CounterAugmented(
@@ -88,6 +93,10 @@ data class CounterAugmented(
         name = "health_connect_enabled",
         defaultValue = "false"
     ) val healthConnectEnabled: Boolean = false,
+    @ColumnInfo(
+        name = "health_connect_type",
+        defaultValue = "SQUAT"
+    ) val healthConnectType: HealthConnectType = HealthConnectType.SQUAT,
 
     @ColumnInfo(name = "total_count") val totalCount: Int = 0,
     @ColumnInfo(name = "last_increment") val lastIncrement: Int = 1,
@@ -104,7 +113,8 @@ data class CounterAugmented(
             incrementValue = incrementValue,
             resetType = resetType,
             resetValue = resetValue,
-            healthConnectEnabled = healthConnectEnabled
+            healthConnectEnabled = healthConnectEnabled,
+            healthConnectType = healthConnectType
         )
     }
 }

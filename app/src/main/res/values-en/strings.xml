@@ -135,4 +135,14 @@
     <string name="text_stepX">Step %d</string>
     <string name="action_installHealthConnectApp">Install the Health Connect app</string>
     <string name="action_acceptPermissions">Accept permissions</string>
+    <string name="action_continueAnyway">Continue anyway</string>
+    <string name="text_incompatibleDevice">Incompatible Device</string>
+    <string name="text_healthConnectRequiresHavingAtLeastAndroidOreoToWork">Health Connect requires having at least Android Oreo (8.1) to work.</string>
+    <string name="action_synchronizeThisCounterWithHealthConnectCompatibleApps">Synchronize this counter with Health Connect compatible apps, such as Google Fit or Samsung Health.</string>
+    <string name="action_startSetup">Start setup</string>
+    <string name="action_startSetupToLinkCountersAndHealthConnect"><![CDATA[Start the setup to link Counters & Health Connect]]></string>
+    <string name="action_openHealthConnect">Open Health Connect</string>
+    <string name="text_squats">Squats</string>
+    <string name="text_activityType">Activity Type</string>
+    <string name="text_burpees">Burpees</string>
 </resources>

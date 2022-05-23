@@ -74,7 +74,7 @@ class CardSettingsActivity : ComponentActivity() {
                             modifier = Modifier.fillMaxSize(),
                             tonalElevation = 1.dp,
                             color = MaterialTheme.colorScheme.surface
-                            ) {
+                        ) {
                             if (remoteConfig.getBoolean("issue120__card_preview_tablet")) {
                                 CardSettingsPageNew(
                                     counterID, countersListViewModel

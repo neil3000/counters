@@ -2,6 +2,8 @@ package rahmouni.neil.counters.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -110,9 +112,14 @@ fun CountersTheme(
         )
     }
     CompositionLocalProvider(staticCompositionLocalOf { BackgroundTheme() } provides backgroundTheme) {
-        MaterialTheme(
-            colorScheme = colorScheme,
-            content = content
+        androidx.compose.material.MaterialTheme(
+            colors = if (darkTheme) darkColors() else lightColors(),
+            content = {
+                MaterialTheme(
+                    colorScheme = colorScheme,
+                    content = content
+                )
+            }
         )
     }
 }

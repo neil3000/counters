@@ -11,7 +11,8 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TileHeader(
-    title: String
+    title: String,
+    modifier: Modifier = Modifier
 ) {
     Text(
         title,

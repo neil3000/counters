@@ -2,5 +2,6 @@
 <resources>
     <array name="health_permissions">
         <item>androidx.health.permission.Repetitions.WRITE</item>
+        <item>androidx.health.permission.ActivitySession.WRITE</item>
     </array>
 </resources>

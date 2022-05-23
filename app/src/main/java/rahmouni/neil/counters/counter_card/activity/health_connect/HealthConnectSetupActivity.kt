@@ -1,4 +1,4 @@
-package rahmouni.neil.counters.counter_card.activity
+package rahmouni.neil.counters.counter_card.activity.health_connect
 
 import android.app.Activity
 import android.os.Bundle
@@ -75,12 +75,12 @@ fun HealthConnectSetupPage(
     val remoteConfig = FirebaseRemoteConfig.getInstance()
     val lifecycleState by LocalLifecycleOwner.current.lifecycle.observeAsState()
 
-    var clientAvailable by rememberSaveable { mutableStateOf(healthConnect.isClientAvailable(context)) }
+    var clientAvailable by rememberSaveable { mutableStateOf(healthConnect.isClientAvailable()) }
     var hasPermissions by rememberSaveable { mutableStateOf(healthConnect.hasPermissions()) }
 
     LaunchedEffect(key1 = lifecycleState) {
         healthConnect.initialize(context)
-        clientAvailable = healthConnect.isClientAvailable(context)
+        clientAvailable = healthConnect.isClientAvailable()
         hasPermissions = healthConnect.hasPermissions()
     }
 
@@ -161,7 +161,7 @@ fun HealthConnectSetupPage(
                         done = hasPermissions,
                         enabled = clientAvailable
                     ) {
-                        hcActResult.launch(setOf(healthConnect.permissions))
+                        hcActResult.launch(healthConnect.permissions)
                     }
                     MenuDefaults.Divider()
 

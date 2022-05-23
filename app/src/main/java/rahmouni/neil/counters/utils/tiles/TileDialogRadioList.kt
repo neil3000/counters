@@ -39,11 +39,6 @@ fun TileDialogRadioList(
     var openDialog by rememberSaveable { mutableStateOf(false) }
     var dialogValue by rememberSaveable { mutableStateOf(selected) }
 
-    fun closeDialog() {
-        openDialog = false
-        dialogValue = selected
-    }
-
     ListItem(
         text = { androidx.compose.material.Text(title) },
         secondaryText = { androidx.compose.material.Text(stringResource(selected.formatted())) },
@@ -54,13 +49,14 @@ fun TileDialogRadioList(
                 onClick = {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
+                    dialogValue = selected
                     openDialog = true
                 }
             )
     )
     if (openDialog) {
         AlertDialog(
-            onDismissRequest = { closeDialog() },
+            onDismissRequest = { openDialog = false },
             title = {
                 Text(title)
             },
@@ -118,7 +114,7 @@ fun TileDialogRadioList(
                     onClick = {
                         localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                        closeDialog()
+                        openDialog = false
                     }
                 ) {
                     Text(stringResource(R.string.action_cancel_short))
