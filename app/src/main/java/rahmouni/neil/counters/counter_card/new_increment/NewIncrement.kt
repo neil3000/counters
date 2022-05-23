@@ -150,6 +150,7 @@ fun NewIncrement(
                                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
                                 value = counter.lastIncrement.toString()
+                                isValueError = false
                             }
                         )
                     }
