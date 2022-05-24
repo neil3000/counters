@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.utils.tiles.TileColorSelection
+import rahmouni.neil.counters.utils.tiles.tile_color_selection.TileColorSelection
 import rahmouni.neil.counters.utils.tiles.tile_color_selection.Size
 
 @OptIn(

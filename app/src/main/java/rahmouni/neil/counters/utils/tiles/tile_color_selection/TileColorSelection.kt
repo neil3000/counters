@@ -1,28 +1,26 @@
-package rahmouni.neil.counters.utils.tiles
+package rahmouni.neil.counters.utils.tiles.tile_color_selection
 
 import androidx.compose.animation.*
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalAbsoluteTonalElevation
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import rahmouni.neil.counters.utils.tiles.tile_color_selection.Size
 
 @OptIn(
-    ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class,
     ExperimentalAnimationApi::class
 )
 @Composable
@@ -33,15 +31,7 @@ fun TileColorSelection(
     onSelection: () -> Unit
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
-
-    var enterAnimation = scaleIn() + fadeIn()
-    var exitAnimation = scaleOut() + fadeOut()
-
-    if (remoteConfig.getBoolean("issue103__color_tile_new_animation")) {
-        enterAnimation = scaleIn(spring()) + fadeIn()
-        exitAnimation = scaleOut() + fadeOut(spring())
-    }
+    //val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     Surface(
         tonalElevation = -LocalAbsoluteTonalElevation.current,
@@ -63,8 +53,8 @@ fun TileColorSelection(
             {
                 AnimatedVisibility(
                     visible = selected,
-                    enter = enterAnimation,
-                    exit = exitAnimation
+                    enter = scaleIn() + fadeIn(),
+                    exit = scaleOut() + fadeOut()
                 ) {
                     Surface(
                         color = MaterialTheme.colorScheme.primary,
