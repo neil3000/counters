@@ -64,6 +64,6 @@
     </entry>
     <entry>
         <key>issue130__static_colors</key>
-        <value>false</value>
+        <value>true</value>
     </entry>
 </defaultsMap>

@@ -13,63 +13,109 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import dark_background
+import dark_error
+import dark_errorContainer
+import dark_onBackground
+import dark_onError
+import dark_onErrorContainer
+import dark_onPrimary
+import dark_onPrimaryContainer
+import dark_onSecondary
+import dark_onSecondaryContainer
+import dark_onSurface
+import dark_onSurfaceVariant
+import dark_onTertiary
+import dark_onTertiaryContainer
+import dark_outline
+import dark_primary
+import dark_primaryContainer
+import dark_secondary
+import dark_secondaryContainer
+import dark_surface
+import dark_surfaceVariant
+import dark_tertiary
+import dark_tertiaryContainer
+import light_background
+import light_error
+import light_errorContainer
+import light_onBackground
+import light_onError
+import light_onErrorContainer
+import light_onPrimary
+import light_onPrimaryContainer
+import light_onSecondary
+import light_onSecondaryContainer
+import light_onSurface
+import light_onSurfaceVariant
+import light_onTertiary
+import light_onTertiaryContainer
+import light_outline
+import light_primary
+import light_primaryContainer
+import light_secondary
+import light_secondaryContainer
+import light_surface
+import light_surfaceVariant
+import light_tertiary
+import light_tertiaryContainer
 
 /**
  * Light default theme color scheme
  */
 private val LightDefaultColorScheme = lightColorScheme(
-    primary = Purple40,
-    onPrimary = Color.White,
-    primaryContainer = Purple90,
-    onPrimaryContainer = Purple10,
-    secondary = Orange40,
-    onSecondary = Color.White,
-    secondaryContainer = Orange90,
-    onSecondaryContainer = Orange10,
-    tertiary = Blue40,
-    onTertiary = Color.White,
-    tertiaryContainer = Blue90,
-    onTertiaryContainer = Blue10,
-    error = Red40,
-    onError = Color.White,
-    errorContainer = Red90,
-    onErrorContainer = Red10,
-    background = DarkPurpleGray99,
-    onBackground = DarkPurpleGray10,
-    surface = DarkPurpleGray99,
-    onSurface = DarkPurpleGray10,
-    surfaceVariant = PurpleGray90,
-    onSurfaceVariant = PurpleGray30,
-    outline = PurpleGray50
+    primary = light_primary,
+    onPrimary = light_onPrimary,
+    primaryContainer = light_primaryContainer,
+    onPrimaryContainer = light_onPrimaryContainer,
+    secondary = light_secondary,
+    onSecondary = light_onSecondary,
+    secondaryContainer = light_secondaryContainer,
+    onSecondaryContainer = light_onSecondaryContainer,
+    tertiary = light_tertiary,
+    onTertiary = light_onTertiary,
+    tertiaryContainer = light_tertiaryContainer,
+    onTertiaryContainer = light_onTertiaryContainer,
+    error = light_error,
+    onError = light_onError,
+    errorContainer = light_errorContainer,
+    onErrorContainer = light_onErrorContainer,
+    background = light_background,
+    onBackground = light_onBackground,
+    surface = light_surface,
+    onSurface = light_onSurface,
+    surfaceVariant = light_surfaceVariant,
+    onSurfaceVariant = light_onSurfaceVariant,
+    outline = light_outline
 )
 
 /**
  * Dark default theme color scheme
  */
 private val DarkDefaultColorScheme = darkColorScheme(
-    primary = Purple80,
-    onPrimary = Purple20,
-    primaryContainer = Purple30,
-    onPrimaryContainer = Purple90,
-    secondary = Orange80,
-    onSecondary = Orange20,
-    secondaryContainer = Orange30,
-    onSecondaryContainer = Orange90,
-    tertiary = Blue80,
-    onTertiary = Blue20,
-    tertiaryContainer = Blue30,
-    onTertiaryContainer = Blue90,
-    error = Red80,
-    onError = Red20,
-    errorContainer = Red30,
-    onErrorContainer = Red90,
-    background = DarkPurpleGray10,
-    onBackground = DarkPurpleGray90,
-    surface = DarkPurpleGray10,
-    onSurface = DarkPurpleGray90,
-    surfaceVariant = PurpleGray30,
-    onSurfaceVariant = PurpleGray80,
-    outline = PurpleGray60
+    primary = dark_primary,
+    onPrimary = dark_onPrimary,
+    primaryContainer = dark_primaryContainer,
+    onPrimaryContainer = dark_onPrimaryContainer,
+    secondary = dark_secondary,
+    onSecondary = dark_onSecondary,
+    secondaryContainer = dark_secondaryContainer,
+    onSecondaryContainer = dark_onSecondaryContainer,
+    tertiary = dark_tertiary,
+    onTertiary = dark_onTertiary,
+    tertiaryContainer = dark_tertiaryContainer,
+    onTertiaryContainer = dark_onTertiaryContainer,
+    error = dark_error,
+    onError = dark_onError,
+    errorContainer = dark_errorContainer,
+    onErrorContainer = dark_onErrorContainer,
+    background = dark_background,
+    onBackground = dark_onBackground,
+    surface = dark_surface,
+    onSurface = dark_onSurface,
+    surfaceVariant = dark_surfaceVariant,
+    onSurfaceVariant = dark_onSurfaceVariant,
+    outline = dark_outline
 )
 
 /**
