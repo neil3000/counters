@@ -175,7 +175,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                     Column(Modifier.padding(it)) {
                         ContributeTranslateBanner()
                         LazyVerticalGrid(
-                            columns = GridCells.Adaptive(minSize = 180.dp),
+                            columns = GridCells.Adaptive(minSize = 165.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                             modifier = Modifier.padding(8.dp)
