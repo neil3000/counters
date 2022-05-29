@@ -1,5 +1,8 @@
 package rahmouni.neil.counters.counter_card.new_increment
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.lazy.LazyRow
@@ -7,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.EditNote
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Remove
 import androidx.compose.material3.*
@@ -49,6 +53,8 @@ fun NewIncrement(
         var value by rememberSaveable { mutableStateOf("1") }
         var isValueError by rememberSaveable { mutableStateOf(false) }
         var date: String? by rememberSaveable { mutableStateOf(null) }
+        var areNotesVisible: Boolean by rememberSaveable { mutableStateOf(false) }
+        var notes: String? by rememberSaveable { mutableStateOf(null) }
 
         fun validateValue(text: String): Boolean {
             isValueError = text.toIntOrNull() == null
@@ -64,7 +70,8 @@ fun NewIncrement(
                         value.toInt(),
                         counter.toCounter(),
                         healthConnect.isAvailable() && counter.healthConnectEnabled,
-                        date
+                        date,
+                        notes
                     )
                     value = counter.incrementValue.toString()
                 }
@@ -77,6 +84,9 @@ fun NewIncrement(
             } else {
                 counter.incrementValue.toString()
             }
+            date = null
+            areNotesVisible = false
+            notes = null
         }
 
         Column {
@@ -131,30 +141,67 @@ fun NewIncrement(
                 }
             }
 
-            if (remoteConfig.getBoolean("issue121__new_increment_date")) {
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    horizontalArrangement = spacedBy(8.dp, Alignment.CenterHorizontally)
-                ) {
-                    item {
-                        EditDateAssistChip(date) { date = it }
-                    }
-                    item {
-                        AssistChip(
-                            label = { Text(stringResource(R.string.action_setToLastValue_short)) },
-                            enabled = value != counter.lastIncrement.toString(),
-                            leadingIcon = { Icon(Icons.Outlined.History, null) },
-                            onClick = {
-                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = spacedBy(8.dp, Alignment.CenterHorizontally)
+            ) {
+                item { Box(Modifier.width(16.dp)) }
+                item {
+                    EditDateAssistChip(date) { date = it }
+                }
+                item {
+                    AssistChip(
+                        label = { Text(stringResource(R.string.action_setToLastValue_short)) },
+                        enabled = value != counter.lastIncrement.toString(),
+                        leadingIcon = { Icon(Icons.Outlined.History, null) },
+                        onClick = {
+                            localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                                value = counter.lastIncrement.toString()
-                                isValueError = false
-                            }
-                        )
+                            value = counter.lastIncrement.toString()
+                            isValueError = false
+                        }
+                    )
+                }
+                if (remoteConfig.getBoolean("issue139__increment_notes")) {
+                    item {
+                        AnimatedVisibility(
+                            visible = !areNotesVisible,
+                            exit = shrinkHorizontally() + fadeOut()
+                        ) {
+                            AssistChip(
+                                label = { Text(stringResource(R.string.action_addNotes_short)) },
+                                leadingIcon = { Icon(Icons.Outlined.EditNote, null) },
+                                onClick = {
+                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                                    areNotesVisible = true
+                                }
+                            )
+                        }
                     }
                 }
+                item { Box(Modifier.width(16.dp)) }
+            }
+
+            AnimatedVisibility(visible = areNotesVisible) {
+                MenuDefaults.Divider(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp))
+
+                TextField(
+                    value = notes ?: "",
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    label = { Text(stringResource(R.string.text_notes)) },
+                    onValueChange = { str ->
+                        notes = if (str == "") null else str
+                    },
+                    singleLine = true,
+                    keyboardActions = KeyboardActions {
+                        keyboardController?.hide()
+                    }
+                )
             }
 
             Button(

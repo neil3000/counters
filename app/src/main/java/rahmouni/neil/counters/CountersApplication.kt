@@ -1,7 +1,6 @@
 package rahmouni.neil.counters
 
 import android.app.Application
-import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.appcheck.FirebaseAppCheck
@@ -39,8 +38,6 @@ class CountersApplication : Application() {
         instance = this
         prefs = Prefs(applicationContext)
 
-
-        FirebaseApp.initializeApp(this)
         FirebaseAppCheck.getInstance().installAppCheckProviderFactory(
             PlayIntegrityAppCheckProviderFactory.getInstance()
         )
@@ -55,9 +52,8 @@ class CountersApplication : Application() {
         analytics = Firebase.analytics
         analytics?.setAnalyticsCollectionEnabled(rahmouni.neil.counters.prefs.analyticsEnabled && !BuildConfig.DEBUG)
 
-        val context = this.applicationContext
         MainScope().launch {
-            healthConnect.initialize(context)
+            //healthConnect.initialize(applicationContext) //TODO
         }
 
         super.onCreate()

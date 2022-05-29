@@ -20,13 +20,23 @@ class HealthConnect {
     suspend fun initialize(context: Context) {
         isClientAvailable = HealthConnectClient.isAvailable(context)
 
-        if (hasSufficientSdk() && isClientAvailable()) client =
-            HealthConnectClient.getOrCreate(context)
-
-        hasPermissions = client?.permissionController?.getGrantedPermissions(permissions)
-            ?.containsAll(permissions) == true
+        if (hasSufficientSdk() && isClientAvailable()) {
+            client = HealthConnectClient.getOrCreate(context)
+            hasPermissions = client?.permissionController?.getGrantedPermissions(permissions)
+                ?.containsAll(permissions) == true
+        }
     }
 
+    /**
+     * Function to check if the integration is available, meaning the user
+     * is on the right flavor, has the Health Connect app installed and
+     * has the right permissions.
+     *
+     * The value might be cached, if you want to force refresh the value,
+     * you need to use initialize()
+     *
+     * @return whether or not the integration is available.
+     */
     fun isAvailable(): Boolean {
         return hasSufficientSdk() && isClientAvailable() && hasPermissions()
     }

@@ -27,16 +27,26 @@ class CountersListViewModel(private val repository: CountersListRepository) : Vi
             resetType.entriesGroup1!!
         ).asLiveData()
 
-    fun addIncrement(value: Int, counter: Counter, logHealthConnect: Boolean, date: String? = null) = viewModelScope.launch {
-        repository.addIncrement(value, counter.uid, date)
+    fun addIncrement(
+        value: Int,
+        counter: Counter,
+        logHealthConnect: Boolean,
+        date: String? = null,
+        notes: String? = null
+    ) = viewModelScope.launch {
+        repository.addIncrement(value, counter.uid, date, notes)
 
         analytics?.logEvent("add_increment") {
             param("increment_value", value.toLong())
         }
         if (logHealthConnect) {
             healthConnect.writeActivitySession(
-                if (date==null) ZonedDateTime.now()
-                else ZonedDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.systemDefault())),
+                if (date == null) ZonedDateTime.now()
+                else ZonedDateTime.parse(
+                    date,
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                        .withZone(ZoneId.systemDefault())
+                ),
                 counter.displayName,
                 counter.healthConnectType,
                 value

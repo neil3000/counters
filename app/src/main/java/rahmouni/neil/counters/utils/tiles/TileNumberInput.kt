@@ -24,10 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.utils.AutoFocusOutlinedTextField
 
-@OptIn(
-    ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class,
-    ExperimentalMaterial3Api::class
-)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun TileNumberInput(
     title: String,

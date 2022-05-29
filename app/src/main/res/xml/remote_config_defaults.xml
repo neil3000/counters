@@ -33,7 +33,6 @@
         <value>https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata</value>
     </entry>
 
-
     <!-- EXPERIMENTS -->
     <entry>
         <key>issue54__reset_value_setting</key>
@@ -52,15 +51,15 @@
         <value>false</value>
     </entry>
     <entry>
-        <key>issue121__new_increment_date</key>
-        <value>false</value>
-    </entry>
-    <entry>
         <key>issue114__gfit_integration</key>
         <value>false</value>
     </entry>
     <entry>
         <key>issue130__static_colors</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>issue139__increment_notes</key>
         <value>false</value>
     </entry>
 </defaultsMap>

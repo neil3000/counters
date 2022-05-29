@@ -152,4 +152,6 @@
     <string name="action_linkToHealthConnect">Lier avec Health Connect</string>
     <string name="text_dynamicColors">Couleurs dynamiques</string>
     <string name="text_basicColors">Couleurs de base</string>
+    <string name="text_notes">Notes</string>
+    <string name="action_addNotes_short">Ajouter des notes</string>
 </resources>

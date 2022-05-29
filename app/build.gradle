@@ -13,8 +13,8 @@ android {
         applicationId "rahmouni.neil.counters"
         minSdk 21
         targetSdk 31
-        versionCode 34
-        versionName "1.17.1"
+        versionCode 46
+        versionName "1.19.00"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -57,9 +57,11 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        useIR = true
         freeCompilerArgs += [
                 "-Xjvm-default=all", "-Xopt-in=kotlin.RequiresOptIn"
         ]
@@ -68,7 +70,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion "1.0.5"
+        kotlinCompilerExtensionVersion "1.1.1"
     }
     packagingOptions {
         resources {
@@ -81,18 +83,18 @@ android {
 dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
 
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.9.0'
 
     implementation "androidx.appcompat:appcompat:1.4.1"
     implementation "androidx.activity:activity-ktx:1.4.0"
 
-    implementation platform('com.google.firebase:firebase-bom:30.0.1')
+    implementation platform('com.google.firebase:firebase-bom:30.0.2')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-config-ktx'
     implementation 'com.google.firebase:firebase-appcheck-playintegrity'
 
-    implementation "androidx.compose.ui:ui:1.2.0-beta02"
+    implementation "androidx.compose.ui:ui:1.1.1"
     // Tooling support (Previews, etc.)
     debugImplementation("androidx.compose.ui:ui-tooling:1.1.1")
     implementation "androidx.compose.ui:ui-tooling-preview:1.1.1"
@@ -117,11 +119,11 @@ dependencies {
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-rc01"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-common-java8:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
     implementation "androidx.compose.runtime:runtime-livedata:1.1.1"
-
 
     // Kotlin components
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
@@ -149,8 +151,11 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.4.1'
 
-    //Health & Connect
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
 
+    //Health & Connect
     minApi21CompileOnly 'androidx.health:health-connect-client:1.0.0-alpha01'
     minApi27Implementation 'androidx.health:health-connect-client:1.0.0-alpha01'
+
+    implementation "androidx.concurrent:concurrent-futures-ktx:1.1.0"
 }

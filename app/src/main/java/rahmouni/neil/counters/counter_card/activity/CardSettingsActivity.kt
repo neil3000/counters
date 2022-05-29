@@ -64,15 +64,17 @@ class CardSettingsActivity : ComponentActivity() {
         setContent {
             CountersTheme {
                 ProvideWindowInsets {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        tonalElevation = 1.dp,
-                        color = MaterialTheme.colorScheme.surface
-                    ) {
+                    androidx.compose.material.Surface {
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            tonalElevation = 1.dp,
+                            color = MaterialTheme.colorScheme.surface
+                        ) {
 
-                        CardSettingsPage(
-                            counterID, countersListViewModel
-                        )
+                            CardSettingsPage(
+                                counterID, countersListViewModel
+                            )
+                        }
                     }
                 }
             }

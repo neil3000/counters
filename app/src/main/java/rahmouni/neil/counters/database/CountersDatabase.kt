@@ -15,10 +15,11 @@ import java.io.Serializable
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
         AutoMigration(from = 3, to = 4),
-        AutoMigration(from = 4, to = 5)
+        AutoMigration(from = 4, to = 5),
+        AutoMigration(from = 5, to = 6)
     ],
     exportSchema = true,
-    version = 5
+    version = 6
 )
 abstract class CountersDatabase : RoomDatabase() {
     abstract fun countersListDao(): CountersListDao
@@ -134,7 +135,8 @@ data class Increment(
     @ColumnInfo(
         name = "timestamp",
         defaultValue = "CURRENT_TIMESTAMP"
-    ) val timestamp: String = "CURRENT_TIMESTAMP"
+    ) val timestamp: String = "CURRENT_TIMESTAMP",
+    @ColumnInfo(name = "notes") val notes: String? = null
 )
 
 data class IncrementGroup(

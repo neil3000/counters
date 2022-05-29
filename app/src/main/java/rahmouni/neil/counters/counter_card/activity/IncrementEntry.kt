@@ -46,30 +46,30 @@ fun IncrementEntry(
         text = { Text(increment.value.toString()) },
         secondaryText = {
             if (date != null) {
-                Text(
-                    when (resetType) {
-                        ResetType.NEVER -> DateUtils.getRelativeTimeSpanString(date.time).toString()
-                        ResetType.DAY -> DateFormat.getTimeFormat(context).format(date)
-                        ResetType.WEEK -> DateFormat.format(
-                            DateFormat.getBestDateTimePattern(
-                                Locale.getDefault(),
-                                "EEEE"
-                            ), date
-                        ).toString()
-                            .replaceFirstChar { it.uppercase() } + ", " + DateFormat.getTimeFormat(
-                            context
-                        ).format(date)
-                        ResetType.MONTH -> DateFormat.format(
-                            DateFormat.getBestDateTimePattern(
-                                Locale.getDefault(),
-                                "MMMM d"
-                            ), date
-                        ).toString()
-                            .replaceFirstChar { it.uppercase() } + ", " + DateFormat.getTimeFormat(
-                            context
-                        ).format(date)
-                    }
-                )
+                val formattedDate = when (resetType) {
+                    ResetType.NEVER -> DateUtils.getRelativeTimeSpanString(date.time).toString()
+                    ResetType.DAY -> DateFormat.getTimeFormat(context).format(date)
+                    ResetType.WEEK -> DateFormat.format(
+                        DateFormat.getBestDateTimePattern(
+                            Locale.getDefault(),
+                            "EEEE"
+                        ), date
+                    ).toString()
+                        .replaceFirstChar { it.uppercase() } + ", " + DateFormat.getTimeFormat(
+                        context
+                    ).format(date)
+                    ResetType.MONTH -> DateFormat.format(
+                        DateFormat.getBestDateTimePattern(
+                            Locale.getDefault(),
+                            "MMMM d"
+                        ), date
+                    ).toString()
+                        .replaceFirstChar { it.uppercase() } + ", " + DateFormat.getTimeFormat(
+                        context
+                    ).format(date)
+                }
+
+                Text(formattedDate + (if (increment.notes != null) " • "+increment.notes else ""))
             }
         },
         trailing = {

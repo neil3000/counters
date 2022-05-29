@@ -1,6 +1,5 @@
 package rahmouni.neil.counters.utils
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,8 +29,8 @@ fun FullscreenDynamicSVG(
                 painterResource(id = svgRes),
                 null,
                 Modifier
-                    .heightIn(max=maxHeight/1.5f)
-                    .widthIn(max=maxWidth/1.5f),
+                    .heightIn(max = maxHeight / 1.5f)
+                    .widthIn(max = maxWidth / 1.5f),
                 Color.Unspecified
             )
 

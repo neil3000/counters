@@ -1,31 +1,40 @@
 package rahmouni.neil.counters.database
 
 import android.text.format.DateFormat
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import rahmouni.neil.counters.prefs
 import java.util.*
 
 class CountersListRepository(private val countersListDao: CountersListDao) {
-    private val weekday = prefs.startWeekDay.groupQuery?:((Calendar.getInstance().firstDayOfWeek-2)%7).toString()
+    private val weekday = prefs.startWeekDay.groupQuery
+        ?: ((Calendar.getInstance().firstDayOfWeek - 2) % 7).toString()
 
     val allCounters: Flow<List<CounterAugmented>> = countersListDao.getAll(weekday)
     fun getCounterIncrements(counterID: Int): Flow<List<Increment>> =
         countersListDao.getCounterIncrements(counterID)
-    fun getCounter(counterID: Int): Flow<CounterAugmented> = countersListDao.getCounter(counterID, weekday)
+
+    fun getCounter(counterID: Int): Flow<CounterAugmented> =
+        countersListDao.getCounter(counterID, weekday)
+
     fun getCounterIncrementGroups(
         counterID: Int,
         groupQuery1: String,
-    ): Flow<List<IncrementGroup>> = countersListDao.getCounterIncrementGroups(
-        counterID,
-        groupQuery1.replaceFirst("%d", weekday)
-    )
+    ): Flow<List<IncrementGroup>> {
+        Log.d("RahNeil_N3", "heyf " + groupQuery1.replaceFirst("%d", weekday))
+        return countersListDao.getCounterIncrementGroups(
+            counterID,
+            groupQuery1.replaceFirst("%d", weekday)
+        )
+    }
 
-    suspend fun addIncrement(value: Int, counterID: Int, date: String?) {
+    suspend fun addIncrement(value: Int, counterID: Int, date: String?, notes: String?) {
         countersListDao.addIncrement(
             Increment(
                 value = value,
                 counterID = counterID,
-                timestamp = date ?: DateFormat.format("yyyy-MM-dd HH:mm:ss", Date()).toString()
+                timestamp = date ?: DateFormat.format("yyyy-MM-dd HH:mm:ss", Date()).toString(),
+                notes = notes
             )
         )
     }

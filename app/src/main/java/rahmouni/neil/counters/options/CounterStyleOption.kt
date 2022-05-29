@@ -12,13 +12,15 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.utils.tiles.tile_color_selection.TileColorSelection
 import rahmouni.neil.counters.utils.tiles.tile_color_selection.Size
+import rahmouni.neil.counters.utils.tiles.tile_color_selection.TileColorSelection
 
 @OptIn(
     ExperimentalMaterial3Api::class,
@@ -31,6 +33,7 @@ fun CounterStyleOption(
     onChange: (CounterStyle) -> Unit
 ) {
     val remoteConfig = FirebaseRemoteConfig.getInstance()
+    val haptic = LocalHapticFeedback.current
 
     var dynamic by rememberSaveable { mutableStateOf(true) }
 
@@ -78,12 +81,20 @@ fun CounterStyleOption(
             ) {
                 FilterChip(
                     selected = dynamic,
-                    onClick = { dynamic = true },
+                    onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+
+                        dynamic = true
+                    },
                     label = { Text(stringResource(R.string.text_dynamicColors)) },
                 )
                 FilterChip(
                     selected = !dynamic,
-                    onClick = { dynamic = false },
+                    onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+
+                        dynamic = false
+                    },
                     label = { Text(stringResource(R.string.text_basicColors)) },
                 )
             }

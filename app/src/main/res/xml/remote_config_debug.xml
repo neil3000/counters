@@ -51,15 +51,15 @@
         <value>true</value>
     </entry>
     <entry>
-        <key>issue121__new_increment_date</key>
-        <value>true</value>
-    </entry>
-    <entry>
         <key>issue114__gfit_integration</key>
         <value>true</value>
     </entry>
     <entry>
         <key>issue130__static_colors</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>issue139__increment_notes</key>
         <value>true</value>
     </entry>
 </defaultsMap>
