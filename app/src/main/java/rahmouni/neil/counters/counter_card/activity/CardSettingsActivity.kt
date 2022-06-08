@@ -119,7 +119,7 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
             .statusBarsPadding(),
         topBar = {
             LargeTopAppBar(
-                title = { Text(stringResource(R.string.topbar)) },
+                title = { Text(stringResource(R.string.topbar_title)) },
                 actions = {
                     SettingsDots(screenName = "CardSettingsActivity") {}
                 },

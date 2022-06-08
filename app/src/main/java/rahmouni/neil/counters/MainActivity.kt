@@ -3,6 +3,7 @@ package rahmouni.neil.counters
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -17,6 +18,7 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.VolunteerActivism
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -124,6 +126,24 @@ fun Home(countersListViewModel: CountersListViewModel) {
                     CenterAlignedTopAppBar(
                         title = {
                             Text(stringResource(R.string.text_appName))
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = {
+                                localHapticFeedback.performHapticFeedback(
+                                    HapticFeedbackType.LongPress
+                                )
+
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.topbar_icon_contributor_toast),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }) {
+                                Icon(
+                                    Icons.Outlined.VolunteerActivism,
+                                    stringResource(R.string.topbar_icon_contributor_contentDescription)
+                                )
+                            }
                         },
                         actions = {
                             SettingsDots(screenName = "MainActivity") {

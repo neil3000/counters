@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="topbar">Card settings</string>
+    <string name="topbar_title">Card settings</string>
 </resources>

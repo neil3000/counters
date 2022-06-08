@@ -158,6 +158,4 @@
     <string name="text_number">Number</string>
     <string name="text_task">Task</string>
     <string name="text_valueType">Value type</string>
-    <string name="tile_cardSettings_title">Card settings</string>
-    <string name="tile_cardSettings_secondary">Customize this counter\'s home screen card</string>
 </resources>
