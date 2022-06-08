@@ -10,13 +10,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import rahmouni.neil.counters.*
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
+import rahmouni.neil.counters.R
+import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.counter_card.activity.health_connect.HealthConnectSettingsActivity
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.options.IncrementValueOption
+import rahmouni.neil.counters.healthConnect
+import rahmouni.neil.counters.options.ResetValueOption
 import rahmouni.neil.counters.utils.tiles.*
+import rahmouni.neil.counters.value_types.ValueType
 
 @Composable
 fun CounterSettings(
@@ -48,14 +51,38 @@ fun CounterSettings(
             }
         }
         item {
+            TileDialogRadioButtons(
+                title = stringResource(R.string.text_valueType),
+                icon = Icons.Outlined.Category,
+                values = ValueType.values().toList(),
+                selected = counter?.valueType ?: ValueType.NUMBER
+            ) {
+                if (counter != null) {
+                    countersListViewModel.updateCounter(
+                        counter.copy(
+                            valueType = it as ValueType
+                        ).toCounter()
+                    )
+                }
+            }
+        }
+        item {
             TileStartActivity(
-                title = stringResource(R.string.text_homeScreenSettings),
-                icon = Icons.Outlined.GridView,
+                title = stringResource(R.string.tile_cardSettings_title),
+                description = stringResource(R.string.tile_cardSettings_secondary),
+                icon = Icons.Outlined.SmartButton,
                 activity = CardSettingsActivity::class.java,
             ) {
                 if (counter != null) {
                     it.putExtra("counterID", counter.uid)
                 } else it
+            }
+        }
+        if (remoteConfig.getBoolean("issue79__goals")) {
+            item {
+                TileEndSwitch(checked = false, onChange = {}) {
+
+                }
             }
         }
         item { MenuDefaults.Divider() }
@@ -85,23 +112,18 @@ fun CounterSettings(
                 }
             }
         }
-        if (remoteConfig.getBoolean("issue54__reset_value_setting")) {
-            item {
-                TileNumberInput(
-                    title = stringResource(R.string.text_resetValue),
-                    dialogTitle = stringResource(R.string.action_resetTo),
-                    icon = Icons.Outlined.Pin,
-                    value = counter?.resetValue ?: 0,
-                    format = R.string.text_resetsToX,
-                    enabled = counter?.resetType != ResetType.NEVER
-                ) {
-                    if (counter != null) {
-                        countersListViewModel.updateCounter(
-                            counter.copy(
-                                resetValue = it
-                            ).toCounter()
-                        )
-                    }
+        item {
+            ResetValueOption(
+                valueType = counter?.valueType ?: ValueType.NUMBER,
+                value = counter?.resetValue ?: 0,
+                enabled = counter?.resetType != ResetType.NEVER
+            ) {
+                if (counter != null) {
+                    countersListViewModel.updateCounter(
+                        counter.copy(
+                            resetValue = it
+                        ).toCounter()
+                    )
                 }
             }
         }
@@ -111,45 +133,30 @@ fun CounterSettings(
         item {
             TileHeader(stringResource(R.string.header_other))
         }
-        if (remoteConfig.getBoolean("issue114__gfit_integration")) {
+        if ((counter?.valueType?.hasHealthConnectIntegration != false) && remoteConfig.getBoolean("issue114__gfit_integration")) {
             item {
-                TileSwitchStartActivity(
-                    title = stringResource(R.string.text_healthConnectIntegration),
-                    icon = Icons.Outlined.FitnessCenter,
+                TileEndSwitch(
                     checked = (counter?.healthConnectEnabled ?: false)
                             && healthConnect.isAvailable(),
-                    switchEnabled = healthConnect.isAvailable(),
-                    activity = HealthConnectSettingsActivity::class.java,
-                    extras = {
-                        if (counter != null) {
-                            it.putExtra("counterID", counter.uid)
-                        } else it
+                    enabled = healthConnect.isAvailable(),
+                    onChange = {
+                        countersListViewModel.updateCounter(
+                            counter!!.copy(
+                                healthConnectEnabled = it
+                            ).toCounter()
+                        )
                     }
-                ) {
-                    countersListViewModel.updateCounter(
-                        counter!!.copy(
-                            healthConnectEnabled = it
-                        ).toCounter()
-                    )
-                }
-            }
-        }
-        item {
-            IncrementValueOption(
-                counter?.incrementType
-                    ?: IncrementType.ASK_EVERY_TIME,
-                counter?.incrementValueType
-                    ?: IncrementValueType.VALUE,
-                counter?.incrementValue ?: 1,
-                counter?.hasMinus ?: false
-            ) { ivt, v ->
-                if (counter != null) {
-                    countersListViewModel.updateCounter(
-                        counter.copy(
-                            incrementValueType = ivt,
-                            incrementValue = v
-                        ).toCounter()
-                    )
+                ) { defaultModifier ->
+                    TileStartActivity(
+                        title = stringResource(R.string.text_healthConnectIntegration),
+                        icon = Icons.Outlined.FitnessCenter,
+                        activity = HealthConnectSettingsActivity::class.java,
+                        modifier = defaultModifier
+                    ) { intent ->
+                        if (counter != null) {
+                            intent.putExtra("counterID", counter.uid)
+                        } else intent
+                    }
                 }
             }
         }
@@ -166,6 +173,5 @@ fun CounterSettings(
                 }
             }
         }
-        item { MenuDefaults.Divider() }
     }
 }

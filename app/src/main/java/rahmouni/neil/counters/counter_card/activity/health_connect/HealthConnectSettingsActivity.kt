@@ -82,10 +82,10 @@ fun HealthConnectSettingsPage(
     counterID: Int,
     countersListViewModel: CountersListViewModel,
 ) {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = remember(decayAnimationSpec) {
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
-    }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        rememberSplineBasedDecay(),
+        rememberTopAppBarScrollState()
+    )
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
     val remoteConfig = FirebaseRemoteConfig.getInstance()

@@ -2,12 +2,12 @@ package rahmouni.neil.counters.database
 
 import android.content.Context
 import androidx.room.*
+import androidx.room.migration.AutoMigrationSpec
 import kotlinx.coroutines.flow.Flow
 import rahmouni.neil.counters.CounterStyle
-import rahmouni.neil.counters.IncrementType
-import rahmouni.neil.counters.IncrementValueType
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.counter_card.activity.health_connect.HealthConnectType
+import rahmouni.neil.counters.value_types.ValueType
 import java.io.Serializable
 
 @Database(
@@ -16,13 +16,27 @@ import java.io.Serializable
         AutoMigration(from = 2, to = 3),
         AutoMigration(from = 3, to = 4),
         AutoMigration(from = 4, to = 5),
-        AutoMigration(from = 5, to = 6)
+        AutoMigration(from = 5, to = 6),
+        AutoMigration(
+            from = 6,
+            to = 7,
+            spec = CountersDatabase.Migration67::class
+        )
     ],
     exportSchema = true,
-    version = 6
+    version = 7
 )
 abstract class CountersDatabase : RoomDatabase() {
     abstract fun countersListDao(): CountersListDao
+
+    @DeleteColumn(tableName = "Counter", columnName = "increment_type")
+    @DeleteColumn(tableName = "Counter", columnName = "increment_value_type")
+    @RenameColumn(
+        tableName = "Counter",
+        fromColumnName = "increment_value",
+        toColumnName = "plus_button_value"
+    )
+    class Migration67 : AutoMigrationSpec
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
@@ -53,17 +67,13 @@ data class Counter(
     @ColumnInfo(name = "display_name") val displayName: String,
     @ColumnInfo(name = "style") val style: CounterStyle = CounterStyle.DEFAULT,
     @ColumnInfo(name = "has_minus") val hasMinus: Boolean = false,
-    @ColumnInfo(name = "increment_type") val incrementType: IncrementType = IncrementType.ASK_EVERY_TIME,
-    @ColumnInfo(name = "increment_value_type") val incrementValueType: IncrementValueType = IncrementValueType.VALUE,
-    @ColumnInfo(name = "increment_value") val incrementValue: Int = 1,
+    @ColumnInfo(name = "plus_button_value", defaultValue = "1") val plusButtonValue: Int = 1,
+    @ColumnInfo(name = "entry_value", defaultValue = "1") val entryValue: Int = 1,
     @ColumnInfo(
         name = "reset_type",
         defaultValue = "NEVER"
     ) val resetType: ResetType = ResetType.NEVER,
-    @ColumnInfo(
-        name = "reset_value",
-        defaultValue = "0"
-    ) val resetValue: Int = 0,
+    @ColumnInfo(name = "reset_value", defaultValue = "0") val resetValue: Int = 0,
     @ColumnInfo(
         name = "health_connect_enabled",
         defaultValue = "false"
@@ -72,6 +82,10 @@ data class Counter(
         name = "health_connect_type",
         defaultValue = "SQUAT"
     ) val healthConnectType: HealthConnectType = HealthConnectType.SQUAT,
+    @ColumnInfo(
+        name = "value_type",
+        defaultValue = "NUMBER"
+    ) val valueType: ValueType = ValueType.NUMBER,
 )
 
 data class CounterAugmented(
@@ -79,17 +93,13 @@ data class CounterAugmented(
     @ColumnInfo(name = "display_name") val displayName: String,
     @ColumnInfo(name = "style") val style: CounterStyle = CounterStyle.DEFAULT,
     @ColumnInfo(name = "has_minus") val hasMinus: Boolean = false,
-    @ColumnInfo(name = "increment_type") val incrementType: IncrementType = IncrementType.ASK_EVERY_TIME,
-    @ColumnInfo(name = "increment_value_type") val incrementValueType: IncrementValueType = IncrementValueType.VALUE,
-    @ColumnInfo(name = "increment_value") val incrementValue: Int = 1,
+    @ColumnInfo(name = "plus_button_value", defaultValue = "1") val plusButtonValue: Int = 1,
+    @ColumnInfo(name = "entry_value", defaultValue = "1") val entryValue: Int = 1,
     @ColumnInfo(
         name = "reset_type",
         defaultValue = "NEVER"
     ) val resetType: ResetType = ResetType.NEVER,
-    @ColumnInfo(
-        name = "reset_value",
-        defaultValue = "0"
-    ) val resetValue: Int = 0,
+    @ColumnInfo(name = "reset_value", defaultValue = "0") val resetValue: Int = 0,
     @ColumnInfo(
         name = "health_connect_enabled",
         defaultValue = "false"
@@ -98,6 +108,10 @@ data class CounterAugmented(
         name = "health_connect_type",
         defaultValue = "SQUAT"
     ) val healthConnectType: HealthConnectType = HealthConnectType.SQUAT,
+    @ColumnInfo(
+        name = "value_type",
+        defaultValue = "NUMBER"
+    ) val valueType: ValueType = ValueType.NUMBER,
 
     @ColumnInfo(name = "total_count") val totalCount: Int = 0,
     @ColumnInfo(name = "last_increment") val lastIncrement: Int = 1,
@@ -109,13 +123,13 @@ data class CounterAugmented(
             displayName = displayName,
             style = style,
             hasMinus = hasMinus,
-            incrementType = incrementType,
-            incrementValueType = incrementValueType,
-            incrementValue = incrementValue,
+            plusButtonValue = plusButtonValue,
+            entryValue = entryValue,
             resetType = resetType,
             resetValue = resetValue,
             healthConnectEnabled = healthConnectEnabled,
-            healthConnectType = healthConnectType
+            healthConnectType = healthConnectType,
+            valueType = valueType
         )
     }
 }

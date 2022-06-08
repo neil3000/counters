@@ -12,8 +12,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -62,10 +65,11 @@ class DataSettingsActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
 fun DataSettingsPage() {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = remember(decayAnimationSpec) {
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
-    }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        rememberSplineBasedDecay(),
+        rememberTopAppBarScrollState()
+    )
+
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
     val remoteConfig = FirebaseRemoteConfig.getInstance()

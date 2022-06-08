@@ -73,7 +73,7 @@
     <string name="header_other">Other</string>
     <string name="header_reset">Reset</string>
     <string name="text_frequency">Frequency</string>
-    <string name="text_resetsToX">Resets to %d</string>
+    <string name="text_resetsToX">Resets to %s</string>
     <string name="text_resetValue">Reset value</string>
     <string name="action_resetTo">Reset to</string>
     <string name="text_homeScreenSettings">Home screen settings</string>
@@ -155,4 +155,9 @@
     <string name="text_basicColors">Basic colors</string>
     <string name="text_notes">Notes</string>
     <string name="action_addNotes_short">Add notes</string>
+    <string name="text_number">Number</string>
+    <string name="text_task">Task</string>
+    <string name="text_valueType">Value type</string>
+    <string name="tile_cardSettings_title">Card settings</string>
+    <string name="tile_cardSettings_secondary">Customize this counter\'s home screen card</string>
 </resources>

@@ -2,7 +2,6 @@ package rahmouni.neil.counters.settings
 
 import android.content.Context
 import android.content.SharedPreferences
-import java.util.*
 
 class Prefs (context: Context) {
     private val preferences: SharedPreferences =
@@ -13,7 +12,7 @@ class Prefs (context: Context) {
         set(value) = preferences.edit().putBoolean("DEBUG_MODE", value).apply()
 
     var startWeekDay: StartWeekDay
-        get() = StartWeekDay.values()[preferences.getInt("START_WEEK_DAY", (Calendar.getInstance().firstDayOfWeek - 2) % 7)]
+        get() = StartWeekDay.values()[preferences.getInt("START_WEEK_DAY", StartWeekDay.LOCALE.ordinal)]
         set(value) = preferences.edit().putInt("START_WEEK_DAY", value.ordinal).apply()
 
     var weekDisplay: WeekDisplay

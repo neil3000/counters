@@ -1,14 +1,13 @@
 package rahmouni.neil.counters.database
 
 import android.text.format.DateFormat
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import rahmouni.neil.counters.prefs
 import java.util.*
 
 class CountersListRepository(private val countersListDao: CountersListDao) {
     private val weekday = prefs.startWeekDay.groupQuery
-        ?: ((Calendar.getInstance().firstDayOfWeek - 2) % 7).toString()
+        ?: ((Calendar.getInstance().firstDayOfWeek + 5) % 7).toString()
 
     val allCounters: Flow<List<CounterAugmented>> = countersListDao.getAll(weekday)
     fun getCounterIncrements(counterID: Int): Flow<List<Increment>> =
@@ -21,7 +20,6 @@ class CountersListRepository(private val countersListDao: CountersListDao) {
         counterID: Int,
         groupQuery1: String,
     ): Flow<List<IncrementGroup>> {
-        Log.d("RahNeil_N3", "heyf " + groupQuery1.replaceFirst("%d", weekday))
         return countersListDao.getCounterIncrementGroups(
             counterID,
             groupQuery1.replaceFirst("%d", weekday)

@@ -19,8 +19,10 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 @Composable
 fun TileStartActivity(
     title: String,
+    description: String? = null,
     icon: ImageVector,
     activity: Class<*>,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     extras: (Intent) -> (Intent) = { it }
 ) {
@@ -29,18 +31,23 @@ fun TileStartActivity(
 
     ListItem(
         text = { Text(title) },
+        secondaryText = if (description != null) {
+            { Text(description) }
+        } else null,
         icon = { Icon(icon, null) },
-        modifier = Modifier
-            .alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
-            .clickable(
-                enabled = enabled,
-                onClick = {
-                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+        modifier = modifier.then(
+            Modifier
+                .alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
+                .clickable(
+                    enabled = enabled,
+                    onClick = {
+                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                    context.startActivity(
-                        extras(Intent(context, activity))
-                    )
-                }
-            )
+                        context.startActivity(
+                            extras(Intent(context, activity))
+                        )
+                    }
+                )
+        )
     )
 }

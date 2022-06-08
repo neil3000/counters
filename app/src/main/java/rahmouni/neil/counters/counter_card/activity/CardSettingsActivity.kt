@@ -17,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Remove
-import androidx.compose.material.icons.outlined.TouchApp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -36,7 +35,6 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.CountersApplication
-import rahmouni.neil.counters.IncrementType
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.counter_card.CounterCard
 import rahmouni.neil.counters.database.CounterAugmented
@@ -45,7 +43,6 @@ import rahmouni.neil.counters.database.CountersListViewModelFactory
 import rahmouni.neil.counters.options.CounterStyleOption
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
-import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
 import rahmouni.neil.counters.utils.tiles.TileHeader
 import rahmouni.neil.counters.utils.tiles.TileSwitch
 
@@ -85,10 +82,10 @@ class CardSettingsActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
 fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewModel) {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = remember(decayAnimationSpec) {
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
-    }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        rememberSplineBasedDecay(),
+        rememberTopAppBarScrollState()
+    )
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
 
@@ -96,30 +93,22 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
 
     var edited by rememberSaveable { mutableStateOf(false) }
     var counterStyle by rememberSaveable { mutableStateOf(counter?.style ?: CounterStyle.DEFAULT) }
-    var incrementType by rememberSaveable {
-        mutableStateOf(
-            counter?.incrementType ?: IncrementType.ASK_EVERY_TIME
-        )
-    }
     var minusEnabled by rememberSaveable { mutableStateOf(counter?.hasMinus ?: false) }
 
     fun checkEdited() {
         edited = (counterStyle != counter?.style)
-                || (incrementType != counter?.incrementType)
                 || (minusEnabled != counter?.hasMinus)
     }
 
     fun finalCounter(): CounterAugmented? {
         return counter?.copy(
             style = counterStyle,
-            incrementType = incrementType,
             hasMinus = minusEnabled
         )
     }
 
     LaunchedEffect(counter) {
         counterStyle = counter?.style ?: CounterStyle.DEFAULT
-        incrementType = counter?.incrementType ?: IncrementType.ASK_EVERY_TIME
         minusEnabled = counter?.hasMinus ?: false
         checkEdited()
     }
@@ -218,21 +207,10 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
             item {
                 Column {
                     TileHeader(stringResource(R.string.text_buttons))
-                    TileDialogRadioButtons(
-                        title = stringResource(R.string.text_buttonBehavior),
-                        icon = Icons.Outlined.TouchApp,
-                        values = IncrementType.values().toList(),
-                        selected = incrementType
-                    ) {
-                        incrementType = it as IncrementType
-                        if (incrementType != IncrementType.VALUE) minusEnabled = false
-                        checkEdited()
-                    }
                     TileSwitch(
                         title = stringResource(R.string.action_showMinusButton),
                         icon = Icons.Outlined.Remove,
-                        checked = minusEnabled,
-                        enabled = incrementType == IncrementType.VALUE
+                        checked = minusEnabled
                     ) {
                         minusEnabled = it
                         checkEdited()

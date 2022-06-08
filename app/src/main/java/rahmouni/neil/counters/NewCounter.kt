@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material.icons.outlined.Event
-import androidx.compose.material.icons.outlined.Pin
 import androidx.compose.material3.Button
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Text
@@ -21,15 +21,15 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.firebase.analytics.ktx.logEvent
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.options.CounterStyleOption
+import rahmouni.neil.counters.options.ResetValueOption
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
-import rahmouni.neil.counters.utils.tiles.TileNumberInput
 import rahmouni.neil.counters.utils.tiles.tile_color_selection.Size
+import rahmouni.neil.counters.value_types.ValueType
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -37,13 +37,14 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
     var name by rememberSaveable { mutableStateOf("") }
     var isNameError by rememberSaveable { mutableStateOf(false) }
     var counterStyle by rememberSaveable { mutableStateOf(CounterStyle.DEFAULT) }
+    var valueType by rememberSaveable { mutableStateOf(ValueType.NUMBER) }
     var resetType by rememberSaveable { mutableStateOf(ResetType.NEVER) }
     var resetValue by rememberSaveable { mutableStateOf(0) }
 
     val localHapticFeedback = LocalHapticFeedback.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
+    //val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     fun validateName(text: String): Boolean {
         isNameError = text.isEmpty()
@@ -72,6 +73,14 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
             counterStyle = it
         }
 
+        TileDialogRadioButtons(
+            title = stringResource(R.string.text_valueType),
+            icon = Icons.Outlined.Category,
+            values = ValueType.values().toList(),
+            selected = valueType
+        ) {
+            valueType = it as ValueType
+        }
         MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
         TileDialogRadioButtons(
             title = stringResource(R.string.text_resetFrequency),
@@ -82,19 +91,9 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
         ) {
             resetType = it as ResetType
         }
-
-        if (remoteConfig.getBoolean("issue54__reset_value_setting")) {
-            MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
-            TileNumberInput(
-                title = stringResource(R.string.text_resetValue),
-                dialogTitle = stringResource(R.string.action_resetTo),
-                icon = Icons.Outlined.Pin,
-                value = resetValue,
-                format = R.string.text_resetsToX,
-                enabled = resetType != ResetType.NEVER
-            ) {
-                resetValue = it
-            }
+        MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
+        ResetValueOption(valueType, resetValue, resetType != ResetType.NEVER) {
+            resetValue = it
         }
 
         Button(
@@ -110,6 +109,7 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
                         val counter = Counter(
                             displayName = name,
                             style = counterStyle,
+                            valueType = valueType,
                             resetType = resetType,
                             resetValue = resetValue
                         )
@@ -125,6 +125,7 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
 
                         name = ""
                         counterStyle = CounterStyle.DEFAULT
+                        valueType = ValueType.NUMBER
                         resetType = ResetType.NEVER
                         resetValue = 0
                     }

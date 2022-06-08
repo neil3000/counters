@@ -19,8 +19,11 @@ import androidx.compose.material.ContentAlpha
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -68,10 +71,10 @@ class FeedbackActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
 fun FeedbackPage(previousScreen: String) {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = remember(decayAnimationSpec) {
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
-    }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        rememberSplineBasedDecay(),
+        rememberTopAppBarScrollState()
+    )
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
     val remoteConfig = FirebaseRemoteConfig.getInstance()

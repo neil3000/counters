@@ -7,7 +7,6 @@ import rahmouni.neil.counters.testViews.HomeScreenTestView
 
 
 class CounterTest {
-
     @get:Rule
     val rule = createAndroidComposeRule<MainActivity>()
 

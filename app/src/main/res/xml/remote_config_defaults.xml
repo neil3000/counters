@@ -35,19 +35,11 @@
 
     <!-- EXPERIMENTS -->
     <entry>
-        <key>issue54__reset_value_setting</key>
-        <value>false</value>
-    </entry>
-    <entry>
         <key>issue20__graph</key>
         <value>false</value>
     </entry>
     <entry>
         <key>issue110__crashlytics_description</key>
-        <value>false</value>
-    </entry>
-    <entry>
-        <key>issue117__m3_filter_chip</key>
         <value>false</value>
     </entry>
     <entry>
@@ -60,6 +52,10 @@
     </entry>
     <entry>
         <key>issue139__increment_notes</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>issue79__goals</key>
         <value>false</value>
     </entry>
 </defaultsMap>

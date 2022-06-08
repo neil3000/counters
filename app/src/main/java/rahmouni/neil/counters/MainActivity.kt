@@ -24,7 +24,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -80,7 +79,6 @@ class MainActivity : ComponentActivity() {
 )
 @Composable
 fun Home(countersListViewModel: CountersListViewModel) {
-    val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior() }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val localHapticFeedback = LocalHapticFeedback.current
@@ -121,9 +119,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                 }
             }) {
             Scaffold(
-                modifier = Modifier
-                    .nestedScroll(scrollBehavior.nestedScrollConnection)
-                    .statusBarsPadding(),
+                modifier = Modifier.statusBarsPadding(),
                 topBar = {
                     CenterAlignedTopAppBar(
                         title = {
@@ -147,8 +143,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                                         )
                                     })
                             }
-                        },
-                        scrollBehavior = scrollBehavior
+                        }
                     )
                 },
                 floatingActionButton = {

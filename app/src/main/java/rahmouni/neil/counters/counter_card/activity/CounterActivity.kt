@@ -23,12 +23,10 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
@@ -97,7 +95,6 @@ class CounterActivity : ComponentActivity() {
 )
 @Composable
 fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
-    val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior() }
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
@@ -120,7 +117,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
         windowSize.widthSizeClass == WindowWidthSizeClass.Compact && windowSize.heightSizeClass != WindowHeightSizeClass.Compact
 
     val navItemsLabels =
-        if (remoteConfig.getBoolean("issue20__graph"))
+        if ((counter?.valueType?.hasStats != false) && remoteConfig.getBoolean("issue20__graph"))
             listOf(
                 R.string.text_entries_short,
                 R.string.text_graph_short,
@@ -128,11 +125,11 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
             )
         else listOf(R.string.text_entries_short, R.string.text_counterSettings_short)
     val navItemsRoutes =
-        if (remoteConfig.getBoolean("issue20__graph"))
+        if ((counter?.valueType?.hasStats != false) && remoteConfig.getBoolean("issue20__graph"))
             listOf("entries", "graph", "settings")
         else listOf("entries", "settings")
     val navItemsIcons =
-        if (remoteConfig.getBoolean("issue20__graph"))
+        if ((counter?.valueType?.hasStats != false) && remoteConfig.getBoolean("issue20__graph"))
             listOf(Icons.Outlined.List, Icons.Outlined.ShowChart, Icons.Outlined.Settings)
         else listOf(Icons.Outlined.List, Icons.Outlined.Settings)
 
@@ -175,9 +172,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
         }
     ) {
         Scaffold(
-            modifier = Modifier
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                .statusBarsPadding(),
+            modifier = Modifier.statusBarsPadding(),
             topBar = {
                 SmallTopAppBar(
                     title = { Text(counter?.displayName ?: "Counter") },
@@ -196,8 +191,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                 contentDescription = stringResource(R.string.action_back_short)
                             )
                         }
-                    },
-                    scrollBehavior = scrollBehavior
+                    }
                 )
             },
             floatingActionButtonPosition = FabPosition.End,
