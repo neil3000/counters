@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tile_cardSettings_title">Paramètres de la carte</string>
+    <string name="tile_cardSettings_secondary">Personnalise la carte du compteur sur l\'écran d\'accueil</string>
+</resources>
