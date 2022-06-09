@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="topbar_icon_contributor_contentDescription">Contributeur</string>
+    <string name="topbar_icon_contributor_toast">Merci d\'avoir contribué à l\'application !</string>
+</resources>
