@@ -32,6 +32,10 @@
         <key>healthConnect_playStore_url</key>
         <value>https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata</value>
     </entry>
+    <entry>
+        <key>is_contributor</key>
+        <value>false</value>
+    </entry>
 
     <!-- EXPERIMENTS -->
     <entry>

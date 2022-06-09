@@ -21,13 +21,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
@@ -69,6 +72,7 @@ fun SettingsPage() {
     )
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
+    val clipboard = LocalClipboardManager.current
 
     val remoteConfig = FirebaseRemoteConfig.getInstance()
 
@@ -199,6 +203,18 @@ fun SettingsPage() {
                 }
                 item {
                     TileRemoteConfig()
+                }
+
+                item {
+                    TileClick(
+                        title = "Firebase App Installation ID",
+                        description = CountersApplication.firebaseInstallationID ?: "Error",
+                        icon = Icons.Outlined.Tag
+                    ) {
+                        if (CountersApplication.firebaseInstallationID != null) {
+                            clipboard.setText(AnnotatedString(CountersApplication.firebaseInstallationID!!))
+                        }
+                    }
                 }
             }
             item {

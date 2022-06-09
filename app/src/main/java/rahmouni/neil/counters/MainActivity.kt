@@ -34,6 +34,7 @@ import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.counter_card.CounterCard
 import rahmouni.neil.counters.counter_card.new_increment.NewIncrement
@@ -84,7 +85,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val localHapticFeedback = LocalHapticFeedback.current
-    //val remoteConfig = FirebaseRemoteConfig.getInstance()
+    val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     val countersList: List<CounterAugmented> by countersListViewModel.allCounters.observeAsState(
         listOf()
@@ -128,21 +129,23 @@ fun Home(countersListViewModel: CountersListViewModel) {
                             Text(stringResource(R.string.text_appName))
                         },
                         navigationIcon = {
-                            IconButton(onClick = {
-                                localHapticFeedback.performHapticFeedback(
-                                    HapticFeedbackType.LongPress
-                                )
+                            if (remoteConfig.getBoolean("is_contributor")) {
+                                IconButton(onClick = {
+                                    localHapticFeedback.performHapticFeedback(
+                                        HapticFeedbackType.LongPress
+                                    )
 
-                                Toast.makeText(
-                                    context,
-                                    context.getString(R.string.topbar_icon_contributor_toast),
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }) {
-                                Icon(
-                                    Icons.Outlined.VolunteerActivism,
-                                    stringResource(R.string.topbar_icon_contributor_contentDescription)
-                                )
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.topbar_icon_contributor_toast),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }) {
+                                    Icon(
+                                        Icons.Outlined.VolunteerActivism,
+                                        stringResource(R.string.topbar_icon_contributor_contentDescription)
+                                    )
+                                }
                             }
                         },
                         actions = {
