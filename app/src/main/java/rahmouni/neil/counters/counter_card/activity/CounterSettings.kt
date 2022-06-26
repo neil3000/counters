@@ -68,8 +68,8 @@ fun CounterSettings(
         }
         item {
             TileStartActivity(
-                title = stringResource(R.string.tile_cardSettings_title),
-                description = stringResource(R.string.tile_cardSettings_secondary),
+                title = stringResource(R.string.counterSettings_tile_cardSettings_title),
+                description = stringResource(R.string.counterSettings_tile_cardSettings_secondary),
                 icon = Icons.Outlined.SmartButton,
                 activity = CardSettingsActivity::class.java,
             ) {

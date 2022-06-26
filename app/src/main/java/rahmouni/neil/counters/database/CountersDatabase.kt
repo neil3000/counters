@@ -19,12 +19,12 @@ import java.io.Serializable
         AutoMigration(from = 5, to = 6),
         AutoMigration(
             from = 6,
-            to = 7,
+            to = 8,
             spec = CountersDatabase.Migration67::class
         )
     ],
     exportSchema = true,
-    version = 7
+    version = 8
 )
 abstract class CountersDatabase : RoomDatabase() {
     abstract fun countersListDao(): CountersListDao
@@ -34,7 +34,12 @@ abstract class CountersDatabase : RoomDatabase() {
     @RenameColumn(
         tableName = "Counter",
         fromColumnName = "increment_value",
-        toColumnName = "plus_button_value"
+        toColumnName = "button_plus_value"
+    )
+    @RenameColumn(
+        tableName = "Counter",
+        fromColumnName = "has_minus",
+        toColumnName = "button_plus_enabled"
     )
     class Migration67 : AutoMigrationSpec
 
@@ -52,7 +57,7 @@ abstract class CountersDatabase : RoomDatabase() {
                     context.applicationContext,
                     CountersDatabase::class.java,
                     "counters_database"
-                ).fallbackToDestructiveMigrationFrom(1).build()
+                ).fallbackToDestructiveMigrationFrom(1, 6, 7).build()
                 INSTANCE = instance
                 // return instance
                 instance
@@ -66,8 +71,6 @@ data class Counter(
     @PrimaryKey(autoGenerate = true) val uid: Int = 0,
     @ColumnInfo(name = "display_name") val displayName: String,
     @ColumnInfo(name = "style") val style: CounterStyle = CounterStyle.DEFAULT,
-    @ColumnInfo(name = "has_minus") val hasMinus: Boolean = false,
-    @ColumnInfo(name = "plus_button_value", defaultValue = "1") val plusButtonValue: Int = 1,
     @ColumnInfo(name = "entry_value", defaultValue = "1") val entryValue: Int = 1,
     @ColumnInfo(
         name = "reset_type",
@@ -86,14 +89,31 @@ data class Counter(
         name = "value_type",
         defaultValue = "NUMBER"
     ) val valueType: ValueType = ValueType.NUMBER,
+
+    @ColumnInfo(name = "button_plus_value", defaultValue = "1") val plusButtonValue: Int = 1,
+    @ColumnInfo(
+        name = "button_plus_enabled",
+        defaultValue = "true"
+    ) val plusButtonEnabled: Boolean = true,
+    @ColumnInfo(name = "button_minus_value", defaultValue = "-1") val minusButtonValue: Int = -1,
+    @ColumnInfo(
+        name = "button_minus_enabled",
+        defaultValue = "false"
+    ) val minusButtonEnabled: Boolean = false,
+    @ColumnInfo(
+        name = "button_done_enabled",
+        defaultValue = "true"
+    ) val doneButtonEnabled: Boolean = true,
+    @ColumnInfo(
+        name = "button_notDone_enabled",
+        defaultValue = "false"
+    ) val notDoneButtonEnabled: Boolean = false,
 )
 
 data class CounterAugmented(
     @ColumnInfo(name = "uid") val uid: Int = 0,
     @ColumnInfo(name = "display_name") val displayName: String,
     @ColumnInfo(name = "style") val style: CounterStyle = CounterStyle.DEFAULT,
-    @ColumnInfo(name = "has_minus") val hasMinus: Boolean = false,
-    @ColumnInfo(name = "plus_button_value", defaultValue = "1") val plusButtonValue: Int = 1,
     @ColumnInfo(name = "entry_value", defaultValue = "1") val entryValue: Int = 1,
     @ColumnInfo(
         name = "reset_type",
@@ -112,6 +132,25 @@ data class CounterAugmented(
         name = "value_type",
         defaultValue = "NUMBER"
     ) val valueType: ValueType = ValueType.NUMBER,
+
+    @ColumnInfo(name = "button_plus_value", defaultValue = "1") val plusButtonValue: Int = 1,
+    @ColumnInfo(
+        name = "button_plus_enabled",
+        defaultValue = "true"
+    ) val plusButtonEnabled: Boolean = true,
+    @ColumnInfo(name = "button_minus_value", defaultValue = "-1") val minusButtonValue: Int = -1,
+    @ColumnInfo(
+        name = "button_minus_enabled",
+        defaultValue = "false"
+    ) val minusButtonEnabled: Boolean = false,
+    @ColumnInfo(
+        name = "button_done_enabled",
+        defaultValue = "true"
+    ) val doneButtonEnabled: Boolean = true,
+    @ColumnInfo(
+        name = "button_notDone_enabled",
+        defaultValue = "false"
+    ) val notDoneButtonEnabled: Boolean = false,
 
     @ColumnInfo(name = "total_count") val totalCount: Int = 0,
     @ColumnInfo(name = "last_increment") val lastIncrement: Int = 1,
@@ -122,14 +161,19 @@ data class CounterAugmented(
             uid = uid,
             displayName = displayName,
             style = style,
-            hasMinus = hasMinus,
-            plusButtonValue = plusButtonValue,
             entryValue = entryValue,
             resetType = resetType,
             resetValue = resetValue,
             healthConnectEnabled = healthConnectEnabled,
             healthConnectType = healthConnectType,
-            valueType = valueType
+            valueType = valueType,
+
+            plusButtonValue = plusButtonValue,
+            plusButtonEnabled = plusButtonEnabled,
+            minusButtonValue = minusButtonValue,
+            minusButtonEnabled = minusButtonEnabled,
+            doneButtonEnabled = doneButtonEnabled,
+            notDoneButtonEnabled = notDoneButtonEnabled,
         )
     }
 }

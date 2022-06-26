@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,7 @@ fun TaskValuePicker(
     onChange: (String) -> Unit
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
+    val context = LocalContext.current
 
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         listOf("0", "1").forEach {
@@ -62,7 +64,7 @@ fun TaskValuePicker(
                             .width(32.dp)
                     )
                     Text(
-                        text = ValueType.TASK.formatAsString(it.toInt()),
+                        text = ValueType.TASK.formatAsString(it.toInt(), context),
                         color = contentColorFor(animatedColor.value),
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(4.dp)

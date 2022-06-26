@@ -1,6 +1,5 @@
 package rahmouni.neil.counters.options
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
@@ -20,15 +19,14 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.value_types.ValueType
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class,
-    ExperimentalAnimationApi::class
-)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun ResetValueOption(
     valueType: ValueType,
@@ -38,6 +36,7 @@ fun ResetValueOption(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val localHapticFeedback = LocalHapticFeedback.current
+    val context = LocalContext.current
 
     var openDialog by rememberSaveable { mutableStateOf(false) }
     var dialogValue by rememberSaveable { mutableStateOf(value.toString()) }
@@ -68,7 +67,7 @@ fun ResetValueOption(
         },
         secondaryText = {
             androidx.compose.material.Text(
-                stringResource(R.string.text_resetsToX, valueType.formatAsString(value)),
+                stringResource(R.string.text_resetsToX, valueType.formatAsString(value, context)),
                 Modifier.alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
             )
         },

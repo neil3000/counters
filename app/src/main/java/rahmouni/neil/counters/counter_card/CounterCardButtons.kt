@@ -1,6 +1,5 @@
 package rahmouni.neil.counters.counter_card
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +12,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType.Companion.LongPress
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -27,24 +27,24 @@ fun CounterCardButtons(
     data: CounterAugmented,
     countersListViewModel: CountersListViewModel?
 ) {
-    if (data.hasMinus) return CounterCardButtonsMinus(data, countersListViewModel)
+    if (data.minusButtonEnabled) return CounterCardButtonsMinus(data, countersListViewModel)
     return CounterCardButtonsDefault(data, countersListViewModel)
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun CounterCardButtonsDefault(
     data: CounterAugmented,
     countersListViewModel: CountersListViewModel?,
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
+    val context = LocalContext.current
 
     Row(
         horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
             .fillMaxWidth()
             .padding(start = 8.dp)
     ) {
-        data.valueType.largeDisplay(data.count + data.resetValue)
+        data.valueType.largeDisplay(this, data.count + data.resetValue, context)
         IconButton(
             modifier = Modifier.testTag(data.displayName + "_CARD_INCREASE"),
             onClick = {
@@ -66,14 +66,13 @@ fun CounterCardButtonsDefault(
     }
 }
 
-
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun CounterCardButtonsMinus(
     data: CounterAugmented,
     countersListViewModel: CountersListViewModel?
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
+    val context = LocalContext.current
 
     Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
         IconButton(onClick = {
@@ -92,7 +91,7 @@ fun CounterCardButtonsMinus(
                 contentDescription = stringResource(R.string.action_decrease),
             )
         }
-        data.valueType.largeDisplay(data.count + data.resetValue)
+        data.valueType.largeDisplay(this, data.count + data.resetValue, context)
         IconButton(onClick = {
             if (countersListViewModel != null) {
                 localHapticFeedback.performHapticFeedback(LongPress)

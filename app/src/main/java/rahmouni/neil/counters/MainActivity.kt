@@ -137,13 +137,13 @@ fun Home(countersListViewModel: CountersListViewModel) {
 
                                     Toast.makeText(
                                         context,
-                                        context.getString(R.string.topbar_icon_contributor_toast),
+                                        context.getString(R.string.mainActivity_topbar_icon_contributor_toast),
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }) {
                                     Icon(
                                         Icons.Outlined.VolunteerActivism,
-                                        stringResource(R.string.topbar_icon_contributor_contentDescription)
+                                        stringResource(R.string.mainActivity_topbar_icon_contributor_contentDescription)
                                     )
                                 }
                             }

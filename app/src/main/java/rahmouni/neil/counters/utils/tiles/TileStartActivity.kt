@@ -19,10 +19,10 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 @Composable
 fun TileStartActivity(
     title: String,
-    description: String? = null,
     icon: ImageVector,
-    activity: Class<*>,
     modifier: Modifier = Modifier,
+    description: String? = null,
+    activity: Class<*>,
     enabled: Boolean = true,
     extras: (Intent) -> (Intent) = { it }
 ) {

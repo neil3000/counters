@@ -3,8 +3,7 @@ package rahmouni.neil.counters.counter_card
 import android.content.Intent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -58,9 +57,23 @@ fun CounterCard(
             Text(
                 text = data.displayName,
                 style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(all = 8.dp)
+                modifier = Modifier.padding(8.dp)
             )
-            CounterCardButtons(data, countersListViewModel)
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                val buttons =
+                    data.valueType.getButtons().filter { it.isEnabled(data.toCounter()) }
+                        .toMutableList()
+                val end = buttons.removeFirstOrNull()
+
+                buttons.forEach {
+                    it.CardButton(data.toCounter(), countersListViewModel)
+                }
+                data.valueType.largeDisplay(this, data.count + data.resetValue, context)
+                end?.CardButton(data.toCounter(), countersListViewModel)
+            }
         }
     }
 }

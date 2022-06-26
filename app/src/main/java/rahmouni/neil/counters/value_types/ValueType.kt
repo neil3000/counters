@@ -1,12 +1,13 @@
 package rahmouni.neil.counters.value_types
 
+import android.content.Context
 import androidx.compose.animation.*
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Remove
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,12 +21,12 @@ enum class ValueType(
     private val title: Int,
     val isValueValid: (String) -> Boolean,
     val picker: @Composable (String, (String) -> Unit) -> Unit,
-    val formatAsString: (Int) -> String,
+    val formatAsString: (count: Int, context: Context) -> String,
     val hasStats: Boolean,
     val hasHealthConnectIntegration: Boolean,
-    val largeDisplay: @Composable (count: Int) -> Unit,
-    val mediumDisplay: @Composable (count: Int) -> Unit,
-    val smallDisplay: @Composable (count: Int) -> Unit,
+    val largeDisplay: @Composable RowScope.(count: Int, context: Context) -> Unit,
+    val mediumDisplay: @Composable (count: Int, context: Context) -> Unit,
+    val smallDisplay: @Composable (count: Int, context: Context) -> Unit,
 ) : TileDialogRadioListEnum {
 
     @OptIn(ExperimentalAnimationApi::class)
@@ -37,12 +38,12 @@ enum class ValueType(
                 onChange(it)
             }
         },
-        { it.toString() },
+        { count, _ -> count.toString() },
         true,
         true,
-        {
+        { count, _ ->
             AnimatedContent(
-                targetState = it,
+                targetState = count,
                 transitionSpec = {
                     if (targetState > initialState) {
                         slideInVertically { height -> (height / 1.5f).toInt() } + fadeIn() with
@@ -55,14 +56,15 @@ enum class ValueType(
             )
             { targetValue ->
                 androidx.compose.material3.Text(
-                    text = targetValue.toString(),
-                    style = MaterialTheme.typography.headlineLarge,
+                    targetValue.toString(),
+                    Modifier.padding(start = 8.dp),
+                    style = MaterialTheme.typography.headlineLarge
                 )
             }
         },
-        {
+        { count, _ ->
             AnimatedContent(
-                targetState = it,
+                targetState = count,
                 transitionSpec = {
                     if (targetState > initialState) {
                         slideInVertically { height -> (height / 1.5f).toInt() } + fadeIn() with
@@ -84,9 +86,9 @@ enum class ValueType(
                 )
             }
         },
-        {
+        { count, _ ->
             androidx.compose.material3.Text(
-                it.toString(),
+                count.toString(),
                 Modifier.wrapContentHeight(),
                 style = MaterialTheme.typography.labelLarge,
                 textAlign = TextAlign.Center
@@ -103,24 +105,29 @@ enum class ValueType(
                 onChange(it)
             }
         },
-        { if (it >= 1) "Done" else "Not done" }, //TODO
+        { count, context ->
+            if (count >= 1) context.getString(R.string.valueType_task_done) else context.getString(
+                R.string.valueType_task_notDone
+            )
+        },
         false,
         false,
-        {
-            AnimatedContent(targetState = TASK.formatAsString(it))
+        { count, context ->
+            AnimatedContent(targetState = TASK.formatAsString(count, context))
             { targetValue ->
                 androidx.compose.material3.Text(
-                    text = targetValue,
-                    style = MaterialTheme.typography.headlineMedium,
+                    targetValue,
+                    Modifier.padding(start = 8.dp),
+                    style = MaterialTheme.typography.headlineMedium
                 )
             }
         },
-        {
-            AnimatedContent(targetState = (if (it >= 1) androidx.compose.material.icons.Icons.Outlined.Check else androidx.compose.material.icons.Icons.Outlined.Close))
+        { count, context ->
+            AnimatedContent(targetState = (if (count >= 1) Icons.Outlined.Check else Icons.Outlined.Close))
             { targetValue ->
                 androidx.compose.material3.Icon(
                     targetValue,
-                    contentDescription = TASK.formatAsString(it),
+                    contentDescription = TASK.formatAsString(count, context),
                     modifier = Modifier
                         .size(62.dp)
                         .padding(
@@ -130,10 +137,10 @@ enum class ValueType(
                 )
             }
         },
-        {
+        { count, context ->
             androidx.compose.material3.Icon(
-                if (it >= 1) androidx.compose.material.icons.Icons.Outlined.Check else androidx.compose.material.icons.Icons.Outlined.Close,
-                contentDescription = TASK.formatAsString(it),
+                if (count >= 1) Icons.Outlined.Check else Icons.Outlined.Close,
+                contentDescription = TASK.formatAsString(count, context),
                 Modifier.requiredSize(24.dp)
             )
         }
@@ -145,5 +152,45 @@ enum class ValueType(
 
     override fun formatted(): Int {
         return this.title
+    }
+
+    fun getButtons(): List<ValueTypeButton> {
+        return listOf(
+            ValueTypeButton(
+                "Plus", //TODO i18n
+                Icons.Outlined.Add,
+                NUMBER,
+                { it.plusButtonEnabled },
+                { it.plusButtonValue },
+                { counter, enabled -> counter.copy(plusButtonEnabled = enabled) },
+                { counter, value -> counter.copy(plusButtonValue = value) }
+            ),
+            ValueTypeButton(
+                "Minus", //TODO i18n
+                Icons.Outlined.Remove,
+                NUMBER,
+                { it.minusButtonEnabled },
+                { it.minusButtonValue },
+                { counter, enabled -> counter.copy(minusButtonEnabled = enabled) },
+                { counter, value -> counter.copy(minusButtonValue = value) }
+
+            ),
+            ValueTypeButton(
+                "Done", //TODO i18n
+                Icons.Outlined.Check,
+                TASK,
+                { it.doneButtonEnabled },
+                { 1 },
+                { counter, enabled -> counter.copy(doneButtonEnabled = enabled) }
+            ),
+            ValueTypeButton(
+                "Not done", //TODO i18n
+                Icons.Outlined.Close,
+                TASK,
+                { it.notDoneButtonEnabled },
+                { 0 },
+                { counter, enabled -> counter.copy(notDoneButtonEnabled = enabled) }
+            )
+        ).filter { it.valueType == this }
     }
 }

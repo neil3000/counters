@@ -15,8 +15,9 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 @Composable
 fun TileClick(
     title: String,
-    description: String? = null,
     icon: ImageVector?,
+    modifier: Modifier = Modifier,
+    description: String? = null,
     onClick: () -> Unit
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
@@ -28,13 +29,14 @@ fun TileClick(
         icon = if (icon != null) {
             { Icon(icon, null) }
         } else null,
-        modifier = Modifier
-            .clickable(
+        modifier = modifier.then(
+            Modifier.clickable(
                 onClick = {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
                     onClick()
                 }
             )
+        )
     )
 }

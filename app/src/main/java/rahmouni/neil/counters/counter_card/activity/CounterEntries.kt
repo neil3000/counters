@@ -2,7 +2,6 @@ package rahmouni.neil.counters.counter_card.activity
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
@@ -39,7 +38,7 @@ data class EntriesListData(
     val incrementGroupsList: List<IncrementGroup>
 ): Serializable
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("SimpleDateFormat")
 @Composable
 fun CounterEntries(
@@ -123,7 +122,8 @@ fun CounterEntries(
                                         ?: stringResource(entriesListData.resetType.headerTitle)
                                 ) {
                                     counter.valueType.mediumDisplay(
-                                        ig.count + counter.resetValue
+                                        ig.count + counter.resetValue,
+                                        context
                                     )
                                 }
                             }

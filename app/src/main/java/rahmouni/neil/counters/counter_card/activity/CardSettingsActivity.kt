@@ -5,18 +5,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.Remove
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -31,7 +26,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.CountersApplication
@@ -44,7 +38,6 @@ import rahmouni.neil.counters.options.CounterStyleOption
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
 import rahmouni.neil.counters.utils.tiles.TileHeader
-import rahmouni.neil.counters.utils.tiles.TileSwitch
 
 class CardSettingsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,26 +84,16 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
 
     val counter: CounterAugmented? by countersListViewModel.getCounter(counterID).observeAsState()
 
-    var edited by rememberSaveable { mutableStateOf(false) }
     var counterStyle by rememberSaveable { mutableStateOf(counter?.style ?: CounterStyle.DEFAULT) }
-    var minusEnabled by rememberSaveable { mutableStateOf(counter?.hasMinus ?: false) }
-
-    fun checkEdited() {
-        edited = (counterStyle != counter?.style)
-                || (minusEnabled != counter?.hasMinus)
-    }
 
     fun finalCounter(): CounterAugmented? {
         return counter?.copy(
             style = counterStyle,
-            hasMinus = minusEnabled
         )
     }
 
     LaunchedEffect(counter) {
         counterStyle = counter?.style ?: CounterStyle.DEFAULT
-        minusEnabled = counter?.hasMinus ?: false
-        checkEdited()
     }
 
     Scaffold(
@@ -119,7 +102,7 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
             .statusBarsPadding(),
         topBar = {
             LargeTopAppBar(
-                title = { Text(stringResource(R.string.topbar_title)) },
+                title = { Text(stringResource(R.string.cardSettingsActivity_topbar_title)) },
                 actions = {
                     SettingsDots(screenName = "CardSettingsActivity") {}
                 },
@@ -139,28 +122,6 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
                 },
                 scrollBehavior = scrollBehavior
             )
-        },
-        floatingActionButton = {
-            AnimatedVisibility(
-                edited,
-                enter = slideInVertically { 300 },
-                exit = slideOutVertically { 300 }
-            ) {
-                ExtendedFloatingActionButton(
-                    icon = { Icon(Icons.Outlined.Check, null) },
-                    text = { Text(stringResource(R.string.action_save_short)) },
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.navigationBarsPadding(),
-                    onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                        if (counter != null) {
-                            edited = false
-                            countersListViewModel.updateCounter(finalCounter()!!.toCounter())
-                        }
-                    },
-                )
-            }
         }
     ) { innerPadding ->
         LazyVerticalGrid(
@@ -197,9 +158,13 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
                             }
                         }
                     }
-                    CounterStyleOption(counterStyle) {
-                        counterStyle = it
-                        checkEdited()
+                    if (counter!=null) {
+                        CounterStyleOption(counterStyle) {
+                            counterStyle = it
+                            countersListViewModel.updateCounter(
+                                counter!!.copy(style = counterStyle).toCounter()
+                            )
+                        }
                     }
                 }
             }
@@ -207,13 +172,8 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
             item {
                 Column {
                     TileHeader(stringResource(R.string.text_buttons))
-                    TileSwitch(
-                        title = stringResource(R.string.action_showMinusButton),
-                        icon = Icons.Outlined.Remove,
-                        checked = minusEnabled
-                    ) {
-                        minusEnabled = it
-                        checkEdited()
+                    counter?.valueType?.getButtons()?.forEach {
+                        it.Tile(counter!!.toCounter(), countersListViewModel)
                     }
                 }
             }

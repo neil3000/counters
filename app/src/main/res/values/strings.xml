@@ -158,4 +158,14 @@
     <string name="text_number">Number</string>
     <string name="text_task">Task</string>
     <string name="text_valueType">Value type</string>
+    <string name="valueType_task_notDone">Not done</string>
+    <string name="valueType_task_done">Done</string>
+    <string name="cardSettingsActivity_topbar_title">Card settings</string>
+    <string name="cardSettingsActivity_tile_showXbutton_title">Show %s button</string>
+    <string name="cardSettingsActivity_dialog_editButtonValue_title">Edit value</string>
+    <string name="cardSettingsActivity_tile_editButtonValue_description">Adds %s to the counter</string>
+    <string name="counterSettings_tile_cardSettings_title">Card settings</string>
+    <string name="counterSettings_tile_cardSettings_secondary">Customize this counter\'s home screen card</string>
+    <string name="mainActivity_topbar_icon_contributor_contentDescription">Contributor</string>
+    <string name="mainActivity_topbar_icon_contributor_toast">Thanks for contributing to the app!</string>
 </resources>

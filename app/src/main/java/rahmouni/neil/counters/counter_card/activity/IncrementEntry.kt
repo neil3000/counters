@@ -54,7 +54,7 @@ fun IncrementEntry(
                 color = MaterialTheme.colorScheme.secondaryContainer,
                 shape = RoundedCornerShape(8.dp)
             ) {
-                valueType.smallDisplay(increment.value)
+                valueType.smallDisplay(increment.value, context)
             }
         },
         text = {
