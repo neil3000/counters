@@ -90,7 +90,7 @@ fun TileRemoteConfig() {
                                 }
                             }
                         }
-                        item { MenuDefaults.Divider()}
+                        item { Divider()}
                     }
                 }
             },
@@ -102,7 +102,7 @@ fun TileRemoteConfig() {
                         openDialog = false
                     }
                 ) {
-                    Text(stringResource(R.string.action_dismiss))
+                    Text(stringResource(R.string.tileRemoteConfig_dialog_confirmButton_text))
                 }
             }
         )

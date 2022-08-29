@@ -32,7 +32,7 @@ fun CounterStyleOption(
     size: Size = Size.BIG,
     onChange: (CounterStyle) -> Unit
 ) {
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
+    //val remoteConfig = FirebaseRemoteConfig.getInstance()
     val haptic = LocalHapticFeedback.current
 
     var dynamic by rememberSaveable { mutableStateOf(true) }
@@ -41,31 +41,29 @@ fun CounterStyleOption(
         dynamic = selected.isDynamic
     }
 
-    if (remoteConfig.getBoolean("issue130__static_colors")) {
-        Column {
-            Box {
-                listOf(true, false).forEach { bo ->
-                    this@Column.AnimatedVisibility(
-                        dynamic == bo,
-                        enter = slideInHorizontally(initialOffsetX = { if (bo) -it else it }),
-                        exit = slideOutHorizontally(targetOffsetX = { if (bo) -it else it })
+    Column {
+        Box {
+            listOf(true, false).forEach { bo ->
+                this@Column.AnimatedVisibility(
+                    dynamic == bo,
+                    enter = slideInHorizontally(initialOffsetX = { if (bo) -it else it }),
+                    exit = slideOutHorizontally(targetOffsetX = { if (bo) -it else it })
+                ) {
+                    LazyRow(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                        horizontalArrangement = Arrangement.Center
                     ) {
-                        LazyRow(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(top = 8.dp),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            CounterStyle.values().forEach { cs ->
-                                if (cs.isDynamic == bo) {
-                                    item {
-                                        TileColorSelection(
-                                            color = cs.getBackGroundColor(),
-                                            selected = selected == cs,
-                                            size = size
-                                        ) {
-                                            onChange(cs)
-                                        }
+                        CounterStyle.values().forEach { cs ->
+                            if (cs.isDynamic == bo) {
+                                item {
+                                    TileColorSelection(
+                                        color = cs.getBackGroundColor(),
+                                        selected = selected == cs,
+                                        size = size
+                                    ) {
+                                        onChange(cs)
                                     }
                                 }
                             }
@@ -73,52 +71,34 @@ fun CounterStyleOption(
                     }
                 }
             }
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
-            ) {
-                FilterChip(
-                    selected = dynamic,
-                    onClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-
-                        dynamic = true
-                    },
-                    label = { Text(stringResource(R.string.text_dynamicColors)) },
-                )
-                FilterChip(
-                    selected = !dynamic,
-                    onClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-
-                        dynamic = false
-                    },
-                    label = { Text(stringResource(R.string.text_basicColors)) },
-                )
-            }
         }
-    } else {
-        LazyRow(
+        Row(
             Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.Center
+                .padding(8.dp),
+            Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
         ) {
-            CounterStyle.values().forEach {
-                if (it.isDynamic) {
-                    item {
-                        TileColorSelection(
-                            color = it.getBackGroundColor(),
-                            selected = selected == it,
-                            size = size
-                        ) {
-                            onChange(it)
-                        }
-                    }
-                }
-            }
+            // DynamicColors
+            FilterChip(
+                selected = dynamic,
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+
+                    dynamic = true
+                },
+                label = { Text(stringResource(R.string.counterStyleOption_filterChip_dynamicColors_label)) },
+            )
+
+            // BasicColors
+            FilterChip(
+                selected = !dynamic,
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+
+                    dynamic = false
+                },
+                label = { Text(stringResource(R.string.counterStyleOption_filterChip_basicColors_label)) },
+            )
         }
     }
 }

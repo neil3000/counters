@@ -24,7 +24,9 @@ fun TileClick(
 
     ListItem(
         text = { Text(title) },
-        secondaryText = if (description!=null) { { Text(description) } } else null,
+        secondaryText = if (description != null) {
+            { Text(description) }
+        } else null,
         singleLineSecondaryText = true,
         icon = if (icon != null) {
             { Icon(icon, null) }

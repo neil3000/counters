@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.counter_card.CounterCard
@@ -46,7 +45,6 @@ import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.FullscreenDynamicSVG
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 import rahmouni.neil.counters.utils.SettingsDots
-import rahmouni.neil.counters.utils.banner.ContributeTranslateBanner
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,14 +120,13 @@ fun Home(countersListViewModel: CountersListViewModel) {
                 }
             }) {
             Scaffold(
-                modifier = Modifier.statusBarsPadding(),
                 topBar = {
                     CenterAlignedTopAppBar(
                         title = {
-                            Text(stringResource(R.string.text_appName))
+                            Text(stringResource(R.string.mainActivity_topbar_title))
                         },
                         navigationIcon = {
-                            if (remoteConfig.getBoolean("is_contributor")) {
+                            if (remoteConfig.getString("contributor_tag") != "null") {
                                 IconButton(onClick = {
                                     localHapticFeedback.performHapticFeedback(
                                         HapticFeedbackType.LongPress
@@ -137,7 +134,10 @@ fun Home(countersListViewModel: CountersListViewModel) {
 
                                     Toast.makeText(
                                         context,
-                                        context.getString(R.string.mainActivity_topbar_icon_contributor_toast),
+                                        context.getString(
+                                            R.string.mainActivity_topbar_icon_contributor_toast,
+                                            remoteConfig.getString("contributor_tag")
+                                        ),
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }) {
@@ -151,7 +151,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                         actions = {
                             SettingsDots(screenName = "MainActivity") {
                                 DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.text_settings)) },
+                                    text = { Text(stringResource(R.string.mainActivity_topbar_settings)) },
                                     leadingIcon = {
                                         Icon(
                                             imageVector = Icons.Outlined.Settings,
@@ -171,7 +171,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                 },
                 floatingActionButton = {
                     ExtendedFloatingActionButton(
-                        text = { Text(stringResource(R.string.action_newCounter_short)) },
+                        text = { Text(stringResource(R.string.mainActivity_fab_newCounter)) },
                         icon = {
                             Icon(
                                 imageVector = Icons.Outlined.Add,
@@ -191,7 +191,10 @@ fun Home(countersListViewModel: CountersListViewModel) {
             ) {
                 if (countersList.isNotEmpty()) {
                     Column(Modifier.padding(it)) {
-                        ContributeTranslateBanner()
+                        //ContributeTranslateBanner()
+
+                        LongPressTipBanner()
+
                         LazyVerticalGrid(
                             columns = GridCells.Adaptive(minSize = 165.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -209,7 +212,10 @@ fun Home(countersListViewModel: CountersListViewModel) {
                         }
                     }
                 } else {
-                    FullscreenDynamicSVG(R.drawable.ic_balloons, R.string.text_noCountersYet)
+                    FullscreenDynamicSVG(
+                        R.drawable.ic_balloons,
+                        R.string.mainActivity_fdSVG_noCounters
+                    )
                 }
             }
         }

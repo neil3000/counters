@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -26,7 +25,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.statusBarsPadding
 import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
@@ -75,10 +73,7 @@ class CardSettingsActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
 fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewModel) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberSplineBasedDecay(),
-        rememberTopAppBarScrollState()
-    )
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
 
@@ -97,9 +92,7 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
     }
 
     Scaffold(
-        modifier = Modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .statusBarsPadding(),
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
                 title = { Text(stringResource(R.string.cardSettingsActivity_topbar_title)) },
@@ -116,7 +109,7 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
                     ) {
                         Icon(
                             Icons.Outlined.ArrowBack,
-                            contentDescription = stringResource(R.string.action_back_short)
+                            contentDescription = stringResource(R.string.cardSettingsActivity_topbar_icon_back_contentDescription)
                         )
                     }
                 },
@@ -140,7 +133,7 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
                     ) {
                         Column(Modifier.padding(24.dp), Arrangement.spacedBy(24.dp)) {
                             Text(
-                                stringResource(R.string.header_cardPreview),
+                                stringResource(R.string.cardSettingsActivity_surface_cardPreview_text),
                                 style = MaterialTheme.typography.headlineSmall,
                             )
                             if (counter != null) {
@@ -158,7 +151,7 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
                             }
                         }
                     }
-                    if (counter!=null) {
+                    if (counter != null) {
                         CounterStyleOption(counterStyle) {
                             counterStyle = it
                             countersListViewModel.updateCounter(
@@ -171,7 +164,7 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
 
             item {
                 Column {
-                    TileHeader(stringResource(R.string.text_buttons))
+                    TileHeader(stringResource(R.string.cardSettingsActivity_tile_buttons_headerTitle))
                     counter?.valueType?.getButtons()?.forEach {
                         it.Tile(counter!!.toCounter(), countersListViewModel)
                     }

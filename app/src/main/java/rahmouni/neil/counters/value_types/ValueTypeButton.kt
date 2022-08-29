@@ -92,7 +92,7 @@ class ValueTypeButton(
                                 confirm()
                             }
                         ) {
-                            Text(stringResource(R.string.action_save_short))
+                            Text(stringResource(R.string.valueTypeButton_dialog_confirmButton_text))
                         }
                     },
                     dismissButton = {
@@ -103,7 +103,7 @@ class ValueTypeButton(
                                 closeDialog()
                             }
                         ) {
-                            Text(stringResource(R.string.action_cancel_short))
+                            Text(stringResource(R.string.valueTypeButton_dialog_dismissButton_text))
                         }
                     }
                 )
@@ -152,7 +152,7 @@ class ValueTypeButton(
         }) {
             Icon(
                 imageVector = icon,
-                contentDescription = stringResource(R.string.action_decrease),
+                contentDescription = null,
             )
         }
     }

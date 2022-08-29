@@ -149,7 +149,7 @@ fun TileDialogRadioButtons(
                         openDialog = false
                     }
                 ) {
-                    Text(stringResource(R.string.action_save_short))
+                    Text(stringResource(R.string.tileDialogRadioButtons_dialog_confirmButton_text))
                 }
             },
             dismissButton = {
@@ -160,7 +160,7 @@ fun TileDialogRadioButtons(
                         openDialog = false
                     }
                 ) {
-                    Text(stringResource(R.string.action_cancel_short))
+                    Text(stringResource(R.string.tileDialogRadioButtons_dialog_dismissButton_text))
                 }
             }
         )

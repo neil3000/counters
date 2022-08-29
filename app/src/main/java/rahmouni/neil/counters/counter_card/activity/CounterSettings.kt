@@ -2,9 +2,9 @@ package rahmouni.neil.counters.counter_card.activity
 
 import android.app.Activity
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.MenuDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -31,12 +31,12 @@ fun CounterSettings(
 
     LazyColumn {
         item {
-            TileHeader(stringResource(R.string.header_general))
+            TileHeader(stringResource(R.string.counterSettings_tile_general_headerTitle))
         }
         item {
             TileTextInput(
-                title = stringResource(R.string.text_name),
-                dialogTitle = stringResource(R.string.action_editName),
+                title = stringResource(R.string.counterSettings_tile_name_title),
+                dialogTitle = stringResource(R.string.counterSettings_tile_name_dialogTitle),
                 icon = Icons.Outlined.Title,
                 value = counter?.displayName ?: "Counter",
                 validateInput = { it.isNotEmpty() }
@@ -52,7 +52,7 @@ fun CounterSettings(
         }
         item {
             TileDialogRadioButtons(
-                title = stringResource(R.string.text_valueType),
+                title = stringResource(R.string.counterSettings_tile_valueType_title),
                 icon = Icons.Outlined.Category,
                 values = ValueType.values().toList(),
                 selected = counter?.valueType ?: ValueType.NUMBER
@@ -85,15 +85,15 @@ fun CounterSettings(
                 }
             }
         }
-        item { MenuDefaults.Divider() }
+        item { Divider() }
 
 
         item {
-            TileHeader(stringResource(R.string.header_reset))
+            TileHeader(stringResource(R.string.counterSettings_tile_reset_headerTitle))
         }
         item {
             TileDialogRadioButtons(
-                title = stringResource(R.string.text_frequency),
+                title = stringResource(R.string.counterSettings_tile_frequency_title),
                 icon = Icons.Outlined.Event,
                 values = ResetType.values().toList(),
                 selected = counter?.resetType ?: ResetType.NEVER
@@ -127,11 +127,11 @@ fun CounterSettings(
                 }
             }
         }
-        item { MenuDefaults.Divider() }
+        item { Divider() }
 
 
         item {
-            TileHeader(stringResource(R.string.header_other))
+            TileHeader(stringResource(R.string.counterSettings_tile_other_headerTitle))
         }
         if ((counter?.valueType?.hasHealthConnectIntegration != false) && remoteConfig.getBoolean("issue114__gfit_integration")) {
             item {
@@ -148,7 +148,7 @@ fun CounterSettings(
                     }
                 ) { defaultModifier ->
                     TileStartActivity(
-                        title = stringResource(R.string.text_healthConnectIntegration),
+                        title = stringResource(R.string.counterSettings_tile_healthConnect_title),
                         icon = Icons.Outlined.FitnessCenter,
                         activity = HealthConnectSettingsActivity::class.java,
                         modifier = defaultModifier
@@ -162,10 +162,10 @@ fun CounterSettings(
         }
         item {
             TileConfirmation(
-                title = stringResource(R.string.action_deleteCounter),
+                title = stringResource(R.string.counterSettings_tile_delete_title),
                 icon = Icons.Outlined.DeleteForever,
-                message = stringResource(R.string.confirmation_deleteCounter),
-                confirmString = stringResource(R.string.action_delete_short)
+                dialogMessage = stringResource(R.string.counterSettings_tile_delete_dialogMessage),
+                dialogConfirm = stringResource(R.string.counterSettings_tile_delete_dialogConfirmButton)
             ) {
                 activity.finish()
                 if (counter != null) {

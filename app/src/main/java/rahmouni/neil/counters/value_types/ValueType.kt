@@ -31,7 +31,7 @@ enum class ValueType(
 
     @OptIn(ExperimentalAnimationApi::class)
     NUMBER(
-        R.string.text_number,
+        R.string.valueType_number,
         { it.toIntOrNull() != null },
         { value, onChange ->
             NumberValuePicker(value = value) {
@@ -98,7 +98,7 @@ enum class ValueType(
 
     @OptIn(ExperimentalAnimationApi::class)
     TASK(
-        R.string.text_task,
+        R.string.valueType_task,
         { it.toIntOrNull() != null && it.toInt().absoluteValue <= 1 },
         { value, onChange ->
             TaskValuePicker(value = value) {

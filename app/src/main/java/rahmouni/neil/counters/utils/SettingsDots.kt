@@ -27,6 +27,7 @@ fun SettingsDots(
 
     var expanded by remember { mutableStateOf(false) }
 
+    // MoreOptions
     IconButton(
         modifier = Modifier.testTag("SETTINGS_DOTS"),
         onClick = {
@@ -35,7 +36,7 @@ fun SettingsDots(
         }) {
         Icon(
             Icons.Outlined.MoreVert,
-            contentDescription = stringResource(R.string.text_more_options)
+            contentDescription = stringResource(R.string.settingsDots_icon_moreOptions_contentDescription)
         )
     }
     DropdownMenu(
@@ -45,9 +46,11 @@ fun SettingsDots(
         content()
 
         if (feedback) {
-            if (feedbackDivider) MenuDefaults.Divider()
+            if (feedbackDivider) Divider()
+
+            // Feedback
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.action_sendFeedback)) },
+                text = { Text(stringResource(R.string.settingsDots_dropdownMenuItem_feedback_text)) },
                 onClick = {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
@@ -65,7 +68,6 @@ fun SettingsDots(
                     )
                 }
             )
-
         }
     }
 }

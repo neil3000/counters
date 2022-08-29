@@ -101,7 +101,10 @@ fun TileTextInput(
                         confirm()
                     }
                 ) {
-                    Text(confirmString ?: stringResource(R.string.action_save_short))
+                    Text(
+                        confirmString
+                            ?: stringResource(R.string.tileTextInput_dialog_confirmButton_text)
+                    )
                 }
             },
             dismissButton = {
@@ -112,7 +115,7 @@ fun TileTextInput(
                         closeDialog()
                     }
                 ) {
-                    Text(stringResource(R.string.action_cancel_short))
+                    Text(stringResource(R.string.tileTextInput_dialog_dismissButton_text))
                 }
             }
         )

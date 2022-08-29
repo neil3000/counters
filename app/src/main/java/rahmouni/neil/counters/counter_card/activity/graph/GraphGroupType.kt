@@ -13,16 +13,20 @@ enum class GraphGroupType(
 ) : TileDialogRadioListEnum {
 
     DAY(
-        R.string.text_day,
-        R.string.text_groupedByDay,
+        R.string.graphGroupType_day_title,
+        R.string.graphGroupType_day_secondary,
         ResetType.DAY,
         { cal, i -> cal.add(Calendar.DAY_OF_MONTH, -i) }),
     WEEK(
-        R.string.text_week,
-        R.string.text_groupedByWeek,
+        R.string.graphGroupType_week_title,
+        R.string.graphGroupType_week_secondary,
         ResetType.WEEK,
         { cal, i -> cal.add(Calendar.WEEK_OF_YEAR, -i) }),
-    ALL(R.string.text_dontGroup, R.string.text_notGrouped, ResetType.NEVER, { _, _ -> });
+    ALL(
+        R.string.graphGroupType_all_title,
+        R.string.graphGroupType_all_secondary,
+        ResetType.NEVER,
+        { _, _ -> });
 
     override fun title(): Int {
         return this.title

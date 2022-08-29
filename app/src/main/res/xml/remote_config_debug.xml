@@ -33,8 +33,8 @@
         <value>https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata</value>
     </entry>
     <entry>
-        <key>is_contributor</key>
-        <value>true</value>
+        <key>contributor_tag</key>
+        <value>Unknown Dev</value>
     </entry>
 
     <!-- EXPERIMENTS -->
@@ -43,19 +43,7 @@
         <value>true</value>
     </entry>
     <entry>
-        <key>issue110__crashlytics_description</key>
-        <value>true</value>
-    </entry>
-    <entry>
         <key>issue114__gfit_integration</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>issue130__static_colors</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>issue139__increment_notes</key>
         <value>true</value>
     </entry>
     <entry>

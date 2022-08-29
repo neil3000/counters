@@ -15,10 +15,7 @@ import rahmouni.neil.counters.database.CountersDatabase
 import rahmouni.neil.counters.database.CountersListRepository
 import rahmouni.neil.counters.settings.Prefs
 
-val prefs: Prefs by lazy {
-    CountersApplication.prefs!!
-}
-
+var prefs: Prefs = CountersApplication.prefs!!
 val healthConnect: HealthConnect = CountersApplication.healthConnect
 
 class CountersApplication : Application() {
@@ -63,6 +60,8 @@ class CountersApplication : Application() {
                 firebaseInstallationID = task.result
             }
         }
+
+        prefs!!.tipsStatus = prefs!!.tipsStatus+3
 
         super.onCreate()
     }

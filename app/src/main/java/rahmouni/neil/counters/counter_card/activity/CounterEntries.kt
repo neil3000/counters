@@ -7,15 +7,12 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -36,7 +33,7 @@ import java.util.*
 data class EntriesListData(
     val resetType: ResetType,
     val incrementGroupsList: List<IncrementGroup>
-): Serializable
+) : Serializable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("SimpleDateFormat")
@@ -58,7 +55,14 @@ fun CounterEntries(
         ).observeAsState(
             listOf()
         )
-        var entriesListData: EntriesListData by rememberSaveable { mutableStateOf(EntriesListData(resetType, incrementGroupsList)) }
+        var entriesListData: EntriesListData by rememberSaveable {
+            mutableStateOf(
+                EntriesListData(
+                    resetType,
+                    incrementGroupsList
+                )
+            )
+        }
         var dataReady: Boolean by rememberSaveable { mutableStateOf(false) }
 
         LaunchedEffect(incrementGroupsList) {
@@ -67,48 +71,50 @@ fun CounterEntries(
         }
 
         Column {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        8.dp,
-                        Alignment.CenterHorizontally
-                    )
-                ) {
-                    for (groupType in GroupType.values()) {
-                        FilterChip(
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                selectedLabelColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                                selectedLeadingIconColor = MaterialTheme.colorScheme.onTertiaryContainer
-                            ),
-                            selected = groupType.resetType == resetType,
-                            onClick = {
-                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(4.dp),
+                horizontalArrangement = Arrangement.spacedBy(
+                    8.dp,
+                    Alignment.CenterHorizontally
+                )
+            ) {
+                for (groupType in GroupType.values()) {
+                    FilterChip(
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            selectedLabelColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                            selectedLeadingIconColor = MaterialTheme.colorScheme.onTertiaryContainer
+                        ),
+                        selected = groupType.resetType == resetType,
+                        onClick = {
+                            localHapticFeedback.performHapticFeedback(HapticFeedbackType.TextHandleMove)
 
-                                dataReady = false
-                                resetType =
-                                    if (groupType.resetType == resetType) ResetType.NEVER else groupType.resetType
-                            },
-                            label = { Text(stringResource(groupType.title)) },
-                            selectedIcon = {
-                                Icon(
-                                    Icons.Outlined.Check,
-                                    null,
-                                    Modifier.scale(.75f)
-                                )
+                            if (groupType.resetType == resetType) {
+                                resetType = ResetType.NEVER
+                                entriesListData =
+                                    EntriesListData(ResetType.NEVER, incrementGroupsList)
+                            } else {
+                                if (groupType.resetType != ResetType.DAY) {
+                                    dataReady = false
+                                } else {
+                                    entriesListData =
+                                        EntriesListData(groupType.resetType, incrementGroupsList)
+                                }
+                                resetType = groupType.resetType
                             }
-                        )
-                    }
+                        },
+                        label = { Text(stringResource(groupType.title)) }
+                    )
                 }
+            }
 
             AnimatedVisibility(visible = dataReady, enter = fadeIn(), exit = fadeOut()) {
                 LazyColumn {
                     if (entriesListData.resetType.entriesGroup1 == null) {
                         items(increments) { increment ->
                             IncrementEntry(increment, countersListViewModel, counter.valueType)
-                            MenuDefaults.Divider()
                         }
                     } else {
                         for (ig in entriesListData.incrementGroupsList) {
@@ -138,7 +144,6 @@ fun CounterEntries(
                                     counter.valueType,
                                     entriesListData.resetType
                                 )
-                                MenuDefaults.Divider()
                             }
                         }
                     }
@@ -148,7 +153,7 @@ fun CounterEntries(
     } else {
         FullscreenDynamicSVG(
             R.drawable.ic_empty_entries,
-            R.string.text_noEntriesYet
+            R.string.counterEntries_fdSVG_noEntries
         )
     }
 }

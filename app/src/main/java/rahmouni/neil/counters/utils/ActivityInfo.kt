@@ -22,7 +22,11 @@ fun ActivityInfo(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
     ) {
-        Icon(Icons.Outlined.Info, stringResource(R.string.text_information))
+        // Info
+        Icon(
+            Icons.Outlined.Info,
+            stringResource(R.string.activityInfo_icon_info_contentDescription)
+        )
         Text(description, style = MaterialTheme.typography.bodyMedium)
     }
 }

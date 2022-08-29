@@ -24,8 +24,8 @@ import rahmouni.neil.counters.R
 fun TileConfirmation(
     title: String,
     icon: ImageVector,
-    message: String,
-    confirmString: String,
+    dialogMessage: String,
+    dialogConfirm: String,
     onConfirm: () -> Unit
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
@@ -55,7 +55,7 @@ fun TileConfirmation(
             },
             icon = { Icon(icon, null) },
             text = {
-                Text(message)
+                Text(dialogMessage)
             },
             confirmButton = {
                 TextButton(
@@ -67,7 +67,7 @@ fun TileConfirmation(
                         openDialog = false
                     }
                 ) {
-                    Text(confirmString)
+                    Text(dialogConfirm)
                 }
             },
             dismissButton = {
@@ -78,7 +78,7 @@ fun TileConfirmation(
                         openDialog = false
                     }
                 ) {
-                    Text(stringResource(R.string.action_cancel_short))
+                    Text(stringResource(R.string.tileConfirmation_dialog_dismissButton_text))
                 }
             }
         )

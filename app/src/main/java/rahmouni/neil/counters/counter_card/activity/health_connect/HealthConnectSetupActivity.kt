@@ -24,12 +24,10 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import androidx.health.connect.client.permission.HealthDataRequestPermissions
 import androidx.health.connect.client.permission.Permission
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.healthConnect
@@ -44,8 +42,13 @@ class HealthConnectSetupActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        val hcActResult = registerForActivityResult(HealthDataRequestPermissions()) {}
-
+        val requestPermissionActivityContract =
+            healthConnect.client?.permissionController?.createRequestPermissionActivityContract()
+        //val hcActResult = registerForActivityResult(HealthDataRequestPermissions()) {}
+        var hcActResult: ActivityResultLauncher<Set<Permission>>? = null
+        if (requestPermissionActivityContract != null && healthConnect.permissions != null) {
+            hcActResult = registerForActivityResult(requestPermissionActivityContract) {}
+        }
         setContent {
             CountersTheme {
                 ProvideWindowInsets {
@@ -67,7 +70,7 @@ class HealthConnectSetupActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
 fun HealthConnectSetupPage(
-    hcActResult: ActivityResultLauncher<Set<Permission>>,
+    hcActResult: ActivityResultLauncher<Set<Permission>>?,
 ) {
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
@@ -77,6 +80,7 @@ fun HealthConnectSetupPage(
 
     var clientAvailable by rememberSaveable { mutableStateOf(healthConnect.isClientAvailable()) }
     var hasPermissions by rememberSaveable { mutableStateOf(healthConnect.hasPermissions()) }
+    var permClicks by rememberSaveable { mutableStateOf(0) }
 
     LaunchedEffect(key1 = lifecycleState) {
         healthConnect.initialize(context)
@@ -85,7 +89,6 @@ fun HealthConnectSetupPage(
     }
 
     Scaffold(
-        modifier = Modifier.statusBarsPadding(),
         topBar = {
             SmallTopAppBar(
                 title = { },
@@ -102,7 +105,7 @@ fun HealthConnectSetupPage(
                     ) {
                         Icon(
                             Icons.Outlined.ArrowBack,
-                            contentDescription = stringResource(R.string.action_back_short)
+                            contentDescription = stringResource(R.string.healthConnectSetupActivity_topbar_icon_back_contentDescription)
                         )
                     }
                 }
@@ -125,28 +128,33 @@ fun HealthConnectSetupPage(
                         Modifier
                             .padding(16.dp)
                             .size(96.dp),
+                        color = MaterialTheme.colorScheme.secondaryContainer,
                         shape = CircleShape,
-                        tonalElevation = -LocalAbsoluteTonalElevation.current
                     ) {
                         Icon(
-                            Icons.Outlined.Link, stringResource(R.string.action_linkToHealthConnect),
+                            Icons.Outlined.Link,
+                            null,
                             Modifier
                                 .fillMaxSize()
-                                .padding(24.dp)
+                                .padding(24.dp),
+                            MaterialTheme.colorScheme.onSecondaryContainer
                         )
                     }
                     Text(
-                        stringResource(R.string.action_linkToHealthConnect),
+                        stringResource(R.string.healthConnectSetupActivity_text_linkHealthConnect_text),
                         style = MaterialTheme.typography.headlineSmall
                     )
                 }
             }
             item {
                 Column {
-                    MenuDefaults.Divider()
+                    Divider()
                     TileStep(
-                        title = stringResource(R.string.text_stepX, 1),
-                        description = stringResource(R.string.action_installHealthConnectApp),
+                        title = stringResource(
+                            R.string.healthConnectSetupActivity_tile_step_title,
+                            1
+                        ),
+                        description = stringResource(R.string.healthConnectSetupActivity_tile_install_secondary),
                         done = clientAvailable
                     ) {
                         openPlayStoreUrl(
@@ -154,28 +162,41 @@ fun HealthConnectSetupPage(
                             remoteConfig.getString("healthConnect_playStore_url")
                         )
                     }
-                    MenuDefaults.Divider()
+                    Divider()
                     TileStep(
-                        title = stringResource(R.string.text_stepX, 2),
-                        description = stringResource(R.string.action_acceptPermissions),
+                        title = stringResource(
+                            R.string.healthConnectSetupActivity_tile_step_title,
+                            2
+                        ),
+                        description = stringResource(R.string.healthConnectSetupActivity_tile_permissions_secondary),
                         done = hasPermissions,
                         enabled = clientAvailable
                     ) {
-                        hcActResult.launch(healthConnect.permissions)
+                        if (permClicks < 2) {
+                            hcActResult?.launch(healthConnect.permissions)
+                            permClicks += 1
+                        }else{
+                            val launchIntent =
+                                activity.packageManager.getLaunchIntentForPackage("com.google.android.apps.healthdata")
+                            if (launchIntent != null) {
+                                activity.startActivity(launchIntent)
+                            }
+                        }
                     }
-                    MenuDefaults.Divider()
+                    Divider()
 
-                    Button(onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    Button(
+                        onClick = {
+                            localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                        activity.finish()
-                    },
+                            activity.finish()
+                        },
                         Modifier
                             .padding(16.dp)
                             .fillMaxWidth(),
                         enabled = clientAvailable && hasPermissions
                     ) {
-                        Text(stringResource(R.string.action_continue))
+                        Text(stringResource(R.string.healthConnectSetupActivity_button_continue))
                     }
                 }
             }

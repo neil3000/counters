@@ -85,7 +85,9 @@ fun IncrementEntry(
                 Text(formattedDate)
             }
         },
-        secondaryText = if (increment.notes != null) { { Text(increment.notes) } } else null,
+        secondaryText = if (increment.notes != null) {
+            { Text(increment.notes) }
+        } else null,
         trailing = {
             IconButton(onClick = {
                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -96,7 +98,7 @@ fun IncrementEntry(
             }) {
                 Icon(
                     Icons.Outlined.Delete,
-                    stringResource(R.string.action_deleteEntry),
+                    stringResource(R.string.incrementEntry_icon_delete_contentDescription),
                     tint = MaterialTheme.colorScheme.outline
                 )
             }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.EditNote
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material3.*
@@ -16,6 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -28,7 +30,6 @@ import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.healthConnect
 
-
 @OptIn(
     ExperimentalComposeUiApi::class,
     ExperimentalMaterial3Api::class
@@ -40,7 +41,7 @@ fun NewIncrement(
     onCreate: () -> (Unit)
 ) {
     if (counter != null) {
-        val remoteConfig = FirebaseRemoteConfig.getInstance()
+        //val remoteConfig = FirebaseRemoteConfig.getInstance()
         val localHapticFeedback = LocalHapticFeedback.current
         val keyboardController = LocalSoftwareKeyboardController.current
         val scope = rememberCoroutineScope()
@@ -67,7 +68,7 @@ fun NewIncrement(
                         counter.toCounter(),
                         healthConnect.isAvailable() && counter.healthConnectEnabled,
                         date,
-                        notes
+                        if (areNotesVisible) notes else null
                     )
                     reset()
                 }
@@ -100,27 +101,40 @@ fun NewIncrement(
                 item {
                     EditDateAssistChip(date) { date = it }
                 }
-                if (remoteConfig.getBoolean("issue139__increment_notes")) {
-                    item {
-                        AnimatedVisibility(
-                            visible = !areNotesVisible,
-                            exit = shrinkHorizontally() + fadeOut()
-                        ) {
-                            AssistChip(
-                                label = { Text(stringResource(R.string.action_addNotes_short)) },
-                                leadingIcon = { Icon(Icons.Outlined.EditNote, null) },
-                                onClick = {
-                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                item {
+                    if (!areNotesVisible) {
+                        AssistChip(
+                            label = { Text(stringResource(R.string.newIncrement_chip_addNotes_label)) },
+                            leadingIcon = { Icon(Icons.Outlined.EditNote, null) },
+                            onClick = {
+                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                                    areNotesVisible = true
-                                }
-                            )
-                        }
+                                areNotesVisible = true
+                            }
+                        )
+                    } else {
+                        // ClearNotes
+                        FilterChip(
+                            label = { Text(stringResource(R.string.newIncrement_chip_addNotes_label)) },
+                            selected = true,
+                            trailingIcon = {
+                                Icon(
+                                    Icons.Outlined.Close,
+                                    stringResource(R.string.newIncrement_filterChip_clearNotes_trailingIcon_contentDescription),
+                                    Modifier.scale(.8f)
+                                )
+                            },
+                            onClick = {
+                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                                areNotesVisible = false
+                            }
+                        )
                     }
                 }
                 item {
                     AssistChip(
-                        label = { Text(stringResource(R.string.text_sameAsPreviousEntry_short)) },
+                        label = { Text(stringResource(R.string.newIncrement_chip_lastValue_label)) },
                         enabled = value != counter.lastIncrement.toString(),
                         leadingIcon = { Icon(Icons.Outlined.History, null) },
                         onClick = {
@@ -134,14 +148,14 @@ fun NewIncrement(
             }
 
             AnimatedVisibility(visible = areNotesVisible) {
-                MenuDefaults.Divider(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp))
+                Divider(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp))
 
                 TextField(
                     value = notes ?: "",
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth(),
-                    label = { Text(stringResource(R.string.text_notes)) },
+                    label = { Text(stringResource(R.string.newIncrement_textField_notes_label)) },
                     onValueChange = { str ->
                         notes = if (str == "") null else str
                     },
@@ -152,6 +166,7 @@ fun NewIncrement(
                 )
             }
 
+            // AddIncrement
             Button(
                 modifier = Modifier
                     .padding(16.dp)
@@ -162,7 +177,7 @@ fun NewIncrement(
 
                     addIncrement()
                 }) {
-                Text(stringResource(R.string.action_addEntry))
+                Text(stringResource(R.string.newIncrement_button_addIncrement_text))
             }
         }
     }

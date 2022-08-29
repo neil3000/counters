@@ -88,6 +88,7 @@
         <entry key="../../../../layout/compose-model-1647110507756.xml" value="0.3824074074074074" />
         <entry key="../../../../layout/compose-model-1650733695213.xml" value="1.1494565217391304" />
         <entry key="../../../../layout/compose-model-1651674657334.xml" value="1.1494565217391304" />
+        <entry key="app/src/debug/res/drawable/ic_launcher_foreground.xml" value="0.1165" />
         <entry key="app/src/main/res/drawable-night-v31/ic_balloons.xml" value="0.1435" />
         <entry key="app/src/main/res/drawable-night-v31/ic_empty_entries.xml" value="0.1435" />
         <entry key="app/src/main/res/drawable-night/ic_balloons.xml" value="0.1435" />
@@ -102,9 +103,12 @@
         <entry key="app/src/main/res/drawable/ic_health_connect_full.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.172" />
+        <entry key="app/src/main/res/drawable/ic_nr.xml" value="0.2" />
+        <entry key="app/src/main/res/drawable/ic_test_foreground.xml" value="0.196" />
         <entry key="app/src/main/res/drawable/ic_undraw_floating_re_xtcj__1_.xml" value="0.2025" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+        <entry key="app/src/main/res/xml/locales_config.xml" value="0.1585144927536232" />
         <entry key="app/src/main/res/xml/remote_config_defaults.xml" value="0.21875" />
       </map>
     </option>

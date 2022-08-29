@@ -3,8 +3,8 @@ package rahmouni.neil.counters.settings
 import android.content.Context
 import android.content.SharedPreferences
 
-class Prefs (context: Context) {
-    private val preferences: SharedPreferences =
+class Prefs(context: Context) {
+    val preferences: SharedPreferences =
         context.getSharedPreferences("RahNeil_N3:Counters", Context.MODE_PRIVATE)
 
     var debugMode: Boolean
@@ -12,7 +12,10 @@ class Prefs (context: Context) {
         set(value) = preferences.edit().putBoolean("DEBUG_MODE", value).apply()
 
     var startWeekDay: StartWeekDay
-        get() = StartWeekDay.values()[preferences.getInt("START_WEEK_DAY", StartWeekDay.LOCALE.ordinal)]
+        get() = StartWeekDay.values()[preferences.getInt(
+            "START_WEEK_DAY",
+            StartWeekDay.LOCALE.ordinal
+        )]
         set(value) = preferences.edit().putInt("START_WEEK_DAY", value.ordinal).apply()
 
     var weekDisplay: WeekDisplay
@@ -29,5 +32,12 @@ class Prefs (context: Context) {
 
     var contributeTranslateBannerDismissed: Boolean
         get() = preferences.getBoolean("CONTRIBUTE_TRANSLATE_BANNER_DISMISSED", false)
-        set(value) = preferences.edit().putBoolean("CONTRIBUTE_TRANSLATE_BANNER_DISMISSED", value).apply()
+        set(value) = preferences.edit().putBoolean("CONTRIBUTE_TRANSLATE_BANNER_DISMISSED", value)
+            .apply()
+
+    // App start = 3
+    // Add increment = 1
+    var tipsStatus: Int
+        get() = preferences.getInt("TIPS_STATUS", 0)
+        set(value) = preferences.edit().putInt("TIPS_STATUS", value).apply()
 }

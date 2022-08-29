@@ -45,9 +45,10 @@ fun NumberValuePicker(
             },
             enabled = ValueType.NUMBER.isValueValid(value)
         ) {
+            // Decrease
             Icon(
                 Icons.Outlined.Remove,
-                stringResource(R.string.action_decreaseValue)
+                stringResource(R.string.numberValuePicker_icon_decrease_contentDescription)
             )
         }
         TextField(
@@ -70,9 +71,10 @@ fun NumberValuePicker(
             },
             enabled = ValueType.NUMBER.isValueValid(value)
         ) {
+            // Increase
             Icon(
                 Icons.Outlined.Add,
-                stringResource(R.string.action_increaseValue)
+                stringResource(R.string.numberValuePicker_icon_increase_contentDescription)
             )
         }
     }

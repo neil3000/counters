@@ -7,10 +7,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material.icons.outlined.Event
-import androidx.compose.material3.Button
-import androidx.compose.material3.MenuDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -31,7 +28,7 @@ import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
 import rahmouni.neil.counters.utils.tiles.tile_color_selection.Size
 import rahmouni.neil.counters.value_types.ValueType
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (Unit)) {
     var name by rememberSaveable { mutableStateOf("") }
@@ -61,7 +58,7 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
                 name = it
                 isNameError = false
             },
-            label = { Text(stringResource(R.string.text_name_short) + if (isNameError) "*" else "") },
+            label = { Text(stringResource(R.string.newCounter_textField_name_label) + if (isNameError) "*" else "") },
             singleLine = true,
             isError = isNameError,
             keyboardActions = KeyboardActions {
@@ -74,24 +71,24 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
         }
 
         TileDialogRadioButtons(
-            title = stringResource(R.string.text_valueType),
+            title = stringResource(R.string.newCounter_tile_valueType_title),
             icon = Icons.Outlined.Category,
             values = ValueType.values().toList(),
             selected = valueType
         ) {
             valueType = it as ValueType
         }
-        MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
+        Divider(Modifier.padding(horizontal = 16.dp))
         TileDialogRadioButtons(
-            title = stringResource(R.string.text_resetFrequency),
-            dialogTitle = stringResource(R.string.text_reset),
+            title = stringResource(R.string.newCounter_tile_resetFrequency_title),
+            dialogTitle = stringResource(R.string.newCounter_tile_resetFrequency_dialogTitle),
             icon = Icons.Outlined.Event,
             values = ResetType.values().toList(),
             selected = resetType
         ) {
             resetType = it as ResetType
         }
-        MenuDefaults.Divider(Modifier.padding(horizontal = 16.dp))
+        Divider(Modifier.padding(horizontal = 16.dp))
         ResetValueOption(valueType, resetValue, resetType != ResetType.NEVER) {
             resetValue = it
         }
@@ -131,7 +128,7 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
                     }
                 }
             }) {
-            Text(stringResource(R.string.action_create_short))
+            Text(stringResource(R.string.newCounter_button_create_text))
         }
     }
 }

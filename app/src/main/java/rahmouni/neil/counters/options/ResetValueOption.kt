@@ -61,13 +61,13 @@ fun ResetValueOption(
     ListItem(
         text = {
             androidx.compose.material.Text(
-                stringResource(R.string.text_resetValue),
+                stringResource(R.string.resetValueOption_listItem_text),
                 Modifier.alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
             )
         },
         secondaryText = {
             androidx.compose.material.Text(
-                stringResource(R.string.text_resetsToX, valueType.formatAsString(value, context)),
+                stringResource(R.string.resetValueOption_listItem_secondaryText, valueType.formatAsString(value, context)),
                 Modifier.alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
             )
         },
@@ -96,7 +96,7 @@ fun ResetValueOption(
                 closeDialog()
             },
             title = {
-                Text(stringResource(R.string.action_resetTo))
+                Text(stringResource(R.string.resetValueOption_alertDialog_title_text))
             },
             icon = { Icon(Icons.Outlined.Pin, null) },
             text = {
@@ -111,7 +111,7 @@ fun ResetValueOption(
                         confirm()
                     }
                 ) {
-                    Text(stringResource(R.string.action_save_short))
+                    Text(stringResource(R.string.resetValueOption_alertDialog_confirmButton_text))
                 }
             },
             dismissButton = {
@@ -122,7 +122,7 @@ fun ResetValueOption(
                         closeDialog()
                     }
                 ) {
-                    Text(stringResource(R.string.action_cancel_short))
+                    Text(stringResource(R.string.resetValueOption_alertDialog_dismissButton_text))
                 }
             }
         )

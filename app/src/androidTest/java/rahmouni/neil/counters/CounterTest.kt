@@ -77,17 +77,6 @@ class CounterTest {
     }
 
     @Test
-    fun cardIncrease() {
-        HomeScreenTestView(rule)
-            .openNewCounterModal()
-            .setRandomName()
-            .create()
-            .openNewEntryModalOfCounterIncrease()
-            .addEntry()
-            .assertCounterValueIs(1)
-    }
-
-    @Test
     fun resetTypesChangeDefaultGroup() {
         val homeScreen = HomeScreenTestView(rule)
             .openNewCounterModal()
@@ -171,20 +160,20 @@ class CounterTest {
     }
 
     @Test
-    fun openHomeScreenSettings() {
+    fun openCardSettings() {
         HomeScreenTestView(rule)
             .openNewCounterModal()
             .setRandomName()
             .create()
             .openCounter()
             .openSettingsTab()
-            .openHomeScreenSettings()
+            .openCardSettings()
             .assertTitleExists()
     }
 
-    @Test
+    /*@Test
     fun test() {
         HomeScreenTestView(rule)
             .createFRScreenshotCounters()
-    }
+    }*/
 }

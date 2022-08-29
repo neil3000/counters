@@ -6,10 +6,9 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
@@ -25,14 +24,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -41,8 +38,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.navigationBarsHeight
-import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
@@ -119,11 +114,14 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
     val navItemsLabels =
         if ((counter?.valueType?.hasStats != false) && remoteConfig.getBoolean("issue20__graph"))
             listOf(
-                R.string.text_entries_short,
-                R.string.text_graph_short,
-                R.string.text_counterSettings_short
+                R.string.counterActivity_nav_entries_label,
+                R.string.counterActivity_nav_stats_label,
+                R.string.counterActivity_nav_settings_label
             )
-        else listOf(R.string.text_entries_short, R.string.text_counterSettings_short)
+        else listOf(
+            R.string.counterActivity_nav_entries_label,
+            R.string.counterActivity_nav_settings_label
+        )
     val navItemsRoutes =
         if ((counter?.valueType?.hasStats != false) && remoteConfig.getBoolean("issue20__graph"))
             listOf("entries", "graph", "settings")
@@ -146,7 +144,8 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
     @Composable
     fun smallFab() {
         FloatingActionButton(
-            containerColor = MaterialTheme.colorScheme.primary,
+            containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             onClick = {
                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
@@ -155,7 +154,10 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                 }
             },
         ) {
-            Icon(Icons.Outlined.Add, stringResource(R.string.action_newEntry_short))
+            Icon(
+                Icons.Outlined.Add,
+                stringResource(R.string.counterActivity_fab_newEntry_contentDescription)
+            )
         }
     }
 
@@ -172,7 +174,6 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
         }
     ) {
         Scaffold(
-            modifier = Modifier.statusBarsPadding(),
             topBar = {
                 SmallTopAppBar(
                     title = { Text(counter?.displayName ?: "Counter") },
@@ -188,28 +189,16 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                         ) {
                             Icon(
                                 Icons.Outlined.ArrowBack,
-                                contentDescription = stringResource(R.string.action_back_short)
+                                contentDescription = stringResource(R.string.counterActivity_topbar_icon_back_contentDescription)
                             )
                         }
                     }
                 )
             },
-            floatingActionButtonPosition = FabPosition.End,
-            floatingActionButton = {
-                if (bottomBarVisible) {
-                    AnimatedVisibility(
-                        currentDestination?.route == "entries",
-                        enter = slideInVertically { 200 },
-                        exit = slideOutVertically { 200 }
-                    ) {
-                        smallFab()
-                    }
-                }
-            },
             content = { innerPadding ->
                 Row(Modifier.padding(innerPadding)) {
                     if (!bottomBarVisible) {
-                        NavigationRail(Modifier.padding(16.dp), header = {
+                        NavigationRail(Modifier.padding(horizontal = 8.dp), header = {
                             smallFab()
                         }) {
                             navItemsLabels.forEachIndexed { index, item ->
@@ -250,35 +239,44 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
             },
             bottomBar = {
                 if (bottomBarVisible) {
-                    Column(Modifier.zIndex(1F)) {
-                        NavigationBar {
+                    BottomAppBar(
+                        actions = {
                             navItemsLabels.forEachIndexed { index, item ->
-                                NavigationBarItem(
-                                    icon = {
-                                        Icon(
-                                            navItemsIcons[index],
-                                            contentDescription = stringResource(item)
-                                        )
-                                    },
-                                    label = { Text(stringResource(item)) },
-                                    selected = currentDestination?.hierarchy?.any { it.route == navItemsRoutes[index] } == true,
-                                    onClick = {
-                                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                IconButton(onClick = {
+                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                                        moveToRoute(navItemsRoutes[index])
-                                    }
-                                )
+                                    moveToRoute(navItemsRoutes[index])
+                                }) {
+                                    Icon(
+                                        navItemsIcons[index],
+                                        contentDescription = stringResource(item)
+                                    )
+                                }
                             }
+                        },
+                        floatingActionButton = {
+                            smallFab()
                         }
-                        Surface(
-                            modifier = Modifier
-                                .navigationBarsHeight()
-                                .fillMaxWidth(),
-                            color = MaterialTheme.colorScheme.surface,
-                            shape = RectangleShape,
-                            tonalElevation = 3.dp
-                        ) {}
-                    }
+                    )
+                    /*NavigationBar {
+                        navItemsLabels.forEachIndexed { index, item ->
+                            NavigationBarItem(
+                                icon = {
+                                    Icon(
+                                        navItemsIcons[index],
+                                        contentDescription = stringResource(item)
+                                    )
+                                },
+                                label = { Text(stringResource(item)) },
+                                selected = currentDestination?.hierarchy?.any { it.route == navItemsRoutes[index] } == true,
+                                onClick = {
+                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                                    moveToRoute(navItemsRoutes[index])
+                                }
+                            )
+                        }
+                    }*/
                 }
             }
         )
