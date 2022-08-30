@@ -78,9 +78,8 @@ fun TileDialogRadioButtons(
             text = {
                 Column(Modifier.width(IntrinsicSize.Max)) {
                     values.forEach {
-                        val color = MaterialTheme.colorScheme.primaryContainer
                         val animatedColor = animateColorAsState(
-                            if (dialogValue == it) color else MaterialTheme.colorScheme.surface
+                            if (dialogValue == it) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
                         )
                         val animatedCorners =
                             animateDpAsState(if (dialogValue == it) 28.dp else 16.dp)
@@ -150,7 +149,7 @@ fun TileDialogRadioButtons(
                         openDialog = false
                     }
                 ) {
-                    Text(stringResource(R.string.action_save_short))
+                    Text(stringResource(R.string.tileDialogRadioButtons_dialog_confirmButton_text))
                 }
             },
             dismissButton = {
@@ -161,7 +160,7 @@ fun TileDialogRadioButtons(
                         openDialog = false
                     }
                 ) {
-                    Text(stringResource(R.string.action_cancel_short))
+                    Text(stringResource(R.string.tileDialogRadioButtons_dialog_dismissButton_text))
                 }
             }
         )

@@ -23,12 +23,12 @@ class SettingsTabTestView(
         return EntriesTabTestView(composeTestRule, counterName)
     }
 
-    fun openHomeScreenSettings(): HomeScreenSettingsTestView {
+    fun openCardSettings(): CardSettingsTestView {
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.text_homeScreenSettings))
+            .onNodeWithText(composeTestRule.activity.getString(R.string.cardSettingsActivity_topbar_title))
             .performClick()
 
-        return HomeScreenSettingsTestView(composeTestRule, counterName)
+        return CardSettingsTestView(composeTestRule, counterName)
     }
 
     fun setResetType(resetType: ResetType): SettingsTabTestView {

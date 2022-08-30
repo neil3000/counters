@@ -1,7 +1,7 @@
 package rahmouni.neil.counters.counter_card.activity.health_connect
 
-import androidx.health.connect.client.records.ActivitySession
-import androidx.health.connect.client.records.Repetitions
+import androidx.health.connect.client.records.ExerciseRepetitionsRecord
+import androidx.health.connect.client.records.ExerciseSessionRecord
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioListEnum
 
@@ -10,27 +10,35 @@ enum class HealthConnectType(
     val activitySessionType: String,
     val repetitionsType: String
 ) : TileDialogRadioListEnum {
-    SQUAT(R.string.text_squats, ActivitySession.ActivityType.SQUAT, Repetitions.ActivityType.SQUAT),
+    SQUAT(
+        R.string.healthConnectType_squats_title,
+        ExerciseSessionRecord.ExerciseType.SQUAT,
+        ExerciseRepetitionsRecord.ExerciseType.SQUAT
+    ),
     BURPEES(
-        R.string.text_burpees,
-        ActivitySession.ActivityType.BURPEE,
-        Repetitions.ActivityType.BURPEE
+        R.string.healthConnectType_burpees_title,
+        ExerciseSessionRecord.ExerciseType.BURPEE,
+        ExerciseRepetitionsRecord.ExerciseType.BURPEE
     ),
     CRUNCHES(
-        R.string.text_crunches,
-        ActivitySession.ActivityType.CRUNCH,
-        Repetitions.ActivityType.CRUNCH
+        R.string.healthConnectType_crunches_title,
+        ExerciseSessionRecord.ExerciseType.CRUNCH,
+        ExerciseRepetitionsRecord.ExerciseType.CRUNCH
     ),
     JUMPING_JACKS(
-        R.string.text_jumpingJacks,
-        ActivitySession.ActivityType.JUMPING_JACK,
-        Repetitions.ActivityType.JUMPING_JACK
+        R.string.healthConnectType_jumpingJacks_title,
+        ExerciseSessionRecord.ExerciseType.JUMPING_JACK,
+        ExerciseRepetitionsRecord.ExerciseType.JUMPING_JACK
     ),
-    PLANK(R.string.text_plank, ActivitySession.ActivityType.PLANK, Repetitions.ActivityType.PLANK),
+    PLANK(
+        R.string.healthConnectType_plank_title,
+        ExerciseSessionRecord.ExerciseType.PLANK,
+        ExerciseRepetitionsRecord.ExerciseType.PLANK
+    ),
     ROPE_JUMPS(
-        R.string.text_ropeJumps,
-        ActivitySession.ActivityType.JUMP_ROPE,
-        Repetitions.ActivityType.JUMP_ROPE
+        R.string.healthConnectType_ropeJumps_title,
+        ExerciseSessionRecord.ExerciseType.JUMP_ROPE,
+        ExerciseRepetitionsRecord.ExerciseType.JUMP_ROPE
     );
 
     override fun title(): Int {

@@ -56,19 +56,22 @@ fun ContributeTranslateBanner() {
         Banner(
             title = bannerData.title ?: "",
             description = stringResource(
-                R.string.banner_contributeTranslate,
+                R.string.contributeTranslateBanner_banner_description,
                 bannerData.language ?: ""
             ),
             icon = Icons.Outlined.Translate
         ) {
+            // Dismiss
             TextButton({
                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
                 bannerDismissed = true
                 prefs.contributeTranslateBannerDismissed = true
             }, Modifier.padding(horizontal = 8.dp)) {
-                Text(stringResource(R.string.action_dismiss))
+                Text(stringResource(R.string.contributeTranslateBanner_banner_button_dismiss_text))
             }
+
+            // Start
             Button({
                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
@@ -78,7 +81,7 @@ fun ContributeTranslateBanner() {
                     "Want to help translate in " + bannerData.language
                 )
             }) {
-                Text(stringResource(R.string.action_letsGo))
+                Text(stringResource(R.string.contributeTranslateBanner_banner_button_start_text))
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                 Icon(Icons.Outlined.ArrowForward, null)
             }

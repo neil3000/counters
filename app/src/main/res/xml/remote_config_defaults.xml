@@ -32,22 +32,14 @@
         <key>healthConnect_playStore_url</key>
         <value>https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata</value>
     </entry>
+    <entry>
+        <key>contributor_tag</key>
+        <value>null</value>
+    </entry>
 
     <!-- EXPERIMENTS -->
     <entry>
-        <key>issue54__reset_value_setting</key>
-        <value>false</value>
-    </entry>
-    <entry>
         <key>issue20__graph</key>
-        <value>false</value>
-    </entry>
-    <entry>
-        <key>issue110__crashlytics_description</key>
-        <value>false</value>
-    </entry>
-    <entry>
-        <key>issue117__m3_filter_chip</key>
         <value>false</value>
     </entry>
     <entry>
@@ -55,11 +47,7 @@
         <value>false</value>
     </entry>
     <entry>
-        <key>issue130__static_colors</key>
-        <value>false</value>
-    </entry>
-    <entry>
-        <key>issue139__increment_notes</key>
+        <key>issue79__goals</key>
         <value>false</value>
     </entry>
 </defaultsMap>

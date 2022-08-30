@@ -7,7 +7,6 @@ import rahmouni.neil.counters.testViews.HomeScreenTestView
 
 
 class CounterTest {
-
     @get:Rule
     val rule = createAndroidComposeRule<MainActivity>()
 
@@ -75,17 +74,6 @@ class CounterTest {
                 .assertResetTypeIs(resetType)
                 .openHomeScreen()
         }
-    }
-
-    @Test
-    fun cardIncrease() {
-        HomeScreenTestView(rule)
-            .openNewCounterModal()
-            .setRandomName()
-            .create()
-            .openNewEntryModalOfCounterIncrease()
-            .addEntry()
-            .assertCounterValueIs(1)
     }
 
     @Test
@@ -172,20 +160,20 @@ class CounterTest {
     }
 
     @Test
-    fun openHomeScreenSettings() {
+    fun openCardSettings() {
         HomeScreenTestView(rule)
             .openNewCounterModal()
             .setRandomName()
             .create()
             .openCounter()
             .openSettingsTab()
-            .openHomeScreenSettings()
+            .openCardSettings()
             .assertTitleExists()
     }
 
-    @Test
+    /*@Test
     fun test() {
         HomeScreenTestView(rule)
             .createFRScreenshotCounters()
-    }
+    }*/
 }

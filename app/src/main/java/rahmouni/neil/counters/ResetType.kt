@@ -13,10 +13,10 @@ enum class ResetType(
     val entriesGroup1: String?,
     val headerTitle: Int,
     val format: (Calendar, Context) -> String?
-): TileDialogRadioListEnum {
+) : TileDialogRadioListEnum {
     NEVER(
-        R.string.text_never,
-        R.string.text_never_resets,
+        R.string.resetType_never_title,
+        R.string.resetType_never_secondary,
         null,
         -1,
         { _, _ -> null }
@@ -24,10 +24,10 @@ enum class ResetType(
 
     @SuppressLint("SimpleDateFormat")
     DAY(
-        R.string.text_everyDay,
-        R.string.text_resetsEveryDay,
+        R.string.resetType_day_title,
+        R.string.resetType_day_secondary,
         "start of day",
-        R.string.text_today,
+        R.string.resetType_day_header_title,
         { d, _ ->
             val cal = Calendar.getInstance()
             cal.set(Calendar.HOUR_OF_DAY, 0)
@@ -43,15 +43,15 @@ enum class ResetType(
 
     @SuppressLint("SimpleDateFormat")
     WEEK(
-        R.string.text_everyWeek,
-        R.string.text_resetsEveryWeek,
+        R.string.resetType_week_title,
+        R.string.resetType_week_secondary,
         "weekday %d",
-        R.string.text_thisWeek,
+        R.string.resetType_week_header_title,
         { d, context ->
             val cal = Calendar.getInstance()
             cal.set(
                 Calendar.DAY_OF_WEEK,
-                (Calendar.getInstance().firstDayOfWeek-2)%7
+                (Calendar.getInstance().firstDayOfWeek - 2) % 7
             )
             cal.set(Calendar.HOUR_OF_DAY, 0)
             cal.set(Calendar.MINUTE, 0)
@@ -61,7 +61,10 @@ enum class ResetType(
             if (d.time.before(cal.time)) {
                 when (prefs.weekDisplay) {
                     WeekDisplay.FIRST_DAY -> SimpleDateFormat("MMMM d").format(d.time)
-                    else -> context.getString(R.string.text_weekX, d.get(Calendar.WEEK_OF_YEAR))
+                    else -> context.getString(
+                        R.string.resetType_weekX_header_title,
+                        d.get(Calendar.WEEK_OF_YEAR)
+                    )
                 }
             } else null
         }
@@ -69,10 +72,10 @@ enum class ResetType(
 
     @SuppressLint("SimpleDateFormat")
     MONTH(
-        R.string.text_everyMonth,
-        R.string.text_resetsEveryMonth,
+        R.string.resetType_month_title,
+        R.string.resetType_month_secondary,
         "start of month",
-        R.string.text_thisMonth,
+        R.string.resetType_month_header_title,
         { d, _ ->
             val cal = Calendar.getInstance()
             cal.set(Calendar.DAY_OF_MONTH, 1)

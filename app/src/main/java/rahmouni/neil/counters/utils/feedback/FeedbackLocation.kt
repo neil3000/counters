@@ -6,10 +6,19 @@ import rahmouni.neil.counters.utils.tiles.TileDialogRadioListEnum
 enum class FeedbackLocation(private val title: Int, private val formatted: Int) :
     TileDialogRadioListEnum {
 
-    PREVIOUS(R.string.text_previousScreen, R.string.text_onThePreviousScreen),
-    OTHER_SCREEN(R.string.text_otherScreen, R.string.text_onAnotherScreen),
-    WIDGET(R.string.text_widget, R.string.text_inAWidget),
-    NOTIFICATION(R.string.text_notification, R.string.text_inANotification);
+    PREVIOUS_SCREEN(
+        R.string.feedbackLocation_previousScreen_title,
+        R.string.feedbackLocation_previousScreen_formatted
+    ),
+    OTHER_SCREEN(
+        R.string.feedbackLocation_otherScreen_title,
+        R.string.feedbackLocation_otherScreen_formatted
+    ),
+    WIDGET(R.string.feedbackLocation_widget_title, R.string.feedbackLocation_widget_formatted),
+    NOTIFICATION(
+        R.string.feedbackLocation_notification_title,
+        R.string.feedbackLocation_notification_formatted
+    );
 
     override fun title(): Int {
         return this.title

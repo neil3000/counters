@@ -10,20 +10,22 @@ import androidx.browser.customtabs.CustomTabsIntent
 import rahmouni.neil.counters.R
 
 @SuppressLint("IntentReset")
-fun sendEmail(activity: Activity, address: String, subject: String) {
+fun sendEmail(activity: Activity, address: String, subject: String, body: String? = null) {
     val intent = Intent(Intent.ACTION_SENDTO).apply {
         type = "message/rfc822"
         data = Uri.parse("mailto:")
         putExtra(Intent.EXTRA_EMAIL, arrayOf(address))
         putExtra(Intent.EXTRA_SUBJECT, subject)
+        if (body!=null) putExtra(Intent.EXTRA_TEXT, body)
     }
 
     try {
         activity.startActivity(intent)
     } catch (e: ActivityNotFoundException) {
+        // NoApp
         Toast.makeText(
             activity,
-            activity.getString(R.string.error_noAppToSendEmails),
+            activity.getString(R.string.commonIntents_sendEmail_toast_noApp),
             Toast.LENGTH_LONG
         ).show()
     }

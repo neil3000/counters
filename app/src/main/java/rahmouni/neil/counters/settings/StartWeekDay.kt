@@ -4,10 +4,10 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioListEnum
 
 enum class StartWeekDay(private val title: Int, val groupQuery: String?) : TileDialogRadioListEnum {
-    LOCALE(R.string.text_localeDefault, null),
-    MONDAY(R.string.text_monday, "0"),
-    SUNDAY(R.string.text_sunday, "6"),
-    SATURDAY(R.string.text_saturday, "5");
+    LOCALE(R.string.startWeekDay_automatic_title, null),
+    MONDAY(R.string.startWeekDay_monday_title, "0"),
+    SUNDAY(R.string.startWeekDay_sunday_title, "6"),
+    SATURDAY(R.string.startWeekDay_saturday_title, "5");
 
     override fun title(): Int {
         return this.title

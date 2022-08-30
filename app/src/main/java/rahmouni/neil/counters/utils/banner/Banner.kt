@@ -10,19 +10,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Banner(
     title: String,
     description: String,
     icon: ImageVector,
+    modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     buttons: (@Composable () -> Unit)? = null
 ) {
     Card(
-        Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
+        modifier.then(
+            Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+        ),
         colors = CardDefaults.cardColors(containerColor = containerColor),
     ) {
         Column(

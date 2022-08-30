@@ -1,26 +1,24 @@
 package rahmouni.neil.counters.utils.feedback
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Build.MANUFACTURER
 import android.os.Build.MODEL
 import android.os.Bundle
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -32,11 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.BuildConfig
+import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ui.theme.CountersTheme
+import rahmouni.neil.counters.utils.sendEmail
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
 import rahmouni.neil.counters.utils.tiles.TileHeader
 import rahmouni.neil.counters.utils.tiles.TileSwitch
@@ -68,18 +67,17 @@ class FeedbackActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
 fun FeedbackPage(previousScreen: String) {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = remember(decayAnimationSpec) {
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
-    }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
     val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     var feedbackType: FeedbackType? by rememberSaveable { mutableStateOf(null) }
-    var feedbackLocation by rememberSaveable { mutableStateOf(FeedbackLocation.PREVIOUS) }
+    var feedbackLocation by rememberSaveable { mutableStateOf(FeedbackLocation.PREVIOUS_SCREEN) }
     var sendDeviceModel by rememberSaveable { mutableStateOf(true) }
     var sendAndroidVersion by rememberSaveable { mutableStateOf(true) }
+    var sendFirebaseAppInstallationID by rememberSaveable { mutableStateOf(true) }
+    var acceptContributorBadge by rememberSaveable { mutableStateOf(true) }
     var description by rememberSaveable { mutableStateOf("") }
 
     val device = if (MODEL.startsWith(MANUFACTURER, ignoreCase = true)) {
@@ -92,12 +90,10 @@ fun FeedbackPage(previousScreen: String) {
     val canSend = feedbackType != null && description != ""
 
     Scaffold(
-        modifier = Modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .statusBarsPadding(),
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
-                title = { Text(stringResource(R.string.action_sendFeedback)) },
+                title = { Text(stringResource(R.string.feedbackActivity_topbar_title)) },
                 navigationIcon = {
                     IconButton(
                         onClick = {
@@ -108,7 +104,7 @@ fun FeedbackPage(previousScreen: String) {
                     ) {
                         Icon(
                             Icons.Outlined.ArrowBack,
-                            contentDescription = stringResource(R.string.action_back_short)
+                            contentDescription = stringResource(R.string.feedbackActivity_topbar_icon_back_contentDescription)
                         )
                     }
                 },
@@ -129,61 +125,53 @@ fun FeedbackPage(previousScreen: String) {
                     .navigationBarsPadding(),
                 onClick = {
                     if (canSend) {
-                        val intent = Intent(Intent.ACTION_SENDTO).apply {
-                            data = Uri.parse("mailto:")
-                            putExtra(
-                                Intent.EXTRA_EMAIL,
-                                arrayOf(remoteConfig.getString("feedback_email"))
-                            )
-                            putExtra(Intent.EXTRA_SUBJECT, feedbackType!!.subject)
 
-                            putExtra(
-                                Intent.EXTRA_TEXT,
-                                when (feedbackType!!) {
-                                    FeedbackType.BUG ->
-                                        "VERSION: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
-                                                "SCREEN: ${if (feedbackLocation == FeedbackLocation.PREVIOUS) previousScreen else "null"}\n" +
-                                                "DEVICE: ${if (sendDeviceModel) device else "null"}\n" +
-                                                "ANDROID_VERSION: ${if (sendDeviceModel) androidVersion else "null"}\n" +
-                                                "DESC:\n$description"
-                                    FeedbackType.FEATURE ->
-                                        "VERSION: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
-                                                "DESC:\n$description"
-                                    FeedbackType.TRANSLATION ->
-                                        "VERSION: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
-                                                "SCREEN: ${if (feedbackLocation == FeedbackLocation.PREVIOUS) previousScreen else "null"}\n" +
-                                                "DESC:\n$description"
-                                }
-                            )
-                        }
-
-                        try {
-                            activity.startActivity(intent)
-                        } catch (e: ActivityNotFoundException) {
-                            Toast.makeText(
-                                activity,
-                                activity.getString(R.string.error_noAppToSendEmails),
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
+                        sendEmail(
+                            activity,
+                            remoteConfig.getString("feedback_email"),
+                            feedbackType!!.subject,
+                            when (feedbackType!!) {
+                                FeedbackType.BUG ->
+                                    "VERSION: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
+                                            "SCREEN: ${if (feedbackLocation == FeedbackLocation.PREVIOUS_SCREEN) previousScreen else "null"}\n" +
+                                            "DEVICE: ${if (sendDeviceModel) device else "null"}\n" +
+                                            "ANDROID_VERSION: ${if (sendDeviceModel) androidVersion else "null"}\n" +
+                                            "DESC:\n$description\n" +
+                                            "FIREBASE: ${if (sendFirebaseAppInstallationID) (CountersApplication.firebaseInstallationID ?: "Error") else "null"}\n" +
+                                            "CONTRIBUTOR: $acceptContributorBadge"
+                                FeedbackType.FEATURE ->
+                                    "VERSION: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
+                                            "DESC:\n$description" +
+                                            "FIREBASE: ${if (sendFirebaseAppInstallationID) (CountersApplication.firebaseInstallationID ?: "Error") else "null"}\n" +
+                                            "CONTRIBUTOR: $acceptContributorBadge"
+                                FeedbackType.TRANSLATION ->
+                                    "VERSION: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
+                                            "SCREEN: ${if (feedbackLocation == FeedbackLocation.PREVIOUS_SCREEN) previousScreen else "null"}\n" +
+                                            "DESC:\n$description" +
+                                            "FIREBASE: ${if (sendFirebaseAppInstallationID) (CountersApplication.firebaseInstallationID ?: "Error") else "null"}\n" +
+                                            "CONTRIBUTOR: $acceptContributorBadge"
+                            }
+                        )
                     }
                 })
         }
     ) { innerPadding ->
         LazyColumn(contentPadding = innerPadding, modifier = Modifier.fillMaxHeight()) {
-            item { TileHeader(stringResource(R.string.header_general)) }
+            item { TileHeader(stringResource(R.string.feedbackActivity_tile_general_headerTitle)) }
             item {
+                // Category
                 TileDialogRadioButtons(
-                    title = stringResource(R.string.text_category),
+                    title = stringResource(R.string.feedbackActivity_tile_category_title),
                     icon = Icons.Outlined.Category,
                     values = FeedbackType.values().toList(),
                     selected = feedbackType,
-                    defaultSecondary = stringResource(R.string.action_selectACategory)
+                    defaultSecondary = stringResource(R.string.feedbackActivity_tile_category_defaultSecondary)
                 ) {
                     feedbackType = it as FeedbackType
                 }
             }
             item {
+                // Location
                 TileDialogRadioButtons(
                     title = stringResource(feedbackType?.location ?: FeedbackType.BUG.location!!),
                     icon = Icons.Outlined.WebAsset,
@@ -196,8 +184,9 @@ fun FeedbackPage(previousScreen: String) {
             }
             item {
                 Column(Modifier.padding(16.dp)) {
+                    // Description
                     TextField(
-                        label = { Text(stringResource(R.string.text_description)) },
+                        label = { Text(stringResource(R.string.feedbackActivity_textField_description_label)) },
                         value = description,
                         onValueChange = { description = it },
                         singleLine = false,
@@ -211,12 +200,14 @@ fun FeedbackPage(previousScreen: String) {
                     )
                 }
             }
-            item { MenuDefaults.Divider() }
+            item { Divider() }
 
-            item { TileHeader(stringResource(R.string.header_data)) }
+            // AdditionalInfo
+            item { TileHeader(stringResource(R.string.feedbackActivity_tile_additionalInfo_headerTitle)) }
             item {
+                // DeviceModel
                 TileSwitch(
-                    title = stringResource(R.string.action_sendDeviceModel),
+                    title = stringResource(R.string.feedbackActivity_tile_deviceModel_title),
                     description = device,
                     icon = Icons.Outlined.PermDeviceInformation,
                     checked = feedbackType == FeedbackType.BUG && sendDeviceModel,
@@ -226,14 +217,38 @@ fun FeedbackPage(previousScreen: String) {
                 }
             }
             item {
+                // AndroidVersion
                 TileSwitch(
-                    title = stringResource(R.string.action_sendAndroidVersion),
+                    title = stringResource(R.string.feedbackActivity_tile_androidVersion_title),
                     description = androidVersion,
                     icon = Icons.Outlined.Android,
                     checked = feedbackType == FeedbackType.BUG && sendAndroidVersion,
                     enabled = feedbackType == FeedbackType.BUG
                 ) {
                     sendAndroidVersion = it
+                }
+            }
+            item {
+                // Firebase
+                TileSwitch(
+                    title = stringResource(R.string.feedbackActivity_tile_firebase_title),
+                    description = CountersApplication.firebaseInstallationID ?: "Error",
+                    icon = Icons.Outlined.Tag,
+                    checked = sendFirebaseAppInstallationID
+                ) {
+                    sendFirebaseAppInstallationID = it
+                }
+            }
+            item {
+                // ContributorBadge
+                TileSwitch(
+                    title = stringResource(R.string.feedbackActivity_tile_contributorBadge_title),
+                    description = stringResource(R.string.feedbackActivity_tile_contributorBadge_description),
+                    icon = Icons.Outlined.VolunteerActivism,
+                    checked = acceptContributorBadge && sendFirebaseAppInstallationID,
+                    enabled = sendFirebaseAppInstallationID
+                ) {
+                    acceptContributorBadge = it
                 }
             }
         }

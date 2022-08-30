@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,12 +22,12 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
@@ -82,15 +81,14 @@ fun HealthConnectSettingsPage(
     counterID: Int,
     countersListViewModel: CountersListViewModel,
 ) {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = remember(decayAnimationSpec) {
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
-    }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
     val remoteConfig = FirebaseRemoteConfig.getInstance()
+    val lifecycleState by LocalLifecycleOwner.current.lifecycle.observeAsState()
 
     val counter: CounterAugmented? by countersListViewModel.getCounter(counterID).observeAsState()
+    var isAvailable by rememberSaveable { mutableStateOf(healthConnect.isAvailable()) }
 
     var activityType by rememberSaveable {
         mutableStateOf(
@@ -102,13 +100,15 @@ fun HealthConnectSettingsPage(
         activityType = counter?.healthConnectType ?: HealthConnectType.SQUAT
     }
 
+    LaunchedEffect(key1 = lifecycleState) {
+        isAvailable = healthConnect.isAvailable()
+    }
+
     Scaffold(
-        modifier = Modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .statusBarsPadding(),
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
-                title = { Text(stringResource(R.string.text_healthConnect)) },
+                title = { Text(stringResource(R.string.healthConnectSettingsActivity_topbar_title)) },
                 actions = {
                     SettingsDots(screenName = "HealthConnectSettingsActivity") {}
                 },
@@ -122,7 +122,7 @@ fun HealthConnectSettingsPage(
                     ) {
                         Icon(
                             Icons.Outlined.ArrowBack,
-                            contentDescription = stringResource(R.string.action_back_short)
+                            contentDescription = stringResource(R.string.healthConnectSettingsActivity_topbar_icon_back_contentDescription)
                         )
                     }
                 },
@@ -155,10 +155,9 @@ fun HealthConnectSettingsPage(
             }
             item {
                 HeaderSwitch(
-                    title = stringResource(R.string.text_synchronization),
-                    checked = (counter?.healthConnectEnabled ?: false)
-                            && healthConnect.isAvailable(),
-                    enabled = healthConnect.isAvailable()
+                    title = stringResource(R.string.healthConnectSettingsActivity_header_title),
+                    checked = isAvailable && (counter?.healthConnectEnabled ?: false),
+                    enabled = isAvailable
                 ) {
                     countersListViewModel.updateCounter(
                         counter!!.copy(
@@ -168,10 +167,10 @@ fun HealthConnectSettingsPage(
                 }
             }
             when {
-                healthConnect.isAvailable() -> item {
-                    TileHeader(stringResource(R.string.header_general))
+                isAvailable -> item {
+                    TileHeader(stringResource(R.string.healthConnectSettingsActivity_tile_general_headerTitle))
                     TileDialogRadioList(
-                        title = stringResource(R.string.text_activityType),
+                        title = stringResource(R.string.healthConnectSettingsActivity_tile_activityType_title),
                         icon = Icons.Outlined.FitnessCenter,
                         values = HealthConnectType.values().asList(),
                         selected = activityType,
@@ -184,7 +183,7 @@ fun HealthConnectSettingsPage(
                         )
                     }
                     TileClick(
-                        title = stringResource(R.string.action_openHealthConnect),
+                        title = stringResource(R.string.healthConnectSettingsActivity_tile_openApp_title),
                         icon = Icons.Outlined.Launch
                     ) {
                         val launchIntent =
@@ -193,13 +192,14 @@ fun HealthConnectSettingsPage(
                             activity.startActivity(launchIntent)
                         }
                     }
-                    MenuDefaults.Divider()
+                    Divider()
                 }
                 healthConnect.hasSufficientSdk() -> item {
                     Banner(
-                        title = stringResource(R.string.action_startSetup),
-                        description = stringResource(R.string.action_startSetupToLinkCountersAndHealthConnect),
-                        icon = Icons.Outlined.Link
+                        title = stringResource(R.string.healthConnectSettingsActivity_banner_setup_title),
+                        description = stringResource(R.string.healthConnectSettingsActivity_banner_setup_description),
+                        icon = Icons.Outlined.Link,
+                        Modifier.padding(8.dp)
                     ) {
                         Button({
                             localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -208,7 +208,7 @@ fun HealthConnectSettingsPage(
                                 Intent(activity, HealthConnectSetupActivity::class.java)
                             )
                         }) {
-                            Text(stringResource(R.string.action_letsGo))
+                            Text(stringResource(R.string.healthConnectSettingsActivity_banner_setup_button_text))
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                             Icon(Icons.Outlined.ArrowForward, null)
                         }
@@ -216,10 +216,11 @@ fun HealthConnectSettingsPage(
                 }
                 else -> item {
                     Banner(
-                        title = stringResource(R.string.text_incompatibleDevice),
-                        description = stringResource(R.string.text_healthConnectRequiresHavingAtLeastAndroidOreoToWork),
+                        title = stringResource(R.string.healthConnectSettingsActivity_banner_incompatibleDevice_title),
+                        description = stringResource(R.string.healthConnectSettingsActivity_banner_incompatibleDevice_description),
                         icon = Icons.Outlined.PriorityHigh,
-                        containerColor = MaterialTheme.colorScheme.errorContainer
+                        Modifier.padding(8.dp),
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
                     ) {
                         TextButton(
                             colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onErrorContainer),
@@ -233,7 +234,7 @@ fun HealthConnectSettingsPage(
                             },
                             modifier = Modifier.padding(horizontal = 8.dp)
                         ) {
-                            Text(stringResource(R.string.action_continueAnyway))
+                            Text(stringResource(R.string.healthConnectSettingsActivity_banner_incompatibleDevice_textButton_text))
                         }
                         Button(
                             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
@@ -245,7 +246,7 @@ fun HealthConnectSettingsPage(
                                     remoteConfig.getString("healthConnect_androidMinSdk_url")
                                 )
                             }) {
-                            Text(stringResource(R.string.action_learnMore))
+                            Text(stringResource(R.string.healthConnectSettingsActivity_banner_incompatibleDevice_button_text))
                         }
                     }
                 }
@@ -253,7 +254,7 @@ fun HealthConnectSettingsPage(
 
             item {
                 ActivityInfo(
-                    stringResource(R.string.action_synchronizeThisCounterWithHealthConnectCompatibleApps),
+                    stringResource(R.string.healthConnectSettingsActivity_activityInfo_description),
                     Modifier.padding(24.dp)
                 )
             }

@@ -1,10 +1,7 @@
 package rahmouni.neil.counters.testViews
 
-import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import rahmouni.neil.counters.*
 import rahmouni.neil.counters.database.Counter
@@ -22,7 +19,7 @@ class HomeScreenTestView(
 
     fun openNewCounterModal(): NewCounterModalTestView {
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.action_newCounter_short))
+            .onNodeWithText(composeTestRule.activity.getString(R.string.mainActivity_fab_newCounter))
             .performClick()
 
         return NewCounterModalTestView(composeTestRule, counterName)
@@ -42,8 +39,8 @@ class HomeScreenTestView(
         if (name == null && counterName == null) throwCounterInitializationException()
 
         composeTestRule
-            .onNodeWithTag(counterName + "_CARD_INCREASE")
-            .performClick()
+            .onNodeWithText(name ?: counterName!!)
+            .performTouchInput { longClick() }
 
         return HomeScreenNewEntryModalTestView(composeTestRule, counterName)
     }

@@ -44,7 +44,7 @@ fun EditDateAssistChip(date: String?, setDate: (String?) -> Unit) {
 
     if (date == null) {
         AssistChip(
-            label = { Text(stringResource(R.string.action_editDate_short)) },
+            label = { Text(stringResource(R.string.editDateAssistChip_assistChip_label)) },
             leadingIcon = { Icon(Icons.Outlined.EditCalendar, null) },
             onClick = {
                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -70,7 +70,7 @@ fun EditDateAssistChip(date: String?, setDate: (String?) -> Unit) {
             trailingIcon = {
                 Icon(
                     Icons.Outlined.Close,
-                    stringResource(R.string.action_clearDate),
+                    stringResource(R.string.editDateAssistChip_filterChip_trailingIcon_contentDescription),
                     Modifier.scale(.8f)
                 )
             },

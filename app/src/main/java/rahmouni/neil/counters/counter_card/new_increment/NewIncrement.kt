@@ -7,32 +7,28 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.EditNote
 import androidx.compose.material.icons.outlined.History
-import androidx.compose.material.icons.outlined.Remove
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
-import rahmouni.neil.counters.IncrementValueType
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.healthConnect
-
 
 @OptIn(
     ExperimentalComposeUiApi::class,
@@ -45,24 +41,25 @@ fun NewIncrement(
     onCreate: () -> (Unit)
 ) {
     if (counter != null) {
-        val remoteConfig = FirebaseRemoteConfig.getInstance()
+        //val remoteConfig = FirebaseRemoteConfig.getInstance()
         val localHapticFeedback = LocalHapticFeedback.current
         val keyboardController = LocalSoftwareKeyboardController.current
         val scope = rememberCoroutineScope()
 
         var value by rememberSaveable { mutableStateOf("1") }
-        var isValueError by rememberSaveable { mutableStateOf(false) }
         var date: String? by rememberSaveable { mutableStateOf(null) }
         var areNotesVisible: Boolean by rememberSaveable { mutableStateOf(false) }
         var notes: String? by rememberSaveable { mutableStateOf(null) }
 
-        fun validateValue(text: String): Boolean {
-            isValueError = text.toIntOrNull() == null
-            return !isValueError
+        fun reset() {
+            value = counter.lastIncrement.toString()
+            date = null
+            areNotesVisible = false
+            notes = null
         }
 
         fun addIncrement() {
-            if (validateValue(value)) {
+            if (counter.valueType.isValueValid(value)) {
                 scope.launch {
                     keyboardController?.hide()
                     onCreate()
@@ -71,22 +68,15 @@ fun NewIncrement(
                         counter.toCounter(),
                         healthConnect.isAvailable() && counter.healthConnectEnabled,
                         date,
-                        notes
+                        if (areNotesVisible) notes else null
                     )
-                    value = counter.incrementValue.toString()
+                    reset()
                 }
             }
         }
 
         LaunchedEffect(counter) {
-            value = if (counter.incrementValueType == IncrementValueType.PREVIOUS) {
-                counter.lastIncrement.toString()
-            } else {
-                counter.incrementValue.toString()
-            }
-            date = null
-            areNotesVisible = false
-            notes = null
+            reset()
         }
 
         Column {
@@ -96,48 +86,8 @@ fun NewIncrement(
                     .fillMaxWidth()
                     .padding(16.dp),
             ) {
-                FilledTonalIconButton(
-                    onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                        if (validateValue(value)) {
-                            value = (value.toInt() - 1).toString()
-                        }
-                    },
-                    enabled = !isValueError
-                ) {
-                    Icon(
-                        Icons.Outlined.Remove,
-                        stringResource(R.string.action_decreaseValue)
-                    )
-                }
-                TextField(
-                    value = value,
-                    onValueChange = { str ->
-                        isValueError = false
-                        value = str
-                    },
-                    singleLine = true,
-                    modifier = Modifier.widthIn(0.dp, 150.dp),
-                    isError = isValueError,
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                    keyboardActions = KeyboardActions {
-                        addIncrement()
-                    })
-                FilledTonalIconButton(
-                    onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                        if (validateValue(value)) {
-                            value = (value.toInt() + 1).toString()
-                        }
-                    },
-                    enabled = !isValueError
-                ) {
-                    Icon(
-                        Icons.Outlined.Add,
-                        stringResource(R.string.action_increaseValue)
-                    )
+                counter.valueType.picker(value) {
+                    value = it
                 }
             }
 
@@ -152,48 +102,60 @@ fun NewIncrement(
                     EditDateAssistChip(date) { date = it }
                 }
                 item {
+                    if (!areNotesVisible) {
+                        AssistChip(
+                            label = { Text(stringResource(R.string.newIncrement_chip_addNotes_label)) },
+                            leadingIcon = { Icon(Icons.Outlined.EditNote, null) },
+                            onClick = {
+                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                                areNotesVisible = true
+                            }
+                        )
+                    } else {
+                        // ClearNotes
+                        FilterChip(
+                            label = { Text(stringResource(R.string.newIncrement_chip_addNotes_label)) },
+                            selected = true,
+                            trailingIcon = {
+                                Icon(
+                                    Icons.Outlined.Close,
+                                    stringResource(R.string.newIncrement_filterChip_clearNotes_trailingIcon_contentDescription),
+                                    Modifier.scale(.8f)
+                                )
+                            },
+                            onClick = {
+                                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                                areNotesVisible = false
+                            }
+                        )
+                    }
+                }
+                item {
                     AssistChip(
-                        label = { Text(stringResource(R.string.action_setToLastValue_short)) },
+                        label = { Text(stringResource(R.string.newIncrement_chip_lastValue_label)) },
                         enabled = value != counter.lastIncrement.toString(),
                         leadingIcon = { Icon(Icons.Outlined.History, null) },
                         onClick = {
                             localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
                             value = counter.lastIncrement.toString()
-                            isValueError = false
                         }
                     )
-                }
-                if (remoteConfig.getBoolean("issue139__increment_notes")) {
-                    item {
-                        AnimatedVisibility(
-                            visible = !areNotesVisible,
-                            exit = shrinkHorizontally() + fadeOut()
-                        ) {
-                            AssistChip(
-                                label = { Text(stringResource(R.string.action_addNotes_short)) },
-                                leadingIcon = { Icon(Icons.Outlined.EditNote, null) },
-                                onClick = {
-                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                                    areNotesVisible = true
-                                }
-                            )
-                        }
-                    }
                 }
                 item { Box(Modifier.width(16.dp)) }
             }
 
             AnimatedVisibility(visible = areNotesVisible) {
-                MenuDefaults.Divider(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp))
+                Divider(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp))
 
                 TextField(
                     value = notes ?: "",
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth(),
-                    label = { Text(stringResource(R.string.text_notes)) },
+                    label = { Text(stringResource(R.string.newIncrement_textField_notes_label)) },
                     onValueChange = { str ->
                         notes = if (str == "") null else str
                     },
@@ -204,17 +166,18 @@ fun NewIncrement(
                 )
             }
 
+            // AddIncrement
             Button(
                 modifier = Modifier
                     .padding(16.dp)
                     .fillMaxWidth(),
-                enabled = !isValueError,
+                enabled = counter.valueType.isValueValid(value),
                 onClick = {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
                     addIncrement()
                 }) {
-                Text(stringResource(R.string.action_addEntry))
+                Text(stringResource(R.string.newIncrement_button_addIncrement_text))
             }
         }
     }

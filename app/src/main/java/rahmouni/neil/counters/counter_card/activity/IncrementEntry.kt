@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.text.format.DateFormat
 import android.text.format.DateUtils
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
 import androidx.compose.material.Text
@@ -12,6 +14,7 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -25,6 +28,7 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.Increment
+import rahmouni.neil.counters.value_types.ValueType
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,6 +38,7 @@ import java.util.*
 fun IncrementEntry(
     increment: Increment,
     countersListViewModel: CountersListViewModel,
+    valueType: ValueType,
     resetType: ResetType = ResetType.NEVER
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
@@ -43,8 +48,16 @@ fun IncrementEntry(
     val date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(increment.timestamp)
 
     ListItem(
-        text = { Text(increment.value.toString()) },
-        secondaryText = {
+        icon = {
+            Surface(
+                Modifier.size(40.dp),
+                color = MaterialTheme.colorScheme.secondaryContainer,
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                valueType.smallDisplay(increment.value, context)
+            }
+        },
+        text = {
             if (date != null) {
                 val formattedDate = when (resetType) {
                     ResetType.NEVER -> DateUtils.getRelativeTimeSpanString(date.time).toString()
@@ -69,9 +82,12 @@ fun IncrementEntry(
                     ).format(date)
                 }
 
-                Text(formattedDate + (if (increment.notes != null) " • "+increment.notes else ""))
+                Text(formattedDate)
             }
         },
+        secondaryText = if (increment.notes != null) {
+            { Text(increment.notes) }
+        } else null,
         trailing = {
             IconButton(onClick = {
                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -82,7 +98,7 @@ fun IncrementEntry(
             }) {
                 Icon(
                     Icons.Outlined.Delete,
-                    stringResource(R.string.action_deleteEntry),
+                    stringResource(R.string.incrementEntry_icon_delete_contentDescription),
                     tint = MaterialTheme.colorScheme.outline
                 )
             }

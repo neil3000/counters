@@ -106,7 +106,7 @@ fun TileDialogRadioList(
 
                     openDialog = false
                 }) {
-                    Text(stringResource(R.string.action_save_short))
+                    Text(stringResource(R.string.tileDialogRadioList_dialog_confirmButton_text))
                 }
             },
             dismissButton = {
@@ -117,7 +117,7 @@ fun TileDialogRadioList(
                         openDialog = false
                     }
                 ) {
-                    Text(stringResource(R.string.action_cancel_short))
+                    Text(stringResource(R.string.tileDialogRadioList_dialog_dismissButton_text))
                 }
             }
         )

@@ -36,15 +36,17 @@ fun TileStep(
         singleLineSecondaryText = true,
         icon = {
             if (done) {
+                // Done
                 Icon(
                     Icons.Outlined.CheckCircle,
-                    stringResource(R.string.text_done),
+                    stringResource(R.string.tileStep_icon_done_contentDescription),
                     tint = MaterialTheme.colorScheme.primary
                 )
             } else {
+                // NotDone
                 Icon(
                     Icons.Outlined.HighlightOff,
-                    stringResource(R.string.text_notDone),
+                    stringResource(R.string.tileStep_icon_notDone_contentDescription),
                 )
             }
         },

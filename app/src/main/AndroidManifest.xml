@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="rahmouni.neil.counters">
 
     <application
         android:name=".CountersApplication"
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/text_appName"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="false"
-        android:theme="@style/Theme.Counters">
+        android:label="@string/manifest_appName"
+        android:localeConfig="@xml/locales_config"
+        android:theme="@style/Theme.Counters"
+        tools:targetApi="33">
         <activity
             android:name=".MainActivity"
             android:exported="true"
