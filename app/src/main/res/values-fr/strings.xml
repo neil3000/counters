@@ -157,12 +157,13 @@
     <string name="settingsActivity_topbar_icon_back_contentDescription">Retour</string>
     <string name="settingsActivity_topbar_title">Paramètres</string>
     <string name="settingsDots_dropdownMenuItem_feedback_text">Envoyer des commentaires</string>
+    <string name="settingsDots_dropdownMenuItem_help_text">Aide</string>
     <string name="settingsDots_icon_moreOptions_contentDescription">Plus d\'options</string>
     <string name="startWeekDay_automatic_title">Automatique</string>
     <string name="startWeekDay_monday_title">Lundi</string>
     <string name="startWeekDay_saturday_title">Samedi</string>
     <string name="startWeekDay_sunday_title">Dimanche</string>
-    <string name="tileConfirmation_dialog_dismissButton_text">Annuler</string>
+    <string name="confirmationDialog_dismissButton_text">Annuler</string>
     <string name="tileDialogRadioButtons_dialog_confirmButton_text">Sauvegarder</string>
     <string name="tileDialogRadioButtons_dialog_dismissButton_text">Annuler</string>
     <string name="tileDialogRadioList_dialog_confirmButton_text">Sauvegarder</string>
@@ -180,4 +181,7 @@
     <string name="valueType_task_notDone">Non fait</string>
     <string name="weekDisplay_firstDay">La date de leur premier jour</string>
     <string name="weekDisplay_number">Leur numéro dans l\'année</string>
+    <string name="incrementEntry_confirmationDialog_confirmLabel">Supprimer</string>
+    <string name="incrementEntry_confirmationDialog_body_text">Êtes-vous sûr de vouloir supprimer cette entrée ? Cette opération ne pourra pas être annulée.</string>
+    <string name="incrementEntry_confirmationDialog_title">Supprimer l\'entrée</string>
 </resources>

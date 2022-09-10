@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -18,6 +19,7 @@ import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.healthConnect
 import rahmouni.neil.counters.options.ResetValueOption
+import rahmouni.neil.counters.utils.dialogs.ConfirmationDialog
 import rahmouni.neil.counters.utils.tiles.*
 import rahmouni.neil.counters.value_types.ValueType
 
@@ -161,15 +163,23 @@ fun CounterSettings(
             }
         }
         item {
-            TileConfirmation(
+            ConfirmationDialog(
                 title = stringResource(R.string.counterSettings_tile_delete_title),
+                body = { Text(stringResource(R.string.counterSettings_tile_delete_dialogMessage)) },
                 icon = Icons.Outlined.DeleteForever,
-                dialogMessage = stringResource(R.string.counterSettings_tile_delete_dialogMessage),
-                dialogConfirm = stringResource(R.string.counterSettings_tile_delete_dialogConfirmButton)
+                confirmLabel = stringResource(R.string.counterSettings_tile_delete_dialogConfirmButton),
+                onConfirm = {
+                    activity.finish()
+                    if (counter != null) {
+                        countersListViewModel.deleteCounterById(counter.uid)
+                    }
+                }
             ) {
-                activity.finish()
-                if (counter != null) {
-                    countersListViewModel.deleteCounterById(counter.uid)
+                TileClick(
+                    title = stringResource(R.string.counterSettings_tile_delete_title),
+                    icon = Icons.Outlined.DeleteForever
+                ) {
+                    it()
                 }
             }
         }

@@ -36,6 +36,10 @@
         <key>contributor_tag</key>
         <value>Unknown Dev</value>
     </entry>
+    <entry>
+        <key>help_url</key>
+        <value>https://gitlab.com/neil3000/counters/-/wikis/Help</value>
+    </entry>
 
     <!-- EXPERIMENTS -->
     <entry>

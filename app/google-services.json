@@ -36,12 +36,20 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:743616795299:android:21e3a4792e11eb7006e516",
+        "mobilesdk_app_id": "1:743616795299:android:c5f7d52ff6ee191c06e516",
         "android_client_info": {
           "package_name": "rahmouni.neil.counters.debug"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "743616795299-ibf48jb59d36746phks93o0sbp33ahj2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rahmouni.neil.counters.debug",
+            "certificate_hash": "a3725dca942291f67d99265e35c30e18009b6200"
+          }
+        },
         {
           "client_id": "743616795299-gafce95g6fd558cj3qh91c6tlclu7h7q.apps.googleusercontent.com",
           "client_type": 3

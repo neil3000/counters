@@ -2,7 +2,7 @@
 <defaultsMap>
     <entry>
         <key>privacy_policy_url</key>
-        <value>https://gitlab.com/neil3000/counters/-/wikis/Privacy-policy</value>
+        <value>https://counters.page.link/privacyPolicy1</value>
     </entry>
     <entry>
         <key>feedback_email</key>
@@ -14,7 +14,7 @@
     </entry>
     <entry>
         <key>changelog_url</key>
-        <value>https://gitlab.com/neil3000/counters/-/wikis/Changelog</value>
+        <value>https://counters.page.link/changelog1</value>
     </entry>
     <entry>
         <key>contribute_translate_banner</key>
@@ -35,6 +35,10 @@
     <entry>
         <key>contributor_tag</key>
         <value>null</value>
+    </entry>
+    <entry>
+        <key>help_url</key>
+        <value>https://counters.page.link/help1</value>
     </entry>
 
     <!-- EXPERIMENTS -->
