@@ -1,6 +1,7 @@
 package rahmouni.neil.counters.utils.dialogs
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -80,7 +81,7 @@ fun ConfirmationDialog(
                         }
                     }
                     Surface(
-                        color = MaterialTheme.colorScheme.error,
+                        color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.error,
                         shape = RoundedCornerShape(16.dp),
                         modifier = Modifier.requiredWidthIn(min = 280.dp),
                     ) {
@@ -98,7 +99,7 @@ fun ConfirmationDialog(
                         ) {
                             Text(
                                 text = confirmLabel,
-                                color = MaterialTheme.colorScheme.onError,
+                                color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onErrorContainer else MaterialTheme.colorScheme.onError,
                                 style = MaterialTheme.typography.bodyLarge,
                                 modifier = Modifier.padding(4.dp)
                             )

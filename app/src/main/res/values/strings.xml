@@ -143,18 +143,19 @@
     <string name="resetType_week_header_title">This week</string>
     <string name="resetType_week_secondary">Resets every week</string>
     <string name="resetType_week_title">Every week</string>
-    <string name="resetValueOption_alertDialog_confirmButton_text">Save</string>
-    <string name="resetValueOption_alertDialog_dismissButton_text">Cancel</string>
-    <string name="resetValueOption_alertDialog_title_text">Reset to</string>
-    <string name="resetValueOption_listItem_secondaryText">Resets to %s</string>
-    <string name="resetValueOption_listItem_text">Reset value</string>
+    <string name="valueOption_alertDialog_confirmButton_text">Save</string>
+    <string name="valueOption_alertDialog_dismissButton_text">Cancel</string>
+    <string name="counterSettings_tile_resetValue_dialogTitle">Reset to</string>
+    <string name="counterSettings_tile_resetValue_secondaryFormatter">Resets to %s</string>
+    <string name="counterSettings_tile_resetValue_title">Reset value</string>
     <string name="settingsActivity_tile_about_headerTitle">About</string>
     <string name="settingsActivity_tile_changelog_title">Changelog</string>
     <string name="settingsActivity_tile_dataAndPrivacy_title">Data &amp; Privacy</string>
     <string name="settingsActivity_tile_displayWeekAs_title">Display week as</string>
     <string name="settingsActivity_tile_firstDayOfWeek_title">First day of the week</string>
     <string name="settingsActivity_tile_general_headerTitle">General</string>
-    <string name="settingsActivity_tile_helpTranslate_title">Help translate the app</string>
+    <string name="settingsActivity_tile_discordInvite_title">Join our Discord server</string>
+    <string name="settingsActivity_tile_discordInvite_secondary">Chat with the community and follow the development of new features!</string>
     <string name="settingsActivity_tile_openPlayStorePage_title">See on the Play Store</string>
     <string name="settingsActivity_topbar_icon_back_contentDescription">Back</string>
     <string name="settingsActivity_topbar_title">Settings</string>
@@ -186,4 +187,8 @@
     <string name="incrementEntry_confirmationDialog_confirmLabel">Delete</string>
     <string name="incrementEntry_confirmationDialog_body_text">Are you sure you want to delete this entry? This action cannot be undone.</string>
     <string name="incrementEntry_confirmationDialog_title">Delete entry</string>
+    <string name="counterEntriesActivity_topbar_icon_back_contentDescription">Back</string>
+    <string name="counterEntriesActivity_topbar_title">%s\'s entries</string>
+    <string name="counterSettingsActivity_topbar_icon_back_contentDescription">Back</string>
+    <string name="counterSettingsActivity_topbar_title">%s\'s settings</string>
 </resources>

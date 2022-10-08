@@ -18,7 +18,7 @@ import rahmouni.neil.counters.counter_card.activity.health_connect.HealthConnect
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.healthConnect
-import rahmouni.neil.counters.options.ResetValueOption
+import rahmouni.neil.counters.options.ValueOption
 import rahmouni.neil.counters.utils.dialogs.ConfirmationDialog
 import rahmouni.neil.counters.utils.tiles.*
 import rahmouni.neil.counters.value_types.ValueType
@@ -82,8 +82,16 @@ fun CounterSettings(
         }
         if (remoteConfig.getBoolean("issue79__goals")) {
             item {
-                TileEndSwitch(checked = false, onChange = {}) {
-
+                ValueOption(
+                    //TODO i18n
+                    title = "Goal",
+                    secondaryFormatter = null,
+                    icon = Icons.Outlined.EmojiEvents,
+                    dialogTitle = "Set goal to",
+                    valueType = counter?.valueType ?: ValueType.NUMBER,
+                    value = counter?.resetValue ?: 0,
+                ) {
+                    //TODO
                 }
             }
         }
@@ -114,8 +122,14 @@ fun CounterSettings(
                 }
             }
         }
+
+        // ResetValue
         item {
-            ResetValueOption(
+            ValueOption(
+                title = stringResource(R.string.counterSettings_tile_resetValue_title),
+                secondaryFormatter = R.string.counterSettings_tile_resetValue_secondaryFormatter,
+                icon = Icons.Outlined.Pin,
+                dialogTitle = stringResource(R.string.counterSettings_tile_resetValue_dialogTitle),
                 valueType = counter?.valueType ?: ValueType.NUMBER,
                 value = counter?.resetValue ?: 0,
                 enabled = counter?.resetType != ResetType.NEVER

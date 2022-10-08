@@ -30,7 +30,7 @@
                 android:resource="@array/health_permissions" />
         </activity>
         <activity
-            android:name=".counter_card.activity.CounterActivity"
+            android:name=".counterActivity.CounterActivity"
             android:theme="@style/Theme.Counters">
         </activity>
         <activity
@@ -63,15 +63,25 @@
         <activity
             android:name=".counter_card.activity.health_connect.HealthConnectSettingsActivity"
             android:exported="true"
-            android:theme="@style/Theme.Counters">
-        </activity>
-        <activity android:name=".counter_card.activity.health_connect.HealthConnectSetupActivity" android:exported="true">
+            android:theme="@style/Theme.Counters"></activity>
+        <activity
+            android:name=".counter_card.activity.health_connect.HealthConnectSetupActivity"
+            android:exported="true">
             <intent-filter>
-                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE"/>
+                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
             </intent-filter>
-            <meta-data android:name="health_permissions"
+            <meta-data
+                android:name="health_permissions"
                 android:resource="@array/health_permissions" />
         </activity>
+        <activity
+            android:name=".counterActivity.CounterEntriesActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Counters"></activity>
+        <activity
+            android:name=".counterActivity.CounterSettingsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Counters"></activity>
     </application>
 
     <queries>

@@ -2,7 +2,7 @@
 <defaultsMap>
     <entry>
         <key>privacy_policy_url</key>
-        <value>https://counters.page.link/privacyPolicy1</value>
+        <value>https://gitlab.com/neil3000/counters/-/wikis/Privacy-policy</value>
     </entry>
     <entry>
         <key>feedback_email</key>
@@ -14,11 +14,7 @@
     </entry>
     <entry>
         <key>changelog_url</key>
-        <value>https://counters.page.link/changelog1</value>
-    </entry>
-    <entry>
-        <key>contribute_translate_banner</key>
-        <value>{"title": null, "language": null}</value>
+        <value>https://gitlab.com/neil3000/counters/-/wikis/Changelog</value>
     </entry>
     <entry>
         <key>healthConnect_androidMinSdk_url</key>
@@ -30,7 +26,8 @@
     </entry>
     <entry>
         <key>healthConnect_playStore_url</key>
-        <value>https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata</value>
+        <value>https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata
+        </value>
     </entry>
     <entry>
         <key>contributor_tag</key>
@@ -38,7 +35,11 @@
     </entry>
     <entry>
         <key>help_url</key>
-        <value>https://counters.page.link/help1</value>
+        <value>https://gitlab.com/neil3000/counters/-/wikis/Help</value>
+    </entry>
+    <entry>
+        <key>latest_entries_count</key>
+        <value>5</value>
     </entry>
 
     <!-- EXPERIMENTS -->
@@ -52,6 +53,26 @@
     </entry>
     <entry>
         <key>issue79__goals</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>issue182__move_changelog</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>issue185__remove_help_translate</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>issue186__discord_invite</key>
+        <value>null</value>
+    </entry>
+    <entry>
+        <key>issue189__patch</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>issue190__revamp_counter_screen</key>
         <value>false</value>
     </entry>
 </defaultsMap>

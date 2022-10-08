@@ -1,25 +1,23 @@
 package rahmouni.neil.counters.counter_card
 
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
-import rahmouni.neil.counters.counter_card.activity.CounterActivity
+import rahmouni.neil.counters.counterActivity.CounterActivity
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.prefs
-import rahmouni.neil.counters.settings.Prefs
-import rahmouni.neil.counters.utils.booleanLiveData
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -78,7 +76,19 @@ fun CounterCard(
                 buttons.forEach {
                     it.CardButton(data.toCounter(), countersListViewModel)
                 }
-                data.valueType.largeDisplay(this, data.count + data.resetValue, context)
+                if (arrayOf(
+                        "mon amour pour maï",
+                        "my love for maï"
+                    ).contains(data.displayName.lowercase().removeSurrounding(" "))
+                ) {
+                    Text(
+                        "∞",
+                        Modifier.padding(start = 8.dp),
+                        style = MaterialTheme.typography.headlineLarge
+                    )
+                } else {
+                    data.valueType.largeDisplay(this, data.count + data.resetValue, context, true)
+                }
                 end?.CardButton(data.toCounter(), countersListViewModel)
             }
         }

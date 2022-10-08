@@ -18,6 +18,7 @@ fun TileClick(
     icon: ImageVector?,
     modifier: Modifier = Modifier,
     description: String? = null,
+    singleLineSecondaryText: Boolean = true,
     onClick: () -> Unit
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
@@ -27,7 +28,7 @@ fun TileClick(
         secondaryText = if (description != null) {
             { Text(description) }
         } else null,
-        singleLineSecondaryText = true,
+        singleLineSecondaryText = singleLineSecondaryText,
         icon = if (icon != null) {
             { Icon(icon, null) }
         } else null,

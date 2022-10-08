@@ -12,7 +12,6 @@ import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,7 +24,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
-import rahmouni.neil.counters.prefs
 import kotlin.math.roundToInt
 
 const val CORNER_RADIUS = 16
@@ -79,11 +77,6 @@ fun RoundedBottomSheet(
                             color = MaterialTheme.colorScheme.onSurface,
                             shape = RoundedCornerShape(16.dp)
                         ) {}
-                    }
-                    if (prefs.debugMode) {
-                        item {
-                            Text("screenHeight=" + localConfiguration.screenHeightDp * context.resources.displayMetrics.density + " | reachTop=" + reachTop + " | cornerRadius=" + getCornerRadius())
-                        }
                     }
                     item {
                         content()

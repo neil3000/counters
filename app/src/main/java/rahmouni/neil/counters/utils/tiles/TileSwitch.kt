@@ -23,6 +23,7 @@ fun TileSwitch(
     icon: ImageVector,
     checked: Boolean,
     enabled: Boolean = true,
+    singleLineSecondaryText: Boolean = true,
     onChange: (Boolean) -> Unit
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
@@ -33,7 +34,7 @@ fun TileSwitch(
         secondaryText = if (description != null) {
             { Text(description) }
         } else null,
-        singleLineSecondaryText = true,
+        singleLineSecondaryText = singleLineSecondaryText,
         icon = { Icon(icon, null) },
         trailing = {
             Switch(checked = checked, onCheckedChange = null)

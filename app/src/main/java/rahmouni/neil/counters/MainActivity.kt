@@ -32,7 +32,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.navigationBarsPadding
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
@@ -187,8 +186,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
 
                                 bottomSheetNewCounterState.animateTo(ModalBottomSheetValue.Expanded)
                             }
-                        },
-                        modifier = Modifier.navigationBarsPadding()
+                        }
                     )
                 }
             ) {
