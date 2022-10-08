@@ -9,6 +9,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.spacedBy
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
@@ -233,36 +235,55 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
 
                     if (rc.getBoolean("issue190__revamp_counter_screen")) {
                         if (counter != null && increments != null) {
-                            Column {
-                                Column(
-                                    Modifier.fillMaxWidth(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = spacedBy(24.dp)
-                                ) {
-                                    MainCount(
-                                        count = counter!!.count + counter!!.resetValue,
-                                        valueType = counter!!.valueType
-                                    )
-
-                                    StatCountProvider(counter!!, countersListViewModel)
-
-                                    // SuggestionChips (WIP)
-                                    /*
-                                    Row(horizontalArrangement = spacedBy(8.dp)) {
-                                        AssistChip(
-                                            onClick = {  },
-                                            label = { Text("Edit name") },
-                                            leadingIcon = {
-                                                Icon(
-                                                    Icons.Outlined.AutoAwesome,
-                                                    null,
-                                                    Modifier.scale(.85f)
-                                                )
-                                            }
+                            LazyVerticalGrid(
+                                columns = GridCells.Adaptive(minSize = 400.dp),
+                                Modifier.fillMaxSize(),
+                                verticalArrangement = spacedBy(24.dp)
+                            ) {
+                                item {
+                                    Column(
+                                        Modifier.fillMaxWidth(),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = spacedBy(24.dp)
+                                    ) {
+                                        MainCount(
+                                            count = counter!!.count + counter!!.resetValue,
+                                            valueType = counter!!.valueType
                                         )
-                                    }*/
 
-                                    LatestEntries(increments!!, countersListViewModel, counter!!)
+                                        StatCountProvider(counter!!, countersListViewModel)
+
+                                        // SuggestionChips (WIP)
+                                        /*
+                                        Row(horizontalArrangement = spacedBy(8.dp)) {
+                                            AssistChip(
+                                                onClick = {  },
+                                                label = { Text("Edit name") },
+                                                leadingIcon = {
+                                                    Icon(
+                                                        Icons.Outlined.AutoAwesome,
+                                                        null,
+                                                        Modifier.scale(.85f)
+                                                    )
+                                                }
+                                            )
+                                        }*/
+                                    }
+                                }
+                                item {
+                                    Column(
+                                        Modifier
+                                            .padding(16.dp)
+                                            .fillMaxWidth(),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = spacedBy(24.dp)
+                                    ) {
+                                        LatestEntries(
+                                            increments!!,
+                                            countersListViewModel,
+                                            counter!!
+                                        )
+                                    }
                                 }
                             }
                         }
