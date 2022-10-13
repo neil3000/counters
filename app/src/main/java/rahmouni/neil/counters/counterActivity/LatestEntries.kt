@@ -24,7 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import rahmouni.neil.counters.R
 import rahmouni.neil.counters.counter_card.activity.IncrementEntry
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
@@ -94,7 +96,7 @@ fun LatestEntries(
                         ) {
                             Icon(Icons.Outlined.List, null)
                             Text(
-                                "Latest entries",
+                                stringResource(R.string.latestEntries_title),
                                 style = MaterialTheme.typography.titleMedium,
                                 modifier = Modifier.padding(bottom = 2.dp)
                             )
