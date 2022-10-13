@@ -25,7 +25,6 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.counter_card.activity.IncrementEntry
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
@@ -36,9 +35,9 @@ import java.lang.Integer.min
 fun LatestEntries(
     increments: List<Increment>,
     countersListViewModel: CountersListViewModel,
-    counter: CounterAugmented
+    counter: CounterAugmented,
+    big: Boolean
 ) {
-    val rc = FirebaseRemoteConfig.getInstance()
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
 
@@ -108,13 +107,10 @@ fun LatestEntries(
         }
 
 
-        increments.take(rc.getLong("latest_entries_count").toInt())
+        val rowCount = if (big) 8 else 5
+        increments.take(rowCount)
             .forEachIndexed { index, increment ->
-                val isLast =
-                    index == min(
-                        rc.getLong("latest_entries_count").toInt(),
-                        increments.size
-                    ) - 1
+                val isLast = index == min(rowCount, increments.size) - 1
 
                 AnimatedVisibility(
                     visible = spawn,

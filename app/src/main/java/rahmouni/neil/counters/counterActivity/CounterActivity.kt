@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
@@ -270,7 +271,11 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                         }*/
                                     }
                                 }
-                                item {
+                                var big = false
+                                item(span = {
+                                    big = maxLineSpan > 1
+                                    GridItemSpan(1)
+                                }) {
                                     Column(
                                         Modifier
                                             .padding(16.dp)
@@ -281,7 +286,8 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                         LatestEntries(
                                             increments!!,
                                             countersListViewModel,
-                                            counter!!
+                                            counter!!,
+                                            big
                                         )
                                     }
                                 }

@@ -37,10 +37,6 @@
         <key>help_url</key>
         <value>https://gitlab.com/neil3000/counters/-/wikis/Help</value>
     </entry>
-    <entry>
-        <key>latest_entries_count</key>
-        <value>5</value>
-    </entry>
 
     <!-- EXPERIMENTS -->
     <entry>
