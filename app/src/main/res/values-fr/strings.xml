@@ -185,4 +185,13 @@
     <string name="incrementEntry_confirmationDialog_confirmLabel">Supprimer</string>
     <string name="incrementEntry_confirmationDialog_body_text">Êtes-vous sûr de vouloir supprimer cette entrée ? Cette opération ne pourra pas être annulée.</string>
     <string name="incrementEntry_confirmationDialog_title">Supprimer l\'entrée</string>
+    <string name="counterEntriesActivity_topbar_icon_back_contentDescription">Retour</string>
+    <string name="counterEntriesActivity_topbar_title">Entrées de %s</string>
+    <string name="counterSettingsActivity_topbar_icon_back_contentDescription">Retour</string>
+    <string name="counterSettingsActivity_topbar_title">Paramètres de %s</string>
+    <string name="latestEntries_title">Dernières entrées</string>
+    <string name="statCountType_thisWeek_title">Cette semaine</string>
+    <string name="statCountType_thisMonth_title">Ce mois-ci</string>
+    <string name="statCountType_lastWeek_title">La semaine dernière</string>
+    <string name="statCountType_lastMonth_title">Le mois dernier</string>
 </resources>

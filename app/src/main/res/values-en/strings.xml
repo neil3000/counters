@@ -185,4 +185,13 @@
     <string name="incrementEntry_confirmationDialog_confirmLabel">Delete</string>
     <string name="incrementEntry_confirmationDialog_body_text">Are you sure you want to delete this entry? This action cannot be undone.</string>
     <string name="incrementEntry_confirmationDialog_title">Delete entry</string>
+    <string name="counterEntriesActivity_topbar_icon_back_contentDescription">Back</string>
+    <string name="counterEntriesActivity_topbar_title">%s\'s entries</string>
+    <string name="counterSettingsActivity_topbar_icon_back_contentDescription">Back</string>
+    <string name="counterSettingsActivity_topbar_title">%s\'s settings</string>
+    <string name="latestEntries_title">Latest entries</string>
+    <string name="statCountType_thisWeek_title">This week</string>
+    <string name="statCountType_thisMonth_title">This month</string>
+    <string name="statCountType_lastWeek_title">Previous week</string>
+    <string name="statCountType_lastMonth_title">Previous month</string>
 </resources>
