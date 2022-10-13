@@ -49,8 +49,7 @@ fun LatestEntries(
 
     Column(
         verticalArrangement = spacedBy(2.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(horizontal = 16.dp)
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Title
         AnimatedVisibility(
