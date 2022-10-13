@@ -174,25 +174,47 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
     ) {
         Scaffold(
             topBar = {
-                CenterAlignedTopAppBar(
-                    title = { Text(counter?.displayName ?: "Counter") },
-                    actions = { SettingsDots(screenName = "CounterActivity") {} },
-                    navigationIcon = {
-                        IconButton(
-                            onClick = {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                if (rc.getBoolean("issue190__revamp_counter_screen")) {
+                    CenterAlignedTopAppBar(
+                        title = { Text(counter?.displayName ?: "Counter") },
+                        actions = { SettingsDots(screenName = "CounterActivity") {} },
+                        navigationIcon = {
+                            IconButton(
+                                onClick = {
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                                activity.finish()
-                            },
-                            modifier = Modifier.testTag("BACK_ARROW")
-                        ) {
-                            Icon(
-                                Icons.Outlined.ArrowBack,
-                                contentDescription = stringResource(R.string.counterActivity_topbar_icon_back_contentDescription)
-                            )
+                                    activity.finish()
+                                },
+                                modifier = Modifier.testTag("BACK_ARROW")
+                            ) {
+                                Icon(
+                                    Icons.Outlined.ArrowBack,
+                                    contentDescription = stringResource(R.string.counterActivity_topbar_icon_back_contentDescription)
+                                )
+                            }
                         }
-                    }
-                )
+                    )
+                } else {
+                    TopAppBar(
+                        title = { Text(counter?.displayName ?: "Counter") },
+                        actions = { SettingsDots(screenName = "CounterActivity") {} },
+                        navigationIcon = {
+                            IconButton(
+                                onClick = {
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                                    activity.finish()
+                                },
+                                modifier = Modifier.testTag("BACK_ARROW")
+                            ) {
+                                Icon(
+                                    Icons.Outlined.ArrowBack,
+                                    contentDescription = stringResource(R.string.counterActivity_topbar_icon_back_contentDescription)
+                                )
+                            }
+                        }
+                    )
+                }
             },
             content = { innerPadding ->
                 Row(Modifier.padding(innerPadding)) {
