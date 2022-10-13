@@ -24,7 +24,7 @@ enum class ValueType(
     val formatAsString: (count: Int, context: Context) -> String,
     val hasStats: Boolean,
     val hasHealthConnectIntegration: Boolean,
-    val largeDisplay: @Composable RowScope.(count: Int, context: Context) -> Unit,
+    val largeDisplay: @Composable RowScope.(count: Int, context: Context, padding: Boolean) -> Unit,
     val mediumDisplay: @Composable (count: Int, context: Context) -> Unit,
     val smallDisplay: @Composable (count: Int, context: Context) -> Unit,
 ) : TileDialogRadioListEnum {
@@ -41,7 +41,7 @@ enum class ValueType(
         { count, _ -> count.toString() },
         true,
         true,
-        { count, _ ->
+        { count, _, padding ->
             AnimatedContent(
                 targetState = count,
                 transitionSpec = {
@@ -57,8 +57,9 @@ enum class ValueType(
             { targetValue ->
                 androidx.compose.material3.Text(
                     targetValue.toString(),
-                    Modifier.padding(start = 8.dp),
-                    style = MaterialTheme.typography.headlineLarge
+                    Modifier.padding(start = if (padding) 8.dp else 0.dp),
+                    style = MaterialTheme.typography.headlineLarge,
+                    textAlign = TextAlign.Center
                 )
             }
         },
@@ -112,13 +113,14 @@ enum class ValueType(
         },
         false,
         false,
-        { count, context ->
+        { count, context, padding ->
             AnimatedContent(targetState = TASK.formatAsString(count, context))
             { targetValue ->
                 androidx.compose.material3.Text(
                     targetValue,
-                    Modifier.padding(start = 8.dp),
-                    style = MaterialTheme.typography.headlineMedium
+                    Modifier.padding(start = if (padding) 8.dp else 0.dp),
+                    style = MaterialTheme.typography.headlineMedium,
+                    textAlign = TextAlign.Center
                 )
             }
         },

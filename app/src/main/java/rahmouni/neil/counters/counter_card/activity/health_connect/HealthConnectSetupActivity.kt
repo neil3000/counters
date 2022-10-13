@@ -28,6 +28,8 @@ import androidx.health.connect.client.permission.Permission
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.healthConnect
@@ -41,6 +43,8 @@ class HealthConnectSetupActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        Firebase.dynamicLinks.getDynamicLink(intent)
 
         val requestPermissionActivityContract =
             healthConnect.client?.permissionController?.createRequestPermissionActivityContract()
@@ -90,7 +94,7 @@ fun HealthConnectSetupPage(
 
     Scaffold(
         topBar = {
-            SmallTopAppBar(
+            TopAppBar(
                 title = { },
                 actions = {
                     SettingsDots(screenName = "HealthConnectSetupActivity") {}
@@ -175,7 +179,7 @@ fun HealthConnectSetupPage(
                         if (permClicks < 2) {
                             hcActResult?.launch(healthConnect.permissions)
                             permClicks += 1
-                        }else{
+                        } else {
                             val launchIntent =
                                 activity.packageManager.getLaunchIntentForPackage("com.google.android.apps.healthdata")
                             if (launchIntent != null) {

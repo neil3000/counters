@@ -42,6 +42,8 @@ fun CounterEntries(
     counter: CounterAugmented?,
     increments: List<Increment>?,
     countersListViewModel: CountersListViewModel,
+    alignLeft: Boolean = true,
+    contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     val context = LocalContext.current
     //val remoteConfig = FirebaseRemoteConfig.getInstance()
@@ -70,74 +72,81 @@ fun CounterEntries(
             dataReady = true
         }
 
-        Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(4.dp),
-                horizontalArrangement = Arrangement.spacedBy(
-                    8.dp,
-                    Alignment.CenterHorizontally
-                )
-            ) {
-                for (groupType in GroupType.values()) {
-                    FilterChip(
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                            selectedLabelColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedLeadingIconColor = MaterialTheme.colorScheme.onTertiaryContainer
-                        ),
-                        selected = groupType.resetType == resetType,
-                        onClick = {
-                            localHapticFeedback.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+        AnimatedVisibility(visible = dataReady, enter = fadeIn(), exit = fadeOut()) {
+            LazyColumn(contentPadding = contentPadding) {
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp, start = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            8.dp,
+                            if (alignLeft) Alignment.Start else Alignment.CenterHorizontally
+                        )
+                    ) {
+                        for (groupType in GroupType.values()) {
+                            FilterChip(
+                                colors = FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                                    selectedLeadingIconColor = MaterialTheme.colorScheme.onTertiaryContainer
+                                ),
+                                selected = groupType.resetType == resetType,
+                                onClick = {
+                                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.TextHandleMove)
 
-                            if (groupType.resetType == resetType) {
-                                resetType = ResetType.NEVER
-                                entriesListData =
-                                    EntriesListData(ResetType.NEVER, incrementGroupsList)
-                            } else {
-                                if (groupType.resetType != ResetType.DAY) {
-                                    dataReady = false
-                                } else {
-                                    entriesListData =
-                                        EntriesListData(groupType.resetType, incrementGroupsList)
-                                }
-                                resetType = groupType.resetType
-                            }
-                        },
-                        label = { Text(stringResource(groupType.title)) }
-                    )
+                                    if (groupType.resetType == resetType) {
+                                        resetType = ResetType.NEVER
+                                        entriesListData =
+                                            EntriesListData(ResetType.NEVER, incrementGroupsList)
+                                    } else {
+                                        if (groupType.resetType != ResetType.DAY) {
+                                            dataReady = false
+                                        } else {
+                                            entriesListData =
+                                                EntriesListData(
+                                                    groupType.resetType,
+                                                    incrementGroupsList
+                                                )
+                                        }
+                                        resetType = groupType.resetType
+                                    }
+                                },
+                                label = { Text(stringResource(groupType.title)) }
+                            )
+                        }
+                    }
                 }
-            }
 
-            AnimatedVisibility(visible = dataReady, enter = fadeIn(), exit = fadeOut()) {
-                LazyColumn {
-                    if (entriesListData.resetType.entriesGroup1 == null) {
-                        items(increments) { increment ->
+                if (entriesListData.resetType.entriesGroup1 == null) {
+                    items(increments) { increment ->
+                        Box(Modifier.padding(start = 8.dp)) {
                             IncrementEntry(increment, countersListViewModel, counter.valueType)
                         }
-                    } else {
-                        for (ig in entriesListData.incrementGroupsList) {
-                            val date = Calendar.getInstance()
-                            date.clear()
-                            date.time = SimpleDateFormat("yyyy-MM-dd").parse(ig.date)!!
+                    }
+                } else {
+                    for (ig in entriesListData.incrementGroupsList) {
+                        val date = Calendar.getInstance()
+                        date.clear()
+                        date.time = SimpleDateFormat("yyyy-MM-dd").parse(ig.date)!!
 
-                            item {
-                                HeaderEndValue(
-                                    title = entriesListData.resetType.format(date, context)
-                                        ?: stringResource(entriesListData.resetType.headerTitle)
-                                ) {
-                                    counter.valueType.mediumDisplay(
-                                        ig.count + counter.resetValue,
-                                        context
-                                    )
-                                }
+                        item {
+                            HeaderEndValue(
+                                title = entriesListData.resetType.format(date, context)
+                                    ?: stringResource(entriesListData.resetType.headerTitle)
+                            ) {
+                                counter.valueType.mediumDisplay(
+                                    ig.count + counter.resetValue,
+                                    context
+                                )
                             }
-                            items(increments.filter {
-                                ig.uids.split(
-                                    ','
-                                ).contains(it.uid.toString())
-                            }) {
+                        }
+                        items(increments.filter {
+                            ig.uids.split(
+                                ','
+                            ).contains(it.uid.toString())
+                        }) {
+                            Box(Modifier.padding(start = 8.dp)) {
                                 IncrementEntry(
                                     it,
                                     countersListViewModel,

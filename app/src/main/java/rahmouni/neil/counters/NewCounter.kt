@@ -7,6 +7,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material.icons.outlined.Event
+import androidx.compose.material.icons.outlined.Pin
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -23,7 +24,7 @@ import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.options.CounterStyleOption
-import rahmouni.neil.counters.options.ResetValueOption
+import rahmouni.neil.counters.options.ValueOption
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
 import rahmouni.neil.counters.utils.tiles.tile_color_selection.Size
 import rahmouni.neil.counters.value_types.ValueType
@@ -89,7 +90,15 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
             resetType = it as ResetType
         }
         Divider(Modifier.padding(horizontal = 16.dp))
-        ResetValueOption(valueType, resetValue, resetType != ResetType.NEVER) {
+        ValueOption(
+            title = stringResource(R.string.counterSettings_tile_resetValue_title),
+            secondaryFormatter = R.string.counterSettings_tile_resetValue_secondaryFormatter,
+            icon = Icons.Outlined.Pin,
+            dialogTitle = stringResource(R.string.counterSettings_tile_resetValue_dialogTitle),
+            valueType,
+            resetValue,
+            resetType != ResetType.NEVER
+        ) {
             resetValue = it
         }
 

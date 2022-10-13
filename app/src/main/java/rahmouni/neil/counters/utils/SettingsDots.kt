@@ -1,8 +1,10 @@
 package rahmouni.neil.counters.utils
 
+import android.app.Activity
 import android.content.Intent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Feedback
+import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -12,18 +14,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.utils.feedback.FeedbackActivity
 
 @Composable
 fun SettingsDots(
     feedback: Boolean = true,
+    help: Boolean = true,
     screenName: String,
-    feedbackDivider: Boolean = false,
+    divider: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
-    val context = LocalContext.current
+    val activity = LocalContext.current as Activity
+    val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -45,17 +50,33 @@ fun SettingsDots(
     ) {
         content()
 
-        if (feedback) {
-            if (feedbackDivider) Divider()
+        if (divider) Divider()
+        if (help) {
+            // Help
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.settingsDots_dropdownMenuItem_help_text)) },
+                onClick = {
+                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
+                    openChromeCustomTab(activity, remoteConfig.getString("help_url"))
+                },
+                leadingIcon = {
+                    Icon(
+                        Icons.Outlined.HelpOutline,
+                        contentDescription = null
+                    )
+                }
+            )
+        }
+        if (feedback) {
             // Feedback
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.settingsDots_dropdownMenuItem_feedback_text)) },
                 onClick = {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                    context.startActivity(
-                        Intent(context, FeedbackActivity::class.java).putExtra(
+                    activity.startActivity(
+                        Intent(activity, FeedbackActivity::class.java).putExtra(
                             "screenName",
                             screenName
                         )

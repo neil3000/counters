@@ -32,7 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.navigationBarsPadding
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.counter_card.CounterCard
@@ -52,6 +52,8 @@ class MainActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+        FirebaseDynamicLinks.getInstance()
 
         val countersListViewModel by viewModels<CountersListViewModel> {
             CountersListViewModelFactory((this.applicationContext as CountersApplication).countersListRepository)
@@ -149,7 +151,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
                             }
                         },
                         actions = {
-                            SettingsDots(screenName = "MainActivity") {
+                            SettingsDots(screenName = "MainActivity", divider = true) {
                                 DropdownMenuItem(
                                     text = { Text(stringResource(R.string.mainActivity_topbar_settings)) },
                                     leadingIcon = {
@@ -184,8 +186,7 @@ fun Home(countersListViewModel: CountersListViewModel) {
 
                                 bottomSheetNewCounterState.animateTo(ModalBottomSheetValue.Expanded)
                             }
-                        },
-                        modifier = Modifier.navigationBarsPadding()
+                        }
                     )
                 }
             ) {

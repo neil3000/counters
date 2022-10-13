@@ -27,12 +27,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
+import rahmouni.neil.counters.utils.openChromeCustomTab
 import rahmouni.neil.counters.utils.openPlayStoreUrl
 import rahmouni.neil.counters.utils.sendEmail
 import rahmouni.neil.counters.utils.tiles.*
@@ -43,6 +46,8 @@ class SettingsActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+        Firebase.dynamicLinks.getDynamicLink(intent)
 
         setContent {
             CountersTheme {
@@ -147,6 +152,16 @@ fun SettingsPage() {
 
             // About
             item { TileHeader(stringResource(R.string.settingsActivity_tile_about_headerTitle)) }
+            if (remoteConfig.getBoolean("issue182__move_changelog")) {
+                // Changelog
+                item {
+                    TileOpenCustomTab(
+                        title = stringResource(R.string.settingsActivity_tile_changelog_title),
+                        icon = Icons.Outlined.NewReleases,
+                        url = remoteConfig.getString("changelog_url")
+                    )
+                }
+            }
             // OpenPlayStorePage
             item {
                 TileClick(
@@ -156,25 +171,45 @@ fun SettingsPage() {
                     openPlayStoreUrl(activity, remoteConfig.getString("play_store_url"))
                 }
             }
-            // Changelog
-            item {
-                TileOpenCustomTab(
-                    title = stringResource(R.string.settingsActivity_tile_changelog_title),
-                    icon = Icons.Outlined.NewReleases,
-                    url = remoteConfig.getString("changelog_url")
-                )
-            }
-            // HelpTranslate
-            item {
-                TileClick(
-                    title = stringResource(R.string.settingsActivity_tile_helpTranslate_title),
-                    icon = Icons.Outlined.Translate
-                ) {
-                    sendEmail(
-                        activity,
-                        remoteConfig.getString("feedback_email"),
-                        "Want to help translate"
+            if (!remoteConfig.getBoolean("issue182__move_changelog")) {
+                // Changelog
+                item {
+                    TileOpenCustomTab(
+                        title = stringResource(R.string.settingsActivity_tile_changelog_title),
+                        icon = Icons.Outlined.NewReleases,
+                        url = remoteConfig.getString("changelog_url")
                     )
+                }
+            }
+            if (!remoteConfig.getBoolean("issue185__remove_help_translate")) {
+                // HelpTranslate
+                item {
+                    TileClick(
+                        title = "Help translate the app",
+                        icon = Icons.Outlined.Translate
+                    ) {
+                        sendEmail(
+                            activity,
+                            remoteConfig.getString("feedback_email"),
+                            "Want to help translate"
+                        )
+                    }
+                }
+            }
+            if (remoteConfig.getString("issue186__discord_invite") != "null") {
+                // DiscordInvite
+                item {
+                    TileClick(
+                        title = stringResource(R.string.settingsActivity_tile_discordInvite_title),
+                        description = stringResource(R.string.settingsActivity_tile_discordInvite_secondary),
+                        icon = Icons.Outlined.Forum,
+                        singleLineSecondaryText = false
+                    ) {
+                        openChromeCustomTab(
+                            activity,
+                            remoteConfig.getString("issue186__discord_invite")
+                        )
+                    }
                 }
             }
 

@@ -25,6 +25,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
 import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
@@ -42,6 +44,8 @@ class CardSettingsActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        Firebase.dynamicLinks.getDynamicLink(intent)
 
         val counterID: Int = intent.getIntExtra("counterID", 0)
 

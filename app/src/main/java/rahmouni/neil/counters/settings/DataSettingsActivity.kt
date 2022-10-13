@@ -1,7 +1,9 @@
 package rahmouni.neil.counters.settings
 
 import android.app.Activity
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,6 +27,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.BuildConfig
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
@@ -32,7 +36,8 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
-import rahmouni.neil.counters.utils.tiles.TileConfirmation
+import rahmouni.neil.counters.utils.dialogs.ConfirmationDialog
+import rahmouni.neil.counters.utils.tiles.TileClick
 import rahmouni.neil.counters.utils.tiles.TileOpenCustomTab
 import rahmouni.neil.counters.utils.tiles.TileSwitch
 
@@ -42,6 +47,17 @@ class DataSettingsActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+        FirebaseDynamicLinks.getInstance()
+            .getDynamicLink(intent)
+            .addOnSuccessListener(this) { pendingDynamicLinkData: PendingDynamicLinkData? ->
+                var deepLink: Uri? = null
+                if (pendingDynamicLinkData != null) {
+                    deepLink = pendingDynamicLinkData.link
+                }
+
+                Log.e("RahNeil_N3:Counters", deepLink.toString())
+            }.addOnFailureListener { e -> Log.e("RahNeil_N3:Counters", e.toString()) }
 
         setContent {
             CountersTheme {
@@ -117,15 +133,23 @@ fun DataSettingsPage() {
             }
             item {
                 // ClearAppMetrics
-                TileConfirmation(
+                ConfirmationDialog(
                     title = stringResource(R.string.dataSettingsActivity_tile_clearAppMetrics_title),
+                    body = { Text(stringResource(R.string.dataSettingsActivity_tile_clearAppMetrics_dialogMessage)) },
                     icon = Icons.Outlined.RestartAlt,
-                    dialogMessage = stringResource(R.string.dataSettingsActivity_tile_clearAppMetrics_dialogMessage),
-                    dialogConfirm = stringResource(R.string.dataSettingsActivity_tile_clearAppMetrics_dialogConfirmation)
-                ) {
-                    analytics?.logEvent("reset_analytics", null)
+                    confirmLabel = stringResource(R.string.dataSettingsActivity_tile_clearAppMetrics_dialogConfirmation),
+                    onConfirm = {
+                        analytics?.logEvent("reset_analytics", null)
 
-                    analytics?.resetAnalyticsData()
+                        analytics?.resetAnalyticsData()
+                    }
+                ) {
+                    TileClick(
+                        stringResource(R.string.dataSettingsActivity_tile_clearAppMetrics_title),
+                        Icons.Outlined.RestartAlt
+                    ) {
+                        it()
+                    }
                 }
             }
             item {

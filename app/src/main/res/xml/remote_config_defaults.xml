@@ -17,10 +17,6 @@
         <value>https://gitlab.com/neil3000/counters/-/wikis/Changelog</value>
     </entry>
     <entry>
-        <key>contribute_translate_banner</key>
-        <value>{"title": null, "language": null}</value>
-    </entry>
-    <entry>
         <key>healthConnect_androidMinSdk_url</key>
         <value>https://developer.android.com/guide/health-and-fitness/health-connect/frequently-asked-questions#q_does_health_connect_support_android_phones_without_google_play_services_installed</value>
     </entry>
@@ -30,11 +26,16 @@
     </entry>
     <entry>
         <key>healthConnect_playStore_url</key>
-        <value>https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata</value>
+        <value>https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata
+        </value>
     </entry>
     <entry>
         <key>contributor_tag</key>
         <value>null</value>
+    </entry>
+    <entry>
+        <key>help_url</key>
+        <value>https://gitlab.com/neil3000/counters/-/wikis/Help</value>
     </entry>
 
     <!-- EXPERIMENTS -->
@@ -48,6 +49,26 @@
     </entry>
     <entry>
         <key>issue79__goals</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>issue182__move_changelog</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>issue185__remove_help_translate</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>issue186__discord_invite</key>
+        <value>null</value>
+    </entry>
+    <entry>
+        <key>issue189__patch</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>issue190__revamp_counter_screen</key>
         <value>false</value>
     </entry>
 </defaultsMap>

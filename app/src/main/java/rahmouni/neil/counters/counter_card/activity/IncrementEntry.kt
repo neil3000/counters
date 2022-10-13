@@ -3,7 +3,6 @@ package rahmouni.neil.counters.counter_card.activity
 import android.annotation.SuppressLint
 import android.text.format.DateFormat
 import android.text.format.DateUtils
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
@@ -11,6 +10,7 @@ import androidx.compose.material.ListItem
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -28,6 +28,7 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.Increment
+import rahmouni.neil.counters.utils.dialogs.ConfirmationDialog
 import rahmouni.neil.counters.value_types.ValueType
 import java.text.SimpleDateFormat
 import java.util.*
@@ -89,20 +90,29 @@ fun IncrementEntry(
             { Text(increment.notes) }
         } else null,
         trailing = {
-            IconButton(onClick = {
-                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                scope.launch {
-                    countersListViewModel.deleteIncrement(increment)
+            ConfirmationDialog(
+                title = stringResource(R.string.incrementEntry_confirmationDialog_title),
+                body = { Text(stringResource(R.string.incrementEntry_confirmationDialog_body_text)) },
+                icon = Icons.Outlined.DeleteForever,
+                confirmLabel = stringResource(R.string.incrementEntry_confirmationDialog_confirmLabel),
+                onConfirm = {
+                    scope.launch {
+                        countersListViewModel.deleteIncrement(increment)
+                    }
                 }
-            }) {
-                Icon(
-                    Icons.Outlined.Delete,
-                    stringResource(R.string.incrementEntry_icon_delete_contentDescription),
-                    tint = MaterialTheme.colorScheme.outline
-                )
+            ) {
+                IconButton(onClick = {
+                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                    it()
+                }) {
+                    Icon(
+                        Icons.Outlined.Delete,
+                        stringResource(R.string.incrementEntry_icon_delete_contentDescription),
+                        tint = MaterialTheme.colorScheme.outline
+                    )
+                }
             }
-        },
-        modifier = Modifier.padding(start = 8.dp)
+        }
     )
 }
