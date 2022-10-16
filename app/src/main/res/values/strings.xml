@@ -197,5 +197,5 @@
     <string name="statCountType_lastWeek_title">Previous week</string>
     <string name="statCountType_lastMonth_title">Previous month</string>
     <string name="settingsActivity_tile_feedback_title">Send feedback</string>
-    <string name="settingsActivity_tile_feedback_secondary">Tell us about new features you would want to see implemented, or bugs you encountered</string>
+    <string name="settingsActivity_tile_feedback_secondary">Tell us about new features you would want to see implemented, or bugs you encountered.</string>
 </resources>

@@ -194,4 +194,6 @@
     <string name="statCountType_thisMonth_title">Ce mois-ci</string>
     <string name="statCountType_lastWeek_title">La semaine dernière</string>
     <string name="statCountType_lastMonth_title">Le mois dernier</string>
+    <string name="settingsActivity_tile_feedback_title">Envoyer des commentaires</string>
+    <string name="settingsActivity_tile_feedback_secondary">Faites-nous part des nouvelles fonctionnalités que vous souhaiteriez voir ajoutées, ou des bugs que vous avez rencontrés.</string>
 </resources>
