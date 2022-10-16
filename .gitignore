@@ -14,4 +14,5 @@
 .cxx
 local.properties
 /app/release
-
+/app/minApi21
+/app/minApi27
