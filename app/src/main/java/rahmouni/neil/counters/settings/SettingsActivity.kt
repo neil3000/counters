@@ -214,7 +214,7 @@ fun SettingsPage() {
                     }
                 }
             }
-            if (remoteConfig.getString("issue195__feedback_tile") != "null") {
+            if (remoteConfig.getBoolean("issue195__feedback_tile")) {
                 // Feedback
                 item {
                     TileClick(
