@@ -71,4 +71,8 @@
         <key>issue190__revamp_counter_screen</key>
         <value>true</value>
     </entry>
+    <entry>
+        <key>issue196__patch</key>
+        <value>true</value>
+    </entry>
 </defaultsMap>
