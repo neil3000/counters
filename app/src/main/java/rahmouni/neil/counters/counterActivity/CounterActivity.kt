@@ -174,7 +174,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
     ) {
         Scaffold(
             topBar = {
-                if (rc.getBoolean("issue190__revamp_counter_screen")) {
+                if (rc.getBoolean("issue190__revamp_counter_screen2")) {
                     CenterAlignedTopAppBar(
                         title = { Text(counter?.displayName ?: "Counter") },
                         actions = { SettingsDots(screenName = "CounterActivity") {} },
@@ -256,7 +256,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                         }
                     }
 
-                    if (rc.getBoolean("issue190__revamp_counter_screen")) {
+                    if (rc.getBoolean("issue190__revamp_counter_screen2")) {
                         if (counter != null && increments != null) {
                             LazyVerticalGrid(
                                 columns = GridCells.Adaptive(minSize = 400.dp),
@@ -337,7 +337,7 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                 if (bottomBarVisible) {
                     BottomAppBar(
                         actions = {
-                            if (rc.getBoolean("issue190__revamp_counter_screen")) {
+                            if (rc.getBoolean("issue190__revamp_counter_screen2")) {
                                 IconButton(onClick = {
                                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
 
