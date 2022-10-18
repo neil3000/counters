@@ -1,6 +1,7 @@
 package rahmouni.neil.counters.counter_card.activity
 
 import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
@@ -12,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
+import rahmouni.neil.counters.MainActivity
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.counter_card.activity.health_connect.HealthConnectSettingsActivity
@@ -22,6 +24,7 @@ import rahmouni.neil.counters.options.ValueOption
 import rahmouni.neil.counters.utils.dialogs.ConfirmationDialog
 import rahmouni.neil.counters.utils.tiles.*
 import rahmouni.neil.counters.value_types.ValueType
+
 
 @Composable
 fun CounterSettings(
@@ -183,7 +186,10 @@ fun CounterSettings(
                 icon = Icons.Outlined.DeleteForever,
                 confirmLabel = stringResource(R.string.counterSettings_tile_delete_dialogConfirmButton),
                 onConfirm = {
-                    activity.finish()
+                    val mainAct = Intent(activity, MainActivity::class.java)
+                    mainAct.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    activity.startActivity(mainAct)
+
                     if (counter != null) {
                         countersListViewModel.deleteCounterById(counter.uid)
                     }
