@@ -13,8 +13,8 @@ android {
         applicationId "rahmouni.neil.counters"
         minSdk 21
         targetSdk 33
-        versionCode 57
-        versionName "1.23.0"
+        versionCode 58
+        versionName "1.23.1"
 
         resConfigs "en-rGB", "en", "fr"
 

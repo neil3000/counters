@@ -1,6 +1,7 @@
 package rahmouni.neil.counters.settings
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -35,6 +36,7 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
+import rahmouni.neil.counters.utils.feedback.FeedbackActivity
 import rahmouni.neil.counters.utils.openChromeCustomTab
 import rahmouni.neil.counters.utils.openPlayStoreUrl
 import rahmouni.neil.counters.utils.sendEmail
@@ -152,15 +154,13 @@ fun SettingsPage() {
 
             // About
             item { TileHeader(stringResource(R.string.settingsActivity_tile_about_headerTitle)) }
-            if (remoteConfig.getBoolean("issue182__move_changelog")) {
-                // Changelog
-                item {
-                    TileOpenCustomTab(
-                        title = stringResource(R.string.settingsActivity_tile_changelog_title),
-                        icon = Icons.Outlined.NewReleases,
-                        url = remoteConfig.getString("changelog_url")
-                    )
-                }
+            // Changelog
+            item {
+                TileOpenCustomTab(
+                    title = stringResource(R.string.settingsActivity_tile_changelog_title),
+                    icon = Icons.Outlined.NewReleases,
+                    url = remoteConfig.getString("changelog_url")
+                )
             }
             // OpenPlayStorePage
             item {
@@ -169,16 +169,6 @@ fun SettingsPage() {
                     icon = Icons.Outlined.StarOutline,
                 ) {
                     openPlayStoreUrl(activity, remoteConfig.getString("play_store_url"))
-                }
-            }
-            if (!remoteConfig.getBoolean("issue182__move_changelog")) {
-                // Changelog
-                item {
-                    TileOpenCustomTab(
-                        title = stringResource(R.string.settingsActivity_tile_changelog_title),
-                        icon = Icons.Outlined.NewReleases,
-                        url = remoteConfig.getString("changelog_url")
-                    )
                 }
             }
             if (!remoteConfig.getBoolean("issue185__remove_help_translate")) {
@@ -208,6 +198,24 @@ fun SettingsPage() {
                         openChromeCustomTab(
                             activity,
                             remoteConfig.getString("issue186__discord_invite")
+                        )
+                    }
+                }
+            }
+            if (remoteConfig.getBoolean("issue195__feedback_tile")) {
+                // Feedback
+                item {
+                    TileClick(
+                        title = stringResource(R.string.settingsActivity_tile_feedback_title),
+                        description = stringResource(R.string.settingsActivity_tile_feedback_secondary),
+                        icon = Icons.Outlined.Feedback,
+                        singleLineSecondaryText = false
+                    ) {
+                        activity.startActivity(
+                            Intent(activity, FeedbackActivity::class.java).putExtra(
+                                "screenName",
+                                "SettingsActivity"
+                            )
                         )
                     }
                 }
