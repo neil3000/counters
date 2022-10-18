@@ -72,6 +72,10 @@
         <value>true</value>
     </entry>
     <entry>
+        <key>issue195__feedback_tile</key>
+        <value>true</value>
+    </entry>
+    <entry>
         <key>issue196__patch</key>
         <value>true</value>
     </entry>
