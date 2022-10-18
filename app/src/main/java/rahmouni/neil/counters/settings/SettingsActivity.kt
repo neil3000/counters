@@ -154,15 +154,13 @@ fun SettingsPage() {
 
             // About
             item { TileHeader(stringResource(R.string.settingsActivity_tile_about_headerTitle)) }
-            if (remoteConfig.getBoolean("issue182__move_changelog")) {
-                // Changelog
-                item {
-                    TileOpenCustomTab(
-                        title = stringResource(R.string.settingsActivity_tile_changelog_title),
-                        icon = Icons.Outlined.NewReleases,
-                        url = remoteConfig.getString("changelog_url")
-                    )
-                }
+            // Changelog
+            item {
+                TileOpenCustomTab(
+                    title = stringResource(R.string.settingsActivity_tile_changelog_title),
+                    icon = Icons.Outlined.NewReleases,
+                    url = remoteConfig.getString("changelog_url")
+                )
             }
             // OpenPlayStorePage
             item {
@@ -171,16 +169,6 @@ fun SettingsPage() {
                     icon = Icons.Outlined.StarOutline,
                 ) {
                     openPlayStoreUrl(activity, remoteConfig.getString("play_store_url"))
-                }
-            }
-            if (!remoteConfig.getBoolean("issue182__move_changelog")) {
-                // Changelog
-                item {
-                    TileOpenCustomTab(
-                        title = stringResource(R.string.settingsActivity_tile_changelog_title),
-                        icon = Icons.Outlined.NewReleases,
-                        url = remoteConfig.getString("changelog_url")
-                    )
                 }
             }
             if (!remoteConfig.getBoolean("issue185__remove_help_translate")) {

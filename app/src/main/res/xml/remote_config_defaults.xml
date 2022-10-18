@@ -52,10 +52,6 @@
         <value>false</value>
     </entry>
     <entry>
-        <key>issue182__move_changelog</key>
-        <value>false</value>
-    </entry>
-    <entry>
         <key>issue185__remove_help_translate</key>
         <value>false</value>
     </entry>
