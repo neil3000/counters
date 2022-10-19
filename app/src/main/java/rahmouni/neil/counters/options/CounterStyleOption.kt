@@ -16,7 +16,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+//import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.utils.tiles.tile_color_selection.Size

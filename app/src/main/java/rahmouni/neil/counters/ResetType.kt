@@ -2,10 +2,10 @@ package rahmouni.neil.counters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import rahmouni.neil.counters.settings.WeekDisplay
-import rahmouni.neil.counters.utils.tiles.TileDialogRadioListEnum
 import java.text.SimpleDateFormat
 import java.util.*
+import rahmouni.neil.counters.settings.WeekDisplay
+import rahmouni.neil.counters.utils.tiles.TileDialogRadioListEnum
 
 enum class ResetType(
     private val title: Int,

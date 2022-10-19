@@ -23,6 +23,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
@@ -30,8 +32,6 @@ import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.Increment
 import rahmouni.neil.counters.utils.dialogs.ConfirmationDialog
 import rahmouni.neil.counters.value_types.ValueType
-import java.text.SimpleDateFormat
-import java.util.*
 
 @SuppressLint("SimpleDateFormat")
 @OptIn(ExperimentalMaterialApi::class)

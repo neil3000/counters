@@ -51,6 +51,7 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import java.util.regex.Pattern
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
@@ -66,7 +67,6 @@ import rahmouni.neil.counters.database.Increment
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 import rahmouni.neil.counters.utils.SettingsDots
-import java.util.regex.Pattern
 
 class CounterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

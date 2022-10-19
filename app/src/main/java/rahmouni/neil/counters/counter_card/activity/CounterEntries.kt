@@ -18,6 +18,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+//import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.*
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CounterAugmented
@@ -26,9 +30,6 @@ import rahmouni.neil.counters.database.Increment
 import rahmouni.neil.counters.database.IncrementGroup
 import rahmouni.neil.counters.utils.FullscreenDynamicSVG
 import rahmouni.neil.counters.utils.header.HeaderEndValue
-import java.io.Serializable
-import java.text.SimpleDateFormat
-import java.util.*
 
 data class EntriesListData(
     val resetType: ResetType,

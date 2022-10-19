@@ -30,10 +30,12 @@ class Prefs(context: Context) {
         get() = preferences.getBoolean("CRASHLYTICS", true)
         set(value) = preferences.edit().putBoolean("CRASHLYTICS", value).apply()
 
+    /*
     var contributeTranslateBannerDismissed: Boolean
         get() = preferences.getBoolean("CONTRIBUTE_TRANSLATE_BANNER_DISMISSED", false)
         set(value) = preferences.edit().putBoolean("CONTRIBUTE_TRANSLATE_BANNER_DISMISSED", value)
             .apply()
+     */
 
     // App start = 3
     // Add increment = 1

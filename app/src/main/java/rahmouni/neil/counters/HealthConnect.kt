@@ -7,8 +7,8 @@ import androidx.health.connect.client.records.ExerciseRepetitionsRecord
 import androidx.health.connect.client.records.ExerciseSessionRecord
 import androidx.health.connect.client.records.metadata.DataOrigin
 import androidx.health.connect.client.records.metadata.Metadata
-import rahmouni.neil.counters.counter_card.activity.health_connect.HealthConnectType
 import java.time.ZonedDateTime
+import rahmouni.neil.counters.counter_card.activity.health_connect.HealthConnectType
 
 class HealthConnect {
     var client: HealthConnectClient? = null

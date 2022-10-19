@@ -62,7 +62,8 @@
         <activity
             android:name=".counter_card.activity.health_connect.HealthConnectSettingsActivity"
             android:exported="true"
-            android:theme="@style/Theme.Counters"></activity>
+            android:theme="@style/Theme.Counters">
+        </activity>
         <activity
             android:name=".counter_card.activity.health_connect.HealthConnectSetupActivity"
             android:exported="true">
@@ -76,11 +77,13 @@
         <activity
             android:name=".counterActivity.CounterEntriesActivity"
             android:exported="true"
-            android:theme="@style/Theme.Counters"></activity>
+            android:theme="@style/Theme.Counters">
+        </activity>
         <activity
             android:name=".counterActivity.CounterSettingsActivity"
             android:exported="true"
-            android:theme="@style/Theme.Counters"></activity>
+            android:theme="@style/Theme.Counters">
+        </activity>
     </application>
 
     <queries>

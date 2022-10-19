@@ -26,12 +26,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import java.lang.Integer.min
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.counter_card.activity.IncrementEntry
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.Increment
-import java.lang.Integer.min
 
 @Composable
 fun LatestEntries(
