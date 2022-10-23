@@ -3,12 +3,12 @@ package rahmouni.neil.counters.database
 import android.content.Context
 import androidx.room.*
 import androidx.room.migration.AutoMigrationSpec
+import java.io.Serializable
 import kotlinx.coroutines.flow.Flow
 import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.counter_card.activity.health_connect.HealthConnectType
 import rahmouni.neil.counters.value_types.ValueType
-import java.io.Serializable
 
 @Database(
     entities = [Counter::class, Increment::class],

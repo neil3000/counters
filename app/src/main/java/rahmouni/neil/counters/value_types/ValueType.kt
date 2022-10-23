@@ -13,9 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlin.math.absoluteValue
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioListEnum
-import kotlin.math.absoluteValue
 
 enum class ValueType(
     private val title: Int,

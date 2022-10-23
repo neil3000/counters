@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="rahmouni.neil.counters">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:name=".CountersApplication"
@@ -63,7 +62,8 @@
         <activity
             android:name=".counter_card.activity.health_connect.HealthConnectSettingsActivity"
             android:exported="true"
-            android:theme="@style/Theme.Counters"></activity>
+            android:theme="@style/Theme.Counters">
+        </activity>
         <activity
             android:name=".counter_card.activity.health_connect.HealthConnectSetupActivity"
             android:exported="true">
@@ -77,11 +77,13 @@
         <activity
             android:name=".counterActivity.CounterEntriesActivity"
             android:exported="true"
-            android:theme="@style/Theme.Counters"></activity>
+            android:theme="@style/Theme.Counters">
+        </activity>
         <activity
             android:name=".counterActivity.CounterSettingsActivity"
             android:exported="true"
-            android:theme="@style/Theme.Counters"></activity>
+            android:theme="@style/Theme.Counters">
+        </activity>
     </application>
 
     <queries>

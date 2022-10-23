@@ -1,9 +1,9 @@
 package rahmouni.neil.counters.database
 
 import android.text.format.DateFormat
+import java.util.*
 import kotlinx.coroutines.flow.Flow
 import rahmouni.neil.counters.prefs
-import java.util.*
 
 class CountersListRepository(private val countersListDao: CountersListDao) {
     private val weekday = prefs.startWeekDay.groupQuery

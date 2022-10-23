@@ -23,6 +23,9 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+//import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import java.text.SimpleDateFormat
+import java.util.*
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CounterAugmented
@@ -32,8 +35,6 @@ import rahmouni.neil.counters.database.IncrementGroup
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.utils.FullscreenDynamicSVG
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
-import java.text.SimpleDateFormat
-import java.util.*
 
 @SuppressLint("SimpleDateFormat")
 @Composable
@@ -100,7 +101,7 @@ fun CounterGraph(
                                     var i = 0
                                     clear()
 
-                                    for (v in list) Log.i("RahNeil_N3", "v " + v.toString())
+                                    for (v in list) Log.i("RahNeil_N3", "v $v")
 
                                     val entries: ArrayList<BarEntry> = ArrayList()
 

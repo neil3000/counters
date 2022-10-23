@@ -2,14 +2,14 @@ package rahmouni.neil.counters.database
 
 import androidx.lifecycle.*
 import com.google.firebase.analytics.ktx.logEvent
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.healthConnect
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
 class CountersListViewModel(private val repository: CountersListRepository) : ViewModel() {
     val allCounters: LiveData<List<CounterAugmented>> = repository.allCounters.asLiveData()
