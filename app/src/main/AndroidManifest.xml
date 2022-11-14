@@ -84,6 +84,18 @@
             android:exported="true"
             android:theme="@style/Theme.Counters">
         </activity>
+        <activity
+            android:name=".settings.AccessibilitySettingsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Counters">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="counters.page.link" android:scheme="http" android:pathPattern="/accessibility.*"/>
+                <data android:host="counters.page.link" android:scheme="https" android:pathPattern="/accessibility.*"/>
+            </intent-filter>
+        </activity>
     </application>
 
     <queries>

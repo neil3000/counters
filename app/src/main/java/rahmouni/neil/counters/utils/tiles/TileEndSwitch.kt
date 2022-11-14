@@ -3,7 +3,6 @@ package rahmouni.neil.counters.utils.tiles
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +27,7 @@ fun TileEndSwitch(
                 .requiredWidth(1.dp)
                 .background(color = MaterialTheme.colorScheme.surfaceVariant)
         )
-        Switch(
+        rahmouni.neil.counters.utils.Switch(
             checked = checked,
             onCheckedChange = {
                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)

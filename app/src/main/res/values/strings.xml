@@ -198,4 +198,9 @@
     <string name="valueType_task_notDone">Not done</string>
     <string name="weekDisplay_firstDay">First day of the week</string>
     <string name="weekDisplay_number">Week number in year</string>
+    <string name="settingsActivity_tile_accessibility_title">Accessibility</string>
+    <string name="accessibilitySettingsActivity_topbar_title">Accessibility</string>
+    <string name="accessibilitySettingsActivity_topbar_icon_back_contentDescription">Back</string>
+    <string name="accessibilitySettingsActivity_tile_iconSwitches_title">Emphasize selected switches</string>
+    <string name="accessibilitySettingsActivity_tile_iconSwitches_secondary">Add a checkmark icon inside toggled on switches</string>
 </resources>
