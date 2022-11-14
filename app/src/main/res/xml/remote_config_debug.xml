@@ -75,4 +75,8 @@
         <key>issue196__patch</key>
         <value>true</value>
     </entry>
+    <entry>
+        <key>issue205__patch</key>
+        <value>true</value>
+    </entry>
 </defaultsMap>
