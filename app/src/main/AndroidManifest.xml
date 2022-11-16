@@ -72,7 +72,7 @@
             </intent-filter>
             <meta-data
                 android:name="health_permissions"
-                android:resource="@array/health_permissions" />
+                android:resource="@array/health_permissions"/>
         </activity>
         <activity
             android:name=".counterActivity.CounterEntriesActivity"

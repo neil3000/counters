@@ -26,7 +26,6 @@ import kotlinx.coroutines.launch
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.healthConnect
 
 @OptIn(
     ExperimentalComposeUiApi::class,
@@ -64,7 +63,7 @@ fun NewIncrement(
                     countersListViewModel.addIncrement(
                         value.toInt(),
                         counter.toCounter(),
-                        healthConnect.isAvailable() && counter.healthConnectEnabled,
+                        false,//TODO hc he.isAvailable() && counter.healthConnectEnabled,
                         date,
                         if (areNotesVisible) notes else null
                     )

@@ -36,7 +36,8 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
-import rahmouni.neil.counters.healthConnect
+import rahmouni.neil.counters.health_connect.HealthConnectAvailability
+import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.ActivityInfo
 import rahmouni.neil.counters.utils.SettingsDots
@@ -70,7 +71,11 @@ class HealthConnectSettingsActivity : ComponentActivity() {
                             tonalElevation = 1.dp,
                             color = MaterialTheme.colorScheme.surface
                         ) {
-                            HealthConnectSettingsPage(counterID, countersListViewModel)
+                            HealthConnectSettingsPage(
+                                counterID,
+                                countersListViewModel,
+                                (application as CountersApplication).healthConnectManager
+                            )
                         }
                     }
                 }
@@ -84,15 +89,17 @@ class HealthConnectSettingsActivity : ComponentActivity() {
 fun HealthConnectSettingsPage(
     counterID: Int,
     countersListViewModel: CountersListViewModel,
+    healthConnectManager: HealthConnectManager
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
     val lifecycleState by LocalLifecycleOwner.current.lifecycle.observeAsState()
+    val remoteConfig = FirebaseRemoteConfig.getInstance()
+    val availability by healthConnectManager.availability
 
     val counter: CounterAugmented? by countersListViewModel.getCounter(counterID).observeAsState()
-    var isAvailable by rememberSaveable { mutableStateOf(healthConnect.isAvailable()) }
+    val permissionsGranted = rememberSaveable { mutableStateOf(false) }
 
     var activityType by rememberSaveable {
         mutableStateOf(
@@ -100,12 +107,15 @@ fun HealthConnectSettingsPage(
         )
     }
 
-    LaunchedEffect(counter) {
-        activityType = counter?.healthConnectType ?: HealthConnectType.SQUAT
+    LaunchedEffect(lifecycleState) {
+        permissionsGranted.value =
+            availability == HealthConnectAvailability.INSTALLED && healthConnectManager.hasAllPermissions()
     }
 
-    LaunchedEffect(key1 = lifecycleState) {
-        isAvailable = healthConnect.isAvailable()
+    LaunchedEffect(Unit) {
+        activityType = counter?.healthConnectType ?: HealthConnectType.SQUAT
+        permissionsGranted.value =
+            availability == HealthConnectAvailability.INSTALLED && healthConnectManager.hasAllPermissions()
     }
 
     Scaffold(
@@ -160,8 +170,9 @@ fun HealthConnectSettingsPage(
             item {
                 HeaderSwitch(
                     title = stringResource(R.string.healthConnectSettingsActivity_header_title),
-                    checked = isAvailable && (counter?.healthConnectEnabled ?: false),
-                    enabled = isAvailable
+                    checked = permissionsGranted.value && (counter?.healthConnectEnabled
+                        ?: false),
+                    enabled = permissionsGranted.value
                 ) {
                     countersListViewModel.updateCounter(
                         counter!!.copy(
@@ -171,7 +182,7 @@ fun HealthConnectSettingsPage(
                 }
             }
             when {
-                isAvailable -> item {
+                permissionsGranted.value -> item {
                     TileHeader(stringResource(R.string.healthConnectSettingsActivity_tile_general_headerTitle))
                     TileDialogRadioList(
                         title = stringResource(R.string.healthConnectSettingsActivity_tile_activityType_title),
@@ -198,7 +209,7 @@ fun HealthConnectSettingsPage(
                     }
                     Divider()
                 }
-                healthConnect.hasSufficientSdk() -> item {
+                availability != HealthConnectAvailability.NOT_SUPPORTED -> item {
                     Banner(
                         title = stringResource(R.string.healthConnectSettingsActivity_banner_setup_title),
                         description = stringResource(R.string.healthConnectSettingsActivity_banner_setup_description),

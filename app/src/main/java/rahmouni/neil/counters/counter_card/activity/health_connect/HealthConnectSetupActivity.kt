@@ -1,10 +1,12 @@
 package rahmouni.neil.counters.counter_card.activity.health_connect
 
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -24,18 +26,18 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import androidx.health.connect.client.permission.Permission
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.healthConnect
+import rahmouni.neil.counters.health_connect.HealthConnectAvailability
+import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
-import rahmouni.neil.counters.utils.openPlayStoreUrl
 import rahmouni.neil.counters.utils.tiles.TileStep
 
 class HealthConnectSetupActivity : ComponentActivity() {
@@ -46,13 +48,12 @@ class HealthConnectSetupActivity : ComponentActivity() {
 
         Firebase.dynamicLinks.getDynamicLink(intent)
 
-        val requestPermissionActivityContract =
-            healthConnect.client?.permissionController?.createRequestPermissionActivityContract()
-        //val hcActResult = registerForActivityResult(HealthDataRequestPermissions()) {}
-        var hcActResult: ActivityResultLauncher<Set<Permission>>? = null
+        val healthConnectManager = (application as CountersApplication).healthConnectManager
+
+        /*var hcActResult: ActivityResultLauncher<Set<HealthPermission>>? = null
         if (requestPermissionActivityContract != null && healthConnect.permissions != null) {
-            hcActResult = registerForActivityResult(requestPermissionActivityContract) {}
-        }
+            hcActResult = registerForActivityResult(healthConnectManager.requestPermissionsActivityContract()) {}
+        }*/
         setContent {
             CountersTheme {
                 ProvideWindowInsets {
@@ -62,7 +63,7 @@ class HealthConnectSetupActivity : ComponentActivity() {
                             tonalElevation = 1.dp,
                             color = MaterialTheme.colorScheme.surface
                         ) {
-                            HealthConnectSetupPage(hcActResult)
+                            HealthConnectSetupPage(healthConnectManager)
                         }
                     }
                 }
@@ -74,23 +75,27 @@ class HealthConnectSetupActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
 fun HealthConnectSetupPage(
-    hcActResult: ActivityResultLauncher<Set<Permission>>?,
+    healthConnectManager: HealthConnectManager
+    //hcActResult: ActivityResultLauncher<Set<HealthPermission>>?,
 ) {
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
-    val context = LocalContext.current
     val remoteConfig = FirebaseRemoteConfig.getInstance()
     val lifecycleState by LocalLifecycleOwner.current.lifecycle.observeAsState()
+    val availability by healthConnectManager.availability
 
-    var clientAvailable by rememberSaveable { mutableStateOf(healthConnect.isClientAvailable()) }
-    var hasPermissions by rememberSaveable { mutableStateOf(healthConnect.hasPermissions()) }
+    val permissionsGranted = rememberSaveable { mutableStateOf(false) }
+
     var permClicks by rememberSaveable { mutableStateOf(0) }
 
     LaunchedEffect(key1 = lifecycleState) {
-        healthConnect.initialize(context)
-        clientAvailable = healthConnect.isClientAvailable()
-        hasPermissions = healthConnect.hasPermissions()
+        healthConnectManager.checkAvailability()
+        permissionsGranted.value =
+            availability == HealthConnectAvailability.INSTALLED && healthConnectManager.hasAllPermissions()
     }
+
+    val permissionsLauncher =
+        rememberLauncherForActivityResult(healthConnectManager.requestPermissionsActivityContract()) {}
 
     Scaffold(
         topBar = {
@@ -159,12 +164,15 @@ fun HealthConnectSetupPage(
                             1
                         ),
                         description = stringResource(R.string.healthConnectSetupActivity_tile_install_secondary),
-                        done = clientAvailable
+                        done = availability == HealthConnectAvailability.INSTALLED
                     ) {
-                        openPlayStoreUrl(
-                            activity,
-                            remoteConfig.getString("healthConnect_playStore_url")
-                        )
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.setPackage("com.android.vending")
+                        intent.data = Uri.parse("market://details").buildUpon()
+                            .appendQueryParameter("id", "com.google.android.apps.healthdata")
+                            .appendQueryParameter("url", "healthconnect://onboarding")
+                            .build()
+                        activity.startActivity(intent)
                     }
                     Divider()
                     TileStep(
@@ -173,11 +181,12 @@ fun HealthConnectSetupPage(
                             2
                         ),
                         description = stringResource(R.string.healthConnectSetupActivity_tile_permissions_secondary),
-                        done = hasPermissions,
-                        enabled = clientAvailable
+                        done = permissionsGranted.value,
+                        enabled = availability == HealthConnectAvailability.INSTALLED
                     ) {
                         if (permClicks < 2) {
-                            hcActResult?.launch(healthConnect.permissions)
+                            //hcActResult?.launch(healthConnectManager.PERMS)
+                            permissionsLauncher.launch(healthConnectManager.PERMS)
                             permClicks += 1
                         } else {
                             val launchIntent =
@@ -198,7 +207,7 @@ fun HealthConnectSetupPage(
                         Modifier
                             .padding(16.dp)
                             .fillMaxWidth(),
-                        enabled = clientAvailable && hasPermissions
+                        enabled = permissionsGranted.value
                     ) {
                         Text(stringResource(R.string.healthConnectSetupActivity_button_continue))
                     }

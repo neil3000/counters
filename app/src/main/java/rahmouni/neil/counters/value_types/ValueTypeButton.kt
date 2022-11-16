@@ -17,7 +17,6 @@ import androidx.compose.ui.res.stringResource
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.healthConnect
 import rahmouni.neil.counters.utils.tiles.TileClick
 import rahmouni.neil.counters.utils.tiles.TileEndSwitch
 import rahmouni.neil.counters.utils.tiles.TileSwitch
@@ -146,7 +145,7 @@ class ValueTypeButton(
                 countersListViewModel.addIncrement(
                     value(counter),
                     counter,
-                    healthConnect.isAvailable() && counter.healthConnectEnabled
+                    false //TODO hc healthConnect.isAvailable() && counter.healthConnectEnabled
                 )
             }
         }) {

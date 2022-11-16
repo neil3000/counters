@@ -25,11 +25,6 @@
         <value>https://gitlab.com/neil3000/counters/-/wikis/Health-Connect-error</value>
     </entry>
     <entry>
-        <key>healthConnect_playStore_url</key>
-        <value>https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata
-        </value>
-    </entry>
-    <entry>
         <key>contributor_tag</key>
         <value>null</value>
     </entry>
@@ -44,7 +39,7 @@
         <value>false</value>
     </entry>
     <entry>
-        <key>issue114__gfit_integration</key>
+        <key>issue114__health_connect</key>
         <value>false</value>
     </entry>
     <entry>

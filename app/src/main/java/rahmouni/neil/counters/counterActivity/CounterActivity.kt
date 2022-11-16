@@ -51,7 +51,6 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import java.util.regex.Pattern
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
@@ -64,9 +63,11 @@ import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
 import rahmouni.neil.counters.database.Increment
+import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 import rahmouni.neil.counters.utils.SettingsDots
+import java.util.regex.Pattern
 
 class CounterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,7 +93,9 @@ class CounterActivity : ComponentActivity() {
                             color = MaterialTheme.colorScheme.background
                         ) {
                             CounterPage(
-                                counterID, countersListViewModel
+                                counterID,
+                                countersListViewModel,
+                                (application as CountersApplication).healthConnectManager
                             )
                         }
                     }
@@ -107,7 +110,11 @@ class CounterActivity : ComponentActivity() {
     ExperimentalMaterial3WindowSizeClassApi::class
 )
 @Composable
-fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
+fun CounterPage(
+    counterID: Int,
+    countersListViewModel: CountersListViewModel,
+    healthConnectManager: HealthConnectManager
+) {
     val activity = (LocalContext.current as Activity)
     val haptic = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
@@ -327,7 +334,11 @@ fun CounterPage(counterID: Int, countersListViewModel: CountersListViewModel) {
                                 CounterGraph(counter, increments, countersListViewModel)
                             }
                             composable("settings") {
-                                CounterSettings(counter, countersListViewModel)
+                                CounterSettings(
+                                    counter,
+                                    countersListViewModel,
+                                    healthConnectManager
+                                )
                             }
                         }
                     }
