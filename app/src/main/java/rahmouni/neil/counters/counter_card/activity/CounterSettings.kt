@@ -8,7 +8,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -16,23 +21,33 @@ import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.MainActivity
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
-import rahmouni.neil.counters.counter_card.activity.health_connect.HealthConnectSettingsActivity
+import rahmouni.neil.counters.health_connect.HealthConnectSettingsActivity
+import rahmouni.neil.counters.health_connect.observeAsState
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.healthConnect
+import rahmouni.neil.counters.health_connect.HealthConnectAvailability
+import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.options.ValueOption
 import rahmouni.neil.counters.utils.dialogs.ConfirmationDialog
 import rahmouni.neil.counters.utils.tiles.*
 import rahmouni.neil.counters.value_types.ValueType
 
-
 @Composable
 fun CounterSettings(
     counter: CounterAugmented?,
-    countersListViewModel: CountersListViewModel
+    countersListViewModel: CountersListViewModel,
+    healthConnectManager: HealthConnectManager
 ) {
     val activity = (LocalContext.current as Activity)
     val remoteConfig = FirebaseRemoteConfig.getInstance()
+    val lifecycleState by LocalLifecycleOwner.current.lifecycle.observeAsState()
+
+    val permissionsGranted = rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(lifecycleState) {
+        permissionsGranted.value =
+            healthConnectManager.availability.value == HealthConnectAvailability.INSTALLED && healthConnectManager.hasAllPermissions()
+    }
 
     LazyColumn {
         item {
@@ -152,12 +167,11 @@ fun CounterSettings(
         item {
             TileHeader(stringResource(R.string.counterSettings_tile_other_headerTitle))
         }
-        if ((counter?.valueType?.hasHealthConnectIntegration != false) && remoteConfig.getBoolean("issue114__gfit_integration")) {
+        if ((counter?.valueType?.hasHealthConnectIntegration != false) && remoteConfig.getBoolean("issue114__health_connect")) {
             item {
                 TileEndSwitch(
-                    checked = (counter?.healthConnectEnabled ?: false)
-                            && healthConnect.isAvailable(),
-                    enabled = healthConnect.isAvailable(),
+                    checked = permissionsGranted.value && (counter?.healthConnectEnabled ?: false),
+                    enabled = permissionsGranted.value,
                     onChange = {
                         countersListViewModel.updateCounter(
                             counter!!.copy(
@@ -168,7 +182,7 @@ fun CounterSettings(
                 ) { defaultModifier ->
                     TileStartActivity(
                         title = stringResource(R.string.counterSettings_tile_healthConnect_title),
-                        icon = Icons.Outlined.FitnessCenter,
+                        icon = Icons.Outlined.Sync,
                         activity = HealthConnectSettingsActivity::class.java,
                         modifier = defaultModifier
                     ) { intent ->

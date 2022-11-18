@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="accessibilitySettingsActivity_tile_iconSwitches_secondary">Add a checkmark icon inside toggled on switches</string>
+    <string name="accessibilitySettingsActivity_tile_iconSwitches_title">Emphasize selected switches</string>
+    <string name="accessibilitySettingsActivity_topbar_icon_back_contentDescription">Back</string>
+    <string name="accessibilitySettingsActivity_topbar_title">Accessibility</string>
     <string name="activityInfo_icon_info_contentDescription">Information</string>
     <string name="cardSettingsActivity_dialog_editButtonValue_title">Edit value</string>
     <string name="cardSettingsActivity_surface_cardPreview_text">Counter preview</string>
@@ -29,7 +33,7 @@
     <string name="counterSettings_tile_delete_title">Delete counter</string>
     <string name="counterSettings_tile_frequency_title">Frequency</string>
     <string name="counterSettings_tile_general_headerTitle">General</string>
-    <string name="counterSettings_tile_healthConnect_title">Health Connect integration</string>
+    <string name="counterSettings_tile_healthConnect_title">Sync with other apps</string>
     <string name="counterSettings_tile_name_dialogTitle">Edit name</string>
     <string name="counterSettings_tile_name_title">Name</string>
     <string name="counterSettings_tile_other_headerTitle">Other</string>
@@ -88,6 +92,8 @@
     <string name="groupType_day_title">Day</string>
     <string name="groupType_month_title">Month</string>
     <string name="groupType_week_title">Week</string>
+    <string name="healthConnectDataType_repetitions">Repetitions</string>
+    <string name="healthConnectExerciseType_backExtension">Back extension</string>
     <string name="healthConnectSettingsActivity_activityInfo_description">Synchronize this counter with Health Connect compatible apps, such as Google Fit or Samsung Health.</string>
     <string name="healthConnectSettingsActivity_banner_incompatibleDevice_button_text">Learn more</string>
     <string name="healthConnectSettingsActivity_banner_incompatibleDevice_description">Health Connect requires having at least Android Oreo (8.1) to work.</string>
@@ -97,23 +103,18 @@
     <string name="healthConnectSettingsActivity_banner_setup_description">Start the setup to link Counters &amp; Health Connect</string>
     <string name="healthConnectSettingsActivity_banner_setup_title">Start setup</string>
     <string name="healthConnectSettingsActivity_header_title">Synchronization</string>
-    <string name="healthConnectSettingsActivity_tile_activityType_title">Activity Type</string>
+    <string name="healthConnectSettingsActivity_tile_dataType_title">Data type</string>
+    <string name="healthConnectSettingsActivity_tile_exerciseType_title">Exercise type</string>
     <string name="healthConnectSettingsActivity_tile_general_headerTitle">General</string>
     <string name="healthConnectSettingsActivity_tile_openApp_title">Open Health Connect</string>
     <string name="healthConnectSettingsActivity_topbar_icon_back_contentDescription">Back</string>
-    <string name="healthConnectSettingsActivity_topbar_title">Health Connect</string>
+    <string name="healthConnectSettingsActivity_topbar_title">App synchronization</string>
     <string name="healthConnectSetupActivity_button_continue">Continue</string>
     <string name="healthConnectSetupActivity_text_linkHealthConnect_text">Link to Health Connect</string>
     <string name="healthConnectSetupActivity_tile_install_secondary">Install the Health Connect app</string>
     <string name="healthConnectSetupActivity_tile_permissions_secondary">Accept permissions</string>
     <string name="healthConnectSetupActivity_tile_step_title">Step %d</string>
     <string name="healthConnectSetupActivity_topbar_icon_back_contentDescription">Back</string>
-    <string name="healthConnectType_burpees_title">Burpees</string>
-    <string name="healthConnectType_crunches_title">Crunches</string>
-    <string name="healthConnectType_jumpingJacks_title">Jumping jacks</string>
-    <string name="healthConnectType_plank_title">Plank</string>
-    <string name="healthConnectType_ropeJumps_title">Rope jumps</string>
-    <string name="healthConnectType_squats_title">Squats</string>
     <string name="incrementEntry_confirmationDialog_body_text">Are you sure you want to delete this entry? This action cannot be undone.</string>
     <string name="incrementEntry_confirmationDialog_confirmLabel">Delete</string>
     <string name="incrementEntry_confirmationDialog_title">Delete entry</string>
@@ -154,6 +155,7 @@
     <string name="resetType_week_secondary">Resets every week</string>
     <string name="resetType_week_title">Every week</string>
     <string name="settingsActivity_tile_about_headerTitle">About</string>
+    <string name="settingsActivity_tile_accessibility_title">Accessibility</string>
     <string name="settingsActivity_tile_changelog_title">Changelog</string>
     <string name="settingsActivity_tile_dataAndPrivacy_title">Data &amp; Privacy</string>
     <string name="settingsActivity_tile_discordInvite_secondary">Chat with the community and follow the development of new features!</string>

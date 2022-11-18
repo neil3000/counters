@@ -1,4 +1,4 @@
-package rahmouni.neil.counters.counter_card.activity.health_connect
+package rahmouni.neil.counters.health_connect
 
 import android.app.Activity
 import android.content.Intent
@@ -36,7 +36,6 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
-import rahmouni.neil.counters.healthConnect
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.ActivityInfo
 import rahmouni.neil.counters.utils.SettingsDots
@@ -44,6 +43,7 @@ import rahmouni.neil.counters.utils.banner.Banner
 import rahmouni.neil.counters.utils.header.HeaderSwitch
 import rahmouni.neil.counters.utils.openChromeCustomTab
 import rahmouni.neil.counters.utils.tiles.TileClick
+import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioList
 import rahmouni.neil.counters.utils.tiles.TileHeader
 
@@ -70,7 +70,11 @@ class HealthConnectSettingsActivity : ComponentActivity() {
                             tonalElevation = 1.dp,
                             color = MaterialTheme.colorScheme.surface
                         ) {
-                            HealthConnectSettingsPage(counterID, countersListViewModel)
+                            HealthConnectSettingsPage(
+                                counterID,
+                                countersListViewModel,
+                                (application as CountersApplication).healthConnectManager
+                            )
                         }
                     }
                 }
@@ -84,28 +88,39 @@ class HealthConnectSettingsActivity : ComponentActivity() {
 fun HealthConnectSettingsPage(
     counterID: Int,
     countersListViewModel: CountersListViewModel,
+    healthConnectManager: HealthConnectManager
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
     val lifecycleState by LocalLifecycleOwner.current.lifecycle.observeAsState()
+    val remoteConfig = FirebaseRemoteConfig.getInstance()
+    val availability by healthConnectManager.availability
 
     val counter: CounterAugmented? by countersListViewModel.getCounter(counterID).observeAsState()
-    var isAvailable by rememberSaveable { mutableStateOf(healthConnect.isAvailable()) }
+    val permissionsGranted = rememberSaveable { mutableStateOf(false) }
 
-    var activityType by rememberSaveable {
+    var exerciseType by rememberSaveable {
         mutableStateOf(
-            counter?.healthConnectType ?: HealthConnectType.SQUAT
+            counter?.healthConnectExerciseType ?: HealthConnectExerciseType.BACK_EXTENSION
+        )
+    }
+    var dataType by rememberSaveable {
+        mutableStateOf(
+            counter?.healthConnectDataType ?: HealthConnectDataType.REPETITIONS
         )
     }
 
-    LaunchedEffect(counter) {
-        activityType = counter?.healthConnectType ?: HealthConnectType.SQUAT
+    LaunchedEffect(lifecycleState) {
+        permissionsGranted.value =
+            availability == HealthConnectAvailability.INSTALLED && healthConnectManager.hasAllPermissions()
     }
 
-    LaunchedEffect(key1 = lifecycleState) {
-        isAvailable = healthConnect.isAvailable()
+    LaunchedEffect(Unit) {
+        exerciseType = counter?.healthConnectExerciseType ?: HealthConnectExerciseType.BACK_EXTENSION
+        dataType = counter?.healthConnectDataType ?: HealthConnectDataType.REPETITIONS
+        permissionsGranted.value =
+            availability == HealthConnectAvailability.INSTALLED && healthConnectManager.hasAllPermissions()
     }
 
     Scaffold(
@@ -160,8 +175,9 @@ fun HealthConnectSettingsPage(
             item {
                 HeaderSwitch(
                     title = stringResource(R.string.healthConnectSettingsActivity_header_title),
-                    checked = isAvailable && (counter?.healthConnectEnabled ?: false),
-                    enabled = isAvailable
+                    checked = permissionsGranted.value && (counter?.healthConnectEnabled
+                        ?: false),
+                    enabled = permissionsGranted.value
                 ) {
                     countersListViewModel.updateCounter(
                         counter!!.copy(
@@ -171,9 +187,47 @@ fun HealthConnectSettingsPage(
                 }
             }
             when {
-                isAvailable -> item {
+                permissionsGranted.value -> item {
                     TileHeader(stringResource(R.string.healthConnectSettingsActivity_tile_general_headerTitle))
+                    // ExerciseType
                     TileDialogRadioList(
+                        title = stringResource(R.string.healthConnectSettingsActivity_tile_exerciseType_title),
+                        icon = Icons.Outlined.FitnessCenter,
+                        values = HealthConnectExerciseType.values().asList(),
+                        selected = exerciseType,
+                    ) {
+                        exerciseType = it as HealthConnectExerciseType
+
+                        var newCounter = counter!!.copy(
+                            healthConnectExerciseType = it,
+                        )
+
+                        if (!exerciseType.dataTypes.contains(dataType)) {
+                            dataType = exerciseType.defaultDataType
+                            newCounter = counter!!.copy(
+                                healthConnectDataType = exerciseType.defaultDataType,
+                            )
+                        }
+
+                        countersListViewModel.updateCounter(
+                            newCounter.toCounter()
+                        )
+                    }
+                    // DataType
+                    TileDialogRadioButtons(
+                        title = stringResource(R.string.healthConnectSettingsActivity_tile_dataType_title),
+                        icon = Icons.Outlined.Category,
+                        values = exerciseType.dataTypes.toList(),
+                        selected = dataType,
+                    ) {
+                        dataType = it as HealthConnectDataType
+                        countersListViewModel.updateCounter(
+                            counter!!.copy(
+                                healthConnectDataType = it
+                            ).toCounter()
+                        )
+                    }
+                    /*TileDialogRadioList(
                         title = stringResource(R.string.healthConnectSettingsActivity_tile_activityType_title),
                         icon = Icons.Outlined.FitnessCenter,
                         values = HealthConnectType.values().asList(),
@@ -185,7 +239,7 @@ fun HealthConnectSettingsPage(
                                 healthConnectType = it
                             ).toCounter()
                         )
-                    }
+                    }*/
                     TileClick(
                         title = stringResource(R.string.healthConnectSettingsActivity_tile_openApp_title),
                         icon = Icons.Outlined.Launch
@@ -196,9 +250,9 @@ fun HealthConnectSettingsPage(
                             activity.startActivity(launchIntent)
                         }
                     }
-                    Divider()
+                    Divider(Modifier.padding(top = 8.dp))
                 }
-                healthConnect.hasSufficientSdk() -> item {
+                availability != HealthConnectAvailability.NOT_SUPPORTED -> item {
                     Banner(
                         title = stringResource(R.string.healthConnectSettingsActivity_banner_setup_title),
                         description = stringResource(R.string.healthConnectSettingsActivity_banner_setup_description),

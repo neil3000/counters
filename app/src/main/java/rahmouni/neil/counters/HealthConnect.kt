@@ -1,20 +1,20 @@
 package rahmouni.neil.counters
 
-import android.content.Context
+/*import android.content.Context
 import androidx.health.connect.client.HealthConnectClient
-import androidx.health.connect.client.permission.Permission
+import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.ExerciseRepetitionsRecord
 import androidx.health.connect.client.records.ExerciseSessionRecord
 import androidx.health.connect.client.records.metadata.DataOrigin
 import androidx.health.connect.client.records.metadata.Metadata
 import java.time.ZonedDateTime
-import rahmouni.neil.counters.counter_card.activity.health_connect.HealthConnectType
+import rahmouni.neil.counters.health_connect.HealthConnectType
 
 class HealthConnect {
     var client: HealthConnectClient? = null
     private var hasPermissions: Boolean = false
     private var isClientAvailable: Boolean = false
-    var permissions: Set<Permission>? = null
+    var permissions: Set<HealthPermission>? = null
 
     suspend fun initialize(context: Context) {
         if (hasSufficientSdk()) {
@@ -22,8 +22,8 @@ class HealthConnect {
 
             if (isClientAvailable) {
                 permissions = setOf(
-                    Permission.createWritePermission(ExerciseSessionRecord::class),
-                    Permission.createWritePermission(ExerciseRepetitionsRecord::class),
+                    HealthPermission.createWritePermission(ExerciseSessionRecord::class),
+                    HealthPermission.createWritePermission(ExerciseRepetitionsRecord::class),
                 )
 
                 client = HealthConnectClient.getOrCreate(context)
@@ -89,4 +89,4 @@ class HealthConnect {
             )
         )
     }
-}
+}*/

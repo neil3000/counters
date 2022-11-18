@@ -24,6 +24,8 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:host="counters.page.link" android:scheme="http" android:pathPattern="/install.*"/>
                 <data android:host="counters.page.link" android:scheme="https" android:pathPattern="/install.*"/>
+                <data android:host="counters.rahmouni.dev" android:scheme="http" android:pathPattern="/install.*"/>
+                <data android:host="counters.rahmouni.dev" android:scheme="https" android:pathPattern="/install.*"/>
             </intent-filter>
             <meta-data android:name="health_permissions"
                 android:resource="@array/health_permissions" />
@@ -47,6 +49,8 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:host="counters.page.link" android:scheme="http" android:pathPattern="/dataAndPrivacy.*"/>
                 <data android:host="counters.page.link" android:scheme="https" android:pathPattern="/dataAndPrivacy.*"/>
+                <data android:host="counters.rahmouni.dev" android:scheme="http" android:pathPattern="/dataAndPrivacy.*"/>
+                <data android:host="counters.rahmouni.dev" android:scheme="https" android:pathPattern="/dataAndPrivacy.*"/>
             </intent-filter>
         </activity>
         <activity
@@ -60,19 +64,19 @@
             android:theme="@style/Theme.Counters">
         </activity>
         <activity
-            android:name=".counter_card.activity.health_connect.HealthConnectSettingsActivity"
+            android:name=".health_connect.HealthConnectSettingsActivity"
             android:exported="true"
             android:theme="@style/Theme.Counters">
         </activity>
         <activity
-            android:name=".counter_card.activity.health_connect.HealthConnectSetupActivity"
+            android:name=".health_connect.HealthConnectSetupActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
             </intent-filter>
             <meta-data
                 android:name="health_permissions"
-                android:resource="@array/health_permissions" />
+                android:resource="@array/health_permissions"/>
         </activity>
         <activity
             android:name=".counterActivity.CounterEntriesActivity"
@@ -83,6 +87,18 @@
             android:name=".counterActivity.CounterSettingsActivity"
             android:exported="true"
             android:theme="@style/Theme.Counters">
+        </activity>
+        <activity
+            android:name=".settings.AccessibilitySettingsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Counters">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="counters.rahmouni.dev" android:scheme="http" android:pathPattern="/accessibility.*"/>
+                <data android:host="counters.rahmouni.dev" android:scheme="https" android:pathPattern="/accessibility.*"/>
+            </intent-filter>
         </activity>
     </application>
 

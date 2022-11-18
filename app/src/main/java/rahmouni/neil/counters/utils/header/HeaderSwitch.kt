@@ -73,7 +73,7 @@ fun HeaderSwitch(
                         .padding(24.dp)
                         .testTag("HEADER_TITLE")
                 )
-                Switch(
+                rahmouni.neil.counters.utils.Switch(
                     checked = checked,
                     onCheckedChange = null,
                     Modifier.padding(16.dp),

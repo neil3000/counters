@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="accessibilitySettingsActivity_tile_iconSwitches_title">Emphasise selected switches</string>
     <string name="counterSettings_tile_cardSettings_secondary">Customise this counter\'s home screen card</string>
     <string name="counterStyleOption_filterChip_basicColors_label">Basic colours</string>
     <string name="counterStyleOption_filterChip_dynamicColors_label">Dynamic colours</string>
     <string name="healthConnectSettingsActivity_header_title">Synchronisation</string>
+    <string name="healthConnectSettingsActivity_topbar_title">App synchronisation</string>
 </resources>

@@ -7,10 +7,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -40,6 +37,7 @@ import rahmouni.neil.counters.counter_card.new_increment.NewIncrement
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
+import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.settings.SettingsActivity
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.FullscreenDynamicSVG
@@ -67,7 +65,10 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.fillMaxSize(),
                             color = MaterialTheme.colorScheme.background
                         ) {
-                            Home(countersListViewModel)
+                            Home(
+                                countersListViewModel,
+                                (application as CountersApplication).healthConnectManager
+                            )
                         }
                     }
                 }
@@ -81,7 +82,7 @@ class MainActivity : ComponentActivity() {
     androidx.compose.material.ExperimentalMaterialApi::class
 )
 @Composable
-fun Home(countersListViewModel: CountersListViewModel) {
+fun Home(countersListViewModel: CountersListViewModel, healthConnectManager: HealthConnectManager) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val localHapticFeedback = LocalHapticFeedback.current
@@ -103,7 +104,8 @@ fun Home(countersListViewModel: CountersListViewModel) {
         {
             NewIncrement(
                 counter = if (bottomSheetNewIncrementCounterID == null || countersList.isEmpty()) null else countersList.find { it.uid == bottomSheetNewIncrementCounterID },
-                countersListViewModel = countersListViewModel
+                countersListViewModel = countersListViewModel,
+                healthConnectManager = healthConnectManager,
             ) {
                 scope.launch {
                     bottomSheetNewIncrementState.hide()
@@ -200,10 +202,10 @@ fun Home(countersListViewModel: CountersListViewModel) {
                             columns = GridCells.Adaptive(minSize = 165.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier.padding(8.dp)
+                            modifier = if (remoteConfig.getBoolean("issue205__patch")) Modifier.fillMaxHeight().padding(8.dp) else Modifier.padding(8.dp)
                         ) {
                             items(countersList) { counter ->
-                                CounterCard(counter, countersListViewModel) {
+                                CounterCard(counter, countersListViewModel, healthConnectManager) {
                                     bottomSheetNewIncrementCounterID = counter.uid
                                     scope.launch {
                                         bottomSheetNewIncrementState.show()
