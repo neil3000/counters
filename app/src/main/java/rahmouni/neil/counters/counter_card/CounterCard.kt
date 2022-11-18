@@ -18,6 +18,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.counterActivity.CounterActivity
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
+import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.prefs
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -25,7 +26,8 @@ import rahmouni.neil.counters.prefs
 fun CounterCard(
     data: CounterAugmented,
     countersListViewModel: CountersListViewModel?,
-    openNewIncrementSheet: ((countersListViewModel: CountersListViewModel) -> (Unit))?
+    healthConnectManager: HealthConnectManager,
+    openNewIncrementSheet: ((countersListViewModel: CountersListViewModel) -> (Unit))?,
 ) {
     val rc = FirebaseRemoteConfig.getInstance()
     val context = LocalContext.current
@@ -77,7 +79,7 @@ fun CounterCard(
                     val end = buttons.removeFirstOrNull()
 
                     buttons.forEach {
-                        it.CardButton(data.toCounter(), countersListViewModel)
+                        it.CardButton(data.toCounter(), countersListViewModel, healthConnectManager)
                     }
                     if (arrayOf(
                             "mon amour pour maï",
@@ -97,7 +99,7 @@ fun CounterCard(
                             true
                         )
                     }
-                    end?.CardButton(data.toCounter(), countersListViewModel)
+                    end?.CardButton(data.toCounter(), countersListViewModel, healthConnectManager)
                 }
             }
         }
@@ -148,7 +150,7 @@ fun CounterCard(
                     val end = buttons.removeFirstOrNull()
 
                     buttons.forEach {
-                        it.CardButton(data.toCounter(), countersListViewModel)
+                        it.CardButton(data.toCounter(), countersListViewModel, healthConnectManager)
                     }
                     if (arrayOf(
                             "mon amour pour maï",
@@ -168,7 +170,7 @@ fun CounterCard(
                             true
                         )
                     }
-                    end?.CardButton(data.toCounter(), countersListViewModel)
+                    end?.CardButton(data.toCounter(), countersListViewModel, healthConnectManager)
                 }
             }
         }
