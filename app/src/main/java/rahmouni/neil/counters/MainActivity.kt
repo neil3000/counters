@@ -7,10 +7,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -205,7 +202,7 @@ fun Home(countersListViewModel: CountersListViewModel, healthConnectManager: Hea
                             columns = GridCells.Adaptive(minSize = 165.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier.padding(8.dp)
+                            modifier = if (remoteConfig.getBoolean("issue205__patch")) Modifier.fillMaxHeight().padding(8.dp) else Modifier.padding(8.dp)
                         ) {
                             items(countersList) { counter ->
                                 CounterCard(counter, countersListViewModel, healthConnectManager) {
