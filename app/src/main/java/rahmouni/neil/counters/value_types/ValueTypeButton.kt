@@ -3,11 +3,8 @@ package rahmouni.neil.counters.value_types
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -17,7 +14,8 @@ import androidx.compose.ui.res.stringResource
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.healthConnect
+import rahmouni.neil.counters.health_connect.HealthConnectAvailability
+import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.utils.tiles.TileClick
 import rahmouni.neil.counters.utils.tiles.TileEndSwitch
 import rahmouni.neil.counters.utils.tiles.TileSwitch
@@ -136,8 +134,14 @@ class ValueTypeButton(
     }
 
     @Composable
-    fun CardButton(counter: Counter, countersListViewModel: CountersListViewModel?) {
+    fun CardButton(counter: Counter, countersListViewModel: CountersListViewModel?, healthConnectManager: HealthConnectManager) {
         val haptic = LocalHapticFeedback.current
+
+        val permissionsGranted = rememberSaveable { mutableStateOf(false) }
+        LaunchedEffect(Unit) {
+            permissionsGranted.value =
+                healthConnectManager.availability.value == HealthConnectAvailability.INSTALLED && healthConnectManager.hasAllPermissions()
+        }
 
         IconButton(onClick = {
             if (countersListViewModel != null) {
@@ -146,7 +150,8 @@ class ValueTypeButton(
                 countersListViewModel.addIncrement(
                     value(counter),
                     counter,
-                    healthConnect.isAvailable() && counter.healthConnectEnabled
+                    healthConnectManager,
+                    permissionsGranted.value
                 )
             }
         }) {

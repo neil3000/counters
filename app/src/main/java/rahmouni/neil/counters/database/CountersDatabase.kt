@@ -3,12 +3,13 @@ package rahmouni.neil.counters.database
 import android.content.Context
 import androidx.room.*
 import androidx.room.migration.AutoMigrationSpec
-import java.io.Serializable
 import kotlinx.coroutines.flow.Flow
 import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.ResetType
-import rahmouni.neil.counters.counter_card.activity.health_connect.HealthConnectType
+import rahmouni.neil.counters.health_connect.HealthConnectDataType
+import rahmouni.neil.counters.health_connect.HealthConnectExerciseType
 import rahmouni.neil.counters.value_types.ValueType
+import java.io.Serializable
 
 @Database(
     entities = [Counter::class, Increment::class],
@@ -20,11 +21,16 @@ import rahmouni.neil.counters.value_types.ValueType
         AutoMigration(
             from = 6,
             to = 8,
-            spec = CountersDatabase.Migration67::class
+            spec = CountersDatabase.Migration68::class
+        ),
+        AutoMigration(
+            from = 8,
+            to = 9,
+            spec = CountersDatabase.Migration89::class
         )
     ],
     exportSchema = true,
-    version = 8
+    version = 9
 )
 abstract class CountersDatabase : RoomDatabase() {
     abstract fun countersListDao(): CountersListDao
@@ -41,7 +47,10 @@ abstract class CountersDatabase : RoomDatabase() {
         fromColumnName = "has_minus",
         toColumnName = "button_plus_enabled"
     )
-    class Migration67 : AutoMigrationSpec
+    class Migration68 : AutoMigrationSpec
+
+    @DeleteColumn(tableName = "Counter", columnName = "health_connect_type")
+    class Migration89 : AutoMigrationSpec
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
@@ -82,9 +91,13 @@ data class Counter(
         defaultValue = "false"
     ) val healthConnectEnabled: Boolean = false,
     @ColumnInfo(
-        name = "health_connect_type",
-        defaultValue = "SQUAT"
-    ) val healthConnectType: HealthConnectType = HealthConnectType.SQUAT,
+        name = "health_connect_exercise_type",
+        defaultValue = "BACK_EXTENSION"
+    ) val healthConnectExerciseType: HealthConnectExerciseType = HealthConnectExerciseType.BACK_EXTENSION,
+    @ColumnInfo(
+        name = "health_connect_data_type",
+        defaultValue = "REPETITIONS"
+    ) val healthConnectDataType: HealthConnectDataType = HealthConnectDataType.REPETITIONS,
     @ColumnInfo(
         name = "value_type",
         defaultValue = "NUMBER"
@@ -125,9 +138,13 @@ data class CounterAugmented(
         defaultValue = "false"
     ) val healthConnectEnabled: Boolean = false,
     @ColumnInfo(
-        name = "health_connect_type",
-        defaultValue = "SQUAT"
-    ) val healthConnectType: HealthConnectType = HealthConnectType.SQUAT,
+        name = "health_connect_exercise_type",
+        defaultValue = "BACK_EXTENSION"
+    ) val healthConnectExerciseType: HealthConnectExerciseType = HealthConnectExerciseType.BACK_EXTENSION,
+    @ColumnInfo(
+        name = "health_connect_data_type",
+        defaultValue = "REPETITIONS"
+    ) val healthConnectDataType: HealthConnectDataType = HealthConnectDataType.REPETITIONS,
     @ColumnInfo(
         name = "value_type",
         defaultValue = "NUMBER"
@@ -165,7 +182,8 @@ data class CounterAugmented(
             resetType = resetType,
             resetValue = resetValue,
             healthConnectEnabled = healthConnectEnabled,
-            healthConnectType = healthConnectType,
+            healthConnectExerciseType = healthConnectExerciseType,
+            healthConnectDataType = healthConnectDataType,
             valueType = valueType,
 
             plusButtonValue = plusButtonValue,

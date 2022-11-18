@@ -34,6 +34,7 @@ import rahmouni.neil.counters.counter_card.CounterCard
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
+import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.options.CounterStyleOption
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
@@ -64,7 +65,9 @@ class CardSettingsActivity : ComponentActivity() {
                         ) {
 
                             CardSettingsPage(
-                                counterID, countersListViewModel
+                                counterID,
+                                countersListViewModel,
+                                (application as CountersApplication).healthConnectManager
                             )
                         }
                     }
@@ -76,7 +79,11 @@ class CardSettingsActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
-fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewModel) {
+fun CardSettingsPage(
+    counterID: Int,
+    countersListViewModel: CountersListViewModel,
+    healthConnectManager: HealthConnectManager
+) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
@@ -149,6 +156,7 @@ fun CardSettingsPage(counterID: Int, countersListViewModel: CountersListViewMode
                                     CounterCard(
                                         data = finalCounter()!!,
                                         countersListViewModel = null,
+                                        healthConnectManager = healthConnectManager,
                                         openNewIncrementSheet = null
                                     )
                                 }

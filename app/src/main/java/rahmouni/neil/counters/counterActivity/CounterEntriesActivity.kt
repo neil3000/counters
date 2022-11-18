@@ -39,6 +39,7 @@ import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
 import rahmouni.neil.counters.database.Increment
+import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 import rahmouni.neil.counters.utils.SettingsDots
@@ -67,7 +68,9 @@ class CounterEntriesActivity : ComponentActivity() {
                             color = MaterialTheme.colorScheme.background
                         ) {
                             CounterEntriesPage(
-                                counterID, countersListViewModel
+                                counterID,
+                                countersListViewModel,
+                                (application as CountersApplication).healthConnectManager
                             )
                         }
                     }
@@ -79,7 +82,11 @@ class CounterEntriesActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun CounterEntriesPage(counterID: Int, countersListViewModel: CountersListViewModel) {
+fun CounterEntriesPage(
+    counterID: Int,
+    countersListViewModel: CountersListViewModel,
+    healthConnectManager: HealthConnectManager
+) {
     val scope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val haptic = LocalHapticFeedback.current
@@ -97,7 +104,7 @@ fun CounterEntriesPage(counterID: Int, countersListViewModel: CountersListViewMo
         bottomSheetState,
         {
             if (counter != null) {
-                NewIncrement(counter, countersListViewModel) {
+                NewIncrement(counter, countersListViewModel, healthConnectManager) {
                     scope.launch {
                         bottomSheetState.hide()
                     }

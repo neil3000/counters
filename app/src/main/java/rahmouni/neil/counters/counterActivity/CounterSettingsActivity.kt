@@ -32,6 +32,7 @@ import rahmouni.neil.counters.counter_card.activity.CounterSettings
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
+import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
 
@@ -59,7 +60,7 @@ class CounterSettingsActivity : ComponentActivity() {
                             color = MaterialTheme.colorScheme.background
                         ) {
                             CounterSettingsPage(
-                                counterID, countersListViewModel
+                                counterID, countersListViewModel, (application as CountersApplication).healthConnectManager
                             )
                         }
                     }
@@ -71,7 +72,7 @@ class CounterSettingsActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CounterSettingsPage(counterID: Int, countersListViewModel: CountersListViewModel) {
+fun CounterSettingsPage(counterID: Int, countersListViewModel: CountersListViewModel, healthConnectManager: HealthConnectManager) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val haptic = LocalHapticFeedback.current
     val activity = (LocalContext.current as Activity)
@@ -116,7 +117,8 @@ fun CounterSettingsPage(counterID: Int, countersListViewModel: CountersListViewM
         Column(Modifier.padding(innerPadding)) {
             CounterSettings(
                 counter = counter,
-                countersListViewModel = countersListViewModel
+                countersListViewModel = countersListViewModel,
+                healthConnectManager = healthConnectManager
             )
         }
     }
