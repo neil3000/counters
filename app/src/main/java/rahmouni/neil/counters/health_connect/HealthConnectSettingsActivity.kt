@@ -250,7 +250,7 @@ fun HealthConnectSettingsPage(
                             activity.startActivity(launchIntent)
                         }
                     }
-                    Divider()
+                    Divider(Modifier.padding(top = 8.dp))
                 }
                 availability != HealthConnectAvailability.NOT_SUPPORTED -> item {
                     Banner(
