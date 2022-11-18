@@ -78,7 +78,6 @@ fun HealthConnectSetupPage(
 ) {
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
     val lifecycleState by LocalLifecycleOwner.current.lifecycle.observeAsState()
     val availability by healthConnectManager.availability
 

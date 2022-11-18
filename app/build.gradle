@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "rahmouni.neil.counters"
-        minSdk 21
+        minSdk 26
         targetSdk 33
         versionCode 59
         versionName "1.24"
@@ -32,17 +32,11 @@ android {
 
     flavorDimensions "api"
     productFlavors {
-        create("minApi27") {
+        create("minApi26") {
             dimension = "api"
-            minSdk = 27
-            versionCode = (android.defaultConfig.versionCode ?: 0)*10000+27
-            versionNameSuffix = ".00.27"
-        }
-        create("minApi21") {
-            dimension = "api"
-            minSdk = 21
-            versionCode = (android.defaultConfig.versionCode ?: 0)*10000+21
-            versionNameSuffix = ".00.21"
+            minSdk = 26
+            versionCode = (android.defaultConfig.versionCode ?: 0)*10000+26
+            versionNameSuffix = ".00.26"
         }
     }
 
@@ -160,10 +154,7 @@ dependencies {
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.2.2"
 
     //Health & Connect
-    //minApi21CompileOnly "androidx.health.connect:connect-client:1.0.0-alpha07"
-    //minApi27Implementation
     implementation "androidx.health.connect:connect-client:1.0.0-alpha07"
-    //implementation "androidx.health:health-services-client:1.0.0-beta01"
 
     implementation "androidx.concurrent:concurrent-futures-ktx:1.1.0"
 }

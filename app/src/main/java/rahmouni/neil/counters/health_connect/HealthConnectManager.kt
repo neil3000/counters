@@ -17,6 +17,7 @@ import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Mass
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import rahmouni.neil.counters.BuildConfig
 import java.io.IOException
 import java.time.ZonedDateTime
 
