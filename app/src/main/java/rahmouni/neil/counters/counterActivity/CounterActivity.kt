@@ -171,7 +171,7 @@ fun CounterPage(
         bottomSheetState,
         {
             if (counter != null) {
-                NewIncrement(counter, countersListViewModel) {
+                NewIncrement(counter, countersListViewModel, healthConnectManager) {
                     scope.launch {
                         bottomSheetState.hide()
                     }

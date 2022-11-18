@@ -1,4 +1,4 @@
-package rahmouni.neil.counters.counter_card.activity.health_connect
+package rahmouni.neil.counters.health_connect
 
 import android.app.Activity
 import android.content.Intent
@@ -36,8 +36,6 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
-import rahmouni.neil.counters.health_connect.HealthConnectAvailability
-import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.ActivityInfo
 import rahmouni.neil.counters.utils.SettingsDots
@@ -45,6 +43,7 @@ import rahmouni.neil.counters.utils.banner.Banner
 import rahmouni.neil.counters.utils.header.HeaderSwitch
 import rahmouni.neil.counters.utils.openChromeCustomTab
 import rahmouni.neil.counters.utils.tiles.TileClick
+import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioList
 import rahmouni.neil.counters.utils.tiles.TileHeader
 
@@ -101,9 +100,14 @@ fun HealthConnectSettingsPage(
     val counter: CounterAugmented? by countersListViewModel.getCounter(counterID).observeAsState()
     val permissionsGranted = rememberSaveable { mutableStateOf(false) }
 
-    var activityType by rememberSaveable {
+    var exerciseType by rememberSaveable {
         mutableStateOf(
-            counter?.healthConnectType ?: HealthConnectType.SQUAT
+            counter?.healthConnectExerciseType ?: HealthConnectExerciseType.BACK_EXTENSION
+        )
+    }
+    var dataType by rememberSaveable {
+        mutableStateOf(
+            counter?.healthConnectDataType ?: HealthConnectDataType.REPETITIONS
         )
     }
 
@@ -113,7 +117,8 @@ fun HealthConnectSettingsPage(
     }
 
     LaunchedEffect(Unit) {
-        activityType = counter?.healthConnectType ?: HealthConnectType.SQUAT
+        exerciseType = counter?.healthConnectExerciseType ?: HealthConnectExerciseType.BACK_EXTENSION
+        dataType = counter?.healthConnectDataType ?: HealthConnectDataType.REPETITIONS
         permissionsGranted.value =
             availability == HealthConnectAvailability.INSTALLED && healthConnectManager.hasAllPermissions()
     }
@@ -184,7 +189,45 @@ fun HealthConnectSettingsPage(
             when {
                 permissionsGranted.value -> item {
                     TileHeader(stringResource(R.string.healthConnectSettingsActivity_tile_general_headerTitle))
+                    // ExerciseType
                     TileDialogRadioList(
+                        title = stringResource(R.string.healthConnectSettingsActivity_tile_exerciseType_title),
+                        icon = Icons.Outlined.FitnessCenter,
+                        values = HealthConnectExerciseType.values().asList(),
+                        selected = exerciseType,
+                    ) {
+                        exerciseType = it as HealthConnectExerciseType
+
+                        var newCounter = counter!!.copy(
+                            healthConnectExerciseType = it,
+                        )
+
+                        if (!exerciseType.dataTypes.contains(dataType)) {
+                            dataType = exerciseType.defaultDataType
+                            newCounter = counter!!.copy(
+                                healthConnectDataType = exerciseType.defaultDataType,
+                            )
+                        }
+
+                        countersListViewModel.updateCounter(
+                            newCounter.toCounter()
+                        )
+                    }
+                    // DataType
+                    TileDialogRadioButtons(
+                        title = stringResource(R.string.healthConnectSettingsActivity_tile_dataType_title),
+                        icon = Icons.Outlined.Category,
+                        values = exerciseType.dataTypes.toList(),
+                        selected = dataType,
+                    ) {
+                        dataType = it as HealthConnectDataType
+                        countersListViewModel.updateCounter(
+                            counter!!.copy(
+                                healthConnectDataType = it
+                            ).toCounter()
+                        )
+                    }
+                    /*TileDialogRadioList(
                         title = stringResource(R.string.healthConnectSettingsActivity_tile_activityType_title),
                         icon = Icons.Outlined.FitnessCenter,
                         values = HealthConnectType.values().asList(),
@@ -196,7 +239,7 @@ fun HealthConnectSettingsPage(
                                 healthConnectType = it
                             ).toCounter()
                         )
-                    }
+                    }*/
                     TileClick(
                         title = stringResource(R.string.healthConnectSettingsActivity_tile_openApp_title),
                         icon = Icons.Outlined.Launch

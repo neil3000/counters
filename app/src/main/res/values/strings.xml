@@ -31,7 +31,7 @@
     <string name="counterSettings_tile_delete_title">Delete counter</string>
     <string name="counterSettings_tile_frequency_title">Frequency</string>
     <string name="counterSettings_tile_general_headerTitle">General</string>
-    <string name="counterSettings_tile_healthConnect_title">Health Connect integration</string>
+    <string name="counterSettings_tile_healthConnect_title">Sync with other apps</string>
     <string name="counterSettings_tile_name_dialogTitle">Edit name</string>
     <string name="counterSettings_tile_name_title">Name</string>
     <string name="counterSettings_tile_other_headerTitle">Other</string>
@@ -99,7 +99,8 @@
     <string name="healthConnectSettingsActivity_banner_setup_description">Start the setup to link Counters &amp; Health Connect</string>
     <string name="healthConnectSettingsActivity_banner_setup_title">Start setup</string>
     <string name="healthConnectSettingsActivity_header_title">Synchronization</string>
-    <string name="healthConnectSettingsActivity_tile_activityType_title">Activity Type</string>
+    <string name="healthConnectSettingsActivity_tile_dataType_title">Data type</string>
+    <string name="healthConnectSettingsActivity_tile_exerciseType_title">Exercise type</string>
     <string name="healthConnectSettingsActivity_tile_general_headerTitle">General</string>
     <string name="healthConnectSettingsActivity_tile_openApp_title">Open Health Connect</string>
     <string name="healthConnectSettingsActivity_topbar_icon_back_contentDescription">Back</string>
@@ -110,12 +111,7 @@
     <string name="healthConnectSetupActivity_tile_permissions_secondary">Accept permissions</string>
     <string name="healthConnectSetupActivity_tile_step_title">Step %d</string>
     <string name="healthConnectSetupActivity_topbar_icon_back_contentDescription">Back</string>
-    <string name="healthConnectType_burpees_title">Burpees</string>
-    <string name="healthConnectType_crunches_title">Crunches</string>
-    <string name="healthConnectType_jumpingJacks_title">Jumping jacks</string>
-    <string name="healthConnectType_plank_title">Plank</string>
-    <string name="healthConnectType_ropeJumps_title">Rope jumps</string>
-    <string name="healthConnectType_squats_title">Squats</string>
+    <string name="healthConnectDataType_repetitions">Repetitions</string>
     <string name="incrementEntry_confirmationDialog_body_text">Are you sure you want to delete this entry? This action cannot be undone.</string>
     <string name="incrementEntry_confirmationDialog_confirmLabel">Delete</string>
     <string name="incrementEntry_confirmationDialog_title">Delete entry</string>
@@ -198,4 +194,5 @@
     <string name="valueType_task_notDone">Not done</string>
     <string name="weekDisplay_firstDay">First day of the week</string>
     <string name="weekDisplay_number">Week number in year</string>
+    <string name="healthConnectExerciseType_backExtension">Back extension</string>
 </resources>

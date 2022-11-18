@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import java.time.ZonedDateTime
-import kotlin.random.Random
 
 // The minimum android level that can use Health Connect
 const val MIN_SUPPORTED_SDK = Build.VERSION_CODES.O_MR1
@@ -89,7 +88,15 @@ class HealthConnectManager(private val context: Context) {
     /**
      * TODO: Writes an [ExerciseSessionRecord] to Health Connect.
      */
-    suspend fun writeExerciseSession(start: ZonedDateTime, end: ZonedDateTime) {
+    suspend fun writeRecord(
+        start: ZonedDateTime,
+        end: ZonedDateTime,
+        name: String,
+        exerciseType: HealthConnectExerciseType,
+        dataType: HealthConnectDataType,
+        count: Long,
+        notes: String?
+    ) {
         healthConnectClient.insertRecords(
             listOf(
                 ExerciseSessionRecord(
@@ -97,16 +104,11 @@ class HealthConnectManager(private val context: Context) {
                     startZoneOffset = start.offset,
                     endTime = end.toInstant(),
                     endZoneOffset = end.offset,
-                    exerciseType = ExerciseSessionRecord.ExerciseType.RUNNING,
-                    title = "My Run #${Random.nextInt(0, 60)}"
+                    exerciseType = exerciseType.exerciseType,
+                    title = name,
+                    notes = notes
                 ),
-                StepsRecord(
-                    startTime = start.toInstant(),
-                    startZoneOffset = start.offset,
-                    endTime = end.toInstant(),
-                    endZoneOffset = end.offset,
-                    count = (1000 + 1000 * Random.nextInt(3)).toLong()
-                )
+                dataType.createRecord(start, end, count, exerciseType.exerciseType)
             )
         )
     }

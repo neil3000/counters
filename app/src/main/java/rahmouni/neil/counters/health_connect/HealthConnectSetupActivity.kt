@@ -1,4 +1,4 @@
-package rahmouni.neil.counters.counter_card.activity.health_connect
+package rahmouni.neil.counters.health_connect
 
 import android.app.Activity
 import android.content.Intent
@@ -34,8 +34,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.health_connect.HealthConnectAvailability
-import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
 import rahmouni.neil.counters.utils.tiles.TileStep

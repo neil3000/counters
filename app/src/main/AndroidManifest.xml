@@ -60,12 +60,12 @@
             android:theme="@style/Theme.Counters">
         </activity>
         <activity
-            android:name=".counter_card.activity.health_connect.HealthConnectSettingsActivity"
+            android:name=".health_connect.HealthConnectSettingsActivity"
             android:exported="true"
             android:theme="@style/Theme.Counters">
         </activity>
         <activity
-            android:name=".counter_card.activity.health_connect.HealthConnectSetupActivity"
+            android:name=".health_connect.HealthConnectSetupActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
