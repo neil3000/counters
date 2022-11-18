@@ -158,11 +158,13 @@ dependencies {
 
     implementation  "androidx.appcompat:appcompat:1.5.1"
 
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.2.0"
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.2.2"
 
     //Health & Connect
-    minApi21CompileOnly "androidx.health:health-connect-client:1.0.0-alpha03"
-    minApi27Implementation "androidx.health:health-connect-client:1.0.0-alpha03"
+    //minApi21CompileOnly "androidx.health.connect:connect-client:1.0.0-alpha07"
+    //minApi27Implementation
+    implementation "androidx.health.connect:connect-client:1.0.0-alpha07"
+    //implementation "androidx.health:health-services-client:1.0.0-beta01"
 
     implementation "androidx.concurrent:concurrent-futures-ktx:1.1.0"
 }

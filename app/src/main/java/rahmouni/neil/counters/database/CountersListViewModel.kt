@@ -2,14 +2,12 @@ package rahmouni.neil.counters.database
 
 import androidx.lifecycle.*
 import com.google.firebase.analytics.ktx.logEvent
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.ResetType
-import rahmouni.neil.counters.healthConnect
+import rahmouni.neil.counters.health_connect.HealthConnectManager
+import java.time.ZonedDateTime
 
 class CountersListViewModel(private val repository: CountersListRepository) : ViewModel() {
     val allCounters: LiveData<List<CounterAugmented>> = repository.allCounters.asLiveData()
@@ -31,6 +29,7 @@ class CountersListViewModel(private val repository: CountersListRepository) : Vi
     fun addIncrement(
         value: Int,
         counter: Counter,
+        healthConnectManager: HealthConnectManager,
         logHealthConnect: Boolean,
         date: String? = null,
         notes: String? = null
@@ -40,19 +39,16 @@ class CountersListViewModel(private val repository: CountersListRepository) : Vi
         analytics?.logEvent("add_increment") {
             param("increment_value", value.toLong())
         }
-        CountersApplication.prefs!!.tipsStatus = CountersApplication.prefs!!.tipsStatus+1
+        CountersApplication.prefs!!.tipsStatus = CountersApplication.prefs!!.tipsStatus + 1
 
         if (logHealthConnect) {
-            healthConnect.writeActivitySession(
-                if (date == null) ZonedDateTime.now()
-                else ZonedDateTime.parse(
-                    date,
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                        .withZone(ZoneId.systemDefault())
-                ),
+            healthConnectManager.writeRecord(
+                ZonedDateTime.now().minusSeconds(value.toLong()).withNano(0),
+                ZonedDateTime.now().withNano(0),
                 counter.displayName,
-                counter.healthConnectType,
-                value,
+                counter.healthConnectExerciseType,
+                counter.healthConnectDataType,
+                value.toLong(),
                 notes
             )
         }

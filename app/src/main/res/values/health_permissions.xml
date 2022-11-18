@@ -3,5 +3,6 @@
     <array name="health_permissions">
         <item>androidx.health.permission.ExerciseSession.WRITE</item>
         <item>androidx.health.permission.ExerciseRepetitions.WRITE</item>
+        <item>androidx.health.permission.Weight.WRITE</item>
     </array>
 </resources>
