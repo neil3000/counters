@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="accessibilitySettingsActivity_tile_iconSwitches_secondary">Ajoute une icône à l\'intérieur des interrupteurs activés</string>
+    <string name="accessibilitySettingsActivity_tile_iconSwitches_title">Mettre en valeur les interrupteurs sélectionnés</string>
+    <string name="accessibilitySettingsActivity_topbar_icon_back_contentDescription">Retour</string>
+    <string name="accessibilitySettingsActivity_topbar_title">Accessibilité</string>
     <string name="activityInfo_icon_info_contentDescription">Information</string>
     <string name="cardSettingsActivity_dialog_editButtonValue_title">Modifier la valeur</string>
     <string name="cardSettingsActivity_surface_cardPreview_text">Aperçu du compteur</string>
@@ -29,7 +33,7 @@
     <string name="counterSettings_tile_delete_title">Supprimer le compteur</string>
     <string name="counterSettings_tile_frequency_title">Fréquence</string>
     <string name="counterSettings_tile_general_headerTitle">Général</string>
-    <string name="counterSettings_tile_healthConnect_title">Intégration Health Connect</string>
+    <string name="counterSettings_tile_healthConnect_title">Synchroniser avec d\'autres applis</string>
     <string name="counterSettings_tile_name_dialogTitle">Modifier le nom</string>
     <string name="counterSettings_tile_name_title">Nom</string>
     <string name="counterSettings_tile_other_headerTitle">Autre</string>
@@ -88,6 +92,8 @@
     <string name="groupType_day_title">Jour</string>
     <string name="groupType_month_title">Mois</string>
     <string name="groupType_week_title">Semaine</string>
+    <string name="healthConnectDataType_repetitions">Répétitions</string>
+    <string name="healthConnectExerciseType_backExtension">Extension du dos</string>
     <string name="healthConnectSettingsActivity_activityInfo_description">Synchronisez ce compteur avec les applications compatibles avec Health Connect, telles que Google Fit ou Samsung Health.</string>
     <string name="healthConnectSettingsActivity_banner_incompatibleDevice_button_text">En savoir plus</string>
     <string name="healthConnectSettingsActivity_banner_incompatibleDevice_description">Health Connect nécessite d\'avoir au moins Android Oreo (8.1) pour fonctionner.</string>
@@ -97,23 +103,18 @@
     <string name="healthConnectSettingsActivity_banner_setup_description">Commencer la configuration pour lier Compteurs &amp; Health Connect</string>
     <string name="healthConnectSettingsActivity_banner_setup_title">Configuration</string>
     <string name="healthConnectSettingsActivity_header_title">Synchronisation</string>
-    <string name="healthConnectSettingsActivity_tile_activityType_title">Type d\'activité</string>
+    <string name="healthConnectSettingsActivity_tile_dataType_title">Type de donnée</string>
+    <string name="healthConnectSettingsActivity_tile_exerciseType_title">Type d\'exercice</string>
     <string name="healthConnectSettingsActivity_tile_general_headerTitle">Général</string>
     <string name="healthConnectSettingsActivity_tile_openApp_title">Ouvrir Health Connect</string>
     <string name="healthConnectSettingsActivity_topbar_icon_back_contentDescription">Retour</string>
-    <string name="healthConnectSettingsActivity_topbar_title">Health Connect</string>
+    <string name="healthConnectSettingsActivity_topbar_title">Synchronisation avec les applis</string>
     <string name="healthConnectSetupActivity_button_continue">Continuer</string>
     <string name="healthConnectSetupActivity_text_linkHealthConnect_text">Lier avec Health Connect</string>
     <string name="healthConnectSetupActivity_tile_install_secondary">Installer l\'application Health Connect</string>
     <string name="healthConnectSetupActivity_tile_permissions_secondary">Accepter les permissions</string>
     <string name="healthConnectSetupActivity_tile_step_title">Étape %d</string>
     <string name="healthConnectSetupActivity_topbar_icon_back_contentDescription">Retour</string>
-    <string name="healthConnectType_burpees_title">Burpees</string>
-    <string name="healthConnectType_crunches_title">Crunches</string>
-    <string name="healthConnectType_jumpingJacks_title">Jumping jacks</string>
-    <string name="healthConnectType_plank_title">Planche</string>
-    <string name="healthConnectType_ropeJumps_title">Sauts à la corde</string>
-    <string name="healthConnectType_squats_title">Squats</string>
     <string name="incrementEntry_confirmationDialog_body_text">Êtes-vous sûr de vouloir supprimer cette entrée ? Cette opération ne pourra pas être annulée.</string>
     <string name="incrementEntry_confirmationDialog_confirmLabel">Supprimer</string>
     <string name="incrementEntry_confirmationDialog_title">Supprimer l\'entrée</string>
@@ -154,6 +155,7 @@
     <string name="resetType_week_secondary">Se remet à zéro toutes les semaines</string>
     <string name="resetType_week_title">Chaque semaine</string>
     <string name="settingsActivity_tile_about_headerTitle">À propos</string>
+    <string name="settingsActivity_tile_accessibility_title">Accessibilité</string>
     <string name="settingsActivity_tile_changelog_title">Nouveautés et changements</string>
     <string name="settingsActivity_tile_dataAndPrivacy_title">Données &amp; Vie privée</string>
     <string name="settingsActivity_tile_discordInvite_secondary">Discute avec la communauté et suis le développement de nouvelles fonctionnalités!</string>

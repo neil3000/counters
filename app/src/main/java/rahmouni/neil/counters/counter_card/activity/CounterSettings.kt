@@ -182,7 +182,7 @@ fun CounterSettings(
                 ) { defaultModifier ->
                     TileStartActivity(
                         title = stringResource(R.string.counterSettings_tile_healthConnect_title),
-                        icon = Icons.Outlined.FitnessCenter,
+                        icon = Icons.Outlined.Sync,
                         activity = HealthConnectSettingsActivity::class.java,
                         modifier = defaultModifier
                     ) { intent ->
