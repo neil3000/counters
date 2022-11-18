@@ -150,6 +150,15 @@ fun SettingsPage() {
                     activity = DataSettingsActivity::class.java
                 )
             }
+            // Accessibility
+            if (remoteConfig.getBoolean("issue119__accessibility"))
+            item {
+                TileStartActivity(
+                    title = stringResource(R.string.settingsActivity_tile_accessibility_title),
+                    icon = Icons.Outlined.AccessibilityNew,
+                    activity = AccessibilitySettingsActivity::class.java
+                )
+            }
             item { Divider() }
 
             // About

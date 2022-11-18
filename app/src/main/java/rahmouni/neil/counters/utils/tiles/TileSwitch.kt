@@ -6,7 +6,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
 import androidx.compose.material.Text
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -27,7 +26,6 @@ fun TileSwitch(
     onChange: (Boolean) -> Unit
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
-    //val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     ListItem(
         text = { Text(title) },
@@ -37,7 +35,10 @@ fun TileSwitch(
         singleLineSecondaryText = singleLineSecondaryText,
         icon = { Icon(icon, null) },
         trailing = {
-            Switch(checked = checked, onCheckedChange = null)
+            rahmouni.neil.counters.utils.Switch(
+                checked = checked,
+                onCheckedChange = null,
+            )
         },
         modifier = Modifier
             .alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)

@@ -71,6 +71,10 @@
         <value>true</value>
     </entry>
     <entry>
+        <key>issue119__accessibility</key>
+        <value>true</value>
+    </entry>
+    <entry>
         <key>issue205__patch</key>
         <value>true</value>
     </entry>
