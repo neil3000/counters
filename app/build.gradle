@@ -14,8 +14,8 @@ android {
         minSdk 26
         targetSdk 33
         versionCode 59
-        versionName "1.24"
-        resConfigs 'en-rGB', 'en', 'fr'
+        versionName "1.24.1"
+        resConfigs 'en', 'en-rUS', 'en-rGB', 'fr', 'zh', 'zh-rCN'
 
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

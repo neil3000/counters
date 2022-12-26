@@ -6,4 +6,19 @@
     <string name="counterStyleOption_filterChip_dynamicColors_label">Dynamic colours</string>
     <string name="healthConnectSettingsActivity_header_title">Synchronisation</string>
     <string name="healthConnectSettingsActivity_topbar_title">App synchronisation</string>
+    <string name="playStore_description_full">
+        Counters is an app that lets you create simple counters to track pretty much anything !
+
+        Features:
+        - Multiple counters
+        - Counters can automatically reset every day / week / month
+        - Works with Material You (changes colour based on your wallpaper or theme)
+        - Synchronises with Health Connect (Google Fit, Samsung Health and others)
+        - No ads, tracking or paid content
+        - Works offline
+
+        Track habits, workout progress, medication and improve your productivity !
+    </string>
+    <string name="playStore_image3_1">Customise</string>
+    <string name="playStore_image5_1">Synchronise with</string>
 </resources>

@@ -13,9 +13,6 @@
     <string name="cardSettingsActivity_topbar_title">Card settings</string>
     <string name="commonIntents_sendEmail_toast_noApp">You don\'t have any app to send emails, please install one to continue</string>
     <string name="confirmationDialog_dismissButton_text">Cancel</string>
-    <string name="contributeTranslateBanner_banner_button_dismiss_text" translatable="false">Dismiss</string>
-    <string name="contributeTranslateBanner_banner_button_start_text" translatable="false">Let\'s go</string>
-    <string name="contributeTranslateBanner_banner_description" translatable="false">Would you like to contribute &amp; help translating this app into %s? :D</string>
     <string name="counterActivity_fab_newEntry_contentDescription">New entry</string>
     <string name="counterActivity_nav_entries_label">Entries</string>
     <string name="counterActivity_nav_settings_label">Settings</string>
@@ -200,4 +197,33 @@
     <string name="valueType_task_notDone">Not done</string>
     <string name="weekDisplay_firstDay">First day of the week</string>
     <string name="weekDisplay_number">Week number in year</string>
+    <string name="playStore_appName">Counters (Material You)</string>
+    <string name="playStore_description_short">Create simple counters to track your habits, progress, workout or medication</string>
+    <string name="playStore_description_full">
+        Counters is an app that lets you create simple counters to track pretty much anything !
+
+        Features:
+        - Multiple counters
+        - Counters can automatically reset every day / week / month
+        - Works with Material You (changes color based on your wallpaper or theme)
+        - Synchronizes with Health Connect (Google Fit, Samsung Health and others)
+        - No ads, tracking or paid content
+        - Works offline
+
+        Track habits, workout progress, medication and improve your productivity !
+    </string>
+    <string name="playStore_image1_1">Counters</string>
+    <string name="playStore_image1_2">Track anything</string>
+    <string name="playStore_image3_1">Customize</string>
+    <string name="playStore_image3_2">your counters</string>
+    <string name="playStore_image4_1">
+        No ads.
+        No selling of data.
+    </string>
+    <string name="playStore_image4_2">
+        Works with
+        Material You
+    </string>
+    <string name="playStore_image5_1">Synchronize with</string>
+    <string name="playStore_image5_2">Health apps</string>
 </resources>
