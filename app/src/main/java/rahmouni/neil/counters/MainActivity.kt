@@ -202,7 +202,9 @@ fun Home(countersListViewModel: CountersListViewModel, healthConnectManager: Hea
                             columns = GridCells.Adaptive(minSize = 165.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = if (remoteConfig.getBoolean("issue205__patch")) Modifier.fillMaxHeight().padding(8.dp) else Modifier.padding(8.dp)
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .padding(8.dp)
                         ) {
                             items(countersList) { counter ->
                                 CounterCard(counter, countersListViewModel, healthConnectManager) {
