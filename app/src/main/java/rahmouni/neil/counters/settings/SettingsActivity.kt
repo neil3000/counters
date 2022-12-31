@@ -152,13 +152,13 @@ fun SettingsPage() {
             }
             // Accessibility
             if (remoteConfig.getBoolean("issue119__accessibility"))
-            item {
-                TileStartActivity(
-                    title = stringResource(R.string.settingsActivity_tile_accessibility_title),
-                    icon = Icons.Outlined.AccessibilityNew,
-                    activity = AccessibilitySettingsActivity::class.java
-                )
-            }
+                item {
+                    TileStartActivity(
+                        title = stringResource(R.string.settingsActivity_tile_accessibility_title),
+                        icon = Icons.Outlined.AccessibilityNew,
+                        activity = AccessibilitySettingsActivity::class.java
+                    )
+                }
             item { Divider() }
 
             // About
@@ -211,22 +211,20 @@ fun SettingsPage() {
                     }
                 }
             }
-            if (remoteConfig.getBoolean("issue195__feedback_tile")) {
-                // Feedback
-                item {
-                    TileClick(
-                        title = stringResource(R.string.settingsActivity_tile_feedback_title),
-                        description = stringResource(R.string.settingsActivity_tile_feedback_secondary),
-                        icon = Icons.Outlined.Feedback,
-                        singleLineSecondaryText = false
-                    ) {
-                        activity.startActivity(
-                            Intent(activity, FeedbackActivity::class.java).putExtra(
-                                "screenName",
-                                "SettingsActivity"
-                            )
+            // Feedback
+            item {
+                TileClick(
+                    title = stringResource(R.string.settingsActivity_tile_feedback_title),
+                    description = stringResource(R.string.settingsActivity_tile_feedback_secondary),
+                    icon = Icons.Outlined.Feedback,
+                    singleLineSecondaryText = false
+                ) {
+                    activity.startActivity(
+                        Intent(activity, FeedbackActivity::class.java).putExtra(
+                            "screenName",
+                            "SettingsActivity"
                         )
-                    }
+                    )
                 }
             }
 
