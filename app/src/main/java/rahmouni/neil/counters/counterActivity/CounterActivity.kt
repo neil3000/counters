@@ -27,10 +27,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
@@ -167,7 +169,8 @@ fun CounterPage(
     }
 
     var currentGoalProgress by rememberSaveable { mutableStateOf(0f) }
-    var shouldAnimate by rememberSaveable { mutableStateOf(0) }
+    var shouldAnimate by remember { mutableStateOf(0) }
+    var konpos by remember { mutableStateOf(Offset.Zero) }
     if (counter != null) {
         val ig: List<IncrementGroup> by countersListViewModel.getCounterIncrementGroups(
             counter!!.uid,
@@ -334,7 +337,10 @@ fun CounterPage(
                                             if (counter?.goalEnabled == true) {
                                                 GoalBar(
                                                     currentGoalProgress,
-                                                    counter!!
+                                                    counter!!,
+                                                    Modifier.onGloballyPositioned {
+                                                        konpos = (it.parentLayoutCoordinates?.positionInParent() ?: Offset.Zero).plus(it.boundsInParent().center)
+                                                    }
                                                 )
                                             }
 
@@ -348,7 +354,7 @@ fun CounterPage(
                                     }
                                 }
                                 if (currentGoalProgress >= 1f && shouldAnimate >= 3) {
-                                    GoalKonfetti()
+                                    GoalKonfetti(konpos)
                                 }
                             }
                         }

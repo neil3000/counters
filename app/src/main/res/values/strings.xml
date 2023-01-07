@@ -238,4 +238,5 @@
     <string name="counterGoalSettingsActivity_followCounter_title">Same as counter</string>
     <string name="counterGoalSettingsActivity_followCounter_formatted">When the counter resets</string>
     <string name="goalBar_title">Goal progress</string>
+    <string name="goalBar_achieved">Goal achieved</string>
 </resources>
