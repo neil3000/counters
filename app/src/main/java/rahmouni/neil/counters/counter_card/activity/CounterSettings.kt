@@ -21,12 +21,13 @@ import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.MainActivity
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
-import rahmouni.neil.counters.health_connect.HealthConnectSettingsActivity
-import rahmouni.neil.counters.health_connect.observeAsState
+import rahmouni.neil.counters.counterActivity.goal.CounterGoalSettingsActivity
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.health_connect.HealthConnectAvailability
 import rahmouni.neil.counters.health_connect.HealthConnectManager
+import rahmouni.neil.counters.health_connect.HealthConnectSettingsActivity
+import rahmouni.neil.counters.health_connect.observeAsState
 import rahmouni.neil.counters.options.ValueOption
 import rahmouni.neil.counters.utils.dialogs.ConfirmationDialog
 import rahmouni.neil.counters.utils.tiles.*
@@ -86,6 +87,31 @@ fun CounterSettings(
                 }
             }
         }
+        if (remoteConfig.getBoolean("issue79__goals")) {
+            item {
+                TileEndSwitch(
+                    checked = counter?.goalEnabled ?: false,
+                    onChange = {
+                        countersListViewModel.updateCounter(
+                            counter!!.copy(
+                                goalEnabled = it
+                            ).toCounter()
+                        )
+                    }
+                ) { defaultModifier ->
+                    TileStartActivity(
+                        title = stringResource(R.string.counterSettings_tile_goal_title),
+                        icon = Icons.Outlined.EmojiEvents,
+                        activity = CounterGoalSettingsActivity::class.java,
+                        modifier = defaultModifier
+                    ) { intent ->
+                        if (counter != null) {
+                            intent.putExtra("counterID", counter.uid)
+                        } else intent
+                    }
+                }
+            }
+        }
         item {
             TileStartActivity(
                 title = stringResource(R.string.counterSettings_tile_cardSettings_title),
@@ -96,21 +122,6 @@ fun CounterSettings(
                 if (counter != null) {
                     it.putExtra("counterID", counter.uid)
                 } else it
-            }
-        }
-        if (remoteConfig.getBoolean("issue79__goals")) {
-            item {
-                ValueOption(
-                    //TODO i18n
-                    title = "Goal",
-                    secondaryFormatter = null,
-                    icon = Icons.Outlined.EmojiEvents,
-                    dialogTitle = "Set goal to",
-                    valueType = counter?.valueType ?: ValueType.NUMBER,
-                    value = counter?.resetValue ?: 0,
-                ) {
-                    //TODO
-                }
             }
         }
         item { Divider() }

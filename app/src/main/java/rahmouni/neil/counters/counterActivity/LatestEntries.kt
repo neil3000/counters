@@ -38,7 +38,7 @@ fun LatestEntries(
     increments: List<Increment>,
     countersListViewModel: CountersListViewModel,
     counter: CounterAugmented,
-    big: Boolean
+    rowCount: Int
 ) {
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
@@ -108,7 +108,6 @@ fun LatestEntries(
         }
 
 
-        val rowCount = if (big) 8 else 5
         increments.take(rowCount)
             .forEachIndexed { index, increment ->
                 val isLast = index == min(rowCount, increments.size) - 1

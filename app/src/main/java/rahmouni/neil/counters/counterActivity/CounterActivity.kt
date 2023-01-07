@@ -52,8 +52,13 @@ import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
+import nl.dionsegijn.konfetti.compose.KonfettiView
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.emitter.Emitter
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
+import rahmouni.neil.counters.counterActivity.goal.GoalBar
 import rahmouni.neil.counters.counterActivity.statCount.StatCountProvider
 import rahmouni.neil.counters.counter_card.activity.CounterEntries
 import rahmouni.neil.counters.counter_card.activity.CounterSettings
@@ -67,6 +72,7 @@ import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 import rahmouni.neil.counters.utils.SettingsDots
+import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
 class CounterActivity : ComponentActivity() {
@@ -156,6 +162,16 @@ fun CounterPage(
         if ((counter?.valueType?.hasStats != false) && rc.getBoolean("issue20__graph"))
             listOf(Icons.Outlined.List, Icons.Outlined.ShowChart, Icons.Outlined.Settings)
         else listOf(Icons.Outlined.List, Icons.Outlined.Settings)
+
+    val party = Party(
+        speed = 0f,
+        maxSpeed = 30f,
+        damping = 0.9f,
+        spread = 360,
+        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
+        emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
+        position = Position.Relative(0.5, 0.3)
+    )
 
     fun moveToRoute(route: String) {
         navController.navigate(route) {
@@ -265,61 +281,74 @@ fun CounterPage(
 
                     if (rc.getBoolean("issue190__revamp_counter_screen2")) {
                         if (counter != null && increments != null) {
-                            LazyVerticalGrid(
-                                columns = GridCells.Adaptive(minSize = 400.dp),
-                                Modifier.fillMaxSize(),
-                                verticalArrangement = spacedBy(24.dp)
-                            ) {
-                                item {
-                                    Column(
-                                        Modifier.fillMaxWidth(),
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = spacedBy(24.dp)
-                                    ) {
-                                        MainCount(
-                                            count = counter!!.count + counter!!.resetValue,
-                                            valueType = counter!!.valueType
-                                        )
-
-                                        StatCountProvider(counter!!, countersListViewModel)
-
-                                        // SuggestionChips (WIP)
-                                        /*
-                                        Row(horizontalArrangement = spacedBy(8.dp)) {
-                                            AssistChip(
-                                                onClick = {  },
-                                                label = { Text("Edit name") },
-                                                leadingIcon = {
-                                                    Icon(
-                                                        Icons.Outlined.AutoAwesome,
-                                                        null,
-                                                        Modifier.scale(.85f)
-                                                    )
-                                                }
+                            Box {
+                                LazyVerticalGrid(
+                                    columns = GridCells.Adaptive(minSize = 400.dp),
+                                    Modifier.fillMaxSize(),
+                                    verticalArrangement = spacedBy(24.dp)
+                                ) {
+                                    item {
+                                        Column(
+                                            Modifier.fillMaxWidth(),
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            verticalArrangement = spacedBy(24.dp)
+                                        ) {
+                                            MainCount(
+                                                count = counter!!.count + counter!!.resetValue,
+                                                valueType = counter!!.valueType
                                             )
-                                        }*/
+
+                                            StatCountProvider(counter!!, countersListViewModel)
+
+                                            // SuggestionChips (WIP)
+                                            /*
+                                            Row(horizontalArrangement = spacedBy(8.dp)) {
+                                                AssistChip(
+                                                    onClick = {  },
+                                                    label = { Text("Edit name") },
+                                                    leadingIcon = {
+                                                        Icon(
+                                                            Icons.Outlined.AutoAwesome,
+                                                            null,
+                                                            Modifier.scale(.85f)
+                                                        )
+                                                    }
+                                                )
+                                            }*/
+                                        }
+                                    }
+                                    var big = false
+                                    item(span = {
+                                        big = maxLineSpan > 1
+                                        GridItemSpan(1)
+                                    }) {
+                                        Column(
+                                            Modifier
+                                                .padding(16.dp)
+                                                .fillMaxWidth(),
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            verticalArrangement = spacedBy(24.dp)
+                                        ) {
+                                            if (counter?.goalEnabled == true) {
+                                                GoalBar(
+                                                    countersListViewModel,
+                                                    counter!!
+                                                )
+                                            }
+
+                                            LatestEntries(
+                                                increments!!,
+                                                countersListViewModel,
+                                                counter!!,
+                                                (if (big) 8 else 5) - (if (counter?.goalEnabled == true) 2 else 0)
+                                            )
+                                        }
                                     }
                                 }
-                                var big = false
-                                item(span = {
-                                    big = maxLineSpan > 1
-                                    GridItemSpan(1)
-                                }) {
-                                    Column(
-                                        Modifier
-                                            .padding(16.dp)
-                                            .fillMaxWidth(),
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = spacedBy(24.dp)
-                                    ) {
-                                        LatestEntries(
-                                            increments!!,
-                                            countersListViewModel,
-                                            counter!!,
-                                            big
-                                        )
-                                    }
-                                }
+                                KonfettiView(
+                                    modifier = Modifier.fillMaxSize(),
+                                    parties = listOf(party),
+                                )
                             }
                         }
                     } else {

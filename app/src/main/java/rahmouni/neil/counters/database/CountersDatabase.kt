@@ -27,10 +27,11 @@ import java.io.Serializable
             from = 8,
             to = 9,
             spec = CountersDatabase.Migration89::class
-        )
+        ),
+        AutoMigration(from = 9, to = 10),
     ],
     exportSchema = true,
-    version = 9
+    version = 10
 )
 abstract class CountersDatabase : RoomDatabase() {
     abstract fun countersListDao(): CountersListDao
@@ -121,6 +122,9 @@ data class Counter(
         name = "button_notDone_enabled",
         defaultValue = "false"
     ) val notDoneButtonEnabled: Boolean = false,
+    @ColumnInfo(name = "goal_value", defaultValue = "null") val goalValue: Int? = null,
+    @ColumnInfo(name = "goal_enabled", defaultValue = "false") val goalEnabled: Boolean = false,
+    @ColumnInfo(name = "goal_reset", defaultValue = "NEVER") val goalReset: ResetType? = null, //if null, follows the counter ResetValue
 )
 
 data class CounterAugmented(
@@ -168,6 +172,9 @@ data class CounterAugmented(
         name = "button_notDone_enabled",
         defaultValue = "false"
     ) val notDoneButtonEnabled: Boolean = false,
+    @ColumnInfo(name = "goal_value", defaultValue = "null") val goalValue: Int? = null,
+    @ColumnInfo(name = "goal_enabled", defaultValue = "false") val goalEnabled: Boolean = false,
+    @ColumnInfo(name = "goal_reset", defaultValue = "NEVER") val goalReset: ResetType? = null,
 
     @ColumnInfo(name = "total_count") val totalCount: Int = 0,
     @ColumnInfo(name = "last_increment") val lastIncrement: Int = 1,
@@ -192,6 +199,10 @@ data class CounterAugmented(
             minusButtonEnabled = minusButtonEnabled,
             doneButtonEnabled = doneButtonEnabled,
             notDoneButtonEnabled = notDoneButtonEnabled,
+
+            goalValue = goalValue,
+            goalEnabled = goalEnabled,
+            goalReset = goalReset
         )
     }
 }
