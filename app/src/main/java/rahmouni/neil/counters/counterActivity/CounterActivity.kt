@@ -22,10 +22,9 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
@@ -52,28 +51,22 @@ import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
-import nl.dionsegijn.konfetti.compose.KonfettiView
-import nl.dionsegijn.konfetti.core.Party
-import nl.dionsegijn.konfetti.core.Position
-import nl.dionsegijn.konfetti.core.emitter.Emitter
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.counterActivity.goal.GoalBar
+import rahmouni.neil.counters.counterActivity.goal.GoalKonfetti
 import rahmouni.neil.counters.counterActivity.statCount.StatCountProvider
 import rahmouni.neil.counters.counter_card.activity.CounterEntries
 import rahmouni.neil.counters.counter_card.activity.CounterSettings
 import rahmouni.neil.counters.counter_card.activity.graph.CounterGraph
 import rahmouni.neil.counters.counter_card.new_increment.NewIncrement
-import rahmouni.neil.counters.database.CounterAugmented
-import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.database.CountersListViewModelFactory
-import rahmouni.neil.counters.database.Increment
+import rahmouni.neil.counters.database.*
 import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 import rahmouni.neil.counters.utils.SettingsDots
-import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
+import kotlin.math.min
 
 class CounterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -163,16 +156,6 @@ fun CounterPage(
             listOf(Icons.Outlined.List, Icons.Outlined.ShowChart, Icons.Outlined.Settings)
         else listOf(Icons.Outlined.List, Icons.Outlined.Settings)
 
-    val party = Party(
-        speed = 0f,
-        maxSpeed = 30f,
-        damping = 0.9f,
-        spread = 360,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
-        emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
-        position = Position.Relative(0.5, 0.3)
-    )
-
     fun moveToRoute(route: String) {
         navController.navigate(route) {
             popUpTo(navController.graph.findStartDestination().id) {
@@ -180,6 +163,25 @@ fun CounterPage(
             }
             launchSingleTop = true
             restoreState = true
+        }
+    }
+
+    var currentGoalProgress by rememberSaveable { mutableStateOf(0f) }
+    var shouldAnimate by rememberSaveable { mutableStateOf(0) }
+    if (counter != null) {
+        val ig: List<IncrementGroup> by countersListViewModel.getCounterIncrementGroups(
+            counter!!.uid,
+            counter!!.goalReset ?: counter!!.resetType
+        ).observeAsState(listOf())
+
+        LaunchedEffect(key1 = ig) {
+            currentGoalProgress =
+                min(
+                    ((if (ig.isEmpty()) 0 else ig[0].count) + (counter!!.resetValue)).toFloat() / (counter!!.goalValue
+                        ?: 1),
+                    1f
+                )
+            shouldAnimate++
         }
     }
 
@@ -331,7 +333,7 @@ fun CounterPage(
                                         ) {
                                             if (counter?.goalEnabled == true) {
                                                 GoalBar(
-                                                    countersListViewModel,
+                                                    currentGoalProgress,
                                                     counter!!
                                                 )
                                             }
@@ -345,10 +347,9 @@ fun CounterPage(
                                         }
                                     }
                                 }
-                                KonfettiView(
-                                    modifier = Modifier.fillMaxSize(),
-                                    parties = listOf(party),
-                                )
+                                if (currentGoalProgress >= 1f && shouldAnimate >= 3) {
+                                    GoalKonfetti()
+                                }
                             }
                         }
                     } else {

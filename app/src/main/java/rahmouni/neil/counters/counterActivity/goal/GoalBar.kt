@@ -16,7 +16,6 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,14 +28,11 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
-import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.database.IncrementGroup
-import kotlin.math.min
 
 @Composable
 fun GoalBar(
-    countersListViewModel: CountersListViewModel,
-    counter: CounterAugmented,
+    currentProgress: Float,
+    counter: CounterAugmented
 ) {
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
@@ -47,17 +43,6 @@ fun GoalBar(
         spawn = true
     }
 
-    val ig: List<IncrementGroup> by countersListViewModel.getCounterIncrementGroups(
-        counter.uid,
-        counter.goalReset ?: counter.resetType
-    ).observeAsState(listOf())
-
-    val currentProgress =
-        min(
-            ((if (ig.isEmpty()) 0 else ig[0].count) + counter.resetValue).toFloat() / (counter.goalValue
-                ?: 1),
-            1f
-        )
     val animatedProgress = animateFloatAsState(
         targetValue = currentProgress,
         animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
