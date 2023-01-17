@@ -4,7 +4,6 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import rahmouni.neil.counters.MainActivity
-import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.counter_card.activity.GroupType
 
@@ -14,13 +13,13 @@ class EntriesTabTestView(
 ) {
     //----------- ACTIONS ----------//
 
-    fun openSettingsTab(): SettingsTabTestView {
+    /*fun openSettingsTab(): SettingsTabTestView {
         composeTestRule
             .onNodeWithText(composeTestRule.activity.getString(R.string.text_counterSettings_short))
             .performClick()
 
         return SettingsTabTestView(composeTestRule, counterName)
-    }
+    }*/
 
     fun setGroupTypeOfResetType(rt: ResetType): EntriesTabTestView {
         for (gt in GroupType.values()) {
@@ -35,14 +34,6 @@ class EntriesTabTestView(
     }
 
     //---------- ASSERTS ----------//
-
-    fun assertNoEntriesExist(): EntriesTabTestView {
-        composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.text_noEntriesYet))
-            .assertExists()
-
-        return this
-    }
 
     fun assertFirstHeaderTitleIs(title: Int): EntriesTabTestView {
         composeTestRule

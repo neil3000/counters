@@ -136,24 +136,24 @@ fun FeedbackPage(previousScreen: String) {
                             feedbackType!!.subject,
                             when (feedbackType!!) {
                                 FeedbackType.BUG ->
-                                    "VERSION: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
-                                            "SCREEN: ${if (feedbackLocation == FeedbackLocation.PREVIOUS_SCREEN) previousScreen else "null"}\n" +
-                                            "DEVICE: ${if (sendDeviceModel) device else "null"}\n" +
-                                            "ANDROID_VERSION: ${if (sendDeviceModel) androidVersion else "null"}\n" +
-                                            "DESC:\n$description\n" +
-                                            "FIREBASE: ${if (sendFirebaseAppInstallationID) (CountersApplication.firebaseInstallationID ?: "Error") else "null"}\n" +
-                                            "CONTRIBUTOR: $acceptContributorBadge"
+                                    "VERSION: `${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})`\n\n" +
+                                            "SCREEN: `${if (feedbackLocation == FeedbackLocation.PREVIOUS_SCREEN) previousScreen else "null"}`\n\n" +
+                                            "DEVICE: `${if (sendDeviceModel) device else "null"}`\n\n" +
+                                            "ANDROID_VERSION: `${if (sendDeviceModel) androidVersion else "null"}`\n\n" +
+                                            "DESC:\n> $description\n\n" +
+                                            "FIREBASE: `${if (sendFirebaseAppInstallationID) (CountersApplication.firebaseInstallationID ?: "Error") else "null"}`\n\n" +
+                                            "CONTRIBUTOR: `$acceptContributorBadge`"
                                 FeedbackType.FEATURE ->
-                                    "VERSION: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
-                                            "DESC:\n$description" +
-                                            "FIREBASE: ${if (sendFirebaseAppInstallationID) (CountersApplication.firebaseInstallationID ?: "Error") else "null"}\n" +
-                                            "CONTRIBUTOR: $acceptContributorBadge"
+                                    "VERSION: `${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})`\n\n" +
+                                            "DESC:\n> $description\n\n" +
+                                            "FIREBASE: `${if (sendFirebaseAppInstallationID) (CountersApplication.firebaseInstallationID ?: "Error") else "null"}`\n\n" +
+                                            "CONTRIBUTOR: `$acceptContributorBadge`"
                                 FeedbackType.TRANSLATION ->
-                                    "VERSION: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n" +
-                                            "SCREEN: ${if (feedbackLocation == FeedbackLocation.PREVIOUS_SCREEN) previousScreen else "null"}\n" +
-                                            "DESC:\n$description" +
-                                            "FIREBASE: ${if (sendFirebaseAppInstallationID) (CountersApplication.firebaseInstallationID ?: "Error") else "null"}\n" +
-                                            "CONTRIBUTOR: $acceptContributorBadge"
+                                    "VERSION: `${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})`\n\n" +
+                                            "SCREEN: `${if (feedbackLocation == FeedbackLocation.PREVIOUS_SCREEN) previousScreen else "null"}`\n\n" +
+                                            "DESC:\n> $description\n\n" +
+                                            "FIREBASE: `${if (sendFirebaseAppInstallationID) (CountersApplication.firebaseInstallationID ?: "Error") else "null"}`\n\n" +
+                                            "CONTRIBUTOR: `$acceptContributorBadge`"
                             }
                         )
                     }

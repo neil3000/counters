@@ -26,7 +26,7 @@ class DataSettingsTestView(
 
     fun assertTitleExists(): DataSettingsTestView {
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.text_dataAndPrivacy))
+            .onNodeWithText(composeTestRule.activity.getString(R.string.settingsActivity_tile_dataAndPrivacy_title))
             .assertExists()
 
         return this
