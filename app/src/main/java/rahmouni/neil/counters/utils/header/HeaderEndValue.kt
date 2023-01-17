@@ -1,9 +1,6 @@
 package rahmouni.neil.counters.utils.header
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -29,7 +26,9 @@ fun HeaderEndValue(
             Text(
                 title,
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(24.dp).testTag("HEADER_TITLE")
+                modifier = Modifier
+                    .padding(24.dp)
+                    .testTag("HEADER_TITLE")
             )
             Surface(
                 color = MaterialTheme.colorScheme.surface,
@@ -37,7 +36,9 @@ fun HeaderEndValue(
                 modifier = Modifier.padding(8.dp),
                 tonalElevation = 2.dp
             ) {
-                secondary()
+                Box(Modifier.padding(18.dp)) {
+                    secondary()
+                }
             }
         }
     }
