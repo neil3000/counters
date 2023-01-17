@@ -15,9 +15,6 @@
     <string name="commonIntents_sendEmail_toast_noApp">You don\'t have any app to send emails, please install one to continue</string>
     <string name="confirmationDialog_dismissButton_text">Cancel</string>
     <string name="counterActivity_fab_newEntry_contentDescription">New entry</string>
-    <string name="counterActivity_nav_entries_label">Entries</string>
-    <string name="counterActivity_nav_settings_label">Settings</string>
-    <string name="counterActivity_nav_stats_label">Stats</string>
     <string name="counterActivity_topbar_icon_back_contentDescription">Back</string>
     <string name="counterEntriesActivity_topbar_icon_back_contentDescription">Back</string>
     <string name="counterEntriesActivity_topbar_title">%s\'s entries</string>
@@ -227,4 +224,21 @@
     </string>
     <string name="playStore_image5_1">Synchronize with</string>
     <string name="playStore_image5_2">Health apps</string>
+    <string name="counterSettings_tile_goal_title">Goal</string>
+    <string name="counterGoalSettingsActivity_topbar_title">Goal settings</string>
+    <string name="counterGoalSettingsActivity_topbar_icon_back_contentDescription">Back</string>
+    <string name="counterGoalSettingsActivity_header_title">Enable goal</string>
+    <string name="counterGoalSettingsActivity_tile_general_headerTitle">General</string>
+    <string name="counterGoalSettingsActivity_tile_goalValue_title">Target</string>
+    <string name="counterGoalSettingsActivity_tile_goalValue_dialogTitle">Goal target</string>
+    <string name="counterGoalSettingsActivity_tile_goalReset_title">Resets</string>
+    <string name="counterGoalSettingsActivity_followCounter_title">Same as counter</string>
+    <string name="counterGoalSettingsActivity_followCounter_formatted">When the counter resets</string>
+    <string name="goalBar_title">Goal progress</string>
+    <string name="goalBar_achieved_title">Goal achieved</string>
+    <string name="goalBar_achieved_button">Increase target</string>
+    <string name="accessibilitySettingsActivity_tile_disableConfetti_title">Disable confetti</string>
+    <string name="accessibilitySettingsActivity_tile_disableConfetti_secondary">Removes all confetti animations</string>
+    <string name="counterActivity_bottomBar_icon_entries_contentDescription">Entries</string>
+    <string name="counterActivity_bottomBar_icon_settings_contentDescription">Settings</string>
 </resources>

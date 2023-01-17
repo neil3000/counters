@@ -13,8 +13,8 @@ android {
         applicationId "rahmouni.neil.counters"
         minSdk 26
         targetSdk 33
-        versionCode 61
-        versionName "1.24.2"
+        versionCode 62
+        versionName "1.25"
         resConfigs 'en', 'en-rUS', 'en-rGB', 'fr', 'zh', 'zh-rCN'
 
 
@@ -35,7 +35,7 @@ android {
         create("minApi26") {
             dimension = "api"
             minSdk = 26
-            versionCode = (android.defaultConfig.versionCode ?: 0)*10000+26
+            versionCode = (android.defaultConfig.versionCode ?: 0) * 10000 + 26
             versionNameSuffix = ".00.26"
         }
     }
@@ -56,7 +56,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-        useIR = true
         freeCompilerArgs += [
                 "-Xjvm-default=all", "-Xopt-in=kotlin.RequiresOptIn"
         ]
@@ -65,7 +64,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion "1.1.1"
+        kotlinCompilerExtensionVersion "1.3.2"
     }
     packagingOptions {
         resources {
@@ -78,31 +77,31 @@ android {
 dependencies {
     implementation "androidx.core:core-ktx:1.9.0"
 
-    implementation "com.google.code.gson:gson:2.9.1"
+    implementation 'com.google.code.gson:gson:2.10.1'
 
-    implementation "androidx.appcompat:appcompat:1.5.1"
+    implementation "androidx.appcompat:appcompat:1.6.0"
     implementation "androidx.activity:activity-ktx:1.6.1"
 
-    implementation platform("com.google.firebase:firebase-bom:30.4.1")
+    implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation "com.google.firebase:firebase-analytics-ktx"
     implementation "com.google.firebase:firebase-crashlytics-ktx"
     implementation "com.google.firebase:firebase-config-ktx"
     implementation "com.google.firebase:firebase-appcheck-playintegrity"
     implementation "com.google.firebase:firebase-dynamic-links-ktx"
 
-    implementation "androidx.compose.ui:ui:1.4.0-alpha03"
+    implementation "androidx.compose.ui:ui:1.4.0-alpha04"
 
     // Tooling support (Previews, etc.)
-    debugImplementation("androidx.compose.ui:ui-tooling:1.3.2")
-    implementation "androidx.compose.ui:ui-tooling-preview:1.3.2"
+    debugImplementation("androidx.compose.ui:ui-tooling:1.3.3")
+    implementation "androidx.compose.ui:ui-tooling-preview:1.3.3"
 
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
-    implementation("androidx.compose.foundation:foundation:1.4.0-alpha03")
+    implementation("androidx.compose.foundation:foundation:1.4.0-alpha04")
 
     // Material Design
-    implementation("androidx.compose.material:material:1.4.0-alpha03")
-    implementation("androidx.compose.material3:material3:1.1.0-alpha03")
-    implementation("androidx.compose.material3:material3-window-size-class:1.1.0-alpha03")
+    implementation("androidx.compose.material:material:1.4.0-alpha04")
+    implementation("androidx.compose.material3:material3:1.1.0-alpha04")
+    implementation("androidx.compose.material3:material3-window-size-class:1.1.0-alpha04")
 
     // Material design icons
     implementation("androidx.compose.material:material-icons-core:1.3.1")
@@ -113,9 +112,9 @@ dependencies {
     implementation "com.google.accompanist:accompanist-insets-ui:0.15.0"
 
     // Room components
-    implementation "androidx.room:room-ktx:2.4.3"
-    kapt "androidx.room:room-compiler:2.4.3"
-    androidTestImplementation "androidx.room:room-testing:2.4.3"
+    implementation "androidx.room:room-ktx:2.5.0"
+    kapt "androidx.room:room-compiler:2.5.0"
+    androidTestImplementation "androidx.room:room-testing:2.5.0"
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
@@ -123,7 +122,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
     implementation "androidx.lifecycle:lifecycle-common-java8:2.5.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
-    implementation "androidx.compose.runtime:runtime-livedata:1.3.2"
+    implementation "androidx.compose.runtime:runtime-livedata:1.3.3"
 
     // Kotlin components
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
@@ -135,13 +134,13 @@ dependencies {
 
     // Testing
     testImplementation "junit:junit:4.13.2"
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.3.2")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.3.3")
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.2")
-    androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0", {
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.3")
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.5.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestImplementation "androidx.test.ext:junit:1.1.4"
+    androidTestImplementation "androidx.test.ext:junit:1.1.5"
 
     implementation("androidx.navigation:navigation-compose:2.5.3")
 
@@ -149,12 +148,14 @@ dependencies {
 
     implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
 
-    implementation  "androidx.appcompat:appcompat:1.5.1"
+    implementation "androidx.appcompat:appcompat:1.6.0"
 
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.0"
 
     //Health & Connect
     implementation "androidx.health.connect:connect-client:1.0.0-alpha07"
+
+    implementation 'nl.dionsegijn:konfetti-compose:2.0.2'
 
     implementation "androidx.concurrent:concurrent-futures-ktx:1.1.0"
 }

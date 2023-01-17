@@ -9,7 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -24,7 +23,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
-import kotlin.math.roundToInt
 
 const val CORNER_RADIUS = 16
 
@@ -42,13 +40,13 @@ fun RoundedBottomSheet(
     var reachTop by rememberSaveable { mutableStateOf(false) }
 
     fun getCornerRadius(): Int {
-        if (reachTop) {
-            if (state.currentValue == ModalBottomSheetValue.Expanded && state.progress.to == ModalBottomSheetValue.HalfExpanded) {
-                return (state.progress.fraction.coerceAtMost(.2f) * 5 * CORNER_RADIUS).roundToInt()
-            } else if (state.targetValue == ModalBottomSheetValue.Expanded) {
-                return CORNER_RADIUS - ((state.progress.fraction.coerceAtLeast(.8f) - .8) * 5 * CORNER_RADIUS).roundToInt()
-            }
+        /**if (reachTop) {
+        if (state.currentValue == ModalBottomSheetValue.Expanded && state.targetValue == ModalBottomSheetValue.HalfExpanded) {
+        return (state.fraction.coerceAtMost(.2f) * 5 * CORNER_RADIUS).roundToInt()
+        } else if (state.targetValue == ModalBottomSheetValue.Expanded) {
+        return CORNER_RADIUS - ((state.progress.fraction.coerceAtLeast(.8f) - .8) * 5 * CORNER_RADIUS).roundToInt()
         }
+        }**/
         return CORNER_RADIUS
     }
 

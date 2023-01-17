@@ -250,8 +250,7 @@ fun FeedbackPage(previousScreen: String) {
                     description = stringResource(R.string.feedbackActivity_tile_contributorBadge_description),
                     icon = Icons.Outlined.VolunteerActivism,
                     checked = acceptContributorBadge && sendFirebaseAppInstallationID,
-                    enabled = sendFirebaseAppInstallationID,
-                    singleLineSecondaryText = !remoteConfig.getBoolean("issue189__patch")
+                    enabled = sendFirebaseAppInstallationID
                 ) {
                     acceptContributorBadge = it
                 }

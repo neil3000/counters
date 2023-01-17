@@ -35,7 +35,8 @@ fun ValueOption(
     valueType: ValueType,
     value: Int,
     enabled: Boolean = true,
-    onSave: (Int) -> Unit
+    modifier: Modifier = Modifier,
+    onSave: (Int) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val localHapticFeedback = LocalHapticFeedback.current
@@ -85,7 +86,7 @@ fun ValueOption(
                 Modifier.alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
             )
         },
-        modifier = Modifier
+        modifier = modifier.then(Modifier
             .clickable(
                 enabled = enabled,
                 onClick = {
@@ -94,6 +95,7 @@ fun ValueOption(
                     openDialog = true
                 }
             )
+        )
     )
 
     if (openDialog) {

@@ -15,9 +15,6 @@
     <string name="commonIntents_sendEmail_toast_noApp">Vous n\'avez pas d\'application pour envoyer des emails, veuillez en installer une pour continuer</string>
     <string name="confirmationDialog_dismissButton_text">Annuler</string>
     <string name="counterActivity_fab_newEntry_contentDescription">Nouvelle entrée</string>
-    <string name="counterActivity_nav_entries_label">Entrées</string>
-    <string name="counterActivity_nav_settings_label">Paramètres</string>
-    <string name="counterActivity_nav_stats_label">Stats</string>
     <string name="counterActivity_topbar_icon_back_contentDescription">Retour</string>
     <string name="counterEntriesActivity_topbar_icon_back_contentDescription">Retour</string>
     <string name="counterEntriesActivity_topbar_title">Entrées de %s</string>
@@ -227,4 +224,21 @@
     </string>
     <string name="playStore_image5_1">Synchronisation avec</string>
     <string name="playStore_image5_2">les applis de Santé</string>
+    <string name="counterSettings_tile_goal_title">Objectif</string>
+    <string name="counterGoalSettingsActivity_topbar_title">Paramètres de l\'objectif</string>
+    <string name="counterGoalSettingsActivity_topbar_icon_back_contentDescription">Retour</string>
+    <string name="counterGoalSettingsActivity_header_title">Activer l\'objectif</string>
+    <string name="counterGoalSettingsActivity_tile_general_headerTitle">Général</string>
+    <string name="counterGoalSettingsActivity_tile_goalValue_title">Objectif</string>
+    <string name="counterGoalSettingsActivity_tile_goalValue_dialogTitle">Objectif</string>
+    <string name="counterGoalSettingsActivity_tile_goalReset_title">Réinitialisation</string>
+    <string name="counterGoalSettingsActivity_followCounter_title">Comme le compteur</string>
+    <string name="counterGoalSettingsActivity_followCounter_formatted">Quand le compteur se remet à zéro</string>
+    <string name="goalBar_title">Progression</string>
+    <string name="goalBar_achieved_title">Objectif atteint</string>
+    <string name="goalBar_achieved_button">Augmenter l\'objectif</string>
+    <string name="accessibilitySettingsActivity_tile_disableConfetti_title">Désactiver les confettis</string>
+    <string name="accessibilitySettingsActivity_tile_disableConfetti_secondary">Supprime toutes les animations de confettis</string>
+    <string name="counterActivity_bottomBar_icon_entries_contentDescription">Entrées</string>
+    <string name="counterActivity_bottomBar_icon_settings_contentDescription">Paramètres</string>
 </resources>

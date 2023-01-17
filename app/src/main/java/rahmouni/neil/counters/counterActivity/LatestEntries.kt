@@ -26,19 +26,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import java.lang.Integer.min
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.counter_card.activity.IncrementEntry
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.Increment
+import java.lang.Integer.min
 
 @Composable
 fun LatestEntries(
     increments: List<Increment>,
     countersListViewModel: CountersListViewModel,
     counter: CounterAugmented,
-    big: Boolean
+    rowCount: Int
 ) {
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
@@ -60,7 +60,7 @@ fun LatestEntries(
                 tween(
                     durationMillis = 400,
                     easing = FastOutSlowInEasing,
-                    delayMillis = 300
+                    delayMillis = 350
                 )
             )
         ) {
@@ -108,7 +108,6 @@ fun LatestEntries(
         }
 
 
-        val rowCount = if (big) 8 else 5
         increments.take(rowCount)
             .forEachIndexed { index, increment ->
                 val isLast = index == min(rowCount, increments.size) - 1
@@ -119,7 +118,7 @@ fun LatestEntries(
                         tween(
                             durationMillis = 400,
                             easing = FastOutSlowInEasing,
-                            delayMillis = 300
+                            delayMillis = 350
                         )
                     )
                 ) {

@@ -40,4 +40,8 @@ class Prefs(context: Context) {
     var iconSwitchesEnabled: Boolean
         get() = preferences.getBoolean("ICON_SWITCHES", false)
         set(value) = preferences.edit().putBoolean("ICON_SWITCHES", value).apply()
+
+    var confettiDisabled: Boolean
+        get() = preferences.getBoolean("CONFETTI_DISABLED", false)
+        set(value) = preferences.edit().putBoolean("CONFETTI_DISABLED", value).apply()
 }
