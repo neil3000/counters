@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Celebration
 import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -29,6 +30,7 @@ import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
@@ -76,8 +78,10 @@ fun AccessibilitySettingsPage() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
+    val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     var iconSwitchesEnabled: Boolean? by rememberSaveable { mutableStateOf(prefs.iconSwitchesEnabled) }
+    var confettiDisabled: Boolean? by rememberSaveable { mutableStateOf(prefs.confettiDisabled) }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -112,12 +116,26 @@ fun AccessibilitySettingsPage() {
                 TileSwitch(
                     title = stringResource(R.string.accessibilitySettingsActivity_tile_iconSwitches_title),
                     description = stringResource(R.string.accessibilitySettingsActivity_tile_iconSwitches_secondary),
-                    singleLineSecondaryText = false,
                     icon = Icons.Outlined.ToggleOn,
                     checked = iconSwitchesEnabled ?: false
                 ) {
                     iconSwitchesEnabled = it
                     prefs.iconSwitchesEnabled = it
+                }
+            }
+
+            if (remoteConfig.getBoolean("issue79__goals2")) {
+                // DisableConfetti
+                item {
+                    TileSwitch(
+                        title = stringResource(R.string.accessibilitySettingsActivity_tile_disableConfetti_title),
+                        description = stringResource(R.string.accessibilitySettingsActivity_tile_disableConfetti_secondary),
+                        icon = Icons.Outlined.Celebration,
+                        checked = confettiDisabled ?: false
+                    ) {
+                        confettiDisabled = it
+                        prefs.confettiDisabled = it
+                    }
                 }
             }
         }

@@ -36,6 +36,7 @@ import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
+import rahmouni.neil.counters.prefs
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -188,12 +189,14 @@ fun GoalBar(
                             Text(stringResource(R.string.goalBar_achieved_button))
                         }
                     }
-                    KonfettiView(
-                        Modifier
-                            .height(height)
-                            .fillMaxWidth(),
-                        parties = listOf(party)
-                    )
+                    if (!prefs.confettiDisabled) {
+                        KonfettiView(
+                            Modifier
+                                .height(height)
+                                .fillMaxWidth(),
+                            parties = listOf(party)
+                        )
+                    }
                 }
             }
         }

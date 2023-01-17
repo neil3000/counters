@@ -264,7 +264,7 @@ fun CounterPage(
                             }) {
                                 Icon(
                                     Icons.Outlined.List,
-                                    stringResource(R.string.counterActivity_nav_entries_label)
+                                    stringResource(R.string.counterActivity_bottomBar_icon_entries_contentDescription)
                                 )
                             }
                             IconButton(onClick = {
@@ -284,7 +284,7 @@ fun CounterPage(
                             }) {
                                 Icon(
                                     Icons.Outlined.Settings,
-                                    stringResource(R.string.counterActivity_nav_settings_label)
+                                    stringResource(R.string.counterActivity_bottomBar_icon_settings_contentDescription)
                                 )
                             }
                         },
