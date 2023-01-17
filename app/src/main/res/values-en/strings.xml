@@ -224,4 +224,21 @@
     </string>
     <string name="playStore_image5_1">Synchronize with</string>
     <string name="playStore_image5_2">Health apps</string>
+    <string name="counterSettings_tile_goal_title">Goal</string>
+    <string name="counterGoalSettingsActivity_topbar_title">Goal settings</string>
+    <string name="counterGoalSettingsActivity_topbar_icon_back_contentDescription">Back</string>
+    <string name="counterGoalSettingsActivity_header_title">Enable goal</string>
+    <string name="counterGoalSettingsActivity_tile_general_headerTitle">General</string>
+    <string name="counterGoalSettingsActivity_tile_goalValue_title">Target</string>
+    <string name="counterGoalSettingsActivity_tile_goalValue_dialogTitle">Goal target</string>
+    <string name="counterGoalSettingsActivity_tile_goalReset_title">Resets</string>
+    <string name="counterGoalSettingsActivity_followCounter_title">Same as counter</string>
+    <string name="counterGoalSettingsActivity_followCounter_formatted">When the counter resets</string>
+    <string name="goalBar_title">Goal progress</string>
+    <string name="goalBar_achieved_title">Goal achieved</string>
+    <string name="goalBar_achieved_button">Increase target</string>
+    <string name="accessibilitySettingsActivity_tile_disableConfetti_title">Disable confetti</string>
+    <string name="accessibilitySettingsActivity_tile_disableConfetti_secondary">Removes all confetti animations</string>
+    <string name="counterActivity_bottomBar_icon_entries_contentDescription">Entries</string>
+    <string name="counterActivity_bottomBar_icon_settings_contentDescription">Settings</string>
 </resources>
