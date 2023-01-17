@@ -32,6 +32,10 @@
         <key>help_url</key>
         <value>https://gitlab.com/neil3000/counters/-/wikis/Help</value>
     </entry>
+    <entry>
+        <key>discord_invite</key>
+        <value>https://counters.rahmouni.dev/discord1</value>
+    </entry>
 
     <!-- EXPERIMENTS -->
     <entry>
@@ -43,31 +47,11 @@
         <value>true</value>
     </entry>
     <entry>
-        <key>issue79__goals</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>issue185__remove_help_translate</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>issue186__discord_invite</key>
-        <value>http://google.fr/</value>
-    </entry>
-    <entry>
-        <key>issue189__patch</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>issue190__revamp_counter_screen2</key>
+        <key>issue79__goals2</key>
         <value>true</value>
     </entry>
     <entry>
         <key>issue196__patch</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>issue119__accessibility</key>
         <value>true</value>
     </entry>
 </defaultsMap>

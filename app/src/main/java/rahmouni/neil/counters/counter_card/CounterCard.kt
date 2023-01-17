@@ -27,6 +27,7 @@ fun CounterCard(
     data: CounterAugmented,
     countersListViewModel: CountersListViewModel?,
     healthConnectManager: HealthConnectManager,
+    modifier: Modifier = Modifier,
     openNewIncrementSheet: ((countersListViewModel: CountersListViewModel) -> (Unit))?,
 ) {
     val rc = FirebaseRemoteConfig.getInstance()
@@ -35,7 +36,8 @@ fun CounterCard(
 
     if (rc.getBoolean("issue196__patch")) {
         Card(
-            colors = CardDefaults.cardColors(containerColor = data.style.getBackGroundColor())
+            colors = CardDefaults.cardColors(containerColor = data.style.getBackGroundColor()),
+            modifier = modifier
         ) {
             Column(modifier = Modifier.combinedClickable(
                 onClick = {
@@ -94,7 +96,7 @@ fun CounterCard(
                     } else {
                         data.valueType.largeDisplay(
                             this,
-                            data.count + data.resetValue,
+                            data.getCount(),
                             context,
                             true
                         )
@@ -165,7 +167,7 @@ fun CounterCard(
                     } else {
                         data.valueType.largeDisplay(
                             this,
-                            data.count + data.resetValue,
+                            data.getCount(),
                             context,
                             true
                         )

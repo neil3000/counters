@@ -14,9 +14,6 @@
     <string name="commonIntents_sendEmail_toast_noApp">You don\'t have any app to send emails, please install one to continue</string>
     <string name="confirmationDialog_dismissButton_text">Cancel</string>
     <string name="counterActivity_fab_newEntry_contentDescription">New entry</string>
-    <string name="counterActivity_nav_entries_label">Entries</string>
-    <string name="counterActivity_nav_settings_label">Settings</string>
-    <string name="counterActivity_nav_stats_label">Stats</string>
     <string name="counterActivity_topbar_icon_back_contentDescription">Back</string>
     <string name="counterEntriesActivity_topbar_icon_back_contentDescription">Back</string>
     <string name="counterEntriesActivity_topbar_title">%s\'s entries</string>
@@ -238,5 +235,6 @@
     <string name="counterGoalSettingsActivity_followCounter_title">Same as counter</string>
     <string name="counterGoalSettingsActivity_followCounter_formatted">When the counter resets</string>
     <string name="goalBar_title">Goal progress</string>
-    <string name="goalBar_achieved">Goal achieved</string>
+    <string name="goalBar_achieved_title">Goal achieved</string>
+    <string name="goalBar_achieved_button">Increase target</string>
 </resources>

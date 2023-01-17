@@ -1,12 +1,11 @@
 package rahmouni.neil.counters.counterActivity.goal
 
 import android.content.Intent
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.spacedBy
@@ -39,6 +38,7 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
 import java.util.concurrent.TimeUnit
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun GoalBar(
     currentProgress: Float,
@@ -85,7 +85,6 @@ fun GoalBar(
         )
     }
 
-    // Title
     AnimatedVisibility(
         visible = spawn,
         modifier = modifier,
@@ -93,43 +92,100 @@ fun GoalBar(
             tween(
                 durationMillis = 400,
                 easing = FastOutSlowInEasing,
-                delayMillis = 250
+                delayMillis = 300
             )
+        ) + scaleIn(
+            tween(
+                durationMillis = 400,
+                easing = FastOutSlowInEasing,
+                delayMillis = 300
+            ), initialScale = .95f
         )
     ) {
         Surface(
-            color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 1.dp,
             modifier = Modifier
                 .fillMaxWidth()
                 .onSizeChanged { height = with(localDensity) { it.height.toDp() } },
-            shape = RoundedCornerShape(24.dp)
+            shape = RoundedCornerShape(24.dp),
+            color = MaterialTheme.colorScheme.surface, tonalElevation = 1.dp
         ) {
-            AnimatedVisibility(
-                visible = animatedProgress.value >= 1,
-                enter = fadeIn(),
-                exit = fadeOut()
+
+            Column(
+                Modifier.padding(start = 24.dp, top = 12.dp, bottom = 16.dp, end = 16.dp),
+                verticalArrangement = spacedBy(16.dp)
             ) {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp),
                         horizontalArrangement = spacedBy(12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(Icons.Outlined.EmojiEvents, null,
+                        Icon(Icons.Outlined.EmojiEvents, null)
+                        Text(
+                            stringResource(R.string.goalBar_title),
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(bottom = 2.dp)
+                        )
+                    }
+                    Surface(
+                        color = MaterialTheme.colorScheme.secondary,
+                        shape = CircleShape,
+                        modifier = Modifier
+                            .size(28.dp)
+                            .clickable { openSettings() }
+                    ) {
+                        Icon(Icons.Outlined.Edit, null, Modifier.scale(.65f))
+                    }
+                }
+                Surface(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(end = 8.dp),
+                    shape = RoundedCornerShape(24.dp)
+                ) {
+                    LinearProgressIndicator(
+                        progress = animatedProgress.value,
+                        modifier = Modifier
+                            .height(8.dp)
+                            .semantics(mergeDescendants = true) {}
+                    )
+                }
+            }
+            AnimatedVisibility(
+                visible = animatedProgress.value >= 1 || currentProgress >= 1,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(
+                        Modifier
+                            .padding(horizontal = 8.dp)
+                            .height(height),
+                        horizontalArrangement = spacedBy(12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            Icons.Outlined.EmojiEvents, null,
                             Modifier
                                 .scale(1.2f)
-                                .padding(start = 12.dp))
+                                .padding(start = 12.dp)
+                        )
                         Text(
-                            stringResource(R.string.goalBar_achieved),
+                            stringResource(R.string.goalBar_achieved_title),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.SemiBold,
                             modifier = Modifier.weight(1f)
                         )
                         Button(onClick = { openSettings() }, Modifier.scale(.875f)) {
-                            Text("Increase target")
+                            Text(stringResource(R.string.goalBar_achieved_button))
                         }
                     }
                     KonfettiView(
@@ -138,57 +194,6 @@ fun GoalBar(
                             .fillMaxWidth(),
                         parties = listOf(party)
                     )
-                }
-            }
-
-            AnimatedVisibility(
-                visible = animatedProgress.value < 1,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                Column(
-                    Modifier.padding(start = 24.dp, top = 12.dp, bottom = 16.dp, end = 16.dp),
-                    verticalArrangement = spacedBy(16.dp)
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Row(
-                            horizontalArrangement = spacedBy(12.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(Icons.Outlined.EmojiEvents, null)
-                            Text(
-                                stringResource(R.string.goalBar_title),
-                                style = MaterialTheme.typography.titleMedium,
-                                modifier = Modifier.padding(bottom = 2.dp)
-                            )
-                        }
-                        Surface(
-                            color = MaterialTheme.colorScheme.secondary,
-                            shape = CircleShape,
-                            modifier = Modifier
-                                .size(28.dp)
-                                .clickable { openSettings() }
-                        ) {
-                            Icon(Icons.Outlined.Edit, null, Modifier.scale(.65f))
-                        }
-                    }
-                    Surface(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(end = 8.dp),
-                        shape = RoundedCornerShape(24.dp)
-                    ) {
-                        LinearProgressIndicator(
-                            progress = animatedProgress.value,
-                            modifier = Modifier
-                                .height(8.dp)
-                                .semantics(mergeDescendants = true) {}
-                        )
-                    }
                 }
             }
         }

@@ -144,7 +144,7 @@ fun HealthConnectSettingsPage(
             item {
                 HeaderSwitch(
                     title = stringResource(R.string.counterGoalSettingsActivity_header_title),
-                    checked = counter?.goalEnabled ?: false
+                    checked = counter?.isGoalSettingEnabled() ?: false
                 ) {
                     countersListViewModel.updateCounter(
                         counter!!.copy(

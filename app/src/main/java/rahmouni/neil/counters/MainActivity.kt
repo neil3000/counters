@@ -22,7 +22,11 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.boundsInParent
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -32,6 +36,7 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
+import rahmouni.neil.counters.counterActivity.goal.GoalKonfetti
 import rahmouni.neil.counters.counter_card.CounterCard
 import rahmouni.neil.counters.counter_card.new_increment.NewIncrement
 import rahmouni.neil.counters.database.CounterAugmented
@@ -186,33 +191,53 @@ fun Home(countersListViewModel: CountersListViewModel, healthConnectManager: Hea
                             scope.launch {
                                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                                bottomSheetNewCounterState.animateTo(ModalBottomSheetValue.Expanded)
+                                bottomSheetNewCounterState.show()
                             }
                         }
                     )
                 }
             ) {
                 if (countersList.isNotEmpty()) {
-                    Column(Modifier.padding(it)) {
-                        //ContributeTranslateBanner()
+                    val konposList: MutableMap<Int, Offset> =
+                        remember { mutableMapOf() }
+                    Box {
+                        Column(Modifier.padding(it)) {
+                            LongPressTipBanner()
 
-                        LongPressTipBanner()
-
-                        LazyVerticalGrid(
-                            columns = GridCells.Adaptive(minSize = 165.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .padding(8.dp)
-                        ) {
-                            items(countersList) { counter ->
-                                CounterCard(counter, countersListViewModel, healthConnectManager) {
-                                    bottomSheetNewIncrementCounterID = counter.uid
-                                    scope.launch {
-                                        bottomSheetNewIncrementState.show()
+                            LazyVerticalGrid(
+                                columns = GridCells.Adaptive(minSize = 165.dp),
+                                verticalArrangement = Arrangement.spacedBy(8.dp),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(8.dp)
+                            ) {
+                                items(countersList) { counter ->
+                                    CounterCard(
+                                        counter,
+                                        countersListViewModel,
+                                        healthConnectManager,
+                                        Modifier.onGloballyPositioned {
+                                            konposList[counter.uid] =
+                                                (it.parentLayoutCoordinates?.positionInRoot()
+                                                    ?: Offset.Zero).copy()
+                                                    .plus(it.boundsInParent().center)
+                                        }
+                                    ) {
+                                        bottomSheetNewIncrementCounterID = counter.uid
+                                        scope.launch {
+                                            bottomSheetNewIncrementState.show()
+                                        }
                                     }
                                 }
+                            }
+                        }
+                        countersList.forEach { counter ->
+                            if (counter.isGoalEnabled()) {
+                                GoalKonfetti(
+                                    counter,
+                                    konposList[counter.uid]?.copy() ?: Offset.Zero
+                                )
                             }
                         }
                     }

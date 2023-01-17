@@ -87,11 +87,13 @@ fun CounterSettings(
                 }
             }
         }
-        if (remoteConfig.getBoolean("issue79__goals")) {
+        if (remoteConfig.getBoolean("issue79__goals2")) {
             item {
                 TileEndSwitch(
-                    checked = counter?.goalEnabled ?: false,
+                    checked = counter?.isGoalSettingEnabled() ?: false,
                     onChange = {
+                        analytics?.logEvent("toggled_goals", null)
+
                         countersListViewModel.updateCounter(
                             counter!!.copy(
                                 goalEnabled = it

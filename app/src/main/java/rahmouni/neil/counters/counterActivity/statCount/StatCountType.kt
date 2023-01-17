@@ -13,21 +13,11 @@ enum class StatCountType(
     val displayName: Int,
     val getCount: @Composable (CounterAugmented, CountersListViewModel) -> (Int?)
 ) {
-    THIS_WEEK(R.string.statCountType_thisWeek_title, { counter, vm ->
-        val ig: List<IncrementGroup> by vm.getCounterIncrementGroups(
-            counter.uid,
-            ResetType.WEEK
-        ).observeAsState(listOf())
-
-        if (ig.isEmpty()) null else ig[0].count + counter.resetValue
+    THIS_WEEK(R.string.statCountType_thisWeek_title, { counter, _ ->
+        counter.getRawCount(ResetType.WEEK)
     }),
-    THIS_MONTH(R.string.statCountType_thisMonth_title, { counter, vm ->
-        val ig: List<IncrementGroup> by vm.getCounterIncrementGroups(
-            counter.uid,
-            ResetType.MONTH
-        ).observeAsState(listOf())
-
-        if (ig.isEmpty()) null else ig[0].count + counter.resetValue
+    THIS_MONTH(R.string.statCountType_thisMonth_title, { counter, _ ->
+        counter.getRawCount(ResetType.MONTH)
     }),
     LAST_WEEK(R.string.statCountType_lastWeek_title, { counter, vm ->
         val ig: List<IncrementGroup> by vm.getCounterIncrementGroups(
@@ -35,7 +25,7 @@ enum class StatCountType(
             ResetType.WEEK
         ).observeAsState(listOf())
 
-        if (ig.isEmpty()) null else if (ig.size > 1) ig[1].count + counter.resetValue else 0
+        if (ig.isEmpty()) null else if (ig.size > 1) ig[1].count else 0
     }),
     LAST_MONTH(R.string.statCountType_lastMonth_title, { counter, vm ->
         val ig: List<IncrementGroup> by vm.getCounterIncrementGroups(
@@ -43,6 +33,6 @@ enum class StatCountType(
             ResetType.MONTH
         ).observeAsState(listOf())
 
-        if (ig.isEmpty()) null else if (ig.size > 1) ig[1].count + counter.resetValue else 0
+        if (ig.isEmpty()) null else if (ig.size > 1) ig[1].count else 0
     });
 }

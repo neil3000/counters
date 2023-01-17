@@ -21,8 +21,9 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
-import kotlin.math.absoluteValue
 import rahmouni.neil.counters.value_types.ValueType
+import kotlin.math.absoluteValue
+
 @Composable
 fun MainCount(
     count: Int,
@@ -33,12 +34,12 @@ fun MainCount(
     var started by rememberSaveable { mutableStateOf(false) }
     var click by rememberSaveable { mutableStateOf(0) }
     val rotation: Float by animateFloatAsState(
-        360 - click * 90f + (if (started) 0f else 25f),
-        animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
+        360 - click * 90f + (if (started) 0f else 30f),
+        animationSpec = tween(durationMillis = 800, easing = FastOutSlowInEasing)
     )
     val scale: Float by animateFloatAsState(
-        if (started) 1f else .75f,
-        animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
+        if (started) 1f else .65f,
+        animationSpec = tween(durationMillis = 800, easing = FastOutSlowInEasing)
     )
 
     LaunchedEffect(Unit) {

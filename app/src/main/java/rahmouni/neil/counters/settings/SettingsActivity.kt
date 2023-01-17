@@ -39,7 +39,6 @@ import rahmouni.neil.counters.utils.SettingsDots
 import rahmouni.neil.counters.utils.feedback.FeedbackActivity
 import rahmouni.neil.counters.utils.openChromeCustomTab
 import rahmouni.neil.counters.utils.openPlayStoreUrl
-import rahmouni.neil.counters.utils.sendEmail
 import rahmouni.neil.counters.utils.tiles.*
 
 class SettingsActivity : ComponentActivity() {
@@ -151,14 +150,13 @@ fun SettingsPage() {
                 )
             }
             // Accessibility
-            if (remoteConfig.getBoolean("issue119__accessibility"))
-                item {
-                    TileStartActivity(
-                        title = stringResource(R.string.settingsActivity_tile_accessibility_title),
-                        icon = Icons.Outlined.AccessibilityNew,
-                        activity = AccessibilitySettingsActivity::class.java
-                    )
-                }
+            item {
+                TileStartActivity(
+                    title = stringResource(R.string.settingsActivity_tile_accessibility_title),
+                    icon = Icons.Outlined.AccessibilityNew,
+                    activity = AccessibilitySettingsActivity::class.java
+                )
+            }
             item { Divider() }
 
             // About
@@ -180,35 +178,18 @@ fun SettingsPage() {
                     openPlayStoreUrl(activity, remoteConfig.getString("play_store_url"))
                 }
             }
-            if (!remoteConfig.getBoolean("issue185__remove_help_translate")) {
-                // HelpTranslate
-                item {
-                    TileClick(
-                        title = "Help translate the app",
-                        icon = Icons.Outlined.Translate
-                    ) {
-                        sendEmail(
-                            activity,
-                            remoteConfig.getString("feedback_email"),
-                            "Want to help translate"
-                        )
-                    }
-                }
-            }
-            if (remoteConfig.getString("issue186__discord_invite") != "null") {
-                // DiscordInvite
-                item {
-                    TileClick(
-                        title = stringResource(R.string.settingsActivity_tile_discordInvite_title),
-                        description = stringResource(R.string.settingsActivity_tile_discordInvite_secondary),
-                        icon = Icons.Outlined.Forum,
-                        singleLineSecondaryText = false
-                    ) {
-                        openChromeCustomTab(
-                            activity,
-                            remoteConfig.getString("issue186__discord_invite")
-                        )
-                    }
+            // DiscordInvite
+            item {
+                TileClick(
+                    title = stringResource(R.string.settingsActivity_tile_discordInvite_title),
+                    description = stringResource(R.string.settingsActivity_tile_discordInvite_secondary),
+                    icon = Icons.Outlined.Forum,
+                    singleLineSecondaryText = false
+                ) {
+                    openChromeCustomTab(
+                        activity,
+                        remoteConfig.getString("discord_invite")
+                    )
                 }
             }
             // Feedback
