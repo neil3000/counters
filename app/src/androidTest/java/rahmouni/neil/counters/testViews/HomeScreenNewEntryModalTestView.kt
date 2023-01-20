@@ -1,11 +1,8 @@
 package rahmouni.neil.counters.testViews
 
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import rahmouni.neil.counters.MainActivity
-import rahmouni.neil.counters.R
 
 class HomeScreenNewEntryModalTestView(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>,
@@ -13,13 +10,13 @@ class HomeScreenNewEntryModalTestView(
 ) {
     //----------- ACTIONS ----------//
 
-    fun addEntry(): HomeScreenTestView {
+    /*fun addEntry(): HomeScreenTestView {
         composeTestRule
             .onNodeWithText(composeTestRule.activity.getString(R.string.action_addEntry))
             .performClick()
 
         return HomeScreenTestView(composeTestRule, counterName)
-    }
+    }*/
 
     //---------- ASSERTS ----------//
 

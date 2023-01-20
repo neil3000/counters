@@ -6,6 +6,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import rahmouni.neil.counters.*
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.Increment
+import rahmouni.neil.counters.value_types.ValueType
 import java.time.LocalDateTime
 import java.time.Month
 import java.time.format.DateTimeFormatter
@@ -50,7 +51,7 @@ class HomeScreenTestView(
             .onNodeWithTag("SETTINGS_DOTS")
             .performClick()
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.text_settings))
+            .onNodeWithText(composeTestRule.activity.getString(R.string.mainActivity_topbar_settings))
             .performClick()
 
         return SettingsTestView(composeTestRule, counterName)
@@ -60,7 +61,7 @@ class HomeScreenTestView(
 
     fun assertTitleExists(): HomeScreenTestView {
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.text_appName))
+            .onNodeWithText(composeTestRule.activity.getString(R.string.mainActivity_topbar_title))
             .assertExists()
 
         return this
@@ -113,37 +114,73 @@ class HomeScreenTestView(
 
     fun createUSScreenshotCounters(): HomeScreenTestView {
         val pushupsUid: Long =
-            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Push-ups", resetType = ResetType.DAY, style = CounterStyle.SECONDARY))
-        val waterUid: Long =
-            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Water drinks", style = CounterStyle.PRIMARY))
+            CountersApplication.instance.countersListRepository.testAddCounter(
+                Counter(
+                    displayName = "Push-ups \uD83D\uDCAA",
+                    resetType = ResetType.DAY,
+                    style = CounterStyle.PRIMARY,
+                    goalEnabled = true,
+                    goalValue = 120
+                )
+            )
+        val coffeeUid: Long =
+            CountersApplication.instance.countersListRepository.testAddCounter(
+                Counter(
+                    displayName = "Caffeine ☕",
+                    style = CounterStyle.TERTIARY
+                )
+            )
         val medicationUid: Long =
-            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Medication"))
+            CountersApplication.instance.countersListRepository.testAddCounter(
+                Counter(
+                    displayName = "Take meds \uD83D\uDC8A",
+                    style = CounterStyle.ORANGE,
+                    valueType = ValueType.TASK
+                )
+            )
         val weightUid: Long =
-            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Weight (kg)"))
+            CountersApplication.instance.countersListRepository.testAddCounter(
+                Counter(
+                    displayName = "Weight (kg)",
+                    minusButtonEnabled = true,
+                    style = CounterStyle.SECONDARY
+                )
+            )
         val lapMinutesUid: Long =
-            CountersApplication.instance.countersListRepository.testAddCounter(Counter(displayName = "Lap minutes", style = CounterStyle.TERTIARY))
+            CountersApplication.instance.countersListRepository.testAddCounter(
+                Counter(
+                    displayName = "Lap minutes",
+                    style = CounterStyle.PINK
+                )
+            )
         for (i in 0..8) {
             CountersApplication.instance.countersListRepository.testAddIncrement(
                 Increment(
                     counterID = pushupsUid.toInt(),
-                    value = listOf(30, 30, 25, 30, 35, 35, 30, 30, 25)[i],
-                    timestamp = LocalDateTime.now().minusDays(listOf(0,0,1,1,1,2,2,2,3)[i].toLong())
-                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd "))+listOf("07:32:30","08:01:30","07:24:30","16:58:30","22:24:30","07:16:30","17:13:30","22:09:30","22:18:30")[i]
+                    value = listOf(25, 45, 25, 30, 35, 35, 30, 30, 25)[i],
+                    notes = if (i == 0) "Felt tired :/" else null,
+                    timestamp = LocalDateTime.now()
+                        .minusDays(listOf(0, 0, 1, 1, 1, 2, 2, 2, 3)[i].toLong())
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd ")) + listOf(
+                        "07:32:30",
+                        "08:01:30",
+                        "07:24:30",
+                        "16:58:30",
+                        "22:24:30",
+                        "07:16:30",
+                        "17:13:30",
+                        "22:09:30",
+                        "22:18:30"
+                    )[i]
                 )
             )
         }
         CountersApplication.instance.countersListRepository.testAddIncrement(
             Increment(
-                counterID = waterUid.toInt(),
+                counterID = coffeeUid.toInt(),
                 value = 3,
-                timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-            )
-        )
-        CountersApplication.instance.countersListRepository.testAddIncrement(
-            Increment(
-                counterID = medicationUid.toInt(),
-                value = 1,
-                timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                timestamp = LocalDateTime.now()
+                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
             )
         )
         CountersApplication.instance.countersListRepository.testAddIncrement(

@@ -24,7 +24,7 @@ class SettingsTestView(
 
     fun openDataSettingsScreen(): DataSettingsTestView {
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.text_dataAndPrivacy))
+            .onNodeWithText(composeTestRule.activity.getString(R.string.settingsActivity_tile_dataAndPrivacy_title))
             .performClick()
 
         return DataSettingsTestView(composeTestRule, counterName)
@@ -34,7 +34,7 @@ class SettingsTestView(
 
     fun assertTitleExists(): SettingsTestView {
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.text_settings))
+            .onNodeWithText(composeTestRule.activity.getString(R.string.settingsActivity_topbar_title))
             .assertExists()
 
         return this
