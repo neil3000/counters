@@ -15,13 +15,13 @@ class SettingsTabTestView(
 ) {
     //----------- ACTIONS ----------//
 
-    fun openEntriesTab(): EntriesTabTestView {
+    /*fun openEntriesTab(): EntriesTabTestView {
         composeTestRule
             .onNodeWithText(composeTestRule.activity.getString(R.string.text_entries_short))
             .performClick()
 
         return EntriesTabTestView(composeTestRule, counterName)
-    }
+    }*/
 
     fun openCardSettings(): CardSettingsTestView {
         composeTestRule
@@ -31,7 +31,7 @@ class SettingsTabTestView(
         return CardSettingsTestView(composeTestRule, counterName)
     }
 
-    fun setResetType(resetType: ResetType): SettingsTabTestView {
+    /*fun setResetType(resetType: ResetType): SettingsTabTestView {
         composeTestRule
             .onNodeWithText(composeTestRule.activity.getString(R.string.text_frequency))
             .performClick()
@@ -43,7 +43,7 @@ class SettingsTabTestView(
             .performClick()
 
         return this
-    }
+    }*/
 
     fun openHomeScreen(): HomeScreenTestView {
         composeTestRule

@@ -146,7 +146,7 @@ fun CounterPage(
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { Text(counter?.displayName ?: "Counter") },
+                    title = { Text(counter?.getDisplayName(context) ?: "Counter") },
                     actions = { SettingsDots(screenName = "CounterActivity") {} },
                     navigationIcon = {
                         IconButton(

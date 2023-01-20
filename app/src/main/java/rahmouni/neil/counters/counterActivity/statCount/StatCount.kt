@@ -6,10 +6,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.scaleIn
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -52,7 +49,7 @@ fun StatCount(
                 color = MaterialTheme.colorScheme.secondaryContainer
             ) {
                 Box(
-                    modifier = Modifier.size(64.dp),
+                    modifier = Modifier.size(64.dp, 64.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     counter.valueType.mediumDisplay(count ?: 0, context)

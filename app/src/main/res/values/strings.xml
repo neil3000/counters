@@ -240,4 +240,5 @@
     <string name="accessibilitySettingsActivity_tile_disableConfetti_secondary">Removes all confetti animations</string>
     <string name="counterActivity_bottomBar_icon_entries_contentDescription">Entries</string>
     <string name="counterActivity_bottomBar_icon_settings_contentDescription">Settings</string>
+    <string name="counterDefaultName">New Counter</string>
 </resources>

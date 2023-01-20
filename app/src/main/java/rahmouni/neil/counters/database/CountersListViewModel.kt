@@ -1,5 +1,6 @@
 package rahmouni.neil.counters.database
 
+import android.content.Context
 import androidx.lifecycle.*
 import com.google.firebase.analytics.ktx.logEvent
 import kotlinx.coroutines.launch
@@ -28,11 +29,11 @@ class CountersListViewModel(private val repository: CountersListRepository) : Vi
 
     fun addIncrement(
         value: Int,
-        counter: Counter,
+        counter: CounterAugmented,
+        context: Context,
         healthConnectManager: HealthConnectManager,
-        logHealthConnect: Boolean,
         date: String? = null,
-        notes: String? = null
+        notes: String? = null,
     ) = viewModelScope.launch {
         repository.addIncrement(value, counter.uid, date, notes)
 
@@ -41,11 +42,11 @@ class CountersListViewModel(private val repository: CountersListRepository) : Vi
         }
         CountersApplication.prefs!!.tipsStatus = CountersApplication.prefs!!.tipsStatus + 1
 
-        if (logHealthConnect) {
+        if (counter.shouldLogHealthConnect(healthConnectManager)) {
             healthConnectManager.writeRecord(
                 ZonedDateTime.now().minusSeconds(value.toLong()).withNano(0),
                 ZonedDateTime.now().withNano(0),
-                counter.displayName,
+                counter.getDisplayName(context),
                 counter.healthConnectExerciseType,
                 counter.healthConnectDataType,
                 value.toLong(),

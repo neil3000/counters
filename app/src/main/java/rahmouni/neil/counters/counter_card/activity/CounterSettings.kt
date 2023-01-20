@@ -59,7 +59,7 @@ fun CounterSettings(
                 title = stringResource(R.string.counterSettings_tile_name_title),
                 dialogTitle = stringResource(R.string.counterSettings_tile_name_dialogTitle),
                 icon = Icons.Outlined.Title,
-                value = counter?.displayName ?: "Counter",
+                value = counter?.getDisplayName(activity) ?: "Counter",
                 validateInput = { it.isNotEmpty() }
             ) {
                 if (counter != null) {

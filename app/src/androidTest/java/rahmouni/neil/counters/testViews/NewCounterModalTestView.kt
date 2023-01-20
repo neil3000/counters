@@ -18,7 +18,7 @@ class NewCounterModalTestView(
 
     fun setName(name: String): NewCounterModalTestView {
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.text_name))
+            .onNodeWithText(composeTestRule.activity.getString(R.string.newCounter_textField_name_label))
             .performTextInput(name)
 
         counterName = name
@@ -33,7 +33,7 @@ class NewCounterModalTestView(
 
     fun create(): HomeScreenTestView {
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.action_create_short))
+            .onNodeWithText(composeTestRule.activity.getString(R.string.newCounter_button_create_text))
             .performClick()
 
         return HomeScreenTestView(composeTestRule, counterName)
@@ -41,13 +41,13 @@ class NewCounterModalTestView(
 
     fun setResetType(resetType: ResetType): NewCounterModalTestView {
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.text_resetFrequency))
+            .onNodeWithText(composeTestRule.activity.getString(R.string.newCounter_tile_resetFrequency_title))
             .performClick()
         composeTestRule
             .onNodeWithText(composeTestRule.activity.getString(resetType.title()))
             .performClick()
         composeTestRule
-            .onNodeWithText(composeTestRule.activity.getString(R.string.action_save_short))
+            .onNodeWithText(composeTestRule.activity.getString(R.string.tileDialogRadioButtons_dialog_confirmButton_text))
             .performClick()
 
         return this

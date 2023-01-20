@@ -8,11 +8,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.Counter
+import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.health_connect.HealthConnectAvailability
 import rahmouni.neil.counters.health_connect.HealthConnectManager
@@ -115,7 +117,10 @@ class ValueTypeButton(
                     ),
                     icon = icon,
                     modifier = it,
-                    description = stringResource(R.string.cardSettingsActivity_tile_editButtonValue_description, value(counter))
+                    description = stringResource(
+                        R.string.cardSettingsActivity_tile_editButtonValue_description,
+                        value(counter)
+                    )
                 ) {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
@@ -134,8 +139,13 @@ class ValueTypeButton(
     }
 
     @Composable
-    fun CardButton(counter: Counter, countersListViewModel: CountersListViewModel?, healthConnectManager: HealthConnectManager) {
+    fun CardButton(
+        counter: CounterAugmented,
+        countersListViewModel: CountersListViewModel?,
+        healthConnectManager: HealthConnectManager
+    ) {
         val haptic = LocalHapticFeedback.current
+        val context = LocalContext.current
 
         val permissionsGranted = rememberSaveable { mutableStateOf(false) }
         LaunchedEffect(Unit) {
@@ -148,10 +158,10 @@ class ValueTypeButton(
                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
 
                 countersListViewModel.addIncrement(
-                    value(counter),
+                    value(counter.toCounter()),
                     counter,
+                    context,
                     healthConnectManager,
-                    permissionsGranted.value
                 )
             }
         }) {
