@@ -79,11 +79,7 @@ enum class ValueType(
             { targetValue ->
                 androidx.compose.material3.Text(
                     targetValue.toString(),
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(
-                        horizontal = 18.dp,
-                        vertical = 16.dp
-                    )
+                    style = MaterialTheme.typography.titleLarge
                 )
             }
         },
