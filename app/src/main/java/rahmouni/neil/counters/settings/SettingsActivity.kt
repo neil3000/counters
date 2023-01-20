@@ -32,6 +32,7 @@ import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CountersApplication
+import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
@@ -163,6 +164,7 @@ fun SettingsPage() {
             item { TileHeader(stringResource(R.string.settingsActivity_tile_about_headerTitle)) }
             // Changelog
             item {
+                analytics?.logEvent("opened_changelog_inAppLink", null)
                 TileOpenCustomTab(
                     title = stringResource(R.string.settingsActivity_tile_changelog_title),
                     icon = Icons.Outlined.NewReleases,
@@ -175,6 +177,7 @@ fun SettingsPage() {
                     title = stringResource(R.string.settingsActivity_tile_openPlayStorePage_title),
                     icon = Icons.Outlined.StarOutline,
                 ) {
+                    analytics?.logEvent("opened_playStore_inAppLink", null)
                     openPlayStoreUrl(activity, remoteConfig.getString("play_store_url"))
                 }
             }
@@ -186,6 +189,7 @@ fun SettingsPage() {
                     icon = Icons.Outlined.Forum,
                     singleLineSecondaryText = false
                 ) {
+                    analytics?.logEvent("opened_discord_inAppLink", null)
                     openChromeCustomTab(
                         activity,
                         remoteConfig.getString("discord_invite")
