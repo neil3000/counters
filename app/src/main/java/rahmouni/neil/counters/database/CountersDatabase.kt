@@ -5,7 +5,10 @@ import androidx.room.*
 import androidx.room.migration.AutoMigrationSpec
 import kotlinx.coroutines.flow.Flow
 import rahmouni.neil.counters.CounterStyle
+import rahmouni.neil.counters.CountersApplication
+import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
+import rahmouni.neil.counters.health_connect.HealthConnectAvailability
 import rahmouni.neil.counters.health_connect.HealthConnectDataType
 import rahmouni.neil.counters.health_connect.HealthConnectExerciseType
 import rahmouni.neil.counters.value_types.ValueType
@@ -29,9 +32,10 @@ import java.io.Serializable
             spec = CountersDatabase.Migration89::class
         ),
         AutoMigration(from = 9, to = 10),
+        AutoMigration(from = 10, to = 11),
     ],
     exportSchema = true,
-    version = 10
+    version = 11
 )
 abstract class CountersDatabase : RoomDatabase() {
     abstract fun countersListDao(): CountersListDao
@@ -79,7 +83,7 @@ abstract class CountersDatabase : RoomDatabase() {
 @Entity
 data class Counter(
     @PrimaryKey(autoGenerate = true) val uid: Int = 0,
-    @ColumnInfo(name = "display_name") val displayName: String,
+    @ColumnInfo(name = "display_name") val displayName: String? = null,
     @ColumnInfo(name = "style") val style: CounterStyle = CounterStyle.DEFAULT,
     @ColumnInfo(name = "entry_value", defaultValue = "1") val entryValue: Int = 1,
     @ColumnInfo(
@@ -124,12 +128,15 @@ data class Counter(
     ) val notDoneButtonEnabled: Boolean = false,
     @ColumnInfo(name = "goal_value", defaultValue = "null") val goalValue: Int? = null,
     @ColumnInfo(name = "goal_enabled", defaultValue = "false") val goalEnabled: Boolean = false,
-    @ColumnInfo(name = "goal_reset", defaultValue = "NEVER") val goalReset: ResetType? = null, //if null, follows the counter ResetValue
+    @ColumnInfo(
+        name = "goal_reset",
+        defaultValue = "NEVER"
+    ) val goalReset: ResetType? = null, //if null, follows the counter ResetValue
 )
 
 data class CounterAugmented(
     @ColumnInfo(name = "uid") val uid: Int = 0,
-    @ColumnInfo(name = "display_name") val displayName: String,
+    @ColumnInfo(name = "display_name") private val displayName: String? = null,
     @ColumnInfo(name = "style") val style: CounterStyle = CounterStyle.DEFAULT,
     @ColumnInfo(name = "entry_value", defaultValue = "1") val entryValue: Int = 1,
     @ColumnInfo(
@@ -234,6 +241,14 @@ data class CounterAugmented(
 
     fun isGoalSettingEnabled(): Boolean {
         return goalEnabled
+    }
+
+    fun getDisplayName(context: Context): String {
+        return displayName ?: context.getString(R.string.counterDefaultName)
+    }
+
+    fun shouldLogHealthConnect(countersApplication: CountersApplication): Boolean {
+        return countersApplication.healthConnectManager.availability.value == HealthConnectAvailability.GRANTED && healthConnectEnabled
     }
 }
 

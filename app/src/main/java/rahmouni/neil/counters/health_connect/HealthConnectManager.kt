@@ -15,8 +15,10 @@ import androidx.health.connect.client.request.ChangesTokenRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Mass
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import rahmouni.neil.counters.BuildConfig
 import java.io.IOException
 import java.time.ZonedDateTime
@@ -27,7 +29,7 @@ const val MIN_SUPPORTED_SDK = Build.VERSION_CODES.O_MR1
 /**
  * Demonstrates reading and writing from Health Connect.
  */
-class HealthConnectManager(private val context: Context) {
+class HealthConnectManager(private val context: Context, private val scope: CoroutineScope) {
     val PERMS = setOf(
         HealthPermission.createWritePermission(ExerciseSessionRecord::class),
         HealthPermission.createWritePermission(ExerciseRepetitionsRecord::class),
@@ -40,11 +42,14 @@ class HealthConnectManager(private val context: Context) {
         private set
 
     init {
-        checkAvailability()
+        scope.launch {
+            checkAvailability()
+        }
     }
 
-    fun checkAvailability() {
+    suspend fun checkAvailability() {
         availability.value = when {
+            HealthConnectClient.isAvailable(context) && hasAllPermissions() -> HealthConnectAvailability.GRANTED
             HealthConnectClient.isAvailable(context) -> HealthConnectAvailability.INSTALLED
             isSupported() -> HealthConnectAvailability.NOT_INSTALLED
             else -> HealthConnectAvailability.NOT_SUPPORTED
@@ -181,6 +186,7 @@ class HealthConnectManager(private val context: Context) {
  * version).
  */
 enum class HealthConnectAvailability {
+    GRANTED,
     INSTALLED,
     NOT_INSTALLED,
     NOT_SUPPORTED

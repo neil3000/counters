@@ -33,7 +33,6 @@ import rahmouni.neil.counters.value_types.ValueType
 @Composable
 fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (Unit)) {
     var name by rememberSaveable { mutableStateOf("") }
-    var isNameError by rememberSaveable { mutableStateOf(false) }
     var counterStyle by rememberSaveable { mutableStateOf(CounterStyle.DEFAULT) }
     var valueType by rememberSaveable { mutableStateOf(ValueType.NUMBER) }
     var resetType by rememberSaveable { mutableStateOf(ResetType.NEVER) }
@@ -44,11 +43,6 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
     val scope = rememberCoroutineScope()
     //val remoteConfig = FirebaseRemoteConfig.getInstance()
 
-    fun validateName(text: String): Boolean {
-        isNameError = text.isEmpty()
-        return !isNameError
-    }
-
     Column(Modifier.fillMaxWidth()) {
         TextField(
             value = name,
@@ -57,13 +51,11 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
                 .padding(16.dp, 16.dp, 16.dp, bottom = 8.dp),
             onValueChange = {
                 name = it
-                isNameError = false
             },
-            label = { Text(stringResource(R.string.newCounter_textField_name_label) + if (isNameError) "*" else "") },
+            label = { Text(stringResource(R.string.newCounter_textField_name_label)) },
             singleLine = true,
-            isError = isNameError,
             keyboardActions = KeyboardActions {
-                if (validateName(name)) keyboardController?.hide()
+                keyboardController?.hide()
             },
         )
 
@@ -106,35 +98,32 @@ fun NewCounter(mCountersListViewModel: CountersListViewModel, onCreate: () -> (U
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            enabled = !isNameError,
             onClick = {
                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                if (validateName(name)) {
-                    scope.launch {
-                        val counter = Counter(
-                            displayName = name,
-                            style = counterStyle,
-                            valueType = valueType,
-                            resetType = resetType,
-                            resetValue = resetValue
-                        )
-                        keyboardController?.hide()
-                        onCreate()
-                        mCountersListViewModel.addCounter(counter)
+                scope.launch {
+                    val counter = Counter(
+                        displayName = if (name.isBlank()) null else name,
+                        style = counterStyle,
+                        valueType = valueType,
+                        resetType = resetType,
+                        resetValue = resetValue
+                    )
+                    keyboardController?.hide()
+                    onCreate()
+                    mCountersListViewModel.addCounter(counter)
 
-                        analytics?.logEvent("created_counter") {
-                            param("Style", counterStyle.toString())
-                            param("ResetType", resetType.toString())
-                            param("ResetValue", resetValue.toLong())
-                        }
-
-                        name = ""
-                        counterStyle = CounterStyle.DEFAULT
-                        valueType = ValueType.NUMBER
-                        resetType = ResetType.NEVER
-                        resetValue = 0
+                    analytics?.logEvent("created_counter") {
+                        param("Style", counterStyle.toString())
+                        param("ResetType", resetType.toString())
+                        param("ResetValue", resetValue.toLong())
                     }
+
+                    name = ""
+                    counterStyle = CounterStyle.DEFAULT
+                    valueType = ValueType.NUMBER
+                    resetType = ResetType.NEVER
+                    resetValue = 0
                 }
             }) {
             Text(stringResource(R.string.newCounter_button_create_text))

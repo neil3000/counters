@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.counterActivity.CounterActivity
 import rahmouni.neil.counters.database.CounterAugmented
@@ -32,74 +33,74 @@ fun CounterCard(
     val context = LocalContext.current
     val localHapticFeedback = LocalHapticFeedback.current
 
-        Card(
-            colors = CardDefaults.cardColors(containerColor = data.style.getBackGroundColor()),
-            modifier = modifier
-        ) {
-            Column(modifier = Modifier.combinedClickable(
-                onClick = {
-                    if (openNewIncrementSheet != null) {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+    Card(
+        colors = CardDefaults.cardColors(containerColor = data.style.getBackGroundColor()),
+        modifier = modifier
+    ) {
+        Column(modifier = Modifier.combinedClickable(
+            onClick = {
+                if (openNewIncrementSheet != null) {
+                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                        context.startActivity(
-                            Intent(context, CounterActivity::class.java).putExtra(
-                                "counterID",
-                                data.uid
-                            )
+                    context.startActivity(
+                        Intent(context, CounterActivity::class.java).putExtra(
+                            "counterID",
+                            data.uid
                         )
-                    }
-                },
-                onLongClick = {
-                    if (openNewIncrementSheet != null && countersListViewModel != null) {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                        openNewIncrementSheet(
-                            countersListViewModel
-                        )
-
-                        prefs.preferences.edit().putBoolean("LONG_PRESS_TIP_DISMISSED", true)
-                            .apply()
-                    }
+                    )
                 }
-            )) {
-                if (prefs.debugMode) Text("id:" + data.uid.toString())
-                Text(
-                    text = data.displayName,
-                    style = MaterialTheme.typography.titleSmall,
-                    modifier = Modifier.padding(8.dp)
-                )
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    val buttons =
-                        data.valueType.getButtons().filter { it.isEnabled(data.toCounter()) }
-                            .toMutableList()
-                    val end = buttons.removeFirstOrNull()
+            },
+            onLongClick = {
+                if (openNewIncrementSheet != null && countersListViewModel != null) {
+                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                    buttons.forEach {
-                        it.CardButton(data.toCounter(), countersListViewModel, healthConnectManager)
-                    }
-                    if (arrayOf(
-                            "mon amour pour maï",
-                            "my love for maï"
-                        ).contains(data.displayName.lowercase().removeSurrounding(" "))
-                    ) {
-                        Text(
-                            "∞",
-                            Modifier.padding(start = 8.dp),
-                            style = MaterialTheme.typography.headlineLarge
-                        )
-                    } else {
-                        data.valueType.largeDisplay(
-                            this,
-                            data.getCount(),
-                            context,
-                            true
-                        )
-                    }
-                    end?.CardButton(data.toCounter(), countersListViewModel, healthConnectManager)
+                    openNewIncrementSheet(
+                        countersListViewModel
+                    )
+
+                    prefs.preferences.edit().putBoolean("LONG_PRESS_TIP_DISMISSED", true)
+                        .apply()
                 }
             }
+        )) {
+            if (prefs.debugMode) Text("id:" + data.uid.toString())
+            Text(
+                text = data.getDisplayName(context),
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(8.dp)
+            )
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                val buttons =
+                    data.valueType.getButtons().filter { it.isEnabled(data.toCounter()) }
+                        .toMutableList()
+                val end = buttons.removeFirstOrNull()
+
+                buttons.forEach {
+                    it.CardButton(data, countersListViewModel, healthConnectManager)
+                }
+                if (arrayOf(
+                        "mon amour pour maï",
+                        "my love for maï"
+                    ).contains(data.getDisplayName(context).lowercase().removeSurrounding(" "))
+                ) {
+                    Text(
+                        "∞",
+                        Modifier.padding(start = 8.dp),
+                        style = MaterialTheme.typography.headlineLarge
+                    )
+                } else {
+                    data.valueType.largeDisplay(
+                        this,
+                        data.getCount(),
+                        context,
+                        true
+                    )
+                }
+                end?.CardButton(data, countersListViewModel, healthConnectManager)
+            }
         }
+    }
 }
