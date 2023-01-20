@@ -42,7 +42,7 @@ class CountersListViewModel(private val repository: CountersListRepository) : Vi
         }
         CountersApplication.prefs!!.tipsStatus = CountersApplication.prefs!!.tipsStatus + 1
 
-        if (counter.shouldLogHealthConnect(context as CountersApplication)) {
+        if (counter.shouldLogHealthConnect(healthConnectManager)) {
             healthConnectManager.writeRecord(
                 ZonedDateTime.now().minusSeconds(value.toLong()).withNano(0),
                 ZonedDateTime.now().withNano(0),

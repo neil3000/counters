@@ -11,6 +11,7 @@ import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.health_connect.HealthConnectAvailability
 import rahmouni.neil.counters.health_connect.HealthConnectDataType
 import rahmouni.neil.counters.health_connect.HealthConnectExerciseType
+import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.value_types.ValueType
 import java.io.Serializable
 
@@ -247,8 +248,8 @@ data class CounterAugmented(
         return displayName ?: context.getString(R.string.counterDefaultName)
     }
 
-    fun shouldLogHealthConnect(countersApplication: CountersApplication): Boolean {
-        return countersApplication.healthConnectManager.availability.value == HealthConnectAvailability.GRANTED && healthConnectEnabled
+    fun shouldLogHealthConnect(healthConnectManager: HealthConnectManager): Boolean {
+        return healthConnectManager.availability.value == HealthConnectAvailability.GRANTED && healthConnectEnabled
     }
 }
 
