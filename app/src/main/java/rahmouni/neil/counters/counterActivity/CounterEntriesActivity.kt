@@ -43,6 +43,7 @@ import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.RoundedBottomSheet
 import rahmouni.neil.counters.utils.SettingsDots
+import kotlin.coroutines.coroutineContext
 
 class CounterEntriesActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -120,7 +121,7 @@ fun CounterEntriesPage(
                         Text(
                             stringResource(
                                 R.string.counterEntriesActivity_topbar_title,
-                                counter?.displayName ?: "Counter"
+                                counter?.getDisplayName(activity) ?: "Counter"
                             ),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis

@@ -19,7 +19,7 @@ var prefs: Prefs = CountersApplication.prefs!!
 class CountersApplication : Application() {
     private val database by lazy { CountersDatabase.getInstance(this) }
     val countersListRepository by lazy { CountersListRepository(database.countersListDao()) }
-    val healthConnectManager by lazy { HealthConnectManager(this) }
+    val healthConnectManager by lazy { HealthConnectManager(this, kotlinx.coroutines.MainScope()) }
 
     companion object {
         var prefs: Prefs? = null

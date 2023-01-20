@@ -60,7 +60,9 @@ class CounterSettingsActivity : ComponentActivity() {
                             color = MaterialTheme.colorScheme.background
                         ) {
                             CounterSettingsPage(
-                                counterID, countersListViewModel, (application as CountersApplication).healthConnectManager
+                                counterID,
+                                countersListViewModel,
+                                (application as CountersApplication).healthConnectManager
                             )
                         }
                     }
@@ -72,7 +74,11 @@ class CounterSettingsActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CounterSettingsPage(counterID: Int, countersListViewModel: CountersListViewModel, healthConnectManager: HealthConnectManager) {
+fun CounterSettingsPage(
+    counterID: Int,
+    countersListViewModel: CountersListViewModel,
+    healthConnectManager: HealthConnectManager
+) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val haptic = LocalHapticFeedback.current
     val activity = (LocalContext.current as Activity)
@@ -87,7 +93,7 @@ fun CounterSettingsPage(counterID: Int, countersListViewModel: CountersListViewM
                     Text(
                         stringResource(
                             R.string.counterSettingsActivity_topbar_title,
-                            counter?.displayName ?: "Counter"
+                            counter?.getDisplayName(activity) ?: "Counter"
                         ),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
