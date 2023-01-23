@@ -22,8 +22,6 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -115,7 +113,7 @@ fun CounterPage(
     val activity = (LocalContext.current as Activity)
     val haptic = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
-    val windowSize = calculateWindowSizeClass(activity = activity)
+    //val windowSize = calculateWindowSizeClass(activity = activity)
     val context = LocalContext.current
 
     val bottomSheetState = rememberModalBottomSheetState(
@@ -126,8 +124,8 @@ fun CounterPage(
     val increments: List<Increment>? by countersListViewModel.getCounterIncrements(counterID)
         .observeAsState()
 
-    val bottomBarVisible =
-        windowSize.widthSizeClass == WindowWidthSizeClass.Compact && windowSize.heightSizeClass != WindowHeightSizeClass.Compact
+    //val bottomBarVisible =
+    //    windowSize.widthSizeClass == WindowWidthSizeClass.Compact && windowSize.heightSizeClass != WindowHeightSizeClass.Compact
 
     var konpos by remember { mutableStateOf(Offset.Zero) }
 
@@ -244,70 +242,68 @@ fun CounterPage(
                 }
             },
             bottomBar = {
-                if (bottomBarVisible) {
-                    BottomAppBar(
-                        actions = {
-                            IconButton(onClick = {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                BottomAppBar(
+                    actions = {
+                        IconButton(onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                                if (counter != null) {
-                                    context.startActivity(
-                                        Intent(
-                                            context,
-                                            CounterEntriesActivity::class.java
-                                        ).putExtra(
-                                            "counterID",
-                                            counter!!.uid
-                                        )
+                            if (counter != null) {
+                                context.startActivity(
+                                    Intent(
+                                        context,
+                                        CounterEntriesActivity::class.java
+                                    ).putExtra(
+                                        "counterID",
+                                        counter!!.uid
                                     )
-                                }
-                            }) {
-                                Icon(
-                                    Icons.Outlined.List,
-                                    stringResource(R.string.counterActivity_bottomBar_icon_entries_contentDescription)
                                 )
                             }
-                            IconButton(onClick = {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                                if (counter != null) {
-                                    context.startActivity(
-                                        Intent(
-                                            context,
-                                            CounterSettingsActivity::class.java
-                                        ).putExtra(
-                                            "counterID",
-                                            counter!!.uid
-                                        )
-                                    )
-                                }
-                            }) {
-                                Icon(
-                                    Icons.Outlined.Settings,
-                                    stringResource(R.string.counterActivity_bottomBar_icon_settings_contentDescription)
-                                )
-                            }
-                        },
-                        floatingActionButton = {
-                            FloatingActionButton(
-                                containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                onClick = {
-                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                                    scope.launch {
-                                        bottomSheetState.show()
-                                    }
-                                },
-                            ) {
-                                Icon(
-                                    Icons.Outlined.Add,
-                                    stringResource(R.string.counterActivity_fab_newEntry_contentDescription)
-                                )
-                            }
+                        }) {
+                            Icon(
+                                Icons.Outlined.List,
+                                stringResource(R.string.counterActivity_bottomBar_icon_entries_contentDescription)
+                            )
                         }
-                    )
-                }
+                        IconButton(onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                            if (counter != null) {
+                                context.startActivity(
+                                    Intent(
+                                        context,
+                                        CounterSettingsActivity::class.java
+                                    ).putExtra(
+                                        "counterID",
+                                        counter!!.uid
+                                    )
+                                )
+                            }
+                        }) {
+                            Icon(
+                                Icons.Outlined.Settings,
+                                stringResource(R.string.counterActivity_bottomBar_icon_settings_contentDescription)
+                            )
+                        }
+                    },
+                    floatingActionButton = {
+                        FloatingActionButton(
+                            containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                            onClick = {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                                scope.launch {
+                                    bottomSheetState.show()
+                                }
+                            },
+                        ) {
+                            Icon(
+                                Icons.Outlined.Add,
+                                stringResource(R.string.counterActivity_fab_newEntry_contentDescription)
+                            )
+                        }
+                    }
+                )
             }
         )
     }
