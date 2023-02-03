@@ -78,7 +78,6 @@ fun AccessibilitySettingsPage() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     var iconSwitchesEnabled: Boolean? by rememberSaveable { mutableStateOf(prefs.iconSwitchesEnabled) }
     var confettiDisabled: Boolean? by rememberSaveable { mutableStateOf(prefs.confettiDisabled) }
@@ -124,18 +123,16 @@ fun AccessibilitySettingsPage() {
                 }
             }
 
-            if (remoteConfig.getBoolean("issue79__goals2")) {
-                // DisableConfetti
-                item {
-                    TileSwitch(
-                        title = stringResource(R.string.accessibilitySettingsActivity_tile_disableConfetti_title),
-                        description = stringResource(R.string.accessibilitySettingsActivity_tile_disableConfetti_secondary),
-                        icon = Icons.Outlined.Celebration,
-                        checked = confettiDisabled ?: false
-                    ) {
-                        confettiDisabled = it
-                        prefs.confettiDisabled = it
-                    }
+            // DisableConfetti
+            item {
+                TileSwitch(
+                    title = stringResource(R.string.accessibilitySettingsActivity_tile_disableConfetti_title),
+                    description = stringResource(R.string.accessibilitySettingsActivity_tile_disableConfetti_secondary),
+                    icon = Icons.Outlined.Celebration,
+                    checked = confettiDisabled ?: false
+                ) {
+                    confettiDisabled = it
+                    prefs.confettiDisabled = it
                 }
             }
         }

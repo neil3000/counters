@@ -87,30 +87,28 @@ fun CounterSettings(
                 }
             }
         }
-        if (remoteConfig.getBoolean("issue79__goals2")) {
-            item {
-                TileEndSwitch(
-                    checked = counter?.isGoalSettingEnabled() ?: false,
-                    onChange = {
-                        analytics?.logEvent("toggled_goals", null)
+        item {
+            TileEndSwitch(
+                checked = counter?.isGoalSettingEnabled() ?: false,
+                onChange = {
+                    analytics?.logEvent("toggled_goals", null)
 
-                        countersListViewModel.updateCounter(
-                            counter!!.copy(
-                                goalEnabled = it
-                            ).toCounter()
-                        )
-                    }
-                ) { defaultModifier ->
-                    TileStartActivity(
-                        title = stringResource(R.string.counterSettings_tile_goal_title),
-                        icon = Icons.Outlined.EmojiEvents,
-                        activity = CounterGoalSettingsActivity::class.java,
-                        modifier = defaultModifier
-                    ) { intent ->
-                        if (counter != null) {
-                            intent.putExtra("counterID", counter.uid)
-                        } else intent
-                    }
+                    countersListViewModel.updateCounter(
+                        counter!!.copy(
+                            goalEnabled = it
+                        ).toCounter()
+                    )
+                }
+            ) { defaultModifier ->
+                TileStartActivity(
+                    title = stringResource(R.string.counterSettings_tile_goal_title),
+                    icon = Icons.Outlined.EmojiEvents,
+                    activity = CounterGoalSettingsActivity::class.java,
+                    modifier = defaultModifier
+                ) { intent ->
+                    if (counter != null) {
+                        intent.putExtra("counterID", counter.uid)
+                    } else intent
                 }
             }
         }
