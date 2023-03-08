@@ -7,18 +7,18 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.List
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -26,6 +26,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
@@ -168,8 +169,7 @@ fun CounterPage(
                         Box {
                             LazyVerticalGrid(
                                 columns = GridCells.Adaptive(minSize = 400.dp),
-                                Modifier.fillMaxSize(),
-                                verticalArrangement = spacedBy(24.dp)
+                                Modifier.fillMaxSize()
                             ) {
                                 item {
                                     Column(
@@ -184,21 +184,7 @@ fun CounterPage(
 
                                         StatCountProvider(counter!!, countersListViewModel)
 
-                                        // SuggestionChips (WIP)
-                                        /*
-                                        Row(horizontalArrangement = spacedBy(8.dp)) {
-                                            AssistChip(
-                                                onClick = {  },
-                                                label = { Text("Edit name") },
-                                                leadingIcon = {
-                                                    Icon(
-                                                        Icons.Outlined.AutoAwesome,
-                                                        null,
-                                                        Modifier.scale(.85f)
-                                                    )
-                                                }
-                                            )
-                                        }*/
+                                        SuggestionsCard(counter!!)
                                     }
                                 }
                                 var big = false
