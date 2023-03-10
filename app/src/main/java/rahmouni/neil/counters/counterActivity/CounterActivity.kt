@@ -7,18 +7,18 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.List
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -26,7 +26,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
@@ -100,10 +99,7 @@ class CounterActivity : ComponentActivity() {
     }
 }
 
-@OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class,
-    ExperimentalMaterial3WindowSizeClassApi::class
-)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class,)
 @Composable
 fun CounterPage(
     counterID: Int,
@@ -174,8 +170,7 @@ fun CounterPage(
                                 item {
                                     Column(
                                         Modifier.fillMaxWidth(),
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = spacedBy(24.dp)
+                                        horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
                                         MainCount(
                                             count = counter!!.getCount(),
@@ -184,7 +179,9 @@ fun CounterPage(
 
                                         StatCountProvider(counter!!, countersListViewModel)
 
-                                        SuggestionsCard(counter!!)
+                                        Spacer(Modifier.height(8.dp))
+
+                                        SuggestionsCard(counter!!, countersListViewModel, bottomSheetState)
                                     }
                                 }
                                 var big = false
@@ -193,11 +190,9 @@ fun CounterPage(
                                     GridItemSpan(1)
                                 }) {
                                     Column(
-                                        Modifier
-                                            .padding(16.dp)
-                                            .fillMaxWidth(),
+                                        Modifier.padding(16.dp).fillMaxWidth(),
                                         horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = spacedBy(24.dp)
+                                        verticalArrangement = spacedBy(16.dp)
                                     ) {
                                         if (counter?.isGoalEnabled() == true) {
                                             GoalBar(

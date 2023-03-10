@@ -48,7 +48,7 @@ fun MainCount(
 
     Surface(
         modifier = Modifier
-            .padding(top = 8.dp)
+            .padding(top = 8.dp, bottom = 24.dp)
             .size(112.dp)
             .rotate(rotation.absoluteValue)
             .scale(scale.absoluteValue)
