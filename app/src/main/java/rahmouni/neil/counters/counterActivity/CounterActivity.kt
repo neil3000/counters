@@ -21,7 +21,6 @@ import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -99,7 +98,7 @@ class CounterActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class,)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun CounterPage(
     counterID: Int,
@@ -181,7 +180,11 @@ fun CounterPage(
 
                                         Spacer(Modifier.height(8.dp))
 
-                                        SuggestionsCard(counter!!, countersListViewModel, bottomSheetState)
+                                        SuggestionsCard(
+                                            counter!!,
+                                            countersListViewModel,
+                                            bottomSheetState
+                                        )
                                     }
                                 }
                                 var big = false
@@ -190,7 +193,9 @@ fun CounterPage(
                                     GridItemSpan(1)
                                 }) {
                                     Column(
-                                        Modifier.padding(16.dp).fillMaxWidth(),
+                                        Modifier
+                                            .padding(16.dp)
+                                            .fillMaxWidth(),
                                         horizontalAlignment = Alignment.CenterHorizontally,
                                         verticalArrangement = spacedBy(16.dp)
                                     ) {

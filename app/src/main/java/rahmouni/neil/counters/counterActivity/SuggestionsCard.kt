@@ -148,7 +148,7 @@ fun SuggestionsCard(
                             onClick = {
                                 openSettings()
                             },
-                            label = { Text("Edit Name") },
+                            label = { Text(stringResource(id = R.string.suggestionsCard_title_assistChip_label)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.Outlined.Title,
@@ -168,7 +168,7 @@ fun SuggestionsCard(
                                     modalBottomSheetState.show()
                                 }
                             },
-                            label = { Text("Add entry") },
+                            label = { Text(stringResource(id = R.string.suggestionsCard_entry_assistChip_label)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.Outlined.Add,
@@ -184,7 +184,7 @@ fun SuggestionsCard(
                             onClick = {
                                 openSettings()
                             },
-                            label = { Text("Set a goal") },
+                            label = { Text(stringResource(id = R.string.suggestionsCard_goal_assistChip_label)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.Outlined.EmojiEvents,

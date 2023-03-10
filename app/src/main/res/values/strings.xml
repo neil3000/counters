@@ -242,4 +242,7 @@
     <string name="counterActivity_bottomBar_icon_settings_contentDescription">Settings</string>
     <string name="counterDefaultName">New Counter</string>
     <string name="suggestionsCard_title">Suggestions</string>
+    <string name="suggestionsCard_goal_assistChip_label">Set a goal</string>
+    <string name="suggestionsCard_entry_assistChip_label">Add entry</string>
+    <string name="suggestionsCard_title_assistChip_label">Edit name</string>
 </resources>
