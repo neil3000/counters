@@ -5,7 +5,6 @@ import androidx.room.*
 import androidx.room.migration.AutoMigrationSpec
 import kotlinx.coroutines.flow.Flow
 import rahmouni.neil.counters.CounterStyle
-import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.health_connect.HealthConnectAvailability
@@ -34,9 +33,10 @@ import java.io.Serializable
         ),
         AutoMigration(from = 9, to = 10),
         AutoMigration(from = 10, to = 11),
+        AutoMigration(from = 11, to = 12),
     ],
     exportSchema = true,
-    version = 11
+    version = 12
 )
 abstract class CountersDatabase : RoomDatabase() {
     abstract fun countersListDao(): CountersListDao
@@ -133,6 +133,10 @@ data class Counter(
         name = "goal_reset",
         defaultValue = "NEVER"
     ) val goalReset: ResetType? = null, //if null, follows the counter ResetValue
+    @ColumnInfo(
+        name = "suggestions_dismissed",
+        defaultValue = "false"
+    ) val dismissedSuggestions: Boolean = false,
 )
 
 data class CounterAugmented(
@@ -186,6 +190,10 @@ data class CounterAugmented(
         defaultValue = "false"
     ) private val goalEnabled: Boolean = false,
     @ColumnInfo(name = "goal_reset", defaultValue = "NEVER") val goalReset: ResetType? = null,
+    @ColumnInfo(
+        name = "suggestions_dismissed",
+        defaultValue = "false"
+    ) val dismissedSuggestions: Boolean = false,
 
     @ColumnInfo(name = "count_allTime") private val allTimeCount: Int = 0,
     @ColumnInfo(name = "count_day") private val dayCount: Int = 0,
@@ -215,7 +223,9 @@ data class CounterAugmented(
 
             goalValue = goalValue,
             goalEnabled = goalEnabled,
-            goalReset = goalReset
+            goalReset = goalReset,
+
+            dismissedSuggestions = dismissedSuggestions
         )
     }
 
@@ -246,6 +256,10 @@ data class CounterAugmented(
 
     fun getDisplayName(context: Context): String {
         return displayName ?: context.getString(R.string.counterDefaultName)
+    }
+
+    fun getDisplayNameOrNull(): String? {
+        return displayName
     }
 
     fun shouldLogHealthConnect(healthConnectManager: HealthConnectManager): Boolean {

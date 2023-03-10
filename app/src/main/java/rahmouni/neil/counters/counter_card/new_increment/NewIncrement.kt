@@ -1,5 +1,8 @@
 package rahmouni.neil.counters.counter_card.new_increment
 
+//import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import android.annotation.SuppressLint
+import android.icu.text.SimpleDateFormat
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.spacedBy
@@ -22,14 +25,14 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-//import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.health_connect.HealthConnectAvailability
 import rahmouni.neil.counters.health_connect.HealthConnectManager
+import java.util.*
 
+@SuppressLint("SimpleDateFormat")
 @OptIn(
     ExperimentalComposeUiApi::class,
     ExperimentalMaterial3Api::class
@@ -49,7 +52,7 @@ fun NewIncrement(
         val context = LocalContext.current
 
         var value by rememberSaveable { mutableStateOf("1") }
-        var date: String? by rememberSaveable { mutableStateOf(null) }
+        var date: Long? by rememberSaveable { mutableStateOf(null) }
         var areNotesVisible: Boolean by rememberSaveable { mutableStateOf(false) }
         var notes: String? by rememberSaveable { mutableStateOf(null) }
 
@@ -70,7 +73,7 @@ fun NewIncrement(
                         counter,
                         context,
                         healthConnectManager,
-                        date,
+                        SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date),
                         if (areNotesVisible) notes else null
                     )
                     reset()

@@ -241,4 +241,9 @@
     <string name="accessibilitySettingsActivity_tile_disableConfetti_secondary">Supprime toutes les animations de confettis</string>
     <string name="counterActivity_bottomBar_icon_entries_contentDescription">Entrées</string>
     <string name="counterActivity_bottomBar_icon_settings_contentDescription">Paramètres</string>
+    <string name="counterDefaultName">Nouveau Compteur</string>
+    <string name="suggestionsCard_title">Suggestions</string>
+    <string name="suggestionsCard_goal_assistChip_label">Définir un objectif</string>
+    <string name="suggestionsCard_entry_assistChip_label">Ajouter une entrée</string>
+    <string name="suggestionsCard_title_assistChip_label">Modifier le nom</string>
 </resources>

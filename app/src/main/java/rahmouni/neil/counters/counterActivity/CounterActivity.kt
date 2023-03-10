@@ -21,7 +21,6 @@ import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -99,10 +98,7 @@ class CounterActivity : ComponentActivity() {
     }
 }
 
-@OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class,
-    ExperimentalMaterial3WindowSizeClassApi::class
-)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun CounterPage(
     counterID: Int,
@@ -168,14 +164,12 @@ fun CounterPage(
                         Box {
                             LazyVerticalGrid(
                                 columns = GridCells.Adaptive(minSize = 400.dp),
-                                Modifier.fillMaxSize(),
-                                verticalArrangement = spacedBy(24.dp)
+                                Modifier.fillMaxSize()
                             ) {
                                 item {
                                     Column(
                                         Modifier.fillMaxWidth(),
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = spacedBy(24.dp)
+                                        horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
                                         MainCount(
                                             count = counter!!.getCount(),
@@ -184,21 +178,13 @@ fun CounterPage(
 
                                         StatCountProvider(counter!!, countersListViewModel)
 
-                                        // SuggestionChips (WIP)
-                                        /*
-                                        Row(horizontalArrangement = spacedBy(8.dp)) {
-                                            AssistChip(
-                                                onClick = {  },
-                                                label = { Text("Edit name") },
-                                                leadingIcon = {
-                                                    Icon(
-                                                        Icons.Outlined.AutoAwesome,
-                                                        null,
-                                                        Modifier.scale(.85f)
-                                                    )
-                                                }
-                                            )
-                                        }*/
+                                        Spacer(Modifier.height(8.dp))
+
+                                        SuggestionsCard(
+                                            counter!!,
+                                            countersListViewModel,
+                                            bottomSheetState
+                                        )
                                     }
                                 }
                                 var big = false
@@ -211,7 +197,7 @@ fun CounterPage(
                                             .padding(16.dp)
                                             .fillMaxWidth(),
                                         horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = spacedBy(24.dp)
+                                        verticalArrangement = spacedBy(16.dp)
                                     ) {
                                         if (counter?.isGoalEnabled() == true) {
                                             GoalBar(

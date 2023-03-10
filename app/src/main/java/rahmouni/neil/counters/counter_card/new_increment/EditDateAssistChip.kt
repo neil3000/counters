@@ -1,46 +1,33 @@
 package rahmouni.neil.counters.counter_card.new_increment
 
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
-import android.text.format.DateFormat
-import android.widget.DatePicker
-import android.widget.TimePicker
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.EditCalendar
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import rahmouni.neil.counters.R
 import java.text.SimpleDateFormat
 import java.util.*
-import rahmouni.neil.counters.R
 
 @SuppressLint("SimpleDateFormat")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditDateAssistChip(date: String?, setDate: (String?) -> Unit) {
+fun EditDateAssistChip(date: Long?, setDate: (Long?) -> Unit) {
     val localHapticFeedback = LocalHapticFeedback.current
 
-    val c = Calendar.getInstance()
+    val openDateDialog = remember { mutableStateOf(false) }
+    val openTimeDialog = remember { mutableStateOf(false) }
 
-    val context = LocalContext.current
-    val mDatePickerDialog = DatePickerDialog(
-        context,
-        { _: DatePicker, y: Int, mo: Int, d: Int ->
-            TimePickerDialog(
-                context,
-                { _: TimePicker, h: Int, mi: Int ->
-                    setDate(String.format("%02d-%02d-%02d %02d:%02d:00", y, mo + 1, d, h, mi))
-                }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true
-            ).show()
-        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)
-    )
+    val datePickerState = rememberDatePickerState()
+    val timePickerState = rememberTimePickerState()
 
     if (date == null) {
         AssistChip(
@@ -49,23 +36,88 @@ fun EditDateAssistChip(date: String?, setDate: (String?) -> Unit) {
             onClick = {
                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                mDatePickerDialog.show()
+                openDateDialog.value = true
             }
         )
+        if (openDateDialog.value) {
+            DatePickerDialog(
+                onDismissRequest = {
+                    openDateDialog.value = false
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            openDateDialog.value = false
+                            openTimeDialog.value = true
+
+                            /*TimePickerDialog(
+                                context,
+                                { _: TimePicker, h: Int, mi: Int ->
+                                    setDate(
+                                        datePickerState.selectedDateMillis?.plus(mi * 1000 * 60)
+                                            ?.plus((h-1) * 1000 * 60 * 60)
+                                    )
+                                }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true
+                            ).show()*/
+                        },
+                        enabled = datePickerState.selectedDateMillis != null
+                    ) {
+                        Text("OK")
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            openDateDialog.value = false
+                        }
+                    ) {
+                        Text("Cancel")
+                    }
+                }
+            ) {
+                DatePicker(state = datePickerState)
+            }
+        } else if (openTimeDialog.value) {
+            AlertDialog(
+                onDismissRequest = {
+                    openTimeDialog.value = false
+                },
+                text = {
+                    TimePicker(state = timePickerState)
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            openTimeDialog.value = false
+
+                            setDate(
+                                datePickerState.selectedDateMillis?.plus(timePickerState.minute * 1000 * 60)
+                                    ?.plus(timePickerState.hour * 1000 * 60 * 60)?.minus(
+                                        TimeZone.getDefault().getOffset(System.currentTimeMillis())
+                                    )
+                            )
+
+                        }
+                    ) {
+                        Text("OK")
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            openDateDialog.value = false
+                        }
+                    ) {
+                        Text("Cancel")
+                    }
+                }
+            )
+        }
     } else {
-        val tmpDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date)
-        val title = if (tmpDate != null) DateFormat.format(
-            DateFormat.getBestDateTimePattern(
-                Locale.getDefault(),
-                "d MMMM"
-            ), tmpDate
-        ).toString()
-            .replaceFirstChar { it.uppercase() } + ", " + DateFormat.getTimeFormat(
-            context
-        ).format(tmpDate) else date
+        val b = SimpleDateFormat("MMMM dd, HH:mm").format(date)
 
         FilterChip(
-            label = { Text(title) },
+            label = { Text(b) },
             selected = true,
             trailingIcon = {
                 Icon(
