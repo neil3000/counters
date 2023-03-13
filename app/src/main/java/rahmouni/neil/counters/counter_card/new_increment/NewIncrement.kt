@@ -73,7 +73,9 @@ fun NewIncrement(
                         counter,
                         context,
                         healthConnectManager,
-                        SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date),
+                        if (date == null) null else SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(
+                            date
+                        ),
                         if (areNotesVisible) notes else null
                     )
                     reset()
