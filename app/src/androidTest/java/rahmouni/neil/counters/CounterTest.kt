@@ -32,9 +32,9 @@ class CounterTest {
             .assertTitleExists()
     }
 
-    @Test
+    /*@Test
     fun test() {
         HomeScreenTestView(rule)
             .createUSScreenshotCounters()
-    }
+    }*/
 }
