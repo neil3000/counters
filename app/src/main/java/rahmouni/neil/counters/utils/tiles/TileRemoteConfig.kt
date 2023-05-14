@@ -2,8 +2,6 @@ package rahmouni.neil.counters.utils.tiles
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ListItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.Science
@@ -18,21 +16,20 @@ import androidx.compose.ui.res.stringResource
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.R
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TileRemoteConfig() {
-    val localHapticFeedback = LocalHapticFeedback.current
+    val haptics = LocalHapticFeedback.current
     val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     var openDialog by remember { mutableStateOf(false) }
 
     ListItem(
-        text = { androidx.compose.material.Text("Remote Config") },
-        icon = { Icon(Icons.Outlined.Science, null) },
+        headlineContent = { Text("Remote Config") },
+        leadingContent = { Icon(Icons.Outlined.Science, null) },
         modifier = Modifier
             .clickable(
                 onClick = {
-                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
 
                     openDialog = true
                 }
@@ -50,9 +47,7 @@ fun TileRemoteConfig() {
                         var fVal: Any? = null
                         try {
                             fVal = value.asBoolean()
-                        } catch (e: IllegalArgumentException) {
-
-                        }
+                        } catch (_: IllegalArgumentException) { }
 
                         var source = "\uD83D\uDFE5 "
 
@@ -97,7 +92,7 @@ fun TileRemoteConfig() {
             confirmButton = {
                 TextButton(
                     onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
 
                         openDialog = false
                     }
