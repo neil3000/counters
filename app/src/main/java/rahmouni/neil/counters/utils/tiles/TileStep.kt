@@ -2,15 +2,14 @@ package rahmouni.neil.counters.utils.tiles
 
 import androidx.compose.foundation.clickable
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ListItem
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.material.icons.outlined.HighlightOff
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -19,7 +18,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import rahmouni.neil.counters.R
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TileStep(
     title: String,
@@ -28,13 +26,12 @@ fun TileStep(
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
-    val localHapticFeedback = LocalHapticFeedback.current
+    val haptics = LocalHapticFeedback.current
 
     ListItem(
-        text = { Text(title) },
-        secondaryText = { Text(description) },
-        singleLineSecondaryText = true,
-        icon = {
+        headlineContent = { Text(title) },
+        supportingContent = { Text(description) },
+        leadingContent = {
             if (done) {
                 // Done
                 Icon(
@@ -50,7 +47,7 @@ fun TileStep(
                 )
             }
         },
-        trailing = {
+        trailingContent = {
             if (!done) {
                 Icon(Icons.Outlined.ChevronRight, null)
             }
@@ -60,7 +57,7 @@ fun TileStep(
             .clickable(
                 enabled = !done && enabled,
                 onClick = {
-                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
 
                     onClick()
                 }
