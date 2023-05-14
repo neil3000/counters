@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ListItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.*
@@ -28,10 +26,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.R
 
-@OptIn(
-    ExperimentalMaterialApi::class,
-    ExperimentalAnimationApi::class
-)
 @Composable
 fun TileDialogRadioButtons(
     title: String,
@@ -43,25 +37,24 @@ fun TileDialogRadioButtons(
     enabled: Boolean = true,
     onChange: (TileDialogRadioListEnum) -> Unit
 ) {
-    val localHapticFeedback = LocalHapticFeedback.current
+    val haptics = LocalHapticFeedback.current
     //val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     var openDialog by rememberSaveable { mutableStateOf(false) }
     var dialogValue by rememberSaveable { mutableStateOf(selected) }
 
     ListItem(
-        text = { androidx.compose.material.Text(title) },
-        secondaryText = {
-            androidx.compose.material.Text(if (selected != null) stringResource(selected.formatted()) else defaultSecondary!!)
+        headlineContent = { Text(title) },
+        supportingContent = {
+            Text(if (selected != null) stringResource(selected.formatted()) else defaultSecondary!!)
         },
-        singleLineSecondaryText = true,
-        icon = { Icon(icon, null) },
+        leadingContent = { Icon(icon, null) },
         modifier = Modifier
             .alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
             .clickable(
                 enabled = enabled,
                 onClick = {
-                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
 
                     dialogValue = selected
                     openDialog = true
@@ -99,7 +92,7 @@ fun TileDialogRadioButtons(
                                     .selectable(
                                         selected = dialogValue == it,
                                         onClick = {
-                                            localHapticFeedback.performHapticFeedback(
+                                            haptics.performHapticFeedback(
                                                 HapticFeedbackType.LongPress
                                             )
 
@@ -142,7 +135,7 @@ fun TileDialogRadioButtons(
                 TextButton(
                     enabled = dialogValue != null,
                     onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
 
                         onChange(dialogValue!!)
 
@@ -155,7 +148,7 @@ fun TileDialogRadioButtons(
             dismissButton = {
                 TextButton(
                     onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
 
                         openDialog = false
                     }
