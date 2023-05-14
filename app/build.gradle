@@ -149,6 +149,8 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:1.6.1"
 
+    implementation "androidx.tracing:tracing:1.1.0" //Fix an issue with testing
+
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.3"
 
     //Health & Connect
