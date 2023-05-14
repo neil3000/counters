@@ -165,11 +165,12 @@ fun SettingsPage() {
             // Changelog
             item {
                 analytics?.logEvent("opened_changelog_inAppLink", null)
-                TileOpenCustomTab(
+                TileClick(
                     title = stringResource(R.string.settingsActivity_tile_changelog_title),
                     icon = Icons.Outlined.NewReleases,
-                    url = remoteConfig.getString("changelog_url")
-                )
+                ) {
+                    openChromeCustomTab(activity, remoteConfig.getString("changelog_url"),)
+                }
             }
             // OpenPlayStorePage
             item {

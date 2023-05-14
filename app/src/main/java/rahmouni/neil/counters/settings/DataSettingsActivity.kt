@@ -37,8 +37,8 @@ import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
 import rahmouni.neil.counters.utils.dialogs.ConfirmationDialog
+import rahmouni.neil.counters.utils.openChromeCustomTab
 import rahmouni.neil.counters.utils.tiles.TileClick
-import rahmouni.neil.counters.utils.tiles.TileOpenCustomTab
 import rahmouni.neil.counters.utils.tiles.TileSwitch
 
 class DataSettingsActivity : ComponentActivity() {
@@ -170,11 +170,12 @@ fun DataSettingsPage() {
                 }
             }
             item {
-                TileOpenCustomTab(
+                TileClick(
                     title = stringResource(R.string.dataSettingsActivity_tile_privacyPolicy_title),
                     icon = Icons.Outlined.Policy,
-                    url = remoteConfig.getString("privacy_policy_url")
-                )
+                ) {
+                    openChromeCustomTab(activity, remoteConfig.getString("privacy_policy_url"),)
+                }
             }
         }
     }
