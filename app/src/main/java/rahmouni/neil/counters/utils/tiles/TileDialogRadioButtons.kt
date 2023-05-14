@@ -38,7 +38,6 @@ fun TileDialogRadioButtons(
     onChange: (TileDialogRadioListEnum) -> Unit
 ) {
     val haptics = LocalHapticFeedback.current
-    //val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     var openDialog by rememberSaveable { mutableStateOf(false) }
     var dialogValue by rememberSaveable { mutableStateOf(selected) }
