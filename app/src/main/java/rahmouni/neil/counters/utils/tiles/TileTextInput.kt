@@ -2,10 +2,9 @@ package rahmouni.neil.counters.utils.tiles
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ListItem
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -23,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.utils.AutoFocusOutlinedTextField
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TileTextInput(
     title: String,
@@ -35,7 +34,7 @@ fun TileTextInput(
     onSave: (String) -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    val localHapticFeedback = LocalHapticFeedback.current
+    val haptics = LocalHapticFeedback.current
 
     var openDialog by rememberSaveable { mutableStateOf(false) }
     var dialogValue by rememberSaveable { mutableStateOf(value) }
@@ -49,7 +48,7 @@ fun TileTextInput(
     }
 
     fun confirm() {
-        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
 
         if (validateInput(dialogValue)) {
             onSave(dialogValue)
@@ -62,14 +61,13 @@ fun TileTextInput(
     }
 
     ListItem(
-        text = { androidx.compose.material.Text(title) },
-        secondaryText = { androidx.compose.material.Text(value) },
-        singleLineSecondaryText = true,
-        icon = { Icon(icon, null) },
+        headlineContent = { Text(title) },
+        supportingContent = { Text(value) },
+        leadingContent = { Icon(icon, null) },
         modifier = Modifier
             .clickable(
                 onClick = {
-                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
 
                     openDialog = true
                 }
@@ -110,7 +108,7 @@ fun TileTextInput(
             dismissButton = {
                 TextButton(
                     onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
 
                         closeDialog()
                     }

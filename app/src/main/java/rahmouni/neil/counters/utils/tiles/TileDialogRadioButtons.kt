@@ -1,17 +1,35 @@
 package rahmouni.neil.counters.utils.tiles
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidthIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ListItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material3.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.LocalAbsoluteTonalElevation
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,10 +46,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import rahmouni.neil.counters.R
 
-@OptIn(
-    ExperimentalMaterialApi::class,
-    ExperimentalAnimationApi::class
-)
 @Composable
 fun TileDialogRadioButtons(
     title: String,
@@ -43,25 +57,23 @@ fun TileDialogRadioButtons(
     enabled: Boolean = true,
     onChange: (TileDialogRadioListEnum) -> Unit
 ) {
-    val localHapticFeedback = LocalHapticFeedback.current
-    //val remoteConfig = FirebaseRemoteConfig.getInstance()
+    val haptics = LocalHapticFeedback.current
 
     var openDialog by rememberSaveable { mutableStateOf(false) }
     var dialogValue by rememberSaveable { mutableStateOf(selected) }
 
     ListItem(
-        text = { androidx.compose.material.Text(title) },
-        secondaryText = {
-            androidx.compose.material.Text(if (selected != null) stringResource(selected.formatted()) else defaultSecondary!!)
+        headlineContent = { Text(title) },
+        supportingContent = {
+            Text(if (selected != null) stringResource(selected.formatted()) else defaultSecondary!!)
         },
-        singleLineSecondaryText = true,
-        icon = { Icon(icon, null) },
+        leadingContent = { Icon(icon, null) },
         modifier = Modifier
             .alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
             .clickable(
                 enabled = enabled,
                 onClick = {
-                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
 
                     dialogValue = selected
                     openDialog = true
@@ -79,10 +91,13 @@ fun TileDialogRadioButtons(
                 Column(Modifier.width(IntrinsicSize.Max)) {
                     values.forEach {
                         val animatedColor = animateColorAsState(
-                            if (dialogValue == it) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
+                            if (dialogValue == it) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
+                            tween(400)
                         )
                         val animatedCorners =
-                            animateDpAsState(if (dialogValue == it) 28.dp else 16.dp)
+                            animateDpAsState(
+                                if (dialogValue == it) 28.dp else 16.dp, tween(400)
+                            )
 
                         Surface(
                             color = animatedColor.value,
@@ -99,7 +114,7 @@ fun TileDialogRadioButtons(
                                     .selectable(
                                         selected = dialogValue == it,
                                         onClick = {
-                                            localHapticFeedback.performHapticFeedback(
+                                            haptics.performHapticFeedback(
                                                 HapticFeedbackType.LongPress
                                             )
 
@@ -142,7 +157,7 @@ fun TileDialogRadioButtons(
                 TextButton(
                     enabled = dialogValue != null,
                     onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
 
                         onChange(dialogValue!!)
 
@@ -155,7 +170,7 @@ fun TileDialogRadioButtons(
             dismissButton = {
                 TextButton(
                     onClick = {
-                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
 
                         openDialog = false
                     }

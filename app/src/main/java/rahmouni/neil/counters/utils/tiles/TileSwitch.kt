@@ -1,12 +1,14 @@
 package rahmouni.neil.counters.utils.tiles
 
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ListItem
-import androidx.compose.material.Text
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -14,7 +16,6 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TileSwitch(
     title: String,
@@ -22,32 +23,37 @@ fun TileSwitch(
     icon: ImageVector,
     checked: Boolean,
     enabled: Boolean = true,
-    singleLineSecondaryText: Boolean = true,
     onChange: (Boolean) -> Unit
 ) {
-    val localHapticFeedback = LocalHapticFeedback.current
+    val haptics = LocalHapticFeedback.current
+
+    val interactionSource = remember { MutableInteractionSource() }
 
     ListItem(
-        text = { Text(title) },
-        secondaryText = if (description != null) {
+        headlineContent = { Text(title) },
+        supportingContent = if (description != null) {
             { Text(description) }
         } else null,
-        singleLineSecondaryText = singleLineSecondaryText,
-        icon = { Icon(icon, null) },
-        trailing = {
+        leadingContent = {
+            Icon(icon, null)
+        },
+        trailingContent = {
             rahmouni.neil.counters.utils.Switch(
                 checked = checked,
                 onCheckedChange = null,
+                interactionSource = interactionSource,
             )
         },
         modifier = Modifier
             .alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
             .toggleable(
+                interactionSource = interactionSource,
                 value = checked,
+                indication = LocalIndication.current,
                 role = Role.Switch,
                 enabled = enabled,
             ) {
-                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                haptics.performHapticFeedback(HapticFeedbackType.LongPress)
 
                 onChange(it)
             }

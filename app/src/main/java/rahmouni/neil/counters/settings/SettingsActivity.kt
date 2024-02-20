@@ -165,11 +165,12 @@ fun SettingsPage() {
             // Changelog
             item {
                 analytics?.logEvent("opened_changelog_inAppLink", null)
-                TileOpenCustomTab(
+                TileClick(
                     title = stringResource(R.string.settingsActivity_tile_changelog_title),
                     icon = Icons.Outlined.NewReleases,
-                    url = remoteConfig.getString("changelog_url")
-                )
+                ) {
+                    openChromeCustomTab(activity, remoteConfig.getString("changelog_url"),)
+                }
             }
             // OpenPlayStorePage
             item {
@@ -187,7 +188,6 @@ fun SettingsPage() {
                     title = stringResource(R.string.settingsActivity_tile_discordInvite_title),
                     description = stringResource(R.string.settingsActivity_tile_discordInvite_secondary),
                     icon = Icons.Outlined.Forum,
-                    singleLineSecondaryText = false
                 ) {
                     analytics?.logEvent("opened_discord_inAppLink", null)
                     openChromeCustomTab(
@@ -202,7 +202,6 @@ fun SettingsPage() {
                     title = stringResource(R.string.settingsActivity_tile_feedback_title),
                     description = stringResource(R.string.settingsActivity_tile_feedback_secondary),
                     icon = Icons.Outlined.Feedback,
-                    singleLineSecondaryText = false
                 ) {
                     activity.startActivity(
                         Intent(activity, FeedbackActivity::class.java).putExtra(

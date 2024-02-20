@@ -20,9 +20,6 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 
-@OptIn(
-    ExperimentalAnimationApi::class
-)
 @Composable
 fun TileColorSelection(
     color: Color,
@@ -31,7 +28,6 @@ fun TileColorSelection(
     onSelection: () -> Unit
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
-    //val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     Surface(
         tonalElevation = -LocalAbsoluteTonalElevation.current,
