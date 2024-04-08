@@ -118,7 +118,7 @@ fun CounterPage(
 
     var konpos by remember { mutableStateOf(Offset.Zero) }
 
-    if (remoteConfig.getBoolean("233")) { // New BottomSheet
+    if (remoteConfig.getBoolean("233") && remoteConfig.getBoolean("268")) { // New BottomSheet (depends on #268)
         val sheetState = rememberModalBottomSheetState()
         var showBottomSheet: Boolean by rememberSaveable { mutableStateOf(false) }
 
