@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.VolunteerActivism
-import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -32,7 +31,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
@@ -64,18 +62,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CountersTheme {
-                ProvideWindowInsets {
-                    androidx.compose.material.Surface {
-                        Surface(
-                            modifier = Modifier.fillMaxSize(),
-                            color = MaterialTheme.colorScheme.background
-                        ) {
-                            Home(
-                                countersListViewModel,
-                                (application as CountersApplication).healthConnectManager
-                            )
-                        }
-                    }
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Home(
+                        countersListViewModel,
+                        (application as CountersApplication).healthConnectManager
+                    )
                 }
             }
         }
@@ -96,10 +90,10 @@ fun Home(countersListViewModel: CountersListViewModel, healthConnectManager: Hea
     val countersList: List<CounterAugmented> by countersListViewModel.allCounters.observeAsState(
         listOf()
     )
-    val bottomSheetNewCounterState = rememberModalBottomSheetState(
+    val bottomSheetNewCounterState = androidx.compose.material.rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
     )
-    val bottomSheetNewIncrementState = rememberModalBottomSheetState(
+    val bottomSheetNewIncrementState = androidx.compose.material.rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
     )
     var bottomSheetNewIncrementCounterID: Int? by rememberSaveable { mutableStateOf(null) }
