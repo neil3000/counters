@@ -7,15 +7,15 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "rahmouni.neil.counters"
         minSdk 26
-        targetSdk 33
-        versionCode 69
-        versionName "1.26.3"
-        resConfigs 'en', 'en-rUS', 'en-rGB', 'fr', 'zh', 'zh-rCN'
+        targetSdk 34
+        versionCode 71
+        versionName "1.26.5"
+        resourceConfigurations += ['en', 'en-rUS', 'en-rGB', 'fr', 'zh', 'zh-rCN']
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -74,89 +74,89 @@ android {
 }
 
 dependencies {
-    implementation "androidx.core:core-ktx:1.10.0"
+    implementation "androidx.core:core-ktx:1.12.0"
 
     implementation 'com.google.code.gson:gson:2.10.1'
 
     implementation "androidx.appcompat:appcompat:1.6.1"
-    implementation "androidx.activity:activity-ktx:1.7.1"
+    implementation "androidx.activity:activity-ktx:1.8.2"
 
-    implementation platform('com.google.firebase:firebase-bom:31.5.0')
+    implementation platform('com.google.firebase:firebase-bom:32.8.0')
     implementation "com.google.firebase:firebase-analytics-ktx"
     implementation "com.google.firebase:firebase-crashlytics-ktx"
     implementation "com.google.firebase:firebase-config-ktx"
     implementation "com.google.firebase:firebase-appcheck-playintegrity"
     implementation "com.google.firebase:firebase-dynamic-links-ktx"
 
-    implementation "androidx.compose.ui:ui:1.5.0-alpha03"
+    implementation 'androidx.compose.ui:ui:1.6.5'
 
     // Tooling support (Previews, etc.)
-    debugImplementation("androidx.compose.ui:ui-tooling:1.4.3")
-    implementation "androidx.compose.ui:ui-tooling-preview:1.4.3"
+    debugImplementation('androidx.compose.ui:ui-tooling:1.6.5')
+    implementation 'androidx.compose.ui:ui-tooling-preview:1.6.5'
 
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
-    implementation("androidx.compose.foundation:foundation:1.5.0-alpha03")
+    implementation('androidx.compose.foundation:foundation:1.6.5')
 
     // Material Design
-    implementation("androidx.compose.material:material:1.5.0-alpha03")
-    implementation("androidx.compose.material3:material3:1.1.0-rc01")
-    implementation("androidx.compose.material3:material3-window-size-class:1.1.0-rc01")
+    implementation('androidx.compose.material:material:1.6.5')
+    implementation('androidx.compose.material3:material3:1.2.1')
+    implementation('androidx.compose.material3:material3-window-size-class:1.2.1')
 
     // Material design icons
-    implementation("androidx.compose.material:material-icons-core:1.4.3")
-    implementation("androidx.compose.material:material-icons-extended:1.4.3")
+    implementation('androidx.compose.material:material-icons-core:1.6.5')
+    implementation('androidx.compose.material:material-icons-extended:1.6.5')
 
-    implementation "androidx.activity:activity-compose:1.7.1"
+    implementation "androidx.activity:activity-compose:1.8.2"
 
-    implementation "com.google.accompanist:accompanist-insets-ui:0.15.0"
+    implementation 'com.google.accompanist:accompanist-insets-ui:0.34.0'
 
     // Room components
-    implementation "androidx.room:room-ktx:2.5.1"
-    kapt "androidx.room:room-compiler:2.5.1"
-    androidTestImplementation "androidx.room:room-testing:2.5.1"
+    implementation "androidx.room:room-ktx:2.6.1"
+    kapt "androidx.room:room-compiler:2.6.1"
+    androidTestImplementation "androidx.room:room-testing:2.6.1"
 
     // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
-    implementation "androidx.lifecycle:lifecycle-common-java8:2.6.1"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
-    implementation "androidx.compose.runtime:runtime-livedata:1.4.3"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.7.0"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.7.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0"
+    implementation 'androidx.compose.runtime:runtime-livedata:1.6.5'
 
     // Kotlin components
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0'
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0'
 
     // UI
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
-    implementation "com.google.android.material:material:1.9.0"
+    implementation "com.google.android.material:material:1.11.0"
 
     // Testing
     testImplementation "junit:junit:4.13.2"
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.4.3")
+    androidTestImplementation('androidx.compose.ui:ui-test-junit4:1.6.5')
     androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.4.3")
+    debugImplementation('androidx.compose.ui:ui-test-manifest:1.6.5')
     androidTestImplementation('androidx.test.espresso:espresso-core:3.5.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
 
-    implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
 
-    implementation "androidx.browser:browser:1.5.0"
+    implementation 'androidx.browser:browser:1.8.0'
 
     implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
 
     implementation "androidx.appcompat:appcompat:1.6.1"
 
-    implementation "androidx.tracing:tracing:1.1.0" //Fix an issue with testing
+    implementation "androidx.tracing:tracing:1.2.0" //Fix an issue with testing
 
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.3"
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.4"
 
     //Health & Connect
     implementation "androidx.health.connect:connect-client:1.0.0-alpha07"
 
-    implementation 'nl.dionsegijn:konfetti-compose:2.0.2'
+    implementation 'nl.dionsegijn:konfetti-compose:2.0.4'
 
     implementation "androidx.concurrent:concurrent-futures-ktx:1.1.0"
 }
