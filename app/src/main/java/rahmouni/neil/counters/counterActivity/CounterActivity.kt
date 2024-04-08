@@ -1,5 +1,6 @@
 package rahmouni.neil.counters.counterActivity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -15,8 +16,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.rememberModalBottomSheetState
@@ -42,7 +44,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.PathParser.createPathFromPathData
 import androidx.core.view.WindowCompat
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
@@ -79,18 +80,16 @@ class CounterActivity : ComponentActivity() {
 
         setContent {
             CountersTheme {
-                ProvideWindowInsets {
-                    androidx.compose.material.Surface {
-                        Surface(
-                            modifier = Modifier.fillMaxSize(),
-                            color = MaterialTheme.colorScheme.background
-                        ) {
-                            CounterPage(
-                                counterID,
-                                countersListViewModel,
-                                (application as CountersApplication).healthConnectManager
-                            )
-                        }
+                androidx.compose.material.Surface {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        CounterPage(
+                            counterID,
+                            countersListViewModel,
+                            (application as CountersApplication).healthConnectManager
+                        )
                     }
                 }
             }
@@ -151,7 +150,7 @@ fun CounterPage(
                             modifier = Modifier.testTag("BACK_ARROW")
                         ) {
                             Icon(
-                                Icons.Outlined.ArrowBack,
+                                Icons.AutoMirrored.Outlined.ArrowBack,
                                 contentDescription = stringResource(R.string.counterActivity_topbar_icon_back_contentDescription)
                             )
                         }
@@ -245,7 +244,7 @@ fun CounterPage(
                             }
                         }) {
                             Icon(
-                                Icons.Outlined.List,
+                                Icons.AutoMirrored.Outlined.List,
                                 stringResource(R.string.counterActivity_bottomBar_icon_entries_contentDescription)
                             )
                         }
@@ -295,6 +294,7 @@ fun CounterPage(
 }
 
 class Shape1 : androidx.compose.ui.graphics.Shape {
+    @SuppressLint("RestrictedApi")
     override fun createOutline(
         size: Size,
         layoutDirection: LayoutDirection,

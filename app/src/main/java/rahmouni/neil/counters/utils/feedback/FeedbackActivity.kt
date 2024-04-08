@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.Send
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -28,8 +30,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.navigationBarsPadding
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -53,7 +53,6 @@ class FeedbackActivity : ComponentActivity() {
 
         setContent {
             CountersTheme {
-                ProvideWindowInsets {
                     androidx.compose.material.Surface {
                         Surface(
                             modifier = Modifier.fillMaxSize(),
@@ -62,7 +61,6 @@ class FeedbackActivity : ComponentActivity() {
                             FeedbackPage(intent.getStringExtra("screenName") ?: "app_null")
                         }
                     }
-                }
             }
         }
     }
@@ -107,7 +105,7 @@ fun FeedbackPage(previousScreen: String) {
                         }
                     ) {
                         Icon(
-                            Icons.Outlined.ArrowBack,
+                            Icons.AutoMirrored.Outlined.ArrowBack,
                             contentDescription = stringResource(R.string.feedbackActivity_topbar_icon_back_contentDescription)
                         )
                     }
@@ -119,7 +117,7 @@ fun FeedbackPage(previousScreen: String) {
             LargeFloatingActionButton(
                 content = {
                     Icon(
-                        Icons.Outlined.Send,
+                        Icons.AutoMirrored.Outlined.Send,
                         null,
                         Modifier.alpha(if (canSend) ContentAlpha.high else ContentAlpha.disabled)
                     )

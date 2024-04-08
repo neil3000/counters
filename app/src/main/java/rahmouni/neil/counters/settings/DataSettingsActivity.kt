@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -25,7 +26,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData
@@ -61,14 +61,12 @@ class DataSettingsActivity : ComponentActivity() {
 
         setContent {
             CountersTheme {
-                ProvideWindowInsets {
-                    androidx.compose.material.Surface {
-                        Surface(
-                            modifier = Modifier.fillMaxSize(),
-                            color = MaterialTheme.colorScheme.background
-                        ) {
-                            DataSettingsPage()
-                        }
+                androidx.compose.material.Surface {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        DataSettingsPage()
                     }
                 }
             }
@@ -104,7 +102,7 @@ fun DataSettingsPage() {
                         }
                     ) {
                         Icon(
-                            Icons.Outlined.ArrowBack,
+                            Icons.AutoMirrored.Outlined.ArrowBack,
                             contentDescription = stringResource(R.string.dataSettingsActivity_topbar_icon_back_contentDescription)
                         )
                     }
@@ -174,7 +172,7 @@ fun DataSettingsPage() {
                     title = stringResource(R.string.dataSettingsActivity_tile_privacyPolicy_title),
                     icon = Icons.Outlined.Policy,
                 ) {
-                    openChromeCustomTab(activity, remoteConfig.getString("privacy_policy_url"),)
+                    openChromeCustomTab(activity, remoteConfig.getString("privacy_policy_url"))
                 }
             }
         }
