@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material3.*
@@ -28,10 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ui.theme.CountersTheme
@@ -54,7 +53,6 @@ class HealthConnectSetupActivity : ComponentActivity() {
         }*/
         setContent {
             CountersTheme {
-                ProvideWindowInsets {
                     androidx.compose.material.Surface {
                         Surface(
                             modifier = Modifier.fillMaxSize(),
@@ -64,7 +62,6 @@ class HealthConnectSetupActivity : ComponentActivity() {
                             HealthConnectSetupPage(healthConnectManager)
                         }
                     }
-                }
             }
         }
     }
@@ -110,7 +107,7 @@ fun HealthConnectSetupPage(
                         }
                     ) {
                         Icon(
-                            Icons.Outlined.ArrowBack,
+                            Icons.AutoMirrored.Outlined.ArrowBack,
                             contentDescription = stringResource(R.string.healthConnectSetupActivity_topbar_icon_back_contentDescription)
                         )
                     }

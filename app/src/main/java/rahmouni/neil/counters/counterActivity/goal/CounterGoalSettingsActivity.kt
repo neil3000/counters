@@ -5,14 +5,27 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material.icons.outlined.Pin
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalAbsoluteTonalElevation
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -27,7 +40,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import rahmouni.neil.counters.CountersApplication
@@ -61,18 +73,16 @@ class CounterGoalSettingsActivity : ComponentActivity() {
 
         setContent {
             CountersTheme {
-                ProvideWindowInsets {
-                    androidx.compose.material.Surface {
-                        Surface(
-                            modifier = Modifier.fillMaxSize(),
-                            tonalElevation = 1.dp,
-                            color = MaterialTheme.colorScheme.surface
-                        ) {
-                            HealthConnectSettingsPage(
-                                counterID,
-                                countersListViewModel
-                            )
-                        }
+                androidx.compose.material.Surface {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        tonalElevation = 1.dp,
+                        color = MaterialTheme.colorScheme.surface
+                    ) {
+                        HealthConnectSettingsPage(
+                            counterID,
+                            countersListViewModel
+                        )
                     }
                 }
             }
@@ -109,7 +119,7 @@ fun HealthConnectSettingsPage(
                         }
                     ) {
                         Icon(
-                            Icons.Outlined.ArrowBack,
+                            Icons.AutoMirrored.Outlined.ArrowBack,
                             contentDescription = stringResource(R.string.counterGoalSettingsActivity_topbar_icon_back_contentDescription)
                         )
                     }

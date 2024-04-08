@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -27,7 +28,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.core.view.WindowCompat
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -53,14 +53,12 @@ class SettingsActivity : ComponentActivity() {
 
         setContent {
             CountersTheme {
-                ProvideWindowInsets {
-                    androidx.compose.material.Surface {
-                        Surface(
-                            modifier = Modifier.fillMaxSize(),
-                            color = MaterialTheme.colorScheme.background
-                        ) {
-                            SettingsPage()
-                        }
+                androidx.compose.material.Surface {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        SettingsPage()
                     }
                 }
             }
@@ -105,7 +103,7 @@ fun SettingsPage() {
                         }
                     ) {
                         Icon(
-                            Icons.Outlined.ArrowBack,
+                            Icons.AutoMirrored.Outlined.ArrowBack,
                             contentDescription = stringResource(R.string.settingsActivity_topbar_icon_back_contentDescription)
                         )
                     }
@@ -158,7 +156,7 @@ fun SettingsPage() {
                     activity = AccessibilitySettingsActivity::class.java
                 )
             }
-            item { Divider() }
+            item { HorizontalDivider() }
 
             // About
             item { TileHeader(stringResource(R.string.settingsActivity_tile_about_headerTitle)) }
@@ -169,7 +167,7 @@ fun SettingsPage() {
                     title = stringResource(R.string.settingsActivity_tile_changelog_title),
                     icon = Icons.Outlined.NewReleases,
                 ) {
-                    openChromeCustomTab(activity, remoteConfig.getString("changelog_url"),)
+                    openChromeCustomTab(activity, remoteConfig.getString("changelog_url"))
                 }
             }
             // OpenPlayStorePage
@@ -214,7 +212,7 @@ fun SettingsPage() {
 
 
             if (showDebug) {
-                item { Divider() }
+                item { HorizontalDivider() }
 
                 item { TileHeader("Debug") }
                 item {

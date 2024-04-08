@@ -22,7 +22,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.navigationBarsPadding
 
 const val CORNER_RADIUS = 16
 
@@ -58,7 +57,6 @@ fun RoundedBottomSheet(
                 LazyColumn(
                     modifier = Modifier
                         .padding(top = 10.dp)
-                        .navigationBarsPadding()
                         .onGloballyPositioned { layoutCoordinates ->
                             reachTop =
                                 layoutCoordinates.size.height >= localConfiguration.screenHeightDp * context.resources.displayMetrics.density
