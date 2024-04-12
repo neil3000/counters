@@ -1,7 +1,7 @@
 package rahmouni.neil.counters.counter_card.activity.graph
 
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.ResetType
+import rahmouni.neil.counters.goals.ResetType
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioListEnum
 import java.util.*
 

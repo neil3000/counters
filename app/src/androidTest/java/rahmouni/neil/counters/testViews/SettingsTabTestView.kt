@@ -7,7 +7,7 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import rahmouni.neil.counters.MainActivity
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.ResetType
+import rahmouni.neil.counters.goals.ResetType
 
 class SettingsTabTestView(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>,
