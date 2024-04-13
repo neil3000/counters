@@ -55,16 +55,14 @@ fun CounterStyleOption(
                             .padding(top = 8.dp),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        CounterStyle.values().forEach { cs ->
-                            if (cs.isDynamic == bo) {
-                                item {
-                                    TileColorSelection(
-                                        color = cs.getBackGroundColor(),
-                                        selected = selected == cs,
-                                        size = size
-                                    ) {
-                                        onChange(cs)
-                                    }
+                        CounterStyle.getAvailableValues(bo).forEach { cs ->
+                            item {
+                                TileColorSelection(
+                                    color = cs.getBackGroundColor(),
+                                    selected = selected == cs,
+                                    size = size
+                                ) {
+                                    onChange(cs)
                                 }
                             }
                         }
