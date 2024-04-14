@@ -22,10 +22,7 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.utils.tiles.tile_color_selection.Size
 import rahmouni.neil.counters.utils.tiles.tile_color_selection.TileColorSelection
 
-@OptIn(
-    ExperimentalMaterial3Api::class,
-    androidx.compose.ui.ExperimentalComposeUiApi::class
-)
+@OptIn(androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 fun CounterStyleOption(
     selected: CounterStyle,

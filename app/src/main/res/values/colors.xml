@@ -27,6 +27,8 @@
     <color name="beige">#EDDEE8</color>
     <color name="orange">#FFDBCE</color>
     <color name="purple_faye">#E4DFFF</color>
+    <color name="purple_laizo">#E7DEFF</color>
+    <color name="pink_clarity">#FFD8EB</color>
     <color name="pink">#FFD5FC</color>
     <color name="blue">#B5EAFF</color>
 </resources>

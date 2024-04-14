@@ -12,17 +12,20 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 enum class CounterStyle(
     private val backgroundColor: Int?,
     val isDynamic: Boolean,
+    val communityMember: String?,
     val remoteConfigBooleanPath: String?
-) {
-    DEFAULT(null, true, null),
-    SECONDARY(null, true, null),
-    PRIMARY(null, true, null),
-    TERTIARY(null, true, null),
-    BEIGE(R.color.beige, false, null),
-    ORANGE(R.color.orange, false, null),
-    PURPLE_FAYE(R.color.purple_faye, false, "271"),
-    PINK(R.color.pink, false, null),
-    BLUE(R.color.blue, false, null);
+    ) {
+    DEFAULT(null, true, null, null),
+    SECONDARY(null, true, null, null),
+    PRIMARY(null, true, null, null),
+    TERTIARY(null, true, null, null),
+    BEIGE(R.color.beige, false, null, null),
+    ORANGE(R.color.orange, false, null, null),
+    PURPLE_FAYE(R.color.purple_faye, false, "Faye", "271"),
+    PURPLE_LAIZO(R.color.purple_laizo, false, "Laizo", "272"),
+    PINK_CLARITY(R.color.pink_clarity, false, "Clarity", "273"),
+    PINK(R.color.pink, false, null, null),
+    BLUE(R.color.blue, false, null, null);
 
     @Composable
     fun getBackGroundColor(): Color {
