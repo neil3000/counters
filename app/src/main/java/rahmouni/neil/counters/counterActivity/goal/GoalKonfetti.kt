@@ -7,20 +7,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import rahmouni.neil.counters.database.CounterAugmented
-import rahmouni.neil.counters.goals.GoalType
 import rahmouni.neil.counters.prefs
 import java.util.concurrent.TimeUnit
 
 @Composable
 fun GoalKonfetti(counter: CounterAugmented, offset: Offset) {
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
-
     if (!prefs.confettiDisabled) {
         val party = Party(
             speed = 5f,

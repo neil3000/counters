@@ -20,7 +20,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.MainActivity
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.goals.ResetType
+import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.counterActivity.goal.CounterGoalSettingsActivity
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel

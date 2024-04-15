@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.goals.ResetType
+import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.Increment
 import rahmouni.neil.counters.utils.dialogs.ConfirmationDialog

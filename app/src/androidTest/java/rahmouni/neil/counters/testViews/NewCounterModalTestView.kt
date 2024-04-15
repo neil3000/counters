@@ -7,7 +7,7 @@ import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import rahmouni.neil.counters.MainActivity
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.goals.ResetType
+import rahmouni.neil.counters.ResetType
 import java.util.*
 
 class NewCounterModalTestView(

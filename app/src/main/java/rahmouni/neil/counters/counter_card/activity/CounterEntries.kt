@@ -23,7 +23,7 @@ import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.goals.ResetType
+import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.Increment

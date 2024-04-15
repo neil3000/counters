@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AppInsightsSettings">
-    <option name="selectedTabId" value="Firebase Crashlytics" />
     <option name="tabSettings">
       <map>
         <entry key="Android Vitals">
@@ -28,8 +27,8 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="rahmouni.neil.counters" />
-                  <option name="mobileSdkAppId" value="1:743616795299:android:31859666e85a959606e516" />
+                  <option name="appId" value="rahmouni.neil.counters.debug" />
+                  <option name="mobileSdkAppId" value="1:743616795299:android:c5f7d52ff6ee191c06e516" />
                   <option name="projectId" value="rahneil-n3-counters" />
                   <option name="projectNumber" value="743616795299" />
                 </ConnectionSetting>

@@ -1,44 +1,22 @@
 package rahmouni.neil.counters.counterActivity.goal
 
 import android.content.Intent
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.spacedBy
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.EmojiEvents
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -52,7 +30,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
@@ -62,6 +39,7 @@ import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.prefs
 import java.util.concurrent.TimeUnit
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun GoalBar(
     currentProgress: Float,
@@ -71,7 +49,6 @@ fun GoalBar(
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
     val localDensity = LocalDensity.current
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     var spawn: Boolean by rememberSaveable { mutableStateOf(false) }
     var height: Dp by remember { mutableStateOf(0.dp) }
@@ -82,8 +59,7 @@ fun GoalBar(
 
     val animatedProgress = animateFloatAsState(
         targetValue = currentProgress,
-        animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing),
-        label = "AnimatedProgress"
+        animationSpec = tween(durationMillis = 600, easing = FastOutSlowInEasing)
     )
 
     val party = Party(
@@ -171,22 +147,12 @@ fun GoalBar(
                         .padding(end = 8.dp),
                     shape = RoundedCornerShape(24.dp)
                 ) {
-                    if (remoteConfig.getBoolean("270")) {
-                        LinearProgressIndicator(
-                            progress = { animatedProgress.value },
-                            modifier = Modifier
-                                .height(8.dp)
-                                .semantics(mergeDescendants = true) {},
-                        )
-                    } else {
-                        @Suppress("DEPRECATION")
-                        LinearProgressIndicator(
-                            progress = animatedProgress.value,
-                            modifier = Modifier
-                                .height(8.dp)
-                                .semantics(mergeDescendants = true) {}
-                        )
-                    }
+                    LinearProgressIndicator(
+                        progress = animatedProgress.value,
+                        modifier = Modifier
+                            .height(8.dp)
+                            .semantics(mergeDescendants = true) {}
+                    )
                 }
             }
             AnimatedVisibility(
