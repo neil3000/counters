@@ -109,7 +109,7 @@ fun CounterEntriesPage(
     val increments: List<Increment>? by countersListViewModel.getCounterIncrements(counterID)
         .observeAsState()
 
-    if (remoteconfig.getBoolean("i_233")) { // New BottomSheet
+    if (remoteConfig.getBoolean("i_233")) { // New BottomSheet
         val sheetState = androidx.compose.material3.rememberModalBottomSheetState()
         var showBottomSheet: Boolean by rememberSaveable { mutableStateOf(false) }
 

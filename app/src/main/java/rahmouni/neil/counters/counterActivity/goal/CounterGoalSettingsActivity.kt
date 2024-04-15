@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
@@ -99,6 +100,7 @@ fun HealthConnectSettingsPage(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
+    val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     val counter: CounterAugmented? by countersListViewModel.getCounter(counterID).observeAsState()
 
@@ -204,12 +206,16 @@ fun HealthConnectSettingsPage(
                                 ).toCounter()
                             )
                         }
+                    }
+                }
                 //GoalReset
                 item {
                     TileDialogRadioButtons(
                         title = stringResource(R.string.counterGoalSettingsActivity_tile_goalReset_title),
                         icon = Icons.Outlined.Event,
-                        values = listOf(GoalResetType.FollowCounter).plus(ResetType.values().toList()),
+                        values = listOf(GoalResetType.FollowCounter).plus(
+                            ResetType.values().toList()
+                        ),
                         selected = counter?.goalReset ?: GoalResetType.FollowCounter
                     ) {
                         if (counter != null) {
@@ -218,10 +224,11 @@ fun HealthConnectSettingsPage(
                                     goalReset = if (it == GoalResetType.FollowCounter) null else (it as ResetType)
                                 ).toCounter()
                             )
+                        }
                     }
                 }
+                item { androidx.compose.material.Divider() }
             }
-            item { androidx.compose.material.Divider() }
         }
     }
 }
