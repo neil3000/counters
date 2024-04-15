@@ -30,15 +30,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.goals.ResetType
+import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SuggestionsCard(
+fun SuggestionsCardOld(
     counter: CounterAugmented,
     countersListViewModel: CountersListViewModel,
-    openNewIncrementBottomSheetCallback: () -> Unit
+    modalBottomSheetState: ModalBottomSheetState
 ) {
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
@@ -161,7 +162,10 @@ fun SuggestionsCard(
                             modifier = Modifier.padding(horizontal = 4.dp),
                             onClick = {
                                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                openNewIncrementBottomSheetCallback()
+
+                                scope.launch {
+                                    modalBottomSheetState.show()
+                                }
                             },
                             label = { Text(stringResource(id = R.string.suggestionsCard_entry_assistChip_label)) },
                             leadingIcon = {
