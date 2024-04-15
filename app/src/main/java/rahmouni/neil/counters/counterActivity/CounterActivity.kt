@@ -136,7 +136,7 @@ fun CounterPage(
 
     var konpos by remember { mutableStateOf(Offset.Zero) }
 
-    if (remoteConfig.getBoolean("233") && remoteConfig.getBoolean("268")) { // New BottomSheet (depends on #268)
+    if (remoteConfig.getBoolean("i_233") && remoteConfig.getBoolean("i_268")) { // New BottomSheet (depends on #268)
         val sheetState = rememberModalBottomSheetState()
         var showBottomSheet: Boolean by rememberSaveable { mutableStateOf(false) }
 
@@ -368,7 +368,7 @@ fun CounterPage(
 
                                             Spacer(Modifier.height(8.dp))
 
-                                            if (remoteConfig.getBoolean("268")) { // SuggestionsCard refactor
+                                            if (remoteConfig.getBoolean("i_268")) { // SuggestionsCard refactor
                                                 SuggestionsCard(
                                                     counter!!,
                                                     countersListViewModel

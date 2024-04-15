@@ -21,9 +21,9 @@ enum class CounterStyle(
     TERTIARY(null, true, null, null),
     BEIGE(R.color.beige, false, null, null),
     ORANGE(R.color.orange, false, null, null),
-    PURPLE_FAYE(R.color.purple_faye, false, "Faye", "271"),
-    PURPLE_LAIZO(R.color.purple_laizo, false, "Laizo", "272"),
-    PINK_CLARITY(R.color.pink_clarity, false, "Clarity", "273"),
+    PURPLE_FAYE(R.color.purple_faye, false, "Faye", "i_271"),
+    PURPLE_LAIZO(R.color.purple_laizo, false, "Laizo", "i_272"),
+    PINK_CLARITY(R.color.pink_clarity, false, "Clarity", "i_273"),
     PINK(R.color.pink, false, null, null),
     BLUE(R.color.blue, false, null, null);
 

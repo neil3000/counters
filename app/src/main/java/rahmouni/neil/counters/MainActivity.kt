@@ -111,7 +111,7 @@ fun Home(countersListViewModel: CountersListViewModel, healthConnectManager: Hea
         listOf()
     )
 
-    if (remoteConfig.getBoolean("233")) { // New BottomSheet
+    if (remoteConfig.getBoolean("i_233")) { // New BottomSheet
         val incrementSheetState = rememberModalBottomSheetState()
         val counterSheetState = rememberModalBottomSheetState()
         var bottomSheetNewIncrementCounterID: Int? by rememberSaveable { mutableStateOf(null) }

@@ -39,7 +39,6 @@ import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.prefs
 import java.util.concurrent.TimeUnit
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun GoalBar(
     currentProgress: Float,
