@@ -50,12 +50,13 @@ import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
+import rahmouni.neil.counters.goals.GoalResetType
+import rahmouni.neil.counters.goals.GoalType
 import rahmouni.neil.counters.options.ValueOption
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
 import rahmouni.neil.counters.utils.header.HeaderSwitch
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
-import rahmouni.neil.counters.utils.tiles.TileDialogRadioListEnum
 import rahmouni.neil.counters.utils.tiles.TileHeader
 import rahmouni.neil.counters.value_types.ValueType
 
@@ -81,7 +82,7 @@ class CounterGoalSettingsActivity : ComponentActivity() {
                         tonalElevation = 1.dp,
                         color = MaterialTheme.colorScheme.surface
                     ) {
-                        HealthConnectSettingsPage(
+                        CounterGoalSettingsPage(
                             counterID,
                             countersListViewModel
                         )
@@ -94,7 +95,7 @@ class CounterGoalSettingsActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
-fun HealthConnectSettingsPage(
+fun CounterGoalSettingsPage(
     counterID: Int,
     countersListViewModel: CountersListViewModel,
 ) {
@@ -190,7 +191,7 @@ fun HealthConnectSettingsPage(
                 }
             }
 
-            if (remoteConfig.getBoolean("253")) { // Per entry goal
+            if (remoteConfig.getBoolean("i_253")) { // Per entry goal
 
                 // GoalType
                 item {
@@ -220,7 +221,8 @@ fun HealthConnectSettingsPage(
                             ResetType.values().toList()
                         ),
                         selected = counter?.goalReset ?: GoalResetType.FollowCounter,
-                        enabled = (counter?.goalType ?: GoalType.TIME_PERIOD) == GoalType.TIME_PERIOD
+                        enabled = (counter?.goalType
+                            ?: GoalType.TIME_PERIOD) == GoalType.TIME_PERIOD
                     ) {
                         if (counter != null) {
                             countersListViewModel.updateCounter(
@@ -258,15 +260,3 @@ fun HealthConnectSettingsPage(
         }
     }
 }
-
-enum class GoalResetType : TileDialogRadioListEnum {
-    FollowCounter;
-
-    override fun title(): Int {
-        return R.string.counterGoalSettingsActivity_followCounter_title
-    }
-
-    override fun formatted(): Int {
-        return if (FirebaseRemoteConfig.getInstance().getBoolean("253")) R.string.counterGoalSettingsActivity_followCounter_formatted_v2 else R.string.counterGoalSettingsActivity_followCounter_formatted
-    }
-}}
