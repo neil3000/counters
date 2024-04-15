@@ -171,7 +171,7 @@ fun GoalBar(
                         .padding(end = 8.dp),
                     shape = RoundedCornerShape(24.dp)
                 ) {
-                    if (remoteConfig.getBoolean("270")) {
+                    if (remoteConfig.getBoolean("i_270")) {
                         LinearProgressIndicator(
                             progress = { animatedProgress.value },
                             modifier = Modifier

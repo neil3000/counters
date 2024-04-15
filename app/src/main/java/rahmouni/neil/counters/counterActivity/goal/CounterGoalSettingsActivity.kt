@@ -191,7 +191,7 @@ fun CounterGoalSettingsPage(
                 }
             }
 
-            if (remoteConfig.getBoolean("253")) { // Per entry goal
+            if (remoteConfig.getBoolean("i_253")) { // Per entry goal
 
                 // GoalType
                 item {
