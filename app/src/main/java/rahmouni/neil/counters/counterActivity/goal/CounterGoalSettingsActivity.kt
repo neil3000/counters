@@ -187,20 +187,37 @@ fun HealthConnectSettingsPage(
                 }
             }
 
-            //GoalReset
-            item {
-                TileDialogRadioButtons(
-                    title = stringResource(R.string.counterGoalSettingsActivity_tile_goalReset_title),
-                    icon = Icons.Outlined.Event,
-                    values = listOf(GoalResetType.FollowCounter).plus(ResetType.values().toList()),
-                    selected = counter?.goalReset ?: GoalResetType.FollowCounter
-                ) {
-                    if (counter != null) {
-                        countersListViewModel.updateCounter(
-                            counter!!.copy(
-                                goalReset = if (it == GoalResetType.FollowCounter) null else (it as ResetType)
-                            ).toCounter()
-                        )
+            if (remoteConfig.getBoolean("i_253")) { // Per entry goal
+
+                // GoalType
+                item {
+                    TileDialogRadioButtons(
+                        title = stringResource(R.string.counterGoalSettingsActivity_tile_goalType_title),
+                        icon = Icons.Outlined.EmojiEvents,
+                        values = GoalType.values().toList(),
+                        selected = counter?.goalType ?: GoalType.TIME_PERIOD
+                    ) {
+                        if (counter != null) {
+                            countersListViewModel.updateCounter(
+                                counter!!.copy(
+                                    goalType = it as GoalType
+                                ).toCounter()
+                            )
+                        }
+                //GoalReset
+                item {
+                    TileDialogRadioButtons(
+                        title = stringResource(R.string.counterGoalSettingsActivity_tile_goalReset_title),
+                        icon = Icons.Outlined.Event,
+                        values = listOf(GoalResetType.FollowCounter).plus(ResetType.values().toList()),
+                        selected = counter?.goalReset ?: GoalResetType.FollowCounter
+                    ) {
+                        if (counter != null) {
+                            countersListViewModel.updateCounter(
+                                counter!!.copy(
+                                    goalReset = if (it == GoalResetType.FollowCounter) null else (it as ResetType)
+                                ).toCounter()
+                            )
                     }
                 }
             }

@@ -146,12 +146,22 @@ fun GoalBar(
                         .padding(end = 8.dp),
                     shape = RoundedCornerShape(24.dp)
                 ) {
-                    LinearProgressIndicator(
-                        progress = animatedProgress.value,
-                        modifier = Modifier
-                            .height(8.dp)
-                            .semantics(mergeDescendants = true) {}
-                    )
+                    if (remoteConfig.getBoolean("i_270")) {
+                        LinearProgressIndicator(
+                            progress = { animatedProgress.value },
+                            modifier = Modifier
+                                .height(8.dp)
+                                .semantics(mergeDescendants = true) {},
+                        )
+                    } else {
+                        @Suppress("DEPRECATION")
+                        LinearProgressIndicator(
+                            progress = animatedProgress.value,
+                            modifier = Modifier
+                                .height(8.dp)
+                                .semantics(mergeDescendants = true) {}
+                        )
+                    }
                 }
             }
             AnimatedVisibility(
