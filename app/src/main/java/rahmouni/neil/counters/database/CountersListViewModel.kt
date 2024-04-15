@@ -6,7 +6,7 @@ import com.google.firebase.analytics.ktx.logEvent
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
-import rahmouni.neil.counters.goals.ResetType
+import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.health_connect.HealthConnectManager
 import java.time.ZonedDateTime
 

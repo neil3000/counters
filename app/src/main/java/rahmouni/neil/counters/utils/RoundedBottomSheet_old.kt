@@ -27,7 +27,7 @@ const val CORNER_RADIUS = 16
 
 @OptIn(ExperimentalMaterialApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
-fun RoundedBottomSheet(
+fun RoundedBottomSheetOld(
     state: ModalBottomSheetState,
     content: @Composable () -> Unit,
     childContent: @Composable () -> Unit

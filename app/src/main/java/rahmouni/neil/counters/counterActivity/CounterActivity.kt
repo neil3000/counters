@@ -8,27 +8,19 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.spacedBy
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.ExperimentalMaterialApi
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Settings
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
@@ -39,15 +31,18 @@ import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -70,6 +65,7 @@ import androidx.core.graphics.PathParser.createPathFromPathData
 import androidx.core.view.WindowCompat
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
@@ -83,7 +79,7 @@ import rahmouni.neil.counters.database.CountersListViewModelFactory
 import rahmouni.neil.counters.database.Increment
 import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.ui.theme.CountersTheme
-import rahmouni.neil.counters.utils.RoundedBottomSheet
+import rahmouni.neil.counters.utils.RoundedBottomSheetOld
 import rahmouni.neil.counters.utils.SettingsDots
 import java.util.regex.Pattern
 
@@ -131,34 +127,33 @@ fun CounterPage(
     val activity = (LocalContext.current as Activity)
     val haptic = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
-    //val windowSize = calculateWindowSizeClass(activity = activity)
     val context = LocalContext.current
-
-    val bottomSheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden,
-    )
+    val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     val counter: CounterAugmented? by countersListViewModel.getCounter(counterID).observeAsState()
     val increments: List<Increment>? by countersListViewModel.getCounterIncrements(counterID)
         .observeAsState()
 
-    //val bottomBarVisible =
-    //    windowSize.widthSizeClass == WindowWidthSizeClass.Compact && windowSize.heightSizeClass != WindowHeightSizeClass.Compact
-
     var konpos by remember { mutableStateOf(Offset.Zero) }
 
-    RoundedBottomSheet(
-        bottomSheetState,
-        {
-            if (counter != null) {
+    if (remoteConfig.getBoolean("i_233") && remoteConfig.getBoolean("i_268")) { // New BottomSheet (depends on #268)
+        val sheetState = rememberModalBottomSheetState()
+        var showBottomSheet: Boolean by rememberSaveable { mutableStateOf(false) }
+
+        if (showBottomSheet) {
+            ModalBottomSheet(
+                onDismissRequest = {
+                    showBottomSheet = false
+                },
+                sheetState = sheetState
+            ) {
                 NewIncrement(counter, countersListViewModel, healthConnectManager) {
-                    scope.launch {
-                        bottomSheetState.hide()
-                    }
+                    scope.launch { sheetState.hide() }
+                        .invokeOnCompletion { showBottomSheet = false }
                 }
             }
         }
-    ) {
+
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -205,9 +200,10 @@ fun CounterPage(
 
                                         SuggestionsCard(
                                             counter!!,
-                                            countersListViewModel,
-                                            bottomSheetState
-                                        )
+                                            countersListViewModel
+                                        ) {
+                                            showBottomSheet = true
+                                        }
                                     }
                                 }
                                 var big = false
@@ -299,10 +295,7 @@ fun CounterPage(
                             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                             onClick = {
                                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                                scope.launch {
-                                    bottomSheetState.show()
-                                }
+                                showBottomSheet = true
                             },
                         ) {
                             Icon(
@@ -314,6 +307,188 @@ fun CounterPage(
                 )
             }
         )
+    } else {
+        val bottomSheetState = rememberModalBottomSheetState(
+            initialValue = ModalBottomSheetValue.Hidden,
+        )
+
+        RoundedBottomSheetOld(
+            bottomSheetState,
+            {
+                if (counter != null) {
+                    NewIncrement(counter, countersListViewModel, healthConnectManager) {
+                        scope.launch {
+                            bottomSheetState.hide()
+                        }
+                    }
+                }
+            }
+        ) {
+            Scaffold(
+                topBar = {
+                    CenterAlignedTopAppBar(
+                        title = { Text(counter?.getDisplayName(context) ?: "Counter") },
+                        actions = { SettingsDots(screenName = "CounterActivity") {} },
+                        navigationIcon = {
+                            IconButton(
+                                onClick = {
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                                    activity.finish()
+                                },
+                                modifier = Modifier.testTag("BACK_ARROW")
+                            ) {
+                                Icon(
+                                    Icons.AutoMirrored.Outlined.ArrowBack,
+                                    contentDescription = stringResource(R.string.counterActivity_topbar_icon_back_contentDescription)
+                                )
+                            }
+                        }
+                    )
+                },
+                content = { innerPadding ->
+                    Row(Modifier.padding(innerPadding)) {
+                        if (counter != null && increments != null) {
+                            Box {
+                                LazyVerticalGrid(
+                                    columns = GridCells.Adaptive(minSize = 400.dp),
+                                    Modifier.fillMaxSize()
+                                ) {
+                                    item {
+                                        Column(
+                                            Modifier.fillMaxWidth(),
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            MainCount(
+                                                count = counter!!.getCount(),
+                                                valueType = counter!!.valueType
+                                            )
+
+                                            StatCountProvider(counter!!, countersListViewModel)
+
+                                            Spacer(Modifier.height(8.dp))
+
+                                            if (remoteConfig.getBoolean("i_268")) { // SuggestionsCard refactor
+                                                SuggestionsCard(
+                                                    counter!!,
+                                                    countersListViewModel
+                                                ) {
+                                                    scope.launch { bottomSheetState.show() }
+                                                }
+                                            } else {
+                                                SuggestionsCardOld(
+                                                    counter!!,
+                                                    countersListViewModel,
+                                                    bottomSheetState
+                                                )
+                                            }
+                                        }
+                                    }
+                                    var big = false
+                                    item(span = {
+                                        big = maxLineSpan > 1
+                                        GridItemSpan(1)
+                                    }) {
+                                        Column(
+                                            Modifier
+                                                .padding(16.dp)
+                                                .fillMaxWidth(),
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            verticalArrangement = spacedBy(16.dp)
+                                        ) {
+                                            if (counter?.isGoalEnabled() == true) {
+                                                GoalBar(
+                                                    counter!!.getGoalProgress(),
+                                                    counter!!,
+                                                    Modifier.onGloballyPositioned {
+                                                        konpos =
+                                                            (it.parentLayoutCoordinates?.positionInParent()
+                                                                ?: Offset.Zero).plus(it.boundsInParent().center)
+                                                    }
+                                                )
+                                            }
+
+                                            LatestEntries(
+                                                increments!!,
+                                                countersListViewModel,
+                                                counter!!,
+                                                (if (big) 8 else 5) - (if (counter!!.isGoalEnabled())
+                                                    2 else 0)
+                                            )
+                                        }
+                                    }
+                                }
+                                GoalKonfetti(counter!!, konpos)
+                            }
+                        }
+                    }
+                },
+                bottomBar = {
+                    BottomAppBar(
+                        actions = {
+                            IconButton(onClick = {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                                if (counter != null) {
+                                    context.startActivity(
+                                        Intent(
+                                            context,
+                                            CounterEntriesActivity::class.java
+                                        ).putExtra(
+                                            "counterID",
+                                            counter!!.uid
+                                        )
+                                    )
+                                }
+                            }) {
+                                Icon(
+                                    Icons.AutoMirrored.Outlined.List,
+                                    stringResource(R.string.counterActivity_bottomBar_icon_entries_contentDescription)
+                                )
+                            }
+                            IconButton(onClick = {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                                if (counter != null) {
+                                    context.startActivity(
+                                        Intent(
+                                            context,
+                                            CounterSettingsActivity::class.java
+                                        ).putExtra(
+                                            "counterID",
+                                            counter!!.uid
+                                        )
+                                    )
+                                }
+                            }) {
+                                Icon(
+                                    Icons.Outlined.Settings,
+                                    stringResource(R.string.counterActivity_bottomBar_icon_settings_contentDescription)
+                                )
+                            }
+                        },
+                        floatingActionButton = {
+                            FloatingActionButton(
+                                containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                onClick = {
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                                    scope.launch {
+                                        bottomSheetState.show()
+                                    }
+                                },
+                            ) {
+                                Icon(
+                                    Icons.Outlined.Add,
+                                    stringResource(R.string.counterActivity_fab_newEntry_contentDescription)
+                                )
+                            }
+                        }
+                    )
+                }
+            )
+        }
     }
 }
 

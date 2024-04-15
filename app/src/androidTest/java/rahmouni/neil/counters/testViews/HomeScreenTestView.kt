@@ -12,7 +12,6 @@ import java.time.Month
 import java.time.format.DateTimeFormatter
 import java.util.*
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.goals.ResetType
 
 class HomeScreenTestView(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>,
