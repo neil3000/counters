@@ -4,7 +4,7 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import rahmouni.neil.counters.MainActivity
-import rahmouni.neil.counters.ResetType
+import rahmouni.neil.counters.goals.ResetType
 import rahmouni.neil.counters.counter_card.activity.GroupType
 
 class EntriesTabTestView(

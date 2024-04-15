@@ -1,7 +1,7 @@
 package rahmouni.neil.counters.counter_card.activity
 
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.ResetType
+import rahmouni.neil.counters.goals.ResetType
 
 enum class GroupType(val title: Int, val resetType: ResetType) {
     DAY(R.string.groupType_day_title, ResetType.DAY),

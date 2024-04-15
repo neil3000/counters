@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material.icons.outlined.Pin
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,12 +43,14 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
+import rahmouni.neil.counters.goals.GoalType
+import rahmouni.neil.counters.goals.ResetType
 import rahmouni.neil.counters.options.ValueOption
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
@@ -79,7 +82,7 @@ class CounterGoalSettingsActivity : ComponentActivity() {
                         tonalElevation = 1.dp,
                         color = MaterialTheme.colorScheme.surface
                     ) {
-                        HealthConnectSettingsPage(
+                        CounterGoalSettingsPage(
                             counterID,
                             countersListViewModel
                         )
@@ -92,13 +95,14 @@ class CounterGoalSettingsActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
-fun HealthConnectSettingsPage(
+fun CounterGoalSettingsPage(
     counterID: Int,
     countersListViewModel: CountersListViewModel,
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val activity = (LocalContext.current as Activity)
     val localHapticFeedback = LocalHapticFeedback.current
+    val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     val counter: CounterAugmented? by countersListViewModel.getCounter(counterID).observeAsState()
 
@@ -187,24 +191,71 @@ fun HealthConnectSettingsPage(
                 }
             }
 
-            //GoalReset
-            item {
-                TileDialogRadioButtons(
-                    title = stringResource(R.string.counterGoalSettingsActivity_tile_goalReset_title),
-                    icon = Icons.Outlined.Event,
-                    values = listOf(GoalResetType.FollowCounter).plus(ResetType.values().toList()),
-                    selected = counter?.goalReset ?: GoalResetType.FollowCounter
-                ) {
-                    if (counter != null) {
-                        countersListViewModel.updateCounter(
-                            counter!!.copy(
-                                goalReset = if (it == GoalResetType.FollowCounter) null else (it as ResetType)
-                            ).toCounter()
-                        )
+            if (remoteConfig.getBoolean("253")) { // Per entry goal
+
+                // GoalType
+                item {
+                    TileDialogRadioButtons(
+                        title = stringResource(R.string.counterGoalSettingsActivity_tile_goalType_title),
+                        icon = Icons.Outlined.EmojiEvents,
+                        values = GoalType.values().toList(),
+                        selected = counter?.goalType ?: GoalType.TIME_PERIOD
+                    ) {
+                        if (counter != null) {
+                            countersListViewModel.updateCounter(
+                                counter!!.copy(
+                                    goalType = it as GoalType
+                                ).toCounter()
+                            )
+                        }
                     }
                 }
+
+                // GoalTimePeriodReset
+                item {
+                    TileDialogRadioButtons(
+                        title = stringResource(R.string.counterGoalSettingsActivity_tile_goalTimePeriodReset_title),
+                        dialogTitle = stringResource(R.string.counterGoalSettingsActivity_tile_goalTimePeriodReset_dialogTitle),
+                        icon = Icons.Outlined.Event,
+                        values = listOf(GoalResetType.FollowCounter).plus(
+                            ResetType.values().toList()
+                        ),
+                        selected = counter?.goalReset ?: GoalResetType.FollowCounter,
+                        enabled = (counter?.goalType ?: GoalType.TIME_PERIOD) == GoalType.TIME_PERIOD
+                    ) {
+                        if (counter != null) {
+                            countersListViewModel.updateCounter(
+                                counter!!.copy(
+                                    goalReset = if (it == GoalResetType.FollowCounter) null else (it as ResetType)
+                                ).toCounter()
+                            )
+                        }
+                    }
+                }
+                item { androidx.compose.material.Divider() }
+
+            } else {
+                //GoalReset
+                item {
+                    TileDialogRadioButtons(
+                        title = stringResource(R.string.counterGoalSettingsActivity_tile_goalReset_title),
+                        icon = Icons.Outlined.Event,
+                        values = listOf(GoalResetType.FollowCounter).plus(
+                            ResetType.values().toList()
+                        ),
+                        selected = counter?.goalReset ?: GoalResetType.FollowCounter
+                    ) {
+                        if (counter != null) {
+                            countersListViewModel.updateCounter(
+                                counter!!.copy(
+                                    goalReset = if (it == GoalResetType.FollowCounter) null else (it as ResetType)
+                                ).toCounter()
+                            )
+                        }
+                    }
+                }
+                item { androidx.compose.material.Divider() }
             }
-            item { androidx.compose.material.Divider() }
         }
     }
 }
@@ -217,6 +268,6 @@ enum class GoalResetType : TileDialogRadioListEnum {
     }
 
     override fun formatted(): Int {
-        return R.string.counterGoalSettingsActivity_followCounter_formatted
+        return if (FirebaseRemoteConfig.getInstance().getBoolean("253")) R.string.counterGoalSettingsActivity_followCounter_formatted_v2 else R.string.counterGoalSettingsActivity_followCounter_formatted
     }
 }
