@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material.icons.outlined.Pin
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -189,7 +190,7 @@ fun HealthConnectSettingsPage(
                 }
             }
 
-            if (remoteConfig.getBoolean("i_253")) { // Per entry goal
+            if (remoteConfig.getBoolean("253")) { // Per entry goal
 
                 // GoalType
                 item {
@@ -208,6 +209,31 @@ fun HealthConnectSettingsPage(
                         }
                     }
                 }
+
+                // GoalTimePeriodReset
+                item {
+                    TileDialogRadioButtons(
+                        title = stringResource(R.string.counterGoalSettingsActivity_tile_goalTimePeriodReset_title),
+                        dialogTitle = stringResource(R.string.counterGoalSettingsActivity_tile_goalTimePeriodReset_dialogTitle),
+                        icon = Icons.Outlined.Event,
+                        values = listOf(GoalResetType.FollowCounter).plus(
+                            ResetType.values().toList()
+                        ),
+                        selected = counter?.goalReset ?: GoalResetType.FollowCounter,
+                        enabled = (counter?.goalType ?: GoalType.TIME_PERIOD) == GoalType.TIME_PERIOD
+                    ) {
+                        if (counter != null) {
+                            countersListViewModel.updateCounter(
+                                counter!!.copy(
+                                    goalReset = if (it == GoalResetType.FollowCounter) null else (it as ResetType)
+                                ).toCounter()
+                            )
+                        }
+                    }
+                }
+                item { androidx.compose.material.Divider() }
+
+            } else {
                 //GoalReset
                 item {
                     TileDialogRadioButtons(
@@ -241,6 +267,6 @@ enum class GoalResetType : TileDialogRadioListEnum {
     }
 
     override fun formatted(): Int {
-        return R.string.counterGoalSettingsActivity_followCounter_formatted
+        return if (FirebaseRemoteConfig.getInstance().getBoolean("253")) R.string.counterGoalSettingsActivity_followCounter_formatted_v2 else R.string.counterGoalSettingsActivity_followCounter_formatted
     }
-}
+}}
