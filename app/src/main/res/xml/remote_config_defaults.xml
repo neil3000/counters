@@ -47,15 +47,23 @@
         <value>false</value>
     </entry>
     <entry>
+        <key>253</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>270</key>
+        <value>false</value>
+    </entry>
+    <entry>
         <key>271</key>
         <value>false</value>
     </entry>
     <entry>
         <key>272</key>
-        <value>true</value>
+        <value>false</value>
     </entry>
     <entry>
         <key>273</key>
-        <value>true</value>
+        <value>false</value>
     </entry>
 </defaultsMap>

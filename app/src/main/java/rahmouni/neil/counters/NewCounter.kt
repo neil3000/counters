@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.CountersListViewModel
+import rahmouni.neil.counters.goals.ResetType
 import rahmouni.neil.counters.options.CounterStyleOption
 import rahmouni.neil.counters.options.ValueOption
 import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons

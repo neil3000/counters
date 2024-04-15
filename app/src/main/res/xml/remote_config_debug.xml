@@ -47,6 +47,10 @@
         <value>true</value>
     </entry>
     <entry>
+        <key>270</key>
+        <value>true</value>
+    </entry>
+    <entry>
         <key>271</key>
         <value>true</value>
     </entry>
@@ -56,6 +60,9 @@
     </entry>
     <entry>
         <key>273</key>
+        <value>true</value>
+    </entry>
+            <key>253</key>
         <value>true</value>
     </entry>
 </defaultsMap>

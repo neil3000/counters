@@ -1,7 +1,9 @@
-package rahmouni.neil.counters
+package rahmouni.neil.counters.goals
 
 import android.annotation.SuppressLint
 import android.content.Context
+import rahmouni.neil.counters.R
+import rahmouni.neil.counters.prefs
 import java.text.SimpleDateFormat
 import java.util.*
 import rahmouni.neil.counters.settings.WeekDisplay
