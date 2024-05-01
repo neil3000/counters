@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_settings_settingsScreen_generalHeaderTile_title">General</string>
+    <string name="feature_settings_settingsScreen_dataAndPrivacyTile_title"><![CDATA[Data & Privacy]]></string>
+    <string name="feature_settings_settingsScreen_accessibilityTile_title">Accessibility</string>
+    <string name="feature_settings_settingsScreen_topAppBar_title">Settings</string>
+    <string name="feature_settings_accessibilitySettingsScreen_topAppBar_title">Accessibility</string>
+    <string name="feature_settings_settingsScreen_androidAccessibilityTile_title">More accessibility settings</string>
+    <string name="feature_settings_settingsScreen_emphasizedSwitchesTile_title">Emphasize selected switches</string>
+    <string name="feature_settings_settingsScreen_aboutHeaderTile_title">About</string>
+    <string name="feature_settings_settingsScreen_changelogTile_title">App changelog</string>
+    <string name="feature_settings_settingsScreen_advancedSettingsHeaderTile_title">Advanced settings</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_topAppBar_title"><![CDATA[Data & Privacy]]></string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_metricsHeaderTile_title">Metrics</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_metricsTile_title">Metrics</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_clearMetricsTile_title">Clear app metrics</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title">Learn more</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_supportingText">About the ones we use and their goal</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsHeaderTile_title">Crash reports</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsTile_title">Crash reports</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title">Learn more</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_supportingText">How it works and its purpose</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title">Privacy policy</string>
+</resources>

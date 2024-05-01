@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="core_designsystem_largeTopAppBar_navigationIcon_iconButton_arrowBack_contentDescription">Go back</string>
+    <string name="core_designsystem_largeTopAppBar_actions_iconButton_feedback_contentDescription">Send feedback</string>
+</resources>
