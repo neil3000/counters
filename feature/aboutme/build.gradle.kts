@@ -19,11 +19,13 @@ dependencies {
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.graphics.shapes.android)
+    implementation(libs.androidx.animation.graphics.android)
     implementation(libs.coil.kt.compose)
 
     implementation(projects.core.data)
     implementation(projects.core.feedback)
     implementation(projects.core.config)
+    implementation(projects.core.shapes)
 
     testImplementation(projects.core.testing)
 

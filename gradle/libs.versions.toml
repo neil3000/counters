@@ -63,6 +63,7 @@ playServicesTasks = "18.1.0"
 adaptiveAndroid = "1.0.0-alpha11"
 graphicsShapesAndroid = "1.0.0-alpha05"
 uiTextGoogleFonts = "1.6.6"
+animationGraphicsAndroid = "1.6.7"
 
 [libraries]
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
@@ -159,6 +160,7 @@ play-services-tasks = { group = "com.google.android.gms", name = "play-services-
 androidx-adaptive-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-android", version.ref = "adaptiveAndroid" }
 androidx-graphics-shapes-android = { group = "androidx.graphics", name = "graphics-shapes-android", version.ref = "graphicsShapesAndroid" }
 androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
+androidx-animation-graphics-android = { group = "androidx.compose.animation", name = "animation-graphics-android", version.ref = "animationGraphicsAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

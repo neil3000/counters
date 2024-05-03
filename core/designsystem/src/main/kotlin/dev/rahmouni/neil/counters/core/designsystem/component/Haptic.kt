@@ -39,6 +39,22 @@ class Haptic {
         }
     }
 
+    fun smallTick() {
+        if (view == null || haptic == null) throw hapticClassNonInitializedException("5ClNrZ9riFoNkR0kTjFylYmdgfmOXnm6")
+
+        if (VERSION.SDK_INT >= VERSION_CODES.O_MR1) {
+            view?.performHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE)
+        } else {
+            haptic?.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+        }
+    }
+
+    fun longPress() {
+        if (view == null || haptic == null) throw hapticClassNonInitializedException("vRzFlAB4R2BL1DgQVtDWBUjK2hxPwL79")
+
+        view?.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+    }
+
     fun toggle(state: Boolean) {
         if (state) toggleOn() else toggleOff()
     }

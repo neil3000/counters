@@ -39,6 +39,7 @@ include(":core:testing")
 include(":core:ui")
 include(":core:feedback")
 include(":core:accessibility")
+include(":core:shapes")
 
 include(":feature:settings")
 include(":feature:aboutme")

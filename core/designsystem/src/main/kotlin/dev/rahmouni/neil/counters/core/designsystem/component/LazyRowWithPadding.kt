@@ -24,7 +24,7 @@ fun Rn3LazyRowWithPadding(
         DEFAULT_ARRANGEMENT_HORIZONTAL_SPACING__DP.dp,
     ),
     verticalAlignment: Alignment.Vertical = Alignment.Top,
-    content: (LazyListScope.() -> Unit),
+    content: LazyListScope.() -> Unit,
 ) {
     LazyRow(
         modifier,
@@ -39,7 +39,7 @@ fun Rn3LazyRowWithPadding(
 
 private fun LazyListScope.rn3Spacer(horizontalPadding: Dp) {
     item {
-        Spacer(modifier = Modifier.size(0.dp, horizontalPadding))
+        Spacer(modifier = Modifier.size(horizontalPadding, 0.dp))
     }
 }
 
