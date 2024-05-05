@@ -22,19 +22,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,14 +34,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
+import dev.rahmouni.neil.counters.core.designsystem.component.LazyColumnFullScreen
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle
+import dev.rahmouni.neil.counters.core.feedback.getFeedbackID
 import dev.rahmouni.neil.counters.feature.aboutme.ui.Biography
 import dev.rahmouni.neil.counters.feature.aboutme.ui.LoadingPfp
 import dev.rahmouni.neil.counters.feature.aboutme.ui.MainActions
@@ -69,32 +63,22 @@ internal fun AboutMeRoute(
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AboutMeScreen(
     modifier: Modifier = Modifier,
     onBackIconButtonClicked: () -> Unit = {},
 ) {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-
-    Scaffold(
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopAppBar(
-                title = { Text("About me") },
-                navigationIcon = {
-                    Rn3IconButton(
-                        icon = Icons.AutoMirrored.Outlined.ArrowBack,
-                        contentDescription = "",
-                        onClick = onBackIconButtonClicked,
-                    )
-                },
-                scrollBehavior = scrollBehavior,
-            )
-        },
-        contentWindowInsets = WindowInsets.displayCutout,
-    ) { paddingValues ->
-        AboutMePanel(paddingValues)
+    Rn3Scaffold(
+        modifier,
+        stringResource(R.string.feature_aboutme_aboutMeScreen_scaffold_title),
+        onBackIconButtonClicked,
+        getFeedbackID(
+            localName = "AboutMeScreen",
+            localID = "NJFWHop0rQkfFOUcSJlcepwG0f7XN8dd",
+        ),
+        topAppBarStyle = TopAppBarStyle.SMALL,
+    ) {
+        AboutMePanel(it)
     }
 }
 
@@ -110,44 +94,45 @@ private fun AboutMePanel(paddingValues: PaddingValues) {
         finishedLoading = true
     }
 
-    Column(
-        Modifier.fillMaxSize(),
+    LazyColumnFullScreen(
+        contentPadding = PaddingValues(0.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        AnimatedVisibility(visible = finishedLoadingAnimation) {
-            Column {
-                Spacer(
-                    Modifier
-                        .padding(paddingValues)
-                        .padding(bottom = 48.dp),
-                )
+        item {
+            AnimatedVisibility(visible = finishedLoadingAnimation) {
+                Column {
+                    Spacer(Modifier.padding(paddingValues))
 
-                Text(
-                    text = "Neïl Rahmouni",
-                    Modifier.padding(bottom = 24.dp),
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = TextUnit(5f, TextUnitType.Em),
-                )
+                    Text(
+                        text = "Neïl Rahmouni",
+                        Modifier.padding(vertical = 24.dp),
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = TextUnit(5f, TextUnitType.Em),
+                    )
+                }
             }
         }
 
-        LoadingPfp({ finishedLoading }, finishedLoadingAnimation) {
-            finishedLoadingAnimation = true
+        item {
+            LoadingPfp({ finishedLoading }, finishedLoadingAnimation) {
+                finishedLoadingAnimation = true
+            }
         }
 
-        AnimatedVisibility(visible = finishedLoadingAnimation) {
-            LazyColumn(
-                Modifier
-                    .fillMaxSize()
-                    .padding(24.dp)
-                    .weight(1f),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                item { Biography() }
-                item { MainActions() }
-                item { SocialLinks() }
+        item {
+            AnimatedVisibility(visible = finishedLoadingAnimation) {
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(24.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+                    Biography()
+                    MainActions()
+                    SocialLinks()
+                }
             }
         }
     }

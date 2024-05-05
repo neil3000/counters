@@ -37,5 +37,5 @@ class Rn3IssueRegistry : IssueRegistry() {
         vendorName = "Counters",
         feedbackUrl = "counters.rahmouni.dev/gitlab",
         contact = "counters@rahmouni.dev",
-    ) // TODO neil: recheck ça
+    )
 }

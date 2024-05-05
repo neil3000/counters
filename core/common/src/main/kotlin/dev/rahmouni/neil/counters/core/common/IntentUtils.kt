@@ -26,6 +26,8 @@ import android.os.Build
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import com.google.android.gms.oss.licenses.OssLicensesActivity
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 
 fun Context.openAndroidAccessibilitySettingsActivity() {
     val intent = Intent(Intent.ACTION_MAIN)
@@ -50,6 +52,10 @@ fun Context.copyText(label: String, text: String) {
     (getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(ClipData.newPlainText(label, text))
 
     if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
-        Toast.makeText(this, "Copied", Toast.LENGTH_SHORT).show() // TODO i18n
+        Toast.makeText(this, getString(R.string.core_common_copiedText_toast), Toast.LENGTH_SHORT).show()
     }
+}
+
+fun Context.openOssLicensesActivity() {
+    startActivity(Intent(this, OssLicensesMenuActivity::class.java))
 }

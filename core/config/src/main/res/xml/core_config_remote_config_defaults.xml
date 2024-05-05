@@ -40,7 +40,7 @@
         <value>https://gitlab.com/neil3000/counters/-/wikis/Help</value>
     </entry>
     <entry>
-        <key>discord_invite</key>
+        <key>discord_invite_url</key>
         <value>https://counters.rahmouni.dev/discord1</value>
     </entry>
 </defaultsMap>

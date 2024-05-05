@@ -61,11 +61,9 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
-import dev.rahmouni.neil.counters.core.designsystem.icons.CoffeeAnimated
-import dev.rahmouni.neil.counters.core.designsystem.icons.OpenInNewAnimated
-import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3InfiniteRestartAnimatedIcon
-import dev.rahmouni.neil.counters.core.designsystem.icons.Tooltip
+import dev.rahmouni.neil.counters.core.designsystem.icons.customAnimatedIconsList
+import dev.rahmouni.neil.counters.core.designsystem.icons.customIconsList
 import dev.rahmouni.neil.rn3catalog.itemWithBoolean
 import dev.rahmouni.neil.rn3catalog.itemWithToast
 
@@ -227,24 +225,29 @@ fun Rn3Catalog() {
                 item { Rn3TileHorizontalDivider() }
                 item { Rn3TileSmallHeader(title = "Icons") }
                 item {
-                    Rn3LazyRowWithPadding(Modifier.padding(vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(24.dp)) {
-                        item { Icon(Outlined.Tooltip, CONTENT_DESCRIPTION) }
-                        item { Icon(Outlined.Rn3, CONTENT_DESCRIPTION) }
+                    val icons = customIconsList
+
+                    Rn3LazyRowWithPadding(
+                        Modifier.padding(vertical = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(24.dp),
+                    ) {
+                        items(icons) {
+                            Icon(it, CONTENT_DESCRIPTION)
+                        }
                     }
                 }
                 item { Rn3TileHorizontalDivider() }
                 item { Rn3TileSmallHeader(title = "Animated icons (infinite restart)") }
                 item {
-                    Rn3LazyRowWithPadding(Modifier.padding(vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(24.dp)) {
-                        item {
+                    val icons = customAnimatedIconsList
+
+                    Rn3LazyRowWithPadding(
+                        Modifier.padding(vertical = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(24.dp),
+                    ) {
+                        items(icons) {
                             Rn3InfiniteRestartAnimatedIcon(
-                                icon = Outlined.CoffeeAnimated,
-                                contentDescription = CONTENT_DESCRIPTION,
-                            )
-                        }
-                        item {
-                            Rn3InfiniteRestartAnimatedIcon(
-                                icon = Outlined.OpenInNewAnimated,
+                                icon = it,
                                 contentDescription = CONTENT_DESCRIPTION,
                             )
                         }

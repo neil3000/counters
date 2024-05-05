@@ -17,21 +17,17 @@
 package dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy
 
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Policy
 import androidx.compose.material.icons.outlined.RestartAlt
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -43,7 +39,9 @@ import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LargeTopAppBar
+import dev.rahmouni.neil.counters.core.designsystem.component.LazyColumnFullScreen
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.systemBarSpacer
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
@@ -88,7 +86,6 @@ internal fun DataAndPrivacySettingsRoute(
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun DataAndPrivacySettingsScreen(
     modifier: Modifier = Modifier,
@@ -102,45 +99,35 @@ internal fun DataAndPrivacySettingsScreen(
     isPrivacyPolicyAvailable: Boolean = true,
     onPrivacyPolicyTileClicked: () -> Unit = {},
 ) {
-    Column(modifier) {
-        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-
-        Scaffold(
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                @Suppress("SpellCheckingInspection")
-                Rn3LargeTopAppBar(
-                    title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_topAppBar_title),
-                    scrollBehavior = scrollBehavior,
-                    feedbackPageID = getFeedbackID(
-                        localName = "DataAndPrivacySettingsScreen",
-                        localID = "Cql6OgxiWaapWpb38eGNGRZbmFuR8JuQ",
-                    ),
-                    onBackIconButtonClicked = onBackIconButtonClicked,
-                )
-            },
-        ) { paddingValues ->
-            Column(Modifier.padding(paddingValues)) {
-                when (uiState) {
-                    Loading -> {}
-                    is Success -> DataAndPrivacySettingsPanel(
-                        data = uiState.dataAndPrivacySettingsData,
-                        onMetricsTileCheckedChange,
-                        onClearMetricsTileClicked,
-                        onMetricsInfoTileClicked,
-                        onCrashlyticsTileCheckedChange,
-                        onCrashlyticsInfoTileClicked,
-                        isPrivacyPolicyAvailable,
-                        onPrivacyPolicyTileClicked,
-                    )
-                }
-            }
+    Rn3Scaffold(
+        modifier,
+        stringResource(string.feature_settings_dataAndPrivacySettingsScreen_topAppBar_title),
+        onBackIconButtonClicked,
+        getFeedbackID(
+            localName = "DataAndPrivacySettingsScreen",
+            localID = "Cql6OgxiWaapWpb38eGNGRZbmFuR8JuQ",
+        ),
+    ) {
+        when (uiState) {
+            Loading -> {}
+            is Success -> DataAndPrivacySettingsPanel(
+                it,
+                data = uiState.dataAndPrivacySettingsData,
+                onMetricsTileCheckedChange,
+                onClearMetricsTileClicked,
+                onMetricsInfoTileClicked,
+                onCrashlyticsTileCheckedChange,
+                onCrashlyticsInfoTileClicked,
+                isPrivacyPolicyAvailable,
+                onPrivacyPolicyTileClicked,
+            )
         }
     }
 }
 
 @Composable
 private fun DataAndPrivacySettingsPanel(
+    contentPadding: PaddingValues,
     data: DataAndPrivacySettingsData,
     onMetricsTileCheckedChange: (Boolean) -> Unit,
     onClearMetricsTileClicked: () -> Unit,
@@ -150,63 +137,77 @@ private fun DataAndPrivacySettingsPanel(
     isPrivacyPolicyAvailable: Boolean,
     onPrivacyPolicyTileClicked: () -> Unit,
 ) {
-    // metricsHeaderTile
-    Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsHeaderTile_title))
+    LazyColumnFullScreen(contentPadding = contentPadding) {
+        // metricsHeaderTile
+        item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsHeaderTile_title)) }
 
-    // metricsTile
-    Rn3TileSwitch(
-        title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsTile_title),
-        icon = Icons.Outlined.Analytics,
-        checked = data.hasMetricsEnabled,
-        onCheckedChange = onMetricsTileCheckedChange,
-    )
+        // metricsTile
+        item {
+            Rn3TileSwitch(
+                title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsTile_title),
+                icon = Icons.Outlined.Analytics,
+                checked = data.hasMetricsEnabled,
+                onCheckedChange = onMetricsTileCheckedChange,
+            )
+        }
 
-    // clearMetricsTile
-    Rn3TileClick(
-        title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_clearMetricsTile_title),
-        icon = Icons.Outlined.RestartAlt,
-        onClick = onClearMetricsTileClicked,
-    )
+        // clearMetricsTile
+        item {
+            Rn3TileClick(
+                title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_clearMetricsTile_title),
+                icon = Icons.Outlined.RestartAlt,
+                onClick = onClearMetricsTileClicked,
+            )
+        }
 
-    // metricsInfoTile
-    Rn3TileClick(
-        title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title),
-        icon = Icons.Outlined.Info,
-        supportingText = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_supportingText),
-        onClick = onMetricsInfoTileClicked,
-    )
+        // metricsInfoTile
+        item {
+            Rn3TileClick(
+                title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title),
+                icon = Icons.Outlined.Info,
+                supportingText = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_supportingText),
+                onClick = onMetricsInfoTileClicked,
+            )
+        }
 
-    Rn3TileHorizontalDivider()
+        item { Rn3TileHorizontalDivider() }
 
-    // crashlyticsHeaderTile
-    Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsHeaderTile_title))
+        // crashlyticsHeaderTile
+        item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsHeaderTile_title)) }
 
-    // crashlyticsTile
-    Rn3TileSwitch(
-        title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsTile_title),
-        icon = Icons.Outlined.BugReport,
-        checked = data.hasCrashlyticsEnabled,
-        onCheckedChange = onCrashlyticsTileCheckedChange,
-    )
+        // crashlyticsTile
+        item {
+            Rn3TileSwitch(
+                title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsTile_title),
+                icon = Icons.Outlined.BugReport,
+                checked = data.hasCrashlyticsEnabled,
+                onCheckedChange = onCrashlyticsTileCheckedChange,
+            )
+        }
 
-    // crashlyticsInfoTile
-    Rn3TileClick(
-        title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title),
-        icon = Icons.Outlined.Info,
-        supportingText = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_supportingText),
-        onClick = onCrashlyticsInfoTileClicked,
-    )
+        // crashlyticsInfoTile
+        item {
+            Rn3TileClick(
+                title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title),
+                icon = Icons.Outlined.Info,
+                supportingText = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_supportingText),
+                onClick = onCrashlyticsInfoTileClicked,
+            )
+        }
 
-    if (isPrivacyPolicyAvailable) {
-        Rn3TileHorizontalDivider()
+        if (isPrivacyPolicyAvailable) {
+            item { Rn3TileHorizontalDivider() }
 
-        // privacyPolicyTile
-        Rn3TileClick(
-            title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title),
-            icon = Icons.Outlined.Policy,
-            external = true,
-            onClick = onPrivacyPolicyTileClicked,
-        )
+            // privacyPolicyTile
+            item {
+                Rn3TileClick(
+                    title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title),
+                    icon = Icons.Outlined.Policy,
+                    external = true,
+                    onClick = onPrivacyPolicyTileClicked,
+                )
+            }
+        }
     }
 }
 

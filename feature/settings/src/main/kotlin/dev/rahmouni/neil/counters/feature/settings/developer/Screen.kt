@@ -18,30 +18,20 @@ package dev.rahmouni.neil.counters.feature.settings.developer
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
 import androidx.compose.material.icons.outlined.CloudDone
 import androidx.compose.material.icons.outlined.DataArray
 import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.QuestionMark
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LargeTopAppBar
-import dev.rahmouni.neil.counters.core.designsystem.component.getRn3LargeTopAppBarScrollBehavior
+import dev.rahmouni.neil.counters.core.designsystem.component.LazyColumnFullScreen
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
@@ -62,35 +52,24 @@ internal fun DeveloperSettingsRoute(
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun DeveloperSettingsScreen(
     modifier: Modifier = Modifier,
     onBackIconButtonClicked: () -> Unit = {},
 ) {
-    val scrollBehavior = getRn3LargeTopAppBarScrollBehavior()
-
-    Scaffold(
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            Rn3LargeTopAppBar(
-                title = "Developer settings",
-                scrollBehavior = scrollBehavior,
-                onBackIconButtonClicked = onBackIconButtonClicked,
-            )
-        },
-        contentWindowInsets = WindowInsets.displayCutout,
-    ) { paddingValues ->
-        DeveloperSettingsPanel(paddingValues)
+    Rn3Scaffold(modifier, "Developer settings", onBackIconButtonClicked) {
+        DeveloperSettingsPanel(it)
     }
 }
 
 @Composable
-private fun DeveloperSettingsPanel(paddingValues: PaddingValues) {
+private fun DeveloperSettingsPanel(
+    contentPadding: PaddingValues,
+) {
     val config = LocalConfigHelper.current
     val analytics = LocalAnalyticsHelper.current
 
-    LazyColumn(Modifier.padding(paddingValues)) {
+    LazyColumnFullScreen(contentPadding = contentPadding) {
         item {
             Rn3TileClick(
                 title = "Build config",
@@ -108,11 +87,11 @@ private fun DeveloperSettingsPanel(paddingValues: PaddingValues) {
         }
 
         item {
-            Rn3TileCopy(
+            Rn3TileClick(
                 title = "RC last fetch status",
                 icon = Icons.Outlined.DataArray,
-                text = config.getLastFetchStatus(),
-            )
+                supportingText = config.getLastFetchStatus(),
+            ) {}
         }
 
         item { Rn3TileHorizontalDivider() }
@@ -135,8 +114,6 @@ private fun DeveloperSettingsPanel(paddingValues: PaddingValues) {
                 }
             }
         }
-
-        item { Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.systemBars)) }
     }
 }
 

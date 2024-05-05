@@ -31,13 +31,13 @@ fun NavController.navigateToSettings(navOptions: NavOptions? = null) =
 
 fun NavGraphBuilder.settingsScreen(navController: NavController, navigateToAboutMe: () -> Unit) {
     composable(route = SETTINGS_ROUTE) {
-        // TODO add contribute redirection
+        // TODO add contribute & aboutMe redirection
         SettingsRoute(
             onBackIconButtonClicked = navController::popBackStack,
             onClickDataAndPrivacyTile = navController::navigateToDataAndPrivacySettings,
             onClickAccessibilityTile = navController::navigateToAccessibilitySettings,
             onClickContributeTile = {},
-            onClickAboutMeTile = navigateToAboutMe,
+            onClickAboutMeTile = {},
             onClickDeveloperSettings = navController::navigateToDeveloperSettings,
         )
     }

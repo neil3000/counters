@@ -25,4 +25,5 @@ android {
 
 dependencies {
     implementation(libs.androidx.browser)
+    implementation(libs.google.oss.licenses)
 }

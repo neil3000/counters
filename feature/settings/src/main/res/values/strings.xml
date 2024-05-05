@@ -36,4 +36,10 @@
     <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title">Learn more</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_supportingText">How it works and its purpose</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title">Privacy policy</string>
+    <string name="feature_settings_settingsScreen_iconTooltipsTile_title">Icon tooltips</string>
+    <string name="feature_settings_settingsScreen_iconTooltipsTile_supportingText">Enable informative popups when you long press icon buttons</string>
+    <string name="feature_settings_settingsScreen_discordTile_title">Join our Discord community</string>
+    <string name="feature_settings_settingsScreen_contributeTile_title"><![CDATA[Contribute & help]]></string>
+    <string name="feature_settings_settingsScreen_aboutMeTile_title">About me</string>
+    <string name="feature_settings_settingsScreen_ossLicensesTile_title">Open source licenses</string>
 </resources>

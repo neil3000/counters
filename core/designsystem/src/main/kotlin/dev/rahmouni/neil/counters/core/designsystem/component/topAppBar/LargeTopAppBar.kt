@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.rahmouni.neil.counters.core.designsystem.component
+package dev.rahmouni.neil.counters.core.designsystem.component.topAppBar
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.WindowInsets
@@ -39,6 +39,7 @@ import dev.rahmouni.neil.counters.core.designsystem.R
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentVariation
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,79 +52,38 @@ fun Rn3LargeTopAppBar(
     onBackIconButtonClicked: (() -> Unit)? = null,
 ) {
     val localContext = LocalContext.current
-    val windowState = currentWindowAdaptiveInfo()
 
-    if (windowState.windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) {
-        TopAppBar(
-            title = {
-                Text(
-                    title,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
+    LargeTopAppBar(
+        title = {
+            Text(
+                title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        },
+        modifier = modifier,
+        navigationIcon = {
+            if (onBackIconButtonClicked != null) {
+                Rn3IconButton(
+                    icon = Outlined.ArrowBack,
+                    contentDescription = stringResource(R.string.core_designsystem_largeTopAppBar_navigationIcon_iconButton_arrowBack_contentDescription),
+                    onClick = onBackIconButtonClicked,
                 )
-            },
-            modifier = modifier,
-            navigationIcon = {
-                if (onBackIconButtonClicked != null) {
-                    Rn3IconButton(
-                        icon = Outlined.ArrowBack,
-                        contentDescription = stringResource(R.string.core_designsystem_largeTopAppBar_navigationIcon_iconButton_arrowBack_contentDescription),
-                        onClick = onBackIconButtonClicked,
-                    )
+            }
+        },
+        actions = {
+            if (feedbackPageID != null) {
+                Rn3IconButton(
+                    icon = Icons.Outlined.Feedback,
+                    contentDescription = stringResource(R.string.core_designsystem_largeTopAppBar_actions_iconButton_feedback_contentDescription),
+                ) {
+                    Toast.makeText(localContext, feedbackPageID, Toast.LENGTH_SHORT).show()
                 }
-            },
-            actions = {
-                if (feedbackPageID != null) {
-                    Rn3IconButton(
-                        icon = Icons.Outlined.Feedback,
-                        contentDescription = stringResource(R.string.core_designsystem_largeTopAppBar_actions_iconButton_feedback_contentDescription),
-                    ) {
-                        Toast.makeText(localContext, feedbackPageID, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            },
-            windowInsets = windowInsets,
-            scrollBehavior = scrollBehavior,
-        )
-    } else {
-        LargeTopAppBar(
-            title = {
-                Text(
-                    title,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            },
-            modifier = modifier,
-            navigationIcon = {
-                if (onBackIconButtonClicked != null) {
-                    Rn3IconButton(
-                        icon = Outlined.ArrowBack,
-                        contentDescription = stringResource(R.string.core_designsystem_largeTopAppBar_navigationIcon_iconButton_arrowBack_contentDescription),
-                        onClick = onBackIconButtonClicked,
-                    )
-                }
-            },
-            actions = {
-                if (feedbackPageID != null) {
-                    Rn3IconButton(
-                        icon = Icons.Outlined.Feedback,
-                        contentDescription = stringResource(R.string.core_designsystem_largeTopAppBar_actions_iconButton_feedback_contentDescription),
-                    ) {
-                        Toast.makeText(localContext, feedbackPageID, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            },
-            windowInsets = windowInsets,
-            scrollBehavior = scrollBehavior,
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun getRn3LargeTopAppBarScrollBehavior(): TopAppBarScrollBehavior {
-    return if (currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) TopAppBarDefaults.pinnedScrollBehavior() else TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+            }
+        },
+        windowInsets = windowInsets,
+        scrollBehavior = scrollBehavior,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

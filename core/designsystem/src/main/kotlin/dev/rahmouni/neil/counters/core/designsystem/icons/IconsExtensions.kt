@@ -24,6 +24,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import dev.rahmouni.neil.counters.core.designsystem.R
 
+val customIconsList
+    @Composable
+    get() = listOf(Outlined.Tooltip, Outlined.Rn3, Outlined.Contract, Outlined.Discord)
+
 val Outlined.Tooltip
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_tooltip)
@@ -31,6 +35,20 @@ val Outlined.Tooltip
 val Outlined.Rn3
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_rn3)
+
+val Outlined.Contract
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_contract)
+
+val Outlined.Discord
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_discord)
+
+// Animated icons
+
+val customAnimatedIconsList
+    @Composable
+    get() = listOf(Outlined.CoffeeAnimated, Outlined.OpenInNewAnimated)
 
 val Outlined.CoffeeAnimated: AnimatedIcon
     get() = AnimatedIcon(R.drawable.core_designsystem_icon_coffee_animated, 1500)

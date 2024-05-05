@@ -17,19 +17,15 @@
 package dev.rahmouni.neil.counters.feature.settings.accessibility
 
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.SettingsAccessibility
 import androidx.compose.material.icons.outlined.ToggleOn
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -42,7 +38,8 @@ import dev.rahmouni.neil.counters.core.common.openAndroidAccessibilitySettingsAc
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LargeTopAppBar
+import dev.rahmouni.neil.counters.core.designsystem.component.LazyColumnFullScreen
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
@@ -79,7 +76,6 @@ internal fun AccessibilitySettingsRoute(
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AccessibilitySettingsScreen(
     modifier: Modifier = Modifier,
@@ -89,72 +85,71 @@ internal fun AccessibilitySettingsScreen(
     setIconTooltips: (Boolean) -> Unit = {},
     onClickAndroidAccessibilityTile: () -> Unit = {},
 ) {
-    Column(modifier) {
-        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-
-        Scaffold(
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                @Suppress("SpellCheckingInspection")
-                Rn3LargeTopAppBar(
-                    title = stringResource(string.feature_settings_accessibilitySettingsScreen_topAppBar_title),
-                    scrollBehavior = scrollBehavior,
-                    feedbackPageID = getFeedbackID(
-                        localName = "AccessibilitySettingsScreen",
-                        localID = "KLlwmK9HscvcmW00fYfONf6scddqsugd",
-                    ),
-                    onBackIconButtonClicked = onBackIconButtonClicked,
-                )
-            },
-        ) { paddingValues ->
-            Column(Modifier.padding(paddingValues)) {
-                when (uiState) {
-                    AccessibilitySettingsUiState.Loading -> {}
-                    is AccessibilitySettingsUiState.Success -> AccessibilitySettingsPanel(
-                        data = uiState.accessibilitySettingsData,
-                        setEmphasizedSwitches,
-                        setIconTooltips,
-                        onClickAndroidAccessibilityTile,
-                    )
-                }
-            }
+    Rn3Scaffold(
+        modifier,
+        stringResource(string.feature_settings_accessibilitySettingsScreen_topAppBar_title),
+        onBackIconButtonClicked,
+        getFeedbackID(
+            localName = "AccessibilitySettingsScreen",
+            localID = "KLlwmK9HscvcmW00fYfONf6scddqsugd",
+        ),
+    ) {
+        when (uiState) {
+            AccessibilitySettingsUiState.Loading -> {}
+            is AccessibilitySettingsUiState.Success -> AccessibilitySettingsPanel(
+                it,
+                uiState.accessibilitySettingsData,
+                setEmphasizedSwitches,
+                setIconTooltips,
+                onClickAndroidAccessibilityTile,
+            )
         }
     }
 }
 
 @Composable
 private fun AccessibilitySettingsPanel(
+    contentPadding: PaddingValues,
     data: AccessibilitySettingsData,
     setEmphasizedSwitches: (Boolean) -> Unit,
     setIconTooltips: (Boolean) -> Unit,
     onClickAndroidAccessibilityTile: () -> Unit,
 ) {
-    // emphasizedSwitchesTile
-    Rn3TileSwitch(
-        title = stringResource(string.feature_settings_settingsScreen_emphasizedSwitchesTile_title),
-        icon = Outlined.ToggleOn,
-        checked = data.hasEmphasizedSwitchesEnabled,
-        onCheckedChange = setEmphasizedSwitches,
-    )
+    LazyColumnFullScreen(contentPadding = contentPadding) {
 
-    // iconTooltipsTile //TODO i18n
-    Rn3TileSwitch(
-        title = "Icon tooltips",
-        icon = Outlined.Tooltip,
-        supportingText = "Enable informative popups when you long press icon buttons",
-        checked = data.hasIconTooltipsEnabled,
-        onCheckedChange = setIconTooltips,
-    )
+        // emphasizedSwitchesTile
+        item {
+            Rn3TileSwitch(
+                title = stringResource(string.feature_settings_settingsScreen_emphasizedSwitchesTile_title),
+                icon = Outlined.ToggleOn,
+                checked = data.hasEmphasizedSwitchesEnabled,
+                onCheckedChange = setEmphasizedSwitches,
+            )
+        }
 
-    Rn3TileHorizontalDivider()
+        // iconTooltipsTile
+        item {
+            Rn3TileSwitch(
+                title = stringResource(string.feature_settings_settingsScreen_iconTooltipsTile_title),
+                icon = Outlined.Tooltip,
+                supportingText = stringResource(string.feature_settings_settingsScreen_iconTooltipsTile_supportingText),
+                checked = data.hasIconTooltipsEnabled,
+                onCheckedChange = setIconTooltips,
+            )
+        }
 
-    // androidAccessibilityTile
-    Rn3TileClick(
-        title = stringResource(string.feature_settings_settingsScreen_androidAccessibilityTile_title),
-        icon = Outlined.SettingsAccessibility,
-        onClick = onClickAndroidAccessibilityTile,
-        external = true,
-    )
+        item { Rn3TileHorizontalDivider() }
+
+        // androidAccessibilityTile
+        item {
+            Rn3TileClick(
+                title = stringResource(string.feature_settings_settingsScreen_androidAccessibilityTile_title),
+                icon = Outlined.SettingsAccessibility,
+                onClick = onClickAndroidAccessibilityTile,
+                external = true,
+            )
+        }
+    }
 }
 
 @Rn3PreviewScreen

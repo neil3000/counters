@@ -32,3 +32,17 @@ internal fun AnalyticsHelper.logChangelogTileClicked() =
             type = "settings_changelogTile_clicked",
         ),
     )
+
+internal fun AnalyticsHelper.logDiscordTileClicked() =
+    logEvent(
+        AnalyticsEvent(
+            type = "settings_discordTile_clicked",
+        ),
+    )
+
+internal fun AnalyticsHelper.logOssLicensesTileClicked() =
+    logEvent(
+        AnalyticsEvent(
+            type = "settings_ossLicensesTile_clicked",
+        ),
+    )

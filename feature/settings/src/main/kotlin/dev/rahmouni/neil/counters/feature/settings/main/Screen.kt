@@ -19,36 +19,38 @@ package dev.rahmouni.neil.counters.feature.settings.main
 import android.content.Context
 import android.provider.Settings
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.AccessibilityNew
 import androidx.compose.material.icons.outlined.DataObject
 import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.StarBorder
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.common.openLink
+import dev.rahmouni.neil.counters.core.common.openOssLicensesActivity
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LargeTopAppBar
+import dev.rahmouni.neil.counters.core.designsystem.component.LazyColumnFullScreen
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
+import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
+import dev.rahmouni.neil.counters.core.designsystem.icons.Discord
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
 import dev.rahmouni.neil.counters.core.feedback.getFeedbackID
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.logChangelogTileClicked
+import dev.rahmouni.neil.counters.feature.settings.logDiscordTileClicked
+import dev.rahmouni.neil.counters.feature.settings.logOssLicensesTileClicked
+
 
 @Composable
 internal fun SettingsRoute(
@@ -67,22 +69,30 @@ internal fun SettingsRoute(
     SettingsScreen(
         modifier = modifier,
         showDeveloperSettings = context.areAndroidDeveloperSettingsOn(),
-        onBackIconButtonClicked = onBackIconButtonClicked,
-        onClickDataAndPrivacyTile = onClickDataAndPrivacyTile,
-        onClickAccessibilityTile = onClickAccessibilityTile,
+        onBackIconButtonClicked,
+        onClickDataAndPrivacyTile,
+        onClickAccessibilityTile,
         isChangelogAvailable = config.getString("changelog_url") != "null",
         onClickChangelogTile = {
             context.openLink(config.getString("changelog_url"))
             analytics.logChangelogTileClicked()
         },
-        onClickContributeTile = onClickContributeTile,
-        onClickAboutMeTile = onClickAboutMeTile,
-        onClickDeveloperSettings = onClickDeveloperSettings,
+        isDiscordAvailable = config.getString("discord_invite_url") != "null",
+        onClickDiscordTile = {
+            context.openLink(config.getString("discord_invite_url"))
+            analytics.logDiscordTileClicked()
+        },
+        onClickContributeTile,
+        onClickAboutMeTile,
+        onClickDeveloperSettings,
+        onClickOssLicensesTile = {
+            context.openOssLicensesActivity()
+            analytics.logOssLicensesTileClicked()
+        },
     )
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SettingsScreen(
     modifier: Modifier = Modifier,
@@ -92,90 +102,145 @@ internal fun SettingsScreen(
     onClickAccessibilityTile: () -> Unit = {},
     isChangelogAvailable: Boolean = true,
     onClickChangelogTile: () -> Unit = {},
+    isDiscordAvailable: Boolean = true,
+    onClickDiscordTile: () -> Unit = {},
     onClickContributeTile: () -> Unit = {},
     onClickAboutMeTile: () -> Unit = {},
-    onClickDeveloperSettings: () -> Unit = {},
+    onClickDeveloperSettingsTile: () -> Unit = {},
+    onClickOssLicensesTile: () -> Unit = {},
 ) {
-    Column(modifier) {
-        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    Rn3Scaffold(
+        modifier,
+        stringResource(string.feature_settings_settingsScreen_topAppBar_title),
+        onBackIconButtonClicked,
+        getFeedbackID(
+            localName = "SettingsScreen",
+            localID = "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d",
+        ),
+    ) {
+        SettingsPanel(
+            it,
+            showDeveloperSettings = showDeveloperSettings,
+            onClickDataAndPrivacyTile = onClickDataAndPrivacyTile,
+            onClickAccessibilityTile = onClickAccessibilityTile,
+            isChangelogAvailable = isChangelogAvailable,
+            onClickChangelogTile = onClickChangelogTile,
+            isDiscordAvailable = isDiscordAvailable,
+            onClickDiscordTile = onClickDiscordTile,
+            onClickContributeTile = onClickContributeTile,
+            onClickAboutMeTile = onClickAboutMeTile,
+            onClickDeveloperSettingsTile = onClickDeveloperSettingsTile,
+            onClickOssLicensesTile = onClickOssLicensesTile,
+        )
+    }
+}
 
-        Scaffold(
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                @Suppress("SpellCheckingInspection")
-                Rn3LargeTopAppBar(
-                    title = stringResource(string.feature_settings_settingsScreen_topAppBar_title),
-                    scrollBehavior = scrollBehavior,
-                    feedbackPageID = getFeedbackID(
-                        localName = "SettingsScreen",
-                        localID = "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d",
-                    ),
-                    onBackIconButtonClicked = onBackIconButtonClicked,
-                )
-            },
-        ) {
-            Column(Modifier.padding(it)) {
-                // // generalHeaderTile
-                Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_generalHeaderTile_title))
+@Composable
+private fun SettingsPanel(
+    contentPadding: PaddingValues,
+    showDeveloperSettings: Boolean,
+    onClickDataAndPrivacyTile: () -> Unit,
+    onClickAccessibilityTile: () -> Unit,
+    isChangelogAvailable: Boolean,
+    onClickChangelogTile: () -> Unit,
+    isDiscordAvailable: Boolean,
+    onClickDiscordTile: () -> Unit,
+    onClickContributeTile: () -> Unit,
+    onClickAboutMeTile: () -> Unit,
+    onClickDeveloperSettingsTile: () -> Unit,
+    onClickOssLicensesTile: () -> Unit,
+) {
+    LazyColumnFullScreen(contentPadding = contentPadding) {
+        // generalHeaderTile
+        item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_generalHeaderTile_title)) }
 
-                // dataAndPrivacyTile
-                Rn3TileClick(
-                    title = stringResource(string.feature_settings_settingsScreen_dataAndPrivacyTile_title),
-                    icon = Outlined.Shield,
-                    onClick = onClickDataAndPrivacyTile,
-                )
+        // dataAndPrivacyTile
+        item {
+            Rn3TileClick(
+                title = stringResource(string.feature_settings_settingsScreen_dataAndPrivacyTile_title),
+                icon = Outlined.Shield,
+                onClick = onClickDataAndPrivacyTile,
+            )
+        }
 
-                // accessibilityTile
-                Rn3TileClick(
-                    title = stringResource(string.feature_settings_settingsScreen_accessibilityTile_title),
-                    icon = Outlined.AccessibilityNew,
-                    onClick = onClickAccessibilityTile,
-                )
+        // accessibilityTile
+        item {
+            Rn3TileClick(
+                title = stringResource(string.feature_settings_settingsScreen_accessibilityTile_title),
+                icon = Outlined.AccessibilityNew,
+                onClick = onClickAccessibilityTile,
+            )
+        }
 
-                Rn3TileHorizontalDivider()
+        item {
+            Rn3TileHorizontalDivider()
+        }
 
-                // // aboutHeaderTile
-                Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_aboutHeaderTile_title))
+        // aboutHeaderTile
+        item {
+            Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_aboutHeaderTile_title))
+        }
 
-                // changelogTile
-                if (isChangelogAvailable) {
-                    Rn3TileClick(
-                        title = stringResource(string.feature_settings_settingsScreen_changelogTile_title),
-                        icon = Outlined.NewReleases,
-                        onClick = onClickChangelogTile,
-                        external = true,
-                    )
-                }
+        // changelogTile
+        if (isChangelogAvailable) item {
+            Rn3TileClick(
+                title = stringResource(string.feature_settings_settingsScreen_changelogTile_title),
+                icon = Outlined.NewReleases,
+                onClick = onClickChangelogTile,
+                external = true,
+            )
+        }
 
-                // contributeTile //TODO i18n
-                Rn3TileClick(
-                    title = "Contribute & help",
-                    icon = Outlined.StarBorder,
-                    onClick = onClickContributeTile,
-                )
+        // discordTile
+        if (isDiscordAvailable) item {
+            Rn3TileClick(
+                title = stringResource(string.feature_settings_settingsScreen_discordTile_title),
+                icon = Outlined.Discord,
+                onClick = onClickDiscordTile,
+                external = true,
+            )
+        }
 
-                // aboutMeTile //TODO i18n
-                Rn3TileClick(
-                    title = "About me",
-                    icon = Outlined.Rn3,
-                    onClick = onClickAboutMeTile,
-                )
+        // contributeTile
+        item {
+            Rn3TileClick(
+                title = stringResource(string.feature_settings_settingsScreen_contributeTile_title),
+                icon = Outlined.StarBorder,
+                onClick = onClickContributeTile,
+            )
+        }
 
-                Rn3TileHorizontalDivider()
+        // aboutMeTile
+        item {
+            Rn3TileClick(
+                title = stringResource(string.feature_settings_settingsScreen_aboutMeTile_title),
+                icon = Outlined.Rn3,
+                onClick = onClickAboutMeTile,
+            )
+        }
 
-                // // advancedSettingsHeaderTile
-                Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_advancedSettingsHeaderTile_title))
+        item { Rn3TileHorizontalDivider() }
 
-                // developerSettingsTile
-                if (showDeveloperSettings) {
-                    Rn3TileClick(
-                        title = "Developer settings",
-                        icon = Outlined.DataObject,
-                        supportingText = "Shown since you have Dev Settings on",
-                        onClick = onClickDeveloperSettings,
-                    )
-                }
-            }
+        // advancedSettingsHeaderTile
+        item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_advancedSettingsHeaderTile_title)) }
+
+        // developerSettingsTile
+        if (showDeveloperSettings) item {
+            Rn3TileClick(
+                title = "Developer settings",
+                icon = Outlined.DataObject,
+                supportingText = "Shown since you have Dev Settings on",
+                onClick = onClickDeveloperSettingsTile,
+            )
+        }
+
+        // ossLicensesTile
+        item {
+            Rn3TileClick(
+                title = stringResource(string.feature_settings_settingsScreen_ossLicensesTile_title),
+                icon = Outlined.Contract,
+                onClick = onClickOssLicensesTile,
+            )
         }
     }
 }
