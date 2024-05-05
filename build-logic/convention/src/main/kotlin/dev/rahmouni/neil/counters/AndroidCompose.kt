@@ -18,7 +18,8 @@ internal fun Project.configureAndroidCompose(
         }
 
         composeOptions {
-            kotlinCompilerExtensionVersion = libs.findVersion("androidxComposeCompiler").get().toString()
+            kotlinCompilerExtensionVersion =
+                libs.findVersion("androidxComposeCompiler").get().toString()
         }
 
         dependencies {
@@ -39,7 +40,7 @@ internal fun Project.configureAndroidCompose(
 
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
-            freeCompilerArgs += buildComposeMetricsParameters() 
+            freeCompilerArgs += buildComposeMetricsParameters()
             freeCompilerArgs += stabilityConfiguration()
             freeCompilerArgs += strongSkippingConfiguration()
         }
@@ -66,7 +67,7 @@ private fun Project.buildComposeMetricsParameters(): List<String> {
         val reportsFolder = buildDir.resolve("compose-reports").resolve(relativePath)
         metricParameters.add("-P")
         metricParameters.add(
-            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" + reportsFolder.absolutePath
+            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" + reportsFolder.absolutePath,
         )
     }
 
@@ -78,6 +79,7 @@ private fun Project.stabilityConfiguration() = listOf(
     "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=${project.rootDir.absolutePath}/compose_compiler_config.conf",
 )
 
+@Suppress("UnusedReceiverParameter")
 private fun Project.strongSkippingConfiguration() = listOf(
     "-P",
     "plugin:androidx.compose.compiler.plugins.kotlin:experimentalStrongSkipping=true",

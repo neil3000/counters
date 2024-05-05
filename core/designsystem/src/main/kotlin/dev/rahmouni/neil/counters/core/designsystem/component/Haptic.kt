@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 Rahmouni Neïl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package dev.rahmouni.neil.counters.core.designsystem.component
 
 import android.os.Build.VERSION
@@ -59,7 +75,7 @@ class Haptic {
         if (state) toggleOn() else toggleOff()
     }
 
-    fun toggleOn() {
+    private fun toggleOn() {
         if (view == null || haptic == null) throw hapticClassNonInitializedException("2DE1Fjt7SaM5oVBgUZbaKu0T3FHy0WXQ")
 
         if (VERSION.SDK_INT >= VERSION_CODES.UPSIDE_DOWN_CAKE) {
@@ -69,7 +85,7 @@ class Haptic {
         }
     }
 
-    fun toggleOff() {
+    private fun toggleOff() {
         if (view == null || haptic == null) throw hapticClassNonInitializedException("wSnwbynXGOaOkVsXZCRxVKAJWEmJ6iPF")
 
         if (VERSION.SDK_INT >= VERSION_CODES.UPSIDE_DOWN_CAKE) {

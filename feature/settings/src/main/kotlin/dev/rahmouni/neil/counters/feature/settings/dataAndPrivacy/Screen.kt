@@ -1,10 +1,24 @@
+/*
+ * Copyright 2024 Rahmouni Neïl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.BugReport
@@ -55,15 +69,16 @@ internal fun DataAndPrivacySettingsRoute(
     val analytics = LocalAnalyticsHelper.current
     val config = LocalConfigHelper.current
 
+    // TODO add crashlyticsInfo & metricsInfo
     DataAndPrivacySettingsScreen(
         modifier,
         uiState = uiState,
         onBackIconButtonClicked,
         onMetricsTileCheckedChange = viewModel::setMetricsEnabled,
         onClearMetricsTileClicked = analytics::clearMetrics,
-        onMetricsInfoTileClicked = {}, // TODO
+        onMetricsInfoTileClicked = {},
         onCrashlyticsTileCheckedChange = viewModel::setCrashlyticsEnabled,
-        onCrashlyticsInfoTileClicked = {}, // TODO
+        onCrashlyticsInfoTileClicked = {},
         isPrivacyPolicyAvailable = config.getString("privacy_policy_url") != "null",
         onPrivacyPolicyTileClicked = {
             context.openLink(config.getString("privacy_policy_url"))
@@ -103,7 +118,7 @@ internal fun DataAndPrivacySettingsScreen(
                     ),
                     onBackIconButtonClicked = onBackIconButtonClicked,
                 )
-            }
+            },
         ) { paddingValues ->
             Column(Modifier.padding(paddingValues)) {
                 when (uiState) {
@@ -194,7 +209,6 @@ private fun DataAndPrivacySettingsPanel(
         )
     }
 }
-
 
 @Rn3PreviewScreen
 @Composable

@@ -25,7 +25,6 @@ dependencies {
     compileOnly(libs.firebase.performance.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
-    compileOnly(libs.room.gradlePlugin)
     implementation(libs.truth)
 }
 
@@ -73,10 +72,6 @@ gradlePlugin {
         register("androidHilt") {
             id = "rn3.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
-        }
-        register("androidRoom") {
-            id = "rn3.android.room"
-            implementationClass = "AndroidRoomConventionPlugin"
         }
         register("androidFirebase") {
             id = "rn3.android.application.firebase"

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 Rahmouni Neïl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package dev.rahmouni.neil.counters.core.shapes
 
 import androidx.compose.runtime.derivedStateOf
@@ -46,7 +62,11 @@ class ShapeParameters(
     private var shapeIx by mutableIntStateOf(shapeId.ordinal)
 
     enum class ShapeId {
-        Star, Polygon, Triangle, Blob, CornerSE
+        Star,
+        Polygon,
+        Triangle,
+        Blob,
+        CornerSE,
     }
 
     // Primitive shapes we can draw (so far)
@@ -73,7 +93,8 @@ class ShapeParameters(
                     rounding = CornerRounding(this.roundness.floatValue, this.smooth.floatValue),
                 )
             },
-            usesInnerRatio = false, usesInnerParameters = false,
+            usesInnerRatio = false,
+            usesInnerParameters = false,
         ),
         ShapeItem(
             "Triangle",
@@ -95,7 +116,8 @@ class ShapeParameters(
                     centerY = 0f,
                 )
             },
-            usesSides = false, usesInnerParameters = false,
+            usesSides = false,
+            usesInnerParameters = false,
         ),
         ShapeItem(
             "Blob",
@@ -104,16 +126,22 @@ class ShapeParameters(
                 val sy = this.roundness.floatValue.coerceAtLeast(0.1f)
                 RoundedPolygon(
                     vertices = floatArrayOf(
-                        -sx, -sy,
-                        sx, -sy,
-                        sx, sy,
-                        -sx, sy,
+                        -sx,
+                        -sy,
+                        sx,
+                        -sy,
+                        sx,
+                        sy,
+                        -sx,
+                        sy,
                     ),
                     rounding = CornerRounding(min(sx, sy), this.smooth.floatValue),
-                    centerX = 0f, centerY = 0f,
+                    centerX = 0f,
+                    centerY = 0f,
                 )
             },
-            usesSides = false, usesInnerParameters = false,
+            usesSides = false,
+            usesInnerParameters = false,
         ),
         ShapeItem(
             "CornerSE",
@@ -147,7 +175,8 @@ class ShapeParameters(
             "Rectangle",
             shapegen = {
                 RoundedPolygon.rectangle(
-                    width = 4f, height = 2f,
+                    width = 4f,
+                    height = 2f,
                     rounding = CornerRounding(this.roundness.floatValue, this.smooth.floatValue),
                 )
             },
@@ -159,26 +188,27 @@ class ShapeParameters(
 
     private fun selectedShape() = derivedStateOf { shapes[shapeIx] }
 
-    fun genShape(addedRotation: Float, autoSize: Boolean = true) = selectedShape().value.shapegen().let { poly ->
-        poly.transformed(
-            Matrix().apply {
-                if (autoSize) {
-                    val bounds = poly.getBounds()
-                    // Move the center to the origin.
-                    translate(
-                        x = -(bounds.left + bounds.right) / 2,
-                        y = -(bounds.top + bounds.bottom) / 2,
-                    )
+    fun genShape(addedRotation: Float, autoSize: Boolean = true) =
+        selectedShape().value.shapegen().let { poly ->
+            poly.transformed(
+                Matrix().apply {
+                    if (autoSize) {
+                        val bounds = poly.getBounds()
+                        // Move the center to the origin.
+                        translate(
+                            x = -(bounds.left + bounds.right) / 2,
+                            y = -(bounds.top + bounds.bottom) / 2,
+                        )
 
-                    // Scale to the [-1, 1] range
-                    val scale = 2f / max(bounds.width, bounds.height)
-                    scale(x = scale, y = scale)
-                }
-                // Apply the needed rotation
-                rotateZ(rotation.floatValue + addedRotation)
-            },
-        )
-    }
+                        // Scale to the [-1, 1] range
+                        val scale = 2f / max(bounds.width, bounds.height)
+                        scale(x = scale, y = scale)
+                    }
+                    // Apply the needed rotation
+                    rotateZ(rotation.floatValue + addedRotation)
+                },
+            )
+        }
 }
 
 private fun squarePoints() = floatArrayOf(1f, 1f, -1f, 1f, -1f, -1f, 1f, -1f)

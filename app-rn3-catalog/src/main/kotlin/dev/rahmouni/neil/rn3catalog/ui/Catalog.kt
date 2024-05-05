@@ -1,9 +1,28 @@
+/*
+ * Copyright 2024 Rahmouni Neïl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package dev.rahmouni.neil.rn3catalog.ui
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.AcUnit
 import androidx.compose.material.icons.outlined.AccessibilityNew
@@ -17,13 +36,18 @@ import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
@@ -32,10 +56,16 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyRowWithPadd
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Switch
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SwitchAccessibilityEmphasizedThumbContent
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickChips
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
+import dev.rahmouni.neil.counters.core.designsystem.icons.CoffeeAnimated
+import dev.rahmouni.neil.counters.core.designsystem.icons.OpenInNewAnimated
+import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
+import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3InfiniteRestartAnimatedIcon
+import dev.rahmouni.neil.counters.core.designsystem.icons.Tooltip
 import dev.rahmouni.neil.rn3catalog.itemWithBoolean
 import dev.rahmouni.neil.rn3catalog.itemWithToast
 
@@ -50,7 +80,7 @@ fun Rn3Catalog() {
 
         Scaffold(
             topBar = { Rn3LargeTopAppBar(title = "Rn3 Catalog", scrollBehavior = scrollBehavior) },
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         ) { paddingValues ->
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
@@ -58,7 +88,7 @@ fun Rn3Catalog() {
             ) {
                 item { Rn3TileSmallHeader(title = "Switches") }
                 item {
-                    Rn3LazyRowWithPadding {
+                    Rn3LazyRowWithPadding(horizontalPadding = 4.dp) {
                         itemWithBoolean { value, toggleValue ->
                             Rn3Switch(
                                 checked = value,
@@ -73,7 +103,9 @@ fun Rn3Catalog() {
                                 contentDescription = CONTENT_DESCRIPTION,
                                 thumbContent = if (value) {
                                     { Rn3SwitchAccessibilityEmphasizedThumbContent() }
-                                } else null,
+                                } else {
+                                    null
+                                },
                             )
                         }
                         itemWithBoolean { value, toggleValue ->
@@ -94,7 +126,10 @@ fun Rn3Catalog() {
                 }
                 item { Rn3TileSmallHeader(title = "Icon buttons") }
                 item {
-                    Rn3LazyRowWithPadding {
+                    Rn3LazyRowWithPadding(
+                        horizontalPadding = 4.dp,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
                         itemWithToast {
                             Rn3IconButton(
                                 icon = Outlined.Shield,
@@ -178,16 +213,63 @@ fun Rn3Catalog() {
                     Rn3TileCopy(
                         title = "Title",
                         icon = Outlined.EmojiEvents,
-                        text = "This is an unusually long text that definitely should be truncated if the text to be copied is an ID or something unintelligible",
+                        text = "This is an unusually long text that should be truncated if it is an ID / unintelligible",
                     )
                 }
                 item {
                     Rn3TileCopy(
-                        title = "Title",
+                        title = "Not truncated",
                         icon = Outlined.EmojiEvents,
-                        text = "This is an unusually long text that definitely should be truncated if the text to be copied is an ID or something unintelligible",
+                        text = "This is an unusually long text that should be truncated if it is an ID / unintelligible",
                         truncate = false,
                     )
+                }
+                item { Rn3TileHorizontalDivider() }
+                item { Rn3TileSmallHeader(title = "Icons") }
+                item {
+                    Rn3LazyRowWithPadding(Modifier.padding(vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(24.dp)) {
+                        item { Icon(Outlined.Tooltip, CONTENT_DESCRIPTION) }
+                        item { Icon(Outlined.Rn3, CONTENT_DESCRIPTION) }
+                    }
+                }
+                item { Rn3TileHorizontalDivider() }
+                item { Rn3TileSmallHeader(title = "Animated icons (infinite restart)") }
+                item {
+                    Rn3LazyRowWithPadding(Modifier.padding(vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(24.dp)) {
+                        item {
+                            Rn3InfiniteRestartAnimatedIcon(
+                                icon = Outlined.CoffeeAnimated,
+                                contentDescription = CONTENT_DESCRIPTION,
+                            )
+                        }
+                        item {
+                            Rn3InfiniteRestartAnimatedIcon(
+                                icon = Outlined.OpenInNewAnimated,
+                                contentDescription = CONTENT_DESCRIPTION,
+                            )
+                        }
+                    }
+                }
+                item { Rn3TileHorizontalDivider() }
+                item { Rn3TileSmallHeader(title = "Tile click chips") }
+                itemWithToast {
+                    Rn3TileClickChips(
+                        title = "Title",
+                        icon = Outlined.EmojiEvents,
+                        onClick = {},
+                    ) {
+                        items(listOf("1 €", "3 €", "5 €", "Custom")) {
+                            FilterChip(
+                                selected = it == "3 €",
+                                onClick = {},
+                                label = { Text(it) },
+                                colors = FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.tertiary,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onTertiary,
+                                ),
+                            )
+                        }
+                    }
                 }
             }
         }
