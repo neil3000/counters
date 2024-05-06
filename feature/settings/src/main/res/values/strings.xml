@@ -24,7 +24,6 @@
     <string name="feature_settings_settingsScreen_emphasizedSwitchesTile_title">Emphasize selected switches</string>
     <string name="feature_settings_settingsScreen_aboutHeaderTile_title">About</string>
     <string name="feature_settings_settingsScreen_changelogTile_title">App changelog</string>
-    <string name="feature_settings_settingsScreen_advancedSettingsHeaderTile_title">Advanced settings</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_topAppBar_title"><![CDATA[Data & Privacy]]></string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_metricsHeaderTile_title">Metrics</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_metricsTile_title">Metrics</string>
@@ -42,4 +41,5 @@
     <string name="feature_settings_settingsScreen_contributeTile_title"><![CDATA[Contribute & help]]></string>
     <string name="feature_settings_settingsScreen_aboutMeTile_title">About me</string>
     <string name="feature_settings_settingsScreen_ossLicensesTile_title">Open source licenses</string>
+    <string name="feature_settings_settingsScreen_otherHeaderTile_title">Other</string>
 </resources>

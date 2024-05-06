@@ -221,8 +221,8 @@ private fun SettingsPanel(
 
         item { Rn3TileHorizontalDivider() }
 
-        // advancedSettingsHeaderTile
-        item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_advancedSettingsHeaderTile_title)) }
+        // otherHeaderTile
+        item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_otherHeaderTile_title)) }
 
         // developerSettingsTile
         if (showDeveloperSettings) item {
