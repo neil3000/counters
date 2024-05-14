@@ -16,6 +16,7 @@
 
 package dev.rahmouni.neil.counters.feature.aboutme.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -48,6 +49,10 @@ import dev.rahmouni.neil.counters.feature.aboutme.model.data.PortfolioState.Soon
 fun MainActions(portfolio: PortfolioState) {
     val context = LocalContext.current
 
+    fun soonToast() {
+        Toast.makeText(context, "Soon ~", Toast.LENGTH_LONG).show()
+    }
+
     Surface(
         tonalElevation = 2.dp,
         modifier = Modifier
@@ -77,12 +82,12 @@ fun MainActions(portfolio: PortfolioState) {
             Rn3TileClickChips(
                 title = stringResource(R.string.feature_aboutme_mainActions_buyMeCoffeeTile_title),
                 icon = Icons.Outlined.CoffeeAnimated,
-                onClick = {},
+                onClick = ::soonToast
             ) {
                 items(listOf("1 €", "3 €", "5 €", "Custom")) {
                     FilterChip(
                         selected = it == "3 €",
-                        onClick = { /* Do something! */ },
+                        onClick = ::soonToast,
                         label = { Text(it) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = MaterialTheme.colorScheme.tertiary,
