@@ -28,6 +28,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.browser)
     lintPublish(projects.lint)
 
     api(libs.androidx.compose.foundation)

@@ -104,7 +104,7 @@ private fun DeveloperSettingsPanel(
                 else -> Icons.Outlined.QuestionMark
             }
 
-            if (value == "true" || value == "false") {
+            if (value.isBoolean()) {
                 item {
                     Rn3TileSwitch(title = key, icon = icon, checked = value == "true") {}
                 }
@@ -116,6 +116,8 @@ private fun DeveloperSettingsPanel(
         }
     }
 }
+
+private fun String.isBoolean(): Boolean = this == "true" || this == "false"
 
 @Rn3PreviewScreen
 @Composable

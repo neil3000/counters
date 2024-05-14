@@ -52,6 +52,7 @@ android {
 dependencies {
     implementation(libs.androidx.activity.compose)
 
+    implementation(projects.core.common)
     implementation(projects.core.designsystem)
     implementation(projects.core.ui)
 }

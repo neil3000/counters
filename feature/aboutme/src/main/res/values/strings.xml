@@ -3,8 +3,6 @@
     <string name="feature_aboutme_aboutMeScreen_scaffold_title">About me</string>
     <string name="feature_aboutme_biography_headerTile_title">About me</string>
     <string name="feature_aboutme_mainActions_portfolioTile_title">Portfolio</string>
-    <string name="feature_aboutme_mainActions_portfolioTile_supportingText_inMaintenance">In maintenance, check back later ~</string>
-    <string name="feature_aboutme_mainActions_portfolioTile_supportingText_soonAvailable">Available soon ~</string>
     <string name="feature_aboutme_mainActions_portfolioTile_supportingText">Check out my other work 🐢❤️</string>
     <string name="feature_aboutme_mainActions_buyMeCoffeeTile_title">Buy me a coffee</string>
     <string name="feature_aboutme_socialLinks_headerTile_title">Socials</string>

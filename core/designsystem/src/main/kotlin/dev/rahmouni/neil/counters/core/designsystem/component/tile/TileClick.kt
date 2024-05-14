@@ -26,6 +26,7 @@ import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -65,8 +66,8 @@ fun Rn3TileClick(
                 enabled = enabled,
             ) {
                 if (enabled) {
-                    onClick()
                     haptic.click()
+                    onClick()
                 }
             }
             .alpha(if (enabled) 1f else .5f),

@@ -31,10 +31,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
-import androidx.core.net.toUri
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
-import dev.rahmouni.neil.counters.core.common.openLink
+import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.common.openOssLicensesActivity
+import dev.rahmouni.neil.counters.core.common.toRn3Uri
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -43,6 +43,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
 import dev.rahmouni.neil.counters.core.designsystem.icons.Discord
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
@@ -73,16 +74,10 @@ internal fun SettingsRoute(
         onBackIconButtonClicked,
         onClickDataAndPrivacyTile,
         onClickAccessibilityTile,
-        isChangelogAvailable = config.getString("changelog_url") != "null",
-        onClickChangelogTile = {
-            context.openLink(config.getString("changelog_url").toUri())
-            analytics.logChangelogTileClicked()
-        },
-        isDiscordAvailable = config.getString("discord_invite_url") != "null",
-        onClickDiscordTile = {
-            context.openLink(config.getString("discord_invite_url").toUri())
-            analytics.logDiscordTileClicked()
-        },
+        changelogTileUri = config.getString("changelog_url")
+            .toRn3Uri(analytics::logChangelogTileClicked),
+        discordTileUri = config.getString("discord_invite_url")
+            .toRn3Uri(analytics::logDiscordTileClicked),
         onClickContributeTile,
         onClickAboutMeTile,
         onClickDeveloperSettings,
@@ -101,10 +96,8 @@ internal fun SettingsScreen(
     onBackIconButtonClicked: () -> Unit = {},
     onClickDataAndPrivacyTile: () -> Unit = {},
     onClickAccessibilityTile: () -> Unit = {},
-    isChangelogAvailable: Boolean = true,
-    onClickChangelogTile: () -> Unit = {},
-    isDiscordAvailable: Boolean = true,
-    onClickDiscordTile: () -> Unit = {},
+    changelogTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
+    discordTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
     onClickContributeTile: () -> Unit = {},
     onClickAboutMeTile: () -> Unit = {},
     onClickDeveloperSettingsTile: () -> Unit = {},
@@ -124,10 +117,8 @@ internal fun SettingsScreen(
             showDeveloperSettings = showDeveloperSettings,
             onClickDataAndPrivacyTile = onClickDataAndPrivacyTile,
             onClickAccessibilityTile = onClickAccessibilityTile,
-            isChangelogAvailable = isChangelogAvailable,
-            onClickChangelogTile = onClickChangelogTile,
-            isDiscordAvailable = isDiscordAvailable,
-            onClickDiscordTile = onClickDiscordTile,
+            changelogTileUri = changelogTileUri,
+            discordTileUri = discordTileUri,
             onClickContributeTile = onClickContributeTile,
             onClickAboutMeTile = onClickAboutMeTile,
             onClickDeveloperSettingsTile = onClickDeveloperSettingsTile,
@@ -142,10 +133,8 @@ private fun SettingsPanel(
     showDeveloperSettings: Boolean,
     onClickDataAndPrivacyTile: () -> Unit,
     onClickAccessibilityTile: () -> Unit,
-    isChangelogAvailable: Boolean,
-    onClickChangelogTile: () -> Unit,
-    isDiscordAvailable: Boolean,
-    onClickDiscordTile: () -> Unit,
+    changelogTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
+    discordTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
     onClickContributeTile: () -> Unit,
     onClickAboutMeTile: () -> Unit,
     onClickDeveloperSettingsTile: () -> Unit,
@@ -183,22 +172,20 @@ private fun SettingsPanel(
         }
 
         // changelogTile
-        if (isChangelogAvailable) item {
-            Rn3TileClick(
+        item {
+            Rn3TileUri(
                 title = stringResource(string.feature_settings_settingsScreen_changelogTile_title),
                 icon = Outlined.NewReleases,
-                onClick = onClickChangelogTile,
-                external = true,
+                uri = changelogTileUri,
             )
         }
 
         // discordTile
-        if (isDiscordAvailable) item {
-            Rn3TileClick(
+        item {
+            Rn3TileUri(
                 title = stringResource(string.feature_settings_settingsScreen_discordTile_title),
                 icon = Outlined.Discord,
-                onClick = onClickDiscordTile,
-                external = true,
+                uri = discordTileUri,
             )
         }
 

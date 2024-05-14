@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.AcUnit
@@ -33,6 +32,7 @@ import androidx.compose.material.icons.outlined.Blind
 import androidx.compose.material.icons.outlined.Bluetooth
 import androidx.compose.material.icons.outlined.Cake
 import androidx.compose.material.icons.outlined.EmojiEvents
+import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material3.FilterChip
@@ -44,6 +44,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
@@ -58,6 +59,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3InfiniteRestartAnimatedIcon
 import dev.rahmouni.neil.counters.core.designsystem.icons.customAnimatedIconsList
 import dev.rahmouni.neil.counters.core.designsystem.icons.customIconsList
@@ -246,16 +248,16 @@ fun Rn3Catalog() {
                 }
                 item { Rn3TileHorizontalDivider() }
                 item { Rn3TileSmallHeader(title = "Tile click chips") }
-                itemWithToast {
+                itemWithToast { toast ->
                     Rn3TileClickChips(
                         title = "Title",
                         icon = Outlined.EmojiEvents,
-                        onClick = {},
+                        onClick = toast,
                     ) {
                         items(listOf("1 €", "3 €", "5 €", "Custom")) {
                             FilterChip(
                                 selected = it == "3 €",
-                                onClick = {},
+                                onClick = toast,
                                 label = { Text(it) },
                                 colors = FilterChipDefaults.filterChipColors(
                                     selectedContainerColor = MaterialTheme.colorScheme.tertiary,
@@ -264,6 +266,34 @@ fun Rn3Catalog() {
                             )
                         }
                     }
+                }
+                item { Rn3TileSmallHeader(title = "Tile Uri") }
+                items(
+                    listOf(
+                        Rn3Uri.AndroidPreview,
+                        Rn3Uri.InMaintenance,
+                        Rn3Uri.Unavailable,
+                        Rn3Uri.SoonAvailable,
+                    ),
+                ) {
+                    Rn3TileUri(title = it.toString(), icon = Outlined.Link, uri = it)
+                }
+                item {
+                    Rn3TileUri(
+                        title = "AndroidPreview",
+                        icon = Outlined.Link,
+                        uri = Rn3Uri.AndroidPreview,
+                        supportingText = "With supporting text"
+                    )
+                }
+                item {
+                    Rn3TileUri(
+                        title = "InMaintenance",
+                        icon = Outlined.Link,
+                        uri = Rn3Uri.InMaintenance,
+                        supportingText = "With forced supporting text",
+                        forceSupportingText = true
+                    )
                 }
             }
         }

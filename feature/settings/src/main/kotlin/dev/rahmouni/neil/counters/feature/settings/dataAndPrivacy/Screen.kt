@@ -27,14 +27,14 @@ import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
-import dev.rahmouni.neil.counters.core.common.openLink
+import dev.rahmouni.neil.counters.core.common.Rn3Uri
+import dev.rahmouni.neil.counters.core.common.Rn3Uri.SoonAvailable
+import dev.rahmouni.neil.counters.core.common.toRn3Uri
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
@@ -45,6 +45,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.feedback.getFeedbackID
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState
@@ -62,25 +63,19 @@ internal fun DataAndPrivacySettingsRoute(
     onBackIconButtonClicked: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
     val analytics = LocalAnalyticsHelper.current
     val config = LocalConfigHelper.current
 
-    // TODO add crashlyticsInfo & metricsInfo
+    //TODO clear metrics
     DataAndPrivacySettingsScreen(
         modifier,
         uiState = uiState,
         onBackIconButtonClicked,
         onMetricsTileCheckedChange = viewModel::setMetricsEnabled,
         onClearMetricsTileClicked = analytics::clearMetrics,
-        onMetricsInfoTileClicked = {},
         onCrashlyticsTileCheckedChange = viewModel::setCrashlyticsEnabled,
-        onCrashlyticsInfoTileClicked = {},
-        isPrivacyPolicyAvailable = config.getString("privacy_policy_url") != "null",
-        onPrivacyPolicyTileClicked = {
-            context.openLink(config.getString("privacy_policy_url").toUri())
-            analytics.logAndroidAccessibilityTileClicked()
-        },
+        privacyPolicyTileUri = config.getString("privacy_policy_url")
+            .toRn3Uri(analytics::logAndroidAccessibilityTileClicked),
     )
 }
 
@@ -92,11 +87,8 @@ internal fun DataAndPrivacySettingsScreen(
     onBackIconButtonClicked: () -> Unit = {},
     onMetricsTileCheckedChange: (Boolean) -> Unit = {},
     onClearMetricsTileClicked: () -> Unit = {},
-    onMetricsInfoTileClicked: () -> Unit = {},
     onCrashlyticsTileCheckedChange: (Boolean) -> Unit = {},
-    onCrashlyticsInfoTileClicked: () -> Unit = {},
-    isPrivacyPolicyAvailable: Boolean = true,
-    onPrivacyPolicyTileClicked: () -> Unit = {},
+    privacyPolicyTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
 ) {
     Rn3Scaffold(
         modifier,
@@ -114,11 +106,8 @@ internal fun DataAndPrivacySettingsScreen(
                 data = uiState.dataAndPrivacySettingsData,
                 onMetricsTileCheckedChange,
                 onClearMetricsTileClicked,
-                onMetricsInfoTileClicked,
                 onCrashlyticsTileCheckedChange,
-                onCrashlyticsInfoTileClicked,
-                isPrivacyPolicyAvailable,
-                onPrivacyPolicyTileClicked,
+                privacyPolicyTileUri,
             )
         }
     }
@@ -130,11 +119,8 @@ private fun DataAndPrivacySettingsPanel(
     data: DataAndPrivacySettingsData,
     onMetricsTileCheckedChange: (Boolean) -> Unit,
     onClearMetricsTileClicked: () -> Unit,
-    onMetricsInfoTileClicked: () -> Unit,
     onCrashlyticsTileCheckedChange: (Boolean) -> Unit,
-    onCrashlyticsInfoTileClicked: () -> Unit,
-    isPrivacyPolicyAvailable: Boolean,
-    onPrivacyPolicyTileClicked: () -> Unit,
+    privacyPolicyTileUri: Rn3Uri,
 ) {
     Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
         // metricsHeaderTile
@@ -161,11 +147,11 @@ private fun DataAndPrivacySettingsPanel(
 
         // metricsInfoTile
         item {
-            Rn3TileClick(
+            Rn3TileUri(
                 title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title),
                 icon = Icons.Outlined.Info,
+                uri = SoonAvailable,
                 supportingText = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_supportingText),
-                onClick = onMetricsInfoTileClicked,
             )
         }
 
@@ -186,26 +172,23 @@ private fun DataAndPrivacySettingsPanel(
 
         // crashlyticsInfoTile
         item {
-            Rn3TileClick(
+            Rn3TileUri(
                 title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title),
                 icon = Icons.Outlined.Info,
+                uri = SoonAvailable,
                 supportingText = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_supportingText),
-                onClick = onCrashlyticsInfoTileClicked,
             )
         }
 
-        if (isPrivacyPolicyAvailable) {
-            item { Rn3TileHorizontalDivider() }
+        item { Rn3TileHorizontalDivider() }
 
-            // privacyPolicyTile
-            item {
-                Rn3TileClick(
-                    title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title),
-                    icon = Icons.Outlined.Policy,
-                    external = true,
-                    onClick = onPrivacyPolicyTileClicked,
-                )
-            }
+        // privacyPolicyTile
+        item {
+            Rn3TileUri(
+                title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title),
+                icon = Icons.Outlined.Policy,
+                uri = privacyPolicyTileUri,
+            )
         }
     }
 }

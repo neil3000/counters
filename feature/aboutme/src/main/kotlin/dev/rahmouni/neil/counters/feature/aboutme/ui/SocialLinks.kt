@@ -24,11 +24,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.common.openLink
+import dev.rahmouni.neil.counters.core.common.Rn3Uri.Available
+import dev.rahmouni.neil.counters.core.common.openUri
+import dev.rahmouni.neil.counters.core.common.prepareToOpenUri
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyRowWithPadding
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
@@ -53,13 +56,15 @@ fun SocialLinks(socialLinks: List<SocialLink>) {
                 horizontalPadding = 8.dp,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                items(socialLinks) {
+                items(socialLinks.filter { it.uri is Available }) {
                     Rn3IconButton(
                         icon = it.getIcon(),
                         contentDescription = it.tooltip,
                     ) {
                         //TODO analytics (it.id)
-                        context.openLink(it.uri)
+
+                        // Not preloaded on purpose so opened in apps that handle these links instead of being opened in browser
+                        context.openUri(it.uri, false)
                     }
                 }
             }

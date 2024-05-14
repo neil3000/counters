@@ -93,7 +93,7 @@ internal fun AboutMeRoute(
 
     AboutMeScreen(
         modifier,
-        uiState = uiState,
+        uiState,
         onBackIconButtonClicked,
     )
 }
@@ -171,7 +171,7 @@ private fun TwoPanePanel(
                     Column {
                         if (aboutMeData != null) {
                             Biography(aboutMeData.bioShort)
-                            MainActions(aboutMeData.portfolio)
+                            MainActions(aboutMeData.portfolioUri)
                             SocialLinks(aboutMeData.socialLinks)
                             Rn3SystemBarSpacer()
                         }
@@ -215,7 +215,7 @@ private fun ColumnPanel(aboutMeData: AboutMeData?, paddingValues: PaddingValues)
             Column(Modifier.padding(top = 24.dp)) {
                 if (aboutMeData != null) {
                     Biography(aboutMeData.bioShort)
-                    MainActions(aboutMeData.portfolio)
+                    MainActions(aboutMeData.portfolioUri)
                     SocialLinks(aboutMeData.socialLinks)
                     Rn3SystemBarSpacer()
                 }

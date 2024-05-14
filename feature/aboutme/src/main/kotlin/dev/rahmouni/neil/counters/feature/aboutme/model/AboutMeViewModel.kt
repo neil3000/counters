@@ -22,11 +22,10 @@ import com.google.firebase.Firebase
 import com.google.firebase.app
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.rahmouni.neil.counters.core.common.toRn3Uri
 import dev.rahmouni.neil.counters.feature.aboutme.R
 import dev.rahmouni.neil.counters.feature.aboutme.model.data.AboutMeData
-import dev.rahmouni.neil.counters.feature.aboutme.model.data.PortfolioState
 import dev.rahmouni.neil.counters.feature.aboutme.model.data.SocialLink
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
@@ -48,8 +47,8 @@ class AboutMeViewModel @Inject constructor() : ViewModel() {
                 AboutMeUiState.Success(
                     AboutMeData(
                         bioShort = config.getString("bio_short").replace("\\n", "\n"),
-                        portfolio = PortfolioState.getFromConfigString(config.getString("portfolio_url")),
-                        socialLinks = SocialLink.getListFromConfigString(config.getString("socialLinks"))
+                        portfolioUri = config.getString("portfolio_url").toRn3Uri {  },
+                        socialLinks = SocialLink.getListFromConfigString(config.getString("socialLinks")),
                     ),
                 ),
             )

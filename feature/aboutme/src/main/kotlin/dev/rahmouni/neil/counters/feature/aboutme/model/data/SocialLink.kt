@@ -1,11 +1,11 @@
 package dev.rahmouni.neil.counters.feature.aboutme.model.data
 
-import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.core.net.toUri
+import dev.rahmouni.neil.counters.core.common.Rn3Uri
+import dev.rahmouni.neil.counters.core.common.toRn3Uri
 import dev.rahmouni.neil.counters.core.designsystem.icons.Discord
 import dev.rahmouni.neil.counters.core.designsystem.icons.Gitlab
 import dev.rahmouni.neil.counters.core.designsystem.icons.Instagram
@@ -13,7 +13,7 @@ import dev.rahmouni.neil.counters.core.designsystem.icons.Linkedin
 import dev.rahmouni.neil.counters.core.designsystem.icons.Mastodon
 import org.json.JSONArray
 
-class SocialLink(val id: String, val uri: Uri, val tooltip: String) {
+class SocialLink(val id: String, val uri: Rn3Uri, val tooltip: String) {
 
     @Composable
     fun getIcon(): ImageVector {
@@ -34,7 +34,7 @@ class SocialLink(val id: String, val uri: Uri, val tooltip: String) {
             return (0 until jsonList.length()).map { jsonList.getJSONObject(it) }.map {
                 SocialLink(
                     id = it.getString("id"),
-                    uri = it.getString("url").toUri(),
+                    uri = it.getString("url").toRn3Uri { },
                     tooltip = it.getString("tooltip"),
                 )
             }

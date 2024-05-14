@@ -34,19 +34,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.common.openLink
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
+import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickChips
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.CoffeeAnimated
 import dev.rahmouni.neil.counters.feature.aboutme.R
-import dev.rahmouni.neil.counters.feature.aboutme.model.data.PortfolioState
-import dev.rahmouni.neil.counters.feature.aboutme.model.data.PortfolioState.Available
-import dev.rahmouni.neil.counters.feature.aboutme.model.data.PortfolioState.InMaintenance
-import dev.rahmouni.neil.counters.feature.aboutme.model.data.PortfolioState.SoonAvailable
 
 @Composable
-fun MainActions(portfolio: PortfolioState) {
+fun MainActions(portfolioUri: Rn3Uri) {
     val context = LocalContext.current
 
     fun soonToast() {
@@ -62,19 +58,12 @@ fun MainActions(portfolio: PortfolioState) {
     ) {
         Column {
             // portfolioTile
-            Rn3TileClick(
+            Rn3TileUri(
                 title = stringResource(R.string.feature_aboutme_mainActions_portfolioTile_title),
                 icon = Icons.Outlined.Language,
-                supportingText = when (portfolio) {
-                    is InMaintenance -> stringResource(R.string.feature_aboutme_mainActions_portfolioTile_supportingText_inMaintenance)
-                    is SoonAvailable -> stringResource(R.string.feature_aboutme_mainActions_portfolioTile_supportingText_soonAvailable)
-                    else -> stringResource(R.string.feature_aboutme_mainActions_portfolioTile_supportingText)
-                },
-                external = true,
-                enabled = portfolio is Available,
-            ) {
-                if (portfolio is Available) context.openLink(portfolio.uri)
-            }
+                uri = portfolioUri,
+                supportingText = stringResource(R.string.feature_aboutme_mainActions_portfolioTile_supportingText),
+            )
 
             Rn3TileHorizontalDivider(color = MaterialTheme.colorScheme.secondary)
 
@@ -82,7 +71,7 @@ fun MainActions(portfolio: PortfolioState) {
             Rn3TileClickChips(
                 title = stringResource(R.string.feature_aboutme_mainActions_buyMeCoffeeTile_title),
                 icon = Icons.Outlined.CoffeeAnimated,
-                onClick = ::soonToast
+                onClick = ::soonToast,
             ) {
                 items(listOf("1 €", "3 €", "5 €", "Custom")) {
                     FilterChip(

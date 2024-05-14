@@ -29,7 +29,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import com.github.takahirom.roborazzi.captureRoboImage
 import dagger.hilt.android.testing.HiltTestApplication
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LargeTopAppBar
+import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3LargeTopAppBar
 import dev.rahmouni.neil.counters.core.testing.util.DefaultRoborazziOptions
 import dev.rahmouni.neil.counters.core.testing.util.captureMultiTheme
 import org.junit.Rule
