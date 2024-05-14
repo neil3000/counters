@@ -31,13 +31,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
+import androidx.core.net.toUri
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.common.openLink
 import dev.rahmouni.neil.counters.core.common.openOssLicensesActivity
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.LazyColumnFullScreen
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
@@ -74,12 +75,12 @@ internal fun SettingsRoute(
         onClickAccessibilityTile,
         isChangelogAvailable = config.getString("changelog_url") != "null",
         onClickChangelogTile = {
-            context.openLink(config.getString("changelog_url"))
+            context.openLink(config.getString("changelog_url").toUri())
             analytics.logChangelogTileClicked()
         },
         isDiscordAvailable = config.getString("discord_invite_url") != "null",
         onClickDiscordTile = {
-            context.openLink(config.getString("discord_invite_url"))
+            context.openLink(config.getString("discord_invite_url").toUri())
             analytics.logDiscordTileClicked()
         },
         onClickContributeTile,
@@ -150,7 +151,7 @@ private fun SettingsPanel(
     onClickDeveloperSettingsTile: () -> Unit,
     onClickOssLicensesTile: () -> Unit,
 ) {
-    LazyColumnFullScreen(contentPadding = contentPadding) {
+    Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
         // generalHeaderTile
         item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_generalHeaderTile_title)) }
 

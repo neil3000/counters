@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentVariation
@@ -45,6 +46,7 @@ fun Rn3TileClick(
     icon: ImageVector,
     supportingText: String? = null,
     external: Boolean = false,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     val haptic = getHaptic()
@@ -55,15 +57,19 @@ fun Rn3TileClick(
     ListItem(
         headlineContent = { Text(text = title) },
         modifier = modifier
-            .hoverable(interactionSource = interactionSource)
-            .focusable(interactionSource = interactionSource)
+            .hoverable(interactionSource = interactionSource, enabled = enabled)
+            .focusable(interactionSource = interactionSource, enabled = enabled)
             .clickable(
                 interactionSource = interactionSource,
                 indication = indication,
+                enabled = enabled,
             ) {
-                onClick()
-                haptic.click()
-            },
+                if (enabled) {
+                    onClick()
+                    haptic.click()
+                }
+            }
+            .alpha(if (enabled) 1f else .5f),
         supportingContent = if (supportingText != null) {
             { Text(text = supportingText) }
         } else {
@@ -73,7 +79,13 @@ fun Rn3TileClick(
             Icon(imageVector = icon, contentDescription = null)
         },
         trailingContent = if (external) {
-            { Rn3TriggerReverseAnimatedIcon(icon = Outlined.OpenInNewAnimated, null, interactionSource = { interactionSource }) }
+            {
+                Rn3TriggerReverseAnimatedIcon(
+                    icon = Outlined.OpenInNewAnimated,
+                    null,
+                    interactionSource = { interactionSource },
+                )
+            }
         } else {
             null
         },

@@ -16,42 +16,31 @@
 
 package dev.rahmouni.neil.counters.feature.aboutme.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
+import dev.rahmouni.neil.counters.feature.aboutme.R
 
 @Composable
-fun Biography() {
-    // TODO remoteConfig values
-
+internal fun Biography(biography: String) {
     Surface(
         tonalElevation = 2.dp,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .padding(vertical = 8.dp)
+            .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
     ) {
-        Column(
-            Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            Text(
-                "About me",
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary,
-                fontSize = TextUnit(3.25f, TextUnitType.Em),
-            )
-            Text(
-                "Hi! I'm Neïl \uD83D\uDC4B\nI'm a 22 year old software engineering student, currently living in Paris \uD83E\uDD56",
-            )
+        Column {
+            Rn3TileSmallHeader(title = stringResource(R.string.feature_aboutme_biography_headerTile_title))
+            Text(biography, Modifier.padding(start = 16.dp, bottom = 8.dp))
         }
     }
 }

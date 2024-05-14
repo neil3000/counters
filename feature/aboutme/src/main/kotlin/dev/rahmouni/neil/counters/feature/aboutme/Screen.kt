@@ -16,48 +16,84 @@
 
 package dev.rahmouni.neil.counters.feature.aboutme
 
+import android.app.Activity
 import androidx.annotation.VisibleForTesting
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.window.core.layout.WindowWidthSizeClass.Companion.COMPACT
+import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
+import com.google.accompanist.adaptive.TwoPane
+import com.google.accompanist.adaptive.TwoPaneStrategy
+import com.google.accompanist.adaptive.VerticalTwoPaneStrategy
+import com.google.accompanist.adaptive.calculateDisplayFeatures
+import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
+import com.google.firebase.initialize
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SystemBarSpacer
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle
 import dev.rahmouni.neil.counters.core.feedback.getFeedbackID
+import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeUiState
+import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeUiState.Loading
+import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeUiState.Success
+import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeViewModel
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.AboutMeData
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.AboutMeDataPreviewParameterProvider
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.PreviewParameterData.aboutMeData_default
 import dev.rahmouni.neil.counters.feature.aboutme.ui.Biography
 import dev.rahmouni.neil.counters.feature.aboutme.ui.LoadingPfp
 import dev.rahmouni.neil.counters.feature.aboutme.ui.MainActions
 import dev.rahmouni.neil.counters.feature.aboutme.ui.SocialLinks
-import kotlinx.coroutines.delay
 
 @Composable
 internal fun AboutMeRoute(
     modifier: Modifier = Modifier,
+    viewModel: AboutMeViewModel = hiltViewModel(),
     onBackIconButtonClicked: () -> Unit,
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    if (!FirebaseApp.getApps(context).any { it.name == "RahNeil_N3" }) {
+        val options = FirebaseOptions.Builder()
+            .setProjectId("rahneil-n3")
+            .setApplicationId("1:818465066811:android:c519829569270bdba7b11e")
+            .setApiKey("AIzaSyCILHyvBfAdZ9bo7njs0hqY5dV2z5gxvnE")
+            .build()
+        Firebase.initialize(context, options, "RahNeil_N3")
+    }
+
     AboutMeScreen(
         modifier,
+        uiState = uiState,
         onBackIconButtonClicked,
     )
 }
@@ -66,6 +102,7 @@ internal fun AboutMeRoute(
 @Composable
 internal fun AboutMeScreen(
     modifier: Modifier = Modifier,
+    uiState: AboutMeUiState,
     onBackIconButtonClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
@@ -78,60 +115,109 @@ internal fun AboutMeScreen(
         ),
         topAppBarStyle = TopAppBarStyle.SMALL,
     ) {
-        AboutMePanel(it)
+
+        val aboutMeData = if (uiState is Success) uiState.aboutMeData else null
+
+        when {
+            currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass != COMPACT ->
+                TwoPanePanel(
+                    aboutMeData,
+                    it,
+                    HorizontalTwoPaneStrategy(.4f),
+                )
+
+            currentWindowAdaptiveInfo().windowPosture.isTabletop ->
+                TwoPanePanel(
+                    aboutMeData,
+                    it,
+                    VerticalTwoPaneStrategy(.4f),
+                )
+
+            else -> ColumnPanel(aboutMeData, it)
+        }
     }
 }
 
 @Composable
-private fun AboutMePanel(paddingValues: PaddingValues) {
-    var finishedLoading by remember { mutableStateOf(false) }
-    var finishedLoadingAnimation by remember { mutableStateOf(false) }
+private fun TwoPanePanel(
+    aboutMeData: AboutMeData?,
+    paddingValues: PaddingValues,
+    strategy: TwoPaneStrategy,
+) {
+    val context = LocalContext.current
 
-    // LOADING LOGIC
-    // delay for now
-    LaunchedEffect(Unit) {
-        delay(400)
-        finishedLoading = true
-    }
+    var finishedLoadingAnimation by remember { mutableStateOf(aboutMeData != null) }
 
-    LazyColumnFullScreen(
-        contentPadding = PaddingValues(0.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        item {
-            AnimatedVisibility(visible = finishedLoadingAnimation) {
-                Column {
-                    Spacer(Modifier.padding(paddingValues))
-
-                    Text(
-                        text = "Neïl Rahmouni",
-                        Modifier.padding(vertical = 24.dp),
-                        color = MaterialTheme.colorScheme.primary,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = TextUnit(5f, TextUnitType.Em),
-                    )
+    TwoPane(
+        first = {
+            LoadingPfp(
+                Modifier
+                    .fillMaxHeight()
+                    .padding(bottom = paddingValues.calculateTopPadding()),
+                aboutMeData != null,
+                finishedLoadingAnimation,
+            ) { finishedLoadingAnimation = true }
+        },
+        second = {
+            Column(
+                Modifier
+                    .padding(horizontal = 16.dp)
+                    .verticalScroll(rememberScrollState()),
+            ) {
+                AnimatedVisibility(
+                    visible = finishedLoadingAnimation,
+                    enter = fadeIn() + expandVertically(),
+                ) {
+                    Column {
+                        if (aboutMeData != null) {
+                            Biography(aboutMeData.bioShort)
+                            MainActions(aboutMeData.portfolio)
+                            SocialLinks(aboutMeData.socialLinks)
+                            Rn3SystemBarSpacer()
+                        }
+                    }
                 }
             }
+        },
+        strategy = strategy,
+        displayFeatures = calculateDisplayFeatures(activity = context as Activity),
+        modifier = Modifier.padding(paddingValues),
+    )
+}
+
+@Composable
+private fun ColumnPanel(aboutMeData: AboutMeData?, paddingValues: PaddingValues) {
+
+    var finishedLoadingAnimation by remember { mutableStateOf(aboutMeData != null) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .padding(horizontal = 24.dp)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Center,
+    ) {
+        LoadingPfp(
+            finishedLoading = aboutMeData != null,
+            finishedLoadingAnimation = finishedLoadingAnimation,
+        ) { finishedLoadingAnimation = true }
+
+
+        AnimatedVisibility(visible = !finishedLoadingAnimation) {
+            Spacer(modifier = Modifier.height(paddingValues.calculateTopPadding()))
         }
 
-        item {
-            LoadingPfp({ finishedLoading }, finishedLoadingAnimation) {
-                finishedLoadingAnimation = true
-            }
-        }
-
-        item {
-            AnimatedVisibility(visible = finishedLoadingAnimation) {
-                Column(
-                    Modifier
-                        .fillMaxSize()
-                        .padding(24.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                ) {
-                    Biography()
-                    MainActions()
-                    SocialLinks()
+        AnimatedVisibility(
+            visible = finishedLoadingAnimation,
+            enter = fadeIn() + expandVertically(),
+        ) {
+            Column(Modifier.padding(top = 24.dp)) {
+                if (aboutMeData != null) {
+                    Biography(aboutMeData.bioShort)
+                    MainActions(aboutMeData.portfolio)
+                    SocialLinks(aboutMeData.socialLinks)
+                    Rn3SystemBarSpacer()
                 }
             }
         }
@@ -142,6 +228,25 @@ private fun AboutMePanel(paddingValues: PaddingValues) {
 @Composable
 private fun Default() {
     Rn3Theme {
-        AboutMeScreen()
+        AboutMeScreen(uiState = Success(aboutMeData_default))
+    }
+}
+
+@Rn3PreviewUiStates
+@Composable
+private fun Loading() {
+    Rn3Theme {
+        AboutMeScreen(uiState = Loading)
+    }
+}
+
+@Rn3PreviewUiStates
+@Composable
+private fun UiStates(
+    @PreviewParameter(AboutMeDataPreviewParameterProvider::class)
+    aboutMeData: AboutMeData,
+) {
+    Rn3Theme {
+        AboutMeScreen(uiState = Success(aboutMeData))
     }
 }

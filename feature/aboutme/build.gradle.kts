@@ -36,6 +36,12 @@ dependencies {
     implementation(libs.androidx.graphics.shapes.android)
     implementation(libs.androidx.animation.graphics.android)
     implementation(libs.coil.kt.compose)
+    implementation(libs.androidx.compose.material3.adaptive)
+    implementation(libs.accompanist.adaptive)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.common.ktx)
+    implementation(libs.firebase.config)
 
     implementation(projects.core.data)
     implementation(projects.core.feedback)

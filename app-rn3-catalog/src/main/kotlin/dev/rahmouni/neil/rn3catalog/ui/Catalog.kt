@@ -35,24 +35,21 @@ import androidx.compose.material.icons.outlined.Cake
 import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.ToggleOn
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LargeTopAppBar
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyRowWithPadding
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Switch
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SwitchAccessibilityEmphasizedThumbContent
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
@@ -70,17 +67,11 @@ import dev.rahmouni.neil.rn3catalog.itemWithToast
 private const val CONTENT_DESCRIPTION = "Content description"
 
 @SuppressLint("VisibleForTests")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Rn3Catalog() {
     Rn3Theme {
-        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-
-        Scaffold(
-            topBar = { Rn3LargeTopAppBar(title = "Rn3 Catalog", scrollBehavior = scrollBehavior) },
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        ) { paddingValues ->
-            LazyColumn(
+        Rn3Scaffold(title = "Rn3 Catalog") { paddingValues ->
+            Rn3LazyColumnFullScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = paddingValues,
             ) {

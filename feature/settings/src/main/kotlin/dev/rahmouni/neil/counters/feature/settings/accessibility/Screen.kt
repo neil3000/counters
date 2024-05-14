@@ -18,7 +18,6 @@ package dev.rahmouni.neil.counters.feature.settings.accessibility
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.SettingsAccessibility
 import androidx.compose.material.icons.outlined.ToggleOn
@@ -38,7 +37,7 @@ import dev.rahmouni.neil.counters.core.common.openAndroidAccessibilitySettingsAc
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.LazyColumnFullScreen
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
@@ -50,6 +49,7 @@ import dev.rahmouni.neil.counters.feature.settings.accessibility.model.Accessibi
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.AccessibilitySettingsViewModel
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.AccessibilitySettingsData
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.AccessibilitySettingsDataPreviewParameterProvider
+import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.PreviewParameterData.accessibilitySettingsData_default
 import dev.rahmouni.neil.counters.feature.settings.logAndroidAccessibilityTileClicked
 
 @Composable
@@ -115,7 +115,7 @@ private fun AccessibilitySettingsPanel(
     setIconTooltips: (Boolean) -> Unit,
     onClickAndroidAccessibilityTile: () -> Unit,
 ) {
-    LazyColumnFullScreen(contentPadding = contentPadding) {
+    Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
 
         // emphasizedSwitchesTile
         item {
@@ -157,12 +157,7 @@ private fun AccessibilitySettingsPanel(
 private fun Default() {
     Rn3Theme {
         AccessibilitySettingsScreen(
-            uiState = AccessibilitySettingsUiState.Success(
-                accessibilitySettingsData = AccessibilitySettingsData(
-                    hasEmphasizedSwitchesEnabled = false,
-                    hasIconTooltipsEnabled = true,
-                ),
-            ),
+            uiState = AccessibilitySettingsUiState.Success(accessibilitySettingsData_default)
         )
     }
 }

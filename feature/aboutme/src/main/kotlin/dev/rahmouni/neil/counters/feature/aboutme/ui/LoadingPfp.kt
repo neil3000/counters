@@ -28,20 +28,31 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
+import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.shapes.MorphableShape
@@ -51,7 +62,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoadingPfp(
-    finishedLoading: () -> Boolean,
+    modifier: Modifier = Modifier,
+    finishedLoading: Boolean,
     finishedLoadingAnimation: Boolean,
     onFinishLoadingAnimation: () -> Unit,
 ) {
@@ -62,8 +74,13 @@ fun LoadingPfp(
 
     val animatedRotation = remember { Animatable(0f) }
 
+    var hasFinishedLoading by remember { mutableStateOf(finishedLoading) }
+    LaunchedEffect(finishedLoading) {
+        hasFinishedLoading = finishedLoading
+    }
+
     LaunchedEffect(Unit) {
-        while (!finishedLoading()) {
+        while (!hasFinishedLoading) {
             repeat(loadingShapeParameters.size) {
                 haptic.smallTick()
                 morphProgress.animateTo(
@@ -77,7 +94,7 @@ fun LoadingPfp(
                 morphCursor = (morphCursor + 1) % loadingShapeParameters.size
                 morphProgress.animateTo(0f, snap())
 
-                if (finishedLoading() && morphCursor > 2) {
+                if (hasFinishedLoading && morphCursor > 2) {
                     launch {
                         animatedRotation.animateTo(
                             targetValue = 360f,
@@ -94,33 +111,50 @@ fun LoadingPfp(
         onFinishLoadingAnimation()
     }
 
-    Box(
-        Modifier
-            .fillMaxWidth(.4f)
-            .aspectRatio(1f)
-            .clip(
-                MorphableShape(
-                    loadingShapeParameters[morphCursor]
-                        .genShape(animatedRotation.value)
-                        .normalized(),
-                    loadingShapeParameters[(morphCursor + 1) % loadingShapeParameters.size]
-                        .genShape(animatedRotation.value)
-                        .normalized(),
-                    morphProgress.value,
-                ),
-            )
-            .background(MaterialTheme.colorScheme.primary),
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
     ) {
-        AnimatedVisibility(
-            visible = finishedLoading() && morphCursor > 1 || finishedLoadingAnimation,
-            enter = fadeIn(animationSpec = tween(700)),
-        ) {
-            Image(
-                painter = rememberAsyncImagePainter("https://lh3.googleusercontent.com/pw/AP1GczN5SMNjm_3K-WhJLL_0GCpgEn_XiB61-oVfsR1iObwuFtUGejnhK1FtOpGCb_weyj7AamPJKhOt1dcV6pRx6lM-z3ktd2BFdBZ7AOsMd3Tv4YrEGejWko7BZ_zpWwBnOC8VEIK9dk9AeuOJkmfvEQZlkA=w637-h637-s-no-gm?authuser=0"),
-                contentDescription = "Neïl Rahmouni",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
+        AnimatedVisibility(visible = finishedLoadingAnimation) {
+            Text(
+                text = "Neïl Rahmouni",
+                Modifier.padding(vertical = 24.dp),
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Medium,
+                fontSize = TextUnit(5f, TextUnitType.Em),
             )
+        }
+
+        Box(
+            Modifier
+                .widthIn(max = 200.dp)
+                .fillMaxWidth()
+                .aspectRatio(1f)
+                .clip(
+                    MorphableShape(
+                        loadingShapeParameters[morphCursor]
+                            .genShape(animatedRotation.value)
+                            .normalized(),
+                        loadingShapeParameters[(morphCursor + 1) % loadingShapeParameters.size]
+                            .genShape(animatedRotation.value)
+                            .normalized(),
+                        morphProgress.value,
+                    ),
+                )
+                .background(MaterialTheme.colorScheme.primary),
+        ) {
+            this@Column.AnimatedVisibility(
+                visible = hasFinishedLoading && morphCursor > 1 || finishedLoadingAnimation,
+                enter = fadeIn(animationSpec = tween(700)),
+            ) {
+                Image(
+                    painter = rememberAsyncImagePainter("https://lh3.googleusercontent.com/pw/AP1GczN5SMNjm_3K-WhJLL_0GCpgEn_XiB61-oVfsR1iObwuFtUGejnhK1FtOpGCb_weyj7AamPJKhOt1dcV6pRx6lM-z3ktd2BFdBZ7AOsMd3Tv4YrEGejWko7BZ_zpWwBnOC8VEIK9dk9AeuOJkmfvEQZlkA=w637-h637-s-no-gm?authuser=0"),
+                    contentDescription = "Neïl Rahmouni",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
         }
     }
 }

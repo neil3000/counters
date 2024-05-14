@@ -38,11 +38,11 @@ fun Context.openAndroidAccessibilitySettingsActivity() {
     ContextCompat.startActivity(this, intent, null)
 }
 
-fun Context.openLink(url: String) {
+fun Context.openLink(uri: Uri) {
     val intent = CustomTabsIntent.Builder()
     intent.setUrlBarHidingEnabled(true)
     intent.setShowTitle(false)
-    intent.build().launchUrl(this, Uri.parse(url))
+    intent.build().launchUrl(this, uri)
 }
 
 /**

@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun LazyColumnFullScreen(
+fun Rn3LazyColumnFullScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
@@ -25,6 +25,6 @@ fun LazyColumnFullScreen(
     ) {
         content()
 
-        systemBarSpacer()
+        item { Rn3SystemBarSpacer() }
     }
 }

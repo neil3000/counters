@@ -20,46 +20,46 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Link
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.common.openLink
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyRowWithPadding
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
+import dev.rahmouni.neil.counters.feature.aboutme.R
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.SocialLink
 
 @Composable
-fun SocialLinks() {
+fun SocialLinks(socialLinks: List<SocialLink>) {
+    val context = LocalContext.current
+
     Surface(
         tonalElevation = 2.dp,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .padding(vertical = 8.dp)
+            .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
     ) {
         Column {
-            Text(
-                "Socials",
-                modifier = Modifier.padding(start = 16.dp, top = 16.dp),
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary,
-                fontSize = TextUnit(3.25f, TextUnitType.Em),
-            )
+            Rn3TileSmallHeader(title = stringResource(R.string.feature_aboutme_socialLinks_headerTile_title))
             Rn3LazyRowWithPadding(
-                Modifier.padding(vertical = 4.dp),
+                Modifier.padding(bottom = 4.dp),
                 horizontalPadding = 8.dp,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                repeat(8) {
-                    item {
-                        Rn3IconButton(
-                            icon = Icons.Outlined.Link,
-                            contentDescription = "",
-                        ) {}
+                items(socialLinks) {
+                    Rn3IconButton(
+                        icon = it.getIcon(),
+                        contentDescription = it.tooltip,
+                    ) {
+                        //TODO analytics (it.id)
+                        context.openLink(it.uri)
                     }
                 }
             }

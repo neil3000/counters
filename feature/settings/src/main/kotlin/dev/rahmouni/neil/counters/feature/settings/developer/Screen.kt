@@ -30,7 +30,7 @@ import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.LazyColumnFullScreen
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
@@ -69,7 +69,7 @@ private fun DeveloperSettingsPanel(
     val config = LocalConfigHelper.current
     val analytics = LocalAnalyticsHelper.current
 
-    LazyColumnFullScreen(contentPadding = contentPadding) {
+    Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
         item {
             Rn3TileClick(
                 title = "Build config",

@@ -26,7 +26,7 @@ import dev.rahmouni.neil.counters.core.designsystem.R
 
 val customIconsList
     @Composable
-    get() = listOf(Outlined.Tooltip, Outlined.Rn3, Outlined.Contract, Outlined.Discord)
+    get() = listOf(Outlined.Tooltip, Outlined.Rn3, Outlined.Contract, Outlined.Discord, Outlined.Instagram, Outlined.Mastodon, Outlined.Linkedin, Outlined.Gitlab)
 
 val Outlined.Tooltip
     @Composable
@@ -43,6 +43,22 @@ val Outlined.Contract
 val Outlined.Discord
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_discord)
+
+val Outlined.Instagram
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_instagram)
+
+val Outlined.Mastodon
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_mastodon)
+
+val Outlined.Linkedin
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_linkedin)
+
+val Outlined.Gitlab
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_gitlab)
 
 // Animated icons
 

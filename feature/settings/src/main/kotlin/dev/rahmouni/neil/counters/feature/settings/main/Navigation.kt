@@ -37,7 +37,7 @@ fun NavGraphBuilder.settingsScreen(navController: NavController, navigateToAbout
             onClickDataAndPrivacyTile = navController::navigateToDataAndPrivacySettings,
             onClickAccessibilityTile = navController::navigateToAccessibilitySettings,
             onClickContributeTile = {},
-            onClickAboutMeTile = {},
+            onClickAboutMeTile = navigateToAboutMe,
             onClickDeveloperSettings = navController::navigateToDeveloperSettings,
         )
     }

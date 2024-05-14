@@ -30,8 +30,8 @@ plugins {
 android {
     defaultConfig {
         applicationId = "rahmouni.neil.counters"
-        versionCode = 730026
-        versionName = "2.0.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
+        versionCode = 730027
+        versionName = "2.0.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         // Custom test runner to set up Hilt dependency graph
         testInstrumentationRunner = "dev.rahmouni.neil.counters.core.testing.Rn3TestRunner"
@@ -63,6 +63,7 @@ android {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
         }
     }
+    @Suppress("UnstableApiUsage") //TODO remove when stable
     testOptions {
         unitTests {
             isIncludeAndroidResources = true

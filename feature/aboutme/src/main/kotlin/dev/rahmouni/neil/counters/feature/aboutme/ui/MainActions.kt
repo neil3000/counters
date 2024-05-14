@@ -18,6 +18,7 @@ package dev.rahmouni.neil.counters.feature.aboutme.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -29,31 +30,52 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.common.openLink
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickChips
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.icons.CoffeeAnimated
+import dev.rahmouni.neil.counters.feature.aboutme.R
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.PortfolioState
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.PortfolioState.Available
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.PortfolioState.InMaintenance
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.PortfolioState.SoonAvailable
 
 @Composable
-fun MainActions() {
-    // TODO all the logic...
+fun MainActions(portfolio: PortfolioState) {
+    val context = LocalContext.current
 
     Surface(
         tonalElevation = 2.dp,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .padding(vertical = 8.dp)
+            .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
     ) {
         Column {
+            // portfolioTile
             Rn3TileClick(
-                title = "Portfolio",
+                title = stringResource(R.string.feature_aboutme_mainActions_portfolioTile_title),
                 icon = Icons.Outlined.Language,
-                supportingText = "Check out my other work \uD83D\uDC22❤\uFE0F",
+                supportingText = when (portfolio) {
+                    is InMaintenance -> stringResource(R.string.feature_aboutme_mainActions_portfolioTile_supportingText_inMaintenance)
+                    is SoonAvailable -> stringResource(R.string.feature_aboutme_mainActions_portfolioTile_supportingText_soonAvailable)
+                    else -> stringResource(R.string.feature_aboutme_mainActions_portfolioTile_supportingText)
+                },
                 external = true,
-            ) {}
+                enabled = portfolio is Available,
+            ) {
+                if (portfolio is Available) context.openLink(portfolio.uri)
+            }
+
             Rn3TileHorizontalDivider(color = MaterialTheme.colorScheme.secondary)
+
+            // buyMeCoffeeTile //TODO logic
             Rn3TileClickChips(
-                title = "Buy me a coffee",
+                title = stringResource(R.string.feature_aboutme_mainActions_buyMeCoffeeTile_title),
                 icon = Icons.Outlined.CoffeeAnimated,
                 onClick = {},
             ) {

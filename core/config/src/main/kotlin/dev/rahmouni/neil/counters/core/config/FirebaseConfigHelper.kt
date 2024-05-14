@@ -55,7 +55,7 @@ internal class FirebaseConfigHelper @Inject constructor(
     }
 
     override fun getString(key: String): String {
-        return firebaseConfig.getString(key)
+        return firebaseConfig.getString(key).replace("\\n", "\n")
     }
 
     override fun forEachEntry(action: ((key: String, value: String, source: String) -> Unit)) {

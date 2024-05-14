@@ -18,7 +18,6 @@ package dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.BugReport
@@ -31,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
@@ -39,9 +39,8 @@ import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.LazyColumnFullScreen
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
-import dev.rahmouni.neil.counters.core.designsystem.component.systemBarSpacer
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
@@ -79,7 +78,7 @@ internal fun DataAndPrivacySettingsRoute(
         onCrashlyticsInfoTileClicked = {},
         isPrivacyPolicyAvailable = config.getString("privacy_policy_url") != "null",
         onPrivacyPolicyTileClicked = {
-            context.openLink(config.getString("privacy_policy_url"))
+            context.openLink(config.getString("privacy_policy_url").toUri())
             analytics.logAndroidAccessibilityTileClicked()
         },
     )
@@ -137,7 +136,7 @@ private fun DataAndPrivacySettingsPanel(
     isPrivacyPolicyAvailable: Boolean,
     onPrivacyPolicyTileClicked: () -> Unit,
 ) {
-    LazyColumnFullScreen(contentPadding = contentPadding) {
+    Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
         // metricsHeaderTile
         item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsHeaderTile_title)) }
 
