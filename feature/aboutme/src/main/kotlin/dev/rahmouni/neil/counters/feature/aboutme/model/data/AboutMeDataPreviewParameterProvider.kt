@@ -18,6 +18,8 @@ package dev.rahmouni.neil.counters.feature.aboutme.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
+import dev.rahmouni.neil.counters.core.common.Rn3Uri.*
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.PfpData.*
 import dev.rahmouni.neil.counters.feature.aboutme.model.data.PreviewParameterData.aboutMeData_default
 import dev.rahmouni.neil.counters.feature.aboutme.model.data.PreviewParameterData.aboutMeData_mutations
 
@@ -32,19 +34,20 @@ class AboutMeDataPreviewParameterProvider : PreviewParameterProvider<AboutMeData
 
 object PreviewParameterData {
     val aboutMeData_default = AboutMeData(
+        pfp = LocalImage,
         bioShort = "Hi! I'm Neïl \uD83D\uDC4B\nI'm a 22 year old software engineering student, currently living in Paris \uD83E\uDD56",
-        portfolioUri = Rn3Uri.AndroidPreview,
+        portfolioUri = AndroidPreview,
         socialLinks = SocialLink.getListFromConfigString("[{\"id\":\"instagram\",\"url\":\"https://www.instagram.com/neil_rahmouni\",\"tooltip\":\"Instagram\"},{\"id\":\"mastodon\",\"url\":\"https://mastodon.social/@neil_rahmouni@androiddev.social\",\"tooltip\":\"Mastodon\"},{\"id\":\"discord\",\"url\":\"https://discord.gg/4Y7EdE9kRY\",\"tooltip\":\"Discord Server\"},{\"id\":\"linkedin\",\"url\":\"https://www.linkedin.com/in/neil-rahmouni\",\"tooltip\":\"Linkedin\"},{\"id\":\"gitlab\",\"url\":\"https://gitlab.com/neil3000\",\"tooltip\":\"Gitlab\"}]"),
     )
     val aboutMeData_mutations = sequenceOf(
         aboutMeData_default.copy(
-            portfolioUri = Rn3Uri.InMaintenance,
+            portfolioUri = InMaintenance,
         ),
         aboutMeData_default.copy(
-            portfolioUri = Rn3Uri.Unavailable,
+            portfolioUri = Unavailable,
         ),
         aboutMeData_default.copy(
-            portfolioUri = Rn3Uri.SoonAvailable,
+            portfolioUri = SoonAvailable,
         ),
     )
 }

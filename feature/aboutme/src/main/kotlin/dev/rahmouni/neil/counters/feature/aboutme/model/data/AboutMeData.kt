@@ -21,6 +21,7 @@ import androidx.core.net.toUri
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
 
 data class AboutMeData(
+    val pfp: PfpData,
     val bioShort: String,
     val portfolioUri: Rn3Uri,
     val socialLinks: List<SocialLink>

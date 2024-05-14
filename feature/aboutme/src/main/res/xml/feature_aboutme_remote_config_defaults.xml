@@ -16,6 +16,10 @@
 -->
 <defaultsMap>
     <entry>
+        <key>pfp_img</key>
+        <value>LOCAL_IMAGE</value>
+    </entry>
+    <entry>
         <key>bio_short</key>
         <value>Hi! I'm Neïl 👋\nI'm a 22 year old software engineering student, currently living in Paris 🥖</value>
     </entry>

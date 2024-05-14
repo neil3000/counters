@@ -49,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
@@ -57,13 +58,17 @@ import coil.compose.rememberAsyncImagePainter
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.shapes.MorphableShape
 import dev.rahmouni.neil.counters.core.shapes.loadingShapeParameters
+import dev.rahmouni.neil.counters.feature.aboutme.R
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.PfpData
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.PfpData.LocalImage
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.PfpData.RemoteImage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun LoadingPfp(
     modifier: Modifier = Modifier,
-    finishedLoading: Boolean,
+    pfp: PfpData?,
     finishedLoadingAnimation: Boolean,
     onFinishLoadingAnimation: () -> Unit,
 ) {
@@ -74,9 +79,9 @@ fun LoadingPfp(
 
     val animatedRotation = remember { Animatable(0f) }
 
-    var hasFinishedLoading by remember { mutableStateOf(finishedLoading) }
-    LaunchedEffect(finishedLoading) {
-        hasFinishedLoading = finishedLoading
+    var hasFinishedLoading by remember { mutableStateOf(pfp != null) }
+    LaunchedEffect(pfp) {
+        hasFinishedLoading = pfp != null
     }
 
     LaunchedEffect(Unit) {
@@ -148,12 +153,17 @@ fun LoadingPfp(
                 visible = hasFinishedLoading && morphCursor > 1 || finishedLoadingAnimation,
                 enter = fadeIn(animationSpec = tween(700)),
             ) {
-                Image(
-                    painter = rememberAsyncImagePainter("https://lh3.googleusercontent.com/pw/AP1GczN5SMNjm_3K-WhJLL_0GCpgEn_XiB61-oVfsR1iObwuFtUGejnhK1FtOpGCb_weyj7AamPJKhOt1dcV6pRx6lM-z3ktd2BFdBZ7AOsMd3Tv4YrEGejWko7BZ_zpWwBnOC8VEIK9dk9AeuOJkmfvEQZlkA=w637-h637-s-no-gm?authuser=0"),
-                    contentDescription = "Neïl Rahmouni",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize(),
-                )
+                if (pfp != null) {
+                    Image(
+                        painter = when (pfp) {
+                            is LocalImage -> painterResource(id = R.drawable.feature_aboutme_pfp)
+                            is RemoteImage -> rememberAsyncImagePainter(pfp.url)
+                        },
+                        contentDescription = "Neïl Rahmouni",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
             }
         }
     }

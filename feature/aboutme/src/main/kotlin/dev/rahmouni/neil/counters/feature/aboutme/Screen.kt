@@ -154,7 +154,7 @@ private fun TwoPanePanel(
                 Modifier
                     .fillMaxHeight()
                     .padding(bottom = paddingValues.calculateTopPadding()),
-                aboutMeData != null,
+                aboutMeData?.pfp,
                 finishedLoadingAnimation,
             ) { finishedLoadingAnimation = true }
         },
@@ -199,7 +199,7 @@ private fun ColumnPanel(aboutMeData: AboutMeData?, paddingValues: PaddingValues)
         verticalArrangement = Arrangement.Center,
     ) {
         LoadingPfp(
-            finishedLoading = aboutMeData != null,
+            pfp = aboutMeData?.pfp,
             finishedLoadingAnimation = finishedLoadingAnimation,
         ) { finishedLoadingAnimation = true }
 
