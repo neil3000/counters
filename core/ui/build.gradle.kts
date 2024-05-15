@@ -28,11 +28,9 @@ android {
 
 dependencies {
     api(libs.androidx.metrics)
-    api(projects.core.analytics)
-    api(projects.core.designsystem)
-    api(projects.core.model)
 
-    implementation(libs.androidx.browser)
+    api(projects.core.analytics)
+
     implementation(libs.coil.kt)
     implementation(libs.coil.kt.compose)
 
