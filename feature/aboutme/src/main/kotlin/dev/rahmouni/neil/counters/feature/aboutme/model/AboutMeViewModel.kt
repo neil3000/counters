@@ -21,7 +21,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.app
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.get
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.common.toRn3Uri
 import dev.rahmouni.neil.counters.feature.aboutme.R
@@ -50,7 +49,7 @@ class AboutMeViewModel @Inject constructor() : ViewModel() {
                     AboutMeData(
                         pfp = config.getString("pfp_img").toPfpData(),
                         bioShort = config.getString("bio_short").replace("\\n", "\n"),
-                        portfolioUri = config.getString("portfolio_url").toRn3Uri {  },
+                        portfolioUri = config.getString("portfolio_url").toRn3Uri { },
                         socialLinks = SocialLink.getListFromConfigString(config.getString("socialLinks")),
                     ),
                 ),
