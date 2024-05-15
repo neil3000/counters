@@ -15,6 +15,7 @@
  */
 plugins {
     alias(libs.plugins.rn3.android.library)
+    alias(libs.plugins.rn3.android.library.compose)
     alias(libs.plugins.rn3.android.hilt)
 }
 
@@ -23,8 +24,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.designsystem)
-
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.config)
 }

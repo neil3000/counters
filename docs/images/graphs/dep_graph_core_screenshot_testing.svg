@@ -40,7 +40,7 @@
 <polygon fill="red" stroke="red" stroke-width="2" points="223.28,-117.04 228.45,-107.79 218.64,-111.8 223.28,-117.04"/>
 </g>
 <!-- :core:designsystem&#45;&gt;:core:common -->
-<g id="edge5" class="edge">
+<g id="edge4" class="edge">
 <title>:core:designsystem&#45;&gt;:core:common</title>
 <path fill="none" stroke="black" d="M208.79,-73.29C182.83,-62.73 148.49,-48.75 121.16,-37.62"/>
 <polygon fill="black" stroke="black" points="122.39,-34.35 111.81,-33.82 119.75,-40.83 122.39,-34.35"/>
@@ -64,7 +64,7 @@
 <text text-anchor="middle" x="452.39" y="-14.3" font-family="Times,serif" font-size="14.00">:core:feedback</text>
 </g>
 <!-- :core:designsystem&#45;&gt;:core:feedback -->
-<g id="edge4" class="edge">
+<g id="edge5" class="edge">
 <title>:core:designsystem&#45;&gt;:core:feedback</title>
 <path fill="none" stroke="black" d="M291.88,-73.81C323.92,-62.87 367.25,-48.07 400.81,-36.61"/>
 <polygon fill="black" stroke="black" points="402.11,-39.87 410.45,-33.32 399.85,-33.24 402.11,-39.87"/>

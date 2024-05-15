@@ -28,7 +28,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.browser)
     lintPublish(projects.lint)
 
     api(libs.androidx.compose.foundation)
@@ -42,9 +41,10 @@ dependencies {
     implementation(libs.coil.kt.compose)
     implementation(libs.androidx.compose.material3.adaptive)
     implementation(libs.androidx.animation.graphics.android)
+    implementation(libs.androidx.browser)
 
-    implementation(projects.core.feedback)
     implementation(projects.core.common)
+    implementation(projects.core.feedback)
 
     testImplementation(libs.androidx.compose.ui.test)
     testImplementation(libs.hilt.android.testing)
