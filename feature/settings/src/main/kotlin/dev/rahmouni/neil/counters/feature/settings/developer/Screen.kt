@@ -38,6 +38,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizo
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
+import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.EmptyFeedbackContext
 import dev.rahmouni.neil.counters.feature.settings.BuildConfig
 
 @Composable
@@ -57,7 +58,7 @@ internal fun DeveloperSettingsScreen(
     modifier: Modifier = Modifier,
     onBackIconButtonClicked: () -> Unit = {},
 ) {
-    Rn3Scaffold(modifier, "Developer settings", onBackIconButtonClicked) {
+    Rn3Scaffold(modifier, "Developer settings", onBackIconButtonClicked, EmptyFeedbackContext) {
         DeveloperSettingsPanel(it)
     }
 }

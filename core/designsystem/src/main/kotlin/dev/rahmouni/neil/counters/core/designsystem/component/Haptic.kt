@@ -25,7 +25,6 @@ import androidx.compose.ui.hapticfeedback.HapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
-import dev.rahmouni.neil.counters.core.feedback.getNonComposableFeedbackID
 
 @Composable
 fun getHaptic(): Haptic {
@@ -66,7 +65,7 @@ class Haptic {
     }
 
     fun longPress() {
-        if (view == null || haptic == null) throw hapticClassNonInitializedException("vRzFlAB4R2BL1DgQVtDWBUjK2hxPwL79")
+        if (view == null || haptic == null) throw hapticClassNonInitializedException("cU87d2YU9jf5P2oDTNrLFlPfMHAfW7Be")
 
         view?.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
     }
@@ -96,12 +95,6 @@ class Haptic {
     }
 
     private fun hapticClassNonInitializedException(localID: String): Exception {
-        return Exception(
-            getNonComposableFeedbackID(
-                localName = "Haptic",
-                localID = localID,
-                "Haptic function not initialized",
-            ),
-        )
+        return Exception("Haptic function not initialized | $localID")
     }
 }

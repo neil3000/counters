@@ -16,4 +16,5 @@
 -->
 <resources>
     <string name="core_feedback_feedbackID">FN2Y2pNSdzxvIQOpzxRoHzSagXjXXimZ</string>
+    <string name="core_feedback_feedbackScreen_topAppBar_title">Send Feedback</string>
 </resources>

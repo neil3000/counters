@@ -43,9 +43,11 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.icons.Tooltip
-import dev.rahmouni.neil.counters.core.feedback.getFeedbackID
+import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.FeedbackContext
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.AccessibilitySettingsUiState
+import dev.rahmouni.neil.counters.feature.settings.accessibility.model.AccessibilitySettingsUiState.Loading
+import dev.rahmouni.neil.counters.feature.settings.accessibility.model.AccessibilitySettingsUiState.Success
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.AccessibilitySettingsViewModel
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.AccessibilitySettingsData
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.AccessibilitySettingsDataPreviewParameterProvider
@@ -89,14 +91,11 @@ internal fun AccessibilitySettingsScreen(
         modifier,
         stringResource(string.feature_settings_accessibilitySettingsScreen_topAppBar_title),
         onBackIconButtonClicked,
-        getFeedbackID(
-            localName = "AccessibilitySettingsScreen",
-            localID = "KLlwmK9HscvcmW00fYfONf6scddqsugd",
-        ),
+        FeedbackContext("AccessibilitySettingsScreen", "KLlwmK9HscvcmW00fYfONf6scddqsugd"),
     ) {
         when (uiState) {
-            AccessibilitySettingsUiState.Loading -> {}
-            is AccessibilitySettingsUiState.Success -> AccessibilitySettingsPanel(
+            Loading -> {}
+            is Success -> AccessibilitySettingsPanel(
                 it,
                 uiState.accessibilitySettingsData,
                 setEmphasizedSwitches,
@@ -157,7 +156,7 @@ private fun AccessibilitySettingsPanel(
 private fun Default() {
     Rn3Theme {
         AccessibilitySettingsScreen(
-            uiState = AccessibilitySettingsUiState.Success(accessibilitySettingsData_default)
+            uiState = Success(accessibilitySettingsData_default),
         )
     }
 }
@@ -173,7 +172,7 @@ private fun UiStates(
     ) {
         Rn3Theme {
             AccessibilitySettingsScreen(
-                uiState = AccessibilitySettingsUiState.Success(accessibilitySettingsData = accessibilitySettingsData),
+                uiState = Success(accessibilitySettingsData = accessibilitySettingsData),
             )
         }
     }

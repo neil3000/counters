@@ -60,7 +60,8 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SystemBarSpacer
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle
-import dev.rahmouni.neil.counters.core.feedback.getFeedbackID
+import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper
+import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.*
 import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeUiState
 import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeUiState.Loading
 import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeUiState.Success
@@ -109,10 +110,7 @@ internal fun AboutMeScreen(
         modifier,
         stringResource(R.string.feature_aboutme_aboutMeScreen_scaffold_title),
         onBackIconButtonClicked,
-        getFeedbackID(
-            localName = "AboutMeScreen",
-            localID = "NJFWHop0rQkfFOUcSJlcepwG0f7XN8dd",
-        ),
+        FeedbackContext("AboutMeScreen", "NJFWHop0rQkfFOUcSJlcepwG0f7XN8dd"),
         topAppBarStyle = TopAppBarStyle.SMALL,
     ) {
 

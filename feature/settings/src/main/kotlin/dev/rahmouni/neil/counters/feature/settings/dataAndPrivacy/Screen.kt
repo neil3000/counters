@@ -46,7 +46,8 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizo
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
-import dev.rahmouni.neil.counters.core.feedback.getFeedbackID
+import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper
+import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.*
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState.Loading
@@ -94,10 +95,7 @@ internal fun DataAndPrivacySettingsScreen(
         modifier,
         stringResource(string.feature_settings_dataAndPrivacySettingsScreen_topAppBar_title),
         onBackIconButtonClicked,
-        getFeedbackID(
-            localName = "DataAndPrivacySettingsScreen",
-            localID = "Cql6OgxiWaapWpb38eGNGRZbmFuR8JuQ",
-        ),
+        FeedbackContext("DataAndPrivacySettingsScreen", "Cql6OgxiWaapWpb38eGNGRZbmFuR8JuQ"),
     ) {
         when (uiState) {
             Loading -> {}

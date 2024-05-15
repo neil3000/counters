@@ -24,6 +24,7 @@ android {
         consumerProguardFiles("consumer-proguard-rules.pro")
     }
     namespace = "dev.rahmouni.neil.counters.core.datastore"
+    @Suppress("UnstableApiUsage") //TODO remove when stable
     testOptions {
         unitTests {
             isReturnDefaultValues = true

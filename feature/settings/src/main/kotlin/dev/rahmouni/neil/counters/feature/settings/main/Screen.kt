@@ -47,7 +47,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
 import dev.rahmouni.neil.counters.core.designsystem.icons.Discord
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
-import dev.rahmouni.neil.counters.core.feedback.getFeedbackID
+import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.FeedbackContext
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.logChangelogTileClicked
 import dev.rahmouni.neil.counters.feature.settings.logDiscordTileClicked
@@ -107,10 +107,7 @@ internal fun SettingsScreen(
         modifier,
         stringResource(string.feature_settings_settingsScreen_topAppBar_title),
         onBackIconButtonClicked,
-        getFeedbackID(
-            localName = "SettingsScreen",
-            localID = "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d",
-        ),
+        FeedbackContext("SettingsScreen", "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d"),
     ) {
         SettingsPanel(
             it,

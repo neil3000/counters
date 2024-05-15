@@ -16,7 +16,6 @@
 
 package dev.rahmouni.neil.counters.core.designsystem.component.topAppBar
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.AutoMirrored.Outlined
@@ -29,7 +28,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import dev.rahmouni.neil.counters.core.designsystem.R
@@ -37,6 +35,8 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentVariation
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
+import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.FeedbackContext
+import dev.rahmouni.neil.counters.core.feedback.LocalFeedbackHelper
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,10 +45,10 @@ fun Rn3SmallTopAppBar(
     title: String,
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     scrollBehavior: TopAppBarScrollBehavior,
-    feedbackPageID: String? = null,
     onBackIconButtonClicked: (() -> Unit)? = null,
+    onFeedbackIconButtonClicked: () -> Unit,
 ) {
-    val localContext = LocalContext.current
+    val feedbackHelper = LocalFeedbackHelper.current
 
     TopAppBar(
         title = {
@@ -69,13 +69,12 @@ fun Rn3SmallTopAppBar(
             }
         },
         actions = {
-            if (feedbackPageID != null) {
+            if (feedbackHelper is FeedbackContext) {
                 Rn3IconButton(
                     icon = Icons.Outlined.Feedback,
                     contentDescription = stringResource(R.string.core_designsystem_largeTopAppBar_actions_iconButton_feedback_contentDescription),
-                ) {
-                    Toast.makeText(localContext, feedbackPageID, Toast.LENGTH_SHORT).show()
-                }
+                    onClick = onFeedbackIconButtonClicked,
+                )
             }
         },
         windowInsets = windowInsets,
@@ -91,7 +90,7 @@ private fun Default() {
         Rn3SmallTopAppBar(
             title = "Preview default",
             scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
-        )
+        ) {}
     }
 }
 
@@ -110,25 +109,23 @@ private fun BackArrow() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Rn3PreviewComponentVariation
 @Composable
-private fun Feedback() {
+private fun Feedback() { //TODO
     Rn3Theme {
         Rn3SmallTopAppBar(
             title = "Preview feedback",
             scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
-            feedbackPageID = "ID",
-        )
+        ) {}
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Rn3PreviewComponentVariation
 @Composable
-private fun BackArrowFeedback() {
+private fun BackArrowFeedback() { //TODO
     Rn3Theme {
         Rn3SmallTopAppBar(
             title = "Preview back+feedback",
             scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
-            feedbackPageID = "ID",
         ) {}
     }
 }
