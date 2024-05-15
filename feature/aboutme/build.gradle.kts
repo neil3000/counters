@@ -44,7 +44,6 @@ dependencies {
     implementation(libs.firebase.config)
 
     implementation(projects.core.common)
-    implementation(projects.core.feedback)
     implementation(projects.core.config)
     implementation(projects.core.shapes)
 
