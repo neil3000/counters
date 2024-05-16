@@ -43,4 +43,8 @@
         <key>discord_invite_url</key>
         <value>https://counters.rahmouni.dev/discord1</value>
     </entry>
+    <entry>
+        <key>privacy_policy_short</key>
+        <value>The application stores all data locally, ensuring no personal information is collected.\nRequires Internet access for crash reports and minimal usage statistics.</value>
+    </entry>
 </defaultsMap>

@@ -34,6 +34,8 @@
     <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsTile_title">Crash reports</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title">Learn more</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_supportingText">How it works and its purpose</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicyHeaderTile_title">Privacy policy</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title">Summary</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title">Privacy policy</string>
     <string name="feature_settings_settingsScreen_iconTooltipsTile_title">Icon tooltips</string>
     <string name="feature_settings_settingsScreen_iconTooltipsTile_supportingText">Enable informative popups when you long press icon buttons</string>

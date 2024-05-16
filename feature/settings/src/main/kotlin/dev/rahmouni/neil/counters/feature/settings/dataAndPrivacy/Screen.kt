@@ -17,18 +17,24 @@
 package dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy
 
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Policy
 import androidx.compose.material.icons.outlined.RestartAlt
+import androidx.compose.material3.Card
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
@@ -46,7 +52,6 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizo
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
-import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper
 import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.*
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState
@@ -120,6 +125,8 @@ private fun DataAndPrivacySettingsPanel(
     onCrashlyticsTileCheckedChange: (Boolean) -> Unit,
     privacyPolicyTileUri: Rn3Uri,
 ) {
+    val config = LocalConfigHelper.current
+
     Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
         // metricsHeaderTile
         item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsHeaderTile_title)) }
@@ -179,6 +186,23 @@ private fun DataAndPrivacySettingsPanel(
         }
 
         item { Rn3TileHorizontalDivider() }
+
+        // privacyPolicyHeaderTile
+        item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicyHeaderTile_title)) }
+
+        // privacyPolicySummaryTile
+        item {
+            Card(
+                modifier = Modifier
+                    .padding(vertical = 8.dp, horizontal = 16.dp)
+                    .fillMaxWidth(),
+            ) {
+                Column {
+                    Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title))
+                    Text(config.getString("privacy_policy_short"), Modifier.padding(start = 16.dp, bottom = 8.dp))
+                }
+            }
+        }
 
         // privacyPolicyTile
         item {
