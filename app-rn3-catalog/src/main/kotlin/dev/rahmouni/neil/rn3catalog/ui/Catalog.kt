@@ -63,6 +63,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3InfiniteRestartAnimatedIcon
 import dev.rahmouni.neil.counters.core.designsystem.icons.customAnimatedIconsList
 import dev.rahmouni.neil.counters.core.designsystem.icons.customIconsList
+import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.EmptyFeedbackContext
 import dev.rahmouni.neil.rn3catalog.itemWithBoolean
 import dev.rahmouni.neil.rn3catalog.itemWithToast
 
@@ -72,7 +73,7 @@ private const val CONTENT_DESCRIPTION = "Content description"
 @Composable
 fun Rn3Catalog() {
     Rn3Theme {
-        Rn3Scaffold(title = "Rn3 Catalog") { paddingValues ->
+        Rn3Scaffold(title = "Rn3 Catalog", feedbackHelper = EmptyFeedbackContext) { paddingValues ->
             Rn3LazyColumnFullScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = paddingValues,
@@ -283,7 +284,7 @@ fun Rn3Catalog() {
                         title = "AndroidPreview",
                         icon = Outlined.Link,
                         uri = Rn3Uri.AndroidPreview,
-                        supportingText = "With supporting text"
+                        supportingText = "With supporting text",
                     )
                 }
                 item {
@@ -292,7 +293,7 @@ fun Rn3Catalog() {
                         icon = Outlined.Link,
                         uri = Rn3Uri.InMaintenance,
                         supportingText = "With forced supporting text",
-                        forceSupportingText = true
+                        forceSupportingText = true,
                     )
                 }
             }

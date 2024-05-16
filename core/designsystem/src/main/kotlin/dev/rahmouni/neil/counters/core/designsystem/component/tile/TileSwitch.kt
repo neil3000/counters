@@ -28,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
@@ -43,6 +44,7 @@ fun Rn3TileSwitch(
     icon: ImageVector,
     supportingText: String? = null,
     checked: Boolean,
+    enabled: Boolean = true,
     onCheckedChange: (Boolean) -> Unit,
 ) {
     val haptic = getHaptic()
@@ -51,15 +53,20 @@ fun Rn3TileSwitch(
 
     ListItem(
         headlineContent = { Text(text = title) },
-        modifier = modifier.toggleable(
-            value = checked,
-            interactionSource = interactionSource,
-            indication = indication,
-            role = Role.Switch,
-        ) {
-            onCheckedChange(it)
-            haptic.toggle(it)
-        },
+        modifier = modifier
+            .toggleable(
+                value = checked,
+                interactionSource = interactionSource,
+                indication = indication,
+                role = Role.Switch,
+                enabled = enabled,
+            ) {
+                if (enabled) {
+                    onCheckedChange(it)
+                    haptic.toggle(it)
+                }
+            }
+            .alpha(if (enabled) 1f else .5f),
         supportingContent = if (supportingText != null) {
             { Text(text = supportingText) }
         } else {
@@ -74,6 +81,7 @@ fun Rn3TileSwitch(
                 contentDescription = null,
                 interactionSource = interactionSource,
                 onCheckedChange = null,
+                enabled = enabled,
             )
         },
     )
