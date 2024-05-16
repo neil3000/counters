@@ -18,9 +18,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.window.core.layout.WindowHeightSizeClass.Companion.COMPACT
+import dev.rahmouni.neil.counters.core.designsystem.component.feedback.FeedbackBottomSheet
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3LargeTopAppBar
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
-import dev.rahmouni.neil.counters.core.feedback.FeedbackBottomSheet
 import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper
 import dev.rahmouni.neil.counters.core.feedback.LocalFeedbackHelper
 

@@ -26,11 +26,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.feature.aboutme.R
 
 @Composable
 internal fun Biography(biography: String) {
+
+    val config = LocalConfigHelper.current
+
+    config.getString("privacy_policy_short")
+
     Surface(
         tonalElevation = 2.dp,
         modifier = Modifier

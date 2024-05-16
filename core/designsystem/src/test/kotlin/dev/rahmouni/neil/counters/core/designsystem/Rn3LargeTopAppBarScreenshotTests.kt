@@ -84,7 +84,6 @@ class Rn3LargeTopAppBarScreenshotTests {
         Rn3LargeTopAppBar(
             title = "Example title",
             scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
-            feedbackPageID = "ID",
         ) {}
     }
 }
