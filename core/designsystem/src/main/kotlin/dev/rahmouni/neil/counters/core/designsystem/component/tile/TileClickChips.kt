@@ -19,7 +19,6 @@ package dev.rahmouni.neil.counters.core.designsystem.component.tile
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -102,10 +101,11 @@ private fun Rn3TileClickChipsImpl(
             onClick()
             haptic.click()
         },
+        Arrangement.spacedBy((-8).dp)
     ) {
         ListItem(
             headlineContent = { Text(text = title) },
-            modifier = modifier.height(40.dp),
+            modifier = modifier,
             leadingContent = icon,
             trailingContent = if (external) {
                 {
