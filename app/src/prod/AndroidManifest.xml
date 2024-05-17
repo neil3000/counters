@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright 2024 Rahmouni Neïl
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +15,12 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <application>
         <!-- Enable Firebase analytics for `prod` builds -->
         <meta-data
-            tools:replace="android:value"
             android:name="firebase_analytics_collection_deactivated"
-            android:value="false" />
+            android:value="false"
+            tools:replace="android:value" />
     </application>
 </manifest>

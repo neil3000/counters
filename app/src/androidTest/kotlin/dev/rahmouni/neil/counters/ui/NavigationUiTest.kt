@@ -16,18 +16,12 @@
 
 package dev.rahmouni.neil.counters.ui
 
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.test.DeviceConfigurationOverride
-import androidx.compose.ui.test.ForcedSize
-import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -35,9 +29,7 @@ import dev.rahmouni.neil.counters.core.rules.GrantPostNotificationsPermissionRul
 import dev.rahmouni.neil.counters.uitesthiltmanifest.HiltComponentActivity
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import javax.inject.Inject
 
 /**
  * Tests that the navigation UI is rendered correctly on different screen sizes.
@@ -79,6 +71,6 @@ class NavigationUiTest {
 
     @Composable
     private fun fakeAppState(maxWidth: Dp, maxHeight: Dp) = rememberCountersAppState(
-        windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight))
+        windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
     )
 }

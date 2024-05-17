@@ -49,7 +49,7 @@ fun Rn3Scaffold(
                 title,
                 scrollBehavior = scrollBehavior,
                 onBackIconButtonClicked = onBackIconButtonClicked,
-                onFeedbackIconButtonClicked = showFeedbackModal
+                onFeedbackIconButtonClicked = showFeedbackModal,
             )
         }
 
@@ -65,7 +65,7 @@ fun Rn3Scaffold(
                 title,
                 scrollBehavior = scrollBehavior,
                 onBackIconButtonClicked = onBackIconButtonClicked,
-                onFeedbackIconButtonClicked = showFeedbackModal
+                onFeedbackIconButtonClicked = showFeedbackModal,
             )
         }
     }

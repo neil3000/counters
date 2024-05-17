@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright 2024 Rahmouni Neïl
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,11 +28,9 @@
     <string name="feature_settings_dataAndPrivacySettingsScreen_metricsTile_title">Metrics</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_clearMetricsTile_title">Clear app metrics</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title">Learn more</string>
-    <string name="feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_supportingText">About the ones we use and their goal</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsHeaderTile_title">Crash reports</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsTile_title">Crash reports</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title">Learn more</string>
-    <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_supportingText">How it works and its purpose</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicyHeaderTile_title">Privacy policy</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title">Summary</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title">Privacy policy</string>

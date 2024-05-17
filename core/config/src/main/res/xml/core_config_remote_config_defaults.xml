@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright 2024 Rahmouni Neïl
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,7 +43,17 @@
         <value>https://counters.rahmouni.dev/discord1</value>
     </entry>
     <entry>
+        <key>metrics_info_short</key>
+        <value>About the ones we use and their goal</value>
+    </entry>
+    <entry>
+        <key>crashlytics_info_short</key>
+        <value>How it works and its purpose</value>
+    </entry>
+    <entry>
         <key>privacy_policy_short</key>
-        <value>The application stores all data locally, ensuring no personal information is collected.\nRequires Internet access for crash reports and minimal usage statistics.</value>
+        <value>• The application stores all data locally, ensuring no personal information is
+            collected.\n• Requires Internet access for crash reports and minimal usage statistics.
+        </value>
     </entry>
 </defaultsMap>

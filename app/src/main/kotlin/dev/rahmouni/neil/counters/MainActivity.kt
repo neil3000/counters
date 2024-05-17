@@ -93,7 +93,9 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        FirebaseAnalytics.getInstance(this).appInstanceId.addOnSuccessListener { analyticsHelper.appInstallationID = it ?: "RahNeil_N3:Error" }
+        FirebaseAnalytics.getInstance(this).appInstanceId.addOnSuccessListener {
+            analyticsHelper.appInstallationID = it ?: "RahNeil_N3:Error"
+        }
         configHelper.init(this)
 
         setContent {

@@ -35,8 +35,7 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentVariation
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
-import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper
-import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.*
+import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.FeedbackContext
 import dev.rahmouni.neil.counters.core.feedback.LocalFeedbackHelper
 
 @Composable
@@ -47,7 +46,7 @@ fun Rn3LargeTopAppBar(
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     scrollBehavior: TopAppBarScrollBehavior,
     onBackIconButtonClicked: (() -> Unit)? = null,
-    onFeedbackIconButtonClicked: () -> Unit
+    onFeedbackIconButtonClicked: () -> Unit,
 ) {
     val feedbackHelper = LocalFeedbackHelper.current
 

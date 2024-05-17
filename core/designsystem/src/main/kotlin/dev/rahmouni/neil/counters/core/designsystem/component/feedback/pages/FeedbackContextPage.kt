@@ -53,7 +53,7 @@ internal fun FeedbackContextPage(
                 icon = Icons.Outlined.Screenshot,
                 checked = onCurrentPageValue && sendScreenshotValue,
                 enabled = onCurrentPageValue,
-                supportingText = "Only if the issue is a visual one"
+                supportingText = "Only if the issue is a visual one",
             ) {
                 sendScreenshotValue = it
             }

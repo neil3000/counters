@@ -26,7 +26,16 @@ import dev.rahmouni.neil.counters.core.designsystem.R
 
 val customIconsList
     @Composable
-    get() = listOf(Outlined.Tooltip, Outlined.Rn3, Outlined.Contract, Outlined.Discord, Outlined.Instagram, Outlined.Mastodon, Outlined.Linkedin, Outlined.Gitlab)
+    get() = listOf(
+        Outlined.Tooltip,
+        Outlined.Rn3,
+        Outlined.Contract,
+        Outlined.Discord,
+        Outlined.Instagram,
+        Outlined.Mastodon,
+        Outlined.Linkedin,
+        Outlined.Gitlab,
+    )
 
 val Outlined.Tooltip
     @Composable

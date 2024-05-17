@@ -16,13 +16,11 @@
 
 package dev.rahmouni.neil.counters.feature.aboutme.model.data
 
-import android.net.Uri
-import androidx.core.net.toUri
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
 
 data class AboutMeData(
     val pfp: PfpData,
     val bioShort: String,
     val portfolioUri: Rn3Uri,
-    val socialLinks: List<SocialLink>
+    val socialLinks: List<SocialLink>,
 )
