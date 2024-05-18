@@ -19,8 +19,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.designsystem.component.feedback.FeedbackMessages
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
+import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
 
 @Composable
 internal fun FeedbackContextPage(
@@ -53,7 +53,7 @@ internal fun FeedbackContextPage(
                 icon = Icons.Outlined.Screenshot,
                 checked = onCurrentPageValue && sendScreenshotValue,
                 enabled = onCurrentPageValue,
-                supportingText = "Only if the issue is a visual one"
+                supportingText = "Only if the issue is a visual one",
             ) {
                 sendScreenshotValue = it
             }

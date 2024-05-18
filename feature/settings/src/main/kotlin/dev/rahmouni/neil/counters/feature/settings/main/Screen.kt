@@ -39,7 +39,6 @@ import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
@@ -47,7 +46,8 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
 import dev.rahmouni.neil.counters.core.designsystem.icons.Discord
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
-import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.FeedbackContext
+import dev.rahmouni.neil.counters.core.ui.FeedbackContext.FeedbackScreenContext
+import dev.rahmouni.neil.counters.core.ui.Rn3Scaffold
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.logChangelogTileClicked
 import dev.rahmouni.neil.counters.feature.settings.logDiscordTileClicked
@@ -107,7 +107,7 @@ internal fun SettingsScreen(
         modifier,
         stringResource(string.feature_settings_settingsScreen_topAppBar_title),
         onBackIconButtonClicked,
-        FeedbackContext("SettingsScreen", "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d"),
+        FeedbackScreenContext("SettingsScreen", "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d"),
     ) {
         SettingsPanel(
             it,

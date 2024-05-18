@@ -102,6 +102,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.guava)
     implementation(libs.coil.kt)
     implementation(libs.google.oss.licenses)
+    implementation(libs.androidx.metrics)
 
     ksp(libs.hilt.compiler)
 
@@ -113,8 +114,8 @@ dependencies {
     testImplementation(projects.core.dataTest)
     testImplementation(projects.core.testing)
     testImplementation(libs.androidx.compose.ui.test)
+    testImplementation(libs.androidx.work.testing)
     testImplementation(libs.hilt.android.testing)
-    testImplementation(libs.work.testing)
 
     testDemoImplementation(libs.robolectric)
     testDemoImplementation(libs.roborazzi)

@@ -17,11 +17,24 @@
 package dev.rahmouni.neil.rn3catalog.ui
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Arrangement.spacedBy
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.AcUnit
 import androidx.compose.material.icons.outlined.AccessibilityNew
@@ -32,17 +45,26 @@ import androidx.compose.material.icons.outlined.Blind
 import androidx.compose.material.icons.outlined.Bluetooth
 import androidx.compose.material.icons.outlined.Cake
 import androidx.compose.material.icons.outlined.EmojiEvents
+import androidx.compose.material.icons.outlined.ExpandMore
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Link
+import androidx.compose.material.icons.outlined.Policy
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
@@ -78,6 +100,46 @@ fun Rn3Catalog() {
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = paddingValues,
             ) {
+                item {
+                    var expanded by rememberSaveable { mutableStateOf(false) }
+                    val degreeAnimation by animateFloatAsState(
+                        targetValue = if (expanded) 180f else 0f,
+                        label = "chevron animation",
+                    )
+
+                    Surface(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                            .toggleable(
+                                expanded,
+                                onValueChange = {
+                                    //TODO haptics
+                                    expanded = it
+                                },
+                            ),
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = RoundedCornerShape(16.dp),
+                    ) {
+                        Column {
+                            Row(Modifier.padding(16.dp), horizontalArrangement = spacedBy(16.dp)) {
+                                Icon(Outlined.Info, null)
+                                Text("Learn more")
+                                Spacer(modifier = Modifier.weight(1f))
+                                Icon(Outlined.ExpandMore, null, Modifier.rotate(degreeAnimation))
+                            }
+                            AnimatedVisibility(
+                                visible = expanded,
+                                enter = fadeIn() + expandVertically(),
+                                exit = fadeOut() + shrinkVertically(),
+                            ) {
+                                Column {
+                                    Text(text = "Lorem ipsum blag blag blah MEZKNGvmzls,gMRKSWFNbwmdfl,bwDLFnhbl!kwd:f;bwdfb", Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+                                }
+                            }
+                        }
+                    }
+                }
                 item { Rn3TileSmallHeader(title = "Switches") }
                 item {
                     Rn3LazyRowWithPadding(horizontalPadding = 4.dp) {
@@ -120,7 +182,7 @@ fun Rn3Catalog() {
                 item {
                     Rn3LazyRowWithPadding(
                         horizontalPadding = 4.dp,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalArrangement = spacedBy(8.dp),
                     ) {
                         itemWithToast {
                             Rn3IconButton(
@@ -223,7 +285,7 @@ fun Rn3Catalog() {
 
                     Rn3LazyRowWithPadding(
                         Modifier.padding(vertical = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(24.dp),
+                        horizontalArrangement = spacedBy(24.dp),
                     ) {
                         items(icons) {
                             Icon(it, CONTENT_DESCRIPTION)
@@ -237,7 +299,7 @@ fun Rn3Catalog() {
 
                     Rn3LazyRowWithPadding(
                         Modifier.padding(vertical = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(24.dp),
+                        horizontalArrangement = spacedBy(24.dp),
                     ) {
                         items(icons) {
                             Rn3InfiniteRestartAnimatedIcon(

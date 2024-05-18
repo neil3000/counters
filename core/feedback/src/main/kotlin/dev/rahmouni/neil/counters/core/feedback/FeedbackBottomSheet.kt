@@ -1,4 +1,4 @@
-package dev.rahmouni.neil.counters.core.designsystem.component.feedback
+package dev.rahmouni.neil.counters.core.feedback
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
@@ -42,7 +42,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun FeedbackBottomSheet(showBottomSheet: Boolean, closeFeedbackModal: (Boolean) -> Unit) {
+fun FeedbackBottomSheet(
+    contextID: String,
+    showBottomSheet: Boolean,
+    closeFeedbackModal: (Boolean) -> Unit,
+) {
 
     val sheetState =
         rememberModalBottomSheetState(confirmValueChange = { false }, skipPartiallyExpanded = true)
@@ -81,7 +85,7 @@ fun FeedbackBottomSheet(showBottomSheet: Boolean, closeFeedbackModal: (Boolean) 
                 }
 
                 Box {
-                    SheetContent()
+                    SheetContent(contextID)
                 }
             }
         }
@@ -89,7 +93,7 @@ fun FeedbackBottomSheet(showBottomSheet: Boolean, closeFeedbackModal: (Boolean) 
 }
 
 @Composable
-private fun SheetContent() {
+private fun SheetContent(contextID: String) {
     var page by rememberSaveable { mutableStateOf("TYPE") }
 
     var type by rememberSaveable { mutableStateOf("BUG") }

@@ -36,12 +36,11 @@ dependencies {
     api(libs.androidx.compose.material3)
     api(libs.androidx.compose.runtime)
     api(libs.androidx.compose.ui.util)
+    api(libs.androidx.compose.material3.adaptive)
 
     api(projects.core.accessibility)
-    api(projects.core.feedback)
 
     implementation(libs.coil.kt.compose)
-    implementation(libs.androidx.compose.material3.adaptive)
     implementation(libs.androidx.animation.graphics.android)
     implementation(libs.androidx.browser)
 

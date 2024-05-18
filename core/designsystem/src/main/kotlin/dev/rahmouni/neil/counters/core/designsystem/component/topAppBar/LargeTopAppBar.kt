@@ -35,9 +35,6 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentVariation
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
-import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper
-import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.*
-import dev.rahmouni.neil.counters.core.feedback.LocalFeedbackHelper
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,10 +44,8 @@ fun Rn3LargeTopAppBar(
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     scrollBehavior: TopAppBarScrollBehavior,
     onBackIconButtonClicked: (() -> Unit)? = null,
-    onFeedbackIconButtonClicked: () -> Unit
+    onFeedbackIconButtonClicked: (() -> Unit)?
 ) {
-    val feedbackHelper = LocalFeedbackHelper.current
-
     LargeTopAppBar(
         title = {
             Text(
@@ -70,7 +65,7 @@ fun Rn3LargeTopAppBar(
             }
         },
         actions = {
-            if (feedbackHelper is FeedbackContext) {
+            if (onFeedbackIconButtonClicked != null) {
                 Rn3IconButton(
                     icon = Icons.Outlined.Feedback,
                     contentDescription = stringResource(R.string.core_designsystem_largeTopAppBar_actions_iconButton_feedback_contentDescription),

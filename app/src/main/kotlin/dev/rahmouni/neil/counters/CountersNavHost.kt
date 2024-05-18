@@ -17,6 +17,12 @@
 package dev.rahmouni.neil.counters
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,7 +36,7 @@ import dev.rahmouni.neil.counters.feature.settings.main.SETTINGS_ROUTE
 import dev.rahmouni.neil.counters.feature.settings.main.settingsScreen
 import dev.rahmouni.neil.counters.ui.CountersAppState
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "DesignSystem")
 @Composable
 fun CountersNavHost(
     appState: CountersAppState,

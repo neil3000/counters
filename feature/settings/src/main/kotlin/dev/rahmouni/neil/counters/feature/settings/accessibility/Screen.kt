@@ -38,12 +38,13 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.icons.Tooltip
-import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.FeedbackContext
+import dev.rahmouni.neil.counters.core.ui.FeedbackContext
+import dev.rahmouni.neil.counters.core.ui.FeedbackContext.*
+import dev.rahmouni.neil.counters.core.ui.Rn3Scaffold
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.AccessibilitySettingsUiState
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.AccessibilitySettingsUiState.Loading
@@ -91,7 +92,7 @@ internal fun AccessibilitySettingsScreen(
         modifier,
         stringResource(string.feature_settings_accessibilitySettingsScreen_topAppBar_title),
         onBackIconButtonClicked,
-        FeedbackContext("AccessibilitySettingsScreen", "KLlwmK9HscvcmW00fYfONf6scddqsugd"),
+        FeedbackScreenContext("AccessibilitySettingsScreen", "KLlwmK9HscvcmW00fYfONf6scddqsugd"),
     ) {
         when (uiState) {
             Loading -> {}

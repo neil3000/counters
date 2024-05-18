@@ -17,7 +17,6 @@ plugins {
     alias(libs.plugins.rn3.android.library)
     alias(libs.plugins.rn3.android.library.compose)
     alias(libs.plugins.rn3.android.library.jacoco)
-    alias(libs.plugins.rn3.android.hilt)
 }
 
 android {
@@ -25,4 +24,5 @@ android {
 }
 
 dependencies {
+    api(projects.core.designsystem)
 }

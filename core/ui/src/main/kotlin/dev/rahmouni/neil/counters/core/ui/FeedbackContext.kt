@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package dev.rahmouni.neil.counters.core.feedback
+package dev.rahmouni.neil.counters.core.ui
 
-import androidx.compose.runtime.staticCompositionLocalOf
-import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.EmptyFeedbackContext
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 
-/**
- * Global key used to obtain access to the FeedbackHelper through a CompositionLocal.
- */
-val LocalFeedbackHelper = staticCompositionLocalOf<FeedbackHelper> {
-    EmptyFeedbackContext
+sealed interface FeedbackContext {
+    data object FeedbackEmptyContext : FeedbackContext
+    data class FeedbackScreenContext(internal val localName: String, internal val localID: String) :
+        FeedbackContext
+
+    @Composable
+    fun FeedbackScreenContext.getID(): String {
+        return "RahNeil_N3:$localID:$localName:" + stringResource(R.string.core_ui_feedbackID)
+    }
 }
