@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.items
@@ -48,7 +47,6 @@ import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Link
-import androidx.compose.material.icons.outlined.Policy
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material3.FilterChip
@@ -72,7 +70,6 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyRowWithPadding
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Switch
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SwitchAccessibilityEmphasizedThumbContent
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
@@ -85,7 +82,8 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3InfiniteRestartAnimatedIcon
 import dev.rahmouni.neil.counters.core.designsystem.icons.customAnimatedIconsList
 import dev.rahmouni.neil.counters.core.designsystem.icons.customIconsList
-import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.EmptyFeedbackContext
+import dev.rahmouni.neil.counters.core.ui.FeedbackContext.FeedbackEmptyContext
+import dev.rahmouni.neil.counters.core.ui.Rn3Scaffold
 import dev.rahmouni.neil.rn3catalog.itemWithBoolean
 import dev.rahmouni.neil.rn3catalog.itemWithToast
 
@@ -95,7 +93,10 @@ private const val CONTENT_DESCRIPTION = "Content description"
 @Composable
 fun Rn3Catalog() {
     Rn3Theme {
-        Rn3Scaffold(title = "Rn3 Catalog", feedbackHelper = EmptyFeedbackContext) { paddingValues ->
+        Rn3Scaffold(
+            title = "Rn3 Catalog",
+            feedbackContext = FeedbackEmptyContext,
+        ) { paddingValues ->
             Rn3LazyColumnFullScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = paddingValues,
@@ -134,7 +135,10 @@ fun Rn3Catalog() {
                                 exit = fadeOut() + shrinkVertically(),
                             ) {
                                 Column {
-                                    Text(text = "Lorem ipsum blag blag blah MEZKNGvmzls,gMRKSWFNbwmdfl,bwDLFnhbl!kwd:f;bwdfb", Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+                                    Text(
+                                        text = "Lorem ipsum blag blag blah MEZKNGvmzls,gMRKSWFNbwmdfl,bwDLFnhbl!kwd:f;bwdfb",
+                                        Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                                    )
                                 }
                             }
                         }

@@ -22,6 +22,7 @@ plugins {
 
 android {
     namespace = "dev.rahmouni.neil.counters.core.data"
+    @Suppress("UnstableApiUsage") //TODO remove when stable
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
@@ -31,7 +32,6 @@ android {
 }
 
 dependencies {
-    api(projects.core.common)
     api(projects.core.datastore)
 
     implementation(projects.core.analytics)
