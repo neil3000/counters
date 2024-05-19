@@ -25,4 +25,6 @@ android {
 
 dependencies {
     api(projects.core.designsystem)
+
+    implementation(libs.androidx.navigation.compose)
 }

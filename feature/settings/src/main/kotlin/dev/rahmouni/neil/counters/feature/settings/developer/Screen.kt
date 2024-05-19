@@ -26,29 +26,29 @@ import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.QuestionMark
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
-import dev.rahmouni.neil.counters.core.ui.FeedbackContext.FeedbackEmptyContext
-import dev.rahmouni.neil.counters.core.ui.Rn3Scaffold
 import dev.rahmouni.neil.counters.feature.settings.BuildConfig
 
 @Composable
 internal fun DeveloperSettingsRoute(
     modifier: Modifier = Modifier,
-    onBackIconButtonClicked: () -> Unit,
+    navController: NavController,
 ) {
     DeveloperSettingsScreen(
         modifier,
-        onBackIconButtonClicked,
+        onBackIconButtonClicked = navController::popBackStack,
     )
 }
 
@@ -58,7 +58,11 @@ internal fun DeveloperSettingsScreen(
     modifier: Modifier = Modifier,
     onBackIconButtonClicked: () -> Unit = {},
 ) {
-    Rn3Scaffold(modifier, "Developer settings", onBackIconButtonClicked, FeedbackEmptyContext) {
+    Rn3Scaffold(
+        modifier, "Developer settings",
+        onBackIconButtonClicked,
+        null,
+    ) {
         DeveloperSettingsPanel(it)
     }
 }

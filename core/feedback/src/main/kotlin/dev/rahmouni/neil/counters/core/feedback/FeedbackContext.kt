@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package dev.rahmouni.neil.counters.core.ui
+package dev.rahmouni.neil.counters.core.feedback
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 
@@ -24,8 +25,7 @@ sealed interface FeedbackContext {
     data class FeedbackScreenContext(internal val localName: String, internal val localID: String) :
         FeedbackContext
 
-    @Composable
-    fun FeedbackScreenContext.getID(): String {
-        return "RahNeil_N3:$localID:$localName:" + stringResource(R.string.core_ui_feedbackID)
+    fun FeedbackScreenContext.getID(context: Context): String {
+        return "RahNeil_N3:$localID:$localName:" + context.resources.getString(R.string.core_feedback_localeID)
     }
 }

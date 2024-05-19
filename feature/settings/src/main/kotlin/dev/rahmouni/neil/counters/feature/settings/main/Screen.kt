@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.common.openOssLicensesActivity
@@ -39,6 +40,7 @@ import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
@@ -46,9 +48,12 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
 import dev.rahmouni.neil.counters.core.designsystem.icons.Discord
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
-import dev.rahmouni.neil.counters.core.ui.FeedbackContext.FeedbackScreenContext
-import dev.rahmouni.neil.counters.core.ui.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
+import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.settings.R.string
+import dev.rahmouni.neil.counters.feature.settings.accessibility.navigateToAccessibilitySettings
+import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.navigateToDataAndPrivacySettings
+import dev.rahmouni.neil.counters.feature.settings.developer.navigateToDeveloperSettings
 import dev.rahmouni.neil.counters.feature.settings.logChangelogTileClicked
 import dev.rahmouni.neil.counters.feature.settings.logDiscordTileClicked
 import dev.rahmouni.neil.counters.feature.settings.logOssLicensesTileClicked
@@ -57,12 +62,8 @@ import dev.rahmouni.neil.counters.feature.settings.logOssLicensesTileClicked
 @Composable
 internal fun SettingsRoute(
     modifier: Modifier = Modifier,
-    onBackIconButtonClicked: () -> Unit,
-    onClickDataAndPrivacyTile: () -> Unit,
-    onClickAccessibilityTile: () -> Unit,
-    onClickContributeTile: () -> Unit,
-    onClickAboutMeTile: () -> Unit,
-    onClickDeveloperSettings: () -> Unit,
+    navController: NavController,
+    navigateToAboutMe: () -> Unit,
 ) {
     val context = LocalContext.current
     val analytics = LocalAnalyticsHelper.current
@@ -71,16 +72,22 @@ internal fun SettingsRoute(
     SettingsScreen(
         modifier = modifier,
         showDeveloperSettings = context.areAndroidDeveloperSettingsOn(),
-        onBackIconButtonClicked,
-        onClickDataAndPrivacyTile,
-        onClickAccessibilityTile,
+        onBackIconButtonClicked = navController::popBackStack,
+        onFeedbackIconButtonClicked = {
+            navController.navigateToFeedback(
+                context,
+                FeedbackScreenContext("SettingsScreen", "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d"),
+            )
+        },
+        onClickDataAndPrivacyTile = navController::navigateToDataAndPrivacySettings,
+        onClickAccessibilityTile = navController::navigateToAccessibilitySettings,
         changelogTileUri = config.getString("changelog_url")
             .toRn3Uri(analytics::logChangelogTileClicked),
         discordTileUri = config.getString("discord_invite_url")
             .toRn3Uri(analytics::logDiscordTileClicked),
-        onClickContributeTile,
-        onClickAboutMeTile,
-        onClickDeveloperSettings,
+        onClickContributeTile = { TODO() },
+        onClickAboutMeTile = navigateToAboutMe,
+        onClickDeveloperSettingsTile = navController::navigateToDeveloperSettings,
         onClickOssLicensesTile = {
             context.openOssLicensesActivity()
             analytics.logOssLicensesTileClicked()
@@ -94,6 +101,7 @@ internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     showDeveloperSettings: Boolean = false,
     onBackIconButtonClicked: () -> Unit = {},
+    onFeedbackIconButtonClicked: () -> Unit = {},
     onClickDataAndPrivacyTile: () -> Unit = {},
     onClickAccessibilityTile: () -> Unit = {},
     changelogTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
@@ -107,7 +115,7 @@ internal fun SettingsScreen(
         modifier,
         stringResource(string.feature_settings_settingsScreen_topAppBar_title),
         onBackIconButtonClicked,
-        FeedbackScreenContext("SettingsScreen", "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d"),
+        onFeedbackIconButtonClicked,
     ) {
         SettingsPanel(
             it,

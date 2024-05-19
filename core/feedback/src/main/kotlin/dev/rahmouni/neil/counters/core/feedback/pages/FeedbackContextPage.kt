@@ -25,6 +25,7 @@ import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
 @Composable
 internal fun FeedbackContextPage(
     bug: Boolean,
+    hasContext: Boolean,
     onCurrentPage: Boolean,
     sendScreenshot: Boolean,
     sendAdditionalInfo: Boolean,
@@ -40,12 +41,14 @@ internal fun FeedbackContextPage(
     Column {
         FeedbackMessages(listOf("We just need a bit more context:"))
 
-        Rn3TileSwitch(
-            title = if (bug) "Bug was on the current page" else "Suggestion is about this page",
-            icon = Icons.Outlined.LocationOn,
-            checked = onCurrentPageValue,
-        ) {
-            onCurrentPageValue = it
+        if (hasContext) {
+            Rn3TileSwitch(
+                title = if (bug) "Bug was on the current page" else "Suggestion is about this page",
+                icon = Icons.Outlined.LocationOn,
+                checked = onCurrentPageValue,
+            ) {
+                onCurrentPageValue = it
+            }
         }
         if (bug) {
             Rn3TileSwitch(

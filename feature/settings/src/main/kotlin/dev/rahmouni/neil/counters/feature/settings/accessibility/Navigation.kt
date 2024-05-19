@@ -31,7 +31,7 @@ fun NavController.navigateToAccessibilitySettings(navOptions: NavOptions? = null
 fun NavGraphBuilder.accessibilitySettingsScreen(navController: NavController) {
     composable(route = ACCESSIBILITY_SETTINGS_ROUTE) {
         AccessibilitySettingsRoute(
-            onBackIconButtonClicked = { navController.popBackStack() },
+            navController = navController,
         )
     }
 }

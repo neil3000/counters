@@ -32,11 +32,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.common.Rn3Uri.SoonAvailable
@@ -46,13 +48,14 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
-import dev.rahmouni.neil.counters.core.ui.FeedbackContext.FeedbackScreenContext
-import dev.rahmouni.neil.counters.core.ui.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
+import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState.Loading
@@ -66,8 +69,10 @@ import dev.rahmouni.neil.counters.feature.settings.logAndroidAccessibilityTileCl
 internal fun DataAndPrivacySettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: DataAndPrivacySettingsViewModel = hiltViewModel(),
-    onBackIconButtonClicked: () -> Unit,
+    navController: NavController,
 ) {
+    val context = LocalContext.current
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val analytics = LocalAnalyticsHelper.current
     val config = LocalConfigHelper.current
@@ -75,8 +80,17 @@ internal fun DataAndPrivacySettingsRoute(
     //TODO clear metrics
     DataAndPrivacySettingsScreen(
         modifier,
-        uiState = uiState,
-        onBackIconButtonClicked,
+        uiState,
+        onBackIconButtonClicked = navController::popBackStack,
+        onFeedbackIconButtonClicked = {
+            navController.navigateToFeedback(
+                context,
+                FeedbackScreenContext(
+                    "DataAndPrivacySettingsScreen",
+                    "Cql6OgxiWaapWpb38eGNGRZbmFuR8JuQ",
+                ),
+            )
+        },
         onMetricsTileCheckedChange = viewModel::setMetricsEnabled,
         onClearMetricsTileClicked = analytics::clearMetrics,
         onCrashlyticsTileCheckedChange = viewModel::setCrashlyticsEnabled,
@@ -91,6 +105,7 @@ internal fun DataAndPrivacySettingsScreen(
     modifier: Modifier = Modifier,
     uiState: DataAndPrivacySettingsUiState,
     onBackIconButtonClicked: () -> Unit = {},
+    onFeedbackIconButtonClicked: () -> Unit = {},
     onMetricsTileCheckedChange: (Boolean) -> Unit = {},
     onClearMetricsTileClicked: () -> Unit = {},
     onCrashlyticsTileCheckedChange: (Boolean) -> Unit = {},
@@ -100,7 +115,7 @@ internal fun DataAndPrivacySettingsScreen(
         modifier,
         stringResource(string.feature_settings_dataAndPrivacySettingsScreen_topAppBar_title),
         onBackIconButtonClicked,
-        FeedbackScreenContext("DataAndPrivacySettingsScreen", "Cql6OgxiWaapWpb38eGNGRZbmFuR8JuQ"),
+        onFeedbackIconButtonClicked,
     ) {
         when (uiState) {
             Loading -> {}

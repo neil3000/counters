@@ -37,6 +37,7 @@ dependencies {
 
     implementation(projects.core.data)
     implementation(projects.core.config)
+    implementation(projects.core.feedback)
 
     testImplementation(projects.core.testing)
 

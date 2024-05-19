@@ -31,7 +31,7 @@ fun NavController.navigateToDataAndPrivacySettings(navOptions: NavOptions? = nul
 fun NavGraphBuilder.dataAndPrivacySettingsScreen(navController: NavController) {
     composable(route = DATA_AND_PRIVACY_SETTINGS_ROUTE) {
         DataAndPrivacySettingsRoute(
-            onBackIconButtonClicked = { navController.popBackStack() },
+            navController = navController,
         )
     }
 }

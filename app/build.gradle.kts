@@ -84,6 +84,7 @@ dependencies {
     implementation(projects.core.analytics)
     implementation(projects.core.config)
     implementation(projects.core.accessibility)
+    implementation(projects.core.feedback)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3.adaptive)

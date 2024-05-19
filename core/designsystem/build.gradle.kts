@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.coil.kt.compose)
     implementation(libs.androidx.animation.graphics.android)
     implementation(libs.androidx.browser)
+    implementation(libs.androidx.navigation.runtime.ktx)
 
     implementation(projects.core.common)
 

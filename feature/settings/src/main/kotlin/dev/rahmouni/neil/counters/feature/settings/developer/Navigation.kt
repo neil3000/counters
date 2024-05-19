@@ -31,7 +31,7 @@ fun NavController.navigateToDeveloperSettings(navOptions: NavOptions? = null) = 
 fun NavGraphBuilder.developerSettingsScreen(navController: NavController) {
     composable(route = DEVELOPER_SETTINGS_ROUTE) {
         DeveloperSettingsRoute(
-            onBackIconButtonClicked = { navController.popBackStack() },
+            navController = navController,
         )
     }
 }

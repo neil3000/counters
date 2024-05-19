@@ -31,7 +31,7 @@ fun NavController.navigateToAboutMe(navOptions: NavOptions? = null) = navigate(
 fun NavGraphBuilder.aboutMeScreen(navController: NavController) {
     composable(route = ABOUT_ME__ROUTE) {
         AboutMeRoute(
-            onBackIconButtonClicked = { navController.popBackStack() },
+            navController = navController,
         )
     }
 }

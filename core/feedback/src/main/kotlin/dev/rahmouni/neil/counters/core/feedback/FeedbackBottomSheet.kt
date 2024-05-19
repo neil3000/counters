@@ -32,8 +32,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.feedback.pages.FeedbackContextPage
 import dev.rahmouni.neil.counters.core.designsystem.component.feedback.pages.FeedbackDescriptionPage
@@ -43,115 +45,120 @@ import kotlinx.coroutines.launch
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun FeedbackBottomSheet(
-    contextID: String,
-    showBottomSheet: Boolean,
-    closeFeedbackModal: (Boolean) -> Unit,
+    navController: NavController,
+    contextID: String?,
+    pageDef: String,
+    typeDef: String,
+    descriptionDef: String,
+    onCurrentPageDef: Boolean,
+    sendScreenshotDef: Boolean,
+    sendAdditionalInfoDef: Boolean,
 ) {
 
     val sheetState =
         rememberModalBottomSheetState(confirmValueChange = { false }, skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
 
-    if (showBottomSheet) {
-        ModalBottomSheet(
-            onDismissRequest = {
-                closeFeedbackModal(true)
-            },
-            sheetState = sheetState,
-            containerColor = MaterialTheme.colorScheme.surface,
-            dragHandle = {},
-        ) {
-            Column {
-                Surface(tonalElevation = 2.dp) {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = spacedBy(16.dp),
+    ModalBottomSheet(
+        onDismissRequest = {
+            navController.popBackStack()
+        },
+        sheetState = sheetState,
+        containerColor = MaterialTheme.colorScheme.surface,
+        scrimColor = Color.Transparent,
+        dragHandle = {},
+    ) {
+        Column {
+            Surface(tonalElevation = 2.dp) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = spacedBy(16.dp),
+                ) {
+                    Icon(Icons.Outlined.Feedback, null)
+                    Text("Send Feedback", fontWeight = FontWeight.SemiBold)
+                    Spacer(Modifier.weight(1f))
+                    Rn3IconButton(
+                        icon = Icons.Outlined.Close,
+                        contentDescription = "Close",
                     ) {
-                        Icon(Icons.Outlined.Feedback, null)
-                        Text("Send Feedback", fontWeight = FontWeight.SemiBold)
-                        Spacer(Modifier.weight(1f))
-                        Rn3IconButton(
-                            icon = Icons.Outlined.Close,
-                            contentDescription = "Close",
-                        ) {
-                            scope.launch { sheetState.hide() }.invokeOnCompletion {
-                                closeFeedbackModal(true)
-                            }
+                        scope.launch { sheetState.hide() }.invokeOnCompletion {
+                            navController.popBackStack()
                         }
                     }
                 }
+            }
 
-                Box {
-                    SheetContent(contextID)
+            Box {
+                var page by rememberSaveable { mutableStateOf(pageDef) }
+
+                var type by rememberSaveable { mutableStateOf(typeDef) }
+                var description by rememberSaveable { mutableStateOf(descriptionDef) }
+                var onCurrentPage by rememberSaveable { mutableStateOf(onCurrentPageDef) }
+                var sendScreenshot by rememberSaveable { mutableStateOf(sendScreenshotDef) }
+                var sendAdditionalInfo by rememberSaveable { mutableStateOf(sendAdditionalInfoDef) }
+
+                AnimatedContent(
+                    targetState = page,
+                    transitionSpec = {
+                        (expandVertically { height -> height } + fadeIn()).togetherWith(
+                            shrinkVertically { height -> height } + fadeOut(),
+                        )
+                            .using(SizeTransform(clip = false))
+                    },
+                    label = "animatedPage", //TODO
+                ) { screen ->
+                    when (screen) {
+                        "type" -> FeedbackTypePage(type) {
+                            // Reset description if changed type of feedback
+                            // if not changed we keep the description so it isn't lost
+                            if (it != type) description = ""
+
+                            type = it
+                            page = "context"
+                        }
+
+                        "context" -> FeedbackContextPage(
+                            bug = type == "BUG",
+                            hasContext = contextID != null,
+                            onCurrentPage = onCurrentPage,
+                            sendScreenshot = sendScreenshot,
+                            sendAdditionalInfo = sendAdditionalInfo,
+                            nextPage = { onCurrentPageValue, sendScreenshotValue, sendAdditionalInfoValue ->
+                                onCurrentPage = onCurrentPageValue
+                                sendScreenshot = sendScreenshotValue
+                                sendAdditionalInfo = sendAdditionalInfoValue
+
+                                page = "description"
+                            },
+                            previousPage = { onCurrentPageValue, sendScreenshotValue, sendAdditionalInfoValue ->
+                                onCurrentPage = onCurrentPageValue
+                                sendScreenshot = sendScreenshotValue
+                                sendAdditionalInfo = sendAdditionalInfoValue
+
+                                page = "type"
+                            },
+                        )
+
+                        "description" -> FeedbackDescriptionPage(
+                            bug = type == "BUG",
+                            feedbackDescription = description,
+                            nextPage = {
+                                description = it
+
+                                TODO()
+                            },
+                            previousPage = {
+                                description = it
+
+                                page = "context"
+                            },
+                        )
+                    }
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun SheetContent(contextID: String) {
-    var page by rememberSaveable { mutableStateOf("TYPE") }
-
-    var type by rememberSaveable { mutableStateOf("BUG") }
-    var description by rememberSaveable { mutableStateOf("") }
-    var onCurrentPage by rememberSaveable { mutableStateOf(true) }
-    var sendScreenshot by rememberSaveable { mutableStateOf(false) }
-    var sendAdditionalInfo by rememberSaveable { mutableStateOf(true) }
-
-    AnimatedContent(
-        targetState = page,
-        transitionSpec = {
-            (expandVertically { height -> height } + fadeIn()).togetherWith(shrinkVertically { height -> height } + fadeOut())
-                .using(SizeTransform(clip = false))
-        },
-        label = "animatedPage", //TODO
-    ) { screen ->
-        when (screen) {
-            "TYPE" -> FeedbackTypePage(type) {
-                // Reset description if changed type of feedback
-                // if not changed we keep the description so it isn't lost
-                if (it != type) description = ""
-
-                type = it
-                page = "CONTEXT"
-            }
-
-            "CONTEXT" -> FeedbackContextPage(
-                bug = type == "BUG",
-                onCurrentPage = onCurrentPage,
-                sendScreenshot = sendScreenshot,
-                sendAdditionalInfo = sendAdditionalInfo,
-                nextPage = { onCurrentPageValue, sendScreenshotValue, sendAdditionalInfoValue ->
-                    onCurrentPage = onCurrentPageValue
-                    sendScreenshot = sendScreenshotValue
-                    sendAdditionalInfo = sendAdditionalInfoValue
-                    page = "DESCRIPTION"
-                },
-                previousPage = { onCurrentPageValue, sendScreenshotValue, sendAdditionalInfoValue ->
-                    onCurrentPage = onCurrentPageValue
-                    sendScreenshot = sendScreenshotValue
-                    sendAdditionalInfo = sendAdditionalInfoValue
-                    page = "TYPE"
-                },
-            )
-
-            "DESCRIPTION" -> FeedbackDescriptionPage(
-                bug = type == "BUG",
-                feedbackDescription = description,
-                nextPage = {
-                    description = it
-                    page = "DESCRIPTION"
-                    TODO()
-                },
-                previousPage = {
-                    description = it
-                    page = "CONTEXT"
-                },
-            )
         }
     }
 }

@@ -70,6 +70,7 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyRowWithPadding
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Switch
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SwitchAccessibilityEmphasizedThumbContent
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
@@ -82,8 +83,6 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3InfiniteRestartAnimatedIcon
 import dev.rahmouni.neil.counters.core.designsystem.icons.customAnimatedIconsList
 import dev.rahmouni.neil.counters.core.designsystem.icons.customIconsList
-import dev.rahmouni.neil.counters.core.ui.FeedbackContext.FeedbackEmptyContext
-import dev.rahmouni.neil.counters.core.ui.Rn3Scaffold
 import dev.rahmouni.neil.rn3catalog.itemWithBoolean
 import dev.rahmouni.neil.rn3catalog.itemWithToast
 
@@ -95,7 +94,8 @@ fun Rn3Catalog() {
     Rn3Theme {
         Rn3Scaffold(
             title = "Rn3 Catalog",
-            feedbackContext = FeedbackEmptyContext,
+            onBackIconButtonClicked = {},
+            onFeedbackIconButtonClicked = {}
         ) { paddingValues ->
             Rn3LazyColumnFullScreen(
                 modifier = Modifier.fillMaxSize(),

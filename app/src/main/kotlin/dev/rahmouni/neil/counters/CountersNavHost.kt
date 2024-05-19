@@ -17,16 +17,11 @@
 package dev.rahmouni.neil.counters
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
+import dev.rahmouni.neil.counters.core.feedback.feedbackDialog
 import dev.rahmouni.neil.counters.feature.aboutme.aboutMeScreen
 import dev.rahmouni.neil.counters.feature.aboutme.navigateToAboutMe
 import dev.rahmouni.neil.counters.feature.settings.accessibility.accessibilitySettingsScreen
@@ -56,6 +51,8 @@ fun CountersNavHost(
             developerSettingsScreen(navController)
             dataAndPrivacySettingsScreen(navController)
             aboutMeScreen(navController)
+
+            feedbackDialog(navController)
         }
     }
 }
