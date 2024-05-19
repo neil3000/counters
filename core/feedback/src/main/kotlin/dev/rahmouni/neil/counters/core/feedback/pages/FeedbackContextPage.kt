@@ -19,6 +19,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
 
@@ -33,6 +34,8 @@ internal fun FeedbackContextPage(
     previousPage: (Boolean, Boolean, Boolean) -> Unit,
 ) {
     //TODO i18n
+
+    val haptic = getHaptic()
 
     var onCurrentPageValue by rememberSaveable { mutableStateOf(onCurrentPage) }
     var sendScreenshotValue by rememberSaveable { mutableStateOf(sendScreenshot) }
@@ -76,6 +79,7 @@ internal fun FeedbackContextPage(
         ) {
             FilledTonalButton(
                 onClick = {
+                    haptic.click()
                     previousPage(
                         onCurrentPageValue,
                         onCurrentPageValue && sendScreenshotValue,
@@ -87,6 +91,7 @@ internal fun FeedbackContextPage(
             }
             Button(
                 onClick = {
+                    haptic.click()
                     nextPage(
                         onCurrentPageValue,
                         bug && onCurrentPageValue && sendScreenshotValue,

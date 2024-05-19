@@ -23,6 +23,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
 
 @Composable
@@ -32,6 +33,7 @@ internal fun FeedbackDescriptionPage(
     nextPage: (String) -> Unit,
     previousPage: (String) -> Unit,
 ) {
+    val haptic = getHaptic()
 
     val focusRequester = remember { FocusRequester() }
 
@@ -71,12 +73,18 @@ internal fun FeedbackDescriptionPage(
             horizontalArrangement = spacedBy(8.dp),
         ) {
             FilledTonalButton(
-                onClick = { previousPage(currentDescription) },
+                onClick = {
+                    haptic.click()
+                    previousPage(currentDescription)
+                },
             ) {
                 Text("Back")
             }
             Button(
-                onClick = { nextPage(currentDescription) },
+                onClick = {
+                    haptic.click()
+                    nextPage(currentDescription)
+                },
                 Modifier.fillMaxWidth(),
                 enabled = currentDescription.isNotBlank(),
             ) {

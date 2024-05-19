@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -52,19 +53,24 @@ fun Rn3TileExpand(
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
-            .toggleable(
-                expanded,
+            .padding(16.dp),
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.primaryContainer,
+    ) {
+        Column(
+            Modifier.toggleable(
+                value = expanded,
                 onValueChange = {
                     haptic.toggle(it)
                     expanded = it
                 },
+                role = Role.DropdownList,
             ),
-        color = MaterialTheme.colorScheme.primaryContainer,
-        shape = RoundedCornerShape(16.dp),
-    ) {
-        Column {
-            Row(Modifier.padding(16.dp), horizontalArrangement = spacedBy(16.dp)) {
+        ) {
+            Row(
+                Modifier.padding(16.dp),
+                horizontalArrangement = spacedBy(16.dp),
+            ) {
                 Icon(imageVector = icon, null)
                 Text(title)
                 Spacer(modifier = Modifier.weight(1f))

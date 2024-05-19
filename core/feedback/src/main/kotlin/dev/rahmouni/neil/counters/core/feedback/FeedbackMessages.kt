@@ -21,8 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
+
 @Composable
 internal fun FeedbackMessages(messages: List<String>) {
+
     var trigger by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         trigger = true
@@ -35,9 +37,12 @@ internal fun FeedbackMessages(messages: List<String>) {
         messages.forEachIndexed { index, message ->
             AnimatedVisibility(
                 visible = trigger,
-                enter = fadeIn(tween(250, delayMillis = index * 1000 + 250)) + expandVertically(
-                    tween(250, delayMillis = index * 1000),
-                ),
+                enter = if (index > 0) expandVertically(
+                    tween(
+                        250,
+                        delayMillis = index * 1000,
+                    ),
+                ) + fadeIn(tween(250, delayMillis = index * 1000)) else fadeIn(),
             ) {
                 Surface(
                     color = MaterialTheme.colorScheme.surfaceContainer,
