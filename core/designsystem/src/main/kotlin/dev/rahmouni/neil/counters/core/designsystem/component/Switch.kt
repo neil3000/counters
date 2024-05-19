@@ -68,11 +68,12 @@ fun Rn3Switch(
                 this.contentDescription = contentDescription
             }
         },
-        thumbContent = thumbContent ?: if (accessibilityHelper.hasEmphasizedSwitchesEnabled && checked) {
-            { Rn3SwitchAccessibilityEmphasizedThumbContent() }
-        } else {
-            null
-        },
+        thumbContent = thumbContent
+            ?: if (accessibilityHelper.hasEmphasizedSwitchesEnabled && checked) {
+                { Rn3SwitchAccessibilityEmphasizedThumbContent() }
+            } else {
+                null
+            },
         enabled = enabled,
         interactionSource = interactionSource ?: remember { MutableInteractionSource() },
     )

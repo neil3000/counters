@@ -41,7 +41,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
-import dev.rahmouni.neil.counters.core.common.Rn3Uri.SoonAvailable
 import dev.rahmouni.neil.counters.core.common.toRn3Uri
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
@@ -50,6 +49,7 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileExpand
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
@@ -167,12 +167,15 @@ private fun DataAndPrivacySettingsPanel(
 
         // metricsInfoTile
         item {
-            Rn3TileUri(
+            Rn3TileExpand(
                 title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title),
                 icon = Icons.Outlined.Info,
-                uri = SoonAvailable,
-                supportingText = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_supportingText),
-            )
+            ) {
+                Text(
+                    config.getString("metrics_info_short"),
+                    Modifier.padding(start = 16.dp, bottom = 8.dp),
+                )
+            }
         }
 
         item { Rn3TileHorizontalDivider() }
@@ -192,18 +195,30 @@ private fun DataAndPrivacySettingsPanel(
 
         // crashlyticsInfoTile
         item {
-            Rn3TileUri(
+            Rn3TileExpand(
                 title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title),
                 icon = Icons.Outlined.Info,
-                uri = SoonAvailable,
-                supportingText = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_supportingText),
-            )
+            ) {
+                Text(
+                    config.getString("crashlytics_info_short"),
+                    Modifier.padding(start = 16.dp, bottom = 8.dp),
+                )
+            }
         }
 
         item { Rn3TileHorizontalDivider() }
 
         // privacyPolicyHeaderTile
         item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicyHeaderTile_title)) }
+
+        // privacyPolicyTile
+        item {
+            Rn3TileUri(
+                title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title),
+                icon = Icons.Outlined.Policy,
+                uri = privacyPolicyTileUri,
+            )
+        }
 
         // privacyPolicySummaryTile
         item {
@@ -220,15 +235,6 @@ private fun DataAndPrivacySettingsPanel(
                     )
                 }
             }
-        }
-
-        // privacyPolicyTile
-        item {
-            Rn3TileUri(
-                title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title),
-                icon = Icons.Outlined.Policy,
-                uri = privacyPolicyTileUri,
-            )
         }
     }
 }

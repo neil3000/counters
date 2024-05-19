@@ -38,7 +38,11 @@ class SettingsScreenTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            SettingsScreen(onBackIconButtonClicked = {}, onClickDataAndPrivacyTile = {}, onClickAccessibilityTile = {})
+            SettingsScreen(
+                onBackIconButtonClicked = {},
+                onClickDataAndPrivacyTile = {},
+                onClickAccessibilityTile = {},
+            )
         }
     }
 

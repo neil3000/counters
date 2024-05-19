@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright 2024 Rahmouni Neïl
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +20,9 @@
     </entry>
     <entry>
         <key>bio_short</key>
-        <value>Hi! I'm Neïl 👋\nI'm a 22 year old software engineering student, currently living in Paris 🥖</value>
+        <value>Hi! I'm Neïl 👋\nI'm a 22 year old software engineering student, currently living in
+            Paris 🥖
+        </value>
     </entry>
     <entry>
         <key>portfolio_url</key>
@@ -29,6 +30,9 @@
     </entry>
     <entry>
         <key>socialLinks</key>
-        <value>[{"id":"instagram","url":"https://www.instagram.com/neil_rahmouni","tooltip":"Instagram"},{"id":"mastodon","url":"https://mastodon.social/@neil_rahmouni@androiddev.social","tooltip":"Mastodon"},{"id":"discord","url":"https://discord.gg/4Y7EdE9kRY","tooltip":"Discord Server"},{"id":"linkedin","url":"https://www.linkedin.com/in/neil-rahmouni","tooltip":"Linkedin"},{"id":"gitlab","url":"https://gitlab.com/neil3000","tooltip":"Gitlab"}]</value>
+        <value>
+            [{"id":"instagram","url":"https://www.instagram.com/neil_rahmouni","tooltip":"Instagram"},{"id":"mastodon","url":"https://mastodon.social/@neil_rahmouni@androiddev.social","tooltip":"Mastodon"},{"id":"discord","url":"https://discord.gg/4Y7EdE9kRY","tooltip":"Discord
+            Server"},{"id":"linkedin","url":"https://www.linkedin.com/in/neil-rahmouni","tooltip":"Linkedin"},{"id":"gitlab","url":"https://gitlab.com/neil3000","tooltip":"Gitlab"}]
+        </value>
     </entry>
 </defaultsMap>

@@ -26,5 +26,6 @@ interface ConfigHelper {
     fun getRolloutFlag(id: Int): Boolean {
         return getBoolean("i_{id}")
     }
+
     fun forEachEntry(action: ((key: String, value: String, source: String) -> Unit))
 }

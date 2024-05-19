@@ -17,9 +17,11 @@
 package dev.rahmouni.neil.counters.feature.aboutme.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.rahmouni.neil.counters.core.common.Rn3Uri
-import dev.rahmouni.neil.counters.core.common.Rn3Uri.*
-import dev.rahmouni.neil.counters.feature.aboutme.model.data.PfpData.*
+import dev.rahmouni.neil.counters.core.common.Rn3Uri.AndroidPreview
+import dev.rahmouni.neil.counters.core.common.Rn3Uri.InMaintenance
+import dev.rahmouni.neil.counters.core.common.Rn3Uri.SoonAvailable
+import dev.rahmouni.neil.counters.core.common.Rn3Uri.Unavailable
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.PfpData.LocalImage
 import dev.rahmouni.neil.counters.feature.aboutme.model.data.PreviewParameterData.aboutMeData_default
 import dev.rahmouni.neil.counters.feature.aboutme.model.data.PreviewParameterData.aboutMeData_mutations
 

@@ -1,6 +1,7 @@
 package dev.rahmouni.neil.counters.feature.aboutme.model.data
 
-import dev.rahmouni.neil.counters.feature.aboutme.model.data.PfpData.*
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.PfpData.LocalImage
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.PfpData.RemoteImage
 
 sealed interface PfpData {
     data object LocalImage : PfpData

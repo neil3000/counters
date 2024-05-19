@@ -101,7 +101,7 @@ private fun Rn3TileClickChipsImpl(
             onClick()
             haptic.click()
         },
-        Arrangement.spacedBy((-8).dp)
+        Arrangement.spacedBy((-8).dp),
     ) {
         ListItem(
             headlineContent = { Text(text = title) },

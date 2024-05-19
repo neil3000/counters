@@ -1,11 +1,11 @@
 package dev.rahmouni.neil.counters.core.network.di
 
-import dev.rahmouni.neil.counters.core.network.Dispatcher
-import dev.rahmouni.neil.counters.core.network.Rn3Dispatchers.Default
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.rahmouni.neil.counters.core.network.Dispatcher
+import dev.rahmouni.neil.counters.core.network.Rn3Dispatchers.Default
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
