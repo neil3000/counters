@@ -16,8 +16,6 @@
 
 package dev.rahmouni.neil.counters.ui
 
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.test.DeviceConfigurationOverride
@@ -51,7 +49,6 @@ import javax.inject.Inject
 /**
  * Tests that the navigation UI is rendered correctly on different screen sizes.
  */
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 // Configure Robolectric to use a very large screen size that can fit all of the test sizes.
@@ -104,11 +101,7 @@ class CountersAppScreenSizesScreenshotTests {
                     override = DeviceConfigurationOverride.ForcedSize(DpSize(width, height)),
                 ) {
                     Rn3Theme {
-                        val fakeAppState = rememberCountersAppState(
-                            windowSizeClass = WindowSizeClass.calculateFromSize(
-                                DpSize(width, height),
-                            ),
-                        )
+                        val fakeAppState = rememberCountersAppState()
                         CountersApp(fakeAppState)
                     }
                 }

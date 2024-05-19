@@ -44,6 +44,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import androidx.window.core.layout.WindowWidthSizeClass.Companion.COMPACT
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
@@ -60,7 +61,8 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SystemBarSpacer
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle
-import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.FeedbackContext
+import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
+import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeUiState
 import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeUiState.Loading
 import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeUiState.Success
@@ -77,7 +79,7 @@ import dev.rahmouni.neil.counters.feature.aboutme.ui.SocialLinks
 internal fun AboutMeRoute(
     modifier: Modifier = Modifier,
     viewModel: AboutMeViewModel = hiltViewModel(),
-    onBackIconButtonClicked: () -> Unit,
+    navController: NavController,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -94,7 +96,16 @@ internal fun AboutMeRoute(
     AboutMeScreen(
         modifier,
         uiState,
-        onBackIconButtonClicked,
+        onBackIconButtonClicked = navController::popBackStack,
+        onFeedbackIconButtonClicked = {
+            navController.navigateToFeedback(
+                context,
+                FeedbackScreenContext(
+                    "AccessibilitySettingsScreen",
+                    "jrKt4Xe58KDipPJsm1iPUijn6BMsNc8g",
+                ),
+            )
+        },
     )
 }
 
@@ -104,12 +115,13 @@ internal fun AboutMeScreen(
     modifier: Modifier = Modifier,
     uiState: AboutMeUiState,
     onBackIconButtonClicked: () -> Unit = {},
+    onFeedbackIconButtonClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
         modifier,
         stringResource(R.string.feature_aboutme_aboutMeScreen_scaffold_title),
         onBackIconButtonClicked,
-        FeedbackContext("AboutMeScreen", "NJFWHop0rQkfFOUcSJlcepwG0f7XN8dd"),
+        onFeedbackIconButtonClicked,
         topAppBarStyle = TopAppBarStyle.SMALL,
     ) {
 

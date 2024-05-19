@@ -16,12 +16,7 @@
 
 package dev.rahmouni.neil.counters.ui
 
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -34,7 +29,6 @@ import org.junit.rules.TemporaryFolder
 /**
  * Tests that the navigation UI is rendered correctly on different screen sizes.
  */
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @HiltAndroidTest
 class NavigationUiTest {
 
@@ -68,9 +62,4 @@ class NavigationUiTest {
     fun setup() {
         hiltRule.inject()
     }
-
-    @Composable
-    private fun fakeAppState(maxWidth: Dp, maxHeight: Dp) = rememberCountersAppState(
-        windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
-    )
 }

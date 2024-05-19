@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.accessibility.AccessibilityHelper
 import dev.rahmouni.neil.counters.core.accessibility.LocalAccessibilityHelper
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
@@ -43,7 +44,8 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.icons.Tooltip
-import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.FeedbackContext
+import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
+import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.AccessibilitySettingsUiState
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.AccessibilitySettingsUiState.Loading
@@ -58,7 +60,7 @@ import dev.rahmouni.neil.counters.feature.settings.logAndroidAccessibilityTileCl
 internal fun AccessibilitySettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: AccessibilitySettingsViewModel = hiltViewModel(),
-    onBackIconButtonClicked: () -> Unit,
+    navController: NavController,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -66,8 +68,17 @@ internal fun AccessibilitySettingsRoute(
 
     AccessibilitySettingsScreen(
         modifier,
-        uiState = uiState,
-        onBackIconButtonClicked,
+        uiState,
+        onBackIconButtonClicked = navController::popBackStack,
+        onFeedbackIconButtonClicked = {
+            navController.navigateToFeedback(
+                context,
+                FeedbackScreenContext(
+                    "AccessibilitySettingsScreen",
+                    "jrKt4Xe58KDipPJsm1iPUijn6BMsNc8g",
+                ),
+            )
+        },
         setEmphasizedSwitches = viewModel::setEmphasizedSwitches,
         setIconTooltips = viewModel::setIconTooltips,
         onClickAndroidAccessibilityTile = {
@@ -83,6 +94,7 @@ internal fun AccessibilitySettingsScreen(
     modifier: Modifier = Modifier,
     uiState: AccessibilitySettingsUiState,
     onBackIconButtonClicked: () -> Unit = {},
+    onFeedbackIconButtonClicked: () -> Unit = {},
     setEmphasizedSwitches: (Boolean) -> Unit = {},
     setIconTooltips: (Boolean) -> Unit = {},
     onClickAndroidAccessibilityTile: () -> Unit = {},
@@ -91,7 +103,7 @@ internal fun AccessibilitySettingsScreen(
         modifier,
         stringResource(string.feature_settings_accessibilitySettingsScreen_topAppBar_title),
         onBackIconButtonClicked,
-        FeedbackContext("AccessibilitySettingsScreen", "KLlwmK9HscvcmW00fYfONf6scddqsugd"),
+        onFeedbackIconButtonClicked,
     ) {
         when (uiState) {
             Loading -> {}

@@ -23,7 +23,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.designsystem.component.feedback.FeedbackMessages
+import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
 
 @Composable
 internal fun FeedbackDescriptionPage(

@@ -26,6 +26,7 @@ import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.QuestionMark
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
@@ -38,17 +39,16 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizo
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
-import dev.rahmouni.neil.counters.core.feedback.FeedbackHelper.EmptyFeedbackContext
 import dev.rahmouni.neil.counters.feature.settings.BuildConfig
 
 @Composable
 internal fun DeveloperSettingsRoute(
     modifier: Modifier = Modifier,
-    onBackIconButtonClicked: () -> Unit,
+    navController: NavController,
 ) {
     DeveloperSettingsScreen(
         modifier,
-        onBackIconButtonClicked,
+        onBackIconButtonClicked = navController::popBackStack,
     )
 }
 
@@ -58,7 +58,11 @@ internal fun DeveloperSettingsScreen(
     modifier: Modifier = Modifier,
     onBackIconButtonClicked: () -> Unit = {},
 ) {
-    Rn3Scaffold(modifier, "Developer settings", onBackIconButtonClicked, EmptyFeedbackContext) {
+    Rn3Scaffold(
+        modifier, "Developer settings",
+        onBackIconButtonClicked,
+        null,
+    ) {
         DeveloperSettingsPanel(it)
     }
 }

@@ -1,4 +1,4 @@
-package dev.rahmouni.neil.counters.core.designsystem.component.feedback
+package dev.rahmouni.neil.counters.core.feedback
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally

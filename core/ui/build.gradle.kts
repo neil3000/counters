@@ -27,12 +27,11 @@ android {
 }
 
 dependencies {
-    api(libs.androidx.metrics)
-
     api(projects.core.analytics)
 
     implementation(libs.coil.kt)
     implementation(libs.coil.kt.compose)
+    implementation(libs.androidx.metrics)
 
     androidTestImplementation(projects.core.testing)
 }

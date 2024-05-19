@@ -36,8 +36,8 @@ dependencies {
     implementation(libs.coil.kt.compose)
 
     implementation(projects.core.data)
-    implementation(projects.core.feedback)
     implementation(projects.core.config)
+    implementation(projects.core.feedback)
 
     testImplementation(projects.core.testing)
 
