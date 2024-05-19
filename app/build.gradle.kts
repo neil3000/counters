@@ -30,8 +30,8 @@ plugins {
 android {
     defaultConfig {
         applicationId = "rahmouni.neil.counters"
-        versionCode = 730027
-        versionName = "2.0.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
+        versionCode = 730028
+        versionName = "2.0.2" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         // Custom test runner to set up Hilt dependency graph
         testInstrumentationRunner = "dev.rahmouni.neil.counters.core.testing.Rn3TestRunner"
