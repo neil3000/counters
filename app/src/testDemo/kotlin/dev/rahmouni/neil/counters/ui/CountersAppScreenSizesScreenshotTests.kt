@@ -16,9 +16,6 @@
 
 package dev.rahmouni.neil.counters.ui
 
-import android.util.Log
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.test.DeviceConfigurationOverride
@@ -28,10 +25,6 @@ import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.work.Configuration
-import androidx.work.testing.SynchronousExecutor
-import androidx.work.testing.WorkManagerTestInitHelper
 import com.github.takahirom.roborazzi.captureRoboImage
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -41,7 +34,6 @@ import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.testing.util.DefaultRoborazziOptions
 import dev.rahmouni.neil.counters.uitesthiltmanifest.HiltComponentActivity
-import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -57,7 +49,6 @@ import javax.inject.Inject
 /**
  * Tests that the navigation UI is rendered correctly on different screen sizes.
  */
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 // Configure Robolectric to use a very large screen size that can fit all of the test sizes.
@@ -110,11 +101,7 @@ class CountersAppScreenSizesScreenshotTests {
                     override = DeviceConfigurationOverride.ForcedSize(DpSize(width, height)),
                 ) {
                     Rn3Theme {
-                        val fakeAppState = rememberCountersAppState(
-                            windowSizeClass = WindowSizeClass.calculateFromSize(
-                                DpSize(width, height),
-                            ),
-                        )
+                        val fakeAppState = rememberCountersAppState()
                         CountersApp(fakeAppState)
                     }
                 }

@@ -21,8 +21,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,7 +48,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -93,13 +90,13 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        FirebaseAnalytics.getInstance(this).appInstanceId.addOnSuccessListener { analyticsHelper.appInstallationID = it ?: "RahNeil_N3:Error" }
+        FirebaseAnalytics.getInstance(this).appInstanceId.addOnSuccessListener {
+            analyticsHelper.appInstallationID = it ?: "RahNeil_N3:Error"
+        }
         configHelper.init(this)
 
         setContent {
-            val appState = rememberCountersAppState(
-                windowSizeClass = calculateWindowSizeClass(this),
-            )
+            val appState = rememberCountersAppState()
 
             enableEdgeToEdge()
 
