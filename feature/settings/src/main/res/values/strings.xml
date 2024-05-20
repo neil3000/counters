@@ -26,15 +26,15 @@
     <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title">Summary</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title">Privacy policy</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_topAppBar_title"><![CDATA[Data & Privacy]]></string>
-    <string name="feature_settings_developerSettingsScreen_buildconfigTile_title">Build config</string>
-    <string name="feature_settings_developerSettingsScreen_configHeaderTile_title">Config for %1$s</string>
-    <string name="feature_settings_developerSettingsScreen_firebaseIdTile_title">Firebase App Installation ID</string>
-    <string name="feature_settings_developerSettingsScreen_rcStatusTile_title">RC last fetch status</string>
-    <string name="feature_settings_developerSettingsScreen_rcStatusTile_failure">FAILURE</string>
-    <string name="feature_settings_developerSettingsScreen_rcStatusTile_noFetchYet">NO_FETCH_YET</string>
-    <string name="feature_settings_developerSettingsScreen_rcStatusTile_success">SUCCESS (%1$s)</string>
-    <string name="feature_settings_developerSettingsScreen_rcStatusTile_throttled">THROTTLED</string>
-    <string name="feature_settings_developerSettingsScreen_topAppBar_title"><![CDATA[Developer settings]]></string>
+    <string name="feature_settings_developerSettingsScreen_buildconfigTile_title" translatable="false">Build config</string>
+    <string name="feature_settings_developerSettingsScreen_configHeaderTile_title" translatable="false">Config for %1$s</string>
+    <string name="feature_settings_developerSettingsScreen_firebaseIdTile_title" translatable="false">Firebase App Installation ID</string>
+    <string name="feature_settings_developerSettingsScreen_rcStatusTile_title" translatable="false">RC last fetch status</string>
+    <string name="feature_settings_developerSettingsScreen_rcStatusTile_failure" translatable="false">FAILURE</string>
+    <string name="feature_settings_developerSettingsScreen_rcStatusTile_noFetchYet" translatable="false">NO_FETCH_YET</string>
+    <string name="feature_settings_developerSettingsScreen_rcStatusTile_success" translatable="false">SUCCESS (%1$s)</string>
+    <string name="feature_settings_developerSettingsScreen_rcStatusTile_throttled" translatable="false">THROTTLED</string>
+    <string name="feature_settings_developerSettingsScreen_topAppBar_title" translatable="false"><![CDATA[Developer settings]]></string>
     <string name="feature_settings_settingsScreen_aboutHeaderTile_title">About</string>
     <string name="feature_settings_settingsScreen_aboutMeTile_title">About me</string>
     <string name="feature_settings_settingsScreen_accessibilityTile_title">Accessibility</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="core_feedback_localeID">HArTPI9dPUFph1JhV81xFfzOH2edfjfr</string>
-    <string name="core_feedback_TypePage_bug">Rapport de bug</string>
+    <string name="core_feedback_TypePage_bug">Bug</string>
     <string name="core_feedback_TypePage_suggestion">Suggestion</string>
     <string name="core_feedback_TypePage_typeMessage">Quel type de retour souhaitez-vous envoyer ?</string>
     <string name="core_feedback_TypePage_welcomeMessage">Bienvenue ! 👋</string>

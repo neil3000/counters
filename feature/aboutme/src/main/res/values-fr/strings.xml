@@ -3,7 +3,7 @@
     <string name="feature_aboutme_aboutMeScreen_scaffold_title">À propos de moi</string>
     <string name="feature_aboutme_biography_headerTile_title">À propos de moi</string>
     <string name="feature_aboutme_mainActions_buyMeCoffeeTile_title">Offrez-moi un café</string>
-    <string name="feature_aboutme_mainActions_portfolioTile_supportingText">Découvrez mon autre travail 🐢❤️</string>
+    <string name="feature_aboutme_mainActions_portfolioTile_supportingText">Découvrez mon travail 🐢❤️</string>
     <string name="feature_aboutme_mainActions_portfolioTile_title">Portfolio</string>
     <string name="feature_aboutme_socialLinks_headerTile_title">Réseaux sociaux</string>
 </resources>

@@ -33,7 +33,6 @@ import androidx.navigation.NavController
 import com.google.firebase.FirebaseApp
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
@@ -91,7 +90,7 @@ private fun DeveloperSettingsPanel(
         item { Rn3TileHorizontalDivider() }
 
         FirebaseApp.getApps(context)
-            .map { Triple(it.name, FirebaseRemoteConfig.getInstance(it), FirebaseInstallations.getInstance(it)) }
+            .map { Triple(it.name, FirebaseRemoteConfig.getInstance(it), FirebaseInstallations.getInstance(it).id) }
             .forEach { (appName, remoteConfig, installation) ->
 
                 item { Rn3TileSmallHeader(
@@ -105,7 +104,7 @@ private fun DeveloperSettingsPanel(
                     Rn3TileCopy(
                         title = stringResource(R.string.feature_settings_developerSettingsScreen_firebaseIdTile_title),
                         icon = Icons.Outlined.LocalFireDepartment,
-                        text = installation.id.result,
+                        text = installation.result,
                     )
                 }
 
