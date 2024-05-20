@@ -52,8 +52,7 @@
     </entry>
     <entry>
         <key>privacy_policy_short</key>
-        <value>• The application stores all data locally, ensuring no personal information is
-            collected.\n• Requires Internet access for crash reports and minimal usage statistics.
+        <value>• The application stores all data locally, ensuring no personal information is collected.\n• Requires Internet access for crash reports and minimal usage statistics.
         </value>
     </entry>
 </defaultsMap>

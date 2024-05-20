@@ -28,10 +28,6 @@ internal class StubConfigHelper @Inject constructor() : ConfigHelper {
 
     override fun init(activity: Activity) {}
 
-    override fun getLastFetchStatus(): String {
-        return "Not available in Preview"
-    }
-
     override fun getBoolean(key: String): Boolean {
         return false
     }
@@ -39,6 +35,4 @@ internal class StubConfigHelper @Inject constructor() : ConfigHelper {
     override fun getString(key: String): String {
         return "Not available in Preview"
     }
-
-    override fun forEachEntry(action: ((key: String, value: String, source: String) -> Unit)) {}
 }

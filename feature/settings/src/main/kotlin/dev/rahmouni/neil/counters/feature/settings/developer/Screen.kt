@@ -16,6 +16,7 @@
 
 package dev.rahmouni.neil.counters.feature.settings.developer
 
+import android.text.format.DateUtils
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
@@ -26,9 +27,11 @@ import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.QuestionMark
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.google.firebase.FirebaseApp
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
-import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
@@ -71,8 +74,8 @@ internal fun DeveloperSettingsScreen(
 private fun DeveloperSettingsPanel(
     contentPadding: PaddingValues,
 ) {
-    val config = LocalConfigHelper.current
     val analytics = LocalAnalyticsHelper.current
+    val context = LocalContext.current
 
     Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
         item {
@@ -91,34 +94,52 @@ private fun DeveloperSettingsPanel(
             )
         }
 
-        item {
-            Rn3TileClick(
-                title = "RC last fetch status",
-                icon = Icons.Outlined.DataArray,
-                supportingText = config.getLastFetchStatus(),
-            ) {}
-        }
-
         item { Rn3TileHorizontalDivider() }
-        item { Rn3TileSmallHeader(title = "RC values") }
 
-        config.forEachEntry { key, value, source ->
-            val icon = when (source) {
-                "remote" -> Icons.Outlined.CloudDone
-                "default" -> Icons.AutoMirrored.Outlined.InsertDriveFile
-                else -> Icons.Outlined.QuestionMark
-            }
+        FirebaseApp.getApps(context)
+            .map { Pair(it.name, FirebaseRemoteConfig.getInstance(it)) }
+            .forEach { (appName, firebaseConfig) ->
 
-            if (value.isBoolean()) {
+                item { Rn3TileSmallHeader(title = "Config for $appName") }
+
                 item {
-                    Rn3TileSwitch(title = key, icon = icon, checked = value == "true") {}
+                    Rn3TileClick(
+                        title = "RC last fetch status",
+                        icon = Icons.Outlined.DataArray,
+                        supportingText = when (firebaseConfig.info.lastFetchStatus) {
+                            FirebaseRemoteConfig.LAST_FETCH_STATUS_SUCCESS ->
+                                "SUCCESS (${
+                                    DateUtils.getRelativeTimeSpanString(
+                                        firebaseConfig.info.fetchTimeMillis,
+                                    )
+                                })"
+
+                            FirebaseRemoteConfig.LAST_FETCH_STATUS_FAILURE -> "FAILURE"
+                            FirebaseRemoteConfig.LAST_FETCH_STATUS_THROTTLED -> "THROTTLED"
+                            FirebaseRemoteConfig.LAST_FETCH_STATUS_NO_FETCH_YET -> "NO_FETCH_YET"
+                            else -> "RahNeil_N3:Error:NMdUsSOSmdgHuvcFuFr6WjorE25ZszWZ"
+                        },
+                    ) {}
                 }
-            } else {
-                item {
-                    Rn3TileCopy(title = key, icon = icon, text = value)
+
+                firebaseConfig.all.entries.forEach { (key, value) ->
+                    val icon = when (value.source) {
+                        FirebaseRemoteConfig.VALUE_SOURCE_REMOTE -> Icons.Outlined.CloudDone
+                        FirebaseRemoteConfig.VALUE_SOURCE_DEFAULT -> Icons.AutoMirrored.Outlined.InsertDriveFile
+                        else -> Icons.Outlined.QuestionMark
+                    }
+
+                    if (value.asString().isBoolean()) {
+                        item {
+                            Rn3TileSwitch(title = key, icon = icon, checked = value.asBoolean()) {}
+                        }
+                    } else {
+                        item {
+                            Rn3TileCopy(title = key, icon = icon, text = value.asString())
+                        }
+                    }
                 }
             }
-        }
     }
 }
 
