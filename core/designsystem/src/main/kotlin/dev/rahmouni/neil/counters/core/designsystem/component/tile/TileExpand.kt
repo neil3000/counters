@@ -1,12 +1,15 @@
 package dev.rahmouni.neil.counters.core.designsystem.component.tile
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -48,6 +51,7 @@ fun Rn3TileExpand(
     val degreeAnimation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f,
         label = "chevron animation",
+        animationSpec = tween(easing = EaseOut),
     )
 
     Surface(
@@ -55,13 +59,13 @@ fun Rn3TileExpand(
             .fillMaxWidth()
             .padding(16.dp),
         shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.primaryContainer,
+        color = MaterialTheme.colorScheme.surfaceContainer,
     ) {
         Column(
             Modifier.toggleable(
                 value = expanded,
                 onValueChange = {
-                    haptic.toggle(it)
+                    haptic.click()
                     expanded = it
                 },
                 role = Role.DropdownList,
@@ -81,7 +85,9 @@ fun Rn3TileExpand(
                 enter = fadeIn() + expandVertically(),
                 exit = fadeOut() + shrinkVertically(),
             ) {
-                content()
+                Box(Modifier.padding(bottom = 4.dp)) {
+                    content()
+                }
             }
         }
     }
