@@ -230,8 +230,8 @@ private fun DataAndPrivacySettingsPanel(
                 Column {
                     Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title))
                     Text(
-                        config.getString("privacy_policy_short"),
-                        Modifier.padding(start = 16.dp, bottom = 8.dp),
+                        text = config.getString("privacy_policy_short"),
+                        Modifier.padding(start = 16.dp, bottom = 8.dp, end = 16.dp),
                     )
                 }
             }
