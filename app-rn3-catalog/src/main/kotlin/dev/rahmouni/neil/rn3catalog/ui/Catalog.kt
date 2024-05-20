@@ -76,6 +76,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SwitchAccessibi
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickChips
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileExpand
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
@@ -102,45 +103,12 @@ fun Rn3Catalog() {
                 contentPadding = paddingValues,
             ) {
                 item {
-                    var expanded by rememberSaveable { mutableStateOf(false) }
-                    val degreeAnimation by animateFloatAsState(
-                        targetValue = if (expanded) 180f else 0f,
-                        label = "chevron animation",
-                    )
-
-                    Surface(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                            .toggleable(
-                                expanded,
-                                onValueChange = {
-                                    //TODO haptics
-                                    expanded = it
-                                },
-                            ),
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        shape = RoundedCornerShape(16.dp),
-                    ) {
+                    Rn3TileExpand(title = "Learn more", icon = Outlined.Info) {
                         Column {
-                            Row(Modifier.padding(16.dp), horizontalArrangement = spacedBy(16.dp)) {
-                                Icon(Outlined.Info, null)
-                                Text("Learn more")
-                                Spacer(modifier = Modifier.weight(1f))
-                                Icon(Outlined.ExpandMore, null, Modifier.rotate(degreeAnimation))
-                            }
-                            AnimatedVisibility(
-                                visible = expanded,
-                                enter = fadeIn() + expandVertically(),
-                                exit = fadeOut() + shrinkVertically(),
-                            ) {
-                                Column {
-                                    Text(
-                                        text = "Lorem ipsum blag blag blah MEZKNGvmzls,gMRKSWFNbwmdfl,bwDLFnhbl!kwd:f;bwdfb",
-                                        Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                                    )
-                                }
-                            }
+                            Text(
+                                text = "Lorem ipsum blag blag blah MEZKNGvmzls,gMRKSWFNbwmdfl,bwDLFnhbl!kwd:f;bwdfb",
+                                Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                            )
                         }
                     }
                 }

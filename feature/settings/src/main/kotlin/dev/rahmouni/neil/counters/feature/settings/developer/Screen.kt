@@ -28,8 +28,10 @@ import androidx.compose.material.icons.outlined.QuestionMark
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.google.firebase.FirebaseApp
+import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
@@ -43,6 +45,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallH
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
 import dev.rahmouni.neil.counters.feature.settings.BuildConfig
+import dev.rahmouni.neil.counters.feature.settings.R
 
 @Composable
 internal fun DeveloperSettingsRoute(
@@ -62,7 +65,7 @@ internal fun DeveloperSettingsScreen(
     onBackIconButtonClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
-        modifier, "Developer settings",
+        modifier, stringResource(R.string.feature_settings_developerSettingsScreen_topAppBar_title),
         onBackIconButtonClicked,
         null,
     ) {
@@ -74,55 +77,60 @@ internal fun DeveloperSettingsScreen(
 private fun DeveloperSettingsPanel(
     contentPadding: PaddingValues,
 ) {
-    val analytics = LocalAnalyticsHelper.current
     val context = LocalContext.current
 
     Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
         item {
             Rn3TileClick(
-                title = "Build config",
+                title = stringResource(R.string.feature_settings_developerSettingsScreen_buildconfigTile_title),
                 icon = Icons.Outlined.Rn3,
                 supportingText = BuildConfig.FLAVOR + " / " + BuildConfig.BUILD_TYPE,
             ) {}
         }
 
-        item {
-            Rn3TileCopy(
-                title = "Firebase App Installation ID",
-                icon = Icons.Outlined.LocalFireDepartment,
-                text = analytics.appInstallationID,
-            )
-        }
-
         item { Rn3TileHorizontalDivider() }
 
         FirebaseApp.getApps(context)
-            .map { Pair(it.name, FirebaseRemoteConfig.getInstance(it)) }
-            .forEach { (appName, firebaseConfig) ->
+            .map { Triple(it.name, FirebaseRemoteConfig.getInstance(it), FirebaseInstallations.getInstance(it)) }
+            .forEach { (appName, remoteConfig, installation) ->
 
-                item { Rn3TileSmallHeader(title = "Config for $appName") }
+                item { Rn3TileSmallHeader(
+                    title = stringResource(
+                        R.string.feature_settings_developerSettingsScreen_configHeaderTile_title,
+                        appName,
+                    ),
+                ) }
+
+                item {
+                    Rn3TileCopy(
+                        title = stringResource(R.string.feature_settings_developerSettingsScreen_firebaseIdTile_title),
+                        icon = Icons.Outlined.LocalFireDepartment,
+                        text = installation.id.result,
+                    )
+                }
 
                 item {
                     Rn3TileClick(
-                        title = "RC last fetch status",
+                        title = stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_title),
                         icon = Icons.Outlined.DataArray,
-                        supportingText = when (firebaseConfig.info.lastFetchStatus) {
+                        supportingText = when (remoteConfig.info.lastFetchStatus) {
                             FirebaseRemoteConfig.LAST_FETCH_STATUS_SUCCESS ->
-                                "SUCCESS (${
+                                stringResource(
+                                    R.string.feature_settings_developerSettingsScreen_rcStatusTile_success,
                                     DateUtils.getRelativeTimeSpanString(
-                                        firebaseConfig.info.fetchTimeMillis,
-                                    )
-                                })"
+                                        remoteConfig.info.fetchTimeMillis,
+                                    ),
+                                )
 
-                            FirebaseRemoteConfig.LAST_FETCH_STATUS_FAILURE -> "FAILURE"
-                            FirebaseRemoteConfig.LAST_FETCH_STATUS_THROTTLED -> "THROTTLED"
-                            FirebaseRemoteConfig.LAST_FETCH_STATUS_NO_FETCH_YET -> "NO_FETCH_YET"
+                            FirebaseRemoteConfig.LAST_FETCH_STATUS_FAILURE -> stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_failure)
+                            FirebaseRemoteConfig.LAST_FETCH_STATUS_THROTTLED -> stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_throttled)
+                            FirebaseRemoteConfig.LAST_FETCH_STATUS_NO_FETCH_YET -> stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_noFetchYet)
                             else -> "RahNeil_N3:Error:NMdUsSOSmdgHuvcFuFr6WjorE25ZszWZ"
                         },
                     ) {}
                 }
 
-                firebaseConfig.all.entries.forEach { (key, value) ->
+                remoteConfig.all.entries.forEach { (key, value) ->
                     val icon = when (value.source) {
                         FirebaseRemoteConfig.VALUE_SOURCE_REMOTE -> Icons.Outlined.CloudDone
                         FirebaseRemoteConfig.VALUE_SOURCE_DEFAULT -> Icons.AutoMirrored.Outlined.InsertDriveFile

@@ -16,16 +16,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
 import dev.rahmouni.neil.counters.core.feedback.FeedbackOptions
+import dev.rahmouni.neil.counters.core.feedback.R
 import kotlinx.coroutines.delay
 
 @Composable
 internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) {
-    //TODO i18n
-
     val haptic = getHaptic()
 
     var trigger by rememberSaveable { mutableStateOf(false) }
@@ -39,8 +39,8 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
     Column {
         FeedbackMessages(
             listOf(
-                "Welcome! \uD83D\uDC4B",
-                "What kind of feedback would you like to send?",
+                stringResource(R.string.core_feedback_TypePage_welcomeMessage),
+                stringResource(R.string.core_feedback_TypePage_typeMessage),
             ),
         )
 
@@ -49,7 +49,12 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
             enter = fadeIn(tween(150, 150)) + expandVertically(),
         ) {
             FeedbackOptions(
-                mapOf("BUG" to "Bug report", "FEATURE" to "Suggestion"),
+                mapOf(
+                    "BUG" to stringResource(R.string.core_feedback_TypePage_bug),
+                    "FEATURE" to stringResource(
+                        R.string.core_feedback_TypePage_suggestion,
+                    ),
+                ),
                 currentType,
             ) { currentType = it }
         }
@@ -64,7 +69,7 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
                 .padding(start = 16.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
             enabled = trigger,
         ) {
-            Text("Continue")
+            Text(stringResource(R.string.core_feedback_continueButton_title))
         }
     }
 }

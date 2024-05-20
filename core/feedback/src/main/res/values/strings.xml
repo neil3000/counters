@@ -15,4 +15,23 @@
 -->
 <resources>
     <string name="core_feedback_localeID">Majs00Xw0LXd2gyrzbaosqh8bOy6oKhY</string>
+    <string name="core_feedback_TypePage_bug">Bug report</string>
+    <string name="core_feedback_TypePage_suggestion">Suggestion</string>
+    <string name="core_feedback_TypePage_typeMessage">What kind of feedback would you like to send?</string>
+    <string name="core_feedback_TypePage_welcomeMessage">Welcome! 👋</string>
+    <string name="core_feedback_backButton_title">Back</string>
+    <string name="core_feedback_closeButton_contentDescription">Close</string>
+    <string name="core_feedback_contextPage_additionalInfoTile_supportingText"><![CDATA[Such as the App & Android version]]></string>
+    <string name="core_feedback_contextPage_additionalInfoTile_title">Send additional info</string>
+    <string name="core_feedback_contextPage_bugPageTile_title">Bug was on the current page</string>
+    <string name="core_feedback_contextPage_contextMessage">We just need a bit more context:</string>
+    <string name="core_feedback_contextPage_screenshotTile_supportingText">Only if the issue is a visual one</string>
+    <string name="core_feedback_contextPage_screenshotTile_title">Include screenshot</string>
+    <string name="core_feedback_contextPage_suggestionPageTile_title">Suggestion is about this page</string>
+    <string name="core_feedback_continueButton_title">Continue</string>
+    <string name="core_feedback_DescriptionPage_bugMessage">Please describe the bug and how it happened in detail</string>
+    <string name="core_feedback_DescriptionPage_personalInfoMessage">⚠️ Do not include personal information</string>
+    <string name="core_feedback_DescriptionPage_suggestionMessage">Explain your suggestion and try to give examples</string>
+    <string name="core_feedback_DescriptionPage_textField_label">Description</string>
+    <string name="core_feedback_topBar_title">Send Feedback</string>
 </resources>

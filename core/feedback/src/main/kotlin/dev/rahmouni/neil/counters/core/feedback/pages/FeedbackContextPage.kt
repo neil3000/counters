@@ -18,10 +18,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
+import dev.rahmouni.neil.counters.core.feedback.R
 
 @Composable
 internal fun FeedbackContextPage(
@@ -33,8 +35,6 @@ internal fun FeedbackContextPage(
     nextPage: (Boolean, Boolean, Boolean) -> Unit,
     previousPage: (Boolean, Boolean, Boolean) -> Unit,
 ) {
-    //TODO i18n
-
     val haptic = getHaptic()
 
     var onCurrentPageValue by rememberSaveable { mutableStateOf(onCurrentPage) }
@@ -42,11 +42,13 @@ internal fun FeedbackContextPage(
     var sendAdditionalInfoValue by rememberSaveable { mutableStateOf(sendAdditionalInfo) }
 
     Column {
-        FeedbackMessages(listOf("We just need a bit more context:"))
+        FeedbackMessages(listOf(stringResource(R.string.core_feedback_contextPage_contextMessage)))
 
         if (hasContext) {
             Rn3TileSwitch(
-                title = if (bug) "Bug was on the current page" else "Suggestion is about this page",
+                title = if (bug) stringResource(R.string.core_feedback_contextPage_bugPageTile_title) else stringResource(
+                    R.string.core_feedback_contextPage_suggestionPageTile_title,
+                ),
                 icon = Icons.Outlined.LocationOn,
                 checked = onCurrentPageValue,
             ) {
@@ -55,20 +57,20 @@ internal fun FeedbackContextPage(
         }
         if (bug) {
             Rn3TileSwitch(
-                title = "Include screenshot",
+                title = stringResource(R.string.core_feedback_contextPage_screenshotTile_title),
                 icon = Icons.Outlined.Screenshot,
                 checked = onCurrentPageValue && sendScreenshotValue,
                 enabled = onCurrentPageValue,
-                supportingText = "Only if the issue is a visual one",
+                supportingText = stringResource(R.string.core_feedback_contextPage_screenshotTile_supportingText),
             ) {
                 sendScreenshotValue = it
             }
         }
         Rn3TileSwitch(
-            title = "Send additional info",
+            title = stringResource(R.string.core_feedback_contextPage_additionalInfoTile_title),
             icon = Icons.Outlined.Android,
             checked = sendAdditionalInfoValue,
-            supportingText = "Such as the App & Android version",
+            supportingText = stringResource(R.string.core_feedback_contextPage_additionalInfoTile_supportingText),
         ) {
             sendAdditionalInfoValue = it
         }
@@ -87,7 +89,7 @@ internal fun FeedbackContextPage(
                     )
                 },
             ) {
-                Text("Back")
+                Text(stringResource(R.string.core_feedback_backButton_title))
             }
             Button(
                 onClick = {
@@ -100,7 +102,7 @@ internal fun FeedbackContextPage(
                 },
                 Modifier.fillMaxWidth(),
             ) {
-                Text("Continue")
+                Text(stringResource(R.string.core_feedback_continueButton_title))
             }
         }
     }

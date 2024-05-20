@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_settings_accessibilitySettingsScreen_topAppBar_title">Accessibilité</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_clearMetricsTile_title">Effacer les métriques de l\'application</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsHeaderTile_title">Rapports de plantage</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title">En savoir plus</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_crashlyticsTile_title">Rapports de plantage</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_metricsHeaderTile_title">Métriques</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title">En savoir plus</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_metricsTile_title">Métriques</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicyHeaderTile_title">Politique de confidentialité</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title">Résumé</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title">Politique de confidentialité</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_topAppBar_title"><![CDATA[Données et Confidentialité]]></string>
+    <string name="feature_settings_developerSettingsScreen_buildconfigTile_title">Configuration de la build</string>
+    <string name="feature_settings_developerSettingsScreen_configHeaderTile_title">Configuration pour %1$s</string>
+    <string name="feature_settings_developerSettingsScreen_firebaseIdTile_title">ID d\'installation de l\'application Firebase</string>
+    <string name="feature_settings_developerSettingsScreen_rcStatusTile_title">Dernier statut de récupération RC</string>
+    <string name="feature_settings_developerSettingsScreen_rcStatusTile_failure">ÉCHEC</string>
+    <string name="feature_settings_developerSettingsScreen_rcStatusTile_noFetchYet">PAS_ENCORE_RÉCUPÉRÉ</string>
+    <string name="feature_settings_developerSettingsScreen_rcStatusTile_success">SUCCÈS (%1$s)</string>
+    <string name="feature_settings_developerSettingsScreen_rcStatusTile_throttled">LIMITÉ</string>
+    <string name="feature_settings_developerSettingsScreen_topAppBar_title"><![CDATA[Paramètres développeur]]></string>
+    <string name="feature_settings_settingsScreen_aboutHeaderTile_title">À propos</string>
+    <string name="feature_settings_settingsScreen_aboutMeTile_title">À propos de moi</string>
+    <string name="feature_settings_settingsScreen_accessibilityTile_title">Accessibilité</string>
+    <string name="feature_settings_settingsScreen_androidAccessibilityTile_title">Plus de paramètres d\'accessibilité</string>
+    <string name="feature_settings_settingsScreen_changelogTile_title">Journal des modifications de l\'application</string>
+    <string name="feature_settings_settingsScreen_contributeTile_title"><![CDATA[Contribuer et aider]]></string>
+    <string name="feature_settings_settingsScreen_dataAndPrivacyTile_title"><![CDATA[Données et Confidentialité]]></string>
+    <string name="feature_settings_settingsScreen_developer_supportingText">Affiché car vous avez activé les paramètres développeur</string>
+    <string name="feature_settings_settingsScreen_developer_title">Paramètres développeur</string>
+    <string name="feature_settings_settingsScreen_discordTile_title">Rejoignez notre communauté Discord</string>
+    <string name="feature_settings_settingsScreen_emphasizedSwitchesTile_title">Mettre en évidence les interrupteurs sélectionnés</string>
+    <string name="feature_settings_settingsScreen_generalHeaderTile_title">Général</string>
+    <string name="feature_settings_settingsScreen_iconTooltipsTile_supportingText">Activer les popups informatifs lorsque vous appuyez longuement sur les boutons d\'icônes</string>
+    <string name="feature_settings_settingsScreen_iconTooltipsTile_title">Infobulles des icônes</string>
+    <string name="feature_settings_settingsScreen_ossLicensesTile_title">Licences open source</string>
+    <string name="feature_settings_settingsScreen_otherHeaderTile_title">Autre</string>
+    <string name="feature_settings_settingsScreen_topAppBar_title">Paramètres</string>
+</resources>

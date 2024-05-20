@@ -220,9 +220,9 @@ private fun SettingsPanel(
         // developerSettingsTile
         if (showDeveloperSettings) item {
             Rn3TileClick(
-                title = "Developer settings",
+                title = stringResource(string.feature_settings_settingsScreen_developer_title),
                 icon = Outlined.DataObject,
-                supportingText = "Shown since you have Dev Settings on",
+                supportingText = stringResource(string.feature_settings_settingsScreen_developer_supportingText),
                 onClick = onClickDeveloperSettingsTile,
             )
         }

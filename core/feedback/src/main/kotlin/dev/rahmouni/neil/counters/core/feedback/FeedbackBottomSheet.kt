@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -78,11 +79,11 @@ fun FeedbackBottomSheet(
                     horizontalArrangement = spacedBy(16.dp),
                 ) {
                     Icon(Icons.Outlined.Feedback, null)
-                    Text("Send Feedback", fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.core_feedback_topBar_title), fontWeight = FontWeight.SemiBold)
                     Spacer(Modifier.weight(1f))
                     Rn3IconButton(
                         icon = Icons.Outlined.Close,
-                        contentDescription = "Close",
+                        contentDescription = stringResource(R.string.core_feedback_closeButton_contentDescription),
                     ) {
                         scope.launch { sheetState.hide() }.invokeOnCompletion {
                             navController.popBackStack()
