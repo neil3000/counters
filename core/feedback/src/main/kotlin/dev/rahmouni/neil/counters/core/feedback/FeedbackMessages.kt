@@ -1,6 +1,7 @@
 package dev.rahmouni.neil.counters.core.feedback
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -42,7 +43,7 @@ internal fun FeedbackMessages(messages: List<String>) {
                         250,
                         delayMillis = index * 1000,
                     ),
-                ) + fadeIn(tween(250, delayMillis = index * 1000)) else fadeIn(),
+                ) + fadeIn(tween(250, delayMillis = index * 1000 + 250)) else EnterTransition.None,
             ) {
                 Surface(
                     color = MaterialTheme.colorScheme.surfaceContainer,
