@@ -38,6 +38,10 @@ import dev.rahmouni.neil.counters.core.accessibility.AccessibilityHelper
 import dev.rahmouni.neil.counters.core.accessibility.LocalAccessibilityHelper
 import dev.rahmouni.neil.counters.core.analytics.AnalyticsHelper
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
+import dev.rahmouni.neil.counters.core.auth.AuthHelper
+import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
+import dev.rahmouni.neil.counters.core.auth.StubAuthHelper
+import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.core.config.ConfigHelper
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -63,6 +67,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var configHelper: ConfigHelper
 
+    @Inject
+    lateinit var authHelper: AuthHelper
+
     private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,9 +77,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         var uiState: MainActivityUiState by mutableStateOf(Loading)
+        var finishedSigningIn by mutableStateOf(false)
 
         // Update the uiState
         lifecycleScope.launch {
+            if (authHelper.getUser() is LoggedOutUser) {
+                authHelper.signInWithCredentialManager(this@MainActivity, true)
+            }
+            finishedSigningIn = true
+
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState
                     .onEach { uiState = it }
@@ -83,12 +96,7 @@ class MainActivity : ComponentActivity() {
         // Keep the splash screen on-screen until the UI state is loaded. This condition is
         // evaluated each time the app needs to be redrawn so it should be fast to avoid blocking
         // the UI.
-        splashScreen.setKeepOnScreenCondition {
-            when (uiState) {
-                Loading -> true
-                is Success -> false
-            }
-        }
+        splashScreen.setKeepOnScreenCondition { uiState is Loading || !finishedSigningIn }
 
         FirebaseAnalytics.getInstance(this).appInstanceId.addOnSuccessListener {
             analyticsHelper.appInstallationID = it ?: "RahNeil_N3:Error"
@@ -107,6 +115,10 @@ class MainActivity : ComponentActivity() {
                     is Success -> (uiState as Success).accessibilityHelper
                 },
                 LocalConfigHelper provides configHelper,
+                LocalAuthHelper provides when (uiState) {
+                    Loading -> StubAuthHelper()
+                    is Success -> authHelper
+                },
             ) {
                 Rn3Theme {
                     CountersApp(appState)

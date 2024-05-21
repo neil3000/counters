@@ -25,6 +25,8 @@ import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,6 +49,7 @@ fun Rn3TileClick(
     supportingText: String? = null,
     external: Boolean = false,
     enabled: Boolean = true,
+    error: Boolean = false,
     onClick: () -> Unit,
 ) {
     val haptic = getHaptic()
@@ -54,8 +57,16 @@ fun Rn3TileClick(
 
     val interactionSource = remember { MutableInteractionSource() }
 
+    val colors = if (error) ListItemDefaults.colors(
+        headlineColor = MaterialTheme.colorScheme.error,
+        leadingIconColor = MaterialTheme.colorScheme.error,
+        supportingColor = MaterialTheme.colorScheme.error,
+        trailingIconColor = MaterialTheme.colorScheme.error,
+    ) else ListItemDefaults.colors()
+
     ListItem(
         headlineContent = { Text(text = title) },
+        colors = colors,
         modifier = modifier
             .hoverable(interactionSource = interactionSource, enabled = enabled)
             .focusable(interactionSource = interactionSource, enabled = enabled)

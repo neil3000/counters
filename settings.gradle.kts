@@ -19,27 +19,30 @@ dependencyResolutionManagement {
 rootProject.name = "Counters_2"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(":app")
 include(":app-rn3-catalog")
+
+include(":core:accessibility")
 include(":core:analytics")
-include(":core:config")
+include(":core:auth")
 include(":core:common")
+include(":core:config")
 include(":core:data")
 include(":core:data-test")
 include(":core:datastore")
 include(":core:datastore-proto")
 include(":core:datastore-test")
 include(":core:designsystem")
+include(":core:feedback")
 include(":core:model")
 include(":core:screenshot-testing")
+include(":core:shapes")
 include(":core:testing")
 include(":core:ui")
-include(":core:feedback")
-include(":core:accessibility")
-include(":core:shapes")
 
-include(":feature:settings")
 include(":feature:aboutme")
+include(":feature:settings")
 
 include(":lint")
 include(":ui-test-hilt-manifest")

@@ -83,6 +83,7 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.config)
     implementation(projects.core.feedback)
+    implementation(projects.core.auth)
 
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.navigation.compose)

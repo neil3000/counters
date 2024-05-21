@@ -51,7 +51,6 @@ fun CountersNavHost(
             developerSettingsScreen(navController)
             dataAndPrivacySettingsScreen(navController)
             aboutMeScreen(navController)
-
             feedbackDialog(navController)
         }
     }

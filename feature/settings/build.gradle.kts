@@ -42,6 +42,7 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.config)
     implementation(projects.core.feedback)
+    implementation(projects.core.auth)
 
     testImplementation(projects.core.testing)
 
