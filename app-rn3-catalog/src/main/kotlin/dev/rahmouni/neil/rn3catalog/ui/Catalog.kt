@@ -17,23 +17,13 @@
 package dev.rahmouni.neil.rn3catalog.ui
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement.spacedBy
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.AcUnit
 import androidx.compose.material.icons.outlined.AccessibilityNew
@@ -44,7 +34,6 @@ import androidx.compose.material.icons.outlined.Blind
 import androidx.compose.material.icons.outlined.Bluetooth
 import androidx.compose.material.icons.outlined.Cake
 import androidx.compose.material.icons.outlined.EmojiEvents
-import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.Shield
@@ -53,20 +42,15 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import dev.rahmouni.neil.counters.core.designsystem.component.ExpandableSurface
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyRowWithPadding
@@ -76,7 +60,6 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SwitchAccessibi
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickChips
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileExpand
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
@@ -96,21 +79,26 @@ fun Rn3Catalog() {
         Rn3Scaffold(
             title = "Rn3 Catalog",
             onBackIconButtonClicked = {},
-            onFeedbackIconButtonClicked = {}
+            onFeedbackIconButtonClicked = {},
         ) { paddingValues ->
             Rn3LazyColumnFullScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = paddingValues,
             ) {
                 item {
-                    Rn3TileExpand(title = "Learn more", icon = Outlined.Info) {
-                        Column {
+                    ExpandableSurface(
+                        content = {
+                            Icon(Outlined.Info, null)
+                            Spacer(Modifier.width(16.dp))
+                            Text("Learn more")
+                        },
+                        expandedContent = {
                             Text(
                                 text = "Lorem ipsum blag blag blah MEZKNGvmzls,gMRKSWFNbwmdfl,bwDLFnhbl!kwd:f;bwdfb",
-                                Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                                Modifier.padding(start = 16.dp, bottom = 8.dp),
                             )
-                        }
-                    }
+                        },
+                    )
                 }
                 item { Rn3TileSmallHeader(title = "Switches") }
                 item {
