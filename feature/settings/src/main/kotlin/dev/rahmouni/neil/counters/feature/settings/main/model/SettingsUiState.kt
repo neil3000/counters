@@ -18,4 +18,8 @@ package dev.rahmouni.neil.counters.feature.settings.main.model
 
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.SettingsData
 
-data class SettingsUiState(val settingsData: SettingsData)
+sealed interface SettingsUiState {
+    data object Loading : SettingsUiState
+    data class Success(val settingsData: SettingsData) :
+        SettingsUiState
+}

@@ -43,6 +43,16 @@ internal fun AnalyticsHelper.logAccessibilityIconTooltipsPreferenceChanged(value
         ),
     )
 
+internal fun AnalyticsHelper.logSyncPreferenceChanged(value: Boolean) =
+    logEvent(
+        AnalyticsEvent(
+            type = "sync_preference_changed",
+            extras = listOf(
+                Param(key = "sync_preference", value = value.toString()),
+            ),
+        ),
+    )
+
 internal fun AnalyticsHelper.logMetricsPreferenceChanged(value: Boolean) =
     logEvent(
         AnalyticsEvent(

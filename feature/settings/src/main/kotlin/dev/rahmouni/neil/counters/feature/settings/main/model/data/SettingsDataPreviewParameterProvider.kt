@@ -21,6 +21,7 @@ import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_default
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_devSettingsEnabled
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_hasSyncDisabled
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_loggedOut
 
 /**
@@ -30,7 +31,10 @@ import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParame
 class SettingsDataPreviewParameterProvider :
     PreviewParameterProvider<SettingsData> {
     override val values: Sequence<SettingsData> = sequenceOf(
-        settingsData_default, settingsData_loggedOut, settingsData_devSettingsEnabled,
+        settingsData_default,
+        settingsData_loggedOut,
+        settingsData_hasSyncDisabled,
+        settingsData_devSettingsEnabled,
     )
 }
 
@@ -40,11 +44,16 @@ object PreviewParameterData {
             displayName = "Android Preview",
             pfpUri = null,
         ),
+        hasSyncDisabled = false,
         devSettingsEnabled = false,
     )
     val settingsData_loggedOut =
         settingsData_default.copy(
             user = LoggedOutUser,
+        )
+    val settingsData_hasSyncDisabled =
+        settingsData_default.copy(
+            hasSyncDisabled = true,
         )
     val settingsData_devSettingsEnabled =
         settingsData_default.copy(

@@ -30,6 +30,7 @@ class Rn3PreferencesDataSource @Inject constructor(
         UserData(
             hasAccessibilityEmphasizedSwitchesEnabled = it.accessibilityHasEmphasizedSwitchesEnabled,
             hasAccessibilityIconTooltipsEnabled = !it.accessibilityHasIconTooltipsDisabled,
+            hasSyncDisabled = !it.hasSyncDisabled,
             hasMetricsEnabled = !it.hasMetricsDisabled,
             hasCrashlyticsEnabled = !it.hasCrashlyticsDisabled,
         )
@@ -44,6 +45,12 @@ class Rn3PreferencesDataSource @Inject constructor(
     suspend fun setAccessibilityIconTooltipsPreference(value: Boolean) {
         userPreferences.updateData {
             it.copy { this.accessibilityHasIconTooltipsDisabled = !value }
+        }
+    }
+
+    suspend fun setSyncDisabledPreference(value: Boolean) {
+        userPreferences.updateData {
+            it.copy { this.hasSyncDisabled = !value }
         }
     }
 

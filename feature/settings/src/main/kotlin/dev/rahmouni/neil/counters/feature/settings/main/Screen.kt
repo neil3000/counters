@@ -86,6 +86,8 @@ import dev.rahmouni.neil.counters.feature.settings.logChangelogTileClicked
 import dev.rahmouni.neil.counters.feature.settings.logDiscordTileClicked
 import dev.rahmouni.neil.counters.feature.settings.logOssLicensesTileClicked
 import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState
+import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState.Loading
+import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState.Success
 import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsViewModel
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.SettingsData
@@ -123,6 +125,7 @@ internal fun SettingsRoute(
                 auth.signInWithCredentialManager(context, false)
             }
         },
+        onSyncTileCheckedChange = viewModel::setHasSyncEnabled,
         onBackIconButtonClicked = navController::popBackStack,
         onFeedbackIconButtonClicked = {
             navController.navigateToFeedback(
@@ -153,6 +156,7 @@ internal fun SettingsScreen(
     uiState: SettingsUiState,
     onAccountTileLogoutClicked: () -> Unit = {},
     onAccountTileLoginClicked: () -> Unit = {},
+    onSyncTileCheckedChange: (Boolean) -> Unit = {},
     onBackIconButtonClicked: () -> Unit = {},
     onFeedbackIconButtonClicked: () -> Unit = {},
     onClickDataAndPrivacyTile: () -> Unit = {},
@@ -170,20 +174,24 @@ internal fun SettingsScreen(
         onBackIconButtonClicked,
         onFeedbackIconButtonClicked,
     ) {
-        SettingsPanel(
-            it,
-            uiState.settingsData,
-            onAccountTileLogoutClicked,
-            onAccountTileLoginClicked,
-            onClickDataAndPrivacyTile,
-            onClickAccessibilityTile,
-            changelogTileUri,
-            discordTileUri,
-            onClickContributeTile,
-            onClickAboutMeTile,
-            onClickDeveloperSettingsTile,
-            onClickOssLicensesTile,
-        )
+        when (uiState) {
+            Loading -> {}
+            is Success -> SettingsPanel(
+                it,
+                uiState.settingsData,
+                onAccountTileLogoutClicked,
+                onAccountTileLoginClicked,
+                onSyncTileCheckedChange,
+                onClickDataAndPrivacyTile,
+                onClickAccessibilityTile,
+                changelogTileUri,
+                discordTileUri,
+                onClickContributeTile,
+                onClickAboutMeTile,
+                onClickDeveloperSettingsTile,
+                onClickOssLicensesTile,
+            )
+        }
     }
 }
 
@@ -193,6 +201,7 @@ private fun SettingsPanel(
     data: SettingsData,
     onAccountTileLogoutClicked: () -> Unit,
     onAccountTileLoginClicked: () -> Unit,
+    onSyncTileCheckedChange: (Boolean) -> Unit,
     onClickDataAndPrivacyTile: () -> Unit,
     onClickAccessibilityTile: () -> Unit,
     changelogTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
@@ -218,8 +227,8 @@ private fun SettingsPanel(
                             Rn3TileSwitch(
                                 title = "Device sync",
                                 icon = Outlined.Sync,
-                                checked = true,
-                                onCheckedChange = {},
+                                checked = data.hasSyncDisabled,
+                                onCheckedChange = onSyncTileCheckedChange,
                             )
                             Rn3TileClick(
                                 title = "Logout",
@@ -370,7 +379,7 @@ private fun Context.areAndroidDeveloperSettingsOn(): Boolean {
 private fun Default() {
     Rn3Theme {
         SettingsScreen(
-            uiState = SettingsUiState(PreviewParameterData.settingsData_default),
+            uiState = Success(PreviewParameterData.settingsData_default),
         )
     }
 }
@@ -383,7 +392,7 @@ private fun UiStates(
 ) {
     Rn3Theme {
         SettingsScreen(
-            uiState = SettingsUiState(settingsData = settingsData),
+            uiState = Success(settingsData = settingsData),
         )
     }
 }

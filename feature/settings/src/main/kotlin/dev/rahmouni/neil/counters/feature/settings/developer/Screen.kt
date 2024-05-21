@@ -90,15 +90,23 @@ private fun DeveloperSettingsPanel(
         item { Rn3TileHorizontalDivider() }
 
         FirebaseApp.getApps(context)
-            .map { Triple(it.name, FirebaseRemoteConfig.getInstance(it), FirebaseInstallations.getInstance(it).id) }
+            .map {
+                Triple(
+                    it.name,
+                    FirebaseRemoteConfig.getInstance(it),
+                    FirebaseInstallations.getInstance(it).id,
+                )
+            }
             .forEach { (appName, remoteConfig, installation) ->
 
-                item { Rn3TileSmallHeader(
-                    title = stringResource(
-                        R.string.feature_settings_developerSettingsScreen_configHeaderTile_title,
-                        appName,
-                    ),
-                ) }
+                item {
+                    Rn3TileSmallHeader(
+                        title = stringResource(
+                            R.string.feature_settings_developerSettingsScreen_configHeaderTile_title,
+                            appName,
+                        ),
+                    )
+                }
 
                 item {
                     Rn3TileCopy(

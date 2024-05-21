@@ -35,6 +35,8 @@ interface UserDataRepository {
      */
     suspend fun setAccessibilityIconTooltips(value: Boolean)
 
+    suspend fun setSyncDisabled(value: Boolean)
+
     suspend fun setMetricsEnabled(value: Boolean)
     suspend fun setCrashlyticsEnabled(value: Boolean)
 }
