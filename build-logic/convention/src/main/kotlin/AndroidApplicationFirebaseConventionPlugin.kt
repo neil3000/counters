@@ -22,6 +22,7 @@ class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("firebase.config").get())
                 "implementation"(libs.findLibrary("firebase.performance").get())
                 "implementation"(libs.findLibrary("firebase.crashlytics").get())
+                "implementation"(libs.findLibrary("firebase.auth").get())
             }
 
             extensions.configure<ApplicationExtension> {

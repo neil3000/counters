@@ -63,6 +63,7 @@ internal fun AccessibilitySettingsRoute(
     navController: NavController,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     val context = LocalContext.current
     val analyticsHelper = LocalAnalyticsHelper.current
 

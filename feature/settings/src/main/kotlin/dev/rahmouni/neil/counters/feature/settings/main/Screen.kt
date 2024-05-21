@@ -19,31 +19,59 @@ package dev.rahmouni.neil.counters.feature.settings.main
 import android.content.Context
 import android.provider.Settings
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Outlined
+import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.AccessibilityNew
 import androidx.compose.material.icons.outlined.DataObject
 import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.StarBorder
+import androidx.compose.material.icons.outlined.Sync
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
+import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
+import dev.rahmouni.neil.counters.core.auth.user.Avatar
+import dev.rahmouni.neil.counters.core.auth.user.Rn3User
+import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
+import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.common.openOssLicensesActivity
 import dev.rahmouni.neil.counters.core.common.toRn3Uri
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import dev.rahmouni.neil.counters.core.designsystem.component.ExpandableSurface
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
 import dev.rahmouni.neil.counters.core.designsystem.icons.Discord
@@ -57,21 +85,44 @@ import dev.rahmouni.neil.counters.feature.settings.developer.navigateToDeveloper
 import dev.rahmouni.neil.counters.feature.settings.logChangelogTileClicked
 import dev.rahmouni.neil.counters.feature.settings.logDiscordTileClicked
 import dev.rahmouni.neil.counters.feature.settings.logOssLicensesTileClicked
-
+import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState
+import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsViewModel
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.SettingsData
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.SettingsDataPreviewParameterProvider
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun SettingsRoute(
     modifier: Modifier = Modifier,
+    viewModel: SettingsViewModel = hiltViewModel(),
     navController: NavController,
     navigateToAboutMe: () -> Unit,
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     val context = LocalContext.current
     val analytics = LocalAnalyticsHelper.current
     val config = LocalConfigHelper.current
+    val auth = LocalAuthHelper.current
+
+    val scope = rememberCoroutineScope()
+
+    viewModel.setDevSettingsEnabled(context.areAndroidDeveloperSettingsOn())
 
     SettingsScreen(
         modifier = modifier,
-        showDeveloperSettings = context.areAndroidDeveloperSettingsOn(),
+        uiState,
+        onAccountTileLogoutClicked = {
+            scope.launch {
+                auth.signOut(context)
+            }
+        },
+        onAccountTileLoginClicked = {
+            scope.launch {
+                auth.signInWithCredentialManager(context, false)
+            }
+        },
         onBackIconButtonClicked = navController::popBackStack,
         onFeedbackIconButtonClicked = {
             navController.navigateToFeedback(
@@ -99,7 +150,9 @@ internal fun SettingsRoute(
 @Composable
 internal fun SettingsScreen(
     modifier: Modifier = Modifier,
-    showDeveloperSettings: Boolean = false,
+    uiState: SettingsUiState,
+    onAccountTileLogoutClicked: () -> Unit = {},
+    onAccountTileLoginClicked: () -> Unit = {},
     onBackIconButtonClicked: () -> Unit = {},
     onFeedbackIconButtonClicked: () -> Unit = {},
     onClickDataAndPrivacyTile: () -> Unit = {},
@@ -119,15 +172,17 @@ internal fun SettingsScreen(
     ) {
         SettingsPanel(
             it,
-            showDeveloperSettings = showDeveloperSettings,
-            onClickDataAndPrivacyTile = onClickDataAndPrivacyTile,
-            onClickAccessibilityTile = onClickAccessibilityTile,
-            changelogTileUri = changelogTileUri,
-            discordTileUri = discordTileUri,
-            onClickContributeTile = onClickContributeTile,
-            onClickAboutMeTile = onClickAboutMeTile,
-            onClickDeveloperSettingsTile = onClickDeveloperSettingsTile,
-            onClickOssLicensesTile = onClickOssLicensesTile,
+            uiState.settingsData,
+            onAccountTileLogoutClicked,
+            onAccountTileLoginClicked,
+            onClickDataAndPrivacyTile,
+            onClickAccessibilityTile,
+            changelogTileUri,
+            discordTileUri,
+            onClickContributeTile,
+            onClickAboutMeTile,
+            onClickDeveloperSettingsTile,
+            onClickOssLicensesTile,
         )
     }
 }
@@ -135,7 +190,9 @@ internal fun SettingsScreen(
 @Composable
 private fun SettingsPanel(
     contentPadding: PaddingValues,
-    showDeveloperSettings: Boolean,
+    data: SettingsData,
+    onAccountTileLogoutClicked: () -> Unit,
+    onAccountTileLoginClicked: () -> Unit,
     onClickDataAndPrivacyTile: () -> Unit,
     onClickAccessibilityTile: () -> Unit,
     changelogTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
@@ -148,6 +205,53 @@ private fun SettingsPanel(
     Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
         // generalHeaderTile
         item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_generalHeaderTile_title)) }
+
+        // accountTile
+        item {
+            when (data.user) {
+                is SignedInUser -> ExpandableSurface(
+                    content = {
+                        UserAvatarAndName(data.user)
+                    },
+                    expandedContent = {
+                        Column {
+                            Rn3TileSwitch(
+                                title = "Device sync",
+                                icon = Outlined.Sync,
+                                checked = true,
+                                onCheckedChange = {},
+                            )
+                            Rn3TileClick(
+                                title = "Logout",
+                                icon = Icons.AutoMirrored.Outlined.Logout,
+                                onClick = onAccountTileLogoutClicked,
+                                error = true,
+                            )
+                        }
+                    },
+                    tonalElevation = 4.dp,
+                )
+
+                is LoggedOutUser -> Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    color = MaterialTheme.colorScheme.surfaceContainer,
+                ) {
+                    Row(
+                        Modifier.padding(vertical = 12.dp, horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        UserAvatarAndName(user = data.user)
+                        OutlinedButton(onClick = onAccountTileLoginClicked) {
+                            Text("Login")
+                        }
+                    }
+                }
+            }
+        }
 
         // dataAndPrivacyTile
         item {
@@ -218,7 +322,7 @@ private fun SettingsPanel(
         item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_otherHeaderTile_title)) }
 
         // developerSettingsTile
-        if (showDeveloperSettings) item {
+        if (data.devSettingsEnabled) item {
             Rn3TileClick(
                 title = "Developer settings",
                 icon = Outlined.DataObject,
@@ -239,6 +343,18 @@ private fun SettingsPanel(
 }
 
 @Composable
+private fun UserAvatarAndName(user: Rn3User, modifier: Modifier = Modifier) {
+    Row(
+        modifier,
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        user.Avatar()
+        Text(user.getDisplayName(), style = MaterialTheme.typography.bodyLarge)
+    }
+}
+
+@Composable
 private fun Context.areAndroidDeveloperSettingsOn(): Boolean {
     if (LocalInspectionMode.current) return true
 
@@ -253,6 +369,21 @@ private fun Context.areAndroidDeveloperSettingsOn(): Boolean {
 @Composable
 private fun Default() {
     Rn3Theme {
-        SettingsScreen()
+        SettingsScreen(
+            uiState = SettingsUiState(PreviewParameterData.settingsData_default),
+        )
+    }
+}
+
+@Rn3PreviewUiStates
+@Composable
+private fun UiStates(
+    @PreviewParameter(SettingsDataPreviewParameterProvider::class)
+    settingsData: SettingsData,
+) {
+    Rn3Theme {
+        SettingsScreen(
+            uiState = SettingsUiState(settingsData = settingsData),
+        )
     }
 }

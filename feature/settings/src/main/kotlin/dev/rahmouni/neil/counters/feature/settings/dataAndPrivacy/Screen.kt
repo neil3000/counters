@@ -19,8 +19,10 @@ package dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.BugReport
@@ -28,6 +30,7 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Policy
 import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -46,10 +49,10 @@ import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import dev.rahmouni.neil.counters.core.designsystem.component.ExpandableSurface
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileExpand
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
@@ -167,15 +170,19 @@ private fun DataAndPrivacySettingsPanel(
 
         // metricsInfoTile
         item {
-            Rn3TileExpand(
-                title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title),
-                icon = Icons.Outlined.Info,
-            ) {
-                Text(
-                    config.getString("metrics_info_short"),
-                    Modifier.padding(start = 16.dp, bottom = 8.dp),
-                )
-            }
+            ExpandableSurface(
+                content = {
+                    Icon(Icons.Outlined.Info, null)
+                    Spacer(Modifier.width(16.dp))
+                    Text(stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title))
+                },
+                expandedContent = {
+                    Text(
+                        config.getString("metrics_info_short"),
+                        Modifier.padding(start = 16.dp, bottom = 8.dp),
+                    )
+                },
+            )
         }
 
         item { Rn3TileHorizontalDivider() }
@@ -195,15 +202,19 @@ private fun DataAndPrivacySettingsPanel(
 
         // crashlyticsInfoTile
         item {
-            Rn3TileExpand(
-                title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title),
-                icon = Icons.Outlined.Info,
-            ) {
-                Text(
-                    config.getString("crashlytics_info_short"),
-                    Modifier.padding(start = 16.dp, bottom = 8.dp),
-                )
-            }
+            ExpandableSurface(
+                content = {
+                    Icon(Icons.Outlined.Info, null)
+                    Spacer(Modifier.width(16.dp))
+                    Text(stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title))
+                },
+                expandedContent = {
+                    Text(
+                        config.getString("crashlytics_info_short"),
+                        Modifier.padding(start = 16.dp, bottom = 8.dp),
+                    )
+                },
+            )
         }
 
         item { Rn3TileHorizontalDivider() }
