@@ -49,7 +49,7 @@ import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.ExpandableSurface
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
@@ -170,7 +170,7 @@ private fun DataAndPrivacySettingsPanel(
 
         // metricsInfoTile
         item {
-            ExpandableSurface(
+            Rn3ExpandableSurface(
                 content = {
                     Icon(Icons.Outlined.Info, null)
                     Spacer(Modifier.width(16.dp))
@@ -202,7 +202,7 @@ private fun DataAndPrivacySettingsPanel(
 
         // crashlyticsInfoTile
         item {
-            ExpandableSurface(
+            Rn3ExpandableSurface(
                 content = {
                     Icon(Icons.Outlined.Info, null)
                     Spacer(Modifier.width(16.dp))

@@ -65,7 +65,7 @@ import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.ExpandableSurface
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
@@ -210,7 +210,7 @@ private fun SettingsPanel(
         // accountTile
         item {
             when (data.user) {
-                is SignedInUser -> ExpandableSurface(
+                is SignedInUser -> Rn3ExpandableSurface(
                     content = {
                         UserAvatarAndName(data.user)
                     },
@@ -356,7 +356,11 @@ private fun UserAvatarAndName(user: Rn3User, modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         user.Avatar()
-        Text(user.getDisplayName(), style = MaterialTheme.typography.bodyLarge)
+        Text(
+            user.getDisplayName(),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(top = 2.dp),
+        )
     }
 }
 

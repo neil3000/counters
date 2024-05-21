@@ -56,6 +56,7 @@ internal class FirebaseAuthHelper @Inject constructor(
                         .getCredential(
                             context,
                             GetCredentialRequest.Builder()
+                                .setPreferImmediatelyAvailableCredentials(filterByAuthorizedAccounts)
                                 .addCredentialOption(
                                     GetGoogleIdOption.Builder()
                                         .setFilterByAuthorizedAccounts(filterByAuthorizedAccounts)
