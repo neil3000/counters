@@ -60,6 +60,7 @@ internal class FirebaseAuthHelper @Inject constructor(
                                     GetGoogleIdOption.Builder()
                                         .setFilterByAuthorizedAccounts(filterByAuthorizedAccounts)
                                         .setServerClientId(WEB_CLIENT_ID)
+                                        .setAutoSelectEnabled(filterByAuthorizedAccounts)
                                         .build(),
                                 ).build(),
                         )

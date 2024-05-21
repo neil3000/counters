@@ -70,6 +70,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullS
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
@@ -215,6 +216,11 @@ private fun SettingsPanel(
                     },
                     expandedContent = {
                         Column {
+                            Rn3TileHorizontalDivider(
+                                paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
+                                    top = 0.dp,
+                                ),
+                            )
                             Rn3TileSwitch(
                                 title = "Device sync",
                                 icon = Outlined.Sync,
