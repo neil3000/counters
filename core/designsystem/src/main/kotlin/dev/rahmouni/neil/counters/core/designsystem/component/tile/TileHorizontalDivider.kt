@@ -31,7 +31,7 @@ import dev.rahmouni.neil.counters.core.designsystem.padding
 @Composable
 fun Rn3TileHorizontalDivider(
     modifier: Modifier = Modifier,
-    color: Color = DividerDefaults.color,
+    color: Color = Rn3TileHorizontalDividerDefaults.color,
     paddingValues: Rn3PaddingValues = Rn3TileHorizontalDividerDefaults.paddingValues,
 ) {
     HorizontalDivider(
@@ -39,6 +39,12 @@ fun Rn3TileHorizontalDivider(
         color = color,
     )
 }
+
+object Rn3TileHorizontalDividerDefaults {
+    val paddingValues = Rn3PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+    val color: Color @Composable get() = DividerDefaults.color
+}
+
 
 @Rn3PreviewComponentDefault
 @Composable
@@ -48,8 +54,4 @@ private fun Default() {
             Rn3TileHorizontalDivider()
         }
     }
-}
-
-object Rn3TileHorizontalDividerDefaults {
-    val paddingValues = Rn3PaddingValues(horizontal = 16.dp, vertical = 8.dp)
 }
