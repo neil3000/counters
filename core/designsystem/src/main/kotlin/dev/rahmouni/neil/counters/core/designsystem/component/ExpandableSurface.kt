@@ -35,15 +35,18 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import dev.rahmouni.neil.counters.core.designsystem.padding
 
 @Composable
-fun ExpandableSurface(
+fun Rn3ExpandableSurface(
     modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit,
     expandedContent: @Composable AnimatedVisibilityScope.() -> Unit,
-    tonalElevation: Dp = 0.dp,
+    paddingValues: Rn3PaddingValues = Rn3ExpandableSurfaceDefaults.paddingValues,
+    tonalElevation: Dp = Rn3ExpandableSurfaceDefaults.tonalElevation,
 ) {
     val haptic = getHaptic()
 
@@ -57,7 +60,7 @@ fun ExpandableSurface(
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(paddingValues),
         tonalElevation = tonalElevation,
         shape = RoundedCornerShape(16.dp),
     ) {
@@ -87,12 +90,17 @@ fun ExpandableSurface(
     }
 }
 
+object Rn3ExpandableSurfaceDefaults {
+    val paddingValues = Rn3PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+    val tonalElevation = 2.dp
+}
+
 @Rn3PreviewComponentDefault
 @Composable
 private fun Default() {
     Rn3Theme {
         Surface {
-            ExpandableSurface(
+            Rn3ExpandableSurface(
                 content = {
                     Icon(Outlined.Info, null)
                     Spacer(Modifier.width(16.dp))
