@@ -22,13 +22,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import dev.rahmouni.neil.counters.core.feedback.feedbackDialog
-import dev.rahmouni.neil.counters.dashboard.DASHBOARD_ROUTE
-import dev.rahmouni.neil.counters.dashboard.dashboardScreen
 import dev.rahmouni.neil.counters.feature.aboutme.aboutMeScreen
 import dev.rahmouni.neil.counters.feature.aboutme.navigateToAboutMe
+import dev.rahmouni.neil.counters.feature.dashboard.DASHBOARD_ROUTE
+import dev.rahmouni.neil.counters.feature.dashboard.dashboardScreen
 import dev.rahmouni.neil.counters.feature.settings.accessibility.accessibilitySettingsScreen
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.dataAndPrivacySettingsScreen
 import dev.rahmouni.neil.counters.feature.settings.developer.developerSettingsScreen
+import dev.rahmouni.neil.counters.feature.settings.main.navigateToSettings
 import dev.rahmouni.neil.counters.feature.settings.main.settingsScreen
 import dev.rahmouni.neil.counters.ui.CountersAppState
 
@@ -47,13 +48,13 @@ fun CountersNavHost(
             startDestination = startDestination,
             modifier = modifier,
         ) {
-            dashboardScreen(navController)
-            settingsScreen(navController, navController::navigateToAboutMe)
-            accessibilitySettingsScreen(navController)
-            developerSettingsScreen(navController)
-            dataAndPrivacySettingsScreen(navController)
             aboutMeScreen(navController)
+            accessibilitySettingsScreen(navController)
+            dashboardScreen(navController, navController::navigateToSettings)
+            dataAndPrivacySettingsScreen(navController)
+            developerSettingsScreen(navController)
             feedbackDialog(navController)
+            settingsScreen(navController, navController::navigateToAboutMe)
         }
     }
 }

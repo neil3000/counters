@@ -14,35 +14,32 @@
  * limitations under the License.
  */
 
-package dev.rahmouni.neil.counters.dashboard
+package dev.rahmouni.neil.counters.feature.dashboard
 
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
+import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
-import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
-import dev.rahmouni.neil.counters.feature.settings.main.navigateToSettings
-import rahmouni.neil.counters.R
 
 @Composable
 internal fun DashboardRoute(
     modifier: Modifier = Modifier,
     navController: NavController,
+    navigateToSettings: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -51,11 +48,8 @@ internal fun DashboardRoute(
         onFeedbackIconButtonClicked = {
             navController.navigateToFeedback(
                 context,
-                FeedbackScreenContext("DashboardScreen", "8iMorl3UBGcseoIPGzDjkXPzHflkPdFn"),
+                FeedbackScreenContext("DashboardScreen", "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8"),
             )
-        },
-        onSettingsIconButtonClicked = {
-            navController.navigateToSettings()
         },
     )
 }
@@ -65,37 +59,31 @@ internal fun DashboardRoute(
 internal fun DashboardScreen(
     modifier: Modifier = Modifier,
     onFeedbackIconButtonClicked: () -> Unit = {},
-    onSettingsIconButtonClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
         modifier,
-        stringResource(R.string.counters_dashboardScreen_topAppBar_title),
+        stringResource(R.string.feature_dashboard_dashboardScreen_topAppBar_title),
         null,
         onFeedbackIconButtonClicked,
-        onSettingsIconButtonClicked,
-        {
-            FloatingActionButton(
-                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                containerColor = FloatingActionButtonDefaults.containerColor,
-                onClick = { TODO() },
-                modifier = Modifier.padding(24.dp),
-            ) {
-                Icon(Icons.Filled.Add, contentDescription = null)
-            }
-        },
-        topAppBarStyle = TopAppBarStyle.SMALL,
+        topAppBarStyle = SMALL,
     ) {
-        SettingsPanel(
-            it,
-        )
+        DashboardPanel(it)
     }
 }
 
 @Composable
-private fun SettingsPanel(
+private fun DashboardPanel(
     contentPadding: PaddingValues,
 ) {
-    Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
+    Box(Modifier.fillMaxSize().padding(contentPadding), contentAlignment = Alignment.Center) {
+        Text("Hello there")
+    }
+}
 
+@Rn3PreviewScreen
+@Composable
+private fun Default() {
+    Rn3Theme {
+        DashboardScreen()
     }
 }

@@ -179,7 +179,6 @@ internal fun SettingsScreen(
         stringResource(string.feature_settings_settingsScreen_topAppBar_title),
         onBackIconButtonClicked,
         onFeedbackIconButtonClicked,
-        null,
     ) {
         when (uiState) {
             Loading -> {}

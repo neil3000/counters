@@ -25,8 +25,6 @@ fun Rn3Scaffold(
     title: String,
     onBackIconButtonClicked: (() -> Unit)?,
     onFeedbackIconButtonClicked: (() -> Unit)?,
-    onSettingsIconButtonClicked: (() -> Unit)?,
-    floatingActionButton: @Composable (() -> Unit)? = null,
     topAppBarStyle: TopAppBarStyle = TopAppBarStyle.LARGE,
     content: @Composable (PaddingValues) -> Unit,
 ) {
@@ -38,7 +36,6 @@ fun Rn3Scaffold(
             modifier,
             TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
             content,
-            floatingActionButton = floatingActionButton,
         ) { scrollBehavior ->
             Rn3LargeTopAppBar(
                 modifier,
@@ -46,7 +43,6 @@ fun Rn3Scaffold(
                 scrollBehavior = scrollBehavior,
                 onBackIconButtonClicked = onBackIconButtonClicked,
                 onFeedbackIconButtonClicked = onFeedbackIconButtonClicked,
-                onSettingsIconButtonClicked = onSettingsIconButtonClicked,
             )
         }
 
@@ -55,7 +51,6 @@ fun Rn3Scaffold(
             modifier,
             TopAppBarDefaults.pinnedScrollBehavior(),
             content,
-            floatingActionButton = floatingActionButton,
         ) { scrollBehavior ->
             Rn3SmallTopAppBar(
                 modifier,
@@ -63,7 +58,6 @@ fun Rn3Scaffold(
                 scrollBehavior = scrollBehavior,
                 onBackIconButtonClicked = onBackIconButtonClicked,
                 onFeedbackIconButtonClicked = onFeedbackIconButtonClicked,
-                onSettingsIconButtonClicked = onSettingsIconButtonClicked,
             )
         }
     }
@@ -76,15 +70,12 @@ fun Rn3ScaffoldImpl(
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior,
     content: @Composable (PaddingValues) -> Unit,
-    floatingActionButton: @Composable (() -> Unit)?,
     topBarComponent: @Composable (scrollBehavior: TopAppBarScrollBehavior) -> Unit,
 ) {
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = { topBarComponent(scrollBehavior) },
         contentWindowInsets = WindowInsets.displayCutout,
-        floatingActionButtonPosition = FabPosition.End,
-        floatingActionButton = floatingActionButton!!,
     ) {
         Column {
             content(it)

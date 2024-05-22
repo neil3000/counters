@@ -76,18 +76,19 @@ android {
 }
 
 dependencies {
-    implementation(projects.feature.settings)
     implementation(projects.feature.aboutme)
+    implementation(projects.feature.dashboard)
+    implementation(projects.feature.settings)
 
-    implementation(projects.core.ui)
-    implementation(projects.core.data)
-    implementation(projects.core.config)
-    implementation(projects.core.feedback)
     implementation(projects.core.auth)
+    implementation(projects.core.config)
+    implementation(projects.core.data)
+    implementation(projects.core.feedback)
+    implementation(projects.core.ui)
 
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.metrics)
+    implementation(libs.androidx.navigation.compose)
 
     ksp(libs.hilt.compiler)
 

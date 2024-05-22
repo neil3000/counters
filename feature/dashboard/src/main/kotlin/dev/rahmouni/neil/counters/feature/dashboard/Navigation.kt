@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.rahmouni.neil.counters.dashboard
+package dev.rahmouni.neil.counters.feature.dashboard
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -26,10 +26,11 @@ const val DASHBOARD_ROUTE = "dashboard"
 fun NavController.navigateToDashboard(navOptions: NavOptions? = null) =
     navigate(DASHBOARD_ROUTE, navOptions)
 
-fun NavGraphBuilder.dashboardScreen(navController: NavController) {
+fun NavGraphBuilder.dashboardScreen(navController: NavController, navigateToSettings: () -> Unit) {
     composable(route = DASHBOARD_ROUTE) {
         DashboardRoute(
             navController = navController,
+            navigateToSettings = navigateToSettings,
         )
     }
 }

@@ -22,29 +22,14 @@ plugins {
 }
 
 android {
-    namespace = "dev.rahmouni.neil.counters.feature.aboutme"
+    namespace = "dev.rahmouni.neil.counters.feature.dashboard"
 }
 
 dependencies {
     api(libs.androidx.compose.material.iconsExtended)
 
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.graphics.shapes.android)
-    implementation(libs.androidx.animation.graphics.android)
     implementation(libs.coil.kt.compose)
-    implementation(libs.androidx.compose.material3.adaptive)
-    implementation(libs.accompanist.adaptive)
 
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.common.ktx)
-    implementation(libs.firebase.config)
-
-    implementation(projects.core.common)
-    implementation(projects.core.config)
-    implementation(projects.core.shapes)
     implementation(projects.core.feedback)
-
-    testImplementation(projects.core.testing)
-
-    androidTestImplementation(projects.core.testing)
 }

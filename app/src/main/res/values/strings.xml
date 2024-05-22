@@ -14,7 +14,5 @@
      limitations under the License.
 -->
 <resources>
-    <string name="app_name" translatable="false">Counters</string>
-    <string name="counters_dashboardScreen_topAppBar_title">Counters</string>
-    <string name="counters_dashboardScreen_floatingActionButton">Add a counter</string>
+    <string name="app_name">Counters</string>
 </resources>
