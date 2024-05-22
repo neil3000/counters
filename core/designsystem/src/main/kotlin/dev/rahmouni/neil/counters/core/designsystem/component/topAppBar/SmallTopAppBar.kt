@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.AutoMirrored.Outlined
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Feedback
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -44,7 +45,8 @@ fun Rn3SmallTopAppBar(
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     scrollBehavior: TopAppBarScrollBehavior,
     onBackIconButtonClicked: (() -> Unit)? = null,
-    onFeedbackIconButtonClicked: (() -> Unit)?,
+    onFeedbackIconButtonClicked: (() -> Unit)? = null,
+    onSettingsIconButtonClicked: (() -> Unit)? = null,
 ) {
     TopAppBar(
         title = {
@@ -70,6 +72,13 @@ fun Rn3SmallTopAppBar(
                     icon = Icons.Outlined.Feedback,
                     contentDescription = stringResource(R.string.core_designsystem_largeTopAppBar_actions_iconButton_feedback_contentDescription),
                     onClick = onFeedbackIconButtonClicked,
+                )
+            }
+            if (onSettingsIconButtonClicked != null) {
+                Rn3IconButton(
+                    icon = Icons.Outlined.Settings,
+                    contentDescription = stringResource(R.string.core_designsystem_largeTopAppBar_actions_iconButton_settings_contentDescription),
+                    onClick = onSettingsIconButtonClicked,
                 )
             }
         },

@@ -122,6 +122,7 @@ internal fun AboutMeScreen(
         stringResource(R.string.feature_aboutme_aboutMeScreen_scaffold_title),
         onBackIconButtonClicked,
         onFeedbackIconButtonClicked,
+        null,
         topAppBarStyle = TopAppBarStyle.SMALL,
     ) {
 

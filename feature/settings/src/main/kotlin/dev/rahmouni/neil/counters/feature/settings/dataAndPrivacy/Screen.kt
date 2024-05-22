@@ -119,6 +119,7 @@ internal fun DataAndPrivacySettingsScreen(
         stringResource(string.feature_settings_dataAndPrivacySettingsScreen_topAppBar_title),
         onBackIconButtonClicked,
         onFeedbackIconButtonClicked,
+        null,
     ) {
         when (uiState) {
             Loading -> {}

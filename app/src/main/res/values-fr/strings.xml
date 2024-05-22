@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="counters_dashboardScreen_topAppBar_title">Counters</string>
+    <string name="counters_dashboardScreen_floatingActionButton">Ajoutez un compteur</string>
+</resources>

@@ -105,6 +105,7 @@ internal fun AccessibilitySettingsScreen(
         stringResource(string.feature_settings_accessibilitySettingsScreen_topAppBar_title),
         onBackIconButtonClicked,
         onFeedbackIconButtonClicked,
+        null,
     ) {
         when (uiState) {
             Loading -> {}

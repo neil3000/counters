@@ -22,13 +22,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.MainActivityUiState.Loading
 import dev.rahmouni.neil.counters.MainActivityUiState.Success
 import dev.rahmouni.neil.counters.core.accessibility.AccessibilityHelper
-import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.zip
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 

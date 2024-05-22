@@ -43,6 +43,11 @@ class FakeUserDataRepository @Inject constructor(
         rn3PreferencesDataSource.setAccessibilityIconTooltipsPreference(value)
     }
 
+    override suspend fun setSyncDisabled(value: Boolean) {
+        rn3PreferencesDataSource.setSyncDisabledPreference(value)
+    }
+
+
     override suspend fun setMetricsEnabled(value: Boolean) {
         rn3PreferencesDataSource.setMetricsEnabledPreference(value)
     }
