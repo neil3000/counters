@@ -25,19 +25,24 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.AccessibilityNew
+import androidx.compose.material.icons.outlined.CloudSync
 import androidx.compose.material.icons.outlined.DataObject
+import androidx.compose.material.icons.outlined.Devices
 import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.StarBorder
-import androidx.compose.material.icons.outlined.Sync
+import androidx.compose.material.icons.outlined.SyncDisabled
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -126,7 +131,7 @@ internal fun SettingsRoute(
                 auth.signInWithCredentialManager(context, false)
             }
         },
-        onSyncTileCheckedChange = viewModel::setHasSyncEnabled,
+        onSyncTileCheckedChange = viewModel::setSyncEnabled,
         onBackIconButtonClicked = navController::popBackStack,
         onFeedbackIconButtonClicked = {
             navController.navigateToFeedback(
@@ -213,9 +218,6 @@ private fun SettingsPanel(
     onClickOssLicensesTile: () -> Unit,
 ) {
     Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
-        // generalHeaderTile
-        item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_generalHeaderTile_title)) }
-
         // accountTile
         item {
             when (data.user) {
@@ -230,14 +232,27 @@ private fun SettingsPanel(
                                     top = 0.dp,
                                 ),
                             )
+
+                            // accountSyncTile
                             Rn3TileSwitch(
-                                title = "Device sync",
-                                icon = Outlined.Sync,
-                                checked = data.hasSyncDisabled,
+                                title = stringResource(string.feature_settings_settingsScreen_accountSyncTile_title),
+                                icon = Outlined.Devices,
+                                checked = data.hasSyncEnabled,
                                 onCheckedChange = onSyncTileCheckedChange,
+                                thumbContent = {
+                                    Icon(
+                                        if (data.hasSyncEnabled) Outlined.CloudSync else Outlined.SyncDisabled,
+                                        null,
+                                        Modifier.size(
+                                            SwitchDefaults.IconSize,
+                                        ),
+                                    )
+                                },
                             )
+
+                            // accountLogoutTile
                             Rn3TileClick(
-                                title = "Logout",
+                                title = stringResource(string.feature_settings_settingsScreen_accountLogoutTile_title),
                                 icon = Icons.AutoMirrored.Outlined.Logout,
                                 onClick = onAccountTileLogoutClicked,
                                 error = true,
@@ -267,6 +282,9 @@ private fun SettingsPanel(
                 }
             }
         }
+
+        // generalHeaderTile
+        item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_generalHeaderTile_title)) }
 
         // dataAndPrivacyTile
         item {

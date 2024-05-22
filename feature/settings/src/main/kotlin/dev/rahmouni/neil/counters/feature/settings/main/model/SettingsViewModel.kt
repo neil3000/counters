@@ -47,7 +47,7 @@ class SettingsViewModel @Inject constructor(
                 Success(
                     SettingsData(
                         user = user,
-                        hasSyncDisabled = userData.hasSyncDisabled,
+                        hasSyncEnabled = userData.hasSyncEnabled,
                         devSettingsEnabled = devSettingsEnabled,
                     ),
                 )
@@ -56,16 +56,16 @@ class SettingsViewModel @Inject constructor(
                 initialValue = Success(
                     SettingsData(
                         user = authHelper.getUser(),
-                        hasSyncDisabled = false,
+                        hasSyncEnabled = false,
                         devSettingsEnabled = devSettingsEnabled,
                     ),
                 ),
                 started = WhileSubscribed(5.seconds.inWholeMilliseconds),
             )
 
-    fun setHasSyncEnabled(value: Boolean) {
+    fun setSyncEnabled(value: Boolean) {
         viewModelScope.launch {
-            userDataRepository.setSyncDisabled(value)
+            userDataRepository.setSyncEnabled(value)
         }
     }
 

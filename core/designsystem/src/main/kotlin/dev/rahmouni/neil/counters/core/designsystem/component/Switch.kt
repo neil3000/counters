@@ -43,8 +43,8 @@ fun Rn3Switch(
     modifier: Modifier = Modifier,
     checked: Boolean,
     contentDescription: String?,
-    thumbContent: @Composable (() -> Unit)? = null,
     enabled: Boolean = true,
+    thumbContent: @Composable (() -> Unit)? = null,
     interactionSource: MutableInteractionSource? = null,
     onCheckedChange: ((Boolean) -> Unit)?,
 ) {

@@ -50,4 +50,8 @@ class FakeUserDataRepository @Inject constructor(
     override suspend fun setCrashlyticsEnabled(value: Boolean) {
         rn3PreferencesDataSource.setCrashlyticsEnabledPreference(value)
     }
+
+    override suspend fun setSyncEnabled(value: Boolean) {
+        rn3PreferencesDataSource.setSyncEnabledPreference(value)
+    }
 }

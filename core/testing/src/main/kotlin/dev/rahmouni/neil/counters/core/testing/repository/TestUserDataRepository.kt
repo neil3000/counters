@@ -28,6 +28,7 @@ val emptyUserData = UserData(
     hasAccessibilityIconTooltipsEnabled = true,
     hasMetricsEnabled = true,
     hasCrashlyticsEnabled = true,
+    hasSyncEnabled = false,
 )
 
 class TestUserDataRepository : UserDataRepository {
@@ -61,6 +62,12 @@ class TestUserDataRepository : UserDataRepository {
     override suspend fun setCrashlyticsEnabled(value: Boolean) {
         currentUserData.let { current ->
             _userData.tryEmit(current.copy(hasCrashlyticsEnabled = value))
+        }
+    }
+
+    override suspend fun setSyncEnabled(value: Boolean) {
+        currentUserData.let { current ->
+            _userData.tryEmit(current.copy(hasSyncEnabled = value))
         }
     }
 

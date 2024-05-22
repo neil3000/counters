@@ -43,8 +43,9 @@ fun Rn3TileSwitch(
     title: String,
     icon: ImageVector,
     supportingText: String? = null,
-    checked: Boolean,
     enabled: Boolean = true,
+    thumbContent: @Composable (() -> Unit)? = null,
+    checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
 ) {
     val haptic = getHaptic()
@@ -82,6 +83,7 @@ fun Rn3TileSwitch(
                 interactionSource = interactionSource,
                 onCheckedChange = null,
                 enabled = enabled,
+                thumbContent = thumbContent
             )
         },
     )

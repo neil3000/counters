@@ -21,6 +21,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.rahmouni.neil.counters.feature.settings.main.SettingsScreen
+import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState.Success
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -39,6 +41,7 @@ class SettingsScreenTest {
     fun setup() {
         composeTestRule.setContent {
             SettingsScreen(
+                uiState = Success(PreviewParameterData.settingsData_default),
                 onBackIconButtonClicked = {},
                 onClickDataAndPrivacyTile = {},
                 onClickAccessibilityTile = {},

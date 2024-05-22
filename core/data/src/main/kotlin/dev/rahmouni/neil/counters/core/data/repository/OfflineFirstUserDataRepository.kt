@@ -39,8 +39,8 @@ internal class OfflineFirstUserDataRepository @Inject constructor(
         analyticsHelper.logAccessibilityIconTooltipsPreferenceChanged(value)
     }
 
-    override suspend fun setSyncDisabled(value: Boolean) {
-        rn3PreferencesDataSource.setSyncDisabledPreference(value)
+    override suspend fun setSyncEnabled(value: Boolean) {
+        rn3PreferencesDataSource.setSyncEnabledPreference(value)
         analyticsHelper.logSyncPreferenceChanged(value)
     }
 
