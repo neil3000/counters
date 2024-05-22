@@ -38,6 +38,7 @@ import dev.rahmouni.neil.counters.core.common.openAndroidAccessibilitySettingsAc
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
@@ -71,15 +72,10 @@ internal fun AccessibilitySettingsRoute(
         modifier,
         uiState,
         onBackIconButtonClicked = navController::popBackStack,
-        onFeedbackIconButtonClicked = {
-            navController.navigateToFeedback(
-                context,
-                FeedbackScreenContext(
-                    "AccessibilitySettingsScreen",
-                    "jrKt4Xe58KDipPJsm1iPUijn6BMsNc8g",
-                ),
-            )
-        },
+        feedbackTopAppBarAction = FeedbackScreenContext(
+            "AccessibilitySettingsScreen",
+            "jrKt4Xe58KDipPJsm1iPUijn6BMsNc8g",
+        ).toTopAppBarAction(navController::navigateToFeedback),
         setEmphasizedSwitches = viewModel::setEmphasizedSwitches,
         setIconTooltips = viewModel::setIconTooltips,
         onClickAndroidAccessibilityTile = {
@@ -95,7 +91,7 @@ internal fun AccessibilitySettingsScreen(
     modifier: Modifier = Modifier,
     uiState: AccessibilitySettingsUiState,
     onBackIconButtonClicked: () -> Unit = {},
-    onFeedbackIconButtonClicked: () -> Unit = {},
+    feedbackTopAppBarAction: TopAppBarAction? = null,
     setEmphasizedSwitches: (Boolean) -> Unit = {},
     setIconTooltips: (Boolean) -> Unit = {},
     onClickAndroidAccessibilityTile: () -> Unit = {},
@@ -104,7 +100,7 @@ internal fun AccessibilitySettingsScreen(
         modifier,
         stringResource(string.feature_settings_accessibilitySettingsScreen_topAppBar_title),
         onBackIconButtonClicked,
-        onFeedbackIconButtonClicked,
+        topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
     ) {
         when (uiState) {
             Loading -> {}

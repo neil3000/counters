@@ -35,7 +35,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -49,6 +48,7 @@ import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
@@ -74,8 +74,6 @@ internal fun DataAndPrivacySettingsRoute(
     viewModel: DataAndPrivacySettingsViewModel = hiltViewModel(),
     navController: NavController,
 ) {
-    val context = LocalContext.current
-
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val analytics = LocalAnalyticsHelper.current
     val config = LocalConfigHelper.current
@@ -85,15 +83,10 @@ internal fun DataAndPrivacySettingsRoute(
         modifier,
         uiState,
         onBackIconButtonClicked = navController::popBackStack,
-        onFeedbackIconButtonClicked = {
-            navController.navigateToFeedback(
-                context,
-                FeedbackScreenContext(
-                    "DataAndPrivacySettingsScreen",
-                    "Cql6OgxiWaapWpb38eGNGRZbmFuR8JuQ",
-                ),
-            )
-        },
+        feedbackTopAppBarAction = FeedbackScreenContext(
+            "DataAndPrivacySettingsScreen",
+            "Cql6OgxiWaapWpb38eGNGRZbmFuR8JuQ",
+        ).toTopAppBarAction(navController::navigateToFeedback),
         onMetricsTileCheckedChange = viewModel::setMetricsEnabled,
         onClearMetricsTileClicked = analytics::clearMetrics,
         onCrashlyticsTileCheckedChange = viewModel::setCrashlyticsEnabled,
@@ -108,7 +101,7 @@ internal fun DataAndPrivacySettingsScreen(
     modifier: Modifier = Modifier,
     uiState: DataAndPrivacySettingsUiState,
     onBackIconButtonClicked: () -> Unit = {},
-    onFeedbackIconButtonClicked: () -> Unit = {},
+    feedbackTopAppBarAction: TopAppBarAction? = null,
     onMetricsTileCheckedChange: (Boolean) -> Unit = {},
     onClearMetricsTileClicked: () -> Unit = {},
     onCrashlyticsTileCheckedChange: (Boolean) -> Unit = {},
@@ -118,7 +111,7 @@ internal fun DataAndPrivacySettingsScreen(
         modifier,
         stringResource(string.feature_settings_dataAndPrivacySettingsScreen_topAppBar_title),
         onBackIconButtonClicked,
-        onFeedbackIconButtonClicked,
+        topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
     ) {
         when (uiState) {
             Loading -> {}

@@ -20,21 +20,26 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.AutoMirrored.Outlined
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.Feedback
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import dev.rahmouni.neil.counters.core.designsystem.DropdownMenu
 import dev.rahmouni.neil.counters.core.designsystem.R
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentVariation
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 
 @Composable
@@ -45,8 +50,7 @@ fun Rn3SmallTopAppBar(
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     scrollBehavior: TopAppBarScrollBehavior,
     onBackIconButtonClicked: (() -> Unit)? = null,
-    onFeedbackIconButtonClicked: (() -> Unit)? = null,
-    onSettingsIconButtonClicked: (() -> Unit)? = null,
+    topAppBarActions: List<TopAppBarAction> = emptyList(),
 ) {
     TopAppBar(
         title = {
@@ -67,19 +71,19 @@ fun Rn3SmallTopAppBar(
             }
         },
         actions = {
-            if (onFeedbackIconButtonClicked != null) {
-                Rn3IconButton(
-                    icon = Icons.Outlined.Feedback,
-                    contentDescription = stringResource(R.string.core_designsystem_largeTopAppBar_actions_iconButton_feedback_contentDescription),
-                    onClick = onFeedbackIconButtonClicked,
-                )
-            }
-            if (onSettingsIconButtonClicked != null) {
-                Rn3IconButton(
-                    icon = Icons.Outlined.Settings,
-                    contentDescription = stringResource(R.string.core_designsystem_largeTopAppBar_actions_iconButton_settings_contentDescription),
-                    onClick = onSettingsIconButtonClicked,
-                )
+            when (topAppBarActions.size) {
+                0 -> Unit
+                1 -> topAppBarActions[0].IconButton()
+                else -> {
+                    var expanded by remember { mutableStateOf(false) }
+
+                    Rn3IconButton(
+                        icon = Icons.Outlined.MoreVert,
+                        contentDescription = "See more",
+                    ) { expanded = true }
+
+                    topAppBarActions.DropdownMenu(expanded = expanded) { expanded = false }
+                }
             }
         },
         windowInsets = windowInsets,
@@ -95,7 +99,7 @@ private fun Default() {
         Rn3SmallTopAppBar(
             title = "Preview default",
             scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
-        ) {}
+        )
     }
 }
 
@@ -107,30 +111,6 @@ private fun BackArrow() {
         Rn3SmallTopAppBar(
             title = "Preview back button",
             scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
-        ) {}
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Rn3PreviewComponentVariation
-@Composable
-private fun Feedback() { //TODO
-    Rn3Theme {
-        Rn3SmallTopAppBar(
-            title = "Preview feedback",
-            scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
-        ) {}
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Rn3PreviewComponentVariation
-@Composable
-private fun BackArrowFeedback() { //TODO
-    Rn3Theme {
-        Rn3SmallTopAppBar(
-            title = "Preview back+feedback",
-            scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
-        ) {}
+        )
     }
 }

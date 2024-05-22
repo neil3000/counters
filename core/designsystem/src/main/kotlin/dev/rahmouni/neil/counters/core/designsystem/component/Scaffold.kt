@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.window.core.layout.WindowHeightSizeClass.Companion.COMPACT
+import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3LargeTopAppBar
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
 
@@ -24,7 +25,7 @@ fun Rn3Scaffold(
     modifier: Modifier = Modifier,
     title: String,
     onBackIconButtonClicked: (() -> Unit)?,
-    onFeedbackIconButtonClicked: (() -> Unit)?,
+    topAppBarActions: List<TopAppBarAction> = emptyList(),
     topAppBarStyle: TopAppBarStyle = TopAppBarStyle.LARGE,
     content: @Composable (PaddingValues) -> Unit,
 ) {
@@ -42,7 +43,7 @@ fun Rn3Scaffold(
                 title,
                 scrollBehavior = scrollBehavior,
                 onBackIconButtonClicked = onBackIconButtonClicked,
-                onFeedbackIconButtonClicked = onFeedbackIconButtonClicked,
+                topAppBarActions = topAppBarActions,
             )
         }
 
@@ -57,7 +58,7 @@ fun Rn3Scaffold(
                 title,
                 scrollBehavior = scrollBehavior,
                 onBackIconButtonClicked = onBackIconButtonClicked,
-                onFeedbackIconButtonClicked = onFeedbackIconButtonClicked,
+                topAppBarActions = topAppBarActions,
             )
         }
     }

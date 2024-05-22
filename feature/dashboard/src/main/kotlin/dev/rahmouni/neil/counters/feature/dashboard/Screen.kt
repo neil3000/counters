@@ -21,15 +21,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
@@ -41,16 +43,13 @@ internal fun DashboardRoute(
     navController: NavController,
     navigateToSettings: () -> Unit,
 ) {
-    val context = LocalContext.current
-
     DashboardScreen(
         modifier = modifier,
-        onFeedbackIconButtonClicked = {
-            navController.navigateToFeedback(
-                context,
-                FeedbackScreenContext("DashboardScreen", "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8"),
-            )
-        },
+        feedbackTopAppBarAction = FeedbackScreenContext(
+            "DashboardScreen",
+            "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8",
+        ).toTopAppBarAction(navController::navigateToFeedback),
+        onSettingsTopAppBarActionClicked = navigateToSettings,
     )
 }
 
@@ -58,13 +57,17 @@ internal fun DashboardRoute(
 @Composable
 internal fun DashboardScreen(
     modifier: Modifier = Modifier,
-    onFeedbackIconButtonClicked: () -> Unit = {},
+    feedbackTopAppBarAction: TopAppBarAction? = null,
+    onSettingsTopAppBarActionClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
         modifier,
         stringResource(R.string.feature_dashboard_dashboardScreen_topAppBar_title),
         null,
-        onFeedbackIconButtonClicked,
+        listOfNotNull(
+            TopAppBarAction(Icons.Outlined.Settings, "Settings", onSettingsTopAppBarActionClicked),
+            feedbackTopAppBarAction,
+        ),
         topAppBarStyle = SMALL,
     ) {
         DashboardPanel(it)
@@ -75,7 +78,12 @@ internal fun DashboardScreen(
 private fun DashboardPanel(
     contentPadding: PaddingValues,
 ) {
-    Box(Modifier.fillMaxSize().padding(contentPadding), contentAlignment = Alignment.Center) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .padding(contentPadding),
+        contentAlignment = Alignment.Center,
+    ) {
         Text("Hello there")
     }
 }

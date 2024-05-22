@@ -58,6 +58,7 @@ import com.google.firebase.initialize
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SystemBarSpacer
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle
@@ -97,15 +98,10 @@ internal fun AboutMeRoute(
         modifier,
         uiState,
         onBackIconButtonClicked = navController::popBackStack,
-        onFeedbackIconButtonClicked = {
-            navController.navigateToFeedback(
-                context,
-                FeedbackScreenContext(
-                    "AccessibilitySettingsScreen",
-                    "jrKt4Xe58KDipPJsm1iPUijn6BMsNc8g",
-                ),
-            )
-        },
+        feedbackTopAppBarAction = FeedbackScreenContext(
+            "AccessibilitySettingsScreen",
+            "jrKt4Xe58KDipPJsm1iPUijn6BMsNc8g",
+        ).toTopAppBarAction(navController::navigateToFeedback),
     )
 }
 
@@ -115,13 +111,13 @@ internal fun AboutMeScreen(
     modifier: Modifier = Modifier,
     uiState: AboutMeUiState,
     onBackIconButtonClicked: () -> Unit = {},
-    onFeedbackIconButtonClicked: () -> Unit = {},
+    feedbackTopAppBarAction: TopAppBarAction? = null,
 ) {
     Rn3Scaffold(
         modifier,
         stringResource(R.string.feature_aboutme_aboutMeScreen_scaffold_title),
         onBackIconButtonClicked,
-        onFeedbackIconButtonClicked,
+        topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
         topAppBarStyle = TopAppBarStyle.SMALL,
     ) {
 

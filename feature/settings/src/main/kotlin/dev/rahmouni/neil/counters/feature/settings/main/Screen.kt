@@ -70,6 +70,7 @@ import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
@@ -133,12 +134,10 @@ internal fun SettingsRoute(
         },
         onSyncTileCheckedChange = viewModel::setSyncEnabled,
         onBackIconButtonClicked = navController::popBackStack,
-        onFeedbackIconButtonClicked = {
-            navController.navigateToFeedback(
-                context,
-                FeedbackScreenContext("SettingsScreen", "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d"),
-            )
-        },
+        feedbackTopAppBarAction = FeedbackScreenContext(
+            "SettingsScreen",
+            "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d",
+        ).toTopAppBarAction(navController::navigateToFeedback),
         onClickDataAndPrivacyTile = navController::navigateToDataAndPrivacySettings,
         onClickAccessibilityTile = navController::navigateToAccessibilitySettings,
         changelogTileUri = config.getString("changelog_url")
@@ -160,11 +159,11 @@ internal fun SettingsRoute(
 internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     uiState: SettingsUiState,
+    feedbackTopAppBarAction: TopAppBarAction? = null,
     onAccountTileLogoutClicked: () -> Unit = {},
     onAccountTileLoginClicked: () -> Unit = {},
     onSyncTileCheckedChange: (Boolean) -> Unit = {},
     onBackIconButtonClicked: () -> Unit = {},
-    onFeedbackIconButtonClicked: () -> Unit = {},
     onClickDataAndPrivacyTile: () -> Unit = {},
     onClickAccessibilityTile: () -> Unit = {},
     changelogTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
@@ -178,7 +177,7 @@ internal fun SettingsScreen(
         modifier,
         stringResource(string.feature_settings_settingsScreen_topAppBar_title),
         onBackIconButtonClicked,
-        onFeedbackIconButtonClicked,
+        topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
     ) {
         when (uiState) {
             Loading -> {}
