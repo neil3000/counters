@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.ExpandableSurface
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyRowWithPadding
@@ -86,7 +86,7 @@ fun Rn3Catalog() {
                 contentPadding = paddingValues,
             ) {
                 item {
-                    ExpandableSurface(
+                    Rn3ExpandableSurface(
                         content = {
                             Icon(Outlined.Info, null)
                             Spacer(Modifier.width(16.dp))
