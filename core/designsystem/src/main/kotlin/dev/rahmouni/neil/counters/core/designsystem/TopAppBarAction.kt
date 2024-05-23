@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
+import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 
 data class TopAppBarAction(val icon: ImageVector, val title: String, val onClick: () -> Unit) {
 
@@ -16,9 +17,14 @@ data class TopAppBarAction(val icon: ImageVector, val title: String, val onClick
 
     @Composable
     fun DropdownMenuItem() {
+        val haptic = getHaptic()
+
         DropdownMenuItem(
             text = { Text(this.title) },
-            onClick = this.onClick,
+            onClick = {
+                haptic.click()
+                this.onClick()
+            },
             leadingIcon = {
                 Icon(this.icon, null)
             },
