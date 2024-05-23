@@ -11,6 +11,7 @@ import dev.rahmouni.neil.counters.core.designsystem.icons.Gitlab
 import dev.rahmouni.neil.counters.core.designsystem.icons.Instagram
 import dev.rahmouni.neil.counters.core.designsystem.icons.Linkedin
 import dev.rahmouni.neil.counters.core.designsystem.icons.Mastodon
+import dev.rahmouni.neil.counters.core.designsystem.icons.Threads
 import org.json.JSONArray
 
 class SocialLink(val id: String, val uri: Rn3Uri, val tooltip: String) {
@@ -18,11 +19,12 @@ class SocialLink(val id: String, val uri: Rn3Uri, val tooltip: String) {
     @Composable
     fun getIcon(): ImageVector {
         return when (this.id) {
-            "instagram" -> Icons.Outlined.Instagram
-            "mastodon" -> Icons.Outlined.Mastodon
             "discord" -> Icons.Outlined.Discord
-            "linkedin" -> Icons.Outlined.Linkedin
             "gitlab" -> Icons.Outlined.Gitlab
+            "instagram" -> Icons.Outlined.Instagram
+            "linkedin" -> Icons.Outlined.Linkedin
+            "mastodon" -> Icons.Outlined.Mastodon
+            "threads" -> Icons.Outlined.Threads
             else -> Icons.Outlined.Link
         }
     }

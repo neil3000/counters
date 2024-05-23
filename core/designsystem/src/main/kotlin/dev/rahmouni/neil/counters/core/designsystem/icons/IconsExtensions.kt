@@ -35,6 +35,7 @@ val customIconsList
         Outlined.Mastodon,
         Outlined.Linkedin,
         Outlined.Gitlab,
+        Outlined.Threads
     )
 
 val Outlined.Tooltip
@@ -68,6 +69,10 @@ val Outlined.Linkedin
 val Outlined.Gitlab
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_gitlab)
+
+val Outlined.Threads
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_threads)
 
 // Animated icons
 

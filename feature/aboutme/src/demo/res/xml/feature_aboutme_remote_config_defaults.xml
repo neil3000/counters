@@ -20,18 +20,14 @@
     </entry>
     <entry>
         <key>bio_short</key>
-        <value>Hi! I'm Neïl 👋\nI'm a 22 year old software engineering student, currently living in Paris 🥖
-        </value>
+        <value>Hi! I'm Neïl 👋\nI'm a 22 year old software engineering student, currently living in Paris 🥖</value>
     </entry>
     <entry>
         <key>portfolio_url</key>
-        <value>DEMO_ONLY</value>
+        <value>DEMO_FAKE</value>
     </entry>
     <entry>
         <key>socialLinks</key>
-        <value>
-            [{"id":"instagram","url":"https://www.instagram.com/neil_rahmouni","tooltip":"Instagram"},{"id":"mastodon","url":"https://mastodon.social/@neil_rahmouni@androiddev.social","tooltip":"Mastodon"},{"id":"discord","url":"https://discord.gg/4Y7EdE9kRY","tooltip":"Discord
-            Server"},{"id":"linkedin","url":"https://www.linkedin.com/in/neil-rahmouni","tooltip":"Linkedin"},{"id":"gitlab","url":"https://gitlab.com/neil3000","tooltip":"Gitlab"}]
-        </value>
+        <value>[{"id":"instagram","url":"https://www.instagram.com/neil_rahmouni","tooltip":"Instagram"},{"id":"threads","url":"https://www.threads.net/@neil_rahmouni","tooltip":"Threads"},{"id":"mastodon","url":"https://mastodon.social/@neil_rahmouni@androiddev.social","tooltip":"Mastodon"},{"id":"discord","url":"https://discord.gg/4Y7EdE9kRY","tooltip":"Discord Server"},{"id":"linkedin","url":"https://www.linkedin.com/in/neil-rahmouni","tooltip":"Linkedin"},{"id":"gitlab","url":"https://gitlab.com/neil3000","tooltip":"Gitlab"}]</value>
     </entry>
 </defaultsMap>
