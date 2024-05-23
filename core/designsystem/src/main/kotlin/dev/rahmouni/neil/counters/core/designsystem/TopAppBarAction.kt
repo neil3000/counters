@@ -16,7 +16,7 @@ data class TopAppBarAction(val icon: ImageVector, val title: String, val onClick
     }
 
     @Composable
-    fun DropdownMenuItem() {
+    fun DropdownMenuItem(onClick: (() -> Unit)? = null) {
         val haptic = getHaptic()
 
         DropdownMenuItem(
@@ -24,6 +24,7 @@ data class TopAppBarAction(val icon: ImageVector, val title: String, val onClick
             onClick = {
                 haptic.click()
                 this.onClick()
+                if (onClick != null) onClick()
             },
             leadingIcon = {
                 Icon(this.icon, null)
@@ -37,7 +38,7 @@ fun List<TopAppBarAction>.DropdownMenu(expanded: Boolean, onDismissRequest: () -
     androidx.compose.material3.DropdownMenu(
         expanded = expanded,
         onDismissRequest = onDismissRequest,
-    ) scope@ {
-        this@DropdownMenu.map { it.DropdownMenuItem() }
+    ) scope@{
+        this@DropdownMenu.map { it.DropdownMenuItem(onDismissRequest) }
     }
 }
