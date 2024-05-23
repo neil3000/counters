@@ -45,7 +45,6 @@ class StubAuthHelper @Inject constructor() : AuthHelper {
         pfpUri = null,
     )
 
-    override fun getUserFlow(viewModelScope: CoroutineScope): Flow<Rn3User> {
-        TODO("Not yet implemented")
-    }
+    override fun getUserFlow(viewModelScope: CoroutineScope): Flow<Rn3User> =
+        throw NotImplementedError("Not available in Preview")
 }

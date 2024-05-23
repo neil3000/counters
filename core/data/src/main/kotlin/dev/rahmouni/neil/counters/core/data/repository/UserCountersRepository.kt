@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-@Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
-plugins {
-    alias(libs.plugins.rn3.android.feature)
-    alias(libs.plugins.rn3.android.library.compose)
-    alias(libs.plugins.rn3.android.library.jacoco)
-}
+package dev.rahmouni.neil.counters.core.data.repository
 
-android {
-    namespace = "dev.rahmouni.neil.counters.feature.dashboard"
-}
+import dev.rahmouni.neil.counters.core.data.model.UserCounter
+import dev.rahmouni.neil.counters.core.model.data.UserData
+import kotlinx.coroutines.flow.Flow
 
-dependencies {
-    api(libs.androidx.compose.material.iconsExtended)
+interface UserCountersRepository {
+    /**
+     * Stream of [UserCounter]
+     */
+    val userCounters: Flow<List<UserCounter>>
 
-    implementation(libs.androidx.appcompat)
-    implementation(libs.coil.kt.compose)
-
-    implementation(projects.core.data)
-    implementation(projects.core.feedback)
+    fun createUserCounter(title: String)
 }

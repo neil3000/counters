@@ -51,15 +51,11 @@ class DataAndPrivacySettingsViewModel @Inject constructor(
                 started = WhileSubscribed(5.seconds.inWholeMilliseconds),
             )
 
-    fun setMetricsEnabled(value: Boolean) {
-        viewModelScope.launch {
-            userDataRepository.setMetricsEnabled(value)
-        }
+    fun setMetricsEnabled(value: Boolean) = viewModelScope.launch {
+        userDataRepository.setMetricsEnabled(value)
     }
 
-    fun setCrashlyticsEnabled(value: Boolean) {
-        viewModelScope.launch {
-            userDataRepository.setCrashlyticsEnabled(value)
-        }
+    fun setCrashlyticsEnabled(value: Boolean) = viewModelScope.launch {
+        userDataRepository.setCrashlyticsEnabled(value)
     }
 }

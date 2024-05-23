@@ -17,44 +17,61 @@
 package dev.rahmouni.neil.counters.feature.dashboard
 
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
+import dev.rahmouni.neil.counters.feature.dashboard.model.DashboardUiState
+import dev.rahmouni.neil.counters.feature.dashboard.model.DashboardViewModel
+import dev.rahmouni.neil.counters.feature.dashboard.model.data.DashboardData
+import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData
 
 @Composable
 internal fun DashboardRoute(
     modifier: Modifier = Modifier,
+    viewModel: DashboardViewModel = hiltViewModel(),
     navController: NavController,
     navigateToSettings: () -> Unit,
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     DashboardScreen(
-        modifier = modifier,
+        modifier,
+        uiState,
         feedbackTopAppBarAction = FeedbackScreenContext(
             "DashboardScreen",
             "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8",
         ).toTopAppBarAction(navController::navigateToFeedback),
         onSettingsTopAppBarActionClicked = navigateToSettings,
+        onNewCounterFabClick = {
+            viewModel.createUserCounter("Title") //TODO
+        },
     )
 }
 
@@ -62,8 +79,10 @@ internal fun DashboardRoute(
 @Composable
 internal fun DashboardScreen(
     modifier: Modifier = Modifier,
+    uiState: DashboardUiState,
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
+    onNewCounterFabClick: () -> Unit = {},
 ) {
     val haptics = getHaptic()
 
@@ -86,27 +105,34 @@ internal fun DashboardScreen(
                 icon = { Icon(Icons.Outlined.Add, null) },
                 onClick = {
                     haptics.click()
-                    TODO()
+                    onNewCounterFabClick()
                 },
                 Modifier.navigationBarsPadding(),
             )
         },
     ) {
-        DashboardPanel(it)
+        DashboardPanel(it, uiState.dashboardData)
     }
 }
 
 @Composable
 private fun DashboardPanel(
     contentPadding: PaddingValues,
+    data: DashboardData,
 ) {
-    Box(
-        Modifier
-            .fillMaxSize()
-            .padding(contentPadding),
-        contentAlignment = Alignment.Center,
+    Rn3LazyColumnFullScreen(
+        Modifier.padding(8.dp),
+        verticalArrangement = spacedBy(8.dp),
+        contentPadding = contentPadding,
     ) {
-        Text("Hello there")
+        items(data.userCounters) {
+            Card(
+                Modifier
+                    .fillMaxWidth(),
+            ) {
+                Text("${it.title} (id = ${it.id})", Modifier.padding(16.dp))
+            }
+        }
     }
 }
 
@@ -114,6 +140,10 @@ private fun DashboardPanel(
 @Composable
 private fun Default() {
     Rn3Theme {
-        DashboardScreen()
+        DashboardScreen(
+            uiState = DashboardUiState(
+                dashboardData = PreviewParameterData.dashboardData_default,
+            ),
+        )
     }
 }

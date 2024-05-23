@@ -17,9 +17,8 @@
 package dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.PreviewParameterData.p1
-import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.PreviewParameterData.p2
-import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.PreviewParameterData.p3
+import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.PreviewParameterData.dataAndPrivacySettingsData_default
+import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.PreviewParameterData.dataAndPrivacySettingsData_mutations
 
 /**
  * This [PreviewParameterProvider](https://developer.android.com/reference/kotlin/androidx/compose/ui/tooling/preview/PreviewParameterProvider)
@@ -27,20 +26,19 @@ import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.Pre
  */
 class DataAndPrivacySettingsDataPreviewParameterProvider :
     PreviewParameterProvider<DataAndPrivacySettingsData> {
-    override val values: Sequence<DataAndPrivacySettingsData> = sequenceOf(p1, p2, p3)
+    override val values: Sequence<DataAndPrivacySettingsData> =
+        sequenceOf(dataAndPrivacySettingsData_default).plus(dataAndPrivacySettingsData_mutations)
 }
 
 object PreviewParameterData {
-    val p1 = DataAndPrivacySettingsData(
-        hasMetricsEnabled = false,
-        hasCrashlyticsEnabled = false,
-    )
-    val p2 = DataAndPrivacySettingsData(
-        hasMetricsEnabled = false,
+    val dataAndPrivacySettingsData_default = DataAndPrivacySettingsData(
+        hasMetricsEnabled = true,
         hasCrashlyticsEnabled = true,
     )
-    val p3 = DataAndPrivacySettingsData(
-        hasMetricsEnabled = true,
-        hasCrashlyticsEnabled = false,
-    )
+    val dataAndPrivacySettingsData_mutations = dataAndPrivacySettingsData_default.let {
+        sequenceOf(
+            it.copy(hasMetricsEnabled = false),
+            it.copy(hasCrashlyticsEnabled = false),
+        )
+    }
 }

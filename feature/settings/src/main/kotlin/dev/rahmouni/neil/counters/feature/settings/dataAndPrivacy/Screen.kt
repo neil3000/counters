@@ -60,12 +60,14 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.settings.R.string
+import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.PreviewParameterData
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState.Loading
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState.Success
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsViewModel
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.DataAndPrivacySettingsData
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.DataAndPrivacySettingsDataPreviewParameterProvider
+import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.PreviewParameterData.dataAndPrivacySettingsData_default
 import dev.rahmouni.neil.counters.feature.settings.logAndroidAccessibilityTileClicked
 
 @Composable
@@ -248,12 +250,7 @@ private fun DataAndPrivacySettingsPanel(
 private fun Default() {
     Rn3Theme {
         DataAndPrivacySettingsScreen(
-            uiState = Success(
-                dataAndPrivacySettingsData = DataAndPrivacySettingsData(
-                    hasMetricsEnabled = true,
-                    hasCrashlyticsEnabled = true,
-                ),
-            ),
+            uiState = Success(dataAndPrivacySettingsData = dataAndPrivacySettingsData_default)
         )
     }
 }

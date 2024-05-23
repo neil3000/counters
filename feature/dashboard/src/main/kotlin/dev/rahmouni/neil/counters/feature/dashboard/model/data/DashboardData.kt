@@ -14,23 +14,10 @@
  * limitations under the License.
  */
 
-@Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
-plugins {
-    alias(libs.plugins.rn3.android.feature)
-    alias(libs.plugins.rn3.android.library.compose)
-    alias(libs.plugins.rn3.android.library.jacoco)
-}
+package dev.rahmouni.neil.counters.feature.dashboard.model.data
 
-android {
-    namespace = "dev.rahmouni.neil.counters.feature.dashboard"
-}
+import dev.rahmouni.neil.counters.core.data.model.UserCounter
 
-dependencies {
-    api(libs.androidx.compose.material.iconsExtended)
-
-    implementation(libs.androidx.appcompat)
-    implementation(libs.coil.kt.compose)
-
-    implementation(projects.core.data)
-    implementation(projects.core.feedback)
-}
+data class DashboardData(
+    val userCounters: List<UserCounter>
+)
