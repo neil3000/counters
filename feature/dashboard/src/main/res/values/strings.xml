@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="feature_dashboard_dashboardScreen_topAppBar_title">Counters</string>
+    <string name="feature_dashboard_dashboardScreen_topAppBarTitle">Counters</string>
+    <string name="feature_dashboard_dashboardScreen_topAppBarActions_settings">Settings</string>
+    <string name="feature_dashboard_fab_newCounter">New Counter</string>
 </resources>

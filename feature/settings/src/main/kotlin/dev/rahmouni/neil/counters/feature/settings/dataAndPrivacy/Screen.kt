@@ -109,7 +109,7 @@ internal fun DataAndPrivacySettingsScreen(
 ) {
     Rn3Scaffold(
         modifier,
-        stringResource(string.feature_settings_dataAndPrivacySettingsScreen_topAppBar_title),
+        stringResource(string.feature_settings_dataAndPrivacySettingsScreen_topAppBarTitle),
         onBackIconButtonClicked,
         topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
     ) {

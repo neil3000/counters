@@ -50,7 +50,7 @@ fun Rn3SmallTopAppBar(
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     scrollBehavior: TopAppBarScrollBehavior,
     onBackIconButtonClicked: (() -> Unit)? = null,
-    topAppBarActions: List<TopAppBarAction> = emptyList(),
+    actions: List<TopAppBarAction> = emptyList(),
 ) {
     TopAppBar(
         title = {
@@ -71,9 +71,9 @@ fun Rn3SmallTopAppBar(
             }
         },
         actions = {
-            when (topAppBarActions.size) {
+            when (actions.size) {
                 0 -> Unit
-                1 -> topAppBarActions[0].IconButton()
+                1 -> actions[0].IconButton()
                 else -> {
                     var expanded by remember { mutableStateOf(false) }
 
@@ -82,7 +82,7 @@ fun Rn3SmallTopAppBar(
                         contentDescription = "See more",
                     ) { expanded = true }
 
-                    topAppBarActions.DropdownMenu(expanded = expanded) { expanded = false }
+                    actions.DropdownMenu(expanded = expanded) { expanded = false }
                 }
             }
         },

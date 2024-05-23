@@ -98,7 +98,7 @@ internal fun AccessibilitySettingsScreen(
 ) {
     Rn3Scaffold(
         modifier,
-        stringResource(string.feature_settings_accessibilitySettingsScreen_topAppBar_title),
+        stringResource(string.feature_settings_accessibilitySettingsScreen_topAppBarTitle),
         onBackIconButtonClicked,
         topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
     ) {

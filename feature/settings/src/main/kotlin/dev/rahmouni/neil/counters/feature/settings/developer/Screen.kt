@@ -64,7 +64,7 @@ internal fun DeveloperSettingsScreen(
     onBackIconButtonClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
-        modifier, stringResource(R.string.feature_settings_developerSettingsScreen_topAppBar_title),
+        modifier, stringResource(R.string.feature_settings_developerSettingsScreen_topAppBarTitle),
         onBackIconButtonClicked,
     ) {
         DeveloperSettingsPanel(it)
@@ -86,8 +86,6 @@ private fun DeveloperSettingsPanel(
             ) {}
         }
 
-        item { Rn3TileHorizontalDivider() }
-
         FirebaseApp.getApps(context)
             .map {
                 Triple(
@@ -97,6 +95,8 @@ private fun DeveloperSettingsPanel(
                 )
             }
             .forEach { (appName, remoteConfig, installation) ->
+
+                item { Rn3TileHorizontalDivider() }
 
                 item {
                     Rn3TileSmallHeader(

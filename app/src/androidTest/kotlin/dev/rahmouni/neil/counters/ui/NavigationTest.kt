@@ -69,7 +69,7 @@ class NavigationTest {
         ReadOnlyProperty<Any, String> { _, _ -> activity.getString(resId) }
 
     // The strings used for matching in these tests
-    private val settings by composeTestRule.stringResource(SettingsR.string.feature_settings_settingsScreen_topAppBar_title)
+    private val settings by composeTestRule.stringResource(SettingsR.string.feature_settings_settingsScreen_topAppBarTitle)
 
     @Before
     fun setup() = hiltRule.inject()

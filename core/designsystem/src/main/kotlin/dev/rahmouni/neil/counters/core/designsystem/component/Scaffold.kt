@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -23,10 +22,11 @@ import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3Small
 @Composable
 fun Rn3Scaffold(
     modifier: Modifier = Modifier,
-    title: String,
+    topAppBarTitle: String,
     onBackIconButtonClicked: (() -> Unit)?,
     topAppBarActions: List<TopAppBarAction> = emptyList(),
     topAppBarStyle: TopAppBarStyle = TopAppBarStyle.LARGE,
+    floatingActionButton: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
 ) {
     val windowHeightClass = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
@@ -37,13 +37,14 @@ fun Rn3Scaffold(
             modifier,
             TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
             content,
+            floatingActionButton,
         ) { scrollBehavior ->
             Rn3LargeTopAppBar(
                 modifier,
-                title,
+                topAppBarTitle,
                 scrollBehavior = scrollBehavior,
                 onBackIconButtonClicked = onBackIconButtonClicked,
-                topAppBarActions = topAppBarActions,
+                actions = topAppBarActions,
             )
         }
 
@@ -52,13 +53,14 @@ fun Rn3Scaffold(
             modifier,
             TopAppBarDefaults.pinnedScrollBehavior(),
             content,
+            floatingActionButton,
         ) { scrollBehavior ->
             Rn3SmallTopAppBar(
                 modifier,
-                title,
+                topAppBarTitle,
                 scrollBehavior = scrollBehavior,
                 onBackIconButtonClicked = onBackIconButtonClicked,
-                topAppBarActions = topAppBarActions,
+                actions = topAppBarActions,
             )
         }
     }
@@ -71,12 +73,14 @@ fun Rn3ScaffoldImpl(
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior,
     content: @Composable (PaddingValues) -> Unit,
+    floatingActionButton: @Composable () -> Unit,
     topBarComponent: @Composable (scrollBehavior: TopAppBarScrollBehavior) -> Unit,
 ) {
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = { topBarComponent(scrollBehavior) },
         contentWindowInsets = WindowInsets.displayCutout,
+        floatingActionButton = floatingActionButton,
     ) {
         Column {
             content(it)

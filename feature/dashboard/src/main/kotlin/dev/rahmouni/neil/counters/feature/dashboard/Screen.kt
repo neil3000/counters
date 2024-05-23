@@ -20,9 +20,13 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,6 +38,7 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
+import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 
@@ -60,15 +65,32 @@ internal fun DashboardScreen(
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
 ) {
+    val haptics = getHaptic()
+
     Rn3Scaffold(
         modifier,
-        stringResource(R.string.feature_dashboard_dashboardScreen_topAppBar_title),
+        stringResource(R.string.feature_dashboard_dashboardScreen_topAppBarTitle),
         null,
         listOfNotNull(
-            TopAppBarAction(Icons.Outlined.Settings, "Settings", onSettingsTopAppBarActionClicked),
+            TopAppBarAction(
+                Icons.Outlined.Settings,
+                stringResource(R.string.feature_dashboard_dashboardScreen_topAppBarActions_settings),
+                onSettingsTopAppBarActionClicked,
+            ),
             feedbackTopAppBarAction,
         ),
         topAppBarStyle = SMALL,
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                text = { Text(stringResource(R.string.feature_dashboard_fab_newCounter)) },
+                icon = { Icon(Icons.Outlined.Add, null) },
+                onClick = {
+                    haptics.click()
+                    TODO()
+                },
+                Modifier.navigationBarsPadding(),
+            )
+        },
     ) {
         DashboardPanel(it)
     }
