@@ -17,24 +17,45 @@
 package dev.rahmouni.neil.counters.core.designsystem.component
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ExposurePlus2
+import androidx.compose.material.icons.outlined.PlusOne
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowHeightSizeClass.Companion.COMPACT
+import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
+import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.DASHBOARD
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.LARGE
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3LargeTopAppBar
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
+import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,15 +64,16 @@ fun Rn3Scaffold(
     topAppBarTitle: String,
     onBackIconButtonClicked: (() -> Unit)?,
     topAppBarActions: List<TopAppBarAction> = emptyList(),
-    topAppBarStyle: TopAppBarStyle = TopAppBarStyle.LARGE,
+    topAppBarStyle: TopAppBarStyle = LARGE,
     floatingActionButton: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
 ) {
     val windowHeightClass = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
+    val config = LocalConfigHelper.current
 
     when {
-        // Large
-        topAppBarStyle == TopAppBarStyle.LARGE && windowHeightClass != COMPACT -> Rn3ScaffoldImpl(
+        // LARGE
+        topAppBarStyle == LARGE && windowHeightClass != COMPACT -> Rn3ScaffoldImpl(
             modifier,
             TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
             content,
@@ -66,7 +88,7 @@ fun Rn3Scaffold(
             )
         }
 
-        // Small
+        // SMALL or DASHBOARD
         else -> Rn3ScaffoldImpl(
             modifier,
             TopAppBarDefaults.pinnedScrollBehavior(),
@@ -75,11 +97,54 @@ fun Rn3Scaffold(
         ) { scrollBehavior ->
             Rn3SmallTopAppBar(
                 modifier,
-                topAppBarTitle,
                 scrollBehavior = scrollBehavior,
                 onBackIconButtonClicked = onBackIconButtonClicked,
                 actions = topAppBarActions,
-            )
+            ) {
+                Row(
+                    horizontalArrangement = spacedBy(12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    if (topAppBarStyle == DASHBOARD) {
+                        val ee1 = (1..1000).random() == 1 || config.getBoolean("ee_1_force")
+
+                        Surface(
+                            Modifier.size(36.dp),
+                            color = Color(136, 18, 41),
+                            shape = RoundedCornerShape(8.dp),
+                        ) {
+                            @Suppress("KotlinConstantConditions")
+                            when {
+                                BuildConfig.BUILD_TYPE == "debug" -> Icon(
+                                    Icons.Outlined.Rn3,
+                                    null,
+                                    Modifier.scale(.6f),
+                                    tint = Color.White,
+                                )
+
+                                ee1 -> Icon(
+                                    Icons.Outlined.ExposurePlus2,
+                                    null,
+                                    Modifier.scale(.75f),
+                                    tint = Color.White,
+                                )
+
+                                else -> Icon(
+                                    Icons.Outlined.PlusOne,
+                                    null,
+                                    Modifier.scale(.75f),
+                                    tint = Color.White,
+                                )
+                            }
+                        }
+                    }
+                    Text(
+                        topAppBarTitle,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            }
         }
     }
 }
@@ -106,7 +171,17 @@ fun Rn3ScaffoldImpl(
     }
 }
 
+/**
+ * Styles to be applied to the TopAppBars ([Large][Rn3LargeTopAppBar] or [Small][Rn3SmallTopAppBar])
+ *
+ * • [LARGE] represents a classic [LargeTopAppBar][Rn3LargeTopAppBar] if the screen is high enough else falls back to a classic [SmallTopAppBar][Rn3SmallTopAppBar], this is the default behavior.
+ *
+ * • [SMALL] represents a classic [SmallTopAppBar][Rn3SmallTopAppBar]
+ *
+ * • [DASHBOARD] represents a classic [SmallTopAppBar][Rn3SmallTopAppBar] with the Counters Logo before the title.
+ */
 enum class TopAppBarStyle {
-    SMALL,
     LARGE,
+    SMALL,
+    DASHBOARD
 }

@@ -33,7 +33,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import dev.rahmouni.neil.counters.core.designsystem.DropdownMenu
 import dev.rahmouni.neil.counters.core.designsystem.R
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
@@ -46,20 +45,14 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 @OptIn(ExperimentalMaterial3Api::class)
 fun Rn3SmallTopAppBar(
     modifier: Modifier = Modifier,
-    title: String,
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     scrollBehavior: TopAppBarScrollBehavior,
     onBackIconButtonClicked: (() -> Unit)? = null,
     actions: List<TopAppBarAction> = emptyList(),
+    title: @Composable () -> Unit,
 ) {
     TopAppBar(
-        title = {
-            Text(
-                title,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        },
+        title = title,
         modifier = modifier,
         navigationIcon = {
             if (onBackIconButtonClicked != null) {
@@ -97,7 +90,7 @@ fun Rn3SmallTopAppBar(
 private fun Default() {
     Rn3Theme {
         Rn3SmallTopAppBar(
-            title = "Preview default",
+            title = { Text("Preview default") },
             scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
         )
     }
@@ -109,7 +102,7 @@ private fun Default() {
 private fun BackArrow() {
     Rn3Theme {
         Rn3SmallTopAppBar(
-            title = "Preview back button",
+            title = { Text("Preview back button") },
             scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
         )
     }

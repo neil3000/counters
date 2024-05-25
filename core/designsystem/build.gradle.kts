@@ -24,6 +24,11 @@ android {
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     namespace = "dev.rahmouni.neil.counters.core.designsystem"
 }
 
@@ -46,6 +51,7 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
 
     implementation(projects.core.common)
+    implementation(projects.core.config)
 
     testImplementation(libs.androidx.compose.ui.test)
     testImplementation(libs.hilt.android.testing)

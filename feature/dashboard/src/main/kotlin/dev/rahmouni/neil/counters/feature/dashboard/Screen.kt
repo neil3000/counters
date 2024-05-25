@@ -45,6 +45,7 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.DASHBOARD
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
@@ -106,7 +107,7 @@ internal fun DashboardScreen(
             ),
             feedbackTopAppBarAction,
         ),
-        topAppBarStyle = SMALL,
+        topAppBarStyle = DASHBOARD,
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 text = { Text(stringResource(R.string.feature_dashboard_fab_newCounter)) },

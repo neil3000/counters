@@ -55,4 +55,8 @@
         <value>• The application stores all data locally, ensuring no personal information is collected.\n• Requires Internet access for crash reports and minimal usage statistics.
         </value>
     </entry>
+    <entry>
+        <key>ee_1_force</key>
+        <value>false</value>
+    </entry>
 </defaultsMap>
