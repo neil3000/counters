@@ -19,15 +19,10 @@ package dev.rahmouni.neil.counters.feature.dashboard.model
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.rahmouni.neil.counters.core.auth.AuthHelper
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.*
 import dev.rahmouni.neil.counters.core.data.repository.CountersDataRepository
-import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.DashboardData
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -37,25 +32,29 @@ import kotlin.time.Duration.Companion.seconds
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val countersDataRepository: CountersDataRepository,
-    private val userDataRepository: UserDataRepository
 ) : ViewModel() {
 
     val uiState: StateFlow<DashboardUiState> =
-        countersDataRepository.userCounters.combine(userDataRepository.userData) { counters, data ->
-                DashboardUiState(
-                    dashboardData = DashboardData(
-                        counters = counters,
-                        lastUserUid = data.lastUserUid.toString(),
-                    ),
-                )
-            }.stateIn(
-                scope = viewModelScope,
-                initialValue = DashboardUiState(DashboardData(counters = emptyList(), lastUserUid = "unset")),
-                started = WhileSubscribed(5.seconds.inWholeMilliseconds),
+        countersDataRepository.userCounters.map { counters ->
+            DashboardUiState(
+                dashboardData = DashboardData(
+                    counters = counters,
+                ),
             )
+        }.stateIn(
+            scope = viewModelScope,
+            initialValue = DashboardUiState(
+                DashboardData(
+                    counters = emptyList(),
+                ),
+            ),
+            started = WhileSubscribed(5.seconds.inWholeMilliseconds),
+        )
 
     fun createUserCounter(title: String) {
-        countersDataRepository.createUserCounter(viewModelScope, title)
+        viewModelScope.launch {
+            countersDataRepository.createUserCounter(title)
+        }
     }
 
     fun incrementUserCounter(id: String) {

@@ -24,12 +24,11 @@ import com.google.firebase.ktx.Firebase
 import dev.rahmouni.neil.counters.core.data.model.CounterData
 import dev.rahmouni.neil.counters.core.data.model.CounterDataFields
 import dev.rahmouni.neil.counters.core.data.model.IncrementDataFields
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.transformLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FirestoreCountersDataRepository @Inject constructor(
@@ -46,19 +45,21 @@ class FirestoreCountersDataRepository @Inject constructor(
             )
         }
 
-    override fun createUserCounter(coroutineScope: CoroutineScope, title: String) {
-        coroutineScope.launch {
-            Firebase.firestore
-                .collection("counters")
-                .add(
-                    with(CounterDataFields) {
-                        hashMapOf(
-                            this.ownerUserUid to userDataRepository.userData.stateIn(coroutineScope).value.lastUserUid,
-                            this.title to title,
-                            this.currentValue to 0,
-                        )
-                    },
-                )
+    override suspend fun createUserCounter(title: String) {
+        coroutineScope {
+            userDataRepository.userData.stateIn(this).value.let { userData ->
+                Firebase.firestore
+                    .collection("counters")
+                    .add(
+                        with(CounterDataFields) {
+                            hashMapOf(
+                                this.ownerUserUid to userData.lastUserUid,
+                                this.title to title,
+                                this.currentValue to 0,
+                            )
+                        },
+                    )
+            }
         }
     }
 

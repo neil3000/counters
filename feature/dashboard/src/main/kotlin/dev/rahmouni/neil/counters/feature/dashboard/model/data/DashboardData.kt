@@ -20,5 +20,4 @@ import dev.rahmouni.neil.counters.core.data.model.CounterData
 
 data class DashboardData(
     val counters: List<CounterData>,
-    val lastUserUid: String
 )

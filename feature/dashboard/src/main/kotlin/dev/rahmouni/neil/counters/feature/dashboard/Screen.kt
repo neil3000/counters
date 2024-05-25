@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Numbers
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -32,7 +31,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -45,7 +43,6 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullS
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.dashboard.model.DashboardUiState
@@ -62,7 +59,6 @@ internal fun DashboardRoute(
     navigateToSettings: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
 
     DashboardScreen(
         modifier,
@@ -73,7 +69,7 @@ internal fun DashboardRoute(
         ).toTopAppBarAction(navController::navigateToFeedback),
         onSettingsTopAppBarActionClicked = navigateToSettings,
         onNewCounterFabClick = {
-            viewModel.createUserCounter("PIZZA")
+            viewModel.createUserCounter("Title (Tmp)")
         },
         onIncrementUserCounter = viewModel::incrementUserCounter,
     )
@@ -131,13 +127,6 @@ private fun DashboardPanel(
         verticalArrangement = spacedBy(8.dp),
         contentPadding = contentPadding,
     ) {
-        item {
-            Rn3TileCopy(
-                title = "LastUserUid",
-                icon = Icons.Outlined.Numbers,
-                text = data.lastUserUid,
-            )
-        }
         items(data.counters, key = { it.uid }) {
             it.DashboardCard(onIncrement = onIncrementUserCounter)
         }

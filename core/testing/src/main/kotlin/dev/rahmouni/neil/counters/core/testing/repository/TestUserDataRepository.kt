@@ -72,6 +72,12 @@ class TestUserDataRepository : UserDataRepository {
         }
     }
 
+    override suspend fun setLastUserUid(value: String) {
+        currentUserData.let { current ->
+            _userData.tryEmit(current.copy(lastUserUid = value))
+        }
+    }
+
     /**
      * A test-only API to allow setting of user data directly.
      */

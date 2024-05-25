@@ -37,7 +37,6 @@ object PreviewParameterData {
             CounterData("id1", "Push-ups"),
             CounterData("id2", "Coffee cups"),
         ),
-        lastUserUid = "unset",
     )
     val dashboardData_mutations = dashboardData_default.let {
         sequenceOf(
