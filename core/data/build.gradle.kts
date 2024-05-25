@@ -33,11 +33,10 @@ android {
 
 dependencies {
     api(projects.core.datastore)
+    api(projects.core.analytics)
 
     api(platform(libs.firebase.bom))
     api(libs.firebase.firestore)
-
-    implementation(projects.core.analytics)
 
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.kotlinx.serialization.json)

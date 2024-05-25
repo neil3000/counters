@@ -24,6 +24,8 @@ android {
 }
 
 dependencies {
+    api(projects.core.data)
+
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
 
@@ -32,8 +34,6 @@ dependencies {
     implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.androidx.compose.material3)
     implementation(libs.coil.kt.compose)
-
-    implementation(projects.core.data)
 
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)

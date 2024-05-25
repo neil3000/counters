@@ -32,17 +32,16 @@ android {
 dependencies {
     api(libs.androidx.compose.material.iconsExtended)
 
+    api(projects.core.auth)
+    api(projects.core.config)
+    api(projects.core.feedback)
+
     implementation(libs.androidx.appcompat)
     implementation(libs.coil.kt.compose)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.common.ktx)
     implementation(libs.firebase.config)
-
-    implementation(projects.core.data)
-    implementation(projects.core.config)
-    implementation(projects.core.feedback)
-    implementation(projects.core.auth)
 
     testImplementation(projects.core.testing)
 

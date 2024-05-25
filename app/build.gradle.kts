@@ -84,10 +84,6 @@ dependencies {
     implementation(projects.feature.dashboard)
     implementation(projects.feature.settings)
 
-    implementation(projects.core.auth)
-    implementation(projects.core.config)
-    implementation(projects.core.data)
-    implementation(projects.core.feedback)
     implementation(projects.core.ui)
 
     implementation(libs.androidx.core.splashscreen)
