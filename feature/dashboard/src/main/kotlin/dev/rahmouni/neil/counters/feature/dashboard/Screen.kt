@@ -20,10 +20,11 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Settings
@@ -31,7 +32,9 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -88,6 +91,9 @@ internal fun DashboardScreen(
 ) {
     val haptics = getHaptic()
 
+    val listState = rememberLazyListState()
+    val expandedFab by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
+
     Rn3Scaffold(
         modifier,
         stringResource(R.string.feature_dashboard_dashboardScreen_topAppBarTitle),
@@ -109,10 +115,11 @@ internal fun DashboardScreen(
                     haptics.click()
                     onNewCounterFabClick()
                 },
+                expanded = expandedFab,
             )
         },
     ) {
-        DashboardPanel(it, uiState.dashboardData, onIncrementUserCounter)
+        DashboardPanel(it, uiState.dashboardData, listState, onIncrementUserCounter)
     }
 }
 
@@ -120,10 +127,10 @@ internal fun DashboardScreen(
 private fun DashboardPanel(
     contentPadding: PaddingValues,
     data: DashboardData,
+    lazyListState: LazyListState,
     onIncrementUserCounter: (String) -> Unit,
 ) {
-    LazyColumn(contentPadding = contentPadding) {
-
+    LazyColumn(contentPadding = contentPadding, state = lazyListState) {
         items(data.counters, key = { it.uid }) {
             it.DashboardCard(
                 Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
