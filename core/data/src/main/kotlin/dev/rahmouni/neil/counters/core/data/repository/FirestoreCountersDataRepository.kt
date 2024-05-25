@@ -82,5 +82,4 @@ class FirestoreCountersDataRepository @Inject constructor(
                 )
             }
     }
-
 }

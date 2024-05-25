@@ -25,13 +25,11 @@ import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dev.rahmouni.neil.counters.MainActivity
-import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.rules.GrantPostNotificationsPermissionRule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import javax.inject.Inject
 import kotlin.properties.ReadOnlyProperty
 import dev.rahmouni.neil.counters.feature.settings.R as SettingsR
 
@@ -77,7 +75,7 @@ class NavigationTest {
     fun setup() = hiltRule.inject()
 
     @Test
-    fun firstScreen_isSettings() { //TODO change when home screen added
+    fun firstScreen_isSettings() { // TODO change when home screen added
         composeTestRule.apply {
             onNodeWithText(settings).assertIsSelected()
         }

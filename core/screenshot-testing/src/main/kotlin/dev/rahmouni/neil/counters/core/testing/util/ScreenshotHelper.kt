@@ -136,9 +136,9 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
         this.onRoot()
             .captureRoboImage(
                 "src/test/screenshots/" +
-                        "$name/$filename" +
-                        "_$darkModeDesc" +
-                        ".png",
+                    "$name/$filename" +
+                    "_$darkModeDesc" +
+                    ".png",
                 roborazziOptions = DefaultRoborazziOptions,
             )
     }
@@ -150,11 +150,11 @@ private fun generateDescription(
     darkMode: Boolean,
 ): String {
     val description = "" +
-            if (shouldCompareDarkMode) {
-                if (darkMode) "Dark" else "Light"
-            } else {
-                ""
-            }
+        if (shouldCompareDarkMode) {
+            if (darkMode) "Dark" else "Light"
+        } else {
+            ""
+        }
 
     return description.trim()
 }

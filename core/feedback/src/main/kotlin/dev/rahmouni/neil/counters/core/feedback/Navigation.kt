@@ -40,12 +40,16 @@ fun NavController.navigateToFeedback(
 ) =
     navigate(
         "$FEEDBACK_ROUTE?${
-            if (feedbackContext is FeedbackScreenContext) "contextID=${
-                feedbackContext.getID(
-                    context,
-                )
-            }" else ""
-        }&page=${page}&type=${type}&description=${description}&onCurrentPage=${onCurrentPage}&sendScreenshot=${sendScreenshot}&sendAdditionalInfo=${sendAdditionalInfo}",
+            if (feedbackContext is FeedbackScreenContext) {
+                "contextID=${
+                    feedbackContext.getID(
+                        context,
+                    )
+                }"
+            } else {
+                ""
+            }
+        }&page=$page&type=$type&description=$description&onCurrentPage=$onCurrentPage&sendScreenshot=$sendScreenshot&sendAdditionalInfo=$sendAdditionalInfo",
         navOptions,
     )
 

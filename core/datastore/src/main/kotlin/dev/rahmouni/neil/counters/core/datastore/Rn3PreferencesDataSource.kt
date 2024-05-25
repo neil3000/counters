@@ -33,7 +33,7 @@ class Rn3PreferencesDataSource @Inject constructor(
             hasMetricsEnabled = !it.hasMetricsDisabled,
             hasCrashlyticsEnabled = !it.hasCrashlyticsDisabled,
             hasSyncEnabled = it.hasSyncEnabled,
-            lastUserUid = it.lastUserUid
+            lastUserUid = it.lastUserUid,
         )
     }
 

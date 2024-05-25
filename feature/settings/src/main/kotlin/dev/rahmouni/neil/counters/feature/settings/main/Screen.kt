@@ -354,13 +354,15 @@ private fun SettingsPanel(
         item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_otherHeaderTile_title)) }
 
         // developerSettingsTile
-        if (data.devSettingsEnabled) item {
-            Rn3TileClick(
-                title = stringResource(string.feature_settings_settingsScreen_developer_title),
-                icon = Outlined.DataObject,
-                supportingText = stringResource(string.feature_settings_settingsScreen_developer_supportingText),
-                onClick = onClickDeveloperSettingsTile,
-            )
+        if (data.devSettingsEnabled) {
+            item {
+                Rn3TileClick(
+                    title = stringResource(string.feature_settings_settingsScreen_developer_title),
+                    icon = Outlined.DataObject,
+                    supportingText = stringResource(string.feature_settings_settingsScreen_developer_supportingText),
+                    onClick = onClickDeveloperSettingsTile,
+                )
+            }
         }
 
         // ossLicensesTile

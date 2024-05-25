@@ -120,7 +120,6 @@ internal fun AboutMeScreen(
         topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
         topAppBarStyle = TopAppBarStyle.SMALL,
     ) {
-
         val aboutMeData = if (uiState is Success) uiState.aboutMeData else null
 
         when {
@@ -192,7 +191,6 @@ private fun TwoPanePanel(
 
 @Composable
 private fun ColumnPanel(aboutMeData: AboutMeData?, paddingValues: PaddingValues) {
-
     var finishedLoadingAnimation by remember { mutableStateOf(aboutMeData != null) }
 
     Column(
@@ -207,7 +205,6 @@ private fun ColumnPanel(aboutMeData: AboutMeData?, paddingValues: PaddingValues)
             pfp = aboutMeData?.pfp,
             finishedLoadingAnimation = finishedLoadingAnimation,
         ) { finishedLoadingAnimation = true }
-
 
         AnimatedVisibility(visible = !finishedLoadingAnimation) {
             Spacer(modifier = Modifier.height(paddingValues.calculateTopPadding()))

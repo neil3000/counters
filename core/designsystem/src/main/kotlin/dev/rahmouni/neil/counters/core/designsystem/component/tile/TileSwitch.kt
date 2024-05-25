@@ -83,7 +83,7 @@ fun Rn3TileSwitch(
                 interactionSource = interactionSource,
                 onCheckedChange = null,
                 enabled = enabled,
-                thumbContent = thumbContent
+                thumbContent = thumbContent,
             )
         },
     )

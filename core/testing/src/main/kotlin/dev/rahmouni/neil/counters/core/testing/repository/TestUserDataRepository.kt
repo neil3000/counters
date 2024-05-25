@@ -29,7 +29,7 @@ val emptyUserData = UserData(
     hasMetricsEnabled = true,
     hasCrashlyticsEnabled = true,
     hasSyncEnabled = false,
-    lastUserUid = null
+    lastUserUid = null,
 )
 
 class TestUserDataRepository : UserDataRepository {

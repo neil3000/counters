@@ -64,7 +64,8 @@ internal fun DeveloperSettingsScreen(
     onBackIconButtonClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
-        modifier, stringResource(R.string.feature_settings_developerSettingsScreen_topAppBarTitle),
+        modifier,
+        stringResource(R.string.feature_settings_developerSettingsScreen_topAppBarTitle),
         onBackIconButtonClicked,
     ) {
         DeveloperSettingsPanel(it)

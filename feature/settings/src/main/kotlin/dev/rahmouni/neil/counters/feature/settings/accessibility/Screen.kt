@@ -124,7 +124,6 @@ private fun AccessibilitySettingsPanel(
     onClickAndroidAccessibilityTile: () -> Unit,
 ) {
     Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
-
         // emphasizedSwitchesTile
         item {
             Rn3TileSwitch(

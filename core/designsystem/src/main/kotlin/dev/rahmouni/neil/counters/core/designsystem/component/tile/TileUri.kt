@@ -57,12 +57,16 @@ fun Rn3TileUri(
         modifier = modifier,
         title = title,
         icon = icon,
-        supportingText = if (forceSupportingText) supportingText else when (uri) {
-            is AndroidPreview -> supportingText
-            is InMaintenance -> stringResource(R.string.core_designsystem_tileUri_inMaintenance_supportingText)
-            is Unavailable -> stringResource(R.string.core_designsystem_tileUri_unavailable_supportingText)
-            is SoonAvailable -> stringResource(R.string.core_designsystem_tileUri_soonAvailable_supportingText)
-            is Available -> supportingText
+        supportingText = if (forceSupportingText) {
+            supportingText
+        } else {
+            when (uri) {
+                is AndroidPreview -> supportingText
+                is InMaintenance -> stringResource(R.string.core_designsystem_tileUri_inMaintenance_supportingText)
+                is Unavailable -> stringResource(R.string.core_designsystem_tileUri_unavailable_supportingText)
+                is SoonAvailable -> stringResource(R.string.core_designsystem_tileUri_soonAvailable_supportingText)
+                is Available -> supportingText
+            }
         },
         external = true,
         enabled = uri is AndroidPreview || uri is Available,

@@ -59,7 +59,7 @@ fun SocialLinks(socialLinks: List<SocialLink>) {
                         icon = it.getIcon(),
                         contentDescription = it.tooltip,
                     ) {
-                        //TODO analytics (it.id)
+                        // TODO analytics (it.id)
 
                         // Not preloaded on purpose so opened in apps that handle these links instead of being opened in browser
                         context.openUri(it.uri, false)

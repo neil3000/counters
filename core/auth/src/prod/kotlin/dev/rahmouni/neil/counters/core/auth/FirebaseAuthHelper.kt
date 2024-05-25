@@ -59,12 +59,12 @@ internal class FirebaseAuthHelper @Inject constructor(
                                 context,
                                 GetCredentialRequest.Builder()
                                     .setPreferImmediatelyAvailableCredentials(
-                                        filterByAuthorizedAccounts
+                                        filterByAuthorizedAccounts,
                                     )
                                     .addCredentialOption(
                                         GetGoogleIdOption.Builder()
                                             .setFilterByAuthorizedAccounts(
-                                                filterByAuthorizedAccounts
+                                                filterByAuthorizedAccounts,
                                             )
                                             .setServerClientId(WEB_CLIENT_ID)
                                             .setAutoSelectEnabled(filterByAuthorizedAccounts)
@@ -83,8 +83,12 @@ internal class FirebaseAuthHelper @Inject constructor(
             }
         } catch (e: Exception) {
             when (e) {
-                is NoCredentialException -> { return } // It's ok to not have a credential already available
-                is GetCredentialCancellationException -> { return } // It's ok to cancel the credential request
+                is NoCredentialException -> {
+                    return
+                } // It's ok to not have a credential already available
+                is GetCredentialCancellationException -> {
+                    return
+                } // It's ok to cancel the credential request
                 else -> throw e
             }
         }

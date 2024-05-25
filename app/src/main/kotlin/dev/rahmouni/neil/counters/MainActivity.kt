@@ -103,7 +103,7 @@ class MainActivity : ComponentActivity() {
                         @Suppress("KotlinConstantConditions")
                         if (BuildConfig.FLAVOR == "demo" || (uiState is Success && !(uiState as Success).hasSyncEnabled)) {
                             Firebase.firestore.disableNetwork()
-                        }else{
+                        } else {
                             Firebase.firestore.enableNetwork()
                         }
                     }.collect()

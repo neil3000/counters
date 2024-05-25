@@ -17,7 +17,6 @@
 package dev.rahmouni.neil.counters.core.data.repository
 
 import dev.rahmouni.neil.counters.core.data.model.CounterData
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
 interface CountersDataRepository {

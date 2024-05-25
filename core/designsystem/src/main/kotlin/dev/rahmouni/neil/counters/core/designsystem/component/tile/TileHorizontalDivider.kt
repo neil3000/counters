@@ -45,7 +45,6 @@ object Rn3TileHorizontalDividerDefaults {
     val color: Color @Composable get() = DividerDefaults.color
 }
 
-
 @Rn3PreviewComponentDefault
 @Composable
 private fun Default() {

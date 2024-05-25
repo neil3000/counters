@@ -40,7 +40,7 @@ class MainActivityViewModel @Inject constructor(
                 hasEmphasizedSwitchesEnabled = userData.hasAccessibilityEmphasizedSwitchesEnabled,
                 hasIconTooltipsEnabled = userData.hasAccessibilityIconTooltipsEnabled,
             ),
-            hasSyncEnabled = userData.hasSyncEnabled
+            hasSyncEnabled = userData.hasSyncEnabled,
         )
     }.stateIn(
         scope = viewModelScope,

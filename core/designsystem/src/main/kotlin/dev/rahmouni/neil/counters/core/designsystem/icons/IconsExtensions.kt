@@ -35,7 +35,7 @@ val customIconsList
         Outlined.Mastodon,
         Outlined.Linkedin,
         Outlined.Gitlab,
-        Outlined.Threads
+        Outlined.Threads,
     )
 
 val Outlined.Tooltip

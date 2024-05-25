@@ -57,12 +57,16 @@ fun Rn3TileClick(
 
     val interactionSource = remember { MutableInteractionSource() }
 
-    val colors = if (error) ListItemDefaults.colors(
-        headlineColor = MaterialTheme.colorScheme.error,
-        leadingIconColor = MaterialTheme.colorScheme.error,
-        supportingColor = MaterialTheme.colorScheme.error,
-        trailingIconColor = MaterialTheme.colorScheme.error,
-    ) else ListItemDefaults.colors()
+    val colors = if (error) {
+        ListItemDefaults.colors(
+            headlineColor = MaterialTheme.colorScheme.error,
+            leadingIconColor = MaterialTheme.colorScheme.error,
+            supportingColor = MaterialTheme.colorScheme.error,
+            trailingIconColor = MaterialTheme.colorScheme.error,
+        )
+    } else {
+        ListItemDefaults.colors()
+    }
 
     ListItem(
         headlineContent = { Text(text = title) },

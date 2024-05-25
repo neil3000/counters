@@ -60,7 +60,7 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
             id = "DesignSystem",
             briefDescription = "Design system",
             explanation = "This check highlights calls in code that use Compose Material " +
-                    "composables instead of equivalents from the Rn3 design system module.",
+                "composables instead of equivalents from the Rn3 design system module.",
             category = Category.CUSTOM_LINT_CHECKS,
             priority = 7,
             severity = Severity.ERROR,

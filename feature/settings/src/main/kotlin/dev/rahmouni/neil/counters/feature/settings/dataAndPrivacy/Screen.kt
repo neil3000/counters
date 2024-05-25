@@ -60,7 +60,6 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.settings.R.string
-import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.PreviewParameterData
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState.Loading
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState.Success
@@ -80,7 +79,7 @@ internal fun DataAndPrivacySettingsRoute(
     val analytics = LocalAnalyticsHelper.current
     val config = LocalConfigHelper.current
 
-    //TODO clear metrics
+    // TODO clear metrics
     DataAndPrivacySettingsScreen(
         modifier,
         uiState,
@@ -250,7 +249,7 @@ private fun DataAndPrivacySettingsPanel(
 private fun Default() {
     Rn3Theme {
         DataAndPrivacySettingsScreen(
-            uiState = Success(dataAndPrivacySettingsData = dataAndPrivacySettingsData_default)
+            uiState = Success(dataAndPrivacySettingsData = dataAndPrivacySettingsData_default),
         )
     }
 }
