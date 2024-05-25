@@ -17,7 +17,9 @@
 package dev.rahmouni.neil.counters.feature.settings.accessibility
 
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.SettingsAccessibility
 import androidx.compose.material.icons.outlined.ToggleOn
@@ -39,7 +41,6 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
@@ -123,39 +124,33 @@ private fun AccessibilitySettingsPanel(
     setIconTooltips: (Boolean) -> Unit,
     onClickAndroidAccessibilityTile: () -> Unit,
 ) {
-    Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
+    Column(Modifier.padding(contentPadding)) {
         // emphasizedSwitchesTile
-        item {
-            Rn3TileSwitch(
-                title = stringResource(string.feature_settings_settingsScreen_emphasizedSwitchesTile_title),
-                icon = Outlined.ToggleOn,
-                checked = data.hasEmphasizedSwitchesEnabled,
-                onCheckedChange = setEmphasizedSwitches,
-            )
-        }
+        Rn3TileSwitch(
+            title = stringResource(string.feature_settings_settingsScreen_emphasizedSwitchesTile_title),
+            icon = Outlined.ToggleOn,
+            checked = data.hasEmphasizedSwitchesEnabled,
+            onCheckedChange = setEmphasizedSwitches,
+        )
 
         // iconTooltipsTile
-        item {
-            Rn3TileSwitch(
-                title = stringResource(string.feature_settings_settingsScreen_iconTooltipsTile_title),
-                icon = Outlined.Tooltip,
-                supportingText = stringResource(string.feature_settings_settingsScreen_iconTooltipsTile_supportingText),
-                checked = data.hasIconTooltipsEnabled,
-                onCheckedChange = setIconTooltips,
-            )
-        }
+        Rn3TileSwitch(
+            title = stringResource(string.feature_settings_settingsScreen_iconTooltipsTile_title),
+            icon = Outlined.Tooltip,
+            supportingText = stringResource(string.feature_settings_settingsScreen_iconTooltipsTile_supportingText),
+            checked = data.hasIconTooltipsEnabled,
+            onCheckedChange = setIconTooltips,
+        )
 
-        item { Rn3TileHorizontalDivider() }
+        Rn3TileHorizontalDivider()
 
         // androidAccessibilityTile
-        item {
-            Rn3TileClick(
-                title = stringResource(string.feature_settings_settingsScreen_androidAccessibilityTile_title),
-                icon = Outlined.SettingsAccessibility,
-                onClick = onClickAndroidAccessibilityTile,
-                external = true,
-            )
-        }
+        Rn3TileClick(
+            title = stringResource(string.feature_settings_settingsScreen_androidAccessibilityTile_title),
+            icon = Outlined.SettingsAccessibility,
+            onClick = onClickAndroidAccessibilityTile,
+            external = true,
+        )
     }
 }
 

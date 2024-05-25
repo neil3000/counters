@@ -72,7 +72,6 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
@@ -216,163 +215,141 @@ private fun SettingsPanel(
     onClickDeveloperSettingsTile: () -> Unit,
     onClickOssLicensesTile: () -> Unit,
 ) {
-    Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
+    Column(Modifier.padding(contentPadding)) {
         // accountTile
-        item {
-            when (data.user) {
-                is SignedInUser -> Rn3ExpandableSurface(
-                    content = {
-                        UserAvatarAndName(data.user)
-                    },
-                    expandedContent = {
-                        Column {
-                            Rn3TileHorizontalDivider(
-                                paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
-                                    top = 0.dp,
-                                ),
-                            )
+        when (data.user) {
+            is SignedInUser -> Rn3ExpandableSurface(
+                content = {
+                    UserAvatarAndName(data.user)
+                },
+                expandedContent = {
+                    Column {
+                        Rn3TileHorizontalDivider(
+                            paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
+                                top = 0.dp,
+                            ),
+                        )
 
-                            // accountSyncTile
-                            Rn3TileSwitch(
-                                title = stringResource(string.feature_settings_settingsScreen_accountSyncTile_title),
-                                icon = Outlined.Devices,
-                                checked = data.hasSyncEnabled,
-                                onCheckedChange = onSyncTileCheckedChange,
-                                thumbContent = {
-                                    Icon(
-                                        if (data.hasSyncEnabled) Outlined.CloudSync else Outlined.SyncDisabled,
-                                        null,
-                                        Modifier.size(
-                                            SwitchDefaults.IconSize,
-                                        ),
-                                    )
-                                },
-                            )
+                        // accountSyncTile
+                        Rn3TileSwitch(
+                            title = stringResource(string.feature_settings_settingsScreen_accountSyncTile_title),
+                            icon = Outlined.Devices,
+                            checked = data.hasSyncEnabled,
+                            onCheckedChange = onSyncTileCheckedChange,
+                            thumbContent = {
+                                Icon(
+                                    if (data.hasSyncEnabled) Outlined.CloudSync else Outlined.SyncDisabled,
+                                    null,
+                                    Modifier.size(
+                                        SwitchDefaults.IconSize,
+                                    ),
+                                )
+                            },
+                        )
 
-                            // accountLogoutTile
-                            Rn3TileClick(
-                                title = stringResource(string.feature_settings_settingsScreen_accountLogoutTile_title),
-                                icon = Icons.AutoMirrored.Outlined.Logout,
-                                onClick = onAccountTileLogoutClicked,
-                                error = true,
-                            )
-                        }
-                    },
-                    tonalElevation = 4.dp,
-                )
+                        // accountLogoutTile
+                        Rn3TileClick(
+                            title = stringResource(string.feature_settings_settingsScreen_accountLogoutTile_title),
+                            icon = Icons.AutoMirrored.Outlined.Logout,
+                            onClick = onAccountTileLogoutClicked,
+                            error = true,
+                        )
+                    }
+                },
+                tonalElevation = 4.dp,
+            )
 
-                is LoggedOutUser -> Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainer,
+            is LoggedOutUser -> Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                shape = RoundedCornerShape(16.dp),
+                color = MaterialTheme.colorScheme.surfaceContainer,
+            ) {
+                Row(
+                    Modifier.padding(vertical = 12.dp, horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Row(
-                        Modifier.padding(vertical = 12.dp, horizontal = 16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        UserAvatarAndName(user = data.user)
-                        OutlinedButton(onClick = onAccountTileLoginClicked) {
-                            Text("Login")
-                        }
+                    UserAvatarAndName(user = data.user)
+                    OutlinedButton(onClick = onAccountTileLoginClicked) {
+                        Text("Login")
                     }
                 }
             }
         }
 
         // generalHeaderTile
-        item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_generalHeaderTile_title)) }
+        Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_generalHeaderTile_title))
 
         // dataAndPrivacyTile
-        item {
-            Rn3TileClick(
-                title = stringResource(string.feature_settings_settingsScreen_dataAndPrivacyTile_title),
-                icon = Outlined.Shield,
-                onClick = onClickDataAndPrivacyTile,
-            )
-        }
+        Rn3TileClick(
+            title = stringResource(string.feature_settings_settingsScreen_dataAndPrivacyTile_title),
+            icon = Outlined.Shield,
+            onClick = onClickDataAndPrivacyTile,
+        )
 
         // accessibilityTile
-        item {
-            Rn3TileClick(
-                title = stringResource(string.feature_settings_settingsScreen_accessibilityTile_title),
-                icon = Outlined.AccessibilityNew,
-                onClick = onClickAccessibilityTile,
-            )
-        }
+        Rn3TileClick(
+            title = stringResource(string.feature_settings_settingsScreen_accessibilityTile_title),
+            icon = Outlined.AccessibilityNew,
+            onClick = onClickAccessibilityTile,
+        )
 
-        item {
-            Rn3TileHorizontalDivider()
-        }
+        Rn3TileHorizontalDivider()
 
         // aboutHeaderTile
-        item {
-            Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_aboutHeaderTile_title))
-        }
+        Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_aboutHeaderTile_title))
 
         // changelogTile
-        item {
-            Rn3TileUri(
-                title = stringResource(string.feature_settings_settingsScreen_changelogTile_title),
-                icon = Outlined.NewReleases,
-                uri = changelogTileUri,
-            )
-        }
+        Rn3TileUri(
+            title = stringResource(string.feature_settings_settingsScreen_changelogTile_title),
+            icon = Outlined.NewReleases,
+            uri = changelogTileUri,
+        )
 
         // discordTile
-        item {
-            Rn3TileUri(
-                title = stringResource(string.feature_settings_settingsScreen_discordTile_title),
-                icon = Outlined.Discord,
-                uri = discordTileUri,
-            )
-        }
+        Rn3TileUri(
+            title = stringResource(string.feature_settings_settingsScreen_discordTile_title),
+            icon = Outlined.Discord,
+            uri = discordTileUri,
+        )
 
         // contributeTile
-        item {
-            Rn3TileClick(
-                title = stringResource(string.feature_settings_settingsScreen_contributeTile_title),
-                icon = Outlined.StarBorder,
-                onClick = onClickContributeTile,
-            )
-        }
+        Rn3TileClick(
+            title = stringResource(string.feature_settings_settingsScreen_contributeTile_title),
+            icon = Outlined.StarBorder,
+            onClick = onClickContributeTile,
+        )
 
         // aboutMeTile
-        item {
-            Rn3TileClick(
-                title = stringResource(string.feature_settings_settingsScreen_aboutMeTile_title),
-                icon = Outlined.Rn3,
-                onClick = onClickAboutMeTile,
-            )
-        }
+        Rn3TileClick(
+            title = stringResource(string.feature_settings_settingsScreen_aboutMeTile_title),
+            icon = Outlined.Rn3,
+            onClick = onClickAboutMeTile,
+        )
 
-        item { Rn3TileHorizontalDivider() }
+        Rn3TileHorizontalDivider()
 
         // otherHeaderTile
-        item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_otherHeaderTile_title)) }
+        Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_otherHeaderTile_title))
 
         // developerSettingsTile
         if (data.devSettingsEnabled) {
-            item {
-                Rn3TileClick(
-                    title = stringResource(string.feature_settings_settingsScreen_developer_title),
-                    icon = Outlined.DataObject,
-                    supportingText = stringResource(string.feature_settings_settingsScreen_developer_supportingText),
-                    onClick = onClickDeveloperSettingsTile,
-                )
-            }
+            Rn3TileClick(
+                title = stringResource(string.feature_settings_settingsScreen_developer_title),
+                icon = Outlined.DataObject,
+                supportingText = stringResource(string.feature_settings_settingsScreen_developer_supportingText),
+                onClick = onClickDeveloperSettingsTile,
+            )
         }
 
         // ossLicensesTile
-        item {
-            Rn3TileClick(
-                title = stringResource(string.feature_settings_settingsScreen_ossLicensesTile_title),
-                icon = Outlined.Contract,
-                onClick = onClickOssLicensesTile,
-            )
-        }
+        Rn3TileClick(
+            title = stringResource(string.feature_settings_settingsScreen_ossLicensesTile_title),
+            icon = Outlined.Contract,
+            onClick = onClickOssLicensesTile,
+        )
     }
 }
 

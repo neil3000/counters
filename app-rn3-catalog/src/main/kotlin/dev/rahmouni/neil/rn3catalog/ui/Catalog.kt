@@ -19,10 +19,10 @@ package dev.rahmouni.neil.rn3catalog.ui
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.AcUnit
@@ -52,7 +52,6 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyRowWithPadding
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Switch
@@ -80,10 +79,7 @@ fun Rn3Catalog() {
             topAppBarTitle = "Rn3 Catalog",
             onBackIconButtonClicked = {},
         ) { paddingValues ->
-            Rn3LazyColumnFullScreen(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = paddingValues,
-            ) {
+            LazyColumn(contentPadding = paddingValues) {
                 item {
                     Rn3ExpandableSurface(
                         content = {

@@ -20,7 +20,9 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
@@ -95,7 +97,7 @@ fun Rn3ScaffoldImpl(
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = { topBarComponent(scrollBehavior) },
-        contentWindowInsets = WindowInsets.displayCutout,
+        contentWindowInsets = WindowInsets.systemBars.add(WindowInsets.displayCutout),
         floatingActionButton = floatingActionButton,
     ) {
         Column {

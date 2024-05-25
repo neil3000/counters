@@ -17,10 +17,12 @@
 package dev.rahmouni.neil.counters.feature.dashboard
 
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
@@ -39,7 +41,6 @@ import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
@@ -108,7 +109,6 @@ internal fun DashboardScreen(
                     haptics.click()
                     onNewCounterFabClick()
                 },
-                Modifier.navigationBarsPadding(),
             )
         },
     ) {
@@ -122,13 +122,20 @@ private fun DashboardPanel(
     data: DashboardData,
     onIncrementUserCounter: (String) -> Unit,
 ) {
-    Rn3LazyColumnFullScreen(
-        Modifier.padding(8.dp),
-        verticalArrangement = spacedBy(8.dp),
-        contentPadding = contentPadding,
-    ) {
+    LazyColumn(contentPadding = contentPadding) {
+
         items(data.counters, key = { it.uid }) {
-            it.DashboardCard(onIncrement = onIncrementUserCounter)
+            it.DashboardCard(
+                Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                onIncrement = onIncrementUserCounter,
+            )
+        }
+
+        // FAB height spacing
+        item {
+            Spacer(
+                Modifier.height(64.dp + 16.dp),
+            )
         }
     }
 }

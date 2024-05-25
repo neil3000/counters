@@ -16,13 +16,17 @@
 
 package dev.rahmouni.neil.counters.feature.settings.developer
 
+import android.app.Activity
 import android.text.format.DateUtils
+import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
 import androidx.compose.material.icons.outlined.CloudDone
 import androidx.compose.material.icons.outlined.DataArray
+import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.QuestionMark
 import androidx.compose.runtime.Composable
@@ -31,11 +35,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import dev.rahmouni.neil.counters.core.common.copyText
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
@@ -78,13 +84,40 @@ private fun DeveloperSettingsPanel(
 ) {
     val context = LocalContext.current
 
-    Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
+    LazyColumn(contentPadding = contentPadding) {
+        // buildconfigTile
         item {
             Rn3TileClick(
                 title = stringResource(R.string.feature_settings_developerSettingsScreen_buildconfigTile_title),
                 icon = Icons.Outlined.Rn3,
                 supportingText = BuildConfig.FLAVOR + " / " + BuildConfig.BUILD_TYPE,
             ) {}
+        }
+
+        // clearPersistenceTile
+        item {
+            @Suppress("KotlinConstantConditions")
+            Rn3TileClick(
+                title = stringResource(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_title),
+                icon = Icons.Outlined.DeleteForever,
+                enabled = BuildConfig.FLAVOR == "demo",
+                supportingText = if (BuildConfig.FLAVOR != "demo") stringResource(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_supportingText) else null,
+            ) {
+                try {
+                    Firebase.firestore.terminate().addOnCompleteListener {
+                        Firebase.firestore.clearPersistence().addOnSuccessListener {
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_success),
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                            (context as Activity).recreate()
+                        }
+                    }
+                } catch (e: Exception) {
+                    context.copyText("Error", "$e | ${e.message}")
+                }
+            }
         }
 
         FirebaseApp.getApps(context)

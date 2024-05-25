@@ -50,7 +50,6 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullScreen
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
@@ -139,106 +138,92 @@ private fun DataAndPrivacySettingsPanel(
 ) {
     val config = LocalConfigHelper.current
 
-    Rn3LazyColumnFullScreen(contentPadding = contentPadding) {
+    Column(Modifier.padding(contentPadding)) {
         // metricsHeaderTile
-        item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsHeaderTile_title)) }
+        Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsHeaderTile_title))
 
         // metricsTile
-        item {
-            Rn3TileSwitch(
-                title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsTile_title),
-                icon = Icons.Outlined.Analytics,
-                checked = data.hasMetricsEnabled,
-                onCheckedChange = onMetricsTileCheckedChange,
-            )
-        }
+        Rn3TileSwitch(
+            title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsTile_title),
+            icon = Icons.Outlined.Analytics,
+            checked = data.hasMetricsEnabled,
+            onCheckedChange = onMetricsTileCheckedChange,
+        )
 
         // clearMetricsTile
-        item {
-            Rn3TileClick(
-                title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_clearMetricsTile_title),
-                icon = Icons.Outlined.RestartAlt,
-                onClick = onClearMetricsTileClicked,
-            )
-        }
+        Rn3TileClick(
+            title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_clearMetricsTile_title),
+            icon = Icons.Outlined.RestartAlt,
+            onClick = onClearMetricsTileClicked,
+        )
 
         // metricsInfoTile
-        item {
-            Rn3ExpandableSurface(
-                content = {
-                    Icon(Icons.Outlined.Info, null)
-                    Spacer(Modifier.width(16.dp))
-                    Text(stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title))
-                },
-                expandedContent = {
-                    Text(
-                        config.getString("metrics_info_short"),
-                        Modifier.padding(start = 16.dp, bottom = 8.dp),
-                    )
-                },
-            )
-        }
+        Rn3ExpandableSurface(
+            content = {
+                Icon(Icons.Outlined.Info, null)
+                Spacer(Modifier.width(16.dp))
+                Text(stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title))
+            },
+            expandedContent = {
+                Text(
+                    config.getString("metrics_info_short"),
+                    Modifier.padding(start = 16.dp, bottom = 8.dp),
+                )
+            },
+        )
 
-        item { Rn3TileHorizontalDivider() }
+        Rn3TileHorizontalDivider()
 
         // crashlyticsHeaderTile
-        item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsHeaderTile_title)) }
+        Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsHeaderTile_title))
 
         // crashlyticsTile
-        item {
-            Rn3TileSwitch(
-                title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsTile_title),
-                icon = Icons.Outlined.BugReport,
-                checked = data.hasCrashlyticsEnabled,
-                onCheckedChange = onCrashlyticsTileCheckedChange,
-            )
-        }
+        Rn3TileSwitch(
+            title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsTile_title),
+            icon = Icons.Outlined.BugReport,
+            checked = data.hasCrashlyticsEnabled,
+            onCheckedChange = onCrashlyticsTileCheckedChange,
+        )
 
         // crashlyticsInfoTile
-        item {
-            Rn3ExpandableSurface(
-                content = {
-                    Icon(Icons.Outlined.Info, null)
-                    Spacer(Modifier.width(16.dp))
-                    Text(stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title))
-                },
-                expandedContent = {
-                    Text(
-                        config.getString("crashlytics_info_short"),
-                        Modifier.padding(start = 16.dp, bottom = 8.dp),
-                    )
-                },
-            )
-        }
+        Rn3ExpandableSurface(
+            content = {
+                Icon(Icons.Outlined.Info, null)
+                Spacer(Modifier.width(16.dp))
+                Text(stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title))
+            },
+            expandedContent = {
+                Text(
+                    config.getString("crashlytics_info_short"),
+                    Modifier.padding(start = 16.dp, bottom = 8.dp),
+                )
+            },
+        )
 
-        item { Rn3TileHorizontalDivider() }
+        Rn3TileHorizontalDivider()
 
         // privacyPolicyHeaderTile
-        item { Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicyHeaderTile_title)) }
+        Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicyHeaderTile_title))
 
         // privacyPolicyTile
-        item {
-            Rn3TileUri(
-                title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title),
-                icon = Icons.Outlined.Policy,
-                uri = privacyPolicyTileUri,
-            )
-        }
+        Rn3TileUri(
+            title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title),
+            icon = Icons.Outlined.Policy,
+            uri = privacyPolicyTileUri,
+        )
 
         // privacyPolicySummaryTile
-        item {
-            Card(
-                modifier = Modifier
-                    .padding(vertical = 8.dp, horizontal = 16.dp)
-                    .fillMaxWidth(),
-            ) {
-                Column {
-                    Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title))
-                    Text(
-                        text = config.getString("privacy_policy_short"),
-                        Modifier.padding(start = 16.dp, bottom = 8.dp, end = 16.dp),
-                    )
-                }
+        Card(
+            modifier = Modifier
+                .padding(vertical = 8.dp, horizontal = 16.dp)
+                .fillMaxWidth(),
+        ) {
+            Column {
+                Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title))
+                Text(
+                    text = config.getString("privacy_policy_short"),
+                    Modifier.padding(start = 16.dp, bottom = 8.dp, end = 16.dp),
+                )
             }
         }
     }
