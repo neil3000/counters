@@ -183,5 +183,5 @@ fun Rn3ScaffoldImpl(
 enum class TopAppBarStyle {
     LARGE,
     SMALL,
-    DASHBOARD
+    DASHBOARD,
 }
