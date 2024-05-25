@@ -42,7 +42,6 @@ dependencies {
     implementation(projects.core.common)
     implementation(projects.core.config)
     implementation(projects.core.shapes)
-    implementation(projects.core.feedback)
 
     testImplementation(projects.core.testing)
 

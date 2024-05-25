@@ -34,7 +34,8 @@ dependencies {
 
     api(projects.core.auth)
     api(projects.core.config)
-    api(projects.core.feedback)
+    api(projects.core.feedback) // Only in settings!
+    api(projects.core.ui) // Only in settings!
 
     implementation(libs.androidx.appcompat)
     implementation(libs.coil.kt.compose)

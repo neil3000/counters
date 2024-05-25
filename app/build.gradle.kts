@@ -84,8 +84,6 @@ dependencies {
     implementation(projects.feature.dashboard)
     implementation(projects.feature.settings)
 
-    implementation(projects.core.ui)
-
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.metrics)
     implementation(libs.androidx.navigation.compose)
