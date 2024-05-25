@@ -42,7 +42,7 @@ class SettingsViewModel @Inject constructor(
     private val userDataFlow = userDataRepository.userData
 
     val uiState: StateFlow<SettingsUiState> =
-        authHelper.getUserFlow(this.viewModelScope)
+        authHelper.getUserFlow()
             .combine(userDataFlow) { user, userData ->
                 Success(
                     SettingsData(

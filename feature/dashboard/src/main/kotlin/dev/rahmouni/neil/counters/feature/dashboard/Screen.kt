@@ -19,20 +19,20 @@ package dev.rahmouni.neil.counters.feature.dashboard
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Numbers
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -45,12 +45,14 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyColumnFullS
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.dashboard.model.DashboardUiState
 import dev.rahmouni.neil.counters.feature.dashboard.model.DashboardViewModel
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.DashboardData
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData
+import dev.rahmouni.neil.counters.feature.dashboard.ui.DashboardCard
 
 @Composable
 internal fun DashboardRoute(
@@ -60,6 +62,7 @@ internal fun DashboardRoute(
     navigateToSettings: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     DashboardScreen(
         modifier,
@@ -70,8 +73,9 @@ internal fun DashboardRoute(
         ).toTopAppBarAction(navController::navigateToFeedback),
         onSettingsTopAppBarActionClicked = navigateToSettings,
         onNewCounterFabClick = {
-            viewModel.createUserCounter("Title") //TODO
+            viewModel.createUserCounter("PIZZA")
         },
+        onIncrementUserCounter = viewModel::incrementUserCounter,
     )
 }
 
@@ -83,6 +87,7 @@ internal fun DashboardScreen(
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
     onNewCounterFabClick: () -> Unit = {},
+    onIncrementUserCounter: (String) -> Unit = {},
 ) {
     val haptics = getHaptic()
 
@@ -111,7 +116,7 @@ internal fun DashboardScreen(
             )
         },
     ) {
-        DashboardPanel(it, uiState.dashboardData)
+        DashboardPanel(it, uiState.dashboardData, onIncrementUserCounter)
     }
 }
 
@@ -119,19 +124,22 @@ internal fun DashboardScreen(
 private fun DashboardPanel(
     contentPadding: PaddingValues,
     data: DashboardData,
+    onIncrementUserCounter: (String) -> Unit,
 ) {
     Rn3LazyColumnFullScreen(
         Modifier.padding(8.dp),
         verticalArrangement = spacedBy(8.dp),
         contentPadding = contentPadding,
     ) {
-        items(data.userCounters) {
-            Card(
-                Modifier
-                    .fillMaxWidth(),
-            ) {
-                Text("${it.title} (id = ${it.id})", Modifier.padding(16.dp))
-            }
+        item {
+            Rn3TileCopy(
+                title = "LastUserUid",
+                icon = Icons.Outlined.Numbers,
+                text = data.lastUserUid,
+            )
+        }
+        items(data.counters, key = { it.uid }) {
+            it.DashboardCard(onIncrement = onIncrementUserCounter)
         }
     }
 }

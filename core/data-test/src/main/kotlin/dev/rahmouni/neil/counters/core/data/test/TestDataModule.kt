@@ -16,11 +16,14 @@
 
 package dev.rahmouni.neil.counters.core.data.test
 
+import com.google.firestore.v1.StructuredAggregationQuery.Aggregation.Count
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import dev.rahmouni.neil.counters.core.data.di.DataModule
+import dev.rahmouni.neil.counters.core.data.repository.CountersDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.FirestoreCountersDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import dev.rahmouni.neil.counters.core.data.test.repository.FakeUserDataRepository
 
@@ -34,4 +37,9 @@ internal interface TestDataModule {
     fun bindsUserDataRepository(
         userDataRepository: FakeUserDataRepository,
     ): UserDataRepository
+
+    @Binds
+    fun bindsCountersDataRepository(
+        countersDataRepository: FirestoreCountersDataRepository,
+    ): CountersDataRepository
 }

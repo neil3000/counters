@@ -33,4 +33,5 @@ dependencies {
 
     implementation(projects.core.data)
     implementation(projects.core.feedback)
+    implementation(projects.core.auth)
 }

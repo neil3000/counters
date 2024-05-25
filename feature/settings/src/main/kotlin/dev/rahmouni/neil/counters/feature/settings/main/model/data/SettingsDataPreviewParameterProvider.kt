@@ -41,6 +41,7 @@ class SettingsDataPreviewParameterProvider :
 object PreviewParameterData {
     val settingsData_default = SettingsData(
         user = SignedInUser(
+            uid = "androidPreviewID",
             displayName = "Android Preview",
             pfpUri = null,
         ),

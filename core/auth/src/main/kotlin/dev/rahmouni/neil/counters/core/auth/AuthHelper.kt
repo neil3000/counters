@@ -30,5 +30,5 @@ interface AuthHelper {
     suspend fun signOut(context: Context)
     fun getUser(): Rn3User
 
-    fun getUserFlow(viewModelScope: CoroutineScope): Flow<Rn3User>
+    fun getUserFlow(): Flow<Rn3User>
 }

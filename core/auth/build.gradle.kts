@@ -33,6 +33,8 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.coil.kt.compose)
 
+    implementation(projects.core.data)
+
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)

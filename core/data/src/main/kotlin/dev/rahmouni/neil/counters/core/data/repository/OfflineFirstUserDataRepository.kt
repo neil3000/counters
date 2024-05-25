@@ -39,11 +39,6 @@ internal class OfflineFirstUserDataRepository @Inject constructor(
         analyticsHelper.logAccessibilityIconTooltipsPreferenceChanged(value)
     }
 
-    override suspend fun setSyncEnabled(value: Boolean) {
-        rn3PreferencesDataSource.setSyncEnabledPreference(value)
-        analyticsHelper.logSyncPreferenceChanged(value)
-    }
-
     override suspend fun setMetricsEnabled(value: Boolean) {
         rn3PreferencesDataSource.setMetricsEnabledPreference(value)
         analyticsHelper.logMetricsPreferenceChanged(value)
@@ -52,5 +47,14 @@ internal class OfflineFirstUserDataRepository @Inject constructor(
     override suspend fun setCrashlyticsEnabled(value: Boolean) {
         rn3PreferencesDataSource.setCrashlyticsEnabledPreference(value)
         analyticsHelper.logCrashlyticsPreferenceChanged(value)
+    }
+
+    override suspend fun setLastUserUid(value: String) {
+        rn3PreferencesDataSource.setLastUserUidPreference(value)
+    }
+
+    override suspend fun setSyncEnabled(value: Boolean) {
+        rn3PreferencesDataSource.setSyncEnabledPreference(value)
+        analyticsHelper.logSyncPreferenceChanged(value)
     }
 }

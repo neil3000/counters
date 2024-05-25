@@ -21,7 +21,7 @@ import androidx.core.net.toUri
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
-import kotlinx.coroutines.CoroutineScope
+import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
@@ -31,19 +31,22 @@ import javax.inject.Singleton
  * Implementation of [AuthHelper] that simulates real sign in flows and has default demo values, but doesn't interact with the backend.
  */
 @Singleton
-internal class DemoAuthHelper @Inject constructor() : AuthHelper {
+internal class DemoAuthHelper @Inject constructor(
+    private val userDataRepository: UserDataRepository,
+) : AuthHelper {
 
-    private val demoUser = SignedInUser(
-        displayName = "Neïl (demo)",
-        pfpUri = "https://firebasestorage.googleapis.com/v0/b/rahneil-n3-counters.appspot.com/o/demo%2Fpfp.jpg?alt=media".toUri(),
-    )
-    private val loggedIn = MutableStateFlow<Rn3User>(demoUser)
+    private val loggedIn = MutableStateFlow<Rn3User>(LoggedOutUser)
 
     override suspend fun signInWithCredentialManager(
         context: Context,
         filterByAuthorizedAccounts: Boolean,
     ) {
-        loggedIn.compareAndSet(expect = loggedIn.value, update = demoUser)
+        loggedIn.compareAndSet(expect = loggedIn.value, update = SignedInUser(
+            uid = "demoID",
+            displayName = "Neïl (demo)",
+            pfpUri = "https://firebasestorage.googleapis.com/v0/b/rahneil-n3-counters.appspot.com/o/demo%2Fpfp.jpg?alt=media".toUri(),
+        ))
+        userDataRepository.setLastUserUid("demoID")
     }
 
     override suspend fun signOut(context: Context) {
@@ -52,7 +55,5 @@ internal class DemoAuthHelper @Inject constructor() : AuthHelper {
 
     override fun getUser(): Rn3User = loggedIn.value
 
-    override fun getUserFlow(viewModelScope: CoroutineScope): Flow<Rn3User> {
-        return loggedIn
-    }
+    override fun getUserFlow(): Flow<Rn3User> = loggedIn
 }

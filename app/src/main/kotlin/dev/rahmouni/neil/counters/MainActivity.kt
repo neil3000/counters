@@ -31,6 +31,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.metrics.performance.JankStats
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import dev.rahmouni.neil.counters.MainActivityUiState.Loading
 import dev.rahmouni.neil.counters.MainActivityUiState.Success
@@ -50,6 +52,7 @@ import dev.rahmouni.neil.counters.ui.rememberCountersAppState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import rahmouni.neil.counters.BuildConfig
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -81,15 +84,29 @@ class MainActivity : ComponentActivity() {
 
         // Update the uiState
         lifecycleScope.launch {
+            // If the user is not signed in, launch the sign in process.
             if (authHelper.getUser() is LoggedOutUser) {
                 authHelper.signInWithCredentialManager(this@MainActivity, true)
             }
             finishedSigningIn = true
 
+            // Enable offline persistence for Firestore
+            Firebase.firestore.persistentCacheIndexManager?.apply {
+                enableIndexAutoCreation()
+            }
+
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState
-                    .onEach { uiState = it }
-                    .collect()
+                    .onEach {
+                        uiState = it
+
+                        @Suppress("KotlinConstantConditions")
+                        if (BuildConfig.FLAVOR == "demo" || (uiState is Success && !(uiState as Success).hasSyncEnabled)) {
+                            Firebase.firestore.disableNetwork()
+                        }else{
+                            Firebase.firestore.enableNetwork()
+                        }
+                    }.collect()
             }
         }
 

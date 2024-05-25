@@ -17,7 +17,7 @@
 package dev.rahmouni.neil.counters.feature.dashboard.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.rahmouni.neil.counters.core.data.model.UserCounter
+import dev.rahmouni.neil.counters.core.data.model.CounterData
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData.dashboardData_default
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData.dashboardData_mutations
 
@@ -33,14 +33,15 @@ class DataAndPrivacySettingsDataPreviewParameterProvider :
 
 object PreviewParameterData {
     val dashboardData_default = DashboardData(
-        userCounters = listOf(
-            UserCounter("id1", "Push-ups"),
-            UserCounter("id2", "Coffee cups"),
+        counters = listOf(
+            CounterData("id1", "Push-ups"),
+            CounterData("id2", "Coffee cups"),
         ),
+        lastUserUid = "unset",
     )
     val dashboardData_mutations = dashboardData_default.let {
         sequenceOf(
-            it.copy(userCounters = emptyList()),
+            it.copy(counters = emptyList()),
         )
     }
 }

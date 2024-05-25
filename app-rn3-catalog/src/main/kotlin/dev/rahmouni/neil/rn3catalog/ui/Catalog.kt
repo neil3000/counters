@@ -77,9 +77,8 @@ private const val CONTENT_DESCRIPTION = "Content description"
 fun Rn3Catalog() {
     Rn3Theme {
         Rn3Scaffold(
-            title = "Rn3 Catalog",
+            topAppBarTitle = "Rn3 Catalog",
             onBackIconButtonClicked = {},
-            onFeedbackIconButtonClicked = {},
         ) { paddingValues ->
             Rn3LazyColumnFullScreen(
                 modifier = Modifier.fillMaxSize(),

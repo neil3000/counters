@@ -20,6 +20,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.rahmouni.neil.counters.core.data.repository.CountersDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.FirestoreCountersDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.OfflineFirstUserDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 
@@ -31,4 +33,9 @@ abstract class DataModule {
     internal abstract fun bindsUserDataRepository(
         userDataRepository: OfflineFirstUserDataRepository,
     ): UserDataRepository
+
+    @Binds
+    internal abstract fun bindsCounterDataRepository(
+        countersDataRepository: FirestoreCountersDataRepository,
+    ): CountersDataRepository
 }

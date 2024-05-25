@@ -16,8 +16,9 @@
 
 package dev.rahmouni.neil.counters.feature.dashboard.model.data
 
-import dev.rahmouni.neil.counters.core.data.model.UserCounter
+import dev.rahmouni.neil.counters.core.data.model.CounterData
 
 data class DashboardData(
-    val userCounters: List<UserCounter>
+    val counters: List<CounterData>,
+    val lastUserUid: String
 )

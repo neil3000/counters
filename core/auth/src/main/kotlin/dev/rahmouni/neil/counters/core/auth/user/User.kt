@@ -8,6 +8,7 @@ import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
 sealed interface Rn3User {
     data object LoggedOutUser : Rn3User
     data class SignedInUser(
+        val uid: String,
         internal val displayName: String,
         internal val pfpUri: Uri?,
     ) : Rn3User
@@ -24,6 +25,7 @@ internal fun FirebaseUser?.toRn3User(): Rn3User {
     return when (this) {
         null -> LoggedOutUser
         else -> SignedInUser(
+            uid = this.uid,
             displayName = this.displayName.toString(),
             pfpUri = this.photoUrl,
         )

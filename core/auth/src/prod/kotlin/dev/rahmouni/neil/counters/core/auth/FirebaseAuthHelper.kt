@@ -20,15 +20,15 @@ import android.content.Context
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
-import com.google.android.gms.tasks.Task
+import androidx.credentials.exceptions.GetCredentialCancellationException
+import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User
 import dev.rahmouni.neil.counters.core.auth.user.toRn3User
-import kotlinx.coroutines.CoroutineScope
+import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -42,35 +42,52 @@ const val WEB_CLIENT_ID = "743616795299-b7pstjgcvnq3sm77ia43vm66okovpejq.apps.go
  */
 internal class FirebaseAuthHelper @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
+    private val userDataRepository: UserDataRepository,
 ) : AuthHelper {
 
     override suspend fun signInWithCredentialManager(
         context: Context,
         filterByAuthorizedAccounts: Boolean,
     ) {
-        firebaseAuth.signInWithCredential(
-            GoogleAuthProvider.getCredential(
-                GoogleIdTokenCredential.createFrom(
-                    CredentialManager
-                        .create(context)
-                        .getCredential(
-                            context,
-                            GetCredentialRequest.Builder()
-                                .setPreferImmediatelyAvailableCredentials(filterByAuthorizedAccounts)
-                                .addCredentialOption(
-                                    GetGoogleIdOption.Builder()
-                                        .setFilterByAuthorizedAccounts(filterByAuthorizedAccounts)
-                                        .setServerClientId(WEB_CLIENT_ID)
-                                        .setAutoSelectEnabled(filterByAuthorizedAccounts)
-                                        .build(),
-                                ).build(),
-                        )
-                        .credential
-                        .data,
-                ).idToken,
-                null,
-            ),
-        ).await()
+        try {
+            val task = firebaseAuth.signInWithCredential(
+                GoogleAuthProvider.getCredential(
+                    GoogleIdTokenCredential.createFrom(
+                        CredentialManager
+                            .create(context)
+                            .getCredential(
+                                context,
+                                GetCredentialRequest.Builder()
+                                    .setPreferImmediatelyAvailableCredentials(
+                                        filterByAuthorizedAccounts
+                                    )
+                                    .addCredentialOption(
+                                        GetGoogleIdOption.Builder()
+                                            .setFilterByAuthorizedAccounts(
+                                                filterByAuthorizedAccounts
+                                            )
+                                            .setServerClientId(WEB_CLIENT_ID)
+                                            .setAutoSelectEnabled(filterByAuthorizedAccounts)
+                                            .build(),
+                                    ).build(),
+                            )
+                            .credential
+                            .data,
+                    ).idToken,
+                    null,
+                ),
+            ).await()
+
+            if (task.user != null) {
+                userDataRepository.setLastUserUid(task.user!!.uid)
+            }
+        } catch (e: Exception) {
+            when (e) {
+                is NoCredentialException -> { return } // It's ok to not have a credential already available
+                is GetCredentialCancellationException -> { return } // It's ok to cancel the credential request
+                else -> throw e
+            }
+        }
     }
 
     override suspend fun signOut(context: Context) {
@@ -80,7 +97,7 @@ internal class FirebaseAuthHelper @Inject constructor(
 
     override fun getUser(): Rn3User = firebaseAuth.currentUser.toRn3User()
 
-    override fun getUserFlow(viewModelScope: CoroutineScope): Flow<Rn3User> = callbackFlow {
+    override fun getUserFlow(): Flow<Rn3User> = callbackFlow {
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->
             trySend(auth.currentUser.toRn3User())
         }

@@ -38,4 +38,5 @@ interface UserDataRepository {
     suspend fun setMetricsEnabled(value: Boolean)
     suspend fun setCrashlyticsEnabled(value: Boolean)
     suspend fun setSyncEnabled(value: Boolean)
+    suspend fun setLastUserUid(value: String)
 }

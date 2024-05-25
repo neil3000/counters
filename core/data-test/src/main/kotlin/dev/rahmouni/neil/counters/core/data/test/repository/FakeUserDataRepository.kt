@@ -54,4 +54,8 @@ class FakeUserDataRepository @Inject constructor(
     override suspend fun setSyncEnabled(value: Boolean) {
         rn3PreferencesDataSource.setSyncEnabledPreference(value)
     }
+
+    override suspend fun setLastUserUid(value: String) {
+        rn3PreferencesDataSource.setLastUserUidPreference(value)
+    }
 }

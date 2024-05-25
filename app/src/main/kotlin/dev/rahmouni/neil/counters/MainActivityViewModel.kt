@@ -40,6 +40,7 @@ class MainActivityViewModel @Inject constructor(
                 hasEmphasizedSwitchesEnabled = userData.hasAccessibilityEmphasizedSwitchesEnabled,
                 hasIconTooltipsEnabled = userData.hasAccessibilityIconTooltipsEnabled,
             ),
+            hasSyncEnabled = userData.hasSyncEnabled
         )
     }.stateIn(
         scope = viewModelScope,
@@ -50,6 +51,6 @@ class MainActivityViewModel @Inject constructor(
 
 sealed interface MainActivityUiState {
     data object Loading : MainActivityUiState
-    data class Success(val accessibilityHelper: AccessibilityHelper) :
+    data class Success(val accessibilityHelper: AccessibilityHelper, val hasSyncEnabled: Boolean) :
         MainActivityUiState
 }

@@ -30,6 +30,7 @@ import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
+import dev.rahmouni.neil.counters.core.data.repository.CountersDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.testing.util.DefaultRoborazziOptions
@@ -80,6 +81,9 @@ class CountersAppScreenSizesScreenshotTests {
 
     @Inject
     lateinit var userDataRepository: UserDataRepository
+
+    @Inject
+    lateinit var countersDataRepository: CountersDataRepository
 
     @Before
     fun setup() {

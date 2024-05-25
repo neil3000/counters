@@ -40,6 +40,10 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix = Rn3BuildType.DEBUG.applicationIdSuffix

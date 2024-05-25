@@ -41,10 +41,11 @@ class StubAuthHelper @Inject constructor() : AuthHelper {
     }
 
     override fun getUser(): Rn3User = Rn3User.SignedInUser(
+        uid = "androidPreviewId",
         displayName = "Android Preview",
         pfpUri = null,
     )
 
-    override fun getUserFlow(viewModelScope: CoroutineScope): Flow<Rn3User> =
+    override fun getUserFlow(): Flow<Rn3User> =
         throw NotImplementedError("Not available in Preview")
 }
