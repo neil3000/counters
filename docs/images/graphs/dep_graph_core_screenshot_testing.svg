@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="364pt" height="188pt" viewBox="0.00 0.00 363.99 188.00">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="511pt" height="188pt" viewBox="0.00 0.00 510.74 188.00">
   <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
     <title>G</title>
-    <polygon fill="white" stroke="transparent" points="-4,4 -4,-184 359.99,-184 359.99,4 -4,4"/>
+    <polygon fill="white" stroke="transparent" points="-4,4 -4,-184 506.74,-184 506.74,4 -4,4"/>
     <g id="node1" class="node">
       <title>:core:screenshot-testing</title>
-      <ellipse fill="none" stroke="black" cx="139.39" cy="-162" rx="122.68" ry="18"/>
-      <text text-anchor="middle" x="139.39" y="-158.3" font-family="Times,serif" font-size="14.00">:core:screenshot-testing</text>
+      <ellipse fill="none" stroke="black" cx="168.39" cy="-162" rx="122.68" ry="18"/>
+      <text text-anchor="middle" x="168.39" y="-158.3" font-family="Times,serif" font-size="14.00">:core:screenshot-testing</text>
     </g>
     <g id="node2" class="node">
       <title>:core:common</title>
@@ -16,23 +16,23 @@
     </g>
     <g id="edge1" class="edge">
       <title>:core:screenshot-testing-&gt;:core:common</title>
-      <path fill="none" stroke="black" d="M121.11,-143.97C111.76,-134.29 101,-121.43 94.39,-108 84.83,-88.56 80.06,-64.42 77.69,-46.19"/>
-      <polygon fill="black" stroke="black" points="81.17,-45.75 76.56,-36.21 74.21,-46.54 81.17,-45.75"/>
+      <path fill="none" stroke="black" d="M157.18,-143.87C141.05,-119.24 111.18,-73.64 92.35,-44.88"/>
+      <polygon fill="black" stroke="black" points="95.06,-42.64 86.65,-36.19 89.2,-46.47 95.06,-42.64"/>
     </g>
     <g id="node3" class="node">
       <title>:core:designsystem</title>
-      <ellipse fill="none" stroke="black" cx="204.39" cy="-90" rx="100.98" ry="18"/>
-      <text text-anchor="middle" x="204.39" y="-86.3" font-family="Times,serif" font-size="14.00">:core:designsystem</text>
+      <ellipse fill="none" stroke="black" cx="247.39" cy="-90" rx="100.98" ry="18"/>
+      <text text-anchor="middle" x="247.39" y="-86.3" font-family="Times,serif" font-size="14.00">:core:designsystem</text>
     </g>
     <g id="edge2" class="edge">
       <title>:core:screenshot-testing-&gt;:core:designsystem</title>
-      <path fill="none" stroke="red" stroke-width="2" d="M155.13,-144.05C163.11,-135.46 172.96,-124.86 181.74,-115.4"/>
-      <polygon fill="red" stroke="red" stroke-width="2" points="184.56,-117.5 188.8,-107.79 179.43,-112.74 184.56,-117.5"/>
+      <path fill="none" stroke="red" stroke-width="2" d="M187.52,-144.05C197.51,-135.2 209.9,-124.22 220.82,-114.55"/>
+      <polygon fill="red" stroke="red" stroke-width="2" points="223.28,-117.04 228.45,-107.79 218.64,-111.8 223.28,-117.04"/>
     </g>
     <g id="edge4" class="edge">
       <title>:core:designsystem-&gt;:core:common</title>
-      <path fill="none" stroke="black" d="M174.47,-72.76C156.23,-62.86 132.73,-50.12 113.21,-39.52"/>
-      <polygon fill="black" stroke="black" points="114.72,-36.36 104.26,-34.67 111.38,-42.51 114.72,-36.36"/>
+      <path fill="none" stroke="black" d="M208.79,-73.29C182.83,-62.73 148.49,-48.75 121.16,-37.62"/>
+      <polygon fill="black" stroke="black" points="122.39,-34.35 111.81,-33.82 119.75,-40.83 122.39,-34.35"/>
     </g>
     <g id="node4" class="node">
       <title>:core:accessibility</title>
@@ -41,8 +41,18 @@
     </g>
     <g id="edge3" class="edge">
       <title>:core:designsystem-&gt;:core:accessibility</title>
-      <path fill="none" stroke="red" stroke-width="2" d="M218.43,-72.05C225.38,-63.67 233.91,-53.38 241.6,-44.1"/>
-      <polygon fill="red" stroke="red" stroke-width="2" points="244.39,-46.21 248.08,-36.28 239,-41.74 244.39,-46.21"/>
+      <path fill="none" stroke="red" stroke-width="2" d="M251.1,-71.7C252.75,-63.98 254.74,-54.71 256.58,-46.11"/>
+      <polygon fill="red" stroke="red" stroke-width="2" points="260.06,-46.62 258.73,-36.1 253.21,-45.15 260.06,-46.62"/>
+    </g>
+    <g id="node5" class="node">
+      <title>:core:config</title>
+      <ellipse fill="none" stroke="black" cx="438.39" cy="-18" rx="64.19" ry="18"/>
+      <text text-anchor="middle" x="438.39" y="-14.3" font-family="Times,serif" font-size="14.00">:core:config</text>
+    </g>
+    <g id="edge5" class="edge">
+      <title>:core:designsystem-&gt;:core:config</title>
+      <path fill="none" stroke="black" d="M289.78,-73.46C319.83,-62.45 360.17,-47.67 391.23,-36.28"/>
+      <polygon fill="black" stroke="black" points="392.78,-39.44 400.97,-32.72 390.37,-32.87 392.78,-39.44"/>
     </g>
   </g>
 </svg>
