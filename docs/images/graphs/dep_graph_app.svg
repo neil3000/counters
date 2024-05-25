@@ -1,228 +1,263 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1081pt" height="332pt" viewBox="0.00 0.00 1081.43 332.00">
-  <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 328)">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="935pt" height="404pt" viewBox="0.00 0.00 935.01 404.00">
+  <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 400)">
     <title>G</title>
-    <polygon fill="white" stroke="transparent" points="-4,4 -4,-328 1077.43,-328 1077.43,4 -4,4"/>
+    <polygon fill="white" stroke="transparent" points="-4,4 -4,-400 931.01,-400 931.01,4 -4,4"/>
     <g id="node1" class="node">
       <title>:app</title>
-      <ellipse fill="none" stroke="black" cx="485.54" cy="-306" rx="30.59" ry="18"/>
-      <text text-anchor="middle" x="485.54" y="-302.3" font-family="Times,serif" font-size="14.00">:app</text>
+      <ellipse fill="none" stroke="black" cx="581.41" cy="-378" rx="30.59" ry="18"/>
+      <text text-anchor="middle" x="581.41" y="-374.3" font-family="Times,serif" font-size="14.00">:app</text>
     </g>
     <g id="node2" class="node">
-      <title>:feature:settings</title>
-      <ellipse fill="none" stroke="black" cx="485.54" cy="-234" rx="87.99" ry="18"/>
-      <text text-anchor="middle" x="485.54" y="-230.3" font-family="Times,serif" font-size="14.00">:feature:settings</text>
+      <title>:feature:aboutme</title>
+      <ellipse fill="none" stroke="black" cx="234.41" cy="-306" rx="90.98" ry="18"/>
+      <text text-anchor="middle" x="234.41" y="-302.3" font-family="Times,serif" font-size="14.00">:feature:aboutme</text>
     </g>
     <g id="edge1" class="edge">
-      <title>:app-&gt;:feature:settings</title>
-      <path fill="none" stroke="red" stroke-width="2" d="M485.54,-287.7C485.54,-279.98 485.54,-270.71 485.54,-262.11"/>
-      <polygon fill="red" stroke="red" stroke-width="2" points="489.04,-262.1 485.54,-252.1 482.04,-262.1 489.04,-262.1"/>
+      <title>:app-&gt;:feature:aboutme</title>
+      <path fill="none" stroke="black" d="M553.01,-371.27C499.49,-360.47 382.22,-336.82 305.86,-321.41"/>
+      <polygon fill="black" stroke="black" points="306.32,-317.94 295.83,-319.39 304.94,-324.8 306.32,-317.94"/>
     </g>
     <g id="node3" class="node">
-      <title>:feature:aboutme</title>
-      <ellipse fill="none" stroke="black" cx="720.54" cy="-234" rx="90.98" ry="18"/>
-      <text text-anchor="middle" x="720.54" y="-230.3" font-family="Times,serif" font-size="14.00">:feature:aboutme</text>
+      <title>:feature:dashboard</title>
+      <ellipse fill="none" stroke="black" cx="518.41" cy="-306" rx="98.58" ry="18"/>
+      <text text-anchor="middle" x="518.41" y="-302.3" font-family="Times,serif" font-size="14.00">:feature:dashboard</text>
     </g>
     <g id="edge2" class="edge">
-      <title>:app-&gt;:feature:aboutme</title>
-      <path fill="none" stroke="black" d="M512.5,-296.97C548.93,-286.12 614.83,-266.49 662.72,-252.22"/>
-      <polygon fill="black" stroke="black" points="663.76,-255.57 672.34,-249.36 661.76,-248.86 663.76,-255.57"/>
+      <title>:app-&gt;:feature:dashboard</title>
+      <path fill="none" stroke="black" d="M567.74,-361.81C559.85,-353.05 549.75,-341.83 540.74,-331.82"/>
+      <polygon fill="black" stroke="black" points="543.11,-329.22 533.82,-324.13 537.91,-333.9 543.11,-329.22"/>
     </g>
     <g id="node4" class="node">
-      <title>:core:ui</title>
-      <ellipse fill="none" stroke="black" cx="438.54" cy="-162" rx="45.49" ry="18"/>
-      <text text-anchor="middle" x="438.54" y="-158.3" font-family="Times,serif" font-size="14.00">:core:ui</text>
+      <title>:feature:settings</title>
+      <ellipse fill="none" stroke="black" cx="761.41" cy="-306" rx="87.99" ry="18"/>
+      <text text-anchor="middle" x="761.41" y="-302.3" font-family="Times,serif" font-size="14.00">:feature:settings</text>
     </g>
     <g id="edge3" class="edge">
-      <title>:app-&gt;:core:ui</title>
-      <path fill="none" stroke="black" d="M457.89,-298.29C434.83,-291.07 403.42,-277.09 388.54,-252 380.38,-238.24 382.63,-230.87 388.54,-216 393.16,-204.36 401.69,-193.8 410.41,-185.22"/>
-      <polygon fill="black" stroke="black" points="413.03,-187.56 418.02,-178.21 408.29,-182.41 413.03,-187.56"/>
+      <title>:app-&gt;:feature:settings</title>
+      <path fill="none" stroke="red" stroke-width="2" d="M606.43,-367.27C633.89,-356.59 678.63,-339.19 713,-325.82"/>
+      <polygon fill="red" stroke="red" stroke-width="2" points="714.34,-329.06 722.4,-322.17 711.81,-322.53 714.34,-329.06"/>
     </g>
     <g id="node5" class="node">
-      <title>:core:data</title>
-      <ellipse fill="none" stroke="black" cx="184.54" cy="-162" rx="57.39" ry="18"/>
-      <text text-anchor="middle" x="184.54" y="-158.3" font-family="Times,serif" font-size="14.00">:core:data</text>
+      <title>:core:auth</title>
+      <ellipse fill="none" stroke="black" cx="847.41" cy="-234" rx="57.69" ry="18"/>
+      <text text-anchor="middle" x="847.41" y="-230.3" font-family="Times,serif" font-size="14.00">:core:auth</text>
     </g>
     <g id="edge4" class="edge">
-      <title>:app-&gt;:core:data</title>
-      <path fill="none" stroke="black" d="M459.34,-296.45C430.67,-286.8 383.58,-270.07 344.54,-252 299.65,-231.22 250.2,-202.81 218.33,-183.73"/>
-      <polygon fill="black" stroke="black" points="219.8,-180.53 209.43,-178.37 216.19,-186.52 219.8,-180.53"/>
+      <title>:app-&gt;:core:auth</title>
+      <path fill="none" stroke="black" d="M611.87,-375.87C677.2,-372.75 827.36,-361.55 858.41,-324 872.68,-306.73 867.43,-280.75 860.1,-261.31"/>
+      <polygon fill="black" stroke="black" points="863.22,-259.72 856.16,-251.82 856.76,-262.4 863.22,-259.72"/>
     </g>
     <g id="node6" class="node">
       <title>:core:config</title>
-      <ellipse fill="none" stroke="black" cx="603.54" cy="-162" rx="64.19" ry="18"/>
-      <text text-anchor="middle" x="603.54" y="-158.3" font-family="Times,serif" font-size="14.00">:core:config</text>
+      <ellipse fill="none" stroke="black" cx="273.41" cy="-234" rx="64.19" ry="18"/>
+      <text text-anchor="middle" x="273.41" y="-230.3" font-family="Times,serif" font-size="14.00">:core:config</text>
     </g>
     <g id="edge5" class="edge">
       <title>:app-&gt;:core:config</title>
-      <path fill="none" stroke="black" d="M512.24,-297.2C534.38,-289.35 564.98,-275.05 582.54,-252 596.04,-234.29 601.05,-209.27 602.82,-190.27"/>
-      <polygon fill="black" stroke="black" points="606.32,-190.36 603.52,-180.15 599.34,-189.88 606.32,-190.36"/>
+      <path fill="none" stroke="black" d="M552.76,-371.64C516.17,-364.12 451.46,-348.54 400.41,-324 363.12,-306.08 324.85,-277.62 300.2,-257.72"/>
+      <polygon fill="black" stroke="black" points="302.34,-254.95 292.39,-251.32 297.91,-260.36 302.34,-254.95"/>
     </g>
     <g id="node7" class="node">
-      <title>:core:feedback</title>
-      <ellipse fill="none" stroke="black" cx="839.54" cy="-162" rx="77.99" ry="18"/>
-      <text text-anchor="middle" x="839.54" y="-158.3" font-family="Times,serif" font-size="14.00">:core:feedback</text>
+      <title>:core:data</title>
+      <ellipse fill="none" stroke="black" cx="771.41" cy="-162" rx="57.39" ry="18"/>
+      <text text-anchor="middle" x="771.41" y="-158.3" font-family="Times,serif" font-size="14.00">:core:data</text>
     </g>
     <g id="edge6" class="edge">
-      <title>:app-&gt;:core:feedback</title>
-      <path fill="none" stroke="black" d="M516,-304.44C590.1,-302.44 776.95,-293.32 820.54,-252 837.06,-236.34 841.01,-210.11 841.29,-190.17"/>
-      <polygon fill="black" stroke="black" points="844.79,-190.08 841.15,-180.13 837.79,-190.18 844.79,-190.08"/>
+      <title>:app-&gt;:core:data</title>
+      <path fill="none" stroke="black" d="M611.55,-374.91C677.98,-369.79 834.4,-354.72 876.41,-324 917.48,-293.96 943.47,-257.77 914.41,-216 896.55,-190.34 864.74,-177.07 835.65,-170.23"/>
+      <polygon fill="black" stroke="black" points="836.01,-166.73 825.5,-168.07 834.56,-173.57 836.01,-166.73"/>
     </g>
     <g id="node8" class="node">
-      <title>:core:auth</title>
-      <ellipse fill="none" stroke="black" cx="317.54" cy="-162" rx="57.69" ry="18"/>
-      <text text-anchor="middle" x="317.54" y="-158.3" font-family="Times,serif" font-size="14.00">:core:auth</text>
+      <title>:core:feedback</title>
+      <ellipse fill="none" stroke="black" cx="433.41" cy="-234" rx="77.99" ry="18"/>
+      <text text-anchor="middle" x="433.41" y="-230.3" font-family="Times,serif" font-size="14.00">:core:feedback</text>
     </g>
     <g id="edge7" class="edge">
-      <title>:app-&gt;:core:auth</title>
-      <path fill="none" stroke="black" d="M459.6,-296.43C436.47,-287.86 402.65,-272.93 378.54,-252 358.12,-234.27 341.33,-208.23 330.57,-188.89"/>
-      <polygon fill="black" stroke="black" points="333.61,-187.15 325.78,-180.01 327.44,-190.47 333.61,-187.15"/>
-    </g>
-    <g id="edge8" class="edge">
-      <title>:feature:settings-&gt;:core:ui</title>
-      <path fill="none" stroke="black" d="M474.16,-216.05C468.56,-207.71 461.7,-197.49 455.5,-188.25"/>
-      <polygon fill="black" stroke="black" points="458.29,-186.14 449.81,-179.79 452.48,-190.04 458.29,-186.14"/>
-    </g>
-    <g id="edge10" class="edge">
-      <title>:feature:settings-&gt;:core:data</title>
-      <path fill="none" stroke="red" stroke-width="2" d="M427.48,-220.42C379.85,-209.97 310.71,-194.53 250.54,-180 246.15,-178.94 241.61,-177.82 237.05,-176.68"/>
-      <polygon fill="red" stroke="red" stroke-width="2" points="237.65,-173.22 227.1,-174.16 235.93,-180.01 237.65,-173.22"/>
-    </g>
-    <g id="edge11" class="edge">
-      <title>:feature:settings-&gt;:core:config</title>
-      <path fill="none" stroke="black" d="M512.91,-216.76C529.37,-207 550.51,-194.46 568.22,-183.95"/>
-      <polygon fill="black" stroke="black" points="570.32,-186.78 577.13,-178.67 566.75,-180.76 570.32,-186.78"/>
-    </g>
-    <g id="edge12" class="edge">
-      <title>:feature:settings-&gt;:core:feedback</title>
-      <path fill="none" stroke="black" d="M546.4,-220.97C609.26,-208.54 707.11,-189.19 772.24,-176.31"/>
-      <polygon fill="black" stroke="black" points="773.27,-179.67 782.4,-174.3 771.92,-172.8 773.27,-179.67"/>
-    </g>
-    <g id="edge13" class="edge">
-      <title>:feature:settings-&gt;:core:auth</title>
-      <path fill="none" stroke="black" d="M448.67,-217.64C422.49,-206.73 387.28,-192.06 359.94,-180.67"/>
-      <polygon fill="black" stroke="black" points="361.2,-177.4 350.62,-176.78 358.51,-183.86 361.2,-177.4"/>
+      <title>:app-&gt;:core:feedback</title>
+      <path fill="none" stroke="black" d="M550.57,-377.59C510.73,-376.47 442.67,-367.78 410.41,-324 396.82,-305.56 405.69,-279.83 416.12,-260.77"/>
+      <polygon fill="black" stroke="black" points="419.21,-262.41 421.27,-252.01 413.18,-258.86 419.21,-262.41"/>
     </g>
     <g id="node9" class="node">
-      <title>:core:designsystem</title>
-      <ellipse fill="none" stroke="black" cx="824.54" cy="-90" rx="100.98" ry="18"/>
-      <text text-anchor="middle" x="824.54" y="-86.3" font-family="Times,serif" font-size="14.00">:core:designsystem</text>
+      <title>:core:ui</title>
+      <ellipse fill="none" stroke="black" cx="650.41" cy="-234" rx="45.49" ry="18"/>
+      <text text-anchor="middle" x="650.41" y="-230.3" font-family="Times,serif" font-size="14.00">:core:ui</text>
     </g>
-    <g id="edge9" class="edge">
-      <title>:feature:settings-&gt;:core:designsystem</title>
-      <path fill="none" stroke="black" d="M489.28,-215.93C494.7,-195.46 506.8,-161.69 530.54,-144 560.87,-121.39 652.11,-107.34 724.99,-99.43"/>
-      <polygon fill="black" stroke="black" points="725.57,-102.89 735.14,-98.36 724.83,-95.93 725.57,-102.89"/>
+    <g id="edge8" class="edge">
+      <title>:app-&gt;:core:ui</title>
+      <path fill="none" stroke="black" d="M597.2,-362.12C606.91,-352.17 618.88,-338.32 626.41,-324 636.61,-304.58 642.77,-280.43 646.29,-262.19"/>
+      <polygon fill="black" stroke="black" points="649.75,-262.68 648.06,-252.22 642.86,-261.45 649.75,-262.68"/>
     </g>
-    <g id="edge23" class="edge">
-      <title>:feature:aboutme-&gt;:core:ui</title>
-      <path fill="none" stroke="black" d="M666.17,-219.5C613.91,-206.53 535.73,-187.13 485.95,-174.77"/>
-      <polygon fill="black" stroke="black" points="486.63,-171.33 476.08,-172.32 484.94,-178.12 486.63,-171.33"/>
-    </g>
-    <g id="edge26" class="edge">
+    <g id="edge12" class="edge">
       <title>:feature:aboutme-&gt;:core:config</title>
-      <path fill="none" stroke="black" d="M693.4,-216.76C677.08,-207 656.13,-194.46 638.56,-183.95"/>
-      <polygon fill="black" stroke="black" points="640.1,-180.8 629.72,-178.67 636.51,-186.8 640.1,-180.8"/>
-    </g>
-    <g id="edge28" class="edge">
-      <title>:feature:aboutme-&gt;:core:feedback</title>
-      <path fill="none" stroke="black" d="M748.14,-216.76C764.63,-207.07 785.76,-194.64 803.54,-184.17"/>
-      <polygon fill="black" stroke="black" points="805.66,-186.99 812.5,-178.91 802.11,-180.96 805.66,-186.99"/>
-    </g>
-    <g id="edge24" class="edge">
-      <title>:feature:aboutme-&gt;:core:designsystem</title>
-      <path fill="none" stroke="black" d="M723.58,-215.84C727.63,-196.79 736.25,-165.85 752.54,-144 761.5,-131.98 773.94,-121.49 785.97,-113.08"/>
-      <polygon fill="black" stroke="black" points="788.21,-115.8 794.6,-107.34 784.33,-109.97 788.21,-115.8"/>
-    </g>
-    <g id="node12" class="node">
-      <title>:core:common</title>
-      <ellipse fill="none" stroke="black" cx="666.54" cy="-18" rx="75.29" ry="18"/>
-      <text text-anchor="middle" x="666.54" y="-14.3" font-family="Times,serif" font-size="14.00">:core:common</text>
-    </g>
-    <g id="edge25" class="edge">
-      <title>:feature:aboutme-&gt;:core:common</title>
-      <path fill="none" stroke="black" d="M716.21,-215.85C706.85,-178.75 684.66,-90.81 673.38,-46.1"/>
-      <polygon fill="black" stroke="black" points="676.73,-45.07 670.89,-36.23 669.94,-46.78 676.73,-45.07"/>
-    </g>
-    <g id="node16" class="node">
-      <title>:core:shapes</title>
-      <ellipse fill="none" stroke="black" cx="1004.54" cy="-162" rx="68.79" ry="18"/>
-      <text text-anchor="middle" x="1004.54" y="-158.3" font-family="Times,serif" font-size="14.00">:core:shapes</text>
-    </g>
-    <g id="edge27" class="edge">
-      <title>:feature:aboutme-&gt;:core:shapes</title>
-      <path fill="none" stroke="black" d="M775.3,-219.5C824.41,-207.4 896.25,-189.69 946.38,-177.34"/>
-      <polygon fill="black" stroke="black" points="947.23,-180.73 956.1,-174.94 945.56,-173.93 947.23,-180.73"/>
-    </g>
-    <g id="node10" class="node">
-      <title>:core:analytics</title>
-      <ellipse fill="none" stroke="black" cx="400.54" cy="-90" rx="77.99" ry="18"/>
-      <text text-anchor="middle" x="400.54" y="-86.3" font-family="Times,serif" font-size="14.00">:core:analytics</text>
+      <path fill="none" stroke="black" d="M243.85,-288.05C248.33,-280.01 253.79,-270.2 258.79,-261.23"/>
+      <polygon fill="black" stroke="black" points="261.97,-262.71 263.78,-252.28 255.86,-259.31 261.97,-262.71"/>
     </g>
     <g id="edge14" class="edge">
-      <title>:core:ui-&gt;:core:analytics</title>
-      <path fill="none" stroke="black" d="M429.34,-144.05C424.97,-136.01 419.65,-126.2 414.78,-117.23"/>
-      <polygon fill="black" stroke="black" points="417.77,-115.39 409.92,-108.28 411.61,-118.73 417.77,-115.39"/>
+      <title>:feature:aboutme-&gt;:core:feedback</title>
+      <path fill="none" stroke="black" d="M277.1,-289.98C308.04,-279.1 350.01,-264.33 382.67,-252.85"/>
+      <polygon fill="black" stroke="black" points="384.21,-256.01 392.49,-249.39 381.89,-249.41 384.21,-256.01"/>
     </g>
-    <g id="edge18" class="edge">
-      <title>:core:data-&gt;:core:analytics</title>
-      <path fill="none" stroke="black" d="M223.16,-148.49C257.69,-137.29 308.63,-120.79 347.07,-108.33"/>
-      <polygon fill="black" stroke="black" points="348.63,-111.5 357.06,-105.09 346.47,-104.84 348.63,-111.5"/>
+    <g id="edge9" class="edge">
+      <title>:feature:aboutme-&gt;:core:ui</title>
+      <path fill="none" stroke="black" d="M301.24,-293.75C384.27,-279.78 524.11,-256.25 599.15,-243.62"/>
+      <polygon fill="black" stroke="black" points="600.02,-247.03 609.3,-241.92 598.86,-240.12 600.02,-247.03"/>
     </g>
-    <g id="node13" class="node">
-      <title>:core:datastore</title>
-      <ellipse fill="none" stroke="black" cx="204.54" cy="-90" rx="81.49" ry="18"/>
-      <text text-anchor="middle" x="204.54" y="-86.3" font-family="Times,serif" font-size="14.00">:core:datastore</text>
+    <g id="node10" class="node">
+      <title>:core:designsystem</title>
+      <ellipse fill="none" stroke="black" cx="436.41" cy="-162" rx="100.98" ry="18"/>
+      <text text-anchor="middle" x="436.41" y="-158.3" font-family="Times,serif" font-size="14.00">:core:designsystem</text>
     </g>
-    <g id="edge17" class="edge">
-      <title>:core:data-&gt;:core:datastore</title>
-      <path fill="none" stroke="red" stroke-width="2" d="M189.38,-144.05C191.61,-136.26 194.31,-126.82 196.8,-118.08"/>
-      <polygon fill="red" stroke="red" stroke-width="2" points="200.22,-118.85 199.6,-108.28 193.49,-116.93 200.22,-118.85"/>
-    </g>
-    <g id="edge22" class="edge">
-      <title>:core:feedback-&gt;:core:designsystem</title>
-      <path fill="none" stroke="black" d="M835.83,-143.7C834.18,-135.98 832.19,-126.71 830.35,-118.11"/>
-      <polygon fill="black" stroke="black" points="833.72,-117.15 828.21,-108.1 826.88,-118.62 833.72,-117.15"/>
+    <g id="edge10" class="edge">
+      <title>:feature:aboutme-&gt;:core:designsystem</title>
+      <path fill="none" stroke="black" d="M218.68,-288.03C202.87,-268.87 183.15,-237.57 200.41,-216 218.07,-193.92 282.46,-180.41 339.52,-172.55"/>
+      <polygon fill="black" stroke="black" points="340.26,-175.99 349.71,-171.2 339.33,-169.05 340.26,-175.99"/>
     </g>
     <g id="node11" class="node">
-      <title>:core:accessibility</title>
-      <ellipse fill="none" stroke="black" cx="853.54" cy="-18" rx="93.68" ry="18"/>
-      <text text-anchor="middle" x="853.54" y="-14.3" font-family="Times,serif" font-size="14.00">:core:accessibility</text>
+      <title>:core:common</title>
+      <ellipse fill="none" stroke="black" cx="441.41" cy="-18" rx="75.29" ry="18"/>
+      <text text-anchor="middle" x="441.41" y="-14.3" font-family="Times,serif" font-size="14.00">:core:common</text>
     </g>
-    <g id="edge15" class="edge">
-      <title>:core:designsystem-&gt;:core:accessibility</title>
-      <path fill="none" stroke="black" d="M831.71,-71.7C834.97,-63.81 838.91,-54.3 842.54,-45.55"/>
-      <polygon fill="black" stroke="black" points="845.86,-46.68 846.45,-36.1 839.39,-44 845.86,-46.68"/>
+    <g id="edge11" class="edge">
+      <title>:feature:aboutme-&gt;:core:common</title>
+      <path fill="none" stroke="black" d="M145.63,-301.94C69,-295.32 -24.84,-275.31 6.41,-216 74.81,-86.14 256.65,-41.68 362.31,-26.6"/>
+      <polygon fill="black" stroke="black" points="362.86,-30.06 372.29,-25.23 361.9,-23.12 362.86,-30.06"/>
     </g>
-    <g id="edge16" class="edge">
-      <title>:core:designsystem-&gt;:core:common</title>
-      <path fill="none" stroke="black" d="M788.69,-73.12C765.27,-62.74 734.57,-49.14 709.8,-38.17"/>
-      <polygon fill="black" stroke="black" points="711.19,-34.95 700.63,-34.1 708.35,-41.35 711.19,-34.95"/>
+    <g id="node12" class="node">
+      <title>:core:shapes</title>
+      <ellipse fill="none" stroke="black" cx="84.41" cy="-234" rx="68.79" ry="18"/>
+      <text text-anchor="middle" x="84.41" y="-230.3" font-family="Times,serif" font-size="14.00">:core:shapes</text>
+    </g>
+    <g id="edge13" class="edge">
+      <title>:feature:aboutme-&gt;:core:shapes</title>
+      <path fill="none" stroke="black" d="M200.37,-289.12C178.26,-278.8 149.3,-265.29 125.86,-254.34"/>
+      <polygon fill="black" stroke="black" points="127.05,-251.04 116.51,-249.98 124.09,-257.38 127.05,-251.04"/>
     </g>
     <g id="edge21" class="edge">
-      <title>:core:datastore-&gt;:core:common</title>
-      <path fill="none" stroke="black" d="M268.8,-78.92C283.5,-76.63 299.06,-74.22 313.54,-72 410.61,-57.14 522.76,-40.37 594.13,-29.75"/>
-      <polygon fill="black" stroke="black" points="594.98,-33.16 604.35,-28.23 593.95,-26.24 594.98,-33.16"/>
+      <title>:feature:dashboard-&gt;:core:data</title>
+      <path fill="none" stroke="black" d="M528.96,-288.02C542.29,-267.96 567.05,-234.93 596.41,-216 630.89,-193.77 675.16,-180.48 710.54,-172.76"/>
+      <polygon fill="black" stroke="black" points="711.67,-176.1 720.74,-170.64 710.24,-169.25 711.67,-176.1"/>
     </g>
-    <g id="node14" class="node">
-      <title>:core:datastore-proto</title>
-      <ellipse fill="none" stroke="black" cx="108.54" cy="-18" rx="108.58" ry="18"/>
-      <text text-anchor="middle" x="108.54" y="-14.3" font-family="Times,serif" font-size="14.00">:core:datastore-proto</text>
+    <g id="edge22" class="edge">
+      <title>:feature:dashboard-&gt;:core:feedback</title>
+      <path fill="none" stroke="black" d="M497.83,-288.05C486.89,-279.05 473.28,-267.84 461.4,-258.05"/>
+      <polygon fill="black" stroke="black" points="463.44,-255.2 453.5,-251.55 458.99,-260.61 463.44,-255.2"/>
     </g>
     <g id="edge19" class="edge">
-      <title>:core:datastore-&gt;:core:datastore-proto</title>
-      <path fill="none" stroke="red" stroke-width="2" d="M181.79,-72.41C169.21,-63.24 153.39,-51.7 139.68,-41.71"/>
-      <polygon fill="red" stroke="red" stroke-width="2" points="141.6,-38.78 131.46,-35.71 137.48,-44.43 141.6,-38.78"/>
-    </g>
-    <g id="node15" class="node">
-      <title>:core:model</title>
-      <ellipse fill="none" stroke="black" cx="300.54" cy="-18" rx="64.99" ry="18"/>
-      <text text-anchor="middle" x="300.54" y="-14.3" font-family="Times,serif" font-size="14.00">:core:model</text>
+      <title>:feature:dashboard-&gt;:core:ui</title>
+      <path fill="none" stroke="black" d="M549.02,-288.76C568.83,-278.26 594.69,-264.55 615.33,-253.6"/>
+      <polygon fill="black" stroke="black" points="617.21,-256.57 624.41,-248.79 613.93,-250.38 617.21,-256.57"/>
     </g>
     <g id="edge20" class="edge">
+      <title>:feature:dashboard-&gt;:core:designsystem</title>
+      <path fill="none" stroke="black" d="M523.65,-287.72C528.33,-268.85 532.72,-238.33 520.41,-216 512.82,-202.25 500.01,-191.58 486.64,-183.53"/>
+      <polygon fill="black" stroke="black" points="488.27,-180.43 477.83,-178.62 484.86,-186.54 488.27,-180.43"/>
+    </g>
+    <g id="edge33" class="edge">
+      <title>:feature:settings-&gt;:core:auth</title>
+      <path fill="none" stroke="red" stroke-width="2" d="M781.79,-288.41C793.19,-279.12 807.57,-267.42 819.96,-257.34"/>
+      <polygon fill="red" stroke="red" stroke-width="2" points="822.22,-260.02 827.76,-250.99 817.8,-254.59 822.22,-260.02"/>
+    </g>
+    <g id="edge31" class="edge">
+      <title>:feature:settings-&gt;:core:config</title>
+      <path fill="none" stroke="black" d="M688.56,-295.79C571.77,-281.02 354.75,-253.5 346.41,-252 341.04,-251.04 335.48,-249.93 329.93,-248.76"/>
+      <polygon fill="black" stroke="black" points="330.51,-245.3 319.99,-246.59 329.02,-252.14 330.51,-245.3"/>
+    </g>
+    <g id="edge30" class="edge">
+      <title>:feature:settings-&gt;:core:data</title>
+      <path fill="none" stroke="black" d="M762.61,-287.87C764.32,-263.67 767.45,-219.21 769.48,-190.39"/>
+      <polygon fill="black" stroke="black" points="772.98,-190.41 770.19,-180.19 766,-189.92 772.98,-190.41"/>
+    </g>
+    <g id="edge32" class="edge">
+      <title>:feature:settings-&gt;:core:feedback</title>
+      <path fill="none" stroke="black" d="M702.77,-292.49C645.37,-280.24 558.12,-261.62 498.58,-248.91"/>
+      <polygon fill="black" stroke="black" points="499.05,-245.43 488.53,-246.77 497.58,-252.28 499.05,-245.43"/>
+    </g>
+    <g id="edge28" class="edge">
+      <title>:feature:settings-&gt;:core:ui</title>
+      <path fill="none" stroke="black" d="M735.66,-288.76C719.74,-278.72 699.17,-265.75 682.23,-255.07"/>
+      <polygon fill="black" stroke="black" points="684.07,-252.09 673.74,-249.72 680.33,-258.01 684.07,-252.09"/>
+    </g>
+    <g id="edge29" class="edge">
+      <title>:feature:settings-&gt;:core:designsystem</title>
+      <path fill="none" stroke="black" d="M755.3,-287.92C747.06,-267.44 730.33,-233.67 704.41,-216 676.21,-196.79 595.07,-182.43 529.39,-173.54"/>
+      <polygon fill="black" stroke="black" points="529.78,-170.06 519.41,-172.21 528.86,-177 529.78,-170.06"/>
+    </g>
+    <g id="edge34" class="edge">
+      <title>:core:auth-&gt;:core:data</title>
+      <path fill="none" stroke="red" stroke-width="2" d="M829.78,-216.76C819.9,-207.66 807.41,-196.16 796.52,-186.13"/>
+      <polygon fill="red" stroke="red" stroke-width="2" points="798.66,-183.35 788.94,-179.15 793.92,-188.5 798.66,-183.35"/>
+    </g>
+    <g id="node13" class="node">
+      <title>:core:analytics</title>
+      <ellipse fill="none" stroke="black" cx="605.41" cy="-90" rx="77.99" ry="18"/>
+      <text text-anchor="middle" x="605.41" y="-86.3" font-family="Times,serif" font-size="14.00">:core:analytics</text>
+    </g>
+    <g id="edge24" class="edge">
+      <title>:core:data-&gt;:core:analytics</title>
+      <path fill="none" stroke="black" d="M738.61,-147.17C713.51,-136.58 678.59,-121.86 650.8,-110.14"/>
+      <polygon fill="black" stroke="black" points="651.87,-106.8 641.3,-106.14 649.15,-113.25 651.87,-106.8"/>
+    </g>
+    <g id="node15" class="node">
+      <title>:core:datastore</title>
+      <ellipse fill="none" stroke="black" cx="782.41" cy="-90" rx="81.49" ry="18"/>
+      <text text-anchor="middle" x="782.41" y="-86.3" font-family="Times,serif" font-size="14.00">:core:datastore</text>
+    </g>
+    <g id="edge23" class="edge">
+      <title>:core:data-&gt;:core:datastore</title>
+      <path fill="none" stroke="red" stroke-width="2" d="M774.12,-143.7C775.34,-135.98 776.79,-126.71 778.14,-118.11"/>
+      <polygon fill="red" stroke="red" stroke-width="2" points="781.62,-118.53 779.72,-108.1 774.71,-117.44 781.62,-118.53"/>
+    </g>
+    <g id="edge18" class="edge">
+      <title>:core:feedback-&gt;:core:designsystem</title>
+      <path fill="none" stroke="black" d="M434.15,-215.7C434.48,-207.98 434.87,-198.71 435.24,-190.11"/>
+      <polygon fill="black" stroke="black" points="438.74,-190.25 435.67,-180.1 431.75,-189.95 438.74,-190.25"/>
+    </g>
+    <g id="edge15" class="edge">
+      <title>:core:ui-&gt;:core:analytics</title>
+      <path fill="none" stroke="black" d="M644.98,-215.87C637.27,-191.56 623.09,-146.82 613.97,-118.01"/>
+      <polygon fill="black" stroke="black" points="617.21,-116.66 610.85,-108.19 610.54,-118.78 617.21,-116.66"/>
+    </g>
+    <g id="edge17" class="edge">
+      <title>:core:designsystem-&gt;:core:common</title>
+      <path fill="none" stroke="black" d="M437.01,-143.87C437.86,-119.67 439.43,-75.21 440.44,-46.39"/>
+      <polygon fill="black" stroke="black" points="443.95,-46.31 440.8,-36.19 436.95,-46.06 443.95,-46.31"/>
+    </g>
+    <g id="node14" class="node">
+      <title>:core:accessibility</title>
+      <ellipse fill="none" stroke="black" cx="319.41" cy="-90" rx="93.68" ry="18"/>
+      <text text-anchor="middle" x="319.41" y="-86.3" font-family="Times,serif" font-size="14.00">:core:accessibility</text>
+    </g>
+    <g id="edge16" class="edge">
+      <title>:core:designsystem-&gt;:core:accessibility</title>
+      <path fill="none" stroke="black" d="M408.97,-144.59C392.98,-135.02 372.63,-122.85 355.37,-112.52"/>
+      <polygon fill="black" stroke="black" points="357.04,-109.44 346.66,-107.31 353.45,-115.45 357.04,-109.44"/>
+    </g>
+    <g id="edge27" class="edge">
+      <title>:core:datastore-&gt;:core:common</title>
+      <path fill="none" stroke="black" d="M724.94,-77.2C664.5,-64.8 569.55,-45.31 506.41,-32.34"/>
+      <polygon fill="black" stroke="black" points="507.06,-28.9 496.56,-30.32 505.65,-35.76 507.06,-28.9"/>
+    </g>
+    <g id="node16" class="node">
+      <title>:core:datastore-proto</title>
+      <ellipse fill="none" stroke="black" cx="802.41" cy="-18" rx="108.58" ry="18"/>
+      <text text-anchor="middle" x="802.41" y="-14.3" font-family="Times,serif" font-size="14.00">:core:datastore-proto</text>
+    </g>
+    <g id="edge25" class="edge">
+      <title>:core:datastore-&gt;:core:datastore-proto</title>
+      <path fill="none" stroke="red" stroke-width="2" d="M787.35,-71.7C789.58,-63.9 792.26,-54.51 794.74,-45.83"/>
+      <polygon fill="red" stroke="red" stroke-width="2" points="798.14,-46.68 797.52,-36.1 791.41,-44.76 798.14,-46.68"/>
+    </g>
+    <g id="node17" class="node">
+      <title>:core:model</title>
+      <ellipse fill="none" stroke="black" cx="610.41" cy="-18" rx="64.99" ry="18"/>
+      <text text-anchor="middle" x="610.41" y="-14.3" font-family="Times,serif" font-size="14.00">:core:model</text>
+    </g>
+    <g id="edge26" class="edge">
       <title>:core:datastore-&gt;:core:model</title>
-      <path fill="none" stroke="black" d="M227.29,-72.41C240.15,-63.04 256.38,-51.2 270.3,-41.05"/>
-      <polygon fill="black" stroke="black" points="272.6,-43.71 278.61,-34.99 268.47,-38.05 272.6,-43.71"/>
+      <path fill="none" stroke="black" d="M745.08,-73.81C718.57,-63.02 682.85,-48.48 654.86,-37.09"/>
+      <polygon fill="black" stroke="black" points="655.89,-33.73 645.31,-33.21 653.25,-40.22 655.89,-33.73"/>
     </g>
   </g>
 </svg>
