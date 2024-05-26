@@ -21,6 +21,7 @@ import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialCancellationException
+import androidx.credentials.exceptions.GetCredentialProviderConfigurationException
 import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -84,11 +85,22 @@ internal class FirebaseAuthHelper @Inject constructor(
         } catch (e: Exception) {
             when (e) {
                 is NoCredentialException -> {
+                    // It's ok to not have a credential already available
                     return
-                } // It's ok to not have a credential already available
+                }
                 is GetCredentialCancellationException -> {
+                    // It's ok to cancel the credential request
                     return
-                } // It's ok to cancel the credential request
+                }
+                is GetCredentialProviderConfigurationException -> {
+                    // Play services is not installed (or old version) AND is on an old Android version,
+                    // or has a misconfig somewhere in the system stuff (custom ROM that removed the
+                    // CredentialManager, ...)
+                    if (filterByAuthorizedAccounts) return
+
+                    // If user asked to login
+                    // TODO return something to tell the UI to explain the issue to the user [RahNeil_N3:Z7pK6Dddr6flYbOYp2LXxpu7cBv3hlt0]
+                }
                 else -> throw e
             }
         }
