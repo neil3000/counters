@@ -129,7 +129,8 @@ private fun AccessibilitySettingsPanel(
     Column(
         Modifier
             .padding(contentPadding)
-            .verticalScroll(rememberScrollState())) {
+            .verticalScroll(rememberScrollState()),
+    ) {
         // emphasizedSwitchesTile
         Rn3TileSwitch(
             title = stringResource(string.feature_settings_settingsScreen_emphasizedSwitchesTile_title),

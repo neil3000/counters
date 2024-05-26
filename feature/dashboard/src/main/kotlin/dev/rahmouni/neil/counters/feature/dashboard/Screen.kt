@@ -28,7 +28,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.AddBox
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -149,10 +148,10 @@ private fun DashboardPanel(
 
 operator fun PaddingValues.plus(other: PaddingValues): PaddingValues = PaddingValues(
     start = this.calculateStartPadding(LayoutDirection.Ltr) +
-            other.calculateStartPadding(LayoutDirection.Ltr),
+        other.calculateStartPadding(LayoutDirection.Ltr),
     top = this.calculateTopPadding() + other.calculateTopPadding(),
     end = this.calculateEndPadding(LayoutDirection.Ltr) +
-            other.calculateEndPadding(LayoutDirection.Ltr),
+        other.calculateEndPadding(LayoutDirection.Ltr),
     bottom = this.calculateBottomPadding() + other.calculateBottomPadding(),
 )
 

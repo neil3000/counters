@@ -143,7 +143,8 @@ private fun DataAndPrivacySettingsPanel(
     Column(
         Modifier
             .padding(contentPadding)
-            .verticalScroll(rememberScrollState())) {
+            .verticalScroll(rememberScrollState()),
+    ) {
         // metricsHeaderTile
         Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsHeaderTile_title))
 
