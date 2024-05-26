@@ -32,6 +32,7 @@ object CounterDataFields {
     const val uid: String = "uid"
     const val ownerUserUid = "ownerUserUid"
     const val title = "title"
+    const val createdAt = "createdAt"
     const val currentValue = "currentValue"
     const val currentValueComputedSegment = "currentValueComputedSegment"
 }

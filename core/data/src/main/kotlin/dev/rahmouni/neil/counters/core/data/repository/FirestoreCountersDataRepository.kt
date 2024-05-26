@@ -41,6 +41,7 @@ class FirestoreCountersDataRepository @Inject constructor(
                 Firebase.firestore
                     .collection("counters")
                     .whereEqualTo(CounterDataFields.ownerUserUid, user.lastUserUid)
+                    .orderBy(CounterDataFields.createdAt)
                     .dataObjects<CounterData>(),
             )
         }
@@ -55,6 +56,7 @@ class FirestoreCountersDataRepository @Inject constructor(
                             hashMapOf(
                                 this.ownerUserUid to userData.lastUserUid,
                                 this.title to title,
+                                this.createdAt to Timestamp.now(),
                                 this.currentValue to 0,
                             )
                         },

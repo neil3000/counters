@@ -62,7 +62,7 @@ fun CounterData.DashboardCard(modifier: Modifier = Modifier, onIncrement: (Strin
                 onClick = {
                     haptics.click()
 
-                    Toast.makeText(context, currentValue.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, uid, Toast.LENGTH_SHORT).show()
                     // TODO("Not implemented - add counter page")
                 },
                 onLongClick = {
@@ -86,28 +86,20 @@ fun CounterData.DashboardCard(modifier: Modifier = Modifier, onIncrement: (Strin
                     transitionSpec = {
                         if (targetState > initialState) {
                             (
-                                slideInVertically { height -> (height / 1.8f).toInt() } + fadeIn(
-                                    tween(
-                                        250,
-                                    ),
+                                    slideInVertically { height -> (height / 1.8f).toInt() }
+                                            + fadeIn(tween(250))
+                                    ).togetherWith(
+                                    slideOutVertically { height -> -(height / 1.8f).toInt() }
+                                            + fadeOut(tween(250)),
                                 )
-                                ).togetherWith(
-                                slideOutVertically { height -> -(height / 1.8f).toInt() } + fadeOut(
-                                    tween(250),
-                                ),
-                            )
                         } else {
                             (
-                                slideInVertically { height -> -(height / 1.8f).toInt() } + fadeIn(
-                                    tween(
-                                        250,
-                                    ),
+                                    slideInVertically { height -> -(height / 1.8f).toInt() }
+                                            + fadeIn(tween(250))
+                                    ).togetherWith(
+                                    slideOutVertically { height -> (height / 1.8f).toInt() }
+                                            + fadeOut(tween(250)),
                                 )
-                                ).togetherWith(
-                                slideOutVertically { height -> (height / 1.8f).toInt() } + fadeOut(
-                                    tween(250),
-                                ),
-                            )
                         }.using(SizeTransform(clip = false))
                     },
                     label = "value count animation",
@@ -120,6 +112,7 @@ fun CounterData.DashboardCard(modifier: Modifier = Modifier, onIncrement: (Strin
                     )
                 }
 
+                // TODO i18n
                 Rn3IconButton(
                     icon = Icons.Outlined.Add,
                     contentDescription = "Increment by one",
