@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.google.gms.googleservices.GoogleServicesTask
 import dev.rahmouni.neil.counters.Rn3BuildType
 
 plugins {
@@ -30,8 +31,8 @@ plugins {
 android {
     defaultConfig {
         applicationId = "rahmouni.neil.counters"
-        versionCode = 730028
-        versionName = "2.0.2" // X.Y.Z; X = Major, Y = minor, Z = Patch level
+        versionCode = 730029
+        versionName = "2.0.3" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         // Custom test runner to set up Hilt dependency graph
         testInstrumentationRunner = "dev.rahmouni.neil.counters.core.testing.Rn3TestRunner"
@@ -122,4 +123,13 @@ baselineProfile {
 
 dependencyGuard {
     configuration("prodReleaseRuntimeClasspath")
+}
+
+// Workaround for Firebase Crashlytics issue
+// See -> https://github.com/firebase/firebase-android-sdk/issues/5962
+// TODO remove when fixed
+project.afterEvaluate {
+    tasks.withType<GoogleServicesTask> {
+        gmpAppId.set(project.layout.buildDirectory.file("$name-gmpAppId.txt"))
+    }
 }
