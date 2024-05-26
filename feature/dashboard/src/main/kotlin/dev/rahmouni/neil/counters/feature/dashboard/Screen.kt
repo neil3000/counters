@@ -63,6 +63,7 @@ internal fun DashboardRoute(
     viewModel: DashboardViewModel = hiltViewModel(),
     navController: NavController,
     navigateToSettings: () -> Unit,
+    navigateToAddCounter: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -74,9 +75,7 @@ internal fun DashboardRoute(
             "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8",
         ).toTopAppBarAction(navController::navigateToFeedback),
         onSettingsTopAppBarActionClicked = navigateToSettings,
-        onNewCounterFabClick = {
-            viewModel.createUserCounter("Title (Tmp)")
-        },
+        onNewCounterFabClick = navigateToAddCounter,
         onIncrementUserCounter = viewModel::incrementUserCounter,
     )
 }
@@ -148,10 +147,10 @@ private fun DashboardPanel(
 
 operator fun PaddingValues.plus(other: PaddingValues): PaddingValues = PaddingValues(
     start = this.calculateStartPadding(LayoutDirection.Ltr) +
-        other.calculateStartPadding(LayoutDirection.Ltr),
+            other.calculateStartPadding(LayoutDirection.Ltr),
     top = this.calculateTopPadding() + other.calculateTopPadding(),
     end = this.calculateEndPadding(LayoutDirection.Ltr) +
-        other.calculateEndPadding(LayoutDirection.Ltr),
+            other.calculateEndPadding(LayoutDirection.Ltr),
     bottom = this.calculateBottomPadding() + other.calculateBottomPadding(),
 )
 

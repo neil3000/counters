@@ -94,7 +94,10 @@ fun FeedbackBottomSheet(
                     horizontalArrangement = spacedBy(16.dp),
                 ) {
                     Icon(Icons.Outlined.Feedback, null)
-                    Text(stringResource(R.string.core_feedback_topBar_title), fontWeight = FontWeight.SemiBold)
+                    Text(
+                        stringResource(R.string.core_feedback_topBar_title),
+                        fontWeight = FontWeight.SemiBold,
+                    )
                     Spacer(Modifier.weight(1f))
                     Rn3IconButton(
                         icon = Icons.Outlined.Close,

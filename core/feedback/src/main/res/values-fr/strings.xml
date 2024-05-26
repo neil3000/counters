@@ -34,4 +34,5 @@
     <string name="core_feedback_DescriptionPage_suggestionMessage">Expliquez votre suggestion et essayez de donner des exemples</string>
     <string name="core_feedback_DescriptionPage_textField_label">Description</string>
     <string name="core_feedback_topBar_title">Envoyer un retour</string>
+    <string name="core_feedback_topAppBarAction_title">Envoyer un retour</string>
 </resources>
