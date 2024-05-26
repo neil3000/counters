@@ -49,7 +49,7 @@ internal fun AddCounterNamePage(
     viewModel: DashboardViewModel = hiltViewModel(),
 ) {
     var currentName by rememberSaveable { mutableStateOf("") }
-    var isError by remember { mutableStateOf(false) }
+    var isDuplicate by remember { mutableStateOf(false) }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -64,7 +64,7 @@ internal fun AddCounterNamePage(
     }
 
     LaunchedEffect(currentName) {
-        isError = uiState.dashboardData.counters.any { it.title == currentName }
+        isDuplicate = uiState.dashboardData.counters.any { it.title == currentName }
     }
 
     Column {
@@ -76,7 +76,7 @@ internal fun AddCounterNamePage(
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                 .focusRequester(focusRequester),
             label = {
-                if (isError) {
+                if (isDuplicate) {
                     Text(text = stringResource(dev.rahmouni.neil.counters.feature.dashboard.R.string.feature_dashboard_bottomSheet_textField_error_label))
                 } else {
                     Text(text = stringResource(dev.rahmouni.neil.counters.feature.dashboard.R.string.feature_dashboard_bottomSheet_textField_label))
@@ -85,27 +85,26 @@ internal fun AddCounterNamePage(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    if (!isError) {
-                    viewModel.createUserCounter(currentName)
-                    navController.popBackStack()
+                    if (!isDuplicate) {
+                        viewModel.createUserCounter(currentName)
+                        navController.popBackStack()
                     }
                 },
             ),
-            isError = isError,
+            isError = isDuplicate,
         )
         Button(
             onClick = {
-                if (!isError) {
-
-                haptic.click()
-                viewModel.createUserCounter(currentName)
-                navController.popBackStack()
+                if (!isDuplicate) {
+                    haptic.click()
+                    viewModel.createUserCounter(currentName)
+                    navController.popBackStack()
                 }
             },
             Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
-            enabled = currentName.isNotBlank() && !isError,
+            enabled = currentName.isNotBlank() && !isDuplicate,
         ) {
             Text(stringResource(dev.rahmouni.neil.counters.feature.dashboard.R.string.feature_dashboard_bottomSheet_continueButton_title))
         }
