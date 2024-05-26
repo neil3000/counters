@@ -117,6 +117,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "743616795299-nhrrigv5mmvggepac5kddm8at4ed61s2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rahmouni.neil.counters.demo",
+            "certificate_hash": "2af610a2349348394d2e277e21fc09d55c12333b"
+          }
+        },
+        {
           "client_id": "743616795299-b7pstjgcvnq3sm77ia43vm66okovpejq.apps.googleusercontent.com",
           "client_type": 3
         }
