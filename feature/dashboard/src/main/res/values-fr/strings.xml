@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_dashboard_dashboardScreen_topAppBarTitle">Counters</string>
+    <string name="feature_dashboard_dashboardScreen_topAppBarActions_settings">Paramètres</string>
+    <string name="feature_dashboard_fab_newCounter">Nouveau compteur</string>
+    <string name="feature_dashboard_bottomSheet_topBar_title">Nouveau compteur</string>
+    <string name="feature_dashboard_bottomSheet_closeButton_contentDescription">Fermer</string>
+    <string name="feature_dashboard_bottomSheet_continueButton_title">Continuer</string>
+    <string name="feature_dashboard_bottomSheet_textField_error_label">Le nom est déjà utilisé</string>
+    <string name="feature_dashboard_bottomSheet_textField_label">Nom</string>
+</resources>

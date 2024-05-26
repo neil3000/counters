@@ -26,11 +26,16 @@ const val DASHBOARD_ROUTE = "dashboard"
 fun NavController.navigateToDashboard(navOptions: NavOptions? = null) =
     navigate(DASHBOARD_ROUTE, navOptions)
 
-fun NavGraphBuilder.dashboardScreen(navController: NavController, navigateToSettings: () -> Unit) {
+fun NavGraphBuilder.dashboardScreen(
+    navController: NavController,
+    navigateToSettings: () -> Unit,
+    navigateToAddCounter: () -> Unit,
+) {
     composable(route = DASHBOARD_ROUTE) {
         DashboardRoute(
             navController = navController,
             navigateToSettings = navigateToSettings,
+            navigateToAddCounter = navigateToAddCounter,
         )
     }
 }
