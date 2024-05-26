@@ -18,15 +18,17 @@ package dev.rahmouni.neil.counters.feature.dashboard
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.AddBox
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -37,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -91,8 +94,8 @@ internal fun DashboardScreen(
 ) {
     val haptics = getHaptic()
 
-    val listState = rememberLazyListState()
-    val expandedFab by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
+    val gridState = rememberLazyGridState()
+    val expandedFab by remember { derivedStateOf { gridState.firstVisibleItemIndex == 0 } }
 
     Rn3Scaffold(
         modifier,
@@ -119,7 +122,7 @@ internal fun DashboardScreen(
             )
         },
     ) {
-        DashboardPanel(it, uiState.dashboardData, listState, onIncrementUserCounter)
+        DashboardPanel(it, uiState.dashboardData, gridState, onIncrementUserCounter)
     }
 }
 
@@ -127,25 +130,31 @@ internal fun DashboardScreen(
 private fun DashboardPanel(
     contentPadding: PaddingValues,
     data: DashboardData,
-    lazyListState: LazyListState,
+    lazyGridState: LazyGridState,
     onIncrementUserCounter: (String) -> Unit,
 ) {
-    LazyColumn(contentPadding = contentPadding, state = lazyListState) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 165.dp),
+        state = lazyGridState,
+        contentPadding = PaddingValues(start = 4.dp, end = 4.dp, bottom = 80.dp) + contentPadding,
+    ) {
         items(data.counters, key = { it.uid }) {
             it.DashboardCard(
-                Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                Modifier.padding(4.dp),
                 onIncrement = onIncrementUserCounter,
-            )
-        }
-
-        // FAB height spacing
-        item {
-            Spacer(
-                Modifier.height(64.dp + 16.dp),
             )
         }
     }
 }
+
+operator fun PaddingValues.plus(other: PaddingValues): PaddingValues = PaddingValues(
+    start = this.calculateStartPadding(LayoutDirection.Ltr) +
+            other.calculateStartPadding(LayoutDirection.Ltr),
+    top = this.calculateTopPadding() + other.calculateTopPadding(),
+    end = this.calculateEndPadding(LayoutDirection.Ltr) +
+            other.calculateEndPadding(LayoutDirection.Ltr),
+    bottom = this.calculateBottomPadding() + other.calculateBottomPadding(),
+)
 
 @Rn3PreviewScreen
 @Composable
