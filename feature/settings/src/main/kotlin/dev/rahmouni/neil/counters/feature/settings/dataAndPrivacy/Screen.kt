@@ -23,6 +23,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.BugReport
@@ -138,7 +140,10 @@ private fun DataAndPrivacySettingsPanel(
 ) {
     val config = LocalConfigHelper.current
 
-    Column(Modifier.padding(contentPadding)) {
+    Column(
+        Modifier
+            .padding(contentPadding)
+            .verticalScroll(rememberScrollState())) {
         // metricsHeaderTile
         Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsHeaderTile_title))
 

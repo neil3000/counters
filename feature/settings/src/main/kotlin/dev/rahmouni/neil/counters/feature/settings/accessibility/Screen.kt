@@ -20,6 +20,8 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.SettingsAccessibility
 import androidx.compose.material.icons.outlined.ToggleOn
@@ -124,7 +126,10 @@ private fun AccessibilitySettingsPanel(
     setIconTooltips: (Boolean) -> Unit,
     onClickAndroidAccessibilityTile: () -> Unit,
 ) {
-    Column(Modifier.padding(contentPadding)) {
+    Column(
+        Modifier
+            .padding(contentPadding)
+            .verticalScroll(rememberScrollState())) {
         // emphasizedSwitchesTile
         Rn3TileSwitch(
             title = stringResource(string.feature_settings_settingsScreen_emphasizedSwitchesTile_title),
