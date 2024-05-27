@@ -20,6 +20,7 @@ import android.net.Uri
 import com.google.firebase.auth.FirebaseUser
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
+import kotlinx.coroutines.tasks.await
 
 sealed interface Rn3User {
     data object LoggedOutUser : Rn3User
@@ -27,6 +28,7 @@ sealed interface Rn3User {
         val uid: String,
         internal val displayName: String,
         internal val pfpUri: Uri?,
+        internal val isAdmin: Boolean,
     ) : Rn3User
 
     fun getDisplayName(): String {
@@ -35,15 +37,6 @@ sealed interface Rn3User {
             is SignedInUser -> displayName
         }
     }
-}
 
-internal fun FirebaseUser?.toRn3User(): Rn3User {
-    return when (this) {
-        null -> LoggedOutUser
-        else -> SignedInUser(
-            uid = this.uid,
-            displayName = this.displayName.toString(),
-            pfpUri = this.photoUrl,
-        )
-    }
+    fun isAdmin(): Boolean = this is SignedInUser && this.isAdmin
 }

@@ -40,6 +40,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
 import dev.rahmouni.neil.counters.core.common.copyText
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -91,6 +92,7 @@ private fun DeveloperSettingsPanel(
     onLinksRn3UrlTileClicked: () -> Unit,
 ) {
     val context = LocalContext.current
+    val auth = LocalAuthHelper.current
 
     LazyColumn(contentPadding = contentPadding) {
         // buildconfigTile
@@ -105,36 +107,42 @@ private fun DeveloperSettingsPanel(
         // clearPersistenceTile
         item {
             @Suppress("KotlinConstantConditions")
-            Rn3TileClick(
-                title = stringResource(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_title),
-                icon = Icons.Outlined.DeleteForever,
-                enabled = BuildConfig.FLAVOR == "demo",
-                supportingText = if (BuildConfig.FLAVOR != "demo") stringResource(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_supportingText) else null,
-            ) {
-                try {
-                    Firebase.firestore.terminate().addOnCompleteListener {
-                        Firebase.firestore.clearPersistence().addOnSuccessListener {
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_success),
-                                Toast.LENGTH_SHORT,
-                            ).show()
-                            (context as Activity).recreate()
+            (BuildConfig.FLAVOR == "demo").let { enabled ->
+                Rn3TileClick(
+                    title = stringResource(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_title),
+                    icon = Icons.Outlined.DeleteForever,
+                    enabled = enabled,
+                    supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_supportingText).takeIf { enabled },
+                ) {
+                    try {
+                        Firebase.firestore.terminate().addOnCompleteListener {
+                            Firebase.firestore.clearPersistence().addOnSuccessListener {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_success),
+                                    Toast.LENGTH_SHORT,
+                                ).show()
+                                (context as Activity).recreate()
+                            }
                         }
+                    } catch (e: Exception) {
+                        context.copyText("Error", "$e | ${e.message}")
                     }
-                } catch (e: Exception) {
-                    context.copyText("Error", "$e | ${e.message}")
                 }
             }
         }
 
         // linksRn3UrlTile
         item {
-            Rn3TileClick(
-                title = stringResource(R.string.feature_settings_developerSettingsScreen_linksRn3UrlTile_title),
-                icon = Icons.Outlined.Link,
-                onClick = onLinksRn3UrlTileClicked,
-            )
+            auth.getUser().isAdmin().let { isAdmin ->
+                Rn3TileClick(
+                    title = stringResource(R.string.feature_settings_developerSettingsScreen_linksRn3UrlTile_title),
+                    icon = Icons.Outlined.Link,
+                    onClick = onLinksRn3UrlTileClicked,
+                    enabled = isAdmin,
+                    supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_linksRn3UrlTile_supportingText).takeUnless { isAdmin },
+                )
+            }
         }
 
         FirebaseApp.getApps(context)

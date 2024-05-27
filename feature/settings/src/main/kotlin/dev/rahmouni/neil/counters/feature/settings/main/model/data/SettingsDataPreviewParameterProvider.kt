@@ -44,6 +44,7 @@ object PreviewParameterData {
             uid = "androidPreviewID",
             displayName = "Android Preview",
             pfpUri = null,
+            isAdmin = false
         ),
         hasSyncEnabled = false,
         devSettingsEnabled = false,

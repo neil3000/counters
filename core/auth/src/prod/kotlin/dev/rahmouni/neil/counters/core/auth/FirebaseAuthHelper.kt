@@ -26,9 +26,11 @@ import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User
-import dev.rahmouni.neil.counters.core.auth.user.toRn3User
+import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
+import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -45,6 +47,8 @@ internal class FirebaseAuthHelper @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val userDataRepository: UserDataRepository,
 ) : AuthHelper {
+
+    var claims: Map<String, Any>? = null
 
     override suspend fun signInWithCredentialManager(
         context: Context,
@@ -80,7 +84,14 @@ internal class FirebaseAuthHelper @Inject constructor(
             ).await()
 
             if (task.user != null) {
-                userDataRepository.setLastUserUid(task.user!!.uid)
+                with(task.user!!) {
+                    userDataRepository.setLastUserUid(uid)
+                    getIdToken(false).addOnSuccessListener {
+                        if (it != null) {
+                            claims = it.claims
+                        }
+                    }
+                }
             }
         } catch (e: Exception) {
             when (e) {
@@ -88,10 +99,12 @@ internal class FirebaseAuthHelper @Inject constructor(
                     // It's ok to not have a credential already available
                     return
                 }
+
                 is GetCredentialCancellationException -> {
                     // It's ok to cancel the credential request
                     return
                 }
+
                 is GetCredentialProviderConfigurationException -> {
                     // Play services is not installed (or old version) AND is on an old Android version,
                     // or has a misconfig somewhere in the system stuff (custom ROM that removed the
@@ -102,6 +115,7 @@ internal class FirebaseAuthHelper @Inject constructor(
                     // TODO show a modal to explain the issue to the user [RahNeil_N3:Z7pK6Dddr6flYbOYp2LXxpu7cBv3hlt0]
                     throw e
                 }
+
                 else -> throw e
             }
         }
@@ -109,6 +123,7 @@ internal class FirebaseAuthHelper @Inject constructor(
 
     override suspend fun signOut(context: Context) {
         firebaseAuth.signOut()
+        claims = null
         CredentialManager.create(context).clearCredentialState(ClearCredentialStateRequest())
     }
 
@@ -121,6 +136,18 @@ internal class FirebaseAuthHelper @Inject constructor(
         firebaseAuth.addAuthStateListener(authStateListener)
         awaitClose {
             firebaseAuth.removeAuthStateListener(authStateListener)
+        }
+    }
+
+    private fun FirebaseUser?.toRn3User(): Rn3User {
+        return when (this) {
+            null -> LoggedOutUser
+            else -> SignedInUser(
+                uid = this.uid,
+                displayName = this.displayName.toString(),
+                pfpUri = this.photoUrl,
+                isAdmin = claims?.get("role") == "Admin",
+            )
         }
     }
 }
