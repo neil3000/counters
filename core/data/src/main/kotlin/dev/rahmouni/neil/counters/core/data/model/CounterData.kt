@@ -16,18 +16,21 @@
 
 package dev.rahmouni.neil.counters.core.data.model
 
+import androidx.annotation.Keep
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 
+@Keep
 data class CounterData(
     @DocumentId val uid: String = "",
     val ownerUserUid: String = "",
     val title: String = "Error",
     val currentValue: Long = 0,
     val currentValueComputedSegment: Timestamp = Timestamp(0, 0),
+    val createdAt: Timestamp = Timestamp.now(),
 )
 
-@Suppress("ConstPropertyName", "ktlint:standard:property-naming")
+@Suppress("ConstPropertyName", "ktlint:standard:property-naming", "unused")
 object CounterDataFields {
     const val uid: String = "uid"
     const val ownerUserUid = "ownerUserUid"
@@ -37,7 +40,7 @@ object CounterDataFields {
     const val currentValueComputedSegment = "currentValueComputedSegment"
 }
 
-@Suppress("ConstPropertyName", "ktlint:standard:property-naming")
+@Suppress("ConstPropertyName", "ktlint:standard:property-naming", "unused")
 object IncrementDataFields {
     const val uid: String = "uid"
     const val value = "value"

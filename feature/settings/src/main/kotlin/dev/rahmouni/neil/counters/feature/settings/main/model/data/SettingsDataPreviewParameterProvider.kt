@@ -46,7 +46,7 @@ object PreviewParameterData {
             pfpUri = null,
         ),
         hasSyncEnabled = false,
-        devSettingsEnabled = false,
+        devSettingsEnabled = false
     )
     val settingsData_loggedOut =
         settingsData_default.copy(

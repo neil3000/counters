@@ -68,6 +68,7 @@ fun CounterData.DashboardCard(modifier: Modifier = Modifier, onIncrement: (Strin
                 onLongClick = {
                     haptics.longPress()
 
+                    Toast.makeText(context, ownerUserUid, Toast.LENGTH_SHORT).show()
                     // TODO("Not implemented - add long clicks")
                 },
             ),

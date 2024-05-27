@@ -31,6 +31,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.transformLatest
 import javax.inject.Inject
 
+const val DEFAULT_LASTUSERUID = "noLastUserUid"
+
 class FirestoreCountersDataRepository @Inject constructor(
     private val userDataRepository: UserDataRepository,
 ) : CountersDataRepository {
@@ -40,7 +42,7 @@ class FirestoreCountersDataRepository @Inject constructor(
             emitAll(
                 Firebase.firestore
                     .collection("counters")
-                    .whereEqualTo(CounterDataFields.ownerUserUid, user.lastUserUid)
+                    .whereEqualTo(CounterDataFields.ownerUserUid, user.lastUserUid ?: DEFAULT_LASTUSERUID)
                     .orderBy(CounterDataFields.createdAt)
                     .dataObjects<CounterData>(),
             )
@@ -54,7 +56,7 @@ class FirestoreCountersDataRepository @Inject constructor(
                     .add(
                         with(CounterDataFields) {
                             hashMapOf(
-                                this.ownerUserUid to userData.lastUserUid,
+                                this.ownerUserUid to (userData.lastUserUid ?: DEFAULT_LASTUSERUID),
                                 this.title to title,
                                 this.createdAt to Timestamp.now(),
                                 this.currentValue to 0,

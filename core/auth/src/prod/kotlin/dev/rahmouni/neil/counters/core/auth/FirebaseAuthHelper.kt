@@ -99,7 +99,8 @@ internal class FirebaseAuthHelper @Inject constructor(
                     if (filterByAuthorizedAccounts) return
 
                     // If user asked to login
-                    // TODO return something to tell the UI to explain the issue to the user [RahNeil_N3:Z7pK6Dddr6flYbOYp2LXxpu7cBv3hlt0]
+                    // TODO show a modal to explain the issue to the user [RahNeil_N3:Z7pK6Dddr6flYbOYp2LXxpu7cBv3hlt0]
+                    throw e
                 }
                 else -> throw e
             }
