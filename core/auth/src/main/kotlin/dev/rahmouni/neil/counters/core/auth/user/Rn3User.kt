@@ -17,10 +17,6 @@
 package dev.rahmouni.neil.counters.core.auth.user
 
 import android.net.Uri
-import com.google.firebase.auth.FirebaseUser
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
-import kotlinx.coroutines.tasks.await
 
 sealed interface Rn3User {
     data object LoggedOutUser : Rn3User

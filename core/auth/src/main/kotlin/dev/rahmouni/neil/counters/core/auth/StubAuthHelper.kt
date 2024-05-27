@@ -43,7 +43,7 @@ class StubAuthHelper @Inject constructor() : AuthHelper {
         uid = "androidPreviewId",
         displayName = "Android Preview",
         pfpUri = null,
-        isAdmin = false
+        isAdmin = false,
     )
 
     override fun getUserFlow(): Flow<Rn3User> =
