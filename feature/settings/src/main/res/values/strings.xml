@@ -56,7 +56,13 @@
     <string name="feature_settings_settingsScreen_accountLogoutTile_title">Logout</string>
     <string name="feature_settings_developerSettingsScreen_clearPersistenceTile_title" translatable="false">Clear local persistence</string>
     <string name="feature_settings_developerSettingsScreen_clearPersistenceTile_success" translatable="false">Persistence cleared!</string>
-    <string name="feature_settings_developerSettingsScreen_clearPersistenceTile_supportingText">Only available in Demo flavor</string>
-    <string name="feature_settings_developerSettingsLinksScreen_topAppBarTitle">Links (rn3-url)</string>
-    <string name="feature_settings_developerSettingsScreen_linksRn3UrlTile_title">Links (rn3-url)</string>
+    <string name="feature_settings_developerSettingsScreen_clearPersistenceTile_supportingText" translatable="false">Only available in Demo flavor</string>
+    <string name="feature_settings_developerSettingsLinksScreen_topAppBarTitle" translatable="false">Links (rn3-url)</string>
+    <string name="feature_settings_developerSettingsScreen_linksRn3UrlTile_title" translatable="false">Links (rn3-url)</string>
+    <string name="feature_settings_developerSettingsLinksScreen_pathTextField_label" translatable="false">Path</string>
+    <string name="feature_settings_developerSettingsLinksScreen_pathTextField_prefix" translatable="false">counters.rahmouni.dev/</string>
+    <string name="feature_settings_developerSettingsLinksScreen_redirectUrlTextField_label" translatable="false">Redirect URL</string>
+    <string name="feature_settings_developerSettingsLinksScreen_descriptionTextField_label" translatable="false">Description</string>
+    <string name="feature_settings_developerSettingsLinksScreen_deleteButton_icon_contentDescription" translatable="false">Delete forever</string>
+    <string name="feature_settings_developerSettingsLinksScreen_confirmButton_text" translatable="false">Confirm</string>
 </resources>

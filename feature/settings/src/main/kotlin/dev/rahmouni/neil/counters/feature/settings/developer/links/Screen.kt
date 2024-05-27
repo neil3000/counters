@@ -137,16 +137,14 @@ internal fun DeveloperSettingsLinksScreen(
                 sheetState = bottomSheetState,
             ) {
                 Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = spacedBy(8.dp)) {
-                    // TODO i18n
-
                     // pathTextField
                     TextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = currentPath,
                         onValueChange = { currentPath = it },
-                        label = { Text("Path") },
+                        label = { Text(stringResource(R.string.feature_settings_developerSettingsLinksScreen_pathTextField_label)) },
                         singleLine = true,
-                        prefix = { Text("counters.rahmouni.dev/") },
+                        prefix = { Text(stringResource(R.string.feature_settings_developerSettingsLinksScreen_pathTextField_prefix)) },
                         enabled = !editing,
                     )
 
@@ -155,7 +153,7 @@ internal fun DeveloperSettingsLinksScreen(
                         modifier = Modifier.fillMaxWidth(),
                         value = currentRedirectUrl,
                         onValueChange = { currentRedirectUrl = it },
-                        label = { Text("Redirect URL") },
+                        label = { Text(stringResource(R.string.feature_settings_developerSettingsLinksScreen_redirectUrlTextField_label)) },
                         singleLine = true,
                     )
 
@@ -164,7 +162,7 @@ internal fun DeveloperSettingsLinksScreen(
                         modifier = Modifier.fillMaxWidth(),
                         value = currentDescription,
                         onValueChange = { currentDescription = it },
-                        label = { Text("Description") },
+                        label = { Text(stringResource(R.string.feature_settings_developerSettingsLinksScreen_descriptionTextField_label)) },
                         singleLine = true,
                     )
 
@@ -185,7 +183,10 @@ internal fun DeveloperSettingsLinksScreen(
                                     contentColor = MaterialTheme.colorScheme.onErrorContainer,
                                 ),
                             ) {
-                                Icon(Icons.Outlined.DeleteForever, "Delete forever")
+                                Icon(
+                                    Icons.Outlined.DeleteForever,
+                                    stringResource(R.string.feature_settings_developerSettingsLinksScreen_deleteButton_icon_contentDescription),
+                                )
                             }
                         }
 
@@ -203,7 +204,7 @@ internal fun DeveloperSettingsLinksScreen(
                             },
                             Modifier.fillMaxWidth(),
                         ) {
-                            Text("Confirm")
+                            Text(stringResource(R.string.feature_settings_developerSettingsLinksScreen_confirmButton_text))
                         }
                     }
                 }
