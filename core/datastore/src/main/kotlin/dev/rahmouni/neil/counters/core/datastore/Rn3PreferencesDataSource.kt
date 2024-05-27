@@ -26,14 +26,14 @@ import javax.inject.Inject
 class Rn3PreferencesDataSource @Inject constructor(
     private val userPreferences: DataStore<UserPreferences>,
 ) {
-    val userData = userPreferences.data.map {
+    val userData = userPreferences.data.map { userPref ->
         UserData(
-            hasAccessibilityEmphasizedSwitchesEnabled = it.accessibilityHasEmphasizedSwitchesEnabled,
-            hasAccessibilityIconTooltipsEnabled = !it.accessibilityHasIconTooltipsDisabled,
-            hasMetricsEnabled = !it.hasMetricsDisabled,
-            hasCrashlyticsEnabled = !it.hasCrashlyticsDisabled,
-            hasSyncEnabled = it.hasSyncEnabled,
-            lastUserUid = it.lastUserUid,
+            hasAccessibilityEmphasizedSwitchesEnabled = userPref.accessibilityHasEmphasizedSwitchesEnabled,
+            hasAccessibilityIconTooltipsEnabled = !userPref.accessibilityHasIconTooltipsDisabled,
+            hasMetricsEnabled = !userPref.hasMetricsDisabled,
+            hasCrashlyticsEnabled = !userPref.hasCrashlyticsDisabled,
+            hasSyncEnabled = userPref.hasSyncEnabled,
+            lastUserUid = userPref.lastUserUid.takeIf { it.isNotEmpty() },
         )
     }
 

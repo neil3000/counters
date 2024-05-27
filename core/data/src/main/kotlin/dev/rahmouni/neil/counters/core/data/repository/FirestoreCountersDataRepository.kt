@@ -54,7 +54,7 @@ class FirestoreCountersDataRepository @Inject constructor(
                     .add(
                         with(CounterDataFields) {
                             hashMapOf(
-                                this.ownerUserUid to userData.lastUserUid.toString(),
+                                this.ownerUserUid to userData.lastUserUid,
                                 this.title to title,
                                 this.createdAt to Timestamp.now(),
                                 this.currentValue to 0,
