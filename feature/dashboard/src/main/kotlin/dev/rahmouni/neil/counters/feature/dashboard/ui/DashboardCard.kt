@@ -75,7 +75,7 @@ fun CounterData.DashboardCard(modifier: Modifier = Modifier, onIncrement: (Strin
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                AnimatedNumber(currentValue = currentValue) {targetValue ->
+                AnimatedNumber(currentValue = currentValue) { targetValue ->
                     Text(
                         targetValue.toString(),
                         Modifier.padding(start = 8.dp),

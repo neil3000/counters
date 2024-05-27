@@ -18,7 +18,6 @@ package dev.rahmouni.neil.counters.feature.settings.developer.main
 
 import android.app.Activity
 import android.text.format.DateUtils
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.PaddingValues
@@ -37,13 +36,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.google.firebase.FirebaseApp
-import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dev.rahmouni.neil.counters.core.common.copyText
-import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlData
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold

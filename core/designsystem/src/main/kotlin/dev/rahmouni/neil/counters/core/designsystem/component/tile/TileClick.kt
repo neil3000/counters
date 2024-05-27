@@ -71,7 +71,9 @@ fun Rn3TileClick(
                     interactionSource = { interactionSource },
                 )
             }
-        } else null,
+        } else {
+            null
+        },
         enabled = enabled,
         error = error,
         onClick = onClick,

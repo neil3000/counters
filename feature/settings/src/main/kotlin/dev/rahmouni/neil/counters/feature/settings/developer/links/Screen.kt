@@ -137,7 +137,7 @@ internal fun DeveloperSettingsLinksScreen(
                 sheetState = bottomSheetState,
             ) {
                 Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = spacedBy(8.dp)) {
-                    //TODO i18n
+                    // TODO i18n
 
                     // pathTextField
                     TextField(
@@ -171,7 +171,6 @@ internal fun DeveloperSettingsLinksScreen(
                     Spacer(Modifier)
 
                     Row(horizontalArrangement = spacedBy(8.dp)) {
-
                         // deleteButton
                         if (editing) {
                             Button(
