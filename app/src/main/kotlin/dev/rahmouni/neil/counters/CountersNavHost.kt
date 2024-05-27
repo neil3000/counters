@@ -30,7 +30,7 @@ import dev.rahmouni.neil.counters.feature.dashboard.bottomSheet.navigateToAddCou
 import dev.rahmouni.neil.counters.feature.dashboard.dashboardScreen
 import dev.rahmouni.neil.counters.feature.settings.accessibility.accessibilitySettingsScreen
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.dataAndPrivacySettingsScreen
-import dev.rahmouni.neil.counters.feature.settings.developer.developerSettingsScreen
+import dev.rahmouni.neil.counters.feature.settings.developer.developerSettingsNavigation
 import dev.rahmouni.neil.counters.feature.settings.main.navigateToSettings
 import dev.rahmouni.neil.counters.feature.settings.main.settingsScreen
 import dev.rahmouni.neil.counters.ui.CountersAppState
@@ -52,9 +52,13 @@ fun CountersNavHost(
         ) {
             aboutMeScreen(navController)
             accessibilitySettingsScreen(navController)
-            dashboardScreen(navController, navController::navigateToSettings, navController::navigateToAddCounter)
+            dashboardScreen(
+                navController,
+                navController::navigateToSettings,
+                navController::navigateToAddCounter,
+            )
             dataAndPrivacySettingsScreen(navController)
-            developerSettingsScreen(navController)
+            developerSettingsNavigation(navController)
             feedbackDialog(navController)
             addCounterDialog(navController)
             settingsScreen(navController, navController::navigateToAboutMe)

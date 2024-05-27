@@ -17,14 +17,6 @@
 package dev.rahmouni.neil.counters.feature.dashboard.ui
 
 import android.widget.Toast
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.data.model.CounterData
+import dev.rahmouni.neil.counters.core.designsystem.AnimatedNumber
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 
@@ -82,29 +75,7 @@ fun CounterData.DashboardCard(modifier: Modifier = Modifier, onIncrement: (Strin
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                AnimatedContent(
-                    targetState = currentValue,
-                    transitionSpec = {
-                        if (targetState > initialState) {
-                            (
-                                slideInVertically { height -> (height / 1.8f).toInt() } +
-                                    fadeIn(tween(250))
-                                ).togetherWith(
-                                slideOutVertically { height -> -(height / 1.8f).toInt() } +
-                                    fadeOut(tween(250)),
-                            )
-                        } else {
-                            (
-                                slideInVertically { height -> -(height / 1.8f).toInt() } +
-                                    fadeIn(tween(250))
-                                ).togetherWith(
-                                slideOutVertically { height -> (height / 1.8f).toInt() } +
-                                    fadeOut(tween(250)),
-                            )
-                        }.using(SizeTransform(clip = false))
-                    },
-                    label = "value count animation",
-                ) { targetValue ->
+                AnimatedNumber(currentValue = currentValue) {targetValue ->
                     Text(
                         targetValue.toString(),
                         Modifier.padding(start = 8.dp),

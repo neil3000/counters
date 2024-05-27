@@ -18,20 +18,16 @@ package dev.rahmouni.neil.counters.feature.settings.developer
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
-import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
+import dev.rahmouni.neil.counters.feature.settings.developer.links.developerSettingsLinksScreen
+import dev.rahmouni.neil.counters.feature.settings.developer.main.DEVELOPER_SETTINGS_MAIN_ROUTE
+import dev.rahmouni.neil.counters.feature.settings.developer.main.developerSettingsMainScreen
 
-const val DEVELOPER_SETTINGS_ROUTE = "settings/developer"
+const val DEVELOPER_SETTINGS_ROUTE = "developer"
 
-fun NavController.navigateToDeveloperSettings(navOptions: NavOptions? = null) = navigate(
-    DEVELOPER_SETTINGS_ROUTE,
-    navOptions,
-)
-
-fun NavGraphBuilder.developerSettingsScreen(navController: NavController) {
-    composable(route = DEVELOPER_SETTINGS_ROUTE) {
-        DeveloperSettingsRoute(
-            navController = navController,
-        )
+fun NavGraphBuilder.developerSettingsNavigation(navController: NavController) {
+    navigation(startDestination = DEVELOPER_SETTINGS_MAIN_ROUTE, route = DEVELOPER_SETTINGS_ROUTE) {
+        developerSettingsMainScreen(navController)
+        developerSettingsLinksScreen(navController)
     }
 }

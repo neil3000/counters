@@ -89,7 +89,7 @@ import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.accessibility.navigateToAccessibilitySettings
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.navigateToDataAndPrivacySettings
-import dev.rahmouni.neil.counters.feature.settings.developer.navigateToDeveloperSettings
+import dev.rahmouni.neil.counters.feature.settings.developer.main.navigateToDeveloperSettingsMain
 import dev.rahmouni.neil.counters.feature.settings.logChangelogTileClicked
 import dev.rahmouni.neil.counters.feature.settings.logDiscordTileClicked
 import dev.rahmouni.neil.counters.feature.settings.logOssLicensesTileClicked
@@ -147,7 +147,7 @@ internal fun SettingsRoute(
             .toRn3Uri(analytics::logDiscordTileClicked),
         onClickContributeTile = { TODO() },
         onClickAboutMeTile = navigateToAboutMe,
-        onClickDeveloperSettingsTile = navController::navigateToDeveloperSettings,
+        onClickDeveloperSettingsTile = navController::navigateToDeveloperSettingsMain,
         onClickOssLicensesTile = {
             context.openOssLicensesActivity()
             analytics.logOssLicensesTileClicked()

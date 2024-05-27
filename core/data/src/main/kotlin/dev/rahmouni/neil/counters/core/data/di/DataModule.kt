@@ -22,6 +22,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.rahmouni.neil.counters.core.data.repository.CountersDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.FirestoreCountersDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.FirestoreLinksRn3UrlDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.LinksRn3UrlDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.OfflineFirstUserDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 
@@ -38,4 +40,9 @@ abstract class DataModule {
     internal abstract fun bindsCounterDataRepository(
         countersDataRepository: FirestoreCountersDataRepository,
     ): CountersDataRepository
+
+    @Binds
+    internal abstract fun bindsLinksRn3UrlDataRepository(
+        linksRn3UrlDataRepository: FirestoreLinksRn3UrlDataRepository,
+    ): LinksRn3UrlDataRepository
 }

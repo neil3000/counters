@@ -21,26 +21,19 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 
 @Keep
-data class CounterData(
-    @DocumentId val uid: String = "",
-    val ownerUserUid: String = "",
-    val title: String = "Error",
-    val currentValue: Long = 0,
-    val currentValueComputedSegment: Timestamp = Timestamp(0, 0),
-    val createdAt: Timestamp = Timestamp.now(),
+data class LinkRn3UrlData(
+    @DocumentId val path: String = "",
+    val description: String = "",
+    val redirectUrl: String = "",
+    val clicks: Long = 0
 )
 
 @Suppress("ConstPropertyName", "ktlint:standard:property-naming", "unused")
-object CounterDataFields {
+object LinkRn3UrlDataFields {
+    const val path: String = "path"
     const val ownerUserUid = "ownerUserUid"
     const val title = "title"
     const val createdAt = "createdAt"
     const val currentValue = "currentValue"
     const val currentValueComputedSegment = "currentValueComputedSegment"
-}
-
-@Suppress("ConstPropertyName", "ktlint:standard:property-naming", "unused")
-object IncrementDataFields {
-    const val value = "value"
-    const val createdAt = "createdAt"
 }

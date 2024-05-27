@@ -52,10 +52,42 @@ fun Rn3TileClick(
     error: Boolean = false,
     onClick: () -> Unit,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+
+    Rn3TileClick(
+        modifier = modifier,
+        title = title,
+        icon = icon,
+        supportingText = supportingText,
+        trailingContent = if (external) {
+            {
+                Rn3TriggerReverseAnimatedIcon(
+                    icon = Outlined.OpenInNewAnimated,
+                    null,
+                    interactionSource = { interactionSource },
+                )
+            }
+        } else null,
+        enabled = enabled,
+        error = error,
+        onClick = onClick,
+    )
+}
+
+@Composable
+fun Rn3TileClick(
+    modifier: Modifier = Modifier,
+    title: String,
+    icon: ImageVector,
+    supportingText: String? = null,
+    trailingContent: @Composable (() -> Unit)? = null,
+    enabled: Boolean = true,
+    error: Boolean = false,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    onClick: () -> Unit,
+) {
     val haptic = getHaptic()
     val indication = LocalIndication.current
-
-    val interactionSource = remember { MutableInteractionSource() }
 
     val colors = if (error) {
         ListItemDefaults.colors(
@@ -93,17 +125,7 @@ fun Rn3TileClick(
         leadingContent = {
             Icon(imageVector = icon, contentDescription = null)
         },
-        trailingContent = if (external) {
-            {
-                Rn3TriggerReverseAnimatedIcon(
-                    icon = Outlined.OpenInNewAnimated,
-                    null,
-                    interactionSource = { interactionSource },
-                )
-            }
-        } else {
-            null
-        },
+        trailingContent = trailingContent,
     )
 }
 
