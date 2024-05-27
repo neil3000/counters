@@ -17,7 +17,6 @@
 package dev.rahmouni.neil.counters.core.data.model
 
 import androidx.annotation.Keep
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 
 @Keep
@@ -25,15 +24,13 @@ data class LinkRn3UrlData(
     @DocumentId val path: String = "",
     val description: String = "",
     val redirectUrl: String = "",
-    val clicks: Long = 0
+    val clicks: Long = 0,
 )
 
 @Suppress("ConstPropertyName", "ktlint:standard:property-naming", "unused")
 object LinkRn3UrlDataFields {
     const val path: String = "path"
-    const val ownerUserUid = "ownerUserUid"
-    const val title = "title"
-    const val createdAt = "createdAt"
-    const val currentValue = "currentValue"
-    const val currentValueComputedSegment = "currentValueComputedSegment"
+    const val description = "description"
+    const val redirectUrl = "redirectUrl"
+    const val clicks = "clicks"
 }

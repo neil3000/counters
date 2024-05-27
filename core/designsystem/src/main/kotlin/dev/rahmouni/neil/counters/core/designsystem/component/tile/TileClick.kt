@@ -58,7 +58,11 @@ fun Rn3TileClick(
         modifier = modifier,
         title = title,
         icon = icon,
-        supportingText = supportingText,
+        supportingContent = if (supportingText != null) {
+            { Text(text = supportingText) }
+        } else {
+            null
+        },
         trailingContent = if (external) {
             {
                 Rn3TriggerReverseAnimatedIcon(
@@ -79,7 +83,7 @@ fun Rn3TileClick(
     modifier: Modifier = Modifier,
     title: String,
     icon: ImageVector,
-    supportingText: String? = null,
+    supportingContent: @Composable (() -> Unit)? = null,
     trailingContent: @Composable (() -> Unit)? = null,
     enabled: Boolean = true,
     error: Boolean = false,
@@ -103,7 +107,7 @@ fun Rn3TileClick(
     ListItem(
         headlineContent = { Text(text = title) },
         colors = colors,
-        modifier = modifier
+        modifier = Modifier
             .hoverable(interactionSource = interactionSource, enabled = enabled)
             .focusable(interactionSource = interactionSource, enabled = enabled)
             .clickable(
@@ -116,12 +120,9 @@ fun Rn3TileClick(
                     onClick()
                 }
             }
-            .alpha(if (enabled) 1f else .5f),
-        supportingContent = if (supportingText != null) {
-            { Text(text = supportingText) }
-        } else {
-            null
-        },
+            .alpha(if (enabled) 1f else .5f)
+            .then(modifier),
+        supportingContent = supportingContent,
         leadingContent = {
             Icon(imageVector = icon, contentDescription = null)
         },

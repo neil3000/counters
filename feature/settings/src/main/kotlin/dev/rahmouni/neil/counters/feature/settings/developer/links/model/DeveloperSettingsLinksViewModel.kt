@@ -30,7 +30,7 @@ import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class DeveloperSettingsLinksViewModel @Inject constructor(
-    linksRn3UrlDataRepository: LinksRn3UrlDataRepository,
+    private val linksRn3UrlDataRepository: LinksRn3UrlDataRepository,
 ) : ViewModel() {
 
     val uiState: StateFlow<DeveloperSettingsLinksUiState> =
@@ -49,4 +49,9 @@ class DeveloperSettingsLinksViewModel @Inject constructor(
             ),
             started = WhileSubscribed(5.seconds.inWholeMilliseconds),
         )
+
+    fun setLink(path: String, redirectUrl: String, description: String) =
+        linksRn3UrlDataRepository.setLink(path, redirectUrl, description)
+
+    fun deleteLink(path: String) = linksRn3UrlDataRepository.deleteLink(path)
 }

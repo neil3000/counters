@@ -16,10 +16,12 @@
 
 package dev.rahmouni.neil.counters.core.data.repository
 
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlData
+import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlDataFields
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -28,4 +30,26 @@ class FirestoreLinksRn3UrlDataRepository @Inject constructor() : LinksRn3UrlData
     override val links: Flow<List<LinkRn3UrlData>> = Firebase.firestore
         .collection("links")
         .dataObjects<LinkRn3UrlData>()
+
+    override fun setLink(path: String, redirectUrl: String, description: String) {
+        Firebase.firestore
+            .collection("links")
+            .document(path)
+            .set(
+                with(LinkRn3UrlDataFields) {
+                    hashMapOf(
+                        this.redirectUrl to redirectUrl,
+                        this.description to description.takeIf { it.isNotBlank() },
+                    ).filterValues { it != null }
+                },
+                SetOptions.merge(),
+            )
+    }
+
+    override fun deleteLink(path: String) {
+        Firebase.firestore
+            .collection("links")
+            .document(path)
+            .delete()
+    }
 }

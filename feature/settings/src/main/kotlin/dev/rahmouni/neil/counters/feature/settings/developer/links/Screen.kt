@@ -16,39 +16,51 @@
 
 package dev.rahmouni.neil.counters.feature.settings.developer.links
 
-import android.widget.Toast
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement.spacedBy
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Link
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.DeleteForever
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import dev.rahmouni.neil.counters.core.designsystem.AnimatedNumber
+import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlData
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
+import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.feature.settings.R
 import dev.rahmouni.neil.counters.feature.settings.developer.links.model.DeveloperSettingsLinksUiState
 import dev.rahmouni.neil.counters.feature.settings.developer.links.model.DeveloperSettingsLinksViewModel
 import dev.rahmouni.neil.counters.feature.settings.developer.links.model.data.DeveloperSettingsLinksData
 import dev.rahmouni.neil.counters.feature.settings.developer.links.model.data.PreviewParameterData
+import dev.rahmouni.neil.counters.feature.settings.developer.links.ui.Tile
 
 @Composable
 internal fun DeveloperSettingsLinksRoute(
@@ -62,22 +74,142 @@ internal fun DeveloperSettingsLinksRoute(
         modifier,
         uiState,
         onBackIconButtonClicked = navController::popBackStack,
+        onConfirmButtonClicked = viewModel::setLink,
+        onDeleteButtonClicked = viewModel::deleteLink,
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 @Composable
 internal fun DeveloperSettingsLinksScreen(
     modifier: Modifier = Modifier,
     uiState: DeveloperSettingsLinksUiState,
     onBackIconButtonClicked: () -> Unit = {},
+    onConfirmButtonClicked: (String, String, String) -> Unit = { _, _, _ -> },
+    onDeleteButtonClicked: (String) -> Unit = { _ -> },
 ) {
+    val haptics = getHaptic()
+
+    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    var editing by rememberSaveable { mutableStateOf(false) }
+    var currentPath by rememberSaveable { mutableStateOf("") }
+    var currentRedirectUrl by rememberSaveable { mutableStateOf("") }
+    var currentDescription by rememberSaveable { mutableStateOf("") }
+
     Rn3Scaffold(
         modifier,
         stringResource(R.string.feature_settings_developerSettingsLinksScreen_topAppBarTitle),
         onBackIconButtonClicked,
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    haptics.click()
+
+                    editing = false
+                    currentPath = ""
+                    currentRedirectUrl = ""
+                    currentDescription = ""
+
+                    openBottomSheet = true
+                },
+            ) {
+                Icon(Icons.Outlined.Add, contentDescription = null)
+            }
+        },
     ) {
-        DeveloperSettingsLinksPanel(it, uiState.developerSettingsLinksData)
+        DeveloperSettingsLinksPanel(it, uiState.developerSettingsLinksData) { link ->
+            with(link) {
+                editing = true
+                currentPath = path
+                currentRedirectUrl = redirectUrl
+                currentDescription = description
+
+                openBottomSheet = true
+            }
+        }
+
+        if (openBottomSheet) {
+            ModalBottomSheet(
+                onDismissRequest = { openBottomSheet = false },
+                sheetState = bottomSheetState,
+            ) {
+                Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = spacedBy(8.dp)) {
+                    //TODO i18n
+
+                    // pathTextField
+                    TextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = currentPath,
+                        onValueChange = { currentPath = it },
+                        label = { Text("Path") },
+                        singleLine = true,
+                        prefix = { Text("counters.rahmouni.dev/") },
+                        enabled = !editing,
+                    )
+
+                    // redirectUrlTextField
+                    TextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = currentRedirectUrl,
+                        onValueChange = { currentRedirectUrl = it },
+                        label = { Text("Redirect URL") },
+                        singleLine = true,
+                    )
+
+                    // descriptionTextField
+                    TextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = currentDescription,
+                        onValueChange = { currentDescription = it },
+                        label = { Text("Description") },
+                        singleLine = true,
+                    )
+
+                    Spacer(Modifier)
+
+                    Row(horizontalArrangement = spacedBy(8.dp)) {
+
+                        // deleteButton
+                        if (editing) {
+                            Button(
+                                onClick = {
+                                    haptics.click()
+                                    openBottomSheet = false
+
+                                    onDeleteButtonClicked(currentPath)
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                                ),
+                            ) {
+                                Icon(Icons.Outlined.DeleteForever, "Delete forever")
+                            }
+                        }
+
+                        // confirmButton
+                        Button(
+                            onClick = {
+                                haptics.click()
+                                openBottomSheet = false
+
+                                onConfirmButtonClicked(
+                                    currentPath,
+                                    currentRedirectUrl,
+                                    currentDescription,
+                                )
+                            },
+                            Modifier.fillMaxWidth(),
+                        ) {
+                            Text("Confirm")
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -85,33 +217,12 @@ internal fun DeveloperSettingsLinksScreen(
 private fun DeveloperSettingsLinksPanel(
     contentPadding: PaddingValues,
     data: DeveloperSettingsLinksData,
+    onLongPressLink: (LinkRn3UrlData) -> Unit,
 ) {
-    val context = LocalContext.current
-
     LazyColumn(contentPadding = contentPadding) {
-        items(data.links) { link ->
-            Rn3TileClick(
-                title = link.path,
-                icon = Icons.Outlined.Link,
-                supportingText = "${if (link.description.isNotEmpty()) link.description + "\n" else ""}${link.redirectUrl}",
-                trailingContent = {
-                    Surface(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        shape = RoundedCornerShape(8.dp),
-                    ) {
-                        AnimatedNumber(currentValue = link.clicks) { targetValue ->
-                            Box(Modifier.sizeIn(36.dp, 36.dp)) {
-                                Text(
-                                    text = targetValue.toString(),
-                                    style = MaterialTheme.typography.titleMedium,
-                                    modifier = Modifier.align(Alignment.Center),
-                                )
-                            }
-                        }
-                    }
-                },
-            ) {
-                Toast.makeText(context, link.redirectUrl, Toast.LENGTH_SHORT).show()
+        items(data.links) {
+            it.Tile {
+                onLongPressLink(it)
             }
         }
     }

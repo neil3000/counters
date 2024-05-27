@@ -22,4 +22,6 @@ import kotlinx.coroutines.flow.Flow
 interface LinksRn3UrlDataRepository {
 
     val links: Flow<List<LinkRn3UrlData>>
+    fun setLink(path: String, redirectUrl: String, description: String)
+    fun deleteLink(path: String)
 }
