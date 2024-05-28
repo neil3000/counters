@@ -25,7 +25,7 @@ import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterD
  * This [PreviewParameterProvider](https://developer.android.com/reference/kotlin/androidx/compose/ui/tooling/preview/PreviewParameterProvider)
  * provides list of [DashboardData] for Composable previews.
  */
-class DataAndPrivacySettingsDataPreviewParameterProvider :
+class DashboardDataPreviewParameterProvider :
     PreviewParameterProvider<DashboardData> {
     override val values: Sequence<DashboardData> =
         sequenceOf(dashboardData_default).plus(dashboardData_mutations)
@@ -34,8 +34,8 @@ class DataAndPrivacySettingsDataPreviewParameterProvider :
 object PreviewParameterData {
     val dashboardData_default = DashboardData(
         counters = listOf(
-            CounterData("id1", "Push-ups"),
-            CounterData("id2", "Coffee cups"),
+            CounterData(uid = "id1", title = "Push-ups", currentValue = 30),
+            CounterData(uid = "id2", title = "Coffee cups", currentValue = 2),
         ),
     )
     val dashboardData_mutations = dashboardData_default.let {

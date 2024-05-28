@@ -38,12 +38,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
@@ -54,6 +56,7 @@ import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.dashboard.model.DashboardUiState
 import dev.rahmouni.neil.counters.feature.dashboard.model.DashboardViewModel
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.DashboardData
+import dev.rahmouni.neil.counters.feature.dashboard.model.data.DashboardDataPreviewParameterProvider
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData
 import dev.rahmouni.neil.counters.feature.dashboard.ui.DashboardCard
 
@@ -147,10 +150,10 @@ private fun DashboardPanel(
 
 operator fun PaddingValues.plus(other: PaddingValues): PaddingValues = PaddingValues(
     start = this.calculateStartPadding(LayoutDirection.Ltr) +
-        other.calculateStartPadding(LayoutDirection.Ltr),
+            other.calculateStartPadding(LayoutDirection.Ltr),
     top = this.calculateTopPadding() + other.calculateTopPadding(),
     end = this.calculateEndPadding(LayoutDirection.Ltr) +
-        other.calculateEndPadding(LayoutDirection.Ltr),
+            other.calculateEndPadding(LayoutDirection.Ltr),
     bottom = this.calculateBottomPadding() + other.calculateBottomPadding(),
 )
 
@@ -163,5 +166,16 @@ private fun Default() {
                 dashboardData = PreviewParameterData.dashboardData_default,
             ),
         )
+    }
+}
+
+@Rn3PreviewUiStates
+@Composable
+private fun UiStates(
+    @PreviewParameter(DashboardDataPreviewParameterProvider::class)
+    dashboardData: DashboardData,
+) {
+    Rn3Theme {
+        DashboardScreen(uiState = DashboardUiState(dashboardData))
     }
 }
