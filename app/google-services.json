@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "743616795299-g77spojmlctgadjvalp4ebg1f2h9dqbl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rahmouni.neil.counters",
+            "certificate_hash": "b0a7ffe9c5b94e486cff7c5c6d5b4dc56e6b4944"
+          }
+        },
+        {
           "client_id": "743616795299-b7pstjgcvnq3sm77ia43vm66okovpejq.apps.googleusercontent.com",
           "client_type": 3
         }
