@@ -48,7 +48,13 @@ internal class FirebaseAuthHelper @Inject constructor(
     private val userDataRepository: UserDataRepository,
 ) : AuthHelper {
 
-    var claims: Map<String, Any>? = null
+    private var claims: Map<String, Any>? = null
+
+    init {
+        firebaseAuth.addAuthStateListener {
+            claims = it.currentUser?.getIdToken(false)?.result?.claims
+        }
+    }
 
     override suspend fun signInWithCredentialManager(
         context: Context,
@@ -84,14 +90,7 @@ internal class FirebaseAuthHelper @Inject constructor(
             ).await()
 
             if (task.user != null) {
-                with(task.user!!) {
-                    userDataRepository.setLastUserUid(uid)
-                    getIdToken(false).addOnSuccessListener {
-                        if (it != null) {
-                            claims = it.claims
-                        }
-                    }
-                }
+                userDataRepository.setLastUserUid(task.user!!.uid)
             }
         } catch (e: Exception) {
             when (e) {
@@ -123,7 +122,6 @@ internal class FirebaseAuthHelper @Inject constructor(
 
     override suspend fun signOut(context: Context) {
         firebaseAuth.signOut()
-        claims = null
         CredentialManager.create(context).clearCredentialState(ClearCredentialStateRequest())
     }
 
