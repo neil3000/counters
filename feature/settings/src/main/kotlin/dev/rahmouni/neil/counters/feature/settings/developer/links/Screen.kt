@@ -56,6 +56,8 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.feature.settings.R
+import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.DataAndPrivacySettingsScreen
+import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState
 import dev.rahmouni.neil.counters.feature.settings.developer.links.model.DeveloperSettingsLinksUiState
 import dev.rahmouni.neil.counters.feature.settings.developer.links.model.DeveloperSettingsLinksViewModel
 import dev.rahmouni.neil.counters.feature.settings.developer.links.model.data.DeveloperSettingsLinksData
@@ -232,6 +234,8 @@ private fun DeveloperSettingsLinksPanel(
 @Composable
 private fun Default() {
     Rn3Theme {
-        DeveloperSettingsLinksScreen(uiState = DeveloperSettingsLinksUiState(PreviewParameterData.linksData_default))
+        DeveloperSettingsLinksScreen(
+            uiState = DeveloperSettingsLinksUiState(PreviewParameterData.linksData_default),
+        )
     }
 }

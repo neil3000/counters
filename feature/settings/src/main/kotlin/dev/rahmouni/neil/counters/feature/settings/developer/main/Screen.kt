@@ -39,7 +39,13 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig.LAST_FETCH_STATUS_FAILURE
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig.LAST_FETCH_STATUS_NO_FETCH_YET
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig.LAST_FETCH_STATUS_SUCCESS
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig.LAST_FETCH_STATUS_THROTTLED
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig.VALUE_SOURCE_DEFAULT
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig.VALUE_SOURCE_REMOTE
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig.getInstance
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
 import dev.rahmouni.neil.counters.core.common.copyText
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
@@ -149,7 +155,7 @@ private fun DeveloperSettingsPanel(
             .map {
                 Triple(
                     it.name,
-                    FirebaseRemoteConfig.getInstance(it),
+                    getInstance(it),
                     FirebaseInstallations.getInstance(it).id,
                 )
             }
@@ -179,7 +185,7 @@ private fun DeveloperSettingsPanel(
                         title = stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_title),
                         icon = Icons.Outlined.DataArray,
                         supportingText = when (remoteConfig.info.lastFetchStatus) {
-                            FirebaseRemoteConfig.LAST_FETCH_STATUS_SUCCESS ->
+                            LAST_FETCH_STATUS_SUCCESS ->
                                 stringResource(
                                     R.string.feature_settings_developerSettingsScreen_rcStatusTile_success,
                                     DateUtils.getRelativeTimeSpanString(
@@ -187,9 +193,9 @@ private fun DeveloperSettingsPanel(
                                     ),
                                 )
 
-                            FirebaseRemoteConfig.LAST_FETCH_STATUS_FAILURE -> stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_failure)
-                            FirebaseRemoteConfig.LAST_FETCH_STATUS_THROTTLED -> stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_throttled)
-                            FirebaseRemoteConfig.LAST_FETCH_STATUS_NO_FETCH_YET -> stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_noFetchYet)
+                            LAST_FETCH_STATUS_FAILURE -> stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_failure)
+                            LAST_FETCH_STATUS_THROTTLED -> stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_throttled)
+                            LAST_FETCH_STATUS_NO_FETCH_YET -> stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_noFetchYet)
                             else -> "RahNeil_N3:Error:NMdUsSOSmdgHuvcFuFr6WjorE25ZszWZ"
                         },
                     ) {}
@@ -197,8 +203,8 @@ private fun DeveloperSettingsPanel(
 
                 remoteConfig.all.entries.forEach { (key, value) ->
                     val icon = when (value.source) {
-                        FirebaseRemoteConfig.VALUE_SOURCE_REMOTE -> Icons.Outlined.CloudDone
-                        FirebaseRemoteConfig.VALUE_SOURCE_DEFAULT -> Icons.AutoMirrored.Outlined.InsertDriveFile
+                        VALUE_SOURCE_REMOTE -> Icons.Outlined.CloudDone
+                        VALUE_SOURCE_DEFAULT -> Icons.AutoMirrored.Outlined.InsertDriveFile
                         else -> Icons.Outlined.QuestionMark
                     }
 

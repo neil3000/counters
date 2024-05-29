@@ -38,6 +38,12 @@ object PreviewParameterData {
                 redirectUrl = "https://www.google.com",
                 clicks = 120,
             ),
+            LinkRn3UrlData(
+                path = "changelog",
+                description = "Changelog of the app",
+                redirectUrl = "https://www.google.com",
+                clicks = 28,
+            ),
         ),
     )
 }

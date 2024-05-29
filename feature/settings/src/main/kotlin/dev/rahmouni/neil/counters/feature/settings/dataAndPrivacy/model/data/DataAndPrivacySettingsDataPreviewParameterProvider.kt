@@ -30,15 +30,15 @@ class DataAndPrivacySettingsDataPreviewParameterProvider :
         sequenceOf(dataAndPrivacySettingsData_default).plus(dataAndPrivacySettingsData_mutations)
 }
 
-object PreviewParameterData {
+internal object PreviewParameterData {
     val dataAndPrivacySettingsData_default = DataAndPrivacySettingsData(
         hasMetricsEnabled = true,
         hasCrashlyticsEnabled = true,
     )
-    val dataAndPrivacySettingsData_mutations = dataAndPrivacySettingsData_default.let {
+    val dataAndPrivacySettingsData_mutations = with(dataAndPrivacySettingsData_default) {
         sequenceOf(
-            it.copy(hasMetricsEnabled = false),
-            it.copy(hasCrashlyticsEnabled = false),
+            copy(hasMetricsEnabled = false),
+            copy(hasCrashlyticsEnabled = false),
         )
     }
 }

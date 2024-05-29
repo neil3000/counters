@@ -67,7 +67,7 @@ import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndP
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsViewModel
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.DataAndPrivacySettingsData
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.DataAndPrivacySettingsDataPreviewParameterProvider
-import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.PreviewParameterData.dataAndPrivacySettingsData_default
+import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.PreviewParameterData
 import dev.rahmouni.neil.counters.feature.settings.logAndroidAccessibilityTileClicked
 
 @Composable
@@ -240,7 +240,7 @@ private fun DataAndPrivacySettingsPanel(
 private fun Default() {
     Rn3Theme {
         DataAndPrivacySettingsScreen(
-            uiState = Success(dataAndPrivacySettingsData = dataAndPrivacySettingsData_default),
+            uiState = Success(PreviewParameterData.dataAndPrivacySettingsData_default),
         )
     }
 }
@@ -253,7 +253,7 @@ private fun UiStates(
 ) {
     Rn3Theme {
         DataAndPrivacySettingsScreen(
-            uiState = Success(dataAndPrivacySettingsData = dataAndPrivacySettingsData),
+            uiState = Success(dataAndPrivacySettingsData),
         )
     }
 }

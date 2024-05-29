@@ -20,9 +20,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_default
-import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_devSettingsEnabled
-import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_loggedOut
-import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_syncEnabled
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_mutations
 
 /**
  * This [PreviewParameterProvider](https://developer.android.com/reference/kotlin/androidx/compose/ui/tooling/preview/PreviewParameterProvider)
@@ -30,12 +28,8 @@ import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParame
  */
 class SettingsDataPreviewParameterProvider :
     PreviewParameterProvider<SettingsData> {
-    override val values: Sequence<SettingsData> = sequenceOf(
-        settingsData_default,
-        settingsData_loggedOut,
-        settingsData_syncEnabled,
-        settingsData_devSettingsEnabled,
-    )
+    override val values: Sequence<SettingsData> =
+        sequenceOf(settingsData_default).plus(settingsData_mutations)
 }
 
 object PreviewParameterData {
@@ -49,16 +43,11 @@ object PreviewParameterData {
         hasSyncEnabled = false,
         devSettingsEnabled = false,
     )
-    val settingsData_loggedOut =
-        settingsData_default.copy(
-            user = LoggedOutUser,
+    val settingsData_mutations = with(settingsData_default) {
+        sequenceOf(
+            copy(user = LoggedOutUser),
+            copy(hasSyncEnabled = true),
+            copy(devSettingsEnabled = true),
         )
-    val settingsData_syncEnabled =
-        settingsData_default.copy(
-            hasSyncEnabled = true,
-        )
-    val settingsData_devSettingsEnabled =
-        settingsData_default.copy(
-            devSettingsEnabled = true,
-        )
+    }
 }

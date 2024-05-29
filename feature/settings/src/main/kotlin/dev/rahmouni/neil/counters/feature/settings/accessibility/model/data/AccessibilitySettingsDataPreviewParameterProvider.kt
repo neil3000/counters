@@ -18,8 +18,7 @@ package dev.rahmouni.neil.counters.feature.settings.accessibility.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.PreviewParameterData.accessibilitySettingsData_default
-import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.PreviewParameterData.accessibilitySettingsData_emphasizedSwitchesEnabled
-import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.PreviewParameterData.accessibilitySettingsData_iconTooltipsDisabled
+import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.PreviewParameterData.accessibilitySettingsData_mutations
 
 /**
  * This [PreviewParameterProvider](https://developer.android.com/reference/kotlin/androidx/compose/ui/tooling/preview/PreviewParameterProvider)
@@ -27,23 +26,19 @@ import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.Prev
  */
 class AccessibilitySettingsDataPreviewParameterProvider :
     PreviewParameterProvider<AccessibilitySettingsData> {
-    override val values: Sequence<AccessibilitySettingsData> = sequenceOf(
-        accessibilitySettingsData_default,
-        accessibilitySettingsData_emphasizedSwitchesEnabled,
-        accessibilitySettingsData_iconTooltipsDisabled,
-    )
+    override val values: Sequence<AccessibilitySettingsData> =
+        sequenceOf(accessibilitySettingsData_default).plus(accessibilitySettingsData_mutations)
 }
 
-object PreviewParameterData {
+internal object PreviewParameterData {
     val accessibilitySettingsData_default = AccessibilitySettingsData(
         hasEmphasizedSwitchesEnabled = false,
         hasIconTooltipsEnabled = true,
     )
-    val accessibilitySettingsData_emphasizedSwitchesEnabled =
-        accessibilitySettingsData_default.copy(
-            hasEmphasizedSwitchesEnabled = true,
+    val accessibilitySettingsData_mutations = with(accessibilitySettingsData_default) {
+        sequenceOf(
+            copy(hasEmphasizedSwitchesEnabled = true),
+            copy(hasIconTooltipsEnabled = false),
         )
-    val accessibilitySettingsData_iconTooltipsDisabled = accessibilitySettingsData_default.copy(
-        hasIconTooltipsEnabled = false,
-    )
+    }
 }

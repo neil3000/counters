@@ -57,7 +57,7 @@ import dev.rahmouni.neil.counters.feature.settings.accessibility.model.Accessibi
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.AccessibilitySettingsViewModel
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.AccessibilitySettingsData
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.AccessibilitySettingsDataPreviewParameterProvider
-import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.PreviewParameterData.accessibilitySettingsData_default
+import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.PreviewParameterData
 import dev.rahmouni.neil.counters.feature.settings.logAndroidAccessibilityTileClicked
 
 @Composable
@@ -165,7 +165,7 @@ private fun AccessibilitySettingsPanel(
 private fun Default() {
     Rn3Theme {
         AccessibilitySettingsScreen(
-            uiState = Success(accessibilitySettingsData_default),
+            uiState = Success(PreviewParameterData.accessibilitySettingsData_default),
         )
     }
 }
@@ -177,12 +177,13 @@ private fun UiStates(
     accessibilitySettingsData: AccessibilitySettingsData,
 ) {
     CompositionLocalProvider(
-        LocalAccessibilityHelper provides AccessibilityHelper(hasEmphasizedSwitchesEnabled = accessibilitySettingsData.hasEmphasizedSwitchesEnabled),
+        LocalAccessibilityHelper provides AccessibilityHelper(
+            hasEmphasizedSwitchesEnabled = accessibilitySettingsData.hasEmphasizedSwitchesEnabled,
+            hasIconTooltipsEnabled = accessibilitySettingsData.hasIconTooltipsEnabled,
+        ),
     ) {
         Rn3Theme {
-            AccessibilitySettingsScreen(
-                uiState = Success(accessibilitySettingsData = accessibilitySettingsData),
-            )
+            AccessibilitySettingsScreen(uiState = Success(accessibilitySettingsData = accessibilitySettingsData))
         }
     }
 }

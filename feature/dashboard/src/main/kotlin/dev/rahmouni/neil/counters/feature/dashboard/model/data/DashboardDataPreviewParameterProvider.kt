@@ -31,16 +31,16 @@ class DashboardDataPreviewParameterProvider :
         sequenceOf(dashboardData_default).plus(dashboardData_mutations)
 }
 
-object PreviewParameterData {
+internal object PreviewParameterData {
     val dashboardData_default = DashboardData(
         counters = listOf(
             CounterData(uid = "id1", title = "Push-ups", currentValue = 30),
             CounterData(uid = "id2", title = "Coffee cups", currentValue = 2),
         ),
     )
-    val dashboardData_mutations = dashboardData_default.let {
+    val dashboardData_mutations = with(dashboardData_default) {
         sequenceOf(
-            it.copy(counters = emptyList()),
+            copy(counters = emptyList()),
         )
     }
 }

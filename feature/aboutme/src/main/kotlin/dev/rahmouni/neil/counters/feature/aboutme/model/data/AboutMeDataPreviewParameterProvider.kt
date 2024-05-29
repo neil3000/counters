@@ -34,22 +34,18 @@ class AboutMeDataPreviewParameterProvider : PreviewParameterProvider<AboutMeData
         sequenceOf(aboutMeData_default).plus(aboutMeData_mutations)
 }
 
-object PreviewParameterData {
+internal object PreviewParameterData {
     val aboutMeData_default = AboutMeData(
         pfp = LocalImage,
         bioShort = "Hi! I'm Neïl \uD83D\uDC4B\nI'm a 22 year old software engineering student, currently living in Paris \uD83E\uDD56",
         portfolioUri = AndroidPreview,
         socialLinks = SocialLink.getListFromConfigString("[{\"id\":\"instagram\",\"url\":\"https://www.instagram.com/neil_rahmouni\",\"tooltip\":\"Instagram\"},{\"id\":\"mastodon\",\"url\":\"https://mastodon.social/@neil_rahmouni@androiddev.social\",\"tooltip\":\"Mastodon\"},{\"id\":\"discord\",\"url\":\"https://discord.gg/4Y7EdE9kRY\",\"tooltip\":\"Discord Server\"},{\"id\":\"linkedin\",\"url\":\"https://www.linkedin.com/in/neil-rahmouni\",\"tooltip\":\"Linkedin\"},{\"id\":\"gitlab\",\"url\":\"https://gitlab.com/neil3000\",\"tooltip\":\"Gitlab\"}]"),
     )
-    val aboutMeData_mutations = sequenceOf(
-        aboutMeData_default.copy(
-            portfolioUri = InMaintenance,
-        ),
-        aboutMeData_default.copy(
-            portfolioUri = Unavailable,
-        ),
-        aboutMeData_default.copy(
-            portfolioUri = SoonAvailable,
-        ),
-    )
+    val aboutMeData_mutations = with(aboutMeData_default) {
+        sequenceOf(
+            copy(portfolioUri = InMaintenance),
+            copy(portfolioUri = Unavailable),
+            copy(portfolioUri = SoonAvailable),
+        )
+    }
 }
