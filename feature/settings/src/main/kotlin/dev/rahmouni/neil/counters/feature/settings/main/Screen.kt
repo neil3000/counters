@@ -76,6 +76,7 @@ import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickConfirmationDialog
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
@@ -254,11 +255,11 @@ private fun SettingsPanel(
                         )
 
                         // accountLogoutTile
-                        Rn3TileClick(
+                        Rn3TileClickConfirmationDialog(
                             title = stringResource(string.feature_settings_settingsScreen_accountLogoutTile_title),
                             icon = Icons.AutoMirrored.Outlined.Logout,
+                            body = "Are you sure you want to sign out?\nYour counters won't be synced between devices anymore.\n\nYou can log in again at any time in the settings.",
                             onClick = onAccountTileLogoutClicked,
-                            error = true,
                         )
                     }
                 },

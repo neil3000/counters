@@ -23,6 +23,8 @@ import dagger.hilt.testing.TestInstallIn
 import dev.rahmouni.neil.counters.core.data.di.DataModule
 import dev.rahmouni.neil.counters.core.data.repository.CountersDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.FirestoreCountersDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.FirestoreLinksRn3UrlDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.LinksRn3UrlDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import dev.rahmouni.neil.counters.core.data.test.repository.FakeUserDataRepository
 
@@ -41,4 +43,9 @@ internal interface TestDataModule {
     fun bindsCountersDataRepository(
         countersDataRepository: FirestoreCountersDataRepository,
     ): CountersDataRepository
+
+    @Binds
+    fun bindsLinksRn3UrlDataRepository(
+        linksRn3UrlDataRepository: FirestoreLinksRn3UrlDataRepository,
+    ): LinksRn3UrlDataRepository
 }
