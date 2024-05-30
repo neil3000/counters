@@ -30,6 +30,7 @@ import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.QuestionMark
+import androidx.compose.material.icons.outlined.Report
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -52,6 +53,7 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickConfirmationDialog
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
@@ -60,6 +62,7 @@ import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
 import dev.rahmouni.neil.counters.feature.settings.BuildConfig
 import dev.rahmouni.neil.counters.feature.settings.R
 import dev.rahmouni.neil.counters.feature.settings.developer.links.navigateToDeveloperSettingsLinks
+import java.util.UUID
 
 @Composable
 internal fun DeveloperSettingsRoute(
@@ -70,6 +73,9 @@ internal fun DeveloperSettingsRoute(
         modifier,
         onBackIconButtonClicked = navController::popBackStack,
         onLinksRn3UrlTileClicked = navController::navigateToDeveloperSettingsLinks,
+        onSimulateCrashTileClicked = {
+            throw RuntimeException("RahNeil_N3:SimulateCrashTile:FakeCrash (${UUID.randomUUID()})")
+        },
     )
 }
 
@@ -79,6 +85,7 @@ internal fun DeveloperSettingsScreen(
     modifier: Modifier = Modifier,
     onBackIconButtonClicked: () -> Unit = {},
     onLinksRn3UrlTileClicked: () -> Unit = {},
+    onSimulateCrashTileClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
         modifier,
@@ -88,6 +95,7 @@ internal fun DeveloperSettingsScreen(
         DeveloperSettingsPanel(
             it,
             onLinksRn3UrlTileClicked,
+            onSimulateCrashTileClicked,
         )
     }
 }
@@ -96,6 +104,7 @@ internal fun DeveloperSettingsScreen(
 private fun DeveloperSettingsPanel(
     contentPadding: PaddingValues,
     onLinksRn3UrlTileClicked: () -> Unit,
+    onSimulateCrashTileClicked: () -> Unit,
 ) {
     val context = LocalContext.current
     val auth = LocalAuthHelper.current
@@ -147,6 +156,20 @@ private fun DeveloperSettingsPanel(
                     onClick = onLinksRn3UrlTileClicked,
                     enabled = isAdmin,
                     supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_linksRn3UrlTile_supportingText).takeUnless { isAdmin },
+                )
+            }
+        }
+
+        // simulateCrashTile
+        item {
+            auth.getUser().isAdmin().let { isAdmin ->
+                Rn3TileClickConfirmationDialog(
+                    title = stringResource(R.string.feature_settings_developerSettingsScreen_simulateCrashTile_title),
+                    icon = Icons.Outlined.Report,
+                    body = {},
+                    supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_simulateCrashTile_supportingText).takeUnless { isAdmin },
+                    onClick = onSimulateCrashTileClicked,
+                    enabled = isAdmin,
                 )
             }
         }
