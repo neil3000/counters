@@ -7,6 +7,14 @@ initializeApp();
 const express = require("express");
 const app = express();
 
+app.get("/issue/:id", (req, res) => {
+  res.status(301).redirect(`https://gitlab.com/neil3000/counters/-/issues/${req.params.id}`);
+});
+
+app.get("/report/:id", (req, res) => {
+  res.status(301).redirect(`https://console.firebase.google.com/project/rahneil-n3-counters/crashlytics/app/android:rahmouni.neil.counters/issues/${req.params.id}`);
+});
+
 app.get("/:id", (req, res) => {
   var doc = getFirestore().collection("links").doc(req.params.id);
 

@@ -11,9 +11,9 @@ const GITLAB_PROJECT_PRIVATE_TOKEN = defineString(
 );
 
 exports.crashes = onNewFatalIssuePublished(async (event) => {
-  const { crashlyticsId, title, subtitle, appVersion } =
-    event.data.payload.issue;
+  const { id, title, subtitle, appVersion } = event.data.payload.issue;
 
+  const crashlyticsId = id;
   const webhookUrl = DISCORD_WEBHOOK_URL.value();
   const gitlabProjectId = GITLAB_PROJECT_ID.value();
   const gitlabProjectPrivateToken = GITLAB_PROJECT_PRIVATE_TOKEN.value();
