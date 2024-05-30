@@ -118,7 +118,7 @@ private fun DeveloperSettingsPanel(
                     title = stringResource(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_title),
                     icon = Icons.Outlined.DeleteForever,
                     enabled = enabled,
-                    supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_supportingText).takeIf { enabled },
+                    supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_supportingText).takeUnless { enabled },
                 ) {
                     try {
                         Firebase.firestore.terminate().addOnCompleteListener {
