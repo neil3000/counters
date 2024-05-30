@@ -52,7 +52,7 @@ internal class FirebaseAuthHelper @Inject constructor(
 
     init {
         firebaseAuth.addAuthStateListener {
-            claims = it.currentUser?.getIdToken(false)?.result?.claims
+            it.currentUser?.getIdToken(false)?.addOnSuccessListener { claims = it.claims }
         }
     }
 
