@@ -25,7 +25,7 @@ exports.crashes = onNewFatalIssuePublished(async (event) => {
   try {
     // STEP ONE -- Create a Gitlab issue
     const gitlabIssue = await fetch(
-      `https://gitlab.com/api/v4/projects/${gitlabProjectId}/issues?title=Invstigate%20fatal%20issue&labels=bug,critical,Planned&description=https://counters.rahmouni.dev/report/${event.appId.includes("demo")?"demo":"prod"}/${crashlyticsId}`,
+      `https://gitlab.com/api/v4/projects/${gitlabProjectId}/issues?title=Investigate%20fatal%20issue&labels=bug,critical,Planned&description=https://counters.rahmouni.dev/report/${event.appId.includes("demo")?"demo":"prod"}/${crashlyticsId}`,
       {
         method: "POST",
         headers: { "PRIVATE-TOKEN": gitlabProjectPrivateToken },
