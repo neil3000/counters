@@ -265,20 +265,11 @@ private fun SettingsPanel(
                             icon = Icons.AutoMirrored.Outlined.Logout,
                             body = {
                                 Column(verticalArrangement = spacedBy(8.dp)) {
-                                    Text("If you sign out:")
+                                    Text(stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_header))
                                     listOf(
-                                        Pair(
-                                            Outlined.SyncSavedLocally,
-                                            "Your current data will still be stored locally and continue to work on this device.",
-                                        ),
-                                        Pair(
-                                            Outlined.DevicesOff,
-                                            "Your Counters won't be available on your other devices.",
-                                        ),
-                                        Pair(
-                                            Outlined.DataAlert,
-                                            "You may lose your data if something happens to this device.",
-                                        ),
+                                        Outlined.SyncSavedLocally to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_currentDataStoredLocallyAndContinueToWorkOnDevice),
+                                        Outlined.DevicesOff to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvaibleOnOtherDevices),
+                                        Outlined.DataAlert to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_mayLoseDataIfSomethingHappensToDevice),
                                     ).forEach { (icon, text) ->
                                         Row(horizontalArrangement = spacedBy(12.dp)) {
                                             Icon(
