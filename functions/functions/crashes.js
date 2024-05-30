@@ -12,6 +12,7 @@ const GITLAB_PROJECT_PRIVATE_TOKEN = defineString(
 
 exports.crashes = onNewFatalIssuePublished(async (event) => {
   const { id, title, subtitle, appVersion } = event.data.payload.issue;
+  const flavor = event.appId.includes("demo") ? "Demo" : "Prod";
 
   const crashlyticsId = id;
   const webhookUrl = DISCORD_WEBHOOK_URL.value();
@@ -25,7 +26,7 @@ exports.crashes = onNewFatalIssuePublished(async (event) => {
   try {
     // STEP ONE -- Create a Gitlab issue
     const gitlabIssue = await fetch(
-      `https://gitlab.com/api/v4/projects/${gitlabProjectId}/issues?title=Investigate%20fatal%20issue&labels=bug,critical,Planned&description=https://counters.rahmouni.dev/report/${event.appId.includes("demo")?"demo":"prod"}/${crashlyticsId}`,
+      `https://gitlab.com/api/v4/projects/${gitlabProjectId}/issues?title=Investigate%20fatal%20issue&labels=bug,critical,Planned&description=https://counters.rahmouni.dev/report/${flavor.toLowerCase()}/${crashlyticsId}`,
       {
         method: "POST",
         headers: { "PRIVATE-TOKEN": gitlabProjectPrivateToken },
@@ -54,12 +55,26 @@ exports.crashes = onNewFatalIssuePublished(async (event) => {
                   value: `${subtitle}\n.`,
                 },
                 {
+                  name: "Flavor",
+                  value: flavor,
+                  inline: true,
+                },
+                {
+                  name: "Version",
+                  value: appVersion,
+                  inline: true,
+                },
+                {
+                  name: title,
+                  value: `${subtitle}\n.`,
+                },
+                {
                   name: "<:gitlab:1245738671068549252>  Gitlab issue",
                   value: `[counters.rahmouni.dev/issue/${gitlabIssue}](https://counters.rahmouni.dev/issue/${gitlabIssue})`,
                 },
                 {
                   name: "<:firebase:1245740009730871318>  Report & logs",
-                  value: `[counters.rahmouni.dev/report/${event.appId.includes("demo")?"demo":"prod"}/${crashlyticsId}](https://counters.rahmouni.dev/report/${event.appId.includes("demo")?"demo":"prod"}/${crashlyticsId})`,
+                  value: `[counters.rahmouni.dev/report/${flavor.toLowerCase()}/${crashlyticsId}](https://counters.rahmouni.dev/report/${flavor.toLowerCase()}/${crashlyticsId})`,
                 },
               ],
             },
@@ -69,6 +84,9 @@ exports.crashes = onNewFatalIssuePublished(async (event) => {
       ),
     });
   } catch (error) {
-    logger.error(`Unable to post fatal Crashlytics alert ${crashlyticsId}`, error);
+    logger.error(
+      `Unable to post fatal Crashlytics alert ${crashlyticsId}`,
+      error
+    );
   }
 });
