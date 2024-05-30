@@ -11,8 +11,8 @@ app.get("/issue/:id", (req, res) => {
   res.status(301).redirect(`https://gitlab.com/neil3000/counters/-/issues/${req.params.id}`);
 });
 
-app.get("/report/:id", (req, res) => {
-  res.status(301).redirect(`https://console.firebase.google.com/project/rahneil-n3-counters/crashlytics/app/android:rahmouni.neil.counters/issues/${req.params.id}`);
+app.get("/report/:flavor/:id", (req, res) => {
+  res.status(301).redirect(`https://console.firebase.google.com/project/rahneil-n3-counters/crashlytics/app/android:rahmouni.neil.counters${req.params.flavor == "demo" ? ".demo" : ""}/issues/${req.params.id}`);
 });
 
 app.get("/:id", (req, res) => {
