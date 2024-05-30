@@ -16,32 +16,26 @@
 
 package dev.rahmouni.neil.counters.core.designsystem.component.tile
 
-import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ConfirmationDialog
 
-@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun Rn3TileClickConfirmationDialog(
     modifier: Modifier = Modifier,
     title: String,
     icon: ImageVector,
-    body: String,
+    body: @Composable () -> Unit,
     supportingText: String? = null,
     enabled: Boolean = true,
     error: Boolean = true,
     onClick: () -> Unit,
 ) {
     Rn3ConfirmationDialog(
-        title = title,
         icon = icon,
-        body = {
-            Text(body)
-        },
-        confirmLabel = "Logout",
+        body = body,
+        confirmLabel = title,
         onConfirm = onClick,
     ) {
         Rn3TileClick(

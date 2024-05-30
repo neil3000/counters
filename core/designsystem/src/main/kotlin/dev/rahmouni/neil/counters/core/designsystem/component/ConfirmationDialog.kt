@@ -29,12 +29,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.R
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun Rn3ConfirmationDialog(
-    title: String,
     icon: ImageVector,
     body: @Composable () -> Unit,
     confirmLabel: String,
@@ -54,7 +55,7 @@ fun Rn3ConfirmationDialog(
                 openDialog = false
             },
             title = {
-                Text(text = title)
+                Text(text = stringResource(R.string.core_designsystem_confirmationDialog_title))
             },
             icon = {
                 Icon(
@@ -65,7 +66,10 @@ fun Rn3ConfirmationDialog(
             text = body,
             confirmButton = {
                 Column(Modifier.fillMaxWidth(), Arrangement.spacedBy(8.dp)) {
-                    DialogButton("Cancel", Icons.Outlined.Close) {
+                    DialogButton(
+                        text = stringResource(R.string.core_designsystem_confirmationDialog_cancelButton_text),
+                        icon = Icons.Outlined.Close,
+                    ) {
                         openDialog = false
                     }
                     DialogButton(

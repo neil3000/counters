@@ -20,6 +20,7 @@ import android.content.Context
 import android.provider.Settings
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -43,6 +44,7 @@ import androidx.compose.material.icons.outlined.SyncDisabled
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -83,8 +85,11 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallH
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
+import dev.rahmouni.neil.counters.core.designsystem.icons.DataAlert
+import dev.rahmouni.neil.counters.core.designsystem.icons.DevicesOff
 import dev.rahmouni.neil.counters.core.designsystem.icons.Discord
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
+import dev.rahmouni.neil.counters.core.designsystem.icons.SyncSavedLocally
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.settings.R.string
@@ -258,7 +263,37 @@ private fun SettingsPanel(
                         Rn3TileClickConfirmationDialog(
                             title = stringResource(string.feature_settings_settingsScreen_accountLogoutTile_title),
                             icon = Icons.AutoMirrored.Outlined.Logout,
-                            body = "Are you sure you want to sign out?\nYour counters won't be synced between devices anymore.\n\nYou can log in again at any time in the settings.",
+                            body = {
+                                Column(verticalArrangement = spacedBy(8.dp)) {
+                                    Text("If you sign out:")
+                                    listOf(
+                                        Pair(
+                                            Outlined.SyncSavedLocally,
+                                            "Your current data will still be stored locally and continue to work on this device.",
+                                        ),
+                                        Pair(
+                                            Outlined.DevicesOff,
+                                            "Your Counters won't be available on your other devices.",
+                                        ),
+                                        Pair(
+                                            Outlined.DataAlert,
+                                            "You may lose your data if something happens to this device.",
+                                        ),
+                                    ).forEach { (icon, text) ->
+                                        Row(horizontalArrangement = spacedBy(12.dp)) {
+                                            Icon(
+                                                icon,
+                                                null,
+                                                Modifier
+                                                    .padding(top = 4.dp)
+                                                    .size(SuggestionChipDefaults.IconSize),
+                                                tint = MaterialTheme.colorScheme.secondary,
+                                            )
+                                            Text(text)
+                                        }
+                                    }
+                                }
+                            },
                             onClick = onAccountTileLogoutClicked,
                         )
                     }
@@ -364,7 +399,7 @@ private fun SettingsPanel(
 private fun UserAvatarAndName(user: Rn3User, modifier: Modifier = Modifier) {
     Row(
         modifier,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         user.Avatar()
