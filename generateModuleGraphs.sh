@@ -26,15 +26,15 @@ if ! command -v dot &> /dev/null
 then
     echo "The 'dot' command is not found. This is required to generate SVGs from the Graphviz files."
     echo "Installation instructions:"
-    echo "  - On macOS: You can install Graphviz using Homebrew with the command: 'brew install graphviz'"
     echo "  - On Ubuntu: You can install Graphviz using APT with the command: 'sudo apt-get install graphviz'"
+    echo "  - On macOS: You can install Graphviz using Homebrew with the command: 'brew install graphviz'"
     exit 1
 fi
 
 # Check for a version of grep which supports Perl regex.
 # On MacOS the OS installed grep doesn't support Perl regex so check for the existence of the
 # GNU version instead which is prefixed with 'g' to distinguish it from the OS installed version.
-    if grep -P "" /dev/null > /dev/null 2>&1; then
+if echo "" | grep -P "" > /dev/null 2>&1; then
     GREP_COMMAND=grep
 elif command -v ggrep &> /dev/null; then
     GREP_COMMAND=ggrep
