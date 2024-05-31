@@ -26,9 +26,6 @@ import javax.inject.Inject
 internal class FirebaseAnalyticsHelper @Inject constructor(
     private val firebaseAnalytics: FirebaseAnalytics,
 ) : AnalyticsHelper {
-
-    override var appInstallationID: String = "Loading..."
-
     override fun logEvent(event: AnalyticsEvent) {
         firebaseAnalytics.logEvent(event.type) {
             for (extra in event.extras) {
