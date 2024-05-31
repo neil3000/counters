@@ -14,6 +14,11 @@ exports.crashes = onNewFatalIssuePublished(async (event) => {
   const { id, title, subtitle, appVersion } = event.data.payload.issue;
   const flavor = event.appId.includes("demo") ? "Demo" : "Prod";
 
+  logger.info(
+    `New fatal issue published for ${event.appId} ${appVersion}`,
+    event
+  );
+
   const crashlyticsId = id;
   const webhookUrl = DISCORD_WEBHOOK_URL.value();
   const gitlabProjectId = GITLAB_PROJECT_ID.value();
@@ -63,10 +68,6 @@ exports.crashes = onNewFatalIssuePublished(async (event) => {
                   name: "Version",
                   value: appVersion,
                   inline: true,
-                },
-                {
-                  name: title,
-                  value: `${subtitle}\n.`,
                 },
                 {
                   name: "<:gitlab:1245738671068549252>  Gitlab issue",
