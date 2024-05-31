@@ -32,6 +32,10 @@ import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.QuestionMark
 import androidx.compose.material.icons.outlined.Report
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -184,7 +188,6 @@ private fun DeveloperSettingsPanel(
                 )
             }
             .forEach { (appName, remoteConfig, installation) ->
-
                 item { Rn3TileHorizontalDivider() }
 
                 item {
@@ -197,10 +200,14 @@ private fun DeveloperSettingsPanel(
                 }
 
                 item {
+                    var installationID: String? by rememberSaveable { mutableStateOf(null) }
+                    installation.addOnSuccessListener { installationID = it }
+
                     Rn3TileCopy(
                         title = stringResource(R.string.feature_settings_developerSettingsScreen_firebaseIdTile_title),
                         icon = Icons.Outlined.LocalFireDepartment,
-                        text = installation.result,
+                        text = installationID
+                            ?: stringResource(R.string.feature_settings_developerSettingsScreen_firebaseIdTile_text_loading),
                     )
                 }
 
