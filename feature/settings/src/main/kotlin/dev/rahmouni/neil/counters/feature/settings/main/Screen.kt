@@ -41,6 +41,8 @@ import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material.icons.outlined.SyncDisabled
+import androidx.compose.material.icons.outlined.VerifiedUser
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -390,15 +392,24 @@ private fun SettingsPanel(
 private fun UserAvatarAndName(user: Rn3User, modifier: Modifier = Modifier) {
     Row(
         modifier,
-        horizontalArrangement = spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         user.Avatar()
         Text(
             user.getDisplayName(),
             style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(top = 2.dp),
+            modifier = Modifier.padding(top = 2.dp, start = 16.dp, end = 8.dp),
         )
+        if (user.isAdmin()) {
+            Icon(
+                Outlined.VerifiedUser,
+                null,
+                modifier = Modifier
+                    .padding(top = 2.dp)
+                    .size(FilterChipDefaults.IconSize),
+                tint = MaterialTheme.colorScheme.secondary,
+            )
+        }
     }
 }
 
