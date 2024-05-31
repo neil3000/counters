@@ -52,7 +52,6 @@
     <string name="feature_settings_settingsScreen_ossLicensesTile_title">Open source licenses</string>
     <string name="feature_settings_settingsScreen_otherHeaderTile_title">Other</string>
     <string name="feature_settings_settingsScreen_topAppBarTitle">Settings</string>
-    <string name="feature_settings_settingsScreen_accountSyncTile_title">Multi-device support</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_title">Logout</string>
     <string name="feature_settings_developerSettingsScreen_clearPersistenceTile_title" translatable="false">Clear local persistence</string>
     <string name="feature_settings_developerSettingsScreen_clearPersistenceTile_success" translatable="false">Persistence cleared!</string>

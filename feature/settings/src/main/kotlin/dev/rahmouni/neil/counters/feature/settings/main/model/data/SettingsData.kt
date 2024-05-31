@@ -20,6 +20,5 @@ import dev.rahmouni.neil.counters.core.auth.user.Rn3User
 
 data class SettingsData(
     val user: Rn3User,
-    val hasSyncEnabled: Boolean,
     val devSettingsEnabled: Boolean,
 )

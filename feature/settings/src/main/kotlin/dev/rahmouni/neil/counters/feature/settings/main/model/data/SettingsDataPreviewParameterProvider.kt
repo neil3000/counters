@@ -40,13 +40,11 @@ object PreviewParameterData {
             pfpUri = null,
             isAdmin = false,
         ),
-        hasSyncEnabled = false,
         devSettingsEnabled = false,
     )
     val settingsData_mutations = with(settingsData_default) {
         sequenceOf(
             copy(user = LoggedOutUser),
-            copy(hasSyncEnabled = true),
             copy(devSettingsEnabled = true),
         )
     }

@@ -49,11 +49,6 @@ internal class OfflineFirstUserDataRepository @Inject constructor(
         analyticsHelper.logCrashlyticsPreferenceChanged(value)
     }
 
-    override suspend fun setSyncEnabled(value: Boolean) {
-        rn3PreferencesDataSource.setSyncEnabledPreference(value)
-        analyticsHelper.logSyncPreferenceChanged(value)
-    }
-
     override suspend fun setLastUserUid(value: String) {
         rn3PreferencesDataSource.setLastUserUidPreference(value)
     }

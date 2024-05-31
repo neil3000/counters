@@ -34,13 +34,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.AccessibilityNew
-import androidx.compose.material.icons.outlined.CloudSync
 import androidx.compose.material.icons.outlined.DataObject
-import androidx.compose.material.icons.outlined.Devices
 import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.StarBorder
-import androidx.compose.material.icons.outlined.SyncDisabled
 import androidx.compose.material.icons.outlined.VerifiedUser
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -48,7 +45,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Surface
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -84,7 +80,6 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickC
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
 import dev.rahmouni.neil.counters.core.designsystem.icons.DataAlert
@@ -141,7 +136,6 @@ internal fun SettingsRoute(
                 auth.signInWithCredentialManager(context, false)
             }
         },
-        onSyncTileCheckedChange = viewModel::setSyncEnabled,
         onBackIconButtonClicked = navController::popBackStack,
         feedbackTopAppBarAction = FeedbackScreenContext(
             "SettingsScreen",
@@ -171,7 +165,6 @@ internal fun SettingsScreen(
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onAccountTileLogoutClicked: () -> Unit = {},
     onAccountTileLoginClicked: () -> Unit = {},
-    onSyncTileCheckedChange: (Boolean) -> Unit = {},
     onBackIconButtonClicked: () -> Unit = {},
     onClickDataAndPrivacyTile: () -> Unit = {},
     onClickAccessibilityTile: () -> Unit = {},
@@ -195,7 +188,6 @@ internal fun SettingsScreen(
                 uiState.settingsData,
                 onAccountTileLogoutClicked,
                 onAccountTileLoginClicked,
-                onSyncTileCheckedChange,
                 onClickDataAndPrivacyTile,
                 onClickAccessibilityTile,
                 changelogTileUri,
@@ -215,7 +207,6 @@ private fun SettingsPanel(
     data: SettingsData,
     onAccountTileLogoutClicked: () -> Unit,
     onAccountTileLoginClicked: () -> Unit,
-    onSyncTileCheckedChange: (Boolean) -> Unit,
     onClickDataAndPrivacyTile: () -> Unit,
     onClickAccessibilityTile: () -> Unit,
     changelogTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
@@ -242,23 +233,6 @@ private fun SettingsPanel(
                             paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
                                 top = 0.dp,
                             ),
-                        )
-
-                        // accountSyncTile
-                        Rn3TileSwitch(
-                            title = stringResource(string.feature_settings_settingsScreen_accountSyncTile_title),
-                            icon = Outlined.Devices,
-                            checked = data.hasSyncEnabled,
-                            onCheckedChange = onSyncTileCheckedChange,
-                            thumbContent = {
-                                Icon(
-                                    if (data.hasSyncEnabled) Outlined.CloudSync else Outlined.SyncDisabled,
-                                    null,
-                                    Modifier.size(
-                                        SwitchDefaults.IconSize,
-                                    ),
-                                )
-                            },
                         )
 
                         // accountLogoutTile

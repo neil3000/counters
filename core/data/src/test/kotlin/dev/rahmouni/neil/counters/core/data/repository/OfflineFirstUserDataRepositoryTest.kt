@@ -64,7 +64,6 @@ class OfflineFirstUserDataRepositoryTest {
                     hasAccessibilityIconTooltipsEnabled = true,
                     hasMetricsEnabled = true,
                     hasCrashlyticsEnabled = true,
-                    hasSyncEnabled = false,
                     lastUserUid = null,
                 ),
                 subject.userData.first(),

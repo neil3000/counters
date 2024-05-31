@@ -20,54 +20,40 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
-import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState.Success
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.SettingsData
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val userDataRepository: UserDataRepository,
     authHelper: AuthHelper,
 ) : ViewModel() {
 
     private var devSettingsEnabled = false
 
-    private val userDataFlow = userDataRepository.userData
-
     val uiState: StateFlow<SettingsUiState> =
-        authHelper.getUserFlow()
-            .combine(userDataFlow) { user, userData ->
-                Success(
-                    SettingsData(
-                        user = user,
-                        hasSyncEnabled = userData.hasSyncEnabled,
-                        devSettingsEnabled = devSettingsEnabled,
-                    ),
-                )
-            }.stateIn(
-                scope = viewModelScope,
-                initialValue = Success(
-                    SettingsData(
-                        user = authHelper.getUser(),
-                        hasSyncEnabled = false,
-                        devSettingsEnabled = devSettingsEnabled,
-                    ),
+        authHelper.getUserFlow().map { user ->
+            Success(
+                SettingsData(
+                    user = user,
+                    devSettingsEnabled = devSettingsEnabled,
                 ),
-                started = WhileSubscribed(5.seconds.inWholeMilliseconds),
             )
-
-    fun setSyncEnabled(value: Boolean) {
-        viewModelScope.launch {
-            userDataRepository.setSyncEnabled(value)
-        }
-    }
+        }.stateIn(
+            scope = viewModelScope,
+            initialValue = Success(
+                SettingsData(
+                    user = authHelper.getUser(),
+                    devSettingsEnabled = devSettingsEnabled,
+                ),
+            ),
+            started = WhileSubscribed(5.seconds.inWholeMilliseconds),
+        )
 
     fun setDevSettingsEnabled(enabled: Boolean) {
         devSettingsEnabled = enabled

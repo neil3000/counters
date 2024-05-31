@@ -23,11 +23,6 @@ data class UserData(
     val hasCrashlyticsEnabled: Boolean,
 
     /**
-     * Remembers if the user has last enabled sync or not.
-     * */
-    val hasSyncEnabled: Boolean,
-
-    /**
      * Remembers the last UID of the [SignedInUser][dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser].
      *
      * • If never logged in this is `null`.
