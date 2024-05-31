@@ -302,7 +302,7 @@ private fun SettingsPanel(
                 color = MaterialTheme.colorScheme.surfaceContainer,
             ) {
                 Row(
-                    Modifier.padding(vertical = 12.dp, horizontal = 16.dp),
+                    Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
