@@ -16,7 +16,6 @@
 
 package dev.rahmouni.neil.counters.core.designsystem.component
 
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -49,7 +48,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.R
 
-@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun Rn3ConfirmationDialog(
     icon: ImageVector,

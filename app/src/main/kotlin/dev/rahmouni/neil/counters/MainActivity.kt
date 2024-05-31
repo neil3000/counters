@@ -21,7 +21,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -140,7 +139,6 @@ class MainActivity : ComponentActivity() {
                 },
             ) {
                 Rn3Theme {
-                    @OptIn(ExperimentalMaterial3AdaptiveApi::class)
                     CountersApp(appState)
                 }
             }
