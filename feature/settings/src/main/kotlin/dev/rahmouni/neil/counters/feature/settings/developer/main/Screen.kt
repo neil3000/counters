@@ -119,15 +119,29 @@ private fun DeveloperSettingsPanel(
             ) {}
         }
 
+        // linksRn3UrlTile
+        item {
+            auth.getUser().isAdmin().let { isAdmin ->
+                Rn3TileClick(
+                    title = stringResource(R.string.feature_settings_developerSettingsScreen_linksRn3UrlTile_title),
+                    icon = Icons.Outlined.Link,
+                    onClick = onLinksRn3UrlTileClicked,
+                    enabled = isAdmin,
+                    supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_linksRn3UrlTile_supportingText).takeUnless { isAdmin },
+                )
+            }
+        }
+
         // clearPersistenceTile
         item {
             @Suppress("KotlinConstantConditions")
             (BuildConfig.FLAVOR == "demo").let { enabled ->
-                Rn3TileClick(
+                Rn3TileClickConfirmationDialog(
                     title = stringResource(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_title),
                     icon = Icons.Outlined.DeleteForever,
-                    enabled = enabled,
+                    body = {},
                     supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_supportingText).takeUnless { enabled },
+                    enabled = enabled,
                 ) {
                     try {
                         Firebase.firestore.terminate().addOnCompleteListener {
@@ -144,19 +158,6 @@ private fun DeveloperSettingsPanel(
                         context.copyText("Error", "$e | ${e.message}")
                     }
                 }
-            }
-        }
-
-        // linksRn3UrlTile
-        item {
-            auth.getUser().isAdmin().let { isAdmin ->
-                Rn3TileClick(
-                    title = stringResource(R.string.feature_settings_developerSettingsScreen_linksRn3UrlTile_title),
-                    icon = Icons.Outlined.Link,
-                    onClick = onLinksRn3UrlTileClicked,
-                    enabled = isAdmin,
-                    supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_linksRn3UrlTile_supportingText).takeUnless { isAdmin },
-                )
             }
         }
 
