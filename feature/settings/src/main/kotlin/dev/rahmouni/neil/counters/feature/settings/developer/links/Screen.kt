@@ -119,8 +119,8 @@ internal fun DeveloperSettingsLinksScreen(
                 Icon(Icons.Outlined.Add, contentDescription = null)
             }
         },
-    ) {
-        DeveloperSettingsLinksPanel(it, uiState.developerSettingsLinksData) { link ->
+    ) { paddingValues ->
+        DeveloperSettingsLinksPanel(paddingValues, uiState.developerSettingsLinksData) { link ->
             with(link) {
                 editing = true
                 currentPath = path

@@ -17,6 +17,9 @@
 package dev.rahmouni.neil.counters.core.auth.user
 
 import android.net.Uri
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import dev.rahmouni.neil.counters.core.auth.R
 
 sealed interface Rn3User {
     data object LoggedOutUser : Rn3User
@@ -27,9 +30,10 @@ sealed interface Rn3User {
         internal val isAdmin: Boolean,
     ) : Rn3User
 
+    @Composable
     fun getDisplayName(): String {
         return when (this) {
-            LoggedOutUser -> "Not signed in" // TODO i18n
+            LoggedOutUser -> stringResource(R.string.core_auth_user_notSignedIn)
             is SignedInUser -> displayName
         }
     }

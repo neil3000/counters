@@ -47,11 +47,7 @@ class Haptic {
     fun click() {
         if (view == null || haptic == null) throw hapticClassNonInitializedException("vRzFlAB4R2BL1DgQVtDWBUjK2hxPwL79")
 
-        if (VERSION.SDK_INT >= VERSION_CODES.M) {
-            view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-        } else {
-            haptic?.performHapticFeedback(HapticFeedbackType.LongPress)
-        }
+        view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
     }
 
     fun smallTick() {

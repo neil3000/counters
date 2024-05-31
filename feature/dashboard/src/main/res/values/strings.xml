@@ -17,9 +17,8 @@
     <string name="feature_dashboard_dashboardScreen_topAppBarTitle">Counters</string>
     <string name="feature_dashboard_dashboardScreen_topAppBarActions_settings">Settings</string>
     <string name="feature_dashboard_fab_newCounter">New Counter</string>
-    <string name="feature_dashboard_bottomSheet_topBar_title">New Counter</string>
-    <string name="feature_dashboard_bottomSheet_closeButton_contentDescription">Close</string>
     <string name="feature_dashboard_bottomSheet_continueButton_title">Continue</string>
     <string name="feature_dashboard_bottomSheet_textField_error_label">Name already exists</string>
     <string name="feature_dashboard_bottomSheet_textField_label">Name</string>
+    <string name="feature_dashboard_dashboardCard_addButton_contentDescription">Increment by one</string>
 </resources>

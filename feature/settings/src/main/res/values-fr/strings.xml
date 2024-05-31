@@ -41,6 +41,12 @@
     <string name="feature_settings_settingsScreen_iconTooltipsTile_supportingText">Active les popups informatifs lorsque vous appuyez longuement sur les boutons d\'icônes</string>
     <string name="feature_settings_settingsScreen_iconTooltipsTile_title">Infobulles des icônes</string>
     <string name="feature_settings_settingsScreen_ossLicensesTile_title">Licences open source</string>
+    <string name="feature_settings_settingsScreen_accountLogoutTile_title">Déconnexion</string>
+    <string name="feature_settings_settingsScreen_accountLogoutTile_body_currentDataStoredLocallyAndContinueToWorkOnDevice">Vos données actuelles seront toujours stockées localement et continueront de fonctionner sur cet appareil.</string>
+    <string name="feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvailableOnOtherDevices">Vos compteurs ne seront pas disponibles sur vos autres appareils.</string>
+    <string name="feature_settings_settingsScreen_accountLogoutTile_body_mayLoseDataIfSomethingHappensToDevice">Vous pourriez perdre vos données si quelque chose arrive à cet appareil.</string>
+    <string name="feature_settings_settingsScreen_accountLogoutTile_body_header">Si vous vous déconnectez :</string>
     <string name="feature_settings_settingsScreen_otherHeaderTile_title">Autre</string>
     <string name="feature_settings_settingsScreen_topAppBarTitle">Paramètres</string>
+    <string name="feature_settings_settingsScreen_accountLoginTile_loginButton_text">Connexion</string>
 </resources>

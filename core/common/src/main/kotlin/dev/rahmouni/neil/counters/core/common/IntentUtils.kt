@@ -73,9 +73,8 @@ fun Context.openUri(uri: Rn3Uri, wasPreloaded: Boolean = true) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         cct.intent.putExtra(Intent.EXTRA_PACKAGE_NAME, this.packageName)
     }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-        cct.intent.putExtra(Intent.EXTRA_REFERRER_NAME, "RahNeil_N3:Counters")
-    }
+    cct.intent.putExtra(Intent.EXTRA_REFERRER_NAME, "RahNeil_N3:Counters")
+
     cct.launchUrl(this, uri.androidUri)
 }
 

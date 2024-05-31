@@ -244,7 +244,7 @@ private fun SettingsPanel(
                                     Text(stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_header))
                                     listOf(
                                         Outlined.SyncSavedLocally to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_currentDataStoredLocallyAndContinueToWorkOnDevice),
-                                        Outlined.DevicesOff to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvaibleOnOtherDevices),
+                                        Outlined.DevicesOff to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvailableOnOtherDevices),
                                         Outlined.DataAlert to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_mayLoseDataIfSomethingHappensToDevice),
                                     ).forEach { (icon, text) ->
                                         Row(horizontalArrangement = spacedBy(12.dp)) {
@@ -282,7 +282,7 @@ private fun SettingsPanel(
                 ) {
                     UserAvatarAndName(user = data.user)
                     OutlinedButton(onClick = onAccountTileLoginClicked) {
-                        Text("Login")
+                        Text(stringResource(string.feature_settings_settingsScreen_accountLoginTile_loginButton_text))
                     }
                 }
             }
