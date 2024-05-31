@@ -14,8 +14,6 @@
      limitations under the License.
 -->
 <resources>
-    <string name="core_designsystem_largeTopAppBar_actions_iconButton_feedback_contentDescription">Envoyer un retour</string>
-    <string name="core_designsystem_largeTopAppBar_actions_iconButton_settings_contentDescription">Aller aux paramètres</string>
     <string name="core_designsystem_largeTopAppBar_navigationIcon_iconButton_arrowBack_contentDescription">Revenir en arrière</string>
     <string name="core_designsystem_tileUri_inMaintenance_supportingText">En maintenance, revenez plus tard ~</string>
     <string name="core_designsystem_tileUri_soonAvailable_supportingText">Disponible bientôt ~</string>

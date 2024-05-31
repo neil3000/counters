@@ -14,5 +14,5 @@
      limitations under the License.
 -->
 <resources>
-    <string name="app_name">Rn3 Catalog</string>
+    <string name="app_name" translatable="false">Rn3 Catalog</string>
 </resources>

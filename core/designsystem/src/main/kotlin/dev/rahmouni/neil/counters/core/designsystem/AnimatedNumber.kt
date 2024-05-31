@@ -41,7 +41,7 @@ fun AnimatedNumber(
                                 fadeIn(tween(250))
                         ).togetherWith(
                         slideOutVertically { height -> -(height / 1.8f).toInt() } +
-                                fadeOut(tween(250)),
+                                fadeOut(tween(200)),
                     )
             } else {
                 (

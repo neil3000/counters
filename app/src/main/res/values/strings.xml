@@ -14,5 +14,5 @@
      limitations under the License.
 -->
 <resources>
-    <string name="app_name">Counters</string>
+    <string name="app_name" translatable="false">Counters</string>
 </resources>
