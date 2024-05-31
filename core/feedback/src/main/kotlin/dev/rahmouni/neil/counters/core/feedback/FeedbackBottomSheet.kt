@@ -54,9 +54,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
-import dev.rahmouni.neil.counters.core.designsystem.component.feedback.pages.FeedbackContextPage
-import dev.rahmouni.neil.counters.core.designsystem.component.feedback.pages.FeedbackDescriptionPage
-import dev.rahmouni.neil.counters.core.designsystem.component.feedback.pages.FeedbackTypePage
+import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackContextPage
+import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackDescriptionPage
+import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackTypePage
 import kotlinx.coroutines.launch
 
 @Composable

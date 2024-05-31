@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.rahmouni.neil.counters.core.designsystem.component.feedback.pages
+package dev.rahmouni.neil.counters.core.feedback.pages
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

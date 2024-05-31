@@ -20,4 +20,6 @@
     <string name="core_designsystem_tileUri_inMaintenance_supportingText">En maintenance, revenez plus tard ~</string>
     <string name="core_designsystem_tileUri_soonAvailable_supportingText">Disponible bientôt ~</string>
     <string name="core_designsystem_tileUri_unavailable_supportingText">Indisponible pour l\'instant, revenez plus tard</string>
+    <string name="core_designsystem_confirmationDialog_title">Êtes-vous sûr ?</string>
+    <string name="core_designsystem_confirmationDialog_cancelButton_text">Annuler</string>
 </resources>

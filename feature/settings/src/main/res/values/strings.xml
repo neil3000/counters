@@ -66,7 +66,7 @@
     <string name="feature_settings_developerSettingsLinksScreen_confirmButton_text" translatable="false">Confirm</string>
     <string name="feature_settings_developerSettingsScreen_linksRn3UrlTile_supportingText" translatable="false">Not available with this account</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_body_currentDataStoredLocallyAndContinueToWorkOnDevice">Your current data will still be stored locally and continue to work on this device.</string>
-    <string name="feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvaibleOnOtherDevices">Your Counters won\'t be available on your other devices.</string>
+    <string name="feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvailableOnOtherDevices">Your Counters won\'t be available on your other devices.</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_body_mayLoseDataIfSomethingHappensToDevice">You may lose your data if something happens to this device.</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_body_header">If you sign out:</string>
     <string name="feature_settings_developerSettingsScreen_simulateCrashTile_title" translatable="false">Simulate crash</string>
