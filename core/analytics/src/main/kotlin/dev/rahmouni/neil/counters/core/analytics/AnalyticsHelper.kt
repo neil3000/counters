@@ -21,8 +21,6 @@ package dev.rahmouni.neil.counters.core.analytics
  * `StubAnalyticsHelper` for implementations.
  */
 interface AnalyticsHelper {
-    var appInstallationID: String
-
     fun logEvent(event: AnalyticsEvent)
     fun clearMetrics()
 }

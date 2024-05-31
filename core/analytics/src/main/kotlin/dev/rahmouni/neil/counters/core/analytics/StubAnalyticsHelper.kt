@@ -28,9 +28,6 @@ private const val TAG = "StubAnalyticsHelper"
  */
 @Singleton
 internal class StubAnalyticsHelper @Inject constructor() : AnalyticsHelper {
-
-    override var appInstallationID: String = "Not available in Demo"
-
     override fun logEvent(event: AnalyticsEvent) {
         Log.d(TAG, "Received analytics event: $event")
     }

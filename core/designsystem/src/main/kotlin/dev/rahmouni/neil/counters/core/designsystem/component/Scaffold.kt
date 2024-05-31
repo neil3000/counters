@@ -113,9 +113,8 @@ fun Rn3Scaffold(
                             color = Color(136, 18, 41),
                             shape = RoundedCornerShape(8.dp),
                         ) {
-                            @Suppress("KotlinConstantConditions")
                             when {
-                                BuildConfig.BUILD_TYPE == "debug" -> Icon(
+                                BuildConfig.DEBUG -> Icon(
                                     Icons.Outlined.Rn3,
                                     null,
                                     Modifier.scale(.6f),

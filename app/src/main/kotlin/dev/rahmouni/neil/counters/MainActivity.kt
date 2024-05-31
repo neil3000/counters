@@ -30,7 +30,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.metrics.performance.JankStats
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
@@ -82,6 +82,11 @@ class MainActivity : ComponentActivity() {
         var uiState: MainActivityUiState by mutableStateOf(Loading)
         var finishedSigningIn by mutableStateOf(false)
 
+        // Enable offline persistence for Firestore
+        Firebase.firestore.persistentCacheIndexManager?.apply {
+            enableIndexAutoCreation()
+        }
+
         // Update the uiState
         lifecycleScope.launch {
             // If the user is not signed in, launch the sign in process.
@@ -90,18 +95,17 @@ class MainActivity : ComponentActivity() {
             }
             finishedSigningIn = true
 
-            // Enable offline persistence for Firestore
-            Firebase.firestore.persistentCacheIndexManager?.apply {
-                enableIndexAutoCreation()
-            }
-
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState
                     .onEach {
                         uiState = it
 
+                        if (it is Success) {
+                            Firebase.crashlytics.setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG && it.hasCrashlyticsEnabled)
+                        }
+
                         @Suppress("KotlinConstantConditions")
-                        if (BuildConfig.FLAVOR == "demo" || (uiState is Success && !(uiState as Success).hasSyncEnabled)) {
+                        if (BuildConfig.FLAVOR == "demo") {
                             Firebase.firestore.disableNetwork()
                         } else {
                             Firebase.firestore.enableNetwork()
@@ -115,9 +119,6 @@ class MainActivity : ComponentActivity() {
         // the UI.
         splashScreen.setKeepOnScreenCondition { uiState is Loading || !finishedSigningIn }
 
-        FirebaseAnalytics.getInstance(this).appInstanceId.addOnSuccessListener {
-            analyticsHelper.appInstallationID = it ?: "RahNeil_N3:Error"
-        }
         configHelper.init(this)
 
         setContent {
