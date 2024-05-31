@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import com.google.gms.googleservices.GoogleServicesTask
 import dev.rahmouni.neil.counters.Rn3BuildType
 
 plugins {
@@ -123,13 +122,4 @@ baselineProfile {
 
 dependencyGuard {
     configuration("prodReleaseRuntimeClasspath")
-}
-
-// Workaround for Firebase Crashlytics issue
-// See -> https://github.com/firebase/firebase-android-sdk/issues/5962
-// TODO remove when fixed
-project.afterEvaluate {
-    tasks.withType<GoogleServicesTask> {
-        gmpAppId.set(project.layout.buildDirectory.file("$name-gmpAppId.txt"))
-    }
 }
