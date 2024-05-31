@@ -33,12 +33,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.data.model.CounterData
 import dev.rahmouni.neil.counters.core.designsystem.AnimatedNumber
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.feature.dashboard.R
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -84,10 +86,9 @@ fun CounterData.DashboardCard(modifier: Modifier = Modifier, onIncrement: (Strin
                     )
                 }
 
-                // TODO i18n
                 Rn3IconButton(
                     icon = Icons.Outlined.Add,
-                    contentDescription = "Increment by one",
+                    contentDescription = stringResource(R.string.feature_dashboard_dashboardCard_addButton_contentDescription),
                 ) {
                     onIncrement(uid)
                 }

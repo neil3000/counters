@@ -282,7 +282,7 @@ private fun SettingsPanel(
                 ) {
                     UserAvatarAndName(user = data.user)
                     OutlinedButton(onClick = onAccountTileLoginClicked) {
-                        Text("Login")
+                        Text(stringResource(string.feature_settings_settingsScreen_accountLoginTile_loginButton_text))
                     }
                 }
             }

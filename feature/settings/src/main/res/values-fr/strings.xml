@@ -48,4 +48,5 @@
     <string name="feature_settings_settingsScreen_accountLogoutTile_body_header">Si vous vous déconnectez :</string>
     <string name="feature_settings_settingsScreen_otherHeaderTile_title">Autre</string>
     <string name="feature_settings_settingsScreen_topAppBarTitle">Paramètres</string>
+    <string name="feature_settings_settingsScreen_accountLoginTile_loginButton_text">Connexion</string>
 </resources>
