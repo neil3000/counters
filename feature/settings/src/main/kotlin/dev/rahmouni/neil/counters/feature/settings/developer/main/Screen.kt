@@ -162,14 +162,15 @@ private fun DeveloperSettingsPanel(
 
         // simulateCrashTile
         item {
-            auth.getUser().isAdmin().let { isAdmin ->
+            @Suppress("KotlinConstantConditions")
+            (BuildConfig.BUILD_TYPE == "debug" || auth.getUser().isAdmin()).let { enabled ->
                 Rn3TileClickConfirmationDialog(
                     title = stringResource(R.string.feature_settings_developerSettingsScreen_simulateCrashTile_title),
                     icon = Icons.Outlined.Report,
                     body = {},
-                    supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_simulateCrashTile_supportingText).takeUnless { isAdmin },
+                    supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_simulateCrashTile_supportingText).takeUnless { enabled },
                     onClick = onSimulateCrashTileClicked,
-                    enabled = isAdmin,
+                    enabled = enabled,
                 )
             }
         }
