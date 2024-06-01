@@ -38,5 +38,5 @@ sealed interface Rn3User {
         }
     }
 
-    fun isAdmin(): Boolean = this is SignedInUser && this.isAdmin
+    fun isAdmin(): Boolean = this is SignedInUser && isAdmin
 }

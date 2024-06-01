@@ -34,7 +34,9 @@ import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -48,11 +50,13 @@ internal class FirebaseAuthHelper @Inject constructor(
     private val userDataRepository: UserDataRepository,
 ) : AuthHelper {
 
-    private var claims: Map<String, Any>? = null
+    private var claims = MutableStateFlow<Map<String, Any>>(emptyMap())
 
     init {
-        firebaseAuth.addAuthStateListener {
-            it.currentUser?.getIdToken(false)?.addOnSuccessListener { claims = it.claims }
+        firebaseAuth.addAuthStateListener { auth ->
+            auth.currentUser?.getIdToken(false)?.addOnSuccessListener {
+                claims.compareAndSet(claims.value, it.claims)
+            }
         }
     }
 
@@ -125,26 +129,28 @@ internal class FirebaseAuthHelper @Inject constructor(
         CredentialManager.create(context).clearCredentialState(ClearCredentialStateRequest())
     }
 
-    override fun getUser(): Rn3User = firebaseAuth.currentUser.toRn3User()
+    override fun getUser(): Rn3User = firebaseAuth.currentUser.toRn3User(claims.value)
 
     override fun getUserFlow(): Flow<Rn3User> = callbackFlow {
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->
-            trySend(auth.currentUser.toRn3User())
+            trySend(auth.currentUser)
         }
         firebaseAuth.addAuthStateListener(authStateListener)
         awaitClose {
             firebaseAuth.removeAuthStateListener(authStateListener)
         }
+    }.combine(claims) { user, claims ->
+        user.toRn3User(claims)
     }
 
-    private fun FirebaseUser?.toRn3User(): Rn3User {
+    private fun FirebaseUser?.toRn3User(claims: Map<String, Any>): Rn3User {
         return when (this) {
             null -> LoggedOutUser
             else -> SignedInUser(
                 uid = this.uid,
                 displayName = this.displayName.toString(),
                 pfpUri = this.photoUrl,
-                isAdmin = claims?.get("role") == "Admin",
+                isAdmin = claims["role"] == "Admin",
             )
         }
     }
