@@ -16,6 +16,7 @@
 
 package dev.rahmouni.neil.counters.core.data.repository
 
+import android.util.Log
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.dataObjects
@@ -27,6 +28,7 @@ import dev.rahmouni.neil.counters.core.data.model.IncrementDataFields
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.transformLatest
 import javax.inject.Inject
@@ -40,50 +42,75 @@ class FirestoreCountersDataRepository @Inject constructor(
     override val userCounters: Flow<List<CounterData>> =
         userDataRepository.userData.transformLatest { user ->
             emitAll(
-                Firebase.firestore
-                    .collection("counters")
-                    .whereEqualTo(CounterDataFields.ownerUserUid, user.lastUserUid ?: DEFAULT_LASTUSERUID)
-                    .orderBy(CounterDataFields.createdAt)
-                    .dataObjects<CounterData>(),
+                try {
+                    Firebase.firestore
+                        .collection("counters")
+                        .whereEqualTo(
+                            CounterDataFields.ownerUserUid,
+                            user.lastUserUid ?: DEFAULT_LASTUSERUID,
+                        )
+                        .orderBy(CounterDataFields.createdAt)
+                        .dataObjects<CounterData>()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    //TODO Feedback error
+
+                    flowOf(emptyList())
+                },
             )
         }
 
     override suspend fun createUserCounter(title: String) {
         coroutineScope {
             userDataRepository.userData.stateIn(this).value.let { userData ->
-                Firebase.firestore
-                    .collection("counters")
-                    .add(
-                        with(CounterDataFields) {
-                            hashMapOf(
-                                this.ownerUserUid to (userData.lastUserUid ?: DEFAULT_LASTUSERUID),
-                                this.title to title,
-                                this.createdAt to Timestamp.now(),
-                                this.currentValue to 0,
-                            )
-                        },
+                try {
+                    Firebase.firestore
+                        .collection("counters")
+                        .add(
+                            with(CounterDataFields) {
+                                hashMapOf(
+                                    this.ownerUserUid to (userData.lastUserUid
+                                        ?: DEFAULT_LASTUSERUID),
+                                    this.title to title,
+                                    this.createdAt to Timestamp.now(),
+                                    this.currentValue to 0,
+                                )
+                            },
+                        )
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.e(
+                        "RahNeil_N3:FirestoreCountersRepository",
+                        "createUserCounter: ${e.message}",
                     )
+                    //TODO Feedback error
+                }
             }
         }
     }
 
     override fun createUserCounterIncrement(counterUid: String, value: Int) {
-        Firebase.firestore
-            .collection("counters")
-            .document(counterUid)
-            .let {
-                it.update(
-                    CounterDataFields.currentValue,
-                    FieldValue.increment(value.toLong()),
-                )
-                it.collection("increments").add(
-                    with(IncrementDataFields) {
-                        hashMapOf(
-                            this.value to value,
-                            this.createdAt to Timestamp.now(),
-                        )
-                    },
-                )
-            }
+        try {
+            Firebase.firestore
+                .collection("counters")
+                .document(counterUid)
+                .let {
+                    it.update(
+                        CounterDataFields.currentValue,
+                        FieldValue.increment(value.toLong()),
+                    )
+                    it.collection("increments").add(
+                        with(IncrementDataFields) {
+                            hashMapOf(
+                                this.value to value,
+                                this.createdAt to Timestamp.now(),
+                            )
+                        },
+                    )
+                }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            //TODO Feedback error
+        }
     }
 }

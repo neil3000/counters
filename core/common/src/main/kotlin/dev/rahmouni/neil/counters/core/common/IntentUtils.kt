@@ -23,7 +23,6 @@ import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsCallback
 import androidx.browser.customtabs.CustomTabsClient
@@ -86,8 +85,6 @@ fun Context.prepareToOpenUri(uri: Rn3Uri) {
 }
 
 fun Context.initCCT() {
-    Log.d("RahNeil_N3", "Initializing CCT")
-
     // Check for an existing connection
     if (mClient != null) {
         // Do nothing if there is an existing service connection

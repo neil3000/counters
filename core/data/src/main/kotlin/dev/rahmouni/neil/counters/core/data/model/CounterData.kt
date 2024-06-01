@@ -32,6 +32,7 @@ data class CounterData(
 
 @Suppress("ConstPropertyName", "ktlint:standard:property-naming", "unused")
 object CounterDataFields {
+    const val uid: String = "uid"
     const val ownerUserUid = "ownerUserUid"
     const val title = "title"
     const val createdAt = "createdAt"
