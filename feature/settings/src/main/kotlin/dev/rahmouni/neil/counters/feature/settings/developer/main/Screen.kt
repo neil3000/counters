@@ -16,9 +16,7 @@
 
 package dev.rahmouni.neil.counters.feature.settings.developer.main
 
-import android.app.Activity
 import android.text.format.DateUtils
-import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
@@ -39,11 +37,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.google.firebase.FirebaseApp
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.installations.FirebaseInstallations
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig.LAST_FETCH_STATUS_FAILURE
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig.LAST_FETCH_STATUS_NO_FETCH_YET
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig.LAST_FETCH_STATUS_SUCCESS
@@ -51,9 +50,8 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig.LAST_FETCH_STATUS_T
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig.VALUE_SOURCE_DEFAULT
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig.VALUE_SOURCE_REMOTE
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig.getInstance
-import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
-import dev.rahmouni.neil.counters.core.common.copyText
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
@@ -66,17 +64,27 @@ import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
 import dev.rahmouni.neil.counters.feature.settings.BuildConfig
 import dev.rahmouni.neil.counters.feature.settings.R
 import dev.rahmouni.neil.counters.feature.settings.developer.links.navigateToDeveloperSettingsLinks
+import dev.rahmouni.neil.counters.feature.settings.developer.main.model.DeveloperSettingsUiState
+import dev.rahmouni.neil.counters.feature.settings.developer.main.model.DeveloperSettingsViewModel
+import dev.rahmouni.neil.counters.feature.settings.developer.main.model.data.DeveloperSettingsData
+import dev.rahmouni.neil.counters.feature.settings.developer.main.model.data.DeveloperSettingsDataPreviewParameterProvider
+import dev.rahmouni.neil.counters.feature.settings.developer.main.model.data.PreviewParameterData
 import java.util.UUID
 
 @Composable
 internal fun DeveloperSettingsRoute(
     modifier: Modifier = Modifier,
+    viewModel: DeveloperSettingsViewModel = hiltViewModel(),
     navController: NavController,
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     DeveloperSettingsScreen(
         modifier,
+        uiState,
         onBackIconButtonClicked = navController::popBackStack,
         onLinksRn3UrlTileClicked = navController::navigateToDeveloperSettingsLinks,
+        onClearPersistenceTileClicked = viewModel::clearPersistence,
         onSimulateCrashTileClicked = {
             throw RuntimeException("RahNeil_N3:SimulateCrashTile:FakeCrash (${UUID.randomUUID()})")
         },
@@ -87,8 +95,10 @@ internal fun DeveloperSettingsRoute(
 @Composable
 internal fun DeveloperSettingsScreen(
     modifier: Modifier = Modifier,
+    uiState: DeveloperSettingsUiState,
     onBackIconButtonClicked: () -> Unit = {},
     onLinksRn3UrlTileClicked: () -> Unit = {},
+    onClearPersistenceTileClicked: () -> Unit = {},
     onSimulateCrashTileClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
@@ -98,7 +108,9 @@ internal fun DeveloperSettingsScreen(
     ) {
         DeveloperSettingsPanel(
             it,
+            uiState.developerSettingsData,
             onLinksRn3UrlTileClicked,
+            onClearPersistenceTileClicked,
             onSimulateCrashTileClicked,
         )
     }
@@ -107,11 +119,12 @@ internal fun DeveloperSettingsScreen(
 @Composable
 private fun DeveloperSettingsPanel(
     contentPadding: PaddingValues,
+    data: DeveloperSettingsData,
     onLinksRn3UrlTileClicked: () -> Unit,
+    onClearPersistenceTileClicked: () -> Unit,
     onSimulateCrashTileClicked: () -> Unit,
 ) {
     val context = LocalContext.current
-    val auth = LocalAuthHelper.current
 
     LazyColumn(contentPadding = contentPadding) {
         // buildconfigTile
@@ -119,19 +132,19 @@ private fun DeveloperSettingsPanel(
             Rn3TileClick(
                 title = stringResource(R.string.feature_settings_developerSettingsScreen_buildconfigTile_title),
                 icon = Icons.Outlined.Rn3,
-                supportingText = BuildConfig.FLAVOR + " / " + BuildConfig.BUILD_TYPE,
+                supportingText = "${BuildConfig.FLAVOR} / ${BuildConfig.BUILD_TYPE}",
             ) {}
         }
 
         // linksRn3UrlTile
         item {
-            auth.getUser().isAdmin().let { isAdmin ->
+            data.isUserAdmin.let { enabled ->
                 Rn3TileClick(
                     title = stringResource(R.string.feature_settings_developerSettingsScreen_linksRn3UrlTile_title),
                     icon = Icons.Outlined.Link,
                     onClick = onLinksRn3UrlTileClicked,
-                    enabled = isAdmin,
-                    supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_linksRn3UrlTile_supportingText).takeUnless { isAdmin },
+                    enabled = enabled,
+                    supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_linksRn3UrlTile_supportingText).takeUnless { enabled },
                 )
             }
         }
@@ -146,28 +159,14 @@ private fun DeveloperSettingsPanel(
                     body = {},
                     supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_supportingText).takeUnless { enabled },
                     enabled = enabled,
-                ) {
-                    try {
-                        Firebase.firestore.terminate().addOnCompleteListener {
-                            Firebase.firestore.clearPersistence().addOnSuccessListener {
-                                Toast.makeText(
-                                    context,
-                                    context.getString(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_success),
-                                    Toast.LENGTH_SHORT,
-                                ).show()
-                                (context as Activity).recreate()
-                            }
-                        }
-                    } catch (e: Exception) {
-                        context.copyText("Error", "$e | ${e.message}")
-                    }
-                }
+                    onClick = onClearPersistenceTileClicked,
+                )
             }
         }
 
         // simulateCrashTile
         item {
-            (BuildConfig.DEBUG || auth.getUser().isAdmin()).let { enabled ->
+            (BuildConfig.DEBUG || data.isUserAdmin).let { enabled ->
                 Rn3TileClickConfirmationDialog(
                     title = stringResource(R.string.feature_settings_developerSettingsScreen_simulateCrashTile_title),
                     icon = Icons.Outlined.Report,
@@ -239,13 +238,19 @@ private fun DeveloperSettingsPanel(
                         else -> Icons.Outlined.QuestionMark
                     }
 
-                    if (value.asString().isBoolean()) {
-                        item {
-                            Rn3TileSwitch(title = key, icon = icon, checked = value.asBoolean()) {}
-                        }
-                    } else {
-                        item {
-                            Rn3TileCopy(title = key, icon = icon, text = value.asString())
+                    with(value.asString()) {
+                        if (toBooleanStrictOrNull() is Boolean) {
+                            item {
+                                Rn3TileSwitch(
+                                    title = key,
+                                    icon = icon,
+                                    checked = toBoolean(),
+                                ) {}
+                            }
+                        } else {
+                            item {
+                                Rn3TileCopy(title = key, icon = icon, text = this@with)
+                            }
                         }
                     }
                 }
@@ -253,12 +258,25 @@ private fun DeveloperSettingsPanel(
     }
 }
 
-private fun String.isBoolean(): Boolean = this == "true" || this == "false"
-
 @Rn3PreviewScreen
 @Composable
 private fun Default() {
     Rn3Theme {
-        DeveloperSettingsScreen()
+        DeveloperSettingsScreen(
+            uiState = DeveloperSettingsUiState(PreviewParameterData.developerSettingsData_default),
+        )
+    }
+}
+
+@Rn3PreviewUiStates
+@Composable
+private fun UiStates(
+    @PreviewParameter(DeveloperSettingsDataPreviewParameterProvider::class)
+    developerSettingsData: DeveloperSettingsData,
+) {
+    Rn3Theme {
+        DeveloperSettingsScreen(
+            uiState = DeveloperSettingsUiState(developerSettingsData),
+        )
     }
 }
