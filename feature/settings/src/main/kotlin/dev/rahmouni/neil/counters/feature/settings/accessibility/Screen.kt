@@ -18,8 +18,6 @@ package dev.rahmouni.neil.counters.feature.settings.accessibility
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons.Outlined
@@ -39,6 +37,7 @@ import dev.rahmouni.neil.counters.core.accessibility.AccessibilityHelper
 import dev.rahmouni.neil.counters.core.accessibility.LocalAccessibilityHelper
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.common.openAndroidAccessibilitySettingsActivity
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -48,6 +47,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.icons.Tooltip
+import dev.rahmouni.neil.counters.core.designsystem.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.settings.R.string
@@ -120,7 +120,7 @@ internal fun AccessibilitySettingsScreen(
 
 @Composable
 private fun AccessibilitySettingsPanel(
-    contentPadding: PaddingValues,
+    paddingValues: Rn3PaddingValues,
     data: AccessibilitySettingsData,
     setEmphasizedSwitches: (Boolean) -> Unit,
     setIconTooltips: (Boolean) -> Unit,
@@ -128,7 +128,7 @@ private fun AccessibilitySettingsPanel(
 ) {
     Column(
         Modifier
-            .padding(contentPadding)
+            .padding(paddingValues)
             .verticalScroll(rememberScrollState()),
     ) {
         // emphasizedSwitchesTile

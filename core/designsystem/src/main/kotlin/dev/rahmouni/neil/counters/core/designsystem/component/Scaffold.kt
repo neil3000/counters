@@ -18,14 +18,15 @@ package dev.rahmouni.neil.counters.core.designsystem.component
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement.spacedBy
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ExposurePlus2
@@ -49,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowHeightSizeClass.Companion.COMPACT
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.DASHBOARD
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.LARGE
@@ -56,6 +58,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMA
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3LargeTopAppBar
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
+import dev.rahmouni.neil.counters.core.designsystem.toRn3PaddingValues
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,8 +68,8 @@ fun Rn3Scaffold(
     onBackIconButtonClicked: (() -> Unit)?,
     topAppBarActions: List<TopAppBarAction> = emptyList(),
     topAppBarStyle: TopAppBarStyle = LARGE,
-    floatingActionButton: @Composable () -> Unit = {},
-    content: @Composable (PaddingValues) -> Unit,
+    floatingActionButton: @Composable (Modifier) -> Unit = {},
+    content: @Composable (Rn3PaddingValues) -> Unit,
 ) {
     val windowHeightClass = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
     val config = LocalConfigHelper.current
@@ -148,25 +151,26 @@ fun Rn3Scaffold(
     }
 }
 
-@SuppressLint("DesignSystem")
+@SuppressLint("DesignSystem", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun Rn3ScaffoldImpl(
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior,
-    content: @Composable (PaddingValues) -> Unit,
-    floatingActionButton: @Composable () -> Unit,
+    content: @Composable (Rn3PaddingValues) -> Unit,
+    floatingActionButton: @Composable (Modifier) -> Unit,
     topBarComponent: @Composable (scrollBehavior: TopAppBarScrollBehavior) -> Unit,
 ) {
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = { topBarComponent(scrollBehavior) },
-        contentWindowInsets = WindowInsets.systemBars.add(WindowInsets.displayCutout),
-        floatingActionButton = floatingActionButton,
+        contentWindowInsets = WindowInsets.statusBars.add(WindowInsets.displayCutout),
+        floatingActionButton = { floatingActionButton(Modifier.navigationBarsPadding()) },
     ) {
-        Column {
-            content(it)
-        }
+        content(
+            it.toRn3PaddingValues() + WindowInsets.navigationBars.asPaddingValues()
+                .toRn3PaddingValues(),
+        )
     }
 }
 

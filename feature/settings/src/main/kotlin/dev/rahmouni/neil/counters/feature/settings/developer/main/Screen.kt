@@ -18,7 +18,6 @@ package dev.rahmouni.neil.counters.feature.settings.developer.main
 
 import android.text.format.DateUtils
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
@@ -50,6 +49,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig.LAST_FETCH_STATUS_T
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig.VALUE_SOURCE_DEFAULT
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig.VALUE_SOURCE_REMOTE
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig.getInstance
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -118,7 +118,7 @@ internal fun DeveloperSettingsScreen(
 
 @Composable
 private fun DeveloperSettingsPanel(
-    contentPadding: PaddingValues,
+    paddingValues: Rn3PaddingValues,
     data: DeveloperSettingsData,
     onLinksRn3UrlTileClicked: () -> Unit,
     onClearPersistenceTileClicked: () -> Unit,
@@ -126,7 +126,7 @@ private fun DeveloperSettingsPanel(
 ) {
     val context = LocalContext.current
 
-    LazyColumn(contentPadding = contentPadding) {
+    LazyColumn(contentPadding = paddingValues.toComposePaddingValues()) {
         // buildconfigTile
         item {
             Rn3TileClick(

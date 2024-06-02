@@ -17,9 +17,6 @@
 package dev.rahmouni.neil.counters.feature.dashboard
 
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
@@ -39,11 +36,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -113,6 +110,7 @@ internal fun DashboardScreen(
         topAppBarStyle = DASHBOARD,
         floatingActionButton = {
             ExtendedFloatingActionButton(
+                modifier = it,
                 text = { Text(stringResource(R.string.feature_dashboard_fab_newCounter)) },
                 icon = { Icon(Icons.Outlined.Add, null) },
                 onClick = {
@@ -129,7 +127,7 @@ internal fun DashboardScreen(
 
 @Composable
 private fun DashboardPanel(
-    contentPadding: PaddingValues,
+    paddingValues: Rn3PaddingValues,
     data: DashboardData,
     lazyGridState: LazyGridState,
     onIncrementUserCounter: (String) -> Unit,
@@ -137,7 +135,11 @@ private fun DashboardPanel(
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 165.dp),
         state = lazyGridState,
-        contentPadding = PaddingValues(start = 4.dp, end = 4.dp, bottom = 80.dp) + contentPadding,
+        contentPadding = paddingValues.add(
+            start = 4.dp,
+            end = 4.dp,
+            bottom = 80.dp,
+        ).toComposePaddingValues(),
     ) {
         items(data.counters, key = { it.uid }) {
             it.DashboardCard(
@@ -147,15 +149,6 @@ private fun DashboardPanel(
         }
     }
 }
-
-operator fun PaddingValues.plus(other: PaddingValues): PaddingValues = PaddingValues(
-    start = this.calculateStartPadding(LayoutDirection.Ltr) +
-            other.calculateStartPadding(LayoutDirection.Ltr),
-    top = this.calculateTopPadding() + other.calculateTopPadding(),
-    end = this.calculateEndPadding(LayoutDirection.Ltr) +
-            other.calculateEndPadding(LayoutDirection.Ltr),
-    bottom = this.calculateBottomPadding() + other.calculateBottomPadding(),
-)
 
 @Rn3PreviewScreen
 @Composable

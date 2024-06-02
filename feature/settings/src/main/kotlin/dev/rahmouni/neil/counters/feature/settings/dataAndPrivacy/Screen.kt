@@ -18,7 +18,6 @@ package dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -51,6 +50,7 @@ import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.common.toRn3Uri
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -62,6 +62,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizo
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
+import dev.rahmouni.neil.counters.core.designsystem.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.settings.R
@@ -136,7 +137,7 @@ internal fun DataAndPrivacySettingsScreen(
 
 @Composable
 private fun DataAndPrivacySettingsPanel(
-    contentPadding: PaddingValues,
+    paddingValues: Rn3PaddingValues,
     data: DataAndPrivacySettingsData,
     onMetricsTileCheckedChange: (Boolean) -> Unit,
     onClearMetricsTileClicked: () -> Unit,
@@ -147,8 +148,8 @@ private fun DataAndPrivacySettingsPanel(
 
     Column(
         Modifier
-            .padding(contentPadding)
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState())
+            .padding(paddingValues),
     ) {
         // metricsHeaderTile
         Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsHeaderTile_title))

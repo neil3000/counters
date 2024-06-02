@@ -23,7 +23,6 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -55,6 +54,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.initialize
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -62,6 +62,7 @@ import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SystemBarSpacer
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle
+import dev.rahmouni.neil.counters.core.designsystem.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeUiState
@@ -125,27 +126,27 @@ internal fun AboutMeScreen(
         when {
             currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass != COMPACT ->
                 TwoPanePanel(
-                    aboutMeData,
                     it,
+                    aboutMeData,
                     HorizontalTwoPaneStrategy(.4f),
                 )
 
             currentWindowAdaptiveInfo().windowPosture.isTabletop ->
                 TwoPanePanel(
-                    aboutMeData,
                     it,
+                    aboutMeData,
                     VerticalTwoPaneStrategy(.4f),
                 )
 
-            else -> ColumnPanel(aboutMeData, it)
+            else -> ColumnPanel(it, aboutMeData)
         }
     }
 }
 
 @Composable
 private fun TwoPanePanel(
+    paddingValues: Rn3PaddingValues,
     aboutMeData: AboutMeData?,
-    paddingValues: PaddingValues,
     strategy: TwoPaneStrategy,
 ) {
     val context = LocalContext.current
@@ -157,7 +158,7 @@ private fun TwoPanePanel(
             LoadingPfp(
                 Modifier
                     .fillMaxHeight()
-                    .padding(bottom = paddingValues.calculateTopPadding()),
+                    .padding(paddingValues.onlyTop()),
                 aboutMeData?.pfp,
                 finishedLoadingAnimation,
             ) { finishedLoadingAnimation = true }
@@ -165,8 +166,8 @@ private fun TwoPanePanel(
         second = {
             Column(
                 Modifier
-                    .padding(horizontal = 16.dp)
-                    .verticalScroll(rememberScrollState()),
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp),
             ) {
                 AnimatedVisibility(
                     visible = finishedLoadingAnimation,
@@ -190,15 +191,15 @@ private fun TwoPanePanel(
 }
 
 @Composable
-private fun ColumnPanel(aboutMeData: AboutMeData?, paddingValues: PaddingValues) {
+private fun ColumnPanel(paddingValues: Rn3PaddingValues, aboutMeData: AboutMeData?) {
     var finishedLoadingAnimation by remember { mutableStateOf(aboutMeData != null) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(paddingValues)
-            .padding(horizontal = 24.dp)
-            .verticalScroll(rememberScrollState()),
+            .padding(horizontal = 24.dp),
         verticalArrangement = Arrangement.Center,
     ) {
         LoadingPfp(
@@ -207,7 +208,7 @@ private fun ColumnPanel(aboutMeData: AboutMeData?, paddingValues: PaddingValues)
         ) { finishedLoadingAnimation = true }
 
         AnimatedVisibility(visible = !finishedLoadingAnimation) {
-            Spacer(modifier = Modifier.height(paddingValues.calculateTopPadding()))
+            Spacer(modifier = Modifier.height(paddingValues.top))
         }
 
         AnimatedVisibility(

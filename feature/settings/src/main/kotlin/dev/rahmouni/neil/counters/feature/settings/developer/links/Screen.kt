@@ -19,7 +19,6 @@ package dev.rahmouni.neil.counters.feature.settings.developer.links
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -51,6 +50,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlData
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
@@ -119,8 +119,8 @@ internal fun DeveloperSettingsLinksScreen(
                 Icon(Icons.Outlined.Add, contentDescription = null)
             }
         },
-    ) { paddingValues ->
-        DeveloperSettingsLinksPanel(paddingValues, uiState.developerSettingsLinksData) { link ->
+    ) {
+        DeveloperSettingsLinksPanel(it, uiState.developerSettingsLinksData) { link ->
             with(link) {
                 editing = true
                 currentPath = path
@@ -215,11 +215,11 @@ internal fun DeveloperSettingsLinksScreen(
 
 @Composable
 private fun DeveloperSettingsLinksPanel(
-    contentPadding: PaddingValues,
+    paddingValues: Rn3PaddingValues,
     data: DeveloperSettingsLinksData,
     onLongPressLink: (LinkRn3UrlData) -> Unit,
 ) {
-    LazyColumn(contentPadding = contentPadding) {
+    LazyColumn(contentPadding = paddingValues.toComposePaddingValues()) {
         items(data.links) {
             it.Tile {
                 onLongPressLink(it)
