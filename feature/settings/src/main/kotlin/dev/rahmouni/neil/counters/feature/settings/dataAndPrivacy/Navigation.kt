@@ -21,15 +21,16 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
-const val DATA_AND_PRIVACY_SETTINGS_ROUTE = "settings/dataAndPrivacy"
+internal const val DATA_AND_PRIVACY_ROUTE = "dataAndPrivacy"
 
-fun NavController.navigateToDataAndPrivacySettings(navOptions: NavOptions? = null) = navigate(
-    DATA_AND_PRIVACY_SETTINGS_ROUTE,
-    navOptions,
-)
+internal fun NavController.navigateToDataAndPrivacySettings(navOptions: NavOptions? = null) =
+    navigate(
+        DATA_AND_PRIVACY_ROUTE,
+        navOptions,
+    )
 
-fun NavGraphBuilder.dataAndPrivacySettingsScreen(navController: NavController) {
-    composable(route = DATA_AND_PRIVACY_SETTINGS_ROUTE) {
+internal fun NavGraphBuilder.dataAndPrivacyScreen(navController: NavController) {
+    composable(route = DATA_AND_PRIVACY_ROUTE) {
         DataAndPrivacySettingsRoute(
             navController = navController,
         )

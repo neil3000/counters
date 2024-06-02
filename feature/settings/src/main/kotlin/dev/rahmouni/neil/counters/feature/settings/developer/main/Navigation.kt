@@ -23,12 +23,13 @@ import androidx.navigation.compose.composable
 
 const val DEVELOPER_SETTINGS_MAIN_ROUTE = "main"
 
-fun NavController.navigateToDeveloperSettingsMain(navOptions: NavOptions? = null) = navigate(
+internal fun NavController.navigateToDeveloperSettingsMain(navOptions: NavOptions? = null) =
+    navigate(
     DEVELOPER_SETTINGS_MAIN_ROUTE,
     navOptions,
 )
 
-fun NavGraphBuilder.developerSettingsMainScreen(navController: NavController) {
+internal fun NavGraphBuilder.developerSettingsMainScreen(navController: NavController) {
     composable(route = DEVELOPER_SETTINGS_MAIN_ROUTE) {
         DeveloperSettingsRoute(
             navController = navController,

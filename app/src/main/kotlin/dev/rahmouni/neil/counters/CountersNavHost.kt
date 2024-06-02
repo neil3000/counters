@@ -25,14 +25,10 @@ import dev.rahmouni.neil.counters.core.feedback.feedbackDialog
 import dev.rahmouni.neil.counters.feature.aboutme.aboutMeScreen
 import dev.rahmouni.neil.counters.feature.aboutme.navigateToAboutMe
 import dev.rahmouni.neil.counters.feature.dashboard.DASHBOARD_ROUTE
-import dev.rahmouni.neil.counters.feature.dashboard.bottomSheet.addCounterDialog
 import dev.rahmouni.neil.counters.feature.dashboard.bottomSheet.navigateToAddCounter
 import dev.rahmouni.neil.counters.feature.dashboard.dashboardScreen
-import dev.rahmouni.neil.counters.feature.settings.accessibility.accessibilitySettingsScreen
-import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.dataAndPrivacySettingsScreen
-import dev.rahmouni.neil.counters.feature.settings.developer.developerSettingsNavigation
-import dev.rahmouni.neil.counters.feature.settings.main.navigateToSettings
-import dev.rahmouni.neil.counters.feature.settings.main.settingsScreen
+import dev.rahmouni.neil.counters.feature.settings.navigateToSettings
+import dev.rahmouni.neil.counters.feature.settings.settingsNavigation
 import dev.rahmouni.neil.counters.ui.CountersAppState
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "DesignSystem")
@@ -51,17 +47,14 @@ fun CountersNavHost(
             modifier = modifier,
         ) {
             aboutMeScreen(navController)
-            accessibilitySettingsScreen(navController)
             dashboardScreen(
                 navController,
                 navController::navigateToSettings,
                 navController::navigateToAddCounter,
             )
-            dataAndPrivacySettingsScreen(navController)
-            developerSettingsNavigation(navController)
+            settingsNavigation(navController, navController::navigateToAboutMe)
+
             feedbackDialog(navController)
-            addCounterDialog(navController)
-            settingsScreen(navController, navController::navigateToAboutMe)
         }
     }
 }

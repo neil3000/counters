@@ -21,15 +21,16 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
-const val ACCESSIBILITY_SETTINGS_ROUTE = "settings/accessibility"
+internal const val ACCESSIBILITY_ROUTE = "accessibility"
 
-fun NavController.navigateToAccessibilitySettings(navOptions: NavOptions? = null) = navigate(
-    ACCESSIBILITY_SETTINGS_ROUTE,
+internal fun NavController.navigateToAccessibilitySettings(navOptions: NavOptions? = null) =
+    navigate(
+        ACCESSIBILITY_ROUTE,
     navOptions,
 )
 
-fun NavGraphBuilder.accessibilitySettingsScreen(navController: NavController) {
-    composable(route = ACCESSIBILITY_SETTINGS_ROUTE) {
+internal fun NavGraphBuilder.accessibilityScreen(navController: NavController) {
+    composable(route = ACCESSIBILITY_ROUTE) {
         AccessibilitySettingsRoute(
             navController = navController,
         )

@@ -23,12 +23,13 @@ import androidx.navigation.compose.composable
 
 const val DEVELOPER_SETTINGS_LINKS_ROUTE = "links"
 
-fun NavController.navigateToDeveloperSettingsLinks(navOptions: NavOptions? = null) = navigate(
+internal fun NavController.navigateToDeveloperSettingsLinks(navOptions: NavOptions? = null) =
+    navigate(
     DEVELOPER_SETTINGS_LINKS_ROUTE,
     navOptions,
 )
 
-fun NavGraphBuilder.developerSettingsLinksScreen(navController: NavController) {
+internal fun NavGraphBuilder.developerSettingsLinksScreen(navController: NavController) {
     composable(route = DEVELOPER_SETTINGS_LINKS_ROUTE) {
         DeveloperSettingsLinksRoute(
             navController = navController,

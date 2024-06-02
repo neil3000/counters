@@ -21,13 +21,16 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
-const val SETTINGS_ROUTE = "settings"
+const val SETTINGS_MAIN_ROUTE = "main"
 
-fun NavController.navigateToSettings(navOptions: NavOptions? = null) =
-    navigate(SETTINGS_ROUTE, navOptions)
+internal fun NavController.navigateToSettingsMain(navOptions: NavOptions? = null) =
+    navigate(SETTINGS_MAIN_ROUTE, navOptions)
 
-fun NavGraphBuilder.settingsScreen(navController: NavController, navigateToAboutMe: () -> Unit) {
-    composable(route = SETTINGS_ROUTE) {
+internal fun NavGraphBuilder.mainScreen(
+    navController: NavController,
+    navigateToAboutMe: () -> Unit,
+) {
+    composable(route = SETTINGS_MAIN_ROUTE) {
         SettingsRoute(
             navController = navController,
             navigateToAboutMe = navigateToAboutMe,
