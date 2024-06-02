@@ -198,8 +198,7 @@ private fun ColumnPanel(paddingValues: Rn3PaddingValues, aboutMeData: AboutMeDat
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(paddingValues)
-            .padding(horizontal = 24.dp),
+            .padding(paddingValues.add(horizontal = 24.dp)),
         verticalArrangement = Arrangement.Center,
     ) {
         LoadingPfp(
