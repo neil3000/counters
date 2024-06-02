@@ -16,21 +16,73 @@
 
 package dev.rahmouni.neil.counters.core.designsystem.component.tile
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SuggestionChipDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ConfirmationDialog
+import dev.rahmouni.neil.counters.core.designsystem.toRn3FormattedString
 
 @Composable
 fun Rn3TileClickConfirmationDialog(
     modifier: Modifier = Modifier,
     title: String,
     icon: ImageVector,
-    body: @Composable () -> Unit,
+    bodyHeader: String,
+    bodyBulletPoints: Map<ImageVector, String>,
     supportingText: String? = null,
     enabled: Boolean = true,
     error: Boolean = true,
     onClick: () -> Unit,
+) {
+    Rn3TileClickConfirmationDialog(
+        modifier = modifier,
+        title = title,
+        icon = icon,
+        supportingText = supportingText,
+        enabled = enabled,
+        error = error,
+        onClick = onClick,
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text(bodyHeader)
+            bodyBulletPoints.forEach { (icon, text) ->
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Icon(
+                        icon,
+                        null,
+                        Modifier
+                            .padding(top = 2.dp)
+                            .size(SuggestionChipDefaults.IconSize),
+                        tint = MaterialTheme.colorScheme.secondary,
+                    )
+
+                    Text(text.toRn3FormattedString())
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun Rn3TileClickConfirmationDialog(
+    modifier: Modifier = Modifier,
+    title: String,
+    icon: ImageVector,
+    supportingText: String? = null,
+    enabled: Boolean = true,
+    error: Boolean = true,
+    onClick: () -> Unit,
+    body: @Composable () -> Unit,
 ) {
     Rn3ConfirmationDialog(
         icon = icon,

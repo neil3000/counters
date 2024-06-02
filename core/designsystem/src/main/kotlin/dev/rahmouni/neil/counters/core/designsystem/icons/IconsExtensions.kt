@@ -38,7 +38,6 @@ val customIconsList
         Outlined.Threads,
         Outlined.SyncSavedLocally,
         Outlined.DevicesOff,
-        Outlined.DataAlert,
     )
 
 val Outlined.Tooltip
@@ -84,10 +83,6 @@ val Outlined.SyncSavedLocally
 val Outlined.DevicesOff
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_devicesoff)
-
-val Outlined.DataAlert
-    @Composable
-    get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_dataalert)
 
 // Animated icons
 

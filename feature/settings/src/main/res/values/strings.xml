@@ -66,11 +66,18 @@
     <string name="feature_settings_developerSettingsLinksScreen_confirmButton_text" translatable="false">Confirm</string>
     <string name="feature_settings_developerSettingsScreen_linksRn3UrlTile_supportingText" translatable="false">Not available with this account</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_body_currentDataStoredLocallyAndContinueToWorkOnDevice">Your current data will still be stored locally and continue to work on this device.</string>
-    <string name="feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvailableOnOtherDevices">Your Counters won\'t be available on your other devices.</string>
-    <string name="feature_settings_settingsScreen_accountLogoutTile_body_mayLoseDataIfSomethingHappensToDevice">You may lose your data if something happens to this device.</string>
-    <string name="feature_settings_settingsScreen_accountLogoutTile_body_header">If you sign out:</string>
+    <string name="feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvailableOnOtherDevices">Your Counters *won\'t be available* on your *other devices*.</string>
+    <string name="feature_settings_settingsScreen_accountLogoutTile_body_mayLoseDataIfSomethingHappensToDevice">You *may lose your data* if something happens to this device.</string>
+    <string name="feature_settings_settingsScreen_accountLogoutTile_bodyHeader">If you sign out:</string>
     <string name="feature_settings_developerSettingsScreen_simulateCrashTile_title" translatable="false">Simulate crash</string>
     <string name="feature_settings_developerSettingsScreen_simulateCrashTile_supportingText" translatable="false">Not available with this account</string>
     <string name="feature_settings_developerSettingsScreen_firebaseIdTile_text_loading" translatable="false">Loading...</string>
     <string name="feature_settings_settingsScreen_accountLoginTile_loginButton_text">Login</string>
+    <string name="feature_settings_dataAndPrivacySettingsScreen_clearMetricsTile_bodyHeader">If you clear local metrics:</string>
+    <string name="feature_settings_settingsScreen_accountLogoutTile_body_onDeviceMetricsDataCleared">Your on-device metrics data will be reset as if you just installed the app.</string>
+    <string name="feature_settings_settingsScreen_accountLogoutTile_body_actionCannotBeUndone">This action *cannot be undone.*</string>
+    <plurals name="feature_settings_settingsScreen_accountLogoutTile_body_metricsRemainStateButCanChangeInSettings">
+        <item quantity="one">Metrics will remain *turned on*. You can change that anytime in the settings.</item>
+        <item quantity="other">Metrics will remain *turned off*. You can change that anytime in the settings.</item>
+    </plurals>
 </resources>

@@ -20,7 +20,6 @@ import android.content.Context
 import android.provider.Settings
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -39,11 +38,11 @@ import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material.icons.outlined.VerifiedUser
+import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -82,7 +81,6 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizo
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
-import dev.rahmouni.neil.counters.core.designsystem.icons.DataAlert
 import dev.rahmouni.neil.counters.core.designsystem.icons.DevicesOff
 import dev.rahmouni.neil.counters.core.designsystem.icons.Discord
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
@@ -239,28 +237,12 @@ private fun SettingsPanel(
                         Rn3TileClickConfirmationDialog(
                             title = stringResource(string.feature_settings_settingsScreen_accountLogoutTile_title),
                             icon = Icons.AutoMirrored.Outlined.Logout,
-                            body = {
-                                Column(verticalArrangement = spacedBy(8.dp)) {
-                                    Text(stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_header))
-                                    listOf(
-                                        Outlined.SyncSavedLocally to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_currentDataStoredLocallyAndContinueToWorkOnDevice),
-                                        Outlined.DevicesOff to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvailableOnOtherDevices),
-                                        Outlined.DataAlert to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_mayLoseDataIfSomethingHappensToDevice),
-                                    ).forEach { (icon, text) ->
-                                        Row(horizontalArrangement = spacedBy(12.dp)) {
-                                            Icon(
-                                                icon,
-                                                null,
-                                                Modifier
-                                                    .padding(top = 4.dp)
-                                                    .size(SuggestionChipDefaults.IconSize),
-                                                tint = MaterialTheme.colorScheme.secondary,
-                                            )
-                                            Text(text)
-                                        }
-                                    }
-                                }
-                            },
+                            bodyHeader = stringResource(string.feature_settings_settingsScreen_accountLogoutTile_bodyHeader),
+                            bodyBulletPoints = mapOf(
+                                Outlined.SyncSavedLocally to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_currentDataStoredLocallyAndContinueToWorkOnDevice),
+                                Outlined.DevicesOff to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvailableOnOtherDevices),
+                                Outlined.Warning to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_mayLoseDataIfSomethingHappensToDevice),
+                            ),
                             onClick = onAccountTileLogoutClicked,
                         )
                     }
