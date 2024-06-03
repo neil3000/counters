@@ -61,7 +61,7 @@ class DeveloperSettingsViewModel @Inject constructor(
                 clearPersistence().await()
             }
         } catch (e: Exception) {
-            //TODO Feedback unexpected error
+            // TODO Feedback unexpected error
         }
     }
 }

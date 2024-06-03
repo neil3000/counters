@@ -26,8 +26,8 @@ internal const val ACCESSIBILITY_ROUTE = "accessibility"
 internal fun NavController.navigateToAccessibilitySettings(navOptions: NavOptions? = null) =
     navigate(
         ACCESSIBILITY_ROUTE,
-    navOptions,
-)
+        navOptions,
+    )
 
 internal fun NavGraphBuilder.accessibilityScreen(navController: NavController) {
     composable(route = ACCESSIBILITY_ROUTE) {

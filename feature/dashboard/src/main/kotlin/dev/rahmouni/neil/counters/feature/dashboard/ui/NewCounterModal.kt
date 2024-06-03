@@ -41,7 +41,6 @@ import dev.rahmouni.neil.counters.core.feedback.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun newCounterModal(onCreateNewCounter: (map: Map<String, Any>) -> Unit): () -> Unit {
-
     val haptic = getHaptic()
 
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }

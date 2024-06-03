@@ -53,7 +53,7 @@ class FirestoreCountersDataRepository @Inject constructor(
                         .dataObjects<CounterData>()
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    //TODO Feedback error
+                    // TODO Feedback error
 
                     flowOf(emptyList())
                 },
@@ -69,8 +69,10 @@ class FirestoreCountersDataRepository @Inject constructor(
                         .add(
                             with(CounterDataFields) {
                                 counterDataFields + mapOf(
-                                    this.ownerUserUid to (userData.lastUserUid
-                                        ?: DEFAULT_LASTUSERUID),
+                                    this.ownerUserUid to (
+                                            userData.lastUserUid
+                                                ?: DEFAULT_LASTUSERUID
+                                            ),
                                     this.createdAt to Timestamp.now(),
                                     this.currentValue to 0,
                                 )
@@ -82,7 +84,7 @@ class FirestoreCountersDataRepository @Inject constructor(
                         "RahNeil_N3:FirestoreCountersRepository",
                         "createUserCounter: ${e.message}",
                     )
-                    //TODO Feedback error
+                    // TODO Feedback error
                 }
             }
         }
@@ -109,7 +111,7 @@ class FirestoreCountersDataRepository @Inject constructor(
                 }
         } catch (e: Exception) {
             e.printStackTrace()
-            //TODO Feedback error
+            // TODO Feedback error
         }
     }
 }

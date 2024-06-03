@@ -25,9 +25,9 @@ const val DEVELOPER_SETTINGS_MAIN_ROUTE = "main"
 
 internal fun NavController.navigateToDeveloperSettingsMain(navOptions: NavOptions? = null) =
     navigate(
-    DEVELOPER_SETTINGS_MAIN_ROUTE,
-    navOptions,
-)
+        DEVELOPER_SETTINGS_MAIN_ROUTE,
+        navOptions,
+    )
 
 internal fun NavGraphBuilder.developerSettingsMainScreen(navController: NavController) {
     composable(route = DEVELOPER_SETTINGS_MAIN_ROUTE) {
