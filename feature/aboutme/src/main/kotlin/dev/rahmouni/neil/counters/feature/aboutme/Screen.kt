@@ -54,7 +54,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.initialize
-import dev.rahmouni.neil.counters.core.designsystem.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -62,7 +61,9 @@ import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SystemBarSpacer
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle
-import dev.rahmouni.neil.counters.core.designsystem.padding
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.TOP
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeUiState
@@ -158,7 +159,7 @@ private fun TwoPanePanel(
             LoadingPfp(
                 Modifier
                     .fillMaxHeight()
-                    .padding(paddingValues.onlyTop()),
+                    .padding(paddingValues.only(TOP)),
                 aboutMeData?.pfp,
                 finishedLoadingAnimation,
             ) { finishedLoadingAnimation = true }
