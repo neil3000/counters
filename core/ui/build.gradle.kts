@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.coil.kt)
     implementation(libs.coil.kt.compose)
     implementation(libs.androidx.metrics)
+    implementation(libs.androidx.core)
 
     androidTestImplementation(projects.core.testing)
 }

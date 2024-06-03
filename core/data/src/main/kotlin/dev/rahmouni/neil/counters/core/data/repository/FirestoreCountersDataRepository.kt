@@ -60,7 +60,7 @@ class FirestoreCountersDataRepository @Inject constructor(
             )
         }
 
-    override suspend fun createUserCounter(title: String) {
+    override suspend fun createUserCounter(counterDataFields: Map<String, Any>) {
         coroutineScope {
             userDataRepository.userData.stateIn(this).value.let { userData ->
                 try {
@@ -68,10 +68,9 @@ class FirestoreCountersDataRepository @Inject constructor(
                         .collection("counters")
                         .add(
                             with(CounterDataFields) {
-                                hashMapOf(
+                                counterDataFields + mapOf(
                                     this.ownerUserUid to (userData.lastUserUid
                                         ?: DEFAULT_LASTUSERUID),
-                                    this.title to title,
                                     this.createdAt to Timestamp.now(),
                                     this.currentValue to 0,
                                 )

@@ -25,7 +25,6 @@ import dev.rahmouni.neil.counters.core.feedback.feedbackDialog
 import dev.rahmouni.neil.counters.feature.aboutme.aboutMeScreen
 import dev.rahmouni.neil.counters.feature.aboutme.navigateToAboutMe
 import dev.rahmouni.neil.counters.feature.dashboard.DASHBOARD_ROUTE
-import dev.rahmouni.neil.counters.feature.dashboard.bottomSheet.navigateToAddCounter
 import dev.rahmouni.neil.counters.feature.dashboard.dashboardScreen
 import dev.rahmouni.neil.counters.feature.settings.navigateToSettings
 import dev.rahmouni.neil.counters.feature.settings.settingsNavigation
@@ -50,7 +49,6 @@ fun CountersNavHost(
             dashboardScreen(
                 navController,
                 navController::navigateToSettings,
-                navController::navigateToAddCounter,
             )
             settingsNavigation(navController, navController::navigateToAboutMe)
 

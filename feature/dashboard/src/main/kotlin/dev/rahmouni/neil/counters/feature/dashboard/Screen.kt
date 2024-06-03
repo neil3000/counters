@@ -56,6 +56,7 @@ import dev.rahmouni.neil.counters.feature.dashboard.model.data.DashboardData
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.DashboardDataPreviewParameterProvider
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData
 import dev.rahmouni.neil.counters.feature.dashboard.ui.DashboardCard
+import dev.rahmouni.neil.counters.feature.dashboard.ui.newCounterModal
 
 @Composable
 internal fun DashboardRoute(
@@ -63,7 +64,6 @@ internal fun DashboardRoute(
     viewModel: DashboardViewModel = hiltViewModel(),
     navController: NavController,
     navigateToSettings: () -> Unit,
-    navigateToAddCounter: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -75,7 +75,7 @@ internal fun DashboardRoute(
             "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8",
         ).toTopAppBarAction(navController::navigateToFeedback),
         onSettingsTopAppBarActionClicked = navigateToSettings,
-        onNewCounterFabClick = navigateToAddCounter,
+        onCreateNewCounter = viewModel::createUserCounter,
         onIncrementUserCounter = viewModel::incrementUserCounter,
     )
 }
@@ -87,13 +87,15 @@ internal fun DashboardScreen(
     uiState: DashboardUiState,
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
-    onNewCounterFabClick: () -> Unit = {},
+    onCreateNewCounter: (Map<String, Any>) -> Unit = {},
     onIncrementUserCounter: (String) -> Unit = {},
 ) {
     val haptics = getHaptic()
 
     val gridState = rememberLazyGridState()
     val expandedFab by remember { derivedStateOf { gridState.firstVisibleItemIndex == 0 } }
+
+    val openNewCounterModal = newCounterModal(onCreateNewCounter = onCreateNewCounter)
 
     Rn3Scaffold(
         modifier,
@@ -115,7 +117,7 @@ internal fun DashboardScreen(
                 icon = { Icon(Icons.Outlined.Add, null) },
                 onClick = {
                     haptics.click()
-                    onNewCounterFabClick()
+                    openNewCounterModal()
                 },
                 expanded = expandedFab,
             )

@@ -51,9 +51,9 @@ class DashboardViewModel @Inject constructor(
             started = WhileSubscribed(5.seconds.inWholeMilliseconds),
         )
 
-    fun createUserCounter(title: String) {
+    fun createUserCounter(counterDataFields: Map<String, Any>) {
         viewModelScope.launch {
-            countersDataRepository.createUserCounter(title)
+            countersDataRepository.createUserCounter(counterDataFields)
         }
     }
 

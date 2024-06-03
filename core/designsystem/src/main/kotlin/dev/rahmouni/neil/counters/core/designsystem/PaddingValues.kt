@@ -17,6 +17,8 @@
 package dev.rahmouni.neil.counters.core.designsystem
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
@@ -50,6 +52,10 @@ data class Rn3PaddingValues(
 
     fun onlyTop(): Rn3PaddingValues {
         return this.copy(start = 0.dp, end = 0.dp, bottom = 0.dp)
+    }
+
+    fun onlyBottom(): Rn3PaddingValues {
+        return this.copy(start = 0.dp, end = 0.dp, top = 0.dp)
     }
 
     fun toComposePaddingValues(): PaddingValues {
@@ -88,3 +94,6 @@ fun PaddingValues.toRn3PaddingValues(): Rn3PaddingValues {
         bottom = calculateBottomPadding(),
     )
 }
+
+@Composable
+fun WindowInsets.toRn3PaddingValues(): Rn3PaddingValues = asPaddingValues().toRn3PaddingValues()

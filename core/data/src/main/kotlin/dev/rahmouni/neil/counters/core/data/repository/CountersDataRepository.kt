@@ -23,6 +23,6 @@ interface CountersDataRepository {
 
     val userCounters: Flow<List<CounterData>>
 
-    suspend fun createUserCounter(title: String)
+    suspend fun createUserCounter(counterDataFields: Map<String, Any>)
     fun createUserCounterIncrement(counterUid: String, value: Int)
 }

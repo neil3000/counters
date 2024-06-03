@@ -29,13 +29,11 @@ fun NavController.navigateToDashboard(navOptions: NavOptions? = null) =
 fun NavGraphBuilder.dashboardScreen(
     navController: NavController,
     navigateToSettings: () -> Unit,
-    navigateToAddCounter: () -> Unit,
 ) {
     composable(route = DASHBOARD_ROUTE) {
         DashboardRoute(
             navController = navController,
             navigateToSettings = navigateToSettings,
-            navigateToAddCounter = navigateToAddCounter,
         )
     }
 }

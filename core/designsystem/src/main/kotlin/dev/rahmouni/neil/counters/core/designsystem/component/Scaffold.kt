@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -168,8 +167,7 @@ fun Rn3ScaffoldImpl(
         floatingActionButton = { floatingActionButton(Modifier.navigationBarsPadding()) },
     ) {
         content(
-            it.toRn3PaddingValues() + WindowInsets.navigationBars.asPaddingValues()
-                .toRn3PaddingValues(),
+            it.toRn3PaddingValues() + WindowInsets.navigationBars.toRn3PaddingValues(),
         )
     }
 }

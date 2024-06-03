@@ -92,7 +92,7 @@ internal fun FeedbackDescriptionPage(
         )
 
         Row(
-            Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
+            Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             horizontalArrangement = spacedBy(8.dp),
         ) {
             FilledTonalButton(
