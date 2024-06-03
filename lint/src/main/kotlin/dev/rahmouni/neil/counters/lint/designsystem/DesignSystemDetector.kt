@@ -80,10 +80,9 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
             "Switch" to "Rn3Switch",
             "Scaffold" to "Rn3Scaffold",
         )
-        val RECEIVER_NAMES = emptyMap<String, String>()
-        /*mapOf(
-            "Icons" to "NiaIcons",
-        )*/
+        val RECEIVER_NAMES = mapOf(
+            "PaddingValues" to "Rn3PaddingValues",
+        )
 
         fun reportIssue(
             context: JavaContext,

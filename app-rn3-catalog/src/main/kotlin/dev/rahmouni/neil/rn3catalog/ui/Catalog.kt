@@ -79,7 +79,7 @@ fun Rn3Catalog() {
             topAppBarTitle = "Rn3 Catalog",
             onBackIconButtonClicked = {},
         ) { paddingValues ->
-            LazyColumn(contentPadding = paddingValues) {
+            LazyColumn(contentPadding = paddingValues.toComposePaddingValues()) {
                 item {
                     Rn3ExpandableSurface(
                         content = {
