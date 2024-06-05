@@ -16,13 +16,15 @@
 
 package dev.rahmouni.neil.counters.core.data.repository
 
-import dev.rahmouni.neil.counters.core.data.model.CounterData
+import dev.rahmouni.neil.counters.core.data.model.CounterRawData
+import dev.rahmouni.neil.counters.core.data.model.IncrementRawData
 import kotlinx.coroutines.flow.Flow
 
 interface CountersDataRepository {
 
-    val userCounters: Flow<List<CounterData>>
+    val userCounters: Flow<List<CounterRawData>>
+    val lastUserUid: Flow<String?>
 
-    suspend fun createUserCounter(counterDataFields: Map<String, Any>)
-    fun createUserCounterIncrement(counterUid: String, value: Int)
+    suspend fun createCounter(counterRawData: CounterRawData)
+    fun createIncrement(counterUid: String, incrementRawData: IncrementRawData)
 }

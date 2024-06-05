@@ -17,101 +17,104 @@
 package dev.rahmouni.neil.counters.core.data.repository
 
 import android.util.Log
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import dev.rahmouni.neil.counters.core.data.model.CounterData
-import dev.rahmouni.neil.counters.core.data.model.CounterDataFields
-import dev.rahmouni.neil.counters.core.data.model.IncrementDataFields
-import kotlinx.coroutines.coroutineScope
+import dev.rahmouni.neil.counters.core.data.model.CounterRawData
+import dev.rahmouni.neil.counters.core.data.model.CounterRawDataDefaults
+import dev.rahmouni.neil.counters.core.data.model.IncrementRawData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transformLatest
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-
-const val DEFAULT_LASTUSERUID = "noLastUserUid"
 
 class FirestoreCountersDataRepository @Inject constructor(
     private val userDataRepository: UserDataRepository,
 ) : CountersDataRepository {
 
-    override val userCounters: Flow<List<CounterData>> =
+    override val lastUserUid: Flow<String?> =
+        userDataRepository.userData.map { it.lastUserUid }
+
+    override val userCounters: Flow<List<CounterRawData>> =
         userDataRepository.userData.transformLatest { user ->
             emitAll(
                 try {
                     Firebase.firestore
                         .collection("counters")
                         .whereEqualTo(
-                            CounterDataFields.ownerUserUid,
-                            user.lastUserUid ?: DEFAULT_LASTUSERUID,
+                            CounterRawData::ownerUserUid.name,
+                            user.lastUserUid ?: CounterRawDataDefaults.ownerUserUid,
                         )
-                        .orderBy(CounterDataFields.createdAt)
-                        .dataObjects<CounterData>()
+                        .orderBy(CounterRawData::createdAt.name)
+                        .dataObjects<CounterRawData>()
                 } catch (e: Exception) {
-                    e.printStackTrace()
+                    throw e
                     // TODO Feedback error
-
-                    flowOf(emptyList())
                 },
             )
         }
 
-    override suspend fun createUserCounter(counterDataFields: Map<String, Any>) {
-        coroutineScope {
+    override suspend fun createCounter(counterRawData: CounterRawData) {
+
+        val test = counterRawData.copy(
+            ownerUserUid = userDataRepository.userData.last().lastUserUid
+                ?: CounterRawDataDefaults.ownerUserUid,
+        ).toMap()
+        Log.d("test", test.toString())
+
+        Firebase.firestore
+            .collection("counters")
+            .add(test).addOnCompleteListener {
+                Log.d("test", it.result.toString())
+            }.await()
+
+        /*coroutineScope {
             userDataRepository.userData.stateIn(this).value.let { userData ->
+                Log.d("RahNeil_N3", "B1: ${userData.lastUserUid}")
                 try {
+                    Log.d(
+                        "RahNeil_N3",
+                        counterRawData.copy(
+                            ownerUserUid = userData.lastUserUid
+                                ?: CounterRawDataDefaults.ownerUserUid,
+                        ).toMap().toString(),
+                    )
                     Firebase.firestore
                         .collection("counters")
                         .add(
-                            with(CounterDataFields) {
-                                counterDataFields + mapOf(
-                                    this.ownerUserUid to (
-                                            userData.lastUserUid
-                                                ?: DEFAULT_LASTUSERUID
-                                            ),
-                                    this.createdAt to Timestamp.now(),
-                                    this.currentValue to 0,
-                                )
-                            },
-                        )
+                            counterRawData.copy(
+                                ownerUserUid = userData.lastUserUid
+                                    ?: CounterRawDataDefaults.ownerUserUid,
+                            ).toMap(),
+                        ).await()
                 } catch (e: Exception) {
-                    e.printStackTrace()
-                    Log.e(
-                        "RahNeil_N3:FirestoreCountersRepository",
-                        "createUserCounter: ${e.message}",
-                    )
-                    // TODO Feedback error
+                    throw e
                 }
             }
-        }
+        }*/
     }
 
-    override fun createUserCounterIncrement(counterUid: String, value: Int) {
+    override fun createIncrement(
+        counterUid: String,
+        incrementRawData: IncrementRawData,
+    ) {
         try {
             Firebase.firestore
                 .collection("counters")
                 .document(counterUid)
                 .let {
                     it.update(
-                        CounterDataFields.currentValue,
-                        FieldValue.increment(value.toLong()),
+                        CounterRawData::currentValue.name,
+                        FieldValue.increment(incrementRawData.value),
                     )
-                    it.collection("increments").add(
-                        with(IncrementDataFields) {
-                            hashMapOf(
-                                this.value to value,
-                                this.createdAt to Timestamp.now(),
-                            )
-                        },
-                    )
+                    it.collection("increments").add(incrementRawData)
                 }
         } catch (e: Exception) {
-            e.printStackTrace()
-            // TODO Feedback error
+            throw e
         }
     }
 }

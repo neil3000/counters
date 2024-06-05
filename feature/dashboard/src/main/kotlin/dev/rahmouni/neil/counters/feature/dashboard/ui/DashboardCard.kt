@@ -36,15 +36,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.data.model.CounterData
 import dev.rahmouni.neil.counters.core.designsystem.AnimatedNumber
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.feature.dashboard.R
+import dev.rahmouni.neil.counters.feature.dashboard.model.CounterEntity
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CounterData.DashboardCard(modifier: Modifier = Modifier, onIncrement: (String) -> Unit) {
+internal fun CounterEntity.DashboardCard(
+    modifier: Modifier = Modifier,
+    onIncrement: () -> Unit,
+) {
     val haptics = getHaptic()
     val context = LocalContext.current
 
@@ -63,13 +66,12 @@ fun CounterData.DashboardCard(modifier: Modifier = Modifier, onIncrement: (Strin
                 onLongClick = {
                     haptics.longPress()
 
-                    Toast.makeText(context, ownerUserUid, Toast.LENGTH_SHORT).show()
                     // TODO("Not implemented - add long clicks")
                 },
             ),
         ) {
             Text(
-                text = title,
+                text = getTitle(),
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(8.dp),
             )
@@ -89,9 +91,8 @@ fun CounterData.DashboardCard(modifier: Modifier = Modifier, onIncrement: (Strin
                 Rn3IconButton(
                     icon = Icons.Outlined.Add,
                     contentDescription = stringResource(R.string.feature_dashboard_dashboardCard_addButton_contentDescription),
-                ) {
-                    onIncrement(uid)
-                }
+                    onClick = onIncrement,
+                )
             }
         }
     }

@@ -18,4 +18,4 @@ package dev.rahmouni.neil.counters.feature.dashboard.model
 
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.DashboardData
 
-data class DashboardUiState(val dashboardData: DashboardData)
+internal data class DashboardUiState(val dashboardData: DashboardData)

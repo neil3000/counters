@@ -17,7 +17,7 @@
 package dev.rahmouni.neil.counters.feature.dashboard.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.rahmouni.neil.counters.core.data.model.CounterData
+import dev.rahmouni.neil.counters.feature.dashboard.model.CounterEntity
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData.dashboardData_default
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData.dashboardData_mutations
 
@@ -25,7 +25,7 @@ import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterD
  * This [PreviewParameterProvider](https://developer.android.com/reference/kotlin/androidx/compose/ui/tooling/preview/PreviewParameterProvider)
  * provides list of [DashboardData] for Composable previews.
  */
-class DashboardDataPreviewParameterProvider :
+internal class DashboardDataPreviewParameterProvider :
     PreviewParameterProvider<DashboardData> {
     override val values: Sequence<DashboardData> =
         sequenceOf(dashboardData_default).plus(dashboardData_mutations)
@@ -34,9 +34,10 @@ class DashboardDataPreviewParameterProvider :
 internal object PreviewParameterData {
     val dashboardData_default = DashboardData(
         counters = listOf(
-            CounterData(uid = "id1", title = "Push-ups", currentValue = 30),
-            CounterData(uid = "id2", title = "Coffee cups", currentValue = 2),
+            CounterEntity(uid = "id1", title = "Push-ups", currentValue = 30),
+            CounterEntity(uid = "id2", title = "Coffee cups", currentValue = 2),
         ),
+        lastUserUid = "MZKEGNSDV",
     )
     val dashboardData_mutations = with(dashboardData_default) {
         sequenceOf(

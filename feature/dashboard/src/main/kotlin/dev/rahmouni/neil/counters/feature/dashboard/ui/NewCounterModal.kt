@@ -34,13 +34,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.data.model.CounterDataFields
+import dev.rahmouni.neil.counters.core.data.model.CounterRawData
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.feedback.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun newCounterModal(onCreateNewCounter: (map: Map<String, Any>) -> Unit): () -> Unit {
+internal fun newCounterModal(onCreateCounter: (counterRawData: CounterRawData) -> Unit): () -> Unit {
     val haptic = getHaptic()
 
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
@@ -65,13 +65,11 @@ internal fun newCounterModal(onCreateNewCounter: (map: Map<String, Any>) -> Unit
             Button(
                 onClick = {
                     haptic.click()
-                    with(CounterDataFields) {
-                        onCreateNewCounter(
-                            listOfNotNull(
-                                (this.title to title).takeUnless { title.isBlank() },
-                            ).toMap(),
-                        )
-                    }
+                    onCreateCounter(
+                        CounterRawData(
+                            title = title.trim().takeUnless { it.isBlank() },
+                        ),
+                    )
                 },
                 Modifier
                     .fillMaxWidth()

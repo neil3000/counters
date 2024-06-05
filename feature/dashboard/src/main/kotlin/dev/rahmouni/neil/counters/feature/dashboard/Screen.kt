@@ -19,12 +19,14 @@ package dev.rahmouni.neil.counters.feature.dashboard
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -40,6 +42,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import dev.rahmouni.neil.counters.core.data.model.CounterRawData
+import dev.rahmouni.neil.counters.core.data.model.IncrementRawData
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -47,6 +51,7 @@ import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.DASHBOARD
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
@@ -75,8 +80,8 @@ internal fun DashboardRoute(
             "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8",
         ).toTopAppBarAction(navController::navigateToFeedback),
         onSettingsTopAppBarActionClicked = navigateToSettings,
-        onCreateNewCounter = viewModel::createUserCounter,
-        onIncrementUserCounter = viewModel::incrementUserCounter,
+        onCreateCounter = viewModel::createCounter,
+        onIncrementCounter = viewModel::incrementCounter,
     )
 }
 
@@ -87,15 +92,15 @@ internal fun DashboardScreen(
     uiState: DashboardUiState,
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
-    onCreateNewCounter: (Map<String, Any>) -> Unit = {},
-    onIncrementUserCounter: (String) -> Unit = {},
+    onCreateCounter: (CounterRawData) -> Unit = {},
+    onIncrementCounter: (String, IncrementRawData) -> Unit = { _, _ -> },
 ) {
     val haptics = getHaptic()
 
     val gridState = rememberLazyGridState()
     val expandedFab by remember { derivedStateOf { gridState.firstVisibleItemIndex == 0 } }
 
-    val openNewCounterModal = newCounterModal(onCreateNewCounter = onCreateNewCounter)
+    val openNewCounterModal = newCounterModal(onCreateCounter = onCreateCounter)
 
     Rn3Scaffold(
         modifier,
@@ -123,7 +128,7 @@ internal fun DashboardScreen(
             )
         },
     ) {
-        DashboardPanel(it, uiState.dashboardData, gridState, onIncrementUserCounter)
+        DashboardPanel(it, uiState.dashboardData, gridState, onIncrementCounter)
     }
 }
 
@@ -132,7 +137,7 @@ private fun DashboardPanel(
     paddingValues: Rn3PaddingValues,
     data: DashboardData,
     lazyGridState: LazyGridState,
-    onIncrementUserCounter: (String) -> Unit,
+    onIncrementCounter: (counterUid: String, incrementRawData: IncrementRawData) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 165.dp),
@@ -143,11 +148,17 @@ private fun DashboardPanel(
             bottom = 80.dp,
         ).toComposePaddingValues(),
     ) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            Rn3TileCopy(title = "lastUserUid", icon = Icons.Outlined.Code, text = data.lastUserUid)
+        }
         items(data.counters, key = { it.uid }) {
-            it.DashboardCard(
-                Modifier.padding(4.dp),
-                onIncrement = onIncrementUserCounter,
-            )
+            with(it) {
+                DashboardCard(
+                    Modifier.padding(4.dp),
+                ) {
+                    onIncrementCounter(uid, IncrementRawData())
+                }
+            }
         }
     }
 }

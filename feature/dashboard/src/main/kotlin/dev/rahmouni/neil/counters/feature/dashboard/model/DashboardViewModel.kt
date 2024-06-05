@@ -19,12 +19,15 @@ package dev.rahmouni.neil.counters.feature.dashboard.model
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.rahmouni.neil.counters.core.data.model.CounterRawData
+import dev.rahmouni.neil.counters.core.data.model.IncrementRawData
 import dev.rahmouni.neil.counters.core.data.repository.CountersDataRepository
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.DashboardData
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
@@ -34,11 +37,14 @@ class DashboardViewModel @Inject constructor(
     private val countersDataRepository: CountersDataRepository,
 ) : ViewModel() {
 
-    val uiState: StateFlow<DashboardUiState> =
-        countersDataRepository.userCounters.map { counters ->
+    internal val uiState: StateFlow<DashboardUiState> =
+        countersDataRepository.lastUserUid.zip(countersDataRepository.userCounters) { lastUserUid, counters ->
+            Pair(lastUserUid, counters)
+        }.map { (lastUserUid, counters) ->
             DashboardUiState(
                 dashboardData = DashboardData(
-                    counters = counters,
+                    counters = counters.map { it.toEntity() },
+                    lastUserUid = lastUserUid ?: "polis",
                 ),
             )
         }.stateIn(
@@ -46,18 +52,19 @@ class DashboardViewModel @Inject constructor(
             initialValue = DashboardUiState(
                 DashboardData(
                     counters = emptyList(),
+                    lastUserUid = "unset yet",
                 ),
             ),
             started = WhileSubscribed(5.seconds.inWholeMilliseconds),
         )
 
-    fun createUserCounter(counterDataFields: Map<String, Any>) {
+    fun createCounter(counterRawData: CounterRawData) {
         viewModelScope.launch {
-            countersDataRepository.createUserCounter(counterDataFields)
+            countersDataRepository.createCounter(counterRawData)
         }
     }
 
-    fun incrementUserCounter(id: String) {
-        countersDataRepository.createUserCounterIncrement(id, 1)
+    fun incrementCounter(counterUid: String, incrementRawData: IncrementRawData) {
+        countersDataRepository.createIncrement(counterUid, incrementRawData)
     }
 }
