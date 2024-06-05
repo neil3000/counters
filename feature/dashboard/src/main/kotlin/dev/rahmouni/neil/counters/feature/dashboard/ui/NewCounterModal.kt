@@ -65,6 +65,7 @@ internal fun newCounterModal(onCreateCounter: (counterRawData: CounterRawData) -
             Button(
                 onClick = {
                     haptic.click()
+                    openBottomSheet = false
                     onCreateCounter(
                         CounterRawData(
                             title = title.trim().takeUnless { it.isBlank() },
