@@ -188,7 +188,7 @@ private fun DataAndPrivacySettingsPanel(
             expandedContent = {
                 Text(
                     config.getString("metrics_info_short"),
-                    Modifier.padding(start = 16.dp, bottom = 8.dp),
+                    Modifier.padding(start = 16.dp, bottom = 16.dp),
                 )
             },
         )
@@ -216,7 +216,7 @@ private fun DataAndPrivacySettingsPanel(
             expandedContent = {
                 Text(
                     config.getString("crashlytics_info_short"),
-                    Modifier.padding(start = 16.dp, bottom = 8.dp),
+                    Modifier.padding(start = 16.dp, bottom = 16.dp),
                 )
             },
         )
@@ -243,7 +243,7 @@ private fun DataAndPrivacySettingsPanel(
                 Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title))
                 Text(
                     text = config.getString("privacy_policy_short"),
-                    Modifier.padding(start = 16.dp, bottom = 8.dp, end = 16.dp),
+                    Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                 )
             }
         }

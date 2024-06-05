@@ -230,7 +230,7 @@ private fun SettingsPanel(
                     Column {
                         Rn3TileHorizontalDivider(
                             paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
-                                top = 0.dp,
+                                top = 0.dp, bottom = 0.dp,
                             ),
                         )
 

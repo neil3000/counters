@@ -40,7 +40,7 @@ internal fun Biography(biography: String) {
     ) {
         Column {
             Rn3TileSmallHeader(title = stringResource(R.string.feature_aboutme_biography_headerTile_title))
-            Text(text = biography, Modifier.padding(start = 16.dp, bottom = 8.dp, end = 16.dp))
+            Text(text = biography, Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp))
         }
     }
 }

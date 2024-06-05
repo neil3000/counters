@@ -19,6 +19,7 @@ package dev.rahmouni.neil.counters.core.designsystem.component.tile
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -118,7 +119,7 @@ private fun Rn3TileClickChipsImpl(
                 null
             },
         )
-        Rn3LazyRowWithPadding(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Rn3LazyRowWithPadding(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier.padding(bottom = 8.dp)) {
             chips()
         }
     }
