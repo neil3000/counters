@@ -43,7 +43,7 @@ class DashboardViewModel @Inject constructor(
         }.map { (lastUserUid, counters) ->
             DashboardUiState(
                 dashboardData = DashboardData(
-                    counters = counters.map { it.toEntity() },
+                    counters = counters.map { it.toEntity() }.sortedBy { it.createdAt },
                     lastUserUid = lastUserUid ?: "polis",
                 ),
             )

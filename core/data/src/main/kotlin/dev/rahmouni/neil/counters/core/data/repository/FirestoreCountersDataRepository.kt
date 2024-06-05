@@ -41,21 +41,22 @@ class FirestoreCountersDataRepository @Inject constructor(
 
     override val userCounters: Flow<List<CounterRawData>> =
         userDataRepository.userData.transformLatest { user ->
-            emitAll(
-                try {
-                    Firebase.firestore
-                        .collection("counters")
-                        .whereEqualTo(
-                            CounterRawData::ownerUserUid.name,
-                            user.lastUserUid ?: CounterRawDataDefaults.ownerUserUid,
-                        )
-                        .orderBy(CounterRawData::createdAt.name)
-                        .dataObjects<CounterRawData>()
-                } catch (e: Exception) {
-                    throw e
-                    // TODO Feedback error
-                },
-            )
+            if (user.lastUserUid != null) {
+                emitAll(
+                    try {
+                        Firebase.firestore
+                            .collection("counters")
+                            .whereEqualTo(
+                                CounterRawData::ownerUserUid.name,
+                                user.lastUserUid ?: CounterRawDataDefaults.ownerUserUid,
+                            )
+                            .dataObjects<CounterRawData>()
+                    } catch (e: Exception) {
+                        throw e
+                        // TODO Feedback error
+                    },
+                )
+            }
         }
 
     override suspend fun createCounter(counterRawData: CounterRawData) {
