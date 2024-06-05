@@ -24,10 +24,11 @@ import com.google.firebase.ktx.Firebase
 import dev.rahmouni.neil.counters.core.data.model.CounterRawData
 import dev.rahmouni.neil.counters.core.data.model.CounterRawDataDefaults
 import dev.rahmouni.neil.counters.core.data.model.IncrementRawData
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -60,20 +61,7 @@ class FirestoreCountersDataRepository @Inject constructor(
         }
 
     override suspend fun createCounter(counterRawData: CounterRawData) {
-
-        val test = counterRawData.copy(
-            ownerUserUid = userDataRepository.userData.last().lastUserUid
-                ?: CounterRawDataDefaults.ownerUserUid,
-        ).toMap()
-        Log.d("test", test.toString())
-
-        Firebase.firestore
-            .collection("counters")
-            .add(test).addOnCompleteListener {
-                Log.d("test", it.result.toString())
-            }.await()
-
-        /*coroutineScope {
+        coroutineScope {
             userDataRepository.userData.stateIn(this).value.let { userData ->
                 Log.d("RahNeil_N3", "B1: ${userData.lastUserUid}")
                 try {
@@ -96,7 +84,7 @@ class FirestoreCountersDataRepository @Inject constructor(
                     throw e
                 }
             }
-        }*/
+        }
     }
 
     override fun createIncrement(

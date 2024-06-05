@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
@@ -38,13 +37,11 @@ class DashboardViewModel @Inject constructor(
 ) : ViewModel() {
 
     internal val uiState: StateFlow<DashboardUiState> =
-        countersDataRepository.lastUserUid.zip(countersDataRepository.userCounters) { lastUserUid, counters ->
-            Pair(lastUserUid, counters)
-        }.map { (lastUserUid, counters) ->
+        countersDataRepository.userCounters.map { counters ->
             DashboardUiState(
                 dashboardData = DashboardData(
-                    counters = counters.map { it.toEntity() }.sortedBy { it.createdAt },
-                    lastUserUid = lastUserUid ?: "polis",
+                    counters = counters.sortedBy { it.createdAt }.map { it.toEntity() },
+                    lastUserUid = "RahNeil_N3",
                 ),
             )
         }.stateIn(

@@ -17,7 +17,6 @@
 package dev.rahmouni.neil.counters.feature.dashboard.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.google.firebase.Timestamp
 import dev.rahmouni.neil.counters.feature.dashboard.model.CounterEntity
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData.dashboardData_default
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData.dashboardData_mutations
@@ -35,18 +34,8 @@ internal class DashboardDataPreviewParameterProvider :
 internal object PreviewParameterData {
     val dashboardData_default = DashboardData(
         counters = listOf(
-            CounterEntity(
-                uid = "id1",
-                title = "Push-ups",
-                currentValue = 30,
-                createdAt = Timestamp.now(),
-            ),
-            CounterEntity(
-                uid = "id2",
-                title = "Coffee cups",
-                currentValue = 2,
-                createdAt = Timestamp.now(),
-            ),
+            CounterEntity(uid = "id1", title = "Push-ups", currentValue = 30),
+            CounterEntity(uid = "id2", title = "Coffee cups", currentValue = 2),
         ),
         lastUserUid = "MZKEGNSDV",
     )
