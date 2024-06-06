@@ -41,7 +41,6 @@ class DashboardViewModel @Inject constructor(
             DashboardUiState(
                 dashboardData = DashboardData(
                     counters = counters.sortedBy { it.createdAt }.map { it.toEntity() },
-                    lastUserUid = "RahNeil_N3",
                 ),
             )
         }.stateIn(
@@ -49,7 +48,6 @@ class DashboardViewModel @Inject constructor(
             initialValue = DashboardUiState(
                 DashboardData(
                     counters = emptyList(),
-                    lastUserUid = "unset yet",
                 ),
             ),
             started = WhileSubscribed(5.seconds.inWholeMilliseconds),

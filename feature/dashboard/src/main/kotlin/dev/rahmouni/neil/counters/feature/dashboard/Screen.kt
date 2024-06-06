@@ -19,14 +19,12 @@ package dev.rahmouni.neil.counters.feature.dashboard
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -51,7 +49,6 @@ import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.DASHBOARD
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
@@ -148,13 +145,12 @@ private fun DashboardPanel(
             bottom = 80.dp,
         ).toComposePaddingValues(),
     ) {
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            Rn3TileCopy(title = "lastUserUid", icon = Icons.Outlined.Code, text = data.lastUserUid)
-        }
         items(data.counters, key = { it.uid }) {
             with(it) {
                 DashboardCard(
-                    Modifier.padding(4.dp),
+                    Modifier
+                        .padding(4.dp)
+                        .animateItem(),
                 ) {
                     onIncrementCounter(uid, IncrementRawData())
                 }

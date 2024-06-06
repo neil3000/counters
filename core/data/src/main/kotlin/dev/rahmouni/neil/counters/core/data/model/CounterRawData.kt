@@ -28,16 +28,7 @@ data class CounterRawData(
     val currentValueComputedSegment: Timestamp? = null,
     val ownerUserUid: String = CounterRawDataDefaults.ownerUserUid,
     val title: String? = null,
-) {
-    fun toMap(): Map<String, Any> = mapOf(
-        ::uid.name to uid,
-        ::createdAt.name to createdAt,
-        ::currentValue.name to currentValue,
-        ::currentValueComputedSegment.name to currentValueComputedSegment,
-        ::ownerUserUid.name to ownerUserUid,
-        ::title.name to title,
-    ).filterValues { it != null }.mapValues { it.value as Any }
-}
+)
 
 @Suppress("ConstPropertyName")
 object CounterRawDataDefaults {

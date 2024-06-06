@@ -28,6 +28,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -37,16 +38,26 @@ import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.data.model.CounterRawData
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.feedback.R
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun newCounterModal(onCreateCounter: (counterRawData: CounterRawData) -> Unit): () -> Unit {
     val haptic = getHaptic()
+    val scope = rememberCoroutineScope()
 
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     var title by rememberSaveable { mutableStateOf("") }
+
+    fun hide() {
+        scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
+            if (!bottomSheetState.isVisible) {
+                openBottomSheet = false
+            }
+        }
+    }
 
     if (openBottomSheet) {
         ModalBottomSheet(
@@ -65,7 +76,7 @@ internal fun newCounterModal(onCreateCounter: (counterRawData: CounterRawData) -
             Button(
                 onClick = {
                     haptic.click()
-                    openBottomSheet = false
+                    hide()
                     onCreateCounter(
                         CounterRawData(
                             title = title.trim().takeUnless { it.isBlank() },

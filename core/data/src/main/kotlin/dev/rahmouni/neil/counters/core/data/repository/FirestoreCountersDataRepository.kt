@@ -16,7 +16,6 @@
 
 package dev.rahmouni.neil.counters.core.data.repository
 
-import android.util.Log
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.ktx.firestore
@@ -63,22 +62,14 @@ class FirestoreCountersDataRepository @Inject constructor(
     override suspend fun createCounter(counterRawData: CounterRawData) {
         coroutineScope {
             userDataRepository.userData.stateIn(this).value.let { userData ->
-                Log.d("RahNeil_N3", "B1: ${userData.lastUserUid}")
                 try {
-                    Log.d(
-                        "RahNeil_N3",
-                        counterRawData.copy(
-                            ownerUserUid = userData.lastUserUid
-                                ?: CounterRawDataDefaults.ownerUserUid,
-                        ).toMap().toString(),
-                    )
                     Firebase.firestore
                         .collection("counters")
                         .add(
                             counterRawData.copy(
                                 ownerUserUid = userData.lastUserUid
                                     ?: CounterRawDataDefaults.ownerUserUid,
-                            ).toMap(),
+                            ),
                         ).await()
                 } catch (e: Exception) {
                     throw e

@@ -37,7 +37,6 @@ internal object PreviewParameterData {
             CounterEntity(uid = "id1", title = "Push-ups", currentValue = 30),
             CounterEntity(uid = "id2", title = "Coffee cups", currentValue = 2),
         ),
-        lastUserUid = "MZKEGNSDV",
     )
     val dashboardData_mutations = with(dashboardData_default) {
         sequenceOf(

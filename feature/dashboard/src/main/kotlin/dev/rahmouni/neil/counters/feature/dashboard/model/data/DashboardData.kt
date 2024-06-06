@@ -20,5 +20,4 @@ import dev.rahmouni.neil.counters.feature.dashboard.model.CounterEntity
 
 internal data class DashboardData(
     val counters: List<CounterEntity>,
-    val lastUserUid: String,
 )
