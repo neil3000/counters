@@ -31,7 +31,7 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 fun Rn3TileSmallHeader(
     modifier: Modifier = Modifier,
     title: String,
-    paddingValues: Rn3PaddingValues = Rn3TileSmallHeader.paddingValues,
+    paddingValues: Rn3PaddingValues = Rn3TileSmallHeaderDefaults.paddingValues,
 ) {
     Text(
         text = title,
@@ -41,7 +41,7 @@ fun Rn3TileSmallHeader(
     )
 }
 
-object Rn3TileSmallHeader {
+object Rn3TileSmallHeaderDefaults {
     val paddingValues = Rn3PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
 }
 
