@@ -55,8 +55,8 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
     Column {
         FeedbackMessages(
             listOf(
-                stringResource(R.string.core_feedback_TypePage_welcomeMessage),
-                stringResource(R.string.core_feedback_TypePage_typeMessage),
+                stringResource(R.string.core_feedback_typePage_welcomeMessage),
+                stringResource(R.string.core_feedback_typePage_typeMessage),
             ),
         )
 
@@ -66,9 +66,9 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
         ) {
             FeedbackOptions(
                 mapOf(
-                    "BUG" to stringResource(R.string.core_feedback_TypePage_bug),
+                    "BUG" to stringResource(R.string.core_feedback_typePage_bug),
                     "FEATURE" to stringResource(
-                        R.string.core_feedback_TypePage_suggestion,
+                        R.string.core_feedback_typePage_suggestion,
                     ),
                 ),
                 currentType,

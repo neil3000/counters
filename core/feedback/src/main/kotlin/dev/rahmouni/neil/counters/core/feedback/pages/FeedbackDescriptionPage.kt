@@ -65,13 +65,13 @@ internal fun FeedbackDescriptionPage(
         FeedbackMessages(
             listOf(
                 if (bug) {
-                    stringResource(R.string.core_feedback_DescriptionPage_bugMessage)
+                    stringResource(R.string.core_feedback_descriptionPage_bugMessage)
                 } else {
                     stringResource(
-                        R.string.core_feedback_DescriptionPage_suggestionMessage,
+                        R.string.core_feedback_descriptionPage_suggestionMessage,
                     )
                 },
-                stringResource(R.string.core_feedback_DescriptionPage_personalInfoMessage),
+                stringResource(R.string.core_feedback_descriptionPage_personalInfoMessage),
             ),
         )
 
@@ -82,7 +82,7 @@ internal fun FeedbackDescriptionPage(
                 .fillMaxWidth()
                 .padding(16.dp)
                 .focusRequester(focusRequester),
-            label = { Text(text = stringResource(R.string.core_feedback_DescriptionPage_textField_label)) },
+            label = { Text(text = stringResource(R.string.core_feedback_descriptionPage_textField_label)) },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
