@@ -17,7 +17,6 @@
 package dev.rahmouni.neil.counters.core.designsystem.component
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -47,6 +46,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.R
+import dev.rahmouni.neil.counters.core.designsystem.rn3ErrorContainer
 
 @Composable
 fun Rn3ConfirmationDialog(
@@ -88,7 +88,7 @@ fun Rn3ConfirmationDialog(
                     DialogButton(
                         confirmLabel,
                         icon,
-                        color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.error,
+                        color = MaterialTheme.colorScheme.rn3ErrorContainer,
                     ) {
                         openDialog = false
 
