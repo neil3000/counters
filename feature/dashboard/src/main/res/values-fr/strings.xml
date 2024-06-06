@@ -14,11 +14,12 @@
      limitations under the License.
 -->
 <resources>
-    <string name="feature_dashboard_dashboardScreen_topAppBarTitle">Counters</string>
-    <string name="feature_dashboard_dashboardScreen_topAppBarActions_settings">Paramètres</string>
-    <string name="feature_dashboard_fab_newCounter">Nouveau compteur</string>
     <string name="feature_dashboard_bottomSheet_continueButton_title">Continuer</string>
     <string name="feature_dashboard_bottomSheet_textField_error_label">Le nom est déjà utilisé</string>
     <string name="feature_dashboard_bottomSheet_textField_label">Nom</string>
+    <string name="feature_dashboard_counterEntity_defaultTitle">Compteur sans nom</string>
     <string name="feature_dashboard_dashboardCard_addButton_contentDescription">Ajoute un</string>
+    <string name="feature_dashboard_dashboardScreen_topAppBarActions_settings">Paramètres</string>
+    <string name="feature_dashboard_dashboardScreen_topAppBarTitle">Counters</string>
+    <string name="feature_dashboard_fab_newCounter">Nouveau compteur</string>
 </resources>
