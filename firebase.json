@@ -14,13 +14,18 @@
       ]
     }
   ],
-  "hosting": [{
-    "target": "rn3-url",
-    "frameworksBackend": {
-      "region": "europe-west1"
-    },
-    "rewrites": [{
-      "source": "**/**", "function": "url"
-    }]
-  }]
+  "hosting": [
+    {
+      "target": "rn3-url",
+      "frameworksBackend": {
+        "region": "europe-west1"
+      },
+      "rewrites": [
+        {
+          "source": "**/**",
+          "function": "url"
+        }
+      ]
+    }
+  ]
 }
