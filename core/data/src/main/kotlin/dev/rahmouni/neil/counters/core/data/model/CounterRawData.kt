@@ -30,7 +30,7 @@ data class CounterRawData(
     val title: String? = null,
 )
 
-@Suppress("ConstPropertyName")
+@Suppress("ConstPropertyName", "ktlint:standard:property-naming")
 object CounterRawDataDefaults {
     const val ownerUserUid = "noLastUserUid"
 }
