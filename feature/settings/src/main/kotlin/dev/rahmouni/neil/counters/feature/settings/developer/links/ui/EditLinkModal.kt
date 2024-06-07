@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlRawData
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ConfirmationDialog
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.rn3ErrorButtonColors
 import dev.rahmouni.neil.counters.feature.settings.R
@@ -58,7 +59,7 @@ internal fun editLinkModal(
         }
     }
 
-    val enabled by derivedStateOf { currentPath.isNotBlank() }
+    val enabled by rememberSaveable { derivedStateOf { currentPath.isNotBlank() && currentRedirectUrl.isNotBlank() } }
 
     if (openBottomSheet) {
         ModalBottomSheet(
@@ -103,19 +104,27 @@ internal fun editLinkModal(
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     // deleteButton
                     if (editing) {
-                        Button(
-                            onClick = {
-                                haptics.click()
+                        Rn3ConfirmationDialog(
+                            icon = Icons.Outlined.DeleteForever,
+                            body = { },
+                            confirmLabel = stringResource(R.string.feature_settings_developerSettingsLinksScreen_deleteButton_confirmationDialog_confirmLabel),
+                            onConfirm = {
                                 hide()
-
                                 onDelete(currentPath)
                             },
-                            colors = ButtonDefaults.rn3ErrorButtonColors(),
                         ) {
-                            Icon(
-                                Icons.Outlined.DeleteForever,
-                                stringResource(R.string.feature_settings_developerSettingsLinksScreen_deleteButton_icon_contentDescription),
-                            )
+                            Button(
+                                onClick = {
+                                    haptics.click()
+                                    it()
+                                },
+                                colors = ButtonDefaults.rn3ErrorButtonColors(),
+                            ) {
+                                Icon(
+                                    Icons.Outlined.DeleteForever,
+                                    stringResource(R.string.feature_settings_developerSettingsLinksScreen_deleteButton_icon_contentDescription),
+                                )
+                            }
                         }
                     }
 

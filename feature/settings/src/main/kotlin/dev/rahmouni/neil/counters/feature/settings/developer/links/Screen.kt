@@ -107,7 +107,7 @@ private fun DeveloperSettingsLinksPanel(
 ) {
     LazyColumn(contentPadding = paddingValues.toComposePaddingValues()) {
         items(data.links) {
-            it.Tile {
+            it.Tile(Modifier.animateItem()) {
                 onLongPressLink(it)
             }
         }

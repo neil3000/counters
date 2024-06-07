@@ -42,12 +42,12 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun LinkRn3UrlRawData.Tile(onEdit: () -> Unit) {
+internal fun LinkRn3UrlRawData.Tile(modifier: Modifier = Modifier, onEdit: () -> Unit) {
     val context = LocalContext.current
     val haptics = getHaptic()
 
     Rn3TileClick(
-        modifier = Modifier.combinedClickable(
+        modifier = modifier.combinedClickable(
             onClick = {
                 haptics.click()
                 context.copyText(path, "https://counters.rahmouni.dev/$path")
