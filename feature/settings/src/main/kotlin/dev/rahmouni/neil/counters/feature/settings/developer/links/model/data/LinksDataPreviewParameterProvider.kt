@@ -17,7 +17,7 @@
 package dev.rahmouni.neil.counters.feature.settings.developer.links.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlData
+import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlRawData
 import dev.rahmouni.neil.counters.feature.settings.developer.links.model.data.PreviewParameterData.linksData_default
 
 /**
@@ -32,13 +32,13 @@ class LinksDataPreviewParameterProvider :
 object PreviewParameterData {
     val linksData_default = DeveloperSettingsLinksData(
         links = listOf(
-            LinkRn3UrlData(
+            LinkRn3UrlRawData(
                 path = "install",
                 description = "",
                 redirectUrl = "https://www.google.com",
                 clicks = 120,
             ),
-            LinkRn3UrlData(
+            LinkRn3UrlRawData(
                 path = "changelog",
                 description = "Changelog of the app",
                 redirectUrl = "https://www.google.com",

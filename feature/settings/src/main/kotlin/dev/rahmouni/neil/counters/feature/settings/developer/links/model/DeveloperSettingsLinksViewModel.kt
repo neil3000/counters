@@ -19,6 +19,7 @@ package dev.rahmouni.neil.counters.feature.settings.developer.links.model
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlRawData
 import dev.rahmouni.neil.counters.core.data.repository.LinksRn3UrlDataRepository
 import dev.rahmouni.neil.counters.feature.settings.developer.links.model.data.DeveloperSettingsLinksData
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
@@ -50,8 +51,8 @@ class DeveloperSettingsLinksViewModel @Inject constructor(
             started = WhileSubscribed(5.seconds.inWholeMilliseconds),
         )
 
-    fun setLink(path: String, redirectUrl: String, description: String) =
-        linksRn3UrlDataRepository.setLink(path, redirectUrl, description)
+    fun setLink(linkRn3UrlRawData: LinkRn3UrlRawData) =
+        linksRn3UrlDataRepository.setLink(linkRn3UrlRawData)
 
     fun deleteLink(path: String) = linksRn3UrlDataRepository.deleteLink(path)
 }

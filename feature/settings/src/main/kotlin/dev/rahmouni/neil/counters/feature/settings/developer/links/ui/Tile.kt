@@ -35,14 +35,14 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.common.copyText
-import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlData
+import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlRawData
 import dev.rahmouni.neil.counters.core.designsystem.AnimatedNumber
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun LinkRn3UrlData.Tile(onEdit: () -> Unit) {
+internal fun LinkRn3UrlRawData.Tile(onEdit: () -> Unit) {
     val context = LocalContext.current
     val haptics = getHaptic()
 
@@ -61,9 +61,10 @@ internal fun LinkRn3UrlData.Tile(onEdit: () -> Unit) {
         icon = Icons.Outlined.Link,
         supportingContent = {
             Column {
-                description.let { if (it.isNotEmpty()) Text(it, fontStyle = FontStyle.Italic) }
+                description.let { if (!it.isNullOrEmpty()) Text(it, fontStyle = FontStyle.Italic) }
                 Text(
-                    redirectUrl.removePrefix("https://"),
+                    redirectUrl?.removePrefix("https://")?.removePrefix("counters.rahmouni.dev")
+                        ?: "",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )

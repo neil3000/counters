@@ -16,8 +16,8 @@
 
 package dev.rahmouni.neil.counters.feature.settings.developer.links.model.data
 
-import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlData
+import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlRawData
 
 data class DeveloperSettingsLinksData(
-    val links: List<LinkRn3UrlData>,
+    val links: List<LinkRn3UrlRawData>,
 )

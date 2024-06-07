@@ -20,17 +20,9 @@ import androidx.annotation.Keep
 import com.google.firebase.firestore.DocumentId
 
 @Keep
-data class LinkRn3UrlData(
+data class LinkRn3UrlRawData(
     @DocumentId val path: String = "",
-    val description: String = "",
-    val redirectUrl: String = "",
+    val description: String? = null,
+    val redirectUrl: String? = null,
     val clicks: Long = 0,
 )
-
-@Suppress("ConstPropertyName", "ktlint:standard:property-naming", "unused")
-object LinkRn3UrlDataFields {
-    const val path: String = "path"
-    const val description = "description"
-    const val redirectUrl = "redirectUrl"
-    const val clicks = "clicks"
-}
