@@ -25,4 +25,5 @@ data class LinkRn3UrlRawData(
     val description: String? = null,
     val redirectUrl: String? = null,
     val clicks: Long = 0,
+    val favorite: Boolean = false,
 )

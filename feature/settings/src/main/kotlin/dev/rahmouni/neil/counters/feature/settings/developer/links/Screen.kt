@@ -56,6 +56,7 @@ internal fun DeveloperSettingsLinksRoute(
         modifier,
         uiState,
         onBackIconButtonClicked = navController::popBackStack,
+        onFavoriteLink = viewModel::favoriteLink,
         onConfirmButtonClicked = viewModel::setLink,
         onDeleteButtonClicked = viewModel::deleteLink,
     )
@@ -67,6 +68,7 @@ internal fun DeveloperSettingsLinksScreen(
     modifier: Modifier = Modifier,
     uiState: DeveloperSettingsLinksUiState,
     onBackIconButtonClicked: () -> Unit = {},
+    onFavoriteLink: (LinkRn3UrlRawData, Boolean) -> Unit = { _, _ -> },
     onConfirmButtonClicked: (LinkRn3UrlRawData) -> Unit = { _ -> },
     onDeleteButtonClicked: (String) -> Unit = { _ -> },
 ) {
@@ -94,6 +96,7 @@ internal fun DeveloperSettingsLinksScreen(
         DeveloperSettingsLinksPanel(
             paddingValues = it,
             data = uiState.developerSettingsLinksData,
+            onFavoriteLink = onFavoriteLink,
             onLongPressLink = openLinkEditModal,
         )
     }
@@ -103,12 +106,17 @@ internal fun DeveloperSettingsLinksScreen(
 private fun DeveloperSettingsLinksPanel(
     paddingValues: Rn3PaddingValues,
     data: DeveloperSettingsLinksData,
+    onFavoriteLink: (LinkRn3UrlRawData, Boolean) -> Unit,
     onLongPressLink: (LinkRn3UrlRawData) -> Unit,
 ) {
     LazyColumn(contentPadding = paddingValues.toComposePaddingValues()) {
-        items(data.links) {
-            it.Tile(Modifier.animateItem()) {
-                onLongPressLink(it)
+        items(data.links.sortedBy { if (it.favorite) "a" else "z" + it.path }, key = { it.path }) {
+            with(it) {
+                Tile(
+                    Modifier.animateItem(),
+                    onFavorite = { favorited -> onFavoriteLink(this, favorited) },
+                    onLongPress = { onLongPressLink(this) },
+                )
             }
         }
     }

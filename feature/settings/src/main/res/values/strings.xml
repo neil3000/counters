@@ -81,4 +81,8 @@
     <string name="feature_settings_settingsScreen_otherHeaderTile_title">Other</string>
     <string name="feature_settings_settingsScreen_topAppBarTitle">Settings</string>
     <string name="feature_settings_developerSettingsLinksScreen_deleteButton_confirmationDialog_confirmLabel" translatable="false">Delete</string>
+    <plurals name="feature_settings_linkRn3UrlTile_favoriteIconButton_contentDescription">
+        <item quantity="one">Remove from favorites</item>
+        <item quantity="other">Add to favorites</item>
+    </plurals>
 </resources>

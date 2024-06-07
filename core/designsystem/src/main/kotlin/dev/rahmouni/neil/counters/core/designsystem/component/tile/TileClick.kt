@@ -93,6 +93,33 @@ fun Rn3TileClick(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     onClick: () -> Unit,
 ) {
+    Rn3TileClick(
+        modifier = modifier,
+        title = title,
+        leadingContent = {
+            Icon(imageVector = icon, contentDescription = null)
+        },
+        supportingContent = supportingContent,
+        trailingContent = trailingContent,
+        enabled = enabled,
+        error = error,
+        interactionSource = interactionSource,
+        onClick = onClick,
+    )
+}
+
+@Composable
+fun Rn3TileClick(
+    modifier: Modifier = Modifier,
+    title: String,
+    leadingContent: @Composable (() -> Unit)?,
+    supportingContent: @Composable (() -> Unit)? = null,
+    trailingContent: @Composable (() -> Unit)? = null,
+    enabled: Boolean = true,
+    error: Boolean = false,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    onClick: () -> Unit,
+) {
     val haptic = getHaptic()
     val indication = LocalIndication.current
 
@@ -126,9 +153,7 @@ fun Rn3TileClick(
             .alpha(if (enabled) 1f else .5f)
             .then(modifier),
         supportingContent = supportingContent,
-        leadingContent = {
-            Icon(imageVector = icon, contentDescription = null)
-        },
+        leadingContent = leadingContent,
         trailingContent = trailingContent,
     )
 }

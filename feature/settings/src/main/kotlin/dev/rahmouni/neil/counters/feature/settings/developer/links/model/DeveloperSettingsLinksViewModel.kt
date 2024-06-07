@@ -51,6 +51,9 @@ class DeveloperSettingsLinksViewModel @Inject constructor(
             started = WhileSubscribed(5.seconds.inWholeMilliseconds),
         )
 
+    fun favoriteLink(linkRn3UrlRawData: LinkRn3UrlRawData, favorite: Boolean) =
+        linksRn3UrlDataRepository.setLink(linkRn3UrlRawData.copy(favorite = favorite))
+
     fun setLink(linkRn3UrlRawData: LinkRn3UrlRawData) =
         linksRn3UrlDataRepository.setLink(linkRn3UrlRawData)
 
