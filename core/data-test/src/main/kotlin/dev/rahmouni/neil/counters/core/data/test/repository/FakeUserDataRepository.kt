@@ -50,8 +50,4 @@ class FakeUserDataRepository @Inject constructor(
     override suspend fun setCrashlyticsEnabled(value: Boolean) {
         rn3PreferencesDataSource.setCrashlyticsEnabledPreference(value)
     }
-
-    override suspend fun setLastUserUid(value: String) {
-        rn3PreferencesDataSource.setLastUserUidPreference(value)
-    }
 }
