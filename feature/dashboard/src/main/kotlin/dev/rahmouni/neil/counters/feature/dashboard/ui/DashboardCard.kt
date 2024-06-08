@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.AnimatedNumber
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
@@ -74,6 +75,8 @@ internal fun CounterEntity.DashboardCard(
                 text = getTitle(),
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(8.dp),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
