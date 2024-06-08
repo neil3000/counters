@@ -27,6 +27,9 @@ interface AuthHelper {
     )
 
     suspend fun signOut(context: Context)
+
+    val authSignedIn: Boolean
+
     fun getUser(): Rn3User
 
     fun getUserFlow(): Flow<Rn3User>

@@ -32,8 +32,8 @@ android {
 dependencies {
     api(libs.androidx.compose.material.iconsExtended)
 
-    api(projects.core.auth)
     api(projects.core.config)
+    api(projects.core.data)
     api(projects.core.feedback) // Only in settings!
     api(projects.core.ui) // Only in settings!
 

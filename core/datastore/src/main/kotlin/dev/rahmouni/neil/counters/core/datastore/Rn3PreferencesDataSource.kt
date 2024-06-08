@@ -32,7 +32,6 @@ class Rn3PreferencesDataSource @Inject constructor(
             hasAccessibilityIconTooltipsEnabled = !userPref.accessibilityHasIconTooltipsDisabled,
             hasMetricsEnabled = !userPref.hasMetricsDisabled,
             hasCrashlyticsEnabled = !userPref.hasCrashlyticsDisabled,
-            lastUserUid = userPref.lastUserUid.takeIf { it.isNotEmpty() },
         )
     }
 
@@ -57,12 +56,6 @@ class Rn3PreferencesDataSource @Inject constructor(
     suspend fun setCrashlyticsEnabledPreference(value: Boolean) {
         userPreferences.updateData {
             it.copy { this.hasCrashlyticsDisabled = !value }
-        }
-    }
-
-    suspend fun setLastUserUidPreference(value: String) {
-        userPreferences.updateData {
-            it.copy { this.lastUserUid = value }
         }
     }
 }

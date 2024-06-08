@@ -32,8 +32,9 @@ android {
 }
 
 dependencies {
-    api(projects.core.datastore)
     api(projects.core.analytics)
+    api(projects.core.auth)
+    api(projects.core.datastore)
 
     api(platform(libs.firebase.bom))
     api(libs.firebase.firestore)

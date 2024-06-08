@@ -28,6 +28,8 @@ import javax.inject.Singleton
 @Singleton
 class StubAuthHelper @Inject constructor() : AuthHelper {
 
+    override val authSignedIn = true
+
     override suspend fun signInWithCredentialManager(
         context: Context,
         filterByAuthorizedAccounts: Boolean,

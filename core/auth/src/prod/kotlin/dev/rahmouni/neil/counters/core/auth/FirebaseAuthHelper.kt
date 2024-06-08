@@ -29,9 +29,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
+import dev.rahmouni.neil.counters.core.auth.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
-import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,10 +46,11 @@ const val WEB_CLIENT_ID = "743616795299-b7pstjgcvnq3sm77ia43vm66okovpejq.apps.go
  */
 internal class FirebaseAuthHelper @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
-    private val userDataRepository: UserDataRepository,
 ) : AuthHelper {
 
     private var claims = MutableStateFlow<Map<String, Any>>(emptyMap())
+
+    override val authSignedIn: Boolean get() = firebaseAuth.currentUser != null
 
     init {
         firebaseAuth.addAuthStateListener { auth ->
@@ -65,7 +65,7 @@ internal class FirebaseAuthHelper @Inject constructor(
         filterByAuthorizedAccounts: Boolean,
     ) {
         try {
-            val task = firebaseAuth.signInWithCredential(
+            firebaseAuth.signInWithCredential(
                 GoogleAuthProvider.getCredential(
                     GoogleIdTokenCredential.createFrom(
                         CredentialManager
@@ -92,10 +92,6 @@ internal class FirebaseAuthHelper @Inject constructor(
                     null,
                 ),
             ).await()
-
-            if (task.user != null) {
-                userDataRepository.setLastUserUid(task.user!!.uid)
-            }
         } catch (e: Exception) {
             when (e) {
                 is NoCredentialException -> {
@@ -125,8 +121,10 @@ internal class FirebaseAuthHelper @Inject constructor(
     }
 
     override suspend fun signOut(context: Context) {
-        firebaseAuth.signOut()
-        CredentialManager.create(context).clearCredentialState(ClearCredentialStateRequest())
+        val task = firebaseAuth.signInAnonymously().await()
+        if (task.user != null) {
+            CredentialManager.create(context).clearCredentialState(ClearCredentialStateRequest())
+        }
     }
 
     override fun getUser(): Rn3User = firebaseAuth.currentUser.toRn3User(claims.value)
@@ -144,10 +142,13 @@ internal class FirebaseAuthHelper @Inject constructor(
     }
 
     private fun FirebaseUser?.toRn3User(claims: Map<String, Any>): Rn3User {
-        return when (this) {
-            null -> LoggedOutUser
-            else -> SignedInUser(
-                uid = this.uid,
+        if (this == null) throw IllegalAccessException("RahNeil_N3:ukLhXORwGrxysm2q6uVzYl4ZkcAbIyX8 / User isn't logged in yet")
+
+        with(this) {
+            if (isAnonymous) return AnonymousUser(uid)
+
+            return SignedInUser(
+                uid = uid,
                 displayName = this.displayName.toString(),
                 pfpUri = this.photoUrl,
                 isAdmin = claims["role"] == "Admin",

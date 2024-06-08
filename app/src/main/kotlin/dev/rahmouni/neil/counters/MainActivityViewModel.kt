@@ -40,6 +40,7 @@ class MainActivityViewModel @Inject constructor(
                 hasEmphasizedSwitchesEnabled = userData.hasAccessibilityEmphasizedSwitchesEnabled,
                 hasIconTooltipsEnabled = userData.hasAccessibilityIconTooltipsEnabled,
             ),
+            hasMetricsEnabled = userData.hasMetricsEnabled,
             hasCrashlyticsEnabled = userData.hasCrashlyticsEnabled,
         )
     }.stateIn(
@@ -53,6 +54,7 @@ sealed interface MainActivityUiState {
     data object Loading : MainActivityUiState
     data class Success(
         val accessibilityHelper: AccessibilityHelper,
+        val hasMetricsEnabled: Boolean,
         val hasCrashlyticsEnabled: Boolean,
     ) :
         MainActivityUiState

@@ -17,7 +17,7 @@
 package dev.rahmouni.neil.counters.feature.settings.main.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
+import dev.rahmouni.neil.counters.core.auth.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_default
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_mutations
@@ -44,7 +44,7 @@ object PreviewParameterData {
     )
     val settingsData_mutations = with(settingsData_default) {
         sequenceOf(
-            copy(user = LoggedOutUser),
+            copy(user = AnonymousUser("androidPreviewID")),
             copy(devSettingsEnabled = true),
         )
     }

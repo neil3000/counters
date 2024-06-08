@@ -20,81 +20,59 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.model.CounterRawData
-import dev.rahmouni.neil.counters.core.data.model.CounterRawDataDefaults
 import dev.rahmouni.neil.counters.core.data.model.IncrementRawData
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.transformLatest
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class FirestoreCountersDataRepository @Inject constructor(
-    private val userDataRepository: UserDataRepository,
+    private val authHelper: AuthHelper,
 ) : CountersDataRepository {
 
-    override val lastUserUid: Flow<String?> =
-        userDataRepository.userData.map { it.lastUserUid }
-
     override val userCounters: Flow<List<CounterRawData>> =
-        userDataRepository.userData.transformLatest { user ->
-            if (user.lastUserUid != null) {
-                emitAll(
-                    try {
-                        Firebase.firestore
-                            .collection("counters")
-                            .whereEqualTo(
-                                CounterRawData::ownerUserUid.name,
-                                user.lastUserUid ?: CounterRawDataDefaults.ownerUserUid,
-                            )
-                            .dataObjects<CounterRawData>()
-                    } catch (e: Exception) {
-                        throw e
-                        // TODO Feedback error
-                    },
-                )
-            }
-        }
-
-    override suspend fun createCounter(counterRawData: CounterRawData) {
-        coroutineScope {
-            userDataRepository.userData.stateIn(this).value.let { userData ->
+        authHelper.getUserFlow().transformLatest { user ->
+            emitAll(
                 try {
                     Firebase.firestore
                         .collection("counters")
-                        .add(
-                            counterRawData.copy(
-                                ownerUserUid = userData.lastUserUid
-                                    ?: CounterRawDataDefaults.ownerUserUid,
-                            ),
-                        ).await()
+                        .whereEqualTo(
+                            CounterRawData::ownerUserUid.name,
+                            user.uid,
+                        )
+                        .dataObjects<CounterRawData>()
                 } catch (e: Exception) {
                     throw e
-                }
-            }
+                    // TODO Feedback error
+                },
+            )
         }
+
+    override fun createCounter(counterRawData: CounterRawData) {
+        Firebase.firestore
+            .collection("counters")
+            .add(
+                counterRawData.copy(
+                    ownerUserUid = authHelper.getUser().uid,
+                ),
+            )
     }
 
     override fun createIncrement(
         counterUid: String,
         incrementRawData: IncrementRawData,
     ) {
-        try {
-            Firebase.firestore
-                .collection("counters")
-                .document(counterUid)
-                .let {
-                    it.update(
-                        CounterRawData::currentValue.name,
-                        FieldValue.increment(incrementRawData.value),
-                    )
-                    it.collection("increments").add(incrementRawData)
-                }
-        } catch (e: Exception) {
-            throw e
-        }
+        Firebase.firestore
+            .collection("counters")
+            .document(counterUid)
+            .let {
+                it.update(
+                    CounterRawData::currentValue.name,
+                    FieldValue.increment(incrementRawData.value),
+                )
+                it.collection("increments").add(incrementRawData)
+            }
     }
 }

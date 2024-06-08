@@ -30,6 +30,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.metrics.performance.JankStats
+import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -43,7 +44,6 @@ import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
 import dev.rahmouni.neil.counters.core.auth.StubAuthHelper
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.core.config.ConfigHelper
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -90,7 +90,7 @@ class MainActivity : ComponentActivity() {
         // Update the uiState
         lifecycleScope.launch {
             // If the user is not signed in, launch the sign in process.
-            if (authHelper.getUser() is LoggedOutUser) {
+            if (!authHelper.authSignedIn) {
                 authHelper.signInWithCredentialManager(this@MainActivity, true)
             }
             finishedSigningIn = true
@@ -101,6 +101,7 @@ class MainActivity : ComponentActivity() {
                         uiState = it
 
                         if (it is Success) {
+                            Firebase.analytics.setAnalyticsCollectionEnabled(!BuildConfig.DEBUG && it.hasMetricsEnabled)
                             Firebase.crashlytics.setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG && it.hasCrashlyticsEnabled)
                         }
 

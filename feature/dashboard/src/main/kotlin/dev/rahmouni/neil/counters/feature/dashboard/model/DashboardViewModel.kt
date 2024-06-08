@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
@@ -54,9 +53,7 @@ class DashboardViewModel @Inject constructor(
         )
 
     fun createCounter(counterRawData: CounterRawData) {
-        viewModelScope.launch {
-            countersDataRepository.createCounter(counterRawData)
-        }
+        countersDataRepository.createCounter(counterRawData)
     }
 
     fun incrementCounter(counterUid: String, incrementRawData: IncrementRawData) {

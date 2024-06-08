@@ -48,8 +48,4 @@ internal class OfflineFirstUserDataRepository @Inject constructor(
         rn3PreferencesDataSource.setCrashlyticsEnabledPreference(value)
         analyticsHelper.logCrashlyticsPreferenceChanged(value)
     }
-
-    override suspend fun setLastUserUid(value: String) {
-        rn3PreferencesDataSource.setLastUserUidPreference(value)
-    }
 }

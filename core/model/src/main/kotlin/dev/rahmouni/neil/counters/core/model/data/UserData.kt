@@ -21,13 +21,4 @@ data class UserData(
     val hasAccessibilityIconTooltipsEnabled: Boolean,
     val hasMetricsEnabled: Boolean,
     val hasCrashlyticsEnabled: Boolean,
-
-    /**
-     * Remembers the last UID of the [SignedInUser][dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser].
-     *
-     * • If never logged in this is `null`.
-     *
-     * *This is used to keep showing data from the local persistence of Firestore even after the user logs out.*
-     * */
-    val lastUserUid: String?,
 )

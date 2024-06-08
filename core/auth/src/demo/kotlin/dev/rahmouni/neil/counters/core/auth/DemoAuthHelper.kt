@@ -19,9 +19,8 @@ package dev.rahmouni.neil.counters.core.auth
 import android.content.Context
 import androidx.core.net.toUri
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
+import dev.rahmouni.neil.counters.core.auth.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
-import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
@@ -31,11 +30,11 @@ import javax.inject.Singleton
  * Implementation of [AuthHelper] that simulates real sign in flows and has default demo values, but doesn't interact with the backend.
  */
 @Singleton
-internal class DemoAuthHelper @Inject constructor(
-    private val userDataRepository: UserDataRepository,
-) : AuthHelper {
+internal class DemoAuthHelper @Inject constructor() : AuthHelper {
 
-    private val loggedIn = MutableStateFlow<Rn3User>(LoggedOutUser)
+    private val loggedIn = MutableStateFlow<Rn3User>(AnonymousUser("demoID"))
+
+    override val authSignedIn: Boolean = true
 
     override suspend fun signInWithCredentialManager(
         context: Context,
@@ -50,11 +49,10 @@ internal class DemoAuthHelper @Inject constructor(
                 isAdmin = false,
             ),
         )
-        userDataRepository.setLastUserUid("demoID")
     }
 
     override suspend fun signOut(context: Context) {
-        loggedIn.compareAndSet(expect = loggedIn.value, update = LoggedOutUser)
+        loggedIn.compareAndSet(expect = loggedIn.value, update = AnonymousUser("demoID"))
     }
 
     override fun getUser(): Rn3User = loggedIn.value

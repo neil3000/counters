@@ -26,14 +26,9 @@ data class CounterRawData(
     val createdAt: Timestamp = Timestamp.now(),
     val currentValue: Long = 0,
     val currentValueComputedSegment: Timestamp? = null,
-    val ownerUserUid: String = CounterRawDataDefaults.ownerUserUid,
+    val ownerUserUid: String = "RahNeil_N3:error:xTdZVv31n9S4fjOB0dFtJBk2ZZR6Ch5F",
     val title: String? = null,
 )
-
-@Suppress("ConstPropertyName", "ktlint:standard:property-naming")
-object CounterRawDataDefaults {
-    const val ownerUserUid = "noLastUserUid"
-}
 
 @Keep
 data class IncrementRawData(

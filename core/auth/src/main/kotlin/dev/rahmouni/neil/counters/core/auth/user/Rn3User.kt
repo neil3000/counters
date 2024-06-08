@@ -22,9 +22,12 @@ import androidx.compose.ui.res.stringResource
 import dev.rahmouni.neil.counters.core.auth.R
 
 sealed interface Rn3User {
-    data object LoggedOutUser : Rn3User
+
+    val uid: String
+
+    data class AnonymousUser(override val uid: String) : Rn3User
     data class SignedInUser(
-        val uid: String,
+        override val uid: String,
         internal val displayName: String,
         internal val pfpUri: Uri?,
         internal val isAdmin: Boolean,
@@ -33,7 +36,7 @@ sealed interface Rn3User {
     @Composable
     fun getDisplayName(): String {
         return when (this) {
-            LoggedOutUser -> stringResource(R.string.core_auth_user_notSignedIn)
+            is AnonymousUser -> stringResource(R.string.core_auth_user_notSignedIn)
             is SignedInUser -> displayName
         }
     }

@@ -8,7 +8,6 @@ message UserPreferences {
   bool accessibility_hasIconTooltipsDisabled = 2;
   bool hasMetricsDisabled = 3;
   bool hasCrashlyticsDisabled = 4;
-  optional string lastUserUid = 5;
 
-  // NEXT AVAILABLE ID: 6
+  // NEXT AVAILABLE ID: 5
 }

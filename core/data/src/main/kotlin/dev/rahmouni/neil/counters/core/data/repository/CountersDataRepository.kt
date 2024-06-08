@@ -23,8 +23,7 @@ import kotlinx.coroutines.flow.Flow
 interface CountersDataRepository {
 
     val userCounters: Flow<List<CounterRawData>>
-    val lastUserUid: Flow<String?>
 
-    suspend fun createCounter(counterRawData: CounterRawData)
+    fun createCounter(counterRawData: CounterRawData)
     fun createIncrement(counterUid: String, incrementRawData: IncrementRawData)
 }

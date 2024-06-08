@@ -24,8 +24,6 @@ android {
 }
 
 dependencies {
-    api(projects.core.data)
-
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
 
