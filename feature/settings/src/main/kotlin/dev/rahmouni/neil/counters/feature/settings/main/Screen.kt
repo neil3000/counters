@@ -46,7 +46,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -215,6 +218,8 @@ private fun SettingsPanel(
     onClickDeveloperSettingsTile: () -> Unit,
     onClickOssLicensesTile: () -> Unit,
 ) {
+    var isExpanded by rememberSaveable { mutableStateOf(false) }
+
     Column(
         Modifier
             .verticalScroll(rememberScrollState())
@@ -242,6 +247,8 @@ private fun SettingsPanel(
             }
 
             is SignedInUser -> Rn3ExpandableSurface(
+                expanded = isExpanded,
+                onExpandedChange = { isExpanded = it },
                 content = {
                     UserAvatarAndName(data.user)
                 },
@@ -264,7 +271,10 @@ private fun SettingsPanel(
                                 Outlined.DevicesOff to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvailableOnOtherDevices),
                                 Outlined.Warning to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_mayLoseDataIfSomethingHappensToDevice),
                             ),
-                            onClick = onAccountTileLogoutClicked,
+                            onClick = {
+                                isExpanded = false
+                                onAccountTileLogoutClicked()
+                            },
                         )
                     }
                 },

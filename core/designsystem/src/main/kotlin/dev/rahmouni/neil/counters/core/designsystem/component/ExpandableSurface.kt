@@ -63,12 +63,17 @@ fun Rn3ExpandableSurface(
     expandedContent: @Composable AnimatedVisibilityScope.() -> Unit,
     paddingValues: Rn3PaddingValues = Rn3ExpandableSurfaceDefaults.paddingValues,
     tonalElevation: Dp = Rn3ExpandableSurfaceDefaults.tonalElevation,
+    expanded: Boolean? = null,
+    onExpandedChange: ((Boolean) -> Unit)? = null,
 ) {
     val haptic = getHaptic()
 
-    var expanded by rememberSaveable { mutableStateOf(false) }
+    var internalExpanded by rememberSaveable { mutableStateOf(false) }
+
+    val isExpanded = expanded ?: internalExpanded
+
     val degreeAnimation by animateFloatAsState(
-        targetValue = if (expanded) 180f else 0f,
+        targetValue = if (isExpanded) 180f else 0f,
         label = "chevron animation",
         animationSpec = tween(easing = EaseOut),
     )
@@ -82,10 +87,14 @@ fun Rn3ExpandableSurface(
     ) {
         Column(
             Modifier.toggleable(
-                value = expanded,
+                value = isExpanded,
                 onValueChange = {
                     haptic.click()
-                    expanded = it
+                    if (onExpandedChange != null) {
+                        onExpandedChange(it)
+                    } else {
+                        internalExpanded = it
+                    }
                 },
                 role = Role.DropdownList,
             ),
@@ -96,7 +105,7 @@ fun Rn3ExpandableSurface(
                 Icon(Outlined.ExpandMore, null, Modifier.rotate(degreeAnimation))
             }
             AnimatedVisibility(
-                visible = expanded,
+                visible = isExpanded,
                 enter = fadeIn() + expandVertically(),
                 exit = fadeOut() + shrinkVertically(),
             ) {
