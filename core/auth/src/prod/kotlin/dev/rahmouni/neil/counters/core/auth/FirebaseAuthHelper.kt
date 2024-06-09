@@ -39,7 +39,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 const val WEB_CLIENT_ID = "743616795299-b7pstjgcvnq3sm77ia43vm66okovpejq.apps.googleusercontent.com"
@@ -96,11 +95,8 @@ internal class FirebaseAuthHelper @Inject constructor() : AuthHelper {
     }
 
     override suspend fun signOut(context: Context) {
-        val task = Firebase.auth.signInAnonymously()
-        task.await()
-        if (task.isSuccessful && task.result.user != null) {
-            CredentialManager.create(context).clearCredentialState(ClearCredentialStateRequest())
-        }
+        Firebase.auth.signOut()
+        CredentialManager.create(context).clearCredentialState(ClearCredentialStateRequest())
     }
 
     override fun getUser(): Rn3User =
