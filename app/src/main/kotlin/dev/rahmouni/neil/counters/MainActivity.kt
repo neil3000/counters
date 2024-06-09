@@ -30,20 +30,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.metrics.performance.JankStats
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.analytics
+import com.google.firebase.crashlytics.crashlytics
+import com.google.firebase.firestore.firestore
 import dagger.hilt.android.AndroidEntryPoint
 import dev.rahmouni.neil.counters.MainActivityUiState.Loading
 import dev.rahmouni.neil.counters.MainActivityUiState.Success
-import dev.rahmouni.neil.counters.core.accessibility.AccessibilityHelper
 import dev.rahmouni.neil.counters.core.accessibility.LocalAccessibilityHelper
 import dev.rahmouni.neil.counters.core.analytics.AnalyticsHelper
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
-import dev.rahmouni.neil.counters.core.auth.StubAuthHelper
+import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.core.config.ConfigHelper
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -80,7 +79,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         var uiState: MainActivityUiState by mutableStateOf(Loading)
-        var finishedSigningIn by mutableStateOf(false)
 
         // Enable offline persistence for Firestore
         Firebase.firestore.persistentCacheIndexManager?.apply {
@@ -90,10 +88,9 @@ class MainActivity : ComponentActivity() {
         // Update the uiState
         lifecycleScope.launch {
             // If the user is not signed in, launch the sign in process.
-            if (!authHelper.authSignedIn) {
-                authHelper.signInWithCredentialManager(this@MainActivity, true)
+            if (authHelper.getUser() is LoggedOutUser) {
+                authHelper.quickFirstSignIn(this@MainActivity)
             }
-            finishedSigningIn = true
 
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState
@@ -118,7 +115,7 @@ class MainActivity : ComponentActivity() {
         // Keep the splash screen on-screen until the UI state is loaded. This condition is
         // evaluated each time the app needs to be redrawn so it should be fast to avoid blocking
         // the UI.
-        splashScreen.setKeepOnScreenCondition { uiState is Loading || !finishedSigningIn }
+        splashScreen.setKeepOnScreenCondition { uiState is Loading }
 
         configHelper.init(this)
 
@@ -127,20 +124,16 @@ class MainActivity : ComponentActivity() {
 
             enableEdgeToEdge()
 
-            CompositionLocalProvider(
-                LocalAnalyticsHelper provides analyticsHelper,
-                LocalAccessibilityHelper provides when (uiState) {
-                    Loading -> AccessibilityHelper()
-                    is Success -> (uiState as Success).accessibilityHelper
-                },
-                LocalConfigHelper provides configHelper,
-                LocalAuthHelper provides when (uiState) {
-                    Loading -> StubAuthHelper()
-                    is Success -> authHelper
-                },
-            ) {
-                Rn3Theme {
-                    CountersApp(appState)
+            if (uiState is Success) {
+                CompositionLocalProvider(
+                    LocalAnalyticsHelper provides analyticsHelper,
+                    LocalAccessibilityHelper provides (uiState as Success).accessibilityHelper,
+                    LocalConfigHelper provides configHelper,
+                    LocalAuthHelper provides authHelper,
+                ) {
+                    Rn3Theme {
+                        CountersApp(appState, (uiState as Success).isLoggedIn)
+                    }
                 }
             }
         }

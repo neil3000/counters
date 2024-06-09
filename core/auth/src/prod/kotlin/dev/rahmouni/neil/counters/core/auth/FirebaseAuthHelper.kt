@@ -25,11 +25,14 @@ import androidx.credentials.exceptions.GetCredentialProviderConfigurationExcepti
 import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.auth
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.AnonymousUser
+import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -44,54 +47,22 @@ const val WEB_CLIENT_ID = "743616795299-b7pstjgcvnq3sm77ia43vm66okovpejq.apps.go
 /**
  * Implementation of `ConfigHelper` that fetches the value from the Firebase Remote Config backend.
  */
-internal class FirebaseAuthHelper @Inject constructor(
-    private val firebaseAuth: FirebaseAuth,
-) : AuthHelper {
+internal class FirebaseAuthHelper @Inject constructor() : AuthHelper {
 
     private var claims = MutableStateFlow<Map<String, Any>>(emptyMap())
-
-    override val authSignedIn: Boolean get() = firebaseAuth.currentUser != null
+    private var finishedLoading = false
 
     init {
-        firebaseAuth.addAuthStateListener { auth ->
+        Firebase.auth.addAuthStateListener { auth ->
             auth.currentUser?.getIdToken(false)?.addOnSuccessListener {
                 claims.compareAndSet(claims.value, it.claims)
             }
         }
     }
 
-    override suspend fun signInWithCredentialManager(
-        context: Context,
-        filterByAuthorizedAccounts: Boolean,
-    ) {
+    override suspend fun quickFirstSignIn(context: Context) {
         try {
-            firebaseAuth.signInWithCredential(
-                GoogleAuthProvider.getCredential(
-                    GoogleIdTokenCredential.createFrom(
-                        CredentialManager
-                            .create(context)
-                            .getCredential(
-                                context,
-                                GetCredentialRequest.Builder()
-                                    .setPreferImmediatelyAvailableCredentials(
-                                        filterByAuthorizedAccounts,
-                                    )
-                                    .addCredentialOption(
-                                        GetGoogleIdOption.Builder()
-                                            .setFilterByAuthorizedAccounts(
-                                                filterByAuthorizedAccounts,
-                                            )
-                                            .setServerClientId(WEB_CLIENT_ID)
-                                            .setAutoSelectEnabled(filterByAuthorizedAccounts)
-                                            .build(),
-                                    ).build(),
-                            )
-                            .credential
-                            .data,
-                    ).idToken,
-                    null,
-                ),
-            ).await()
+            signInWithCredentialManager(context, true)
         } catch (e: Exception) {
             when (e) {
                 is NoCredentialException -> {
@@ -108,11 +79,7 @@ internal class FirebaseAuthHelper @Inject constructor(
                     // Play services is not installed (or old version) AND is on an old Android version,
                     // or has a misconfig somewhere in the system stuff (custom ROM that removed the
                     // CredentialManager, ...)
-                    if (filterByAuthorizedAccounts) return
-
-                    // If user asked to login
-                    // TODO show a modal to explain the issue to the user [RahNeil_N3:Z7pK6Dddr6flYbOYp2LXxpu7cBv3hlt0]
-                    throw e
+                    return
                 }
 
                 else -> throw e
@@ -120,31 +87,41 @@ internal class FirebaseAuthHelper @Inject constructor(
         }
     }
 
+    override suspend fun signIn(context: Context, anonymously: Boolean) {
+        if (anonymously) {
+            Firebase.auth.signInAnonymously()
+        } else {
+            signInWithCredentialManager(context, false)
+        }
+    }
+
     override suspend fun signOut(context: Context) {
-        val task = firebaseAuth.signInAnonymously().await()
-        if (task.user != null) {
+        val task = Firebase.auth.signInAnonymously()
+        task.await()
+        if (task.isSuccessful && task.result.user != null) {
             CredentialManager.create(context).clearCredentialState(ClearCredentialStateRequest())
         }
     }
 
-    override fun getUser(): Rn3User = firebaseAuth.currentUser.toRn3User(claims.value)
+    override fun getUser(): Rn3User =
+        if (finishedLoading) Firebase.auth.currentUser.toRn3User(claims.value) else Rn3User.Loading
 
     override fun getUserFlow(): Flow<Rn3User> = callbackFlow {
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->
             trySend(auth.currentUser)
         }
-        firebaseAuth.addAuthStateListener(authStateListener)
+        Firebase.auth.addAuthStateListener(authStateListener)
         awaitClose {
-            firebaseAuth.removeAuthStateListener(authStateListener)
+            Firebase.auth.removeAuthStateListener(authStateListener)
         }
     }.combine(claims) { user, claims ->
+        finishedLoading = true
         user.toRn3User(claims)
     }
 
     private fun FirebaseUser?.toRn3User(claims: Map<String, Any>): Rn3User {
-        if (this == null) throw IllegalAccessException("RahNeil_N3:ukLhXORwGrxysm2q6uVzYl4ZkcAbIyX8 / User isn't logged in yet")
-
         with(this) {
+            if (this == null) return LoggedOutUser
             if (isAnonymous) return AnonymousUser(uid)
 
             return SignedInUser(
@@ -155,4 +132,36 @@ internal class FirebaseAuthHelper @Inject constructor(
             )
         }
     }
+
+    private suspend fun signInWithCredentialManager(
+        context: Context,
+        filterByAuthorizedAccounts: Boolean,
+    ) =
+        Firebase.auth.signInWithCredential(
+            GoogleAuthProvider.getCredential(
+                GoogleIdTokenCredential.createFrom(
+                    CredentialManager
+                        .create(context)
+                        .getCredential(
+                            context,
+                            GetCredentialRequest.Builder()
+                                .setPreferImmediatelyAvailableCredentials(
+                                    filterByAuthorizedAccounts,
+                                )
+                                .addCredentialOption(
+                                    GetGoogleIdOption.Builder()
+                                        .setFilterByAuthorizedAccounts(
+                                            filterByAuthorizedAccounts,
+                                        )
+                                        .setServerClientId(WEB_CLIENT_ID)
+                                        .setAutoSelectEnabled(filterByAuthorizedAccounts)
+                                        .build(),
+                                ).build(),
+                        )
+                        .credential
+                        .data,
+                ).idToken,
+                null,
+            ),
+        )
 }

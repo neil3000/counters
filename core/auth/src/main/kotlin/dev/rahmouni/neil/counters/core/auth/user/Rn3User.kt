@@ -23,21 +23,28 @@ import dev.rahmouni.neil.counters.core.auth.R
 
 sealed interface Rn3User {
 
-    val uid: String
-
-    data class AnonymousUser(override val uid: String) : Rn3User
+    data object Loading : Rn3User
+    data object LoggedOutUser : Rn3User
+    data class AnonymousUser(internal val uid: String) : Rn3User
     data class SignedInUser(
-        override val uid: String,
+        internal val uid: String,
         internal val displayName: String,
         internal val pfpUri: Uri?,
         internal val isAdmin: Boolean,
     ) : Rn3User
 
+    fun getUid(): String = when (this) {
+        is Loading -> "RahNeil_N3:Rn3User:Loading"
+        is LoggedOutUser -> "RahNeil_N3:Rn3User:null"
+        is AnonymousUser -> uid
+        is SignedInUser -> uid
+    }
+
     @Composable
     fun getDisplayName(): String {
         return when (this) {
-            is AnonymousUser -> stringResource(R.string.core_auth_user_notSignedIn)
             is SignedInUser -> displayName
+            else -> stringResource(R.string.core_auth_user_notSignedIn)
         }
     }
 

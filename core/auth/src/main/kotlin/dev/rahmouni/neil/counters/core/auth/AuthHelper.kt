@@ -21,16 +21,9 @@ import dev.rahmouni.neil.counters.core.auth.user.Rn3User
 import kotlinx.coroutines.flow.Flow
 
 interface AuthHelper {
-    suspend fun signInWithCredentialManager(
-        context: Context,
-        filterByAuthorizedAccounts: Boolean,
-    )
-
+    suspend fun quickFirstSignIn(context: Context)
+    suspend fun signIn(context: Context, anonymously: Boolean)
     suspend fun signOut(context: Context)
-
-    val authSignedIn: Boolean
-
     fun getUser(): Rn3User
-
     fun getUserFlow(): Flow<Rn3User>
 }

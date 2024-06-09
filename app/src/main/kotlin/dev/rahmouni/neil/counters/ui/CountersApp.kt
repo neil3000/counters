@@ -19,11 +19,17 @@ package dev.rahmouni.neil.counters.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import dev.rahmouni.neil.counters.CountersNavHost
+import dev.rahmouni.neil.counters.feature.dashboard.DASHBOARD_ROUTE
 
 @Composable
 fun CountersApp(
     appState: CountersAppState,
+    isLoggedIn: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    CountersNavHost(appState = appState, modifier)
+    CountersNavHost(
+        appState = appState,
+        modifier = modifier,
+        startDestination = if (isLoggedIn) DASHBOARD_ROUTE else "test",
+    )
 }

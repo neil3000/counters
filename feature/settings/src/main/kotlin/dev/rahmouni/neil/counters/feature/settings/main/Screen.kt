@@ -64,7 +64,6 @@ import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
 import dev.rahmouni.neil.counters.core.auth.user.Avatar
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.common.openOssLicensesActivity
@@ -135,7 +134,7 @@ internal fun SettingsRoute(
         },
         onAccountTileLoginClicked = {
             scope.launch {
-                auth.signInWithCredentialManager(context, false)
+                auth.signIn(context, false)
             }
         },
         onBackIconButtonClicked = navController::popBackStack,
@@ -227,25 +226,6 @@ private fun SettingsPanel(
     ) {
         // accountTile
         when (data.user) {
-            is AnonymousUser -> Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.surfaceContainer,
-            ) {
-                Row(
-                    Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    UserAvatarAndName(user = data.user)
-                    OutlinedButton(onClick = onAccountTileLoginClicked) {
-                        Text(stringResource(string.feature_settings_settingsScreen_accountLoginTile_loginButton_text))
-                    }
-                }
-            }
-
             is SignedInUser -> Rn3ExpandableSurface(
                 expanded = isExpanded,
                 onExpandedChange = { isExpanded = it },
@@ -280,6 +260,25 @@ private fun SettingsPanel(
                 },
                 tonalElevation = 4.dp,
             )
+
+            else -> Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                shape = RoundedCornerShape(16.dp),
+                color = MaterialTheme.colorScheme.surfaceContainer,
+            ) {
+                Row(
+                    Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    UserAvatarAndName(user = data.user)
+                    OutlinedButton(onClick = onAccountTileLoginClicked) {
+                        Text(stringResource(string.feature_settings_settingsScreen_accountLoginTile_loginButton_text))
+                    }
+                }
+            }
         }
 
         // generalHeaderTile

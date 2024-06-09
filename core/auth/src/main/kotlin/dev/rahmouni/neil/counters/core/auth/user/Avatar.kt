@@ -27,13 +27,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
 
 @Composable
 fun Rn3User.Avatar() {
     when (this@Avatar) {
-        is AnonymousUser -> Icon(Icons.Outlined.NoAccounts, null)
         is SignedInUser -> SubcomposeAsyncImage(
             model = this@Avatar.pfpUri,
             contentDescription = null,
@@ -43,6 +41,8 @@ fun Rn3User.Avatar() {
                 .size(36.dp)
                 .clip(CircleShape),
         )
+
+        else -> Icon(Icons.Outlined.NoAccounts, null)
     }
 }
 

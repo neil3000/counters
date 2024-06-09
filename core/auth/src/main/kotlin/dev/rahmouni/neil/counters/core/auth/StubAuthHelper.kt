@@ -28,18 +28,14 @@ import javax.inject.Singleton
 @Singleton
 class StubAuthHelper @Inject constructor() : AuthHelper {
 
-    override val authSignedIn = true
+    override suspend fun quickFirstSignIn(context: Context) =
+        throw NotImplementedError("Not available in Preview")
 
-    override suspend fun signInWithCredentialManager(
-        context: Context,
-        filterByAuthorizedAccounts: Boolean,
-    ) {
-        // Does nothing, we're in preview
-    }
+    override suspend fun signIn(context: Context, anonymously: Boolean) =
+        throw NotImplementedError("Not available in Preview")
 
-    override suspend fun signOut(context: Context) {
-        // Does nothing, we're in preview
-    }
+    override suspend fun signOut(context: Context) =
+        throw NotImplementedError("Not available in Preview")
 
     override fun getUser(): Rn3User = Rn3User.SignedInUser(
         uid = "androidPreviewId",

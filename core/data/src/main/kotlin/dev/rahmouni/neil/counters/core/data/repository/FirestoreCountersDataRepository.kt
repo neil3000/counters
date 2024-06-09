@@ -40,7 +40,7 @@ class FirestoreCountersDataRepository @Inject constructor(
                         .collection("counters")
                         .whereEqualTo(
                             CounterRawData::ownerUserUid.name,
-                            user.uid,
+                            user.getUid(),
                         )
                         .dataObjects<CounterRawData>()
                 } catch (e: Exception) {
@@ -55,7 +55,7 @@ class FirestoreCountersDataRepository @Inject constructor(
             .collection("counters")
             .add(
                 counterRawData.copy(
-                    ownerUserUid = authHelper.getUser().uid,
+                    ownerUserUid = authHelper.getUser().getUid(),
                 ),
             )
     }
