@@ -66,7 +66,7 @@ fun CountersNavHost(
                                 auth.signIn(context, false)
                             }
                             navController.navigateToDashboard()
-                            //TODO authHelper.signIn(this@MainActivity, true)
+                            // TODO authHelper.signIn(this@MainActivity, true)
                         },
                         modifier = Modifier.align(Alignment.Center),
                     ) {
