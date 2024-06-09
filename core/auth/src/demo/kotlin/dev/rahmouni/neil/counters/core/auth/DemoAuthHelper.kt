@@ -20,6 +20,7 @@ import android.content.Context
 import androidx.core.net.toUri
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.AnonymousUser
+import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,30 +33,35 @@ import javax.inject.Singleton
 @Singleton
 internal class DemoAuthHelper @Inject constructor() : AuthHelper {
 
-    private val loggedIn = MutableStateFlow<Rn3User>(AnonymousUser("demoID"))
+    companion object {
+        private val DEMO_SIGNEDIN_USER = SignedInUser(
+            uid = "demoSignedInUser",
+            displayName = "Neïl (demo)",
+            pfpUri = "https://firebasestorage.googleapis.com/v0/b/rahneil-n3-counters.appspot.com/o/demo%2Fpfp.jpg?alt=media".toUri(),
+            isAdmin = false,
+        )
 
-    override val authSignedIn: Boolean = true
+        private val DEMO_ANONYMOUS_USER = AnonymousUser("demoAnonymousUser")
+    }
 
-    override suspend fun signInWithCredentialManager(
-        context: Context,
-        filterByAuthorizedAccounts: Boolean,
-    ) {
-        loggedIn.compareAndSet(
-            expect = loggedIn.value,
-            update = SignedInUser(
-                uid = "demoID",
-                displayName = "Neïl (demo)",
-                pfpUri = "https://firebasestorage.googleapis.com/v0/b/rahneil-n3-counters.appspot.com/o/demo%2Fpfp.jpg?alt=media".toUri(),
-                isAdmin = false,
-            ),
+    private val currentUser = MutableStateFlow<Rn3User>(DEMO_SIGNEDIN_USER)
+
+    override suspend fun quickFirstSignIn(context: Context) {
+        currentUser.compareAndSet(currentUser.value, DEMO_SIGNEDIN_USER)
+    }
+
+    override suspend fun signIn(context: Context, anonymously: Boolean) {
+        currentUser.compareAndSet(
+            currentUser.value,
+            if (anonymously) DEMO_ANONYMOUS_USER else DEMO_SIGNEDIN_USER,
         )
     }
 
     override suspend fun signOut(context: Context) {
-        loggedIn.compareAndSet(expect = loggedIn.value, update = AnonymousUser("demoID"))
+        currentUser.compareAndSet(currentUser.value, LoggedOutUser)
     }
 
-    override fun getUser(): Rn3User = loggedIn.value
+    override fun getUser(): Rn3User = currentUser.value
 
-    override fun getUserFlow(): Flow<Rn3User> = loggedIn
+    override fun getUserFlow(): Flow<Rn3User> = currentUser
 }
