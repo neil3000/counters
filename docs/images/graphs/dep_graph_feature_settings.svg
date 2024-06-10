@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg height="260pt" viewBox="0.00 0.00 894.34 260.00" width="894pt"
-    xmlns="http://www.w3.org/2000/svg">
+<svg height="260pt" viewBox="0.00 0.00 894.34 260.00" width="894pt" xmlns="http://www.w3.org/2000/svg">
     <g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(4 256)">
     <title>G</title>
         <polygon fill="white" points="-4,4 -4,-256 890.34,-256 890.34,4 -4,4"
@@ -22,9 +21,8 @@
     </g>
     <g id="edge1" class="edge">
         <title>:feature:settings-&gt;:core:config</title>
-        <path
-            d="M289.91,-224.11C253.18,-216.85 209.58,-203.71 176.34,-180 127.19,-144.94 92.39,-81.2 75.65,-45.34"
-            fill="none" stroke="black" />
+        <path d="M289.91,-224.11C253.18,-216.85 209.58,-203.71 176.34,-180 127.19,-144.94 92.39,-81.2 75.65,-45.34" fill="none"
+            stroke="black" />
         <polygon fill="black" points="78.73,-43.66 71.41,-36.01 72.36,-46.56 78.73,-43.66"
             stroke="black" />
     </g>
@@ -37,10 +35,10 @@
     </g>
     <g id="edge2" class="edge">
         <title>:feature:settings-&gt;:core:data</title>
-        <path d="M391.79,-216.94C409.69,-206.84 432.93,-193.72 452.01,-182.95" fill="none"
-            stroke="red" stroke-width="2" />
-        <polygon fill="red" points="453.74,-185.99 460.73,-178.03 450.3,-179.89 453.74,-185.99"
-            stroke="red" stroke-width="2" />
+        <path d="M391.79,-216.94C409.69,-206.84 432.93,-193.72 452.01,-182.95" fill="none" stroke="red"
+            stroke-width="2" />
+        <polygon fill="red" points="453.74,-185.99 460.73,-178.03 450.3,-179.89 453.74,-185.99" stroke="red"
+            stroke-width="2" />
     </g>
     <g id="node4" class="node">
       <title>:core:feedback</title>
@@ -95,8 +93,7 @@
             <title>:core:data-&gt;:core:auth</title>
             <path d="M511.48,-145.64C526.99,-135.77 547.35,-122.82 564.34,-112" fill="none"
                 stroke="black" />
-            <polygon fill="black"
-                points="566.32,-114.89 572.88,-106.57 562.56,-108.98 566.32,-114.89"
+            <polygon fill="black" points="566.32,-114.89 572.88,-106.57 562.56,-108.98 566.32,-114.89"
                 stroke="black" />
         </g>
         <g class="node" id="node8">
@@ -108,10 +105,10 @@
         </g>
         <g class="edge" id="edge7">
             <title>:core:data-&gt;:core:datastore</title>
-            <path d="M475.97,-144.05C470.45,-135.84 463.7,-125.79 457.57,-116.66" fill="none"
-                stroke="red" stroke-width="2" />
-            <polygon fill="red" points="460.42,-114.63 451.94,-108.28 454.61,-118.53 460.42,-114.63"
-                stroke="red" stroke-width="2" />
+            <path d="M475.97,-144.05C470.45,-135.84 463.7,-125.79 457.57,-116.66" fill="none" stroke="red"
+                stroke-width="2" />
+            <polygon fill="red" points="460.42,-114.63 451.94,-108.28 454.61,-118.53 460.42,-114.63" stroke="red"
+                stroke-width="2" />
     </g>
     <g id="node12" class="node">
       <title>:core:designsystem</title>
@@ -145,8 +142,8 @@
       <title>:core:datastore-&gt;:core:datastore-proto</title>
         <path d="M480.43,-74.15C508.68,-63.69 546.79,-49.58 577.38,-38.25" fill="none" stroke="red"
             stroke-width="2" />
-        <polygon fill="red" points="578.86,-41.43 587.02,-34.67 576.43,-34.87 578.86,-41.43"
-            stroke="red" stroke-width="2" />
+        <polygon fill="red" points="578.86,-41.43 587.02,-34.67 576.43,-34.87 578.86,-41.43" stroke="red"
+            stroke-width="2" />
     </g>
     <g id="node10" class="node">
       <title>:core:model</title>
@@ -157,9 +154,8 @@
     </g>
     <g id="edge9" class="edge">
       <title>:core:datastore-&gt;:core:model</title>
-        <path
-            d="M499.86,-77.57C510.02,-75.67 520.48,-73.75 530.34,-72 626.6,-54.93 651.44,-54.95 747.34,-36 752.68,-34.95 758.22,-33.79 763.75,-32.59"
-            fill="none" stroke="black" />
+        <path d="M499.86,-77.57C510.02,-75.67 520.48,-73.75 530.34,-72 626.6,-54.93 651.44,-54.95 747.34,-36 752.68,-34.95 758.22,-33.79 763.75,-32.59" fill="none"
+            stroke="black" />
         <polygon fill="black" points="764.66,-35.98 773.67,-30.41 763.15,-29.14 764.66,-35.98"
             stroke="black" />
     </g>
