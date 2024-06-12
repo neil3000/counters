@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg height="44pt" viewBox="0.00 0.00 123.69 44.00" width="124pt" xmlns="http://www.w3.org/2000/svg">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" height="44pt" viewBox="0.00 0.00 123.69 44.00"
+    width="124pt" xmlns="http://www.w3.org/2000/svg">
     <g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(4 40)">
     <title>G</title>
         <polygon fill="white" points="-4,4 -4,-40 119.69,-40 119.69,4 -4,4" stroke="transparent" />
