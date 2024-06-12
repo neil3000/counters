@@ -213,5 +213,5 @@ enum class TopAppBarStyle {
     LARGE,
     SMALL,
     DASHBOARD,
-    NONE
+    NONE,
 }
