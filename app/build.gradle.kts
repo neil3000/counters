@@ -82,6 +82,7 @@ android {
 dependencies {
     implementation(projects.feature.aboutme)
     implementation(projects.feature.dashboard)
+    implementation(projects.feature.login)
     implementation(projects.feature.settings)
 
     implementation(libs.androidx.core.splashscreen)

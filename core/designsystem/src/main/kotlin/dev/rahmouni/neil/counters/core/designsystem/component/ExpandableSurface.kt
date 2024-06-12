@@ -83,7 +83,7 @@ fun Rn3ExpandableSurface(
             .fillMaxWidth()
             .padding(paddingValues),
         tonalElevation = tonalElevation,
-        shape = RoundedCornerShape(16.dp),
+        shape = Rn3ExpandableSurfaceDefaults.shape,
     ) {
         Column(
             Modifier.toggleable(
@@ -118,6 +118,7 @@ fun Rn3ExpandableSurface(
 object Rn3ExpandableSurfaceDefaults {
     val paddingValues = Rn3PaddingValues(horizontal = 16.dp, vertical = 8.dp)
     val tonalElevation = 2.dp
+    val shape = RoundedCornerShape(16.dp)
 }
 
 @Rn3PreviewComponentDefault

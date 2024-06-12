@@ -33,10 +33,11 @@ fun NavController.navigateToSettings(navOptions: NavOptions? = null) =
 
 fun NavGraphBuilder.settingsNavigation(
     navController: NavController,
+    navigateToLogin: () -> Unit,
     navigateToAboutMe: () -> Unit,
 ) {
     navigation(startDestination = SETTINGS_MAIN_ROUTE, route = SETTINGS_ROUTE) {
-        mainScreen(navController, navigateToAboutMe)
+        mainScreen(navController, navigateToLogin, navigateToAboutMe)
         accessibilityScreen(navController)
         dataAndPrivacyScreen(navController)
         developerSettingsNavigation(navController)

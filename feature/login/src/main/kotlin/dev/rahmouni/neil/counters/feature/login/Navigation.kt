@@ -14,28 +14,26 @@
  * limitations under the License.
  */
 
-package dev.rahmouni.neil.counters.feature.settings.main
+package dev.rahmouni.neil.counters.feature.login
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
-const val SETTINGS_MAIN_ROUTE = "main"
+const val LOGIN_ROUTE = "login"
 
-internal fun NavController.navigateToSettingsMain(navOptions: NavOptions? = null) =
-    navigate(SETTINGS_MAIN_ROUTE, navOptions)
+fun NavController.navigateToLogin(navOptions: NavOptions? = null) =
+    navigate(LOGIN_ROUTE, navOptions)
 
-internal fun NavGraphBuilder.mainScreen(
+fun NavGraphBuilder.loginScreen(
     navController: NavController,
-    navigateToLogin: () -> Unit,
-    navigateToAboutMe: () -> Unit,
+    navigateToDashboard: () -> Unit,
 ) {
-    composable(route = SETTINGS_MAIN_ROUTE) {
-        SettingsRoute(
+    composable(route = LOGIN_ROUTE) {
+        LoginRoute(
             navController = navController,
-            navigateToLogin = navigateToLogin,
-            navigateToAboutMe = navigateToAboutMe,
+            navigateToDashboard = navigateToDashboard,
         )
     }
 }

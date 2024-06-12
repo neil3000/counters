@@ -42,6 +42,7 @@ class StubAuthHelper @Inject constructor() : AuthHelper {
         displayName = "Android Preview",
         pfpUri = null,
         isAdmin = false,
+        email = "androidPreview@rahmouni.dev",
     )
 
     override fun getUserFlow(): Flow<Rn3User> =

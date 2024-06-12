@@ -39,6 +39,7 @@ object PreviewParameterData {
             displayName = "Android Preview",
             pfpUri = null,
             isAdmin = false,
+            email = "androidPreview@rahmouni.dev",
         ),
         devSettingsEnabled = false,
     )

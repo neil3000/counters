@@ -43,6 +43,7 @@ include(":core:ui")
 
 include(":feature:aboutme")
 include(":feature:dashboard")
+include(":feature:login")
 include(":feature:settings")
 
 include(":lint")

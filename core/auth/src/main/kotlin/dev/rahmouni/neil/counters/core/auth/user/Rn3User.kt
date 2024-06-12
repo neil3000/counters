@@ -31,6 +31,7 @@ sealed interface Rn3User {
         internal val displayName: String,
         internal val pfpUri: Uri?,
         internal val isAdmin: Boolean,
+        internal val email: String,
     ) : Rn3User
 
     fun getUid(): String = when (this) {
@@ -45,6 +46,13 @@ sealed interface Rn3User {
         return when (this) {
             is SignedInUser -> displayName
             else -> stringResource(R.string.core_auth_user_notSignedIn)
+        }
+    }
+
+    fun getEmailAddress(): String? {
+        return when (this) {
+            is SignedInUser -> email
+            else -> null
         }
     }
 

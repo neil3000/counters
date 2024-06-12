@@ -39,15 +39,16 @@ internal class DemoAuthHelper @Inject constructor() : AuthHelper {
             displayName = "Neïl (demo)",
             pfpUri = "https://firebasestorage.googleapis.com/v0/b/rahneil-n3-counters.appspot.com/o/demo%2Fpfp.jpg?alt=media".toUri(),
             isAdmin = false,
+            email = "demo@rahmouni.dev",
         )
 
         private val DEMO_ANONYMOUS_USER = AnonymousUser("demoAnonymousUser")
     }
 
-    private val currentUser = MutableStateFlow<Rn3User>(DEMO_SIGNEDIN_USER)
+    private val currentUser = MutableStateFlow<Rn3User>(LoggedOutUser)
 
     override suspend fun quickFirstSignIn(context: Context) {
-        currentUser.compareAndSet(currentUser.value, DEMO_SIGNEDIN_USER)
+        //currentUser.compareAndSet(currentUser.value, DEMO_SIGNEDIN_USER)
     }
 
     override suspend fun signIn(context: Context, anonymously: Boolean) {

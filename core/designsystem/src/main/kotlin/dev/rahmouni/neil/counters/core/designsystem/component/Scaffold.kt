@@ -52,6 +52,7 @@ import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.DASHBOARD
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.LARGE
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.NONE
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3LargeTopAppBar
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
@@ -74,6 +75,13 @@ fun Rn3Scaffold(
     val config = LocalConfigHelper.current
 
     when {
+        // NONE
+        topAppBarStyle == NONE -> Rn3ScaffoldImpl(
+            modifier,
+            content,
+            floatingActionButton,
+        )
+
         // LARGE
         topAppBarStyle == LARGE && windowHeightClass != COMPACT -> Rn3ScaffoldImpl(
             modifier,
@@ -150,7 +158,7 @@ fun Rn3Scaffold(
     }
 }
 
-@SuppressLint("DesignSystem", "UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("DesignSystem")
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun Rn3ScaffoldImpl(
@@ -172,6 +180,24 @@ fun Rn3ScaffoldImpl(
     }
 }
 
+@SuppressLint("DesignSystem")
+@Composable
+fun Rn3ScaffoldImpl(
+    modifier: Modifier = Modifier,
+    content: @Composable (Rn3PaddingValues) -> Unit,
+    floatingActionButton: @Composable (Modifier) -> Unit,
+) {
+    Scaffold(
+        modifier = modifier,
+        contentWindowInsets = WindowInsets.statusBars.add(WindowInsets.displayCutout),
+        floatingActionButton = { floatingActionButton(Modifier.navigationBarsPadding()) },
+    ) {
+        content(
+            it.toRn3PaddingValues() + WindowInsets.navigationBars.toRn3PaddingValues(),
+        )
+    }
+}
+
 /**
  * Styles to be applied to the TopAppBars ([Large][Rn3LargeTopAppBar] or [Small][Rn3SmallTopAppBar])
  *
@@ -180,9 +206,12 @@ fun Rn3ScaffoldImpl(
  * • [SMALL] represents a classic [SmallTopAppBar][Rn3SmallTopAppBar]
  *
  * • [DASHBOARD] represents a classic [SmallTopAppBar][Rn3SmallTopAppBar] with the Counters Logo before the title.
+ *
+ * • [NONE] represents no TopAppBar
  */
 enum class TopAppBarStyle {
     LARGE,
     SMALL,
     DASHBOARD,
+    NONE
 }

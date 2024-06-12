@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -33,13 +32,11 @@ import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.AccessibilityNew
 import androidx.compose.material.icons.outlined.DataObject
+import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.StarBorder
-import androidx.compose.material.icons.outlined.VerifiedUser
 import androidx.compose.material.icons.outlined.Warning
-import androidx.compose.material3.FilterChipDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -62,9 +59,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
-import dev.rahmouni.neil.counters.core.auth.user.Avatar
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User
 import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
+import dev.rahmouni.neil.counters.core.auth.user.UserAvatarAndName
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.common.openOssLicensesActivity
 import dev.rahmouni.neil.counters.core.common.toRn3Uri
@@ -111,6 +107,7 @@ internal fun SettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = hiltViewModel(),
     navController: NavController,
+    navigateToLogin: () -> Unit,
     navigateToAboutMe: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -127,16 +124,12 @@ internal fun SettingsRoute(
     SettingsScreen(
         modifier = modifier,
         uiState,
-        onAccountTileLogoutClicked = {
-            scope.launch {
-                auth.signOut(context)
-            }
+        onAccountTileSwitchAccountTileClicked = navigateToLogin,
+        onAccountTileLogoutTileClicked = {
+            scope.launch { auth.signOut(context) }
+            navigateToLogin()
         },
-        onAccountTileLoginClicked = {
-            scope.launch {
-                auth.signIn(context, false)
-            }
-        },
+        onAccountTileLoginButtonClicked = navigateToLogin,
         onBackIconButtonClicked = navController::popBackStack,
         feedbackTopAppBarAction = FeedbackScreenContext(
             "SettingsScreen",
@@ -164,8 +157,9 @@ internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     uiState: SettingsUiState,
     feedbackTopAppBarAction: TopAppBarAction? = null,
-    onAccountTileLogoutClicked: () -> Unit = {},
-    onAccountTileLoginClicked: () -> Unit = {},
+    onAccountTileSwitchAccountTileClicked: () -> Unit = {},
+    onAccountTileLogoutTileClicked: () -> Unit = {},
+    onAccountTileLoginButtonClicked: () -> Unit = {},
     onBackIconButtonClicked: () -> Unit = {},
     onClickDataAndPrivacyTile: () -> Unit = {},
     onClickAccessibilityTile: () -> Unit = {},
@@ -187,8 +181,9 @@ internal fun SettingsScreen(
             is Success -> SettingsPanel(
                 it,
                 uiState.settingsData,
-                onAccountTileLogoutClicked,
-                onAccountTileLoginClicked,
+                onAccountTileSwitchAccountTileClicked,
+                onAccountTileLogoutTileClicked,
+                onAccountTileLoginButtonClicked,
                 onClickDataAndPrivacyTile,
                 onClickAccessibilityTile,
                 changelogTileUri,
@@ -206,8 +201,9 @@ internal fun SettingsScreen(
 private fun SettingsPanel(
     paddingValues: Rn3PaddingValues,
     data: SettingsData,
-    onAccountTileLogoutClicked: () -> Unit,
-    onAccountTileLoginClicked: () -> Unit,
+    onAccountTileSwitchAccountTileClicked: () -> Unit,
+    onAccountTileLogoutTileClicked: () -> Unit,
+    onAccountTileLoginButtonClicked: () -> Unit,
     onClickDataAndPrivacyTile: () -> Unit,
     onClickAccessibilityTile: () -> Unit,
     changelogTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
@@ -229,9 +225,7 @@ private fun SettingsPanel(
             is SignedInUser -> Rn3ExpandableSurface(
                 expanded = isExpanded,
                 onExpandedChange = { isExpanded = it },
-                content = {
-                    UserAvatarAndName(data.user)
-                },
+                content = { data.user.UserAvatarAndName() },
                 expandedContent = {
                     Column {
                         Rn3TileHorizontalDivider(
@@ -241,7 +235,14 @@ private fun SettingsPanel(
                             ),
                         )
 
-                        // accountLogoutTile
+                        // switchAccountTile
+                        Rn3TileClick(
+                            title = "Switch account",
+                            icon = Outlined.Group,
+                            onClick = onAccountTileSwitchAccountTileClicked,
+                        )
+
+                        // logoutTile
                         Rn3TileClickConfirmationDialog(
                             title = stringResource(string.feature_settings_settingsScreen_accountLogoutTile_title),
                             icon = Icons.AutoMirrored.Outlined.Logout,
@@ -253,7 +254,7 @@ private fun SettingsPanel(
                             ),
                             onClick = {
                                 isExpanded = false
-                                onAccountTileLogoutClicked()
+                                onAccountTileLogoutTileClicked()
                             },
                         )
                     }
@@ -273,8 +274,10 @@ private fun SettingsPanel(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    UserAvatarAndName(user = data.user)
-                    OutlinedButton(onClick = onAccountTileLoginClicked) {
+                    data.user.UserAvatarAndName()
+
+                    // loginButton
+                    OutlinedButton(onClick = onAccountTileLoginButtonClicked) {
                         Text(stringResource(string.feature_settings_settingsScreen_accountLoginTile_loginButton_text))
                     }
                 }
@@ -352,31 +355,6 @@ private fun SettingsPanel(
             icon = Outlined.Contract,
             onClick = onClickOssLicensesTile,
         )
-    }
-}
-
-@Composable
-private fun UserAvatarAndName(user: Rn3User, modifier: Modifier = Modifier) {
-    Row(
-        modifier,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        user.Avatar()
-        Text(
-            user.getDisplayName(),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(top = 2.dp, start = 16.dp, end = 8.dp),
-        )
-        if (user.isAdmin()) {
-            Icon(
-                Outlined.VerifiedUser,
-                null,
-                modifier = Modifier
-                    .padding(top = 2.dp)
-                    .size(FilterChipDefaults.IconSize),
-                tint = MaterialTheme.colorScheme.secondary,
-            )
-        }
     }
 }
 

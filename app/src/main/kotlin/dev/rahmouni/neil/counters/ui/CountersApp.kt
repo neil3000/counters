@@ -17,9 +17,13 @@
 package dev.rahmouni.neil.counters.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import dev.rahmouni.neil.counters.CountersNavHost
 import dev.rahmouni.neil.counters.feature.dashboard.DASHBOARD_ROUTE
+import dev.rahmouni.neil.counters.feature.login.LOGIN_ROUTE
 
 @Composable
 fun CountersApp(
@@ -27,9 +31,11 @@ fun CountersApp(
     isLoggedIn: Boolean,
     modifier: Modifier = Modifier,
 ) {
+    val startDestination: String by rememberSaveable { mutableStateOf(if (isLoggedIn) DASHBOARD_ROUTE else LOGIN_ROUTE) }
+
     CountersNavHost(
         appState = appState,
         modifier = modifier,
-        startDestination = if (isLoggedIn) DASHBOARD_ROUTE else "test",
+        startDestination = startDestination,
     )
 }

@@ -14,16 +14,22 @@
  * limitations under the License.
  */
 
-package dev.rahmouni.neil.counters.core.designsystem.paddingValues
+@Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
+plugins {
+    alias(libs.plugins.rn3.android.feature)
+    alias(libs.plugins.rn3.android.library.compose)
+    alias(libs.plugins.rn3.android.library.jacoco)
+}
 
-import androidx.compose.ui.unit.dp
+android {
+    namespace = "dev.rahmouni.neil.counters.feature.login"
+}
 
-object Rn3PaddingValuesDirection {
-    val START = Rn3PaddingValues(start = 1.dp)
-    val TOP = Rn3PaddingValues(top = 1.dp)
-    val END = Rn3PaddingValues(end = 1.dp)
-    val BOTTOM = Rn3PaddingValues(bottom = 1.dp)
+dependencies {
+    api(libs.androidx.compose.material.iconsExtended)
 
-    val HORIZONTAL = START + END
-    val VERTICAL = TOP + BOTTOM
+    implementation(libs.androidx.appcompat)
+    implementation(libs.coil.kt.compose)
+
+    implementation(projects.core.auth)
 }
