@@ -75,7 +75,7 @@ internal fun CounterEntity.DashboardCard(
             Text(
                 text = getTitle(),
                 style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(start = 8.dp, top = 4.dp, end = 8.dp),
+                modifier = Modifier.padding(start = 12.dp, top = 8.dp, end = 12.dp),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -87,7 +87,7 @@ internal fun CounterEntity.DashboardCard(
                 AnimatedNumber(currentValue = currentValue) { targetValue ->
                     Text(
                         targetValue.toString(),
-                        Modifier.padding(start = 8.dp, end = 8.dp),
+                        Modifier.padding(start = 12.dp, end = 12.dp),
                         style = MaterialTheme.typography.headlineLarge,
                         textAlign = TextAlign.Center,
                     )
