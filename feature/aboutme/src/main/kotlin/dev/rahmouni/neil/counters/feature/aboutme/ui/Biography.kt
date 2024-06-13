@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
 import dev.rahmouni.neil.counters.feature.aboutme.R
 
 @Composable
@@ -39,8 +40,11 @@ internal fun Biography(biography: String) {
         shape = RoundedCornerShape(16.dp),
     ) {
         Column {
-            Rn3TileSmallHeader(title = stringResource(R.string.feature_aboutme_biography_headerTile_title))
-            Text(text = biography, Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp))
+            Rn3TileSmallHeader(
+                title = stringResource(R.string.feature_aboutme_biography_headerTile_title),
+                paddingValues = Rn3TileSmallHeaderDefaults.paddingValues.copy(bottom = 8.dp),
+            )
+            Text(text = biography, Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp))
         }
     }
 }
