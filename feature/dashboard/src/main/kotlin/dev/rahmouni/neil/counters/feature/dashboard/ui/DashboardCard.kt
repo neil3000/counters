@@ -31,6 +31,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -74,18 +75,19 @@ internal fun CounterEntity.DashboardCard(
             Text(
                 text = getTitle(),
                 style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(start = 8.dp, top = 4.dp, end = 8.dp),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 AnimatedNumber(currentValue = currentValue) { targetValue ->
                     Text(
                         targetValue.toString(),
-                        Modifier.padding(start = 8.dp),
+                        Modifier.padding(start = 8.dp, end = 8.dp),
                         style = MaterialTheme.typography.headlineLarge,
                         textAlign = TextAlign.Center,
                     )
