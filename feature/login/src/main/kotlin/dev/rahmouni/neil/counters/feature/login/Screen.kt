@@ -83,7 +83,6 @@ import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.NON
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCornersSurfaceGroup
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
@@ -223,7 +222,6 @@ private fun LoginPanel(
                     Rn3TileSmallHeader(
                         Modifier.fillMaxWidth(),
                         "Continue with:",
-                        Rn3TileSmallHeaderDefaults.paddingValues.add(bottom = 4.dp),
                     )
                     Rn3RoundedCornersSurfaceGroup {
                         item {

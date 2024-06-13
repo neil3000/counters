@@ -14,9 +14,7 @@
      limitations under the License.
 -->
 <resources>
-    <string name="feature_dashboard_bottomSheet_continueButton_title">Continue</string>
-    <string name="feature_dashboard_bottomSheet_textField_error_label">Name already exists</string>
-    <string name="feature_dashboard_bottomSheet_textField_label">Name</string>
+    <string name="feature_dashboard_bottomSheet_textField_label">Counter name</string>
     <string name="feature_dashboard_counterEntity_defaultTitle">Unnamed Counter</string>
     <string name="feature_dashboard_dashboardCard_addButton_contentDescription">Increment by one</string>
     <string name="feature_dashboard_dashboardScreen_topAppBarActions_settings">Settings</string>
