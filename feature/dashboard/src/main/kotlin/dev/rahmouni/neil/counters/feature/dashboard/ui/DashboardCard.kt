@@ -54,7 +54,7 @@ internal fun CounterEntity.DashboardCard(
 ) {
     val haptics = getHaptic()
     val context = LocalContext.current
-    val (value, unit) = getDisplayData()
+    val displayData = getDisplayData()
 
     val showRemoveButton = false
     val showAddButton = true
@@ -108,29 +108,31 @@ internal fun CounterEntity.DashboardCard(
                         )
                         .weight(1f),
                 ) {
-                    AnimatedNumber(
-                        currentValue = value,
-                        modifier = Modifier.weight(1f, fill = false),
-                    ) { targetValue ->
-                        Text(
-                            text = targetValue.toString(),
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.headlineLarge,
-                            softWrap = false,
-                            modifier = Modifier
-                                .alpha(0.85f),
-                        )
-                    }
+                    displayData.forEach { (value, unit) ->
+                        AnimatedNumber(
+                            currentValue = value,
+                            modifier = Modifier.weight(1f, fill = false),
+                        ) { targetValue ->
+                            Text(
+                                text = targetValue.toString(),
+                                textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.headlineLarge,
+                                softWrap = false,
+                                modifier = Modifier
+                                    .alpha(0.85f),
+                            )
+                        }
 
-                    if (unit != null) {
-                        Text(
-                            text = unit,
-                            softWrap = false,
-                            modifier = Modifier
-                                .padding(start = 2.dp)
-                                .alpha(0.85f)
-                                .align(getAlignment()),
-                        )
+                        if (unit != null) {
+                            Text(
+                                text = unit,
+                                softWrap = false,
+                                modifier = Modifier
+                                    .padding(start = 2.dp)
+                                    .alpha(0.85f)
+                                    .align(getAlignment()),
+                            )
+                        }
                     }
                 }
 

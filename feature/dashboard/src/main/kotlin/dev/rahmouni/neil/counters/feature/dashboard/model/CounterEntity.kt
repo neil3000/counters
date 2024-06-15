@@ -34,17 +34,16 @@ internal data class CounterEntity(
     private val fixedUnit: Boolean = false,
     private var displayUnit: String? = null,
 ) {
-    fun getDisplayData(): Pair<Double, String?> {
+    fun getDisplayData(): List<Pair<Double, String?>> {
         return when {
-            unit == null -> Pair(currentValue.toDouble(), "")
+            unit == null -> listOf(Pair(currentValue.toDouble(), ""))
             fixedUnit -> {
                 if (prefix != null && displayUnit == null) {
                     val (unitReceived, _) = CounterUnit.getDisplayUnit(unit, prefix)
                     displayUnit = unitReceived
                 }
-                Pair(currentValue.toDouble(), displayUnit ?: unit.shortName)
+                listOf(Pair(currentValue.toDouble(), displayUnit ?: unit.shortName))
             }
-
             else -> CounterUnit.getDisplayData(unit, prefix, currentValue.toDouble())
         }
     }
