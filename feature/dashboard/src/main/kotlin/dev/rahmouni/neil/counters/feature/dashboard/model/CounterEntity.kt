@@ -31,9 +31,22 @@ internal data class CounterEntity(
     private val title: String?,
     private val unit: CounterUnit?,
     private val prefix: Long?,
+    private val fixedUnit: Boolean = false,
+    private var displayUnit: String? = null,
 ) {
-    fun getDisplayData(): Pair<String, String> {
-        return CounterUnit.getDisplayString(unit, prefix, currentValue)
+    fun getDisplayData(): Pair<Double, String?> {
+        return when {
+            unit == null -> Pair(currentValue.toDouble(), "")
+            fixedUnit -> {
+                if (prefix != null && displayUnit == null) {
+                    val (unitReceived, _) = CounterUnit.getDisplayUnit(unit, prefix)
+                    displayUnit = unitReceived
+                }
+                Pair(currentValue.toDouble(), displayUnit ?: unit.shortName)
+            }
+
+            else -> CounterUnit.getDisplayData(unit, prefix, currentValue.toDouble())
+        }
     }
 
     fun getAlignment(): Alignment.Vertical {
@@ -42,12 +55,14 @@ internal data class CounterEntity(
 
     @Composable
     fun getColor(): Color {
-        return when (color) {
-            "PRIMARY" -> MaterialTheme.colorScheme.primaryContainer
-            "SECONDARY" -> MaterialTheme.colorScheme.secondaryContainer
-            "TERTIARY" -> MaterialTheme.colorScheme.tertiaryContainer
-            "SURFACE" -> MaterialTheme.colorScheme.surfaceContainer
-            else -> MaterialTheme.colorScheme.secondaryContainer
+        return with(MaterialTheme.colorScheme) {
+            when (color) {
+                "PRIMARY" -> primaryContainer
+                "SECONDARY" -> secondaryContainer
+                "TERTIARY" -> tertiaryContainer
+                "SURFACE" -> surfaceContainer
+                else -> secondaryContainer
+            }
         }
     }
 

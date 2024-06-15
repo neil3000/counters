@@ -26,11 +26,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Remove
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
@@ -48,11 +50,14 @@ import dev.rahmouni.neil.counters.feature.dashboard.model.CounterEntity
 @Composable
 internal fun CounterEntity.DashboardCard(
     modifier: Modifier = Modifier,
-    onIncrement: () -> Unit,
+    onIncrement: (value: Long) -> Unit,
 ) {
     val haptics = getHaptic()
     val context = LocalContext.current
-    val displayData = getDisplayData()
+    val (value, unit) = getDisplayData()
+
+    val showRemoveButton = false
+    val showAddButton = true
 
     Card(
         colors = CardDefaults.cardColors(getColor()),
@@ -83,20 +88,32 @@ internal fun CounterEntity.DashboardCard(
             )
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth(),
             ) {
+                if (showRemoveButton) {
+                    Rn3IconButton(
+                        icon = Icons.Outlined.Remove,
+                        contentDescription = stringResource(R.string.feature_dashboard_dashboardCard_removeButton_contentDescription),
+                        onClick = { onIncrement(-1) },
+                    )
+                }
+
                 Row(
                     modifier = Modifier
-                        .padding(start = 12.dp)
+                        .padding(
+                            start = if (showRemoveButton) 0.dp else 12.dp,
+                            end = if (showAddButton) 0.dp else 12.dp,
+                        )
                         .weight(1f),
                 ) {
                     AnimatedNumber(
-                        currentValue = currentValue,
+                        currentValue = value,
                         modifier = Modifier.weight(1f, fill = false),
-                    ) {
+                    ) { targetValue ->
                         Text(
-                            text = displayData.first,
+                            text = targetValue.toString(),
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.headlineLarge,
                             softWrap = false,
@@ -105,21 +122,25 @@ internal fun CounterEntity.DashboardCard(
                         )
                     }
 
-                    Text(
-                        text = displayData.second,
-                        softWrap = false,
-                        modifier = Modifier
-                            .alpha(0.85f)
-                            .align(getAlignment()),
-                    )
+                    if (unit != null) {
+                        Text(
+                            text = unit,
+                            softWrap = false,
+                            modifier = Modifier
+                                .padding(start = 2.dp)
+                                .alpha(0.85f)
+                                .align(getAlignment()),
+                        )
+                    }
                 }
 
-                Rn3IconButton(
-                    icon = Icons.Outlined.Add,
-                    contentDescription = stringResource(R.string.feature_dashboard_dashboardCard_addButton_contentDescription),
-                    onClick = onIncrement,
-                    modifier = Modifier.align(androidx.compose.ui.Alignment.CenterVertically),
-                )
+                if (showAddButton) {
+                    Rn3IconButton(
+                        icon = Icons.Outlined.Add,
+                        contentDescription = stringResource(R.string.feature_dashboard_dashboardCard_addButton_contentDescription),
+                        onClick = { onIncrement(1) },
+                    )
+                }
             }
         }
     }

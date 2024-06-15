@@ -98,7 +98,7 @@ internal fun LinkRn3UrlRawData.Tile(
                 color = MaterialTheme.colorScheme.secondaryContainer,
                 shape = RoundedCornerShape(8.dp),
             ) {
-                AnimatedNumber(currentValue = clicks) { targetValue ->
+                AnimatedNumber(currentValue = clicks.toDouble()) { targetValue ->
                     Box(Modifier.sizeIn(36.dp, 36.dp)) {
                         Text(
                             text = targetValue.toString(),

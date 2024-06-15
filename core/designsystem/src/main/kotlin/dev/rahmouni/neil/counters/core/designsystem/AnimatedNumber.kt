@@ -31,8 +31,8 @@ import androidx.compose.ui.Modifier
 @Composable
 fun AnimatedNumber(
     modifier: Modifier = Modifier,
-    currentValue: Long,
-    content: @Composable (AnimatedContentScope.(targetState: Long) -> Unit),
+    currentValue: Double,
+    content: @Composable (AnimatedContentScope.(targetState: Double) -> Unit),
 ) {
     AnimatedContent(
         modifier = modifier,
