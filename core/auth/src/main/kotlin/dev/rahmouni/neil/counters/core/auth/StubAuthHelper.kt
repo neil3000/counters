@@ -17,7 +17,6 @@
 package dev.rahmouni.neil.counters.core.auth
 
 import android.content.Context
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -37,7 +36,8 @@ class StubAuthHelper @Inject constructor() : AuthHelper {
     override suspend fun signOut(context: Context) =
         throw NotImplementedError("Not available in Preview")
 
-    override fun getUser(): Rn3User = Rn3User.SignedInUser(
+    override fun getUser(): dev.rahmouni.neil.counters.core.user.Rn3User =
+        dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser(
         uid = "androidPreviewId",
         displayName = "Android Preview",
         pfpUri = null,
@@ -45,6 +45,6 @@ class StubAuthHelper @Inject constructor() : AuthHelper {
         email = "androidPreview@rahmouni.dev",
     )
 
-    override fun getUserFlow(): Flow<Rn3User> =
+    override fun getUserFlow(): Flow<dev.rahmouni.neil.counters.core.user.Rn3User> =
         throw NotImplementedError("Not available in Preview")
 }

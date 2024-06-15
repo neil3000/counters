@@ -17,7 +17,7 @@
 package dev.rahmouni.neil.counters.core.auth
 
 import android.content.Context
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User
+import dev.rahmouni.neil.counters.core.user.Rn3User
 import kotlinx.coroutines.flow.Flow
 
 interface AuthHelper {

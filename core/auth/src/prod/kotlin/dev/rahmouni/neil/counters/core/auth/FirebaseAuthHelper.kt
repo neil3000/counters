@@ -30,10 +30,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.AnonymousUser
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
+import dev.rahmouni.neil.counters.core.user.Rn3User
+import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
+import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
+import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -89,8 +89,15 @@ internal class FirebaseAuthHelper @Inject constructor() : AuthHelper {
     override suspend fun signIn(context: Context, anonymously: Boolean) {
         if (anonymously) {
             Firebase.auth.signInAnonymously()
-        } else {
+        } else try {
             signInWithCredentialManager(context, false)
+        } catch (e: Exception) {
+            if (e is GetCredentialCancellationException) {
+                // It's ok to cancel the credential request
+                return
+            }
+
+            throw e
         }
     }
 
@@ -99,10 +106,10 @@ internal class FirebaseAuthHelper @Inject constructor() : AuthHelper {
         CredentialManager.create(context).clearCredentialState(ClearCredentialStateRequest())
     }
 
-    override fun getUser(): Rn3User =
-        if (finishedLoading) Firebase.auth.currentUser.toRn3User(claims.value) else Rn3User.Loading
+    override fun getUser(): dev.rahmouni.neil.counters.core.user.Rn3User =
+        if (finishedLoading) Firebase.auth.currentUser.toRn3User(claims.value) else dev.rahmouni.neil.counters.core.user.Rn3User.Loading
 
-    override fun getUserFlow(): Flow<Rn3User> = callbackFlow {
+    override fun getUserFlow(): Flow<dev.rahmouni.neil.counters.core.user.Rn3User> = callbackFlow {
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->
             trySend(auth.currentUser)
         }
@@ -115,16 +122,17 @@ internal class FirebaseAuthHelper @Inject constructor() : AuthHelper {
         user.toRn3User(claims)
     }
 
-    private fun FirebaseUser?.toRn3User(claims: Map<String, Any>): Rn3User {
+    private fun FirebaseUser?.toRn3User(claims: Map<String, Any>): dev.rahmouni.neil.counters.core.user.Rn3User {
         with(this) {
             if (this == null) return LoggedOutUser
             if (isAnonymous) return AnonymousUser(uid)
 
             return SignedInUser(
                 uid = uid,
-                displayName = this.displayName.toString(),
-                pfpUri = this.photoUrl,
+                displayName = displayName.toString(),
+                pfpUri = photoUrl,
                 isAdmin = claims["role"] == "Admin",
+                email = email.toString(),
             )
         }
     }

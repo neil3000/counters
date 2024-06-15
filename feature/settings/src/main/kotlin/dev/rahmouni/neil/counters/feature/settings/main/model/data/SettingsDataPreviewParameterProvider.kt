@@ -17,8 +17,8 @@
 package dev.rahmouni.neil.counters.feature.settings.main.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.AnonymousUser
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
+import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
+import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_default
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_mutations
 

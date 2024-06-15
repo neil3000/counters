@@ -16,7 +16,7 @@
 
 package dev.rahmouni.neil.counters.feature.settings.main.model.data
 
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User
+import dev.rahmouni.neil.counters.core.user.Rn3User
 
 data class SettingsData(
     val user: Rn3User,

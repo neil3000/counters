@@ -15,4 +15,5 @@
 -->
 <resources>
     <string name="core_common_copiedText_toast">Copied</string>
+    <string name="core_common_user_notSignedIn">Not signed in</string>
 </resources>
