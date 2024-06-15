@@ -26,13 +26,16 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 
 @Composable
 fun AnimatedNumber(
+    modifier: Modifier = Modifier,
     currentValue: Long,
     content: @Composable (AnimatedContentScope.(targetState: Long) -> Unit),
 ) {
     AnimatedContent(
+        modifier = modifier,
         targetState = currentValue,
         transitionSpec = {
             if (targetState > initialState) {

@@ -18,6 +18,7 @@ package dev.rahmouni.neil.counters.feature.dashboard.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.rahmouni.neil.counters.feature.dashboard.model.CounterEntity
+import dev.rahmouni.neil.counters.feature.dashboard.model.CounterUnit
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData.dashboardData_default
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData.dashboardData_mutations
 
@@ -34,8 +35,22 @@ internal class DashboardDataPreviewParameterProvider :
 internal object PreviewParameterData {
     val dashboardData_default = DashboardData(
         counters = listOf(
-            CounterEntity(uid = "id1", title = "Push-ups", currentValue = 30),
-            CounterEntity(uid = "id2", title = "Coffee cups", currentValue = 2),
+            CounterEntity(
+                uid = "id1",
+                title = "Push-ups",
+                color = "PRIMARY",
+                unit = CounterUnit.GRAMS,
+                prefix = 3,
+                currentValue = 30,
+            ),
+            CounterEntity(
+                uid = "id2",
+                title = "Coffee cups",
+                color = "PRIMARY",
+                unit = CounterUnit.SECONDS,
+                prefix = null,
+                currentValue = 2,
+            ),
         ),
     )
     val dashboardData_mutations = with(dashboardData_default) {

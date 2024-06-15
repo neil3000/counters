@@ -16,7 +16,10 @@
 
 package dev.rahmouni.neil.counters.feature.dashboard.model
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import dev.rahmouni.neil.counters.core.data.model.CounterRawData
 import dev.rahmouni.neil.counters.feature.dashboard.R
@@ -24,8 +27,30 @@ import dev.rahmouni.neil.counters.feature.dashboard.R
 internal data class CounterEntity(
     val uid: String,
     val currentValue: Long,
+    private val color: String,
     private val title: String?,
+    private val unit: CounterUnit?,
+    private val prefix: Long?,
 ) {
+    fun getDisplayData(): Pair<String, String> {
+        return CounterUnit.getDisplayString(unit, prefix, currentValue)
+    }
+
+    fun getAlignment(): Alignment.Vertical {
+        return unit?.alignment ?: Alignment.Bottom
+    }
+
+    @Composable
+    fun getColor(): Color {
+        return when (color) {
+            "PRIMARY" -> MaterialTheme.colorScheme.primaryContainer
+            "SECONDARY" -> MaterialTheme.colorScheme.secondaryContainer
+            "TERTIARY" -> MaterialTheme.colorScheme.tertiaryContainer
+            "SURFACE" -> MaterialTheme.colorScheme.surfaceContainer
+            else -> MaterialTheme.colorScheme.secondaryContainer
+        }
+    }
+
     @Composable
     fun getTitle(): String =
         title ?: stringResource(R.string.feature_dashboard_counterEntity_defaultTitle)
@@ -37,6 +62,9 @@ internal fun CounterRawData.toEntity(): CounterEntity {
     return CounterEntity(
         uid = uid!!,
         currentValue = currentValue,
+        color = color,
         title = title,
+        unit = CounterUnit.entries.find { it.unitName == unit },
+        prefix = prefix,
     )
 }

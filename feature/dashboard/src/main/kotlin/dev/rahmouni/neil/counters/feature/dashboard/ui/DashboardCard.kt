@@ -31,8 +31,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -52,9 +52,10 @@ internal fun CounterEntity.DashboardCard(
 ) {
     val haptics = getHaptic()
     val context = LocalContext.current
+    val displayData = getDisplayData()
 
     Card(
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+        colors = CardDefaults.cardColors(getColor()),
         modifier = modifier,
     ) {
         Column(
@@ -75,21 +76,41 @@ internal fun CounterEntity.DashboardCard(
             Text(
                 text = getTitle(),
                 style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(start = 12.dp, top = 8.dp, end = 12.dp),
+                modifier = Modifier
+                    .padding(start = 12.dp, top = 8.dp, end = 12.dp),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth(),
             ) {
-                AnimatedNumber(currentValue = currentValue) { targetValue ->
+                Row(
+                    modifier = Modifier
+                        .padding(start = 12.dp)
+                        .weight(1f),
+                ) {
+                    AnimatedNumber(
+                        currentValue = currentValue,
+                        modifier = Modifier.weight(1f, fill = false),
+                    ) {
+                        Text(
+                            text = displayData.first,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.headlineLarge,
+                            softWrap = false,
+                            modifier = Modifier
+                                .alpha(0.85f),
+                        )
+                    }
+
                     Text(
-                        targetValue.toString(),
-                        Modifier.padding(start = 12.dp, end = 12.dp),
-                        style = MaterialTheme.typography.headlineLarge,
-                        textAlign = TextAlign.Center,
+                        text = displayData.second,
+                        softWrap = false,
+                        modifier = Modifier
+                            .alpha(0.85f)
+                            .align(getAlignment()),
                     )
                 }
 
@@ -97,6 +118,7 @@ internal fun CounterEntity.DashboardCard(
                     icon = Icons.Outlined.Add,
                     contentDescription = stringResource(R.string.feature_dashboard_dashboardCard_addButton_contentDescription),
                     onClick = onIncrement,
+                    modifier = Modifier.align(androidx.compose.ui.Alignment.CenterVertically),
                 )
             }
         }
