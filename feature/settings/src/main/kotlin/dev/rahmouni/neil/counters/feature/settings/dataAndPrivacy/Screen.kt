@@ -241,8 +241,10 @@ private fun DataAndPrivacySettingsPanel(
                 .fillMaxWidth(),
         ) {
             Column {
-                Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title),
-                    paddingValues = Rn3TileSmallHeaderDefaults.paddingValues.copy(bottom = 8.dp))
+                Rn3TileSmallHeader(
+                    title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title),
+                    paddingValues = Rn3TileSmallHeaderDefaults.paddingValues.copy(bottom = 8.dp),
+                )
                 Text(
                     text = config.getString("privacy_policy_short"),
                     Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp),

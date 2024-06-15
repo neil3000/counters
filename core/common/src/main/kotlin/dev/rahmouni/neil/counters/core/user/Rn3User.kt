@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package dev.rahmouni.neil.counters.core.auth.user
+package dev.rahmouni.neil.counters.core.user
 
+import android.content.Context
 import android.net.Uri
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import dev.rahmouni.neil.counters.core.auth.R
+import dev.rahmouni.neil.counters.core.common.R
 
 sealed interface Rn3User {
 
@@ -29,7 +28,7 @@ sealed interface Rn3User {
     data class SignedInUser(
         internal val uid: String,
         internal val displayName: String,
-        internal val pfpUri: Uri?,
+        val pfpUri: Uri?,
         internal val isAdmin: Boolean,
         internal val email: String,
     ) : Rn3User
@@ -41,11 +40,10 @@ sealed interface Rn3User {
         is SignedInUser -> uid
     }
 
-    @Composable
-    fun getDisplayName(): String {
+    fun getDisplayName(context: Context): String {
         return when (this) {
             is SignedInUser -> displayName
-            else -> stringResource(R.string.core_auth_user_notSignedIn)
+            else -> context.getString(R.string.core_common_user_notSignedIn)
         }
     }
 

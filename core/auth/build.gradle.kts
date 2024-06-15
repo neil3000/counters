@@ -24,14 +24,10 @@ android {
 }
 
 dependencies {
+    api(projects.core.common)
+
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
-
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.runtime)
-    implementation(libs.androidx.compose.material.iconsExtended)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.coil.kt.compose)
 
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)

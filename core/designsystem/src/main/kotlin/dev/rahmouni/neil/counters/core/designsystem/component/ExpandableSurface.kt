@@ -59,18 +59,14 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 @Composable
 fun Rn3ExpandableSurface(
     modifier: Modifier = Modifier,
-    content: @Composable RowScope.() -> Unit,
+    content: @Composable RowScope.(expanded: Boolean) -> Unit,
     expandedContent: @Composable AnimatedVisibilityScope.() -> Unit,
     paddingValues: Rn3PaddingValues = Rn3ExpandableSurfaceDefaults.paddingValues,
     tonalElevation: Dp = Rn3ExpandableSurfaceDefaults.tonalElevation,
-    expanded: Boolean? = null,
-    onExpandedChange: ((Boolean) -> Unit)? = null,
 ) {
     val haptic = getHaptic()
 
-    var internalExpanded by rememberSaveable { mutableStateOf(false) }
-
-    val isExpanded = expanded ?: internalExpanded
+    var isExpanded by rememberSaveable { mutableStateOf(false) }
 
     val degreeAnimation by animateFloatAsState(
         targetValue = if (isExpanded) 180f else 0f,
@@ -90,17 +86,13 @@ fun Rn3ExpandableSurface(
                 value = isExpanded,
                 onValueChange = {
                     haptic.click()
-                    if (onExpandedChange != null) {
-                        onExpandedChange(it)
-                    } else {
-                        internalExpanded = it
-                    }
+                    isExpanded = it
                 },
                 role = Role.DropdownList,
             ),
         ) {
             Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                content()
+                content(isExpanded)
                 Spacer(modifier = Modifier.weight(1f))
                 Icon(Outlined.ExpandMore, null, Modifier.rotate(degreeAnimation))
             }

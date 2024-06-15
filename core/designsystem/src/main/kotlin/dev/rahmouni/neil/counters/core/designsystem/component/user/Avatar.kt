@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.rahmouni.neil.counters.core.auth.user
+package dev.rahmouni.neil.counters.core.designsystem.component.user
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -27,7 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
+import dev.rahmouni.neil.counters.core.user.Rn3User
+import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 
 @Composable
 fun Rn3User.Avatar() {

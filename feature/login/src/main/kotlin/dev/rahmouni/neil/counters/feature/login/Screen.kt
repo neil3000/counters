@@ -28,8 +28,6 @@ import androidx.compose.animation.core.ExperimentalAnimationSpecApi
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -71,9 +69,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
-import dev.rahmouni.neil.counters.core.auth.user.UserAvatarAndName
 import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -83,10 +78,15 @@ import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.NON
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.user.UserAvatarAndName
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
+import dev.rahmouni.neil.counters.core.designsystem.rn3ShrinkVerticallyTransition
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCornersSurfaceGroup
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
+import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
+import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -222,6 +222,7 @@ private fun LoginPanel(
                     Rn3TileSmallHeader(
                         Modifier.fillMaxWidth(),
                         "Continue with:",
+                        Rn3TileSmallHeaderDefaults.paddingValues.add(bottom = 4.dp),
                     )
                     Rn3RoundedCornersSurfaceGroup {
                         item {
@@ -286,11 +287,7 @@ private fun LoginPanel(
                                         Text("Add an account")
                                         AnimatedVisibility(
                                             visible = user !is SignedInUser,
-                                            exit = fadeOut() + shrinkVertically(
-                                                animationSpec = tween(
-                                                    delayMillis = 50,
-                                                ),
-                                            ),
+                                            exit = rn3ShrinkVerticallyTransition(),
                                         ) {
                                             Text(
                                                 "Sign in to sync your data across devices",

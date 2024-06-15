@@ -43,10 +43,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -59,8 +56,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
-import dev.rahmouni.neil.counters.core.auth.user.UserAvatarAndName
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.common.openOssLicensesActivity
 import dev.rahmouni.neil.counters.core.common.toRn3Uri
@@ -77,6 +72,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizo
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
+import dev.rahmouni.neil.counters.core.designsystem.component.user.UserAvatarAndName
 import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
 import dev.rahmouni.neil.counters.core.designsystem.icons.DevicesOff
 import dev.rahmouni.neil.counters.core.designsystem.icons.Discord
@@ -86,6 +82,7 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValu
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
+import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.accessibility.navigateToAccessibilitySettings
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.navigateToDataAndPrivacySettings
@@ -213,19 +210,16 @@ private fun SettingsPanel(
     onClickDeveloperSettingsTile: () -> Unit,
     onClickOssLicensesTile: () -> Unit,
 ) {
-    var isExpanded by rememberSaveable { mutableStateOf(false) }
-
     Column(
         Modifier
             .verticalScroll(rememberScrollState())
             .padding(paddingValues),
     ) {
+
         // accountTile
         when (data.user) {
             is SignedInUser -> Rn3ExpandableSurface(
-                expanded = isExpanded,
-                onExpandedChange = { isExpanded = it },
-                content = { data.user.UserAvatarAndName() },
+                content = { data.user.UserAvatarAndName(showEmail = it) },
                 expandedContent = {
                     Column {
                         Rn3TileHorizontalDivider(
@@ -253,7 +247,6 @@ private fun SettingsPanel(
                                 Outlined.Warning to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_mayLoseDataIfSomethingHappensToDevice),
                             ),
                             onClick = {
-                                isExpanded = false
                                 onAccountTileLogoutTileClicked()
                             },
                         )
