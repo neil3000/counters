@@ -4,7 +4,6 @@ import androidx.compose.ui.Alignment
 import kotlin.math.abs
 import kotlin.math.log10
 import kotlin.math.pow
-import kotlin.math.roundToInt
 
 val prefixMap = mapOf(
     -30L to "q", -27L to "r", -24L to "y", -21L to "z",
@@ -44,9 +43,9 @@ enum class CounterUnit(
         alignment = Alignment.Bottom,
         null,
         listOf(
-            Pair(16.0, "Pound"),
-            Pair(2000.0, "short ton"),
-            Pair(1.12, "long ton"),
+            Pair(16.0, "lb"),
+            Pair(2000.0, "sh tn"),
+            Pair(1.12, "lng tn"),
         ),
     ),
     INCHES(
@@ -92,33 +91,33 @@ enum class CounterUnit(
     ),
     US_GALLONS(
         "US Gallons",
-        "tea spoon",
+        "gal",
         alignment = Alignment.Bottom,
         null,
         listOf(
-            Pair(3.0, "table spoon"),
-            Pair(2.0, "Fluid Once"),
+            Pair(1.0, "tsp"),
+            Pair(3.0, "tbsp"),
+            Pair(2.0, "fl oz"),
             Pair(8.0, "cup"),
-            Pair(2.0, "pint"),
-            Pair(2.0, "quart"),
-            Pair(4.0, "gallon"),
+            Pair(2.0, "pt"),
+            Pair(2.0, "qt"),
+            Pair(4.0, "gal"),
         ),
     ),
-
     IMPERIAL_GALLONS(
         "Imperial Gallons",
-        "tea spoon",
+        "imp gal",
         alignment = Alignment.Bottom,
         null,
         listOf(
-            Pair(3.0, "table spoon"),
-            Pair(1.6, "Fluid Once"),
-            Pair(20.0, "pint"),
-            Pair(2.0, "quart"),
-            Pair(4.0, "gallon"),
+            Pair(1.0, "tsp"),
+            Pair(3.0, "tbsp"),
+            Pair(1.6, "fl oz"),
+            Pair(20.0, "pt"),
+            Pair(2.0, "qt"),
+            Pair(4.0, "gal"),
         ),
     ),
-
     CUBIC_INCHES(
         "Cubic Inches",
         "in³",
@@ -165,10 +164,8 @@ enum class CounterUnit(
     companion object {
         fun getDisplayUnit(unit: CounterUnit, prefix: Long): Pair<String, Long> {
             val closestPrefix = prefixMap.keys.minByOrNull { abs(it - prefix) } ?: 0L
-            val prefixStr = prefixMap[closestPrefix] ?: ""
-
             val unitStr = unit.subs?.find { it.first.toLong() == closestPrefix }?.second
-                ?: "$prefixStr${unit.shortName}"
+                ?: "${prefixMap[closestPrefix] ?: ""}${unit.shortName}"
             val realPrefix = abs(closestPrefix - prefix)
 
             return Pair(unitStr, realPrefix)
@@ -180,59 +177,71 @@ enum class CounterUnit(
             currentValue: Double,
             separatedUnits: Boolean = false,
         ): List<Pair<Double, String>> {
-            unit.base?.let { base ->
+            if (separatedUnits) {
+                if (unit.base != null) {
+                    val results = mutableListOf<Pair<Double, String>>()
+                    var remainingValue = currentValue
+
+                    fun addResult(value: Double, prefix: Long) {
+                        if (value > 0) {
+                            val (unitStr, _) = getDisplayUnit(unit, prefix)
+                            results.add(Pair(value, unitStr))
+                        }
+                    }
+
+                    while (remainingValue >= 1) {
+                        val order = (log10(remainingValue) / log10(unit.base)).toLong()
+                        val adjustedPrefix = (prefix ?: 0) + order
+                        val divider = unit.base.pow(order.toDouble())
+                        val valueStr = (remainingValue / divider).toInt().toDouble()
+                        remainingValue %= divider
+
+                        addResult(valueStr, adjustedPrefix)
+                    }
+
+                    addResult(remainingValue, prefix ?: 0)
+
+                    return results
+                }
+                val results = mutableListOf<Pair<Double, String>>()
+                var remainingValue = currentValue
+                val unitStr = unit.shortName
+                if (!unit.subs.isNullOrEmpty()) {
+                    for ((key, value) in unit.subs) {
+                        if (remainingValue < key) break
+                        val wholePart = (remainingValue / key).toInt()
+                        results.add(Pair(wholePart.toDouble(), value))
+                        remainingValue %= key
+                    }
+                }
+
+                if (remainingValue > 0) {
+                    results.add(Pair(remainingValue, unitStr))
+                }
+
+                return results
+            }
+
+            if (unit.base != null) {
+                val base = unit.base
                 val order = (log10(currentValue) / log10(base)).toLong()
                 val adjustedPrefix = (prefix ?: 0) + order
-
                 val (unitStr, realPrefix) = getDisplayUnit(unit, adjustedPrefix)
                 val divider = base.pow((order - realPrefix).toDouble())
                 val valueStr = currentValue / divider
-
                 return listOf(Pair(valueStr, unitStr))
             }
 
-            //TODO: fix separated units
-            //TODO: SECONDS can also be of base 10
-
-            if (unit == INCHES || unit == SECONDS) {
-                val subs = unit.subs!!
-                var convertedValue = currentValue
-                var unitStr = unit.shortName
-
-                if (separatedUnits) {
-                    val result = mutableListOf<Pair<Double, String>>()
-
-                    for ((key, value) in subs) {
-                        if (convertedValue >= key) {
-                            convertedValue /= key
-                            unitStr = value
-                            result.add(Pair(convertedValue.roundToInt().toDouble(), unitStr))
-                        } else {
-                            break
-                        }
-                    }
-
-                    if (convertedValue > 0) {
-                        result.reverse()
-                        result.add(Pair(convertedValue, unit.shortName))
-                    }
-
-                    return result
-                } else {
-                    for ((key, value) in subs) {
-                        if (convertedValue >= key) {
-                            convertedValue /= key
-                            unitStr = value
-                        } else {
-                            break
-                        }
-                    }
-
-                    return listOf(Pair(convertedValue, unitStr))
+            var remainingValue = currentValue
+            var unitStr = unit.shortName
+            if (!unit.subs.isNullOrEmpty()) {
+                for ((key, value) in unit.subs) {
+                    if (remainingValue < key) break
+                    remainingValue /= key
+                    unitStr = value
                 }
             }
-
-            return listOf(Pair(currentValue, unit.shortName))
+            return listOf(Pair(remainingValue, unitStr))
         }
     }
 }
