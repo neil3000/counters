@@ -25,7 +25,6 @@ import dev.rahmouni.neil.counters.core.accessibility.AccessibilityHelper
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import dev.rahmouni.neil.counters.core.user.Rn3User
-import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -51,7 +50,6 @@ class MainActivityViewModel @Inject constructor(
                     ),
                     hasMetricsEnabled = userData.hasMetricsEnabled,
                     hasCrashlyticsEnabled = userData.hasCrashlyticsEnabled,
-                    isLoggedIn = user !is LoggedOutUser,
                 )
             }
         }.stateIn(
@@ -67,6 +65,5 @@ sealed interface MainActivityUiState {
         val accessibilityHelper: AccessibilityHelper,
         val hasMetricsEnabled: Boolean,
         val hasCrashlyticsEnabled: Boolean,
-        val isLoggedIn: Boolean,
     ) : MainActivityUiState
 }

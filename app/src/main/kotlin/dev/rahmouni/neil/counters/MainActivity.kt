@@ -132,7 +132,7 @@ class MainActivity : ComponentActivity() {
                     LocalAuthHelper provides authHelper,
                 ) {
                     Rn3Theme {
-                        CountersApp(appState, (uiState as Success).isLoggedIn)
+                        CountersApp(appState)
                     }
                 }
             }

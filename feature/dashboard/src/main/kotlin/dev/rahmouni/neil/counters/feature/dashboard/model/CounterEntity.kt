@@ -42,12 +42,14 @@ internal data class CounterEntity(
 
     @Composable
     fun getColor(): Color {
-        return when (color) {
-            "PRIMARY" -> MaterialTheme.colorScheme.primaryContainer
-            "SECONDARY" -> MaterialTheme.colorScheme.secondaryContainer
-            "TERTIARY" -> MaterialTheme.colorScheme.tertiaryContainer
-            "SURFACE" -> MaterialTheme.colorScheme.surfaceContainer
-            else -> MaterialTheme.colorScheme.secondaryContainer
+        return with(MaterialTheme.colorScheme) {
+            when (color) {
+                "PRIMARY" -> primaryContainer
+                "SECONDARY" -> secondaryContainer
+                "TERTIARY" -> tertiaryContainer
+                "SURFACE" -> surfaceContainer
+                else -> secondaryContainer
+            }
         }
     }
 

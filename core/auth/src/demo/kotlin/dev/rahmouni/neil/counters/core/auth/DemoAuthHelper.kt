@@ -18,10 +18,10 @@ package dev.rahmouni.neil.counters.core.auth
 
 import android.content.Context
 import androidx.core.net.toUri
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.AnonymousUser
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.LoggedOutUser
-import dev.rahmouni.neil.counters.core.auth.user.Rn3User.SignedInUser
+import dev.rahmouni.neil.counters.core.user.Rn3User
+import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
+import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
+import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
