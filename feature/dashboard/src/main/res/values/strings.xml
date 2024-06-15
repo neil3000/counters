@@ -17,6 +17,7 @@
     <string name="feature_dashboard_bottomSheet_textField_label">Counter name</string>
     <string name="feature_dashboard_counterEntity_defaultTitle">Unnamed Counter</string>
     <string name="feature_dashboard_dashboardCard_addButton_contentDescription">Increment by one</string>
+    <string name="feature_dashboard_dashboardCard_removeButton_contentDescription">Decrement by one</string>
     <string name="feature_dashboard_dashboardScreen_topAppBarActions_settings">Settings</string>
     <string name="feature_dashboard_dashboardScreen_topAppBarTitle">Counters</string>
     <string name="feature_dashboard_fab_newCounter">New Counter</string>

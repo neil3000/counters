@@ -151,8 +151,8 @@ private fun DashboardPanel(
                     Modifier
                         .padding(4.dp)
                         .animateItem(),
-                ) {
-                    onIncrementCounter(uid, IncrementRawData())
+                ) { value ->
+                    onIncrementCounter(uid, IncrementRawData(value = value))
                 }
             }
         }
