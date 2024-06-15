@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickChips
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.CoffeeAnimated
 import dev.rahmouni.neil.counters.feature.aboutme.R
@@ -65,7 +66,13 @@ fun MainActions(portfolioUri: Rn3Uri) {
                 supportingText = stringResource(R.string.feature_aboutme_mainActions_portfolioTile_supportingText),
             )
 
-            Rn3TileHorizontalDivider(color = MaterialTheme.colorScheme.secondary)
+            Rn3TileHorizontalDivider(
+                color = MaterialTheme.colorScheme.secondary,
+                paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
+                    top = 0.dp,
+                    bottom = 0.dp,
+                ),
+            )
 
             // buyMeCoffeeTile //TODO logic
             Rn3TileClickChips(

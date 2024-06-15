@@ -42,7 +42,7 @@ fun Rn3TileSmallHeader(
 }
 
 object Rn3TileSmallHeaderDefaults {
-    val paddingValues = Rn3PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
+    val paddingValues = Rn3PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 12.dp)
 }
 
 @Rn3PreviewComponentDefault

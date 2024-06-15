@@ -59,6 +59,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickConfirmationDialog
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
@@ -188,7 +189,7 @@ private fun DataAndPrivacySettingsPanel(
             expandedContent = {
                 Text(
                     config.getString("metrics_info_short"),
-                    Modifier.padding(start = 16.dp, bottom = 16.dp),
+                    Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
                 )
             },
         )
@@ -216,7 +217,7 @@ private fun DataAndPrivacySettingsPanel(
             expandedContent = {
                 Text(
                     config.getString("crashlytics_info_short"),
-                    Modifier.padding(start = 16.dp, bottom = 16.dp),
+                    Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
                 )
             },
         )
@@ -240,10 +241,13 @@ private fun DataAndPrivacySettingsPanel(
                 .fillMaxWidth(),
         ) {
             Column {
-                Rn3TileSmallHeader(title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title))
+                Rn3TileSmallHeader(
+                    title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title),
+                    paddingValues = Rn3TileSmallHeaderDefaults.paddingValues.copy(bottom = 8.dp),
+                )
                 Text(
                     text = config.getString("privacy_policy_short"),
-                    Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                    Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
                 )
             }
         }

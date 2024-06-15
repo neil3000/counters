@@ -28,6 +28,9 @@ data class CounterRawData(
     val currentValueComputedSegment: Timestamp? = null,
     val ownerUserUid: String = "RahNeil_N3:error:xTdZVv31n9S4fjOB0dFtJBk2ZZR6Ch5F",
     val title: String? = null,
+    val color: String = "SECONDARY",
+    val unit: String? = null,
+    val prefix: Long? = null,
 )
 
 @Keep

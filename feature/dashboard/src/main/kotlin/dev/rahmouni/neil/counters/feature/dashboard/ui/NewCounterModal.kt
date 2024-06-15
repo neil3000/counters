@@ -37,8 +37,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.data.model.CounterRawData
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
-import dev.rahmouni.neil.counters.core.feedback.R
 import kotlinx.coroutines.launch
+import dev.rahmouni.neil.counters.core.feedback.R as feedback
+import dev.rahmouni.neil.counters.feature.dashboard.R as dashboard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,7 +71,7 @@ internal fun newCounterModal(onCreateCounter: (counterRawData: CounterRawData) -
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                label = { Text(text = "Counter name") },
+                label = { Text(text = stringResource(dashboard.string.feature_dashboard_bottomSheet_textField_label)) },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             )
             Button(
@@ -87,7 +88,7 @@ internal fun newCounterModal(onCreateCounter: (counterRawData: CounterRawData) -
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
-                Text(stringResource(R.string.core_feedback_continueButton_title))
+                Text(stringResource(feedback.string.core_feedback_continueButton_title))
             }
         }
     }
