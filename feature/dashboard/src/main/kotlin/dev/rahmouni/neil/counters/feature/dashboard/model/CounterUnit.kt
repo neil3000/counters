@@ -171,77 +171,78 @@ enum class CounterUnit(
             return Pair(unitStr, realPrefix)
         }
 
+        private fun calculateDisplayValues(
+            currentValue: Double,
+            unit: CounterUnit,
+            base: Double,
+            prefix: Long?,
+        ): Pair<Double, String> {
+            val order = (log10(currentValue) / log10(base)).toLong()
+            val adjustedPrefix = (prefix ?: 0) + order
+            val (unitStr, realPrefix) = getDisplayUnit(unit, adjustedPrefix)
+            val divider = base.pow((order - realPrefix).toDouble())
+
+            return Pair(divider, unitStr)
+        }
+
         fun getDisplayData(
             unit: CounterUnit,
             prefix: Long? = null,
             currentValue: Double,
             separatedUnits: Boolean = false,
         ): List<Pair<Double, String>> {
-            if (separatedUnits) {
-                if (unit.base != null) {
-                    val results = mutableListOf<Pair<Double, String>>()
-                    var remainingValue = currentValue
+            val results = mutableListOf<Pair<Double, String>>()
+            var remainingValue = currentValue
 
-                    fun addResult(value: Double, prefix: Long) {
-                        if (value > 0) {
-                            val (unitStr, _) = getDisplayUnit(unit, prefix)
-                            results.add(Pair(value, unitStr))
-                        }
-                    }
+            fun addResult(value: Double, unitString: String) {
+                if (value > 0) results.add(Pair(value, unitString))
+            }
 
+            fun processUnitsWithBase(base: Double) {
+                if (separatedUnits) {
                     while (remainingValue >= 1) {
-                        val order = (log10(remainingValue) / log10(unit.base)).toLong()
-                        val adjustedPrefix = (prefix ?: 0) + order
-                        val divider = unit.base.pow(order.toDouble())
-                        val valueStr = (remainingValue / divider).toInt().toDouble()
+                        val (divider, unitStr) = calculateDisplayValues(
+                            remainingValue,
+                            unit,
+                            base,
+                            prefix,
+                        )
+                        addResult((remainingValue / divider).toInt().toDouble(), unitStr)
                         remainingValue %= divider
-
-                        addResult(valueStr, adjustedPrefix)
                     }
-
-                    addResult(remainingValue, prefix ?: 0)
-
-                    return results
+                } else {
+                    val (divider, unitStr) = calculateDisplayValues(
+                        currentValue,
+                        unit,
+                        base,
+                        prefix,
+                    )
+                    addResult(currentValue / divider, unitStr)
                 }
-                val results = mutableListOf<Pair<Double, String>>()
-                var remainingValue = currentValue
-                val unitStr = unit.shortName
+            }
+
+            fun processUnitsWithoutBase() {
+                var unitStr = unit.shortName
+
                 if (!unit.subs.isNullOrEmpty()) {
                     for ((key, value) in unit.subs) {
                         if (remainingValue < key) break
-                        val wholePart = (remainingValue / key).toInt()
-                        results.add(Pair(wholePart.toDouble(), value))
-                        remainingValue %= key
+                        if (separatedUnits) {
+                            addResult((remainingValue / key).toInt().toDouble(), value)
+                            remainingValue %= key
+                        } else {
+                            remainingValue /= key
+                            unitStr = value
+                        }
                     }
+                    results.reverse()
                 }
-
-                if (remainingValue > 0) {
-                    results.add(Pair(remainingValue, unitStr))
-                }
-
-                return results
+                addResult(remainingValue, if (separatedUnits) unit.shortName else unitStr)
             }
 
-            if (unit.base != null) {
-                val base = unit.base
-                val order = (log10(currentValue) / log10(base)).toLong()
-                val adjustedPrefix = (prefix ?: 0) + order
-                val (unitStr, realPrefix) = getDisplayUnit(unit, adjustedPrefix)
-                val divider = base.pow((order - realPrefix).toDouble())
-                val valueStr = currentValue / divider
-                return listOf(Pair(valueStr, unitStr))
-            }
+            unit.base?.let { base -> processUnitsWithBase(base) } ?: processUnitsWithoutBase()
 
-            var remainingValue = currentValue
-            var unitStr = unit.shortName
-            if (!unit.subs.isNullOrEmpty()) {
-                for ((key, value) in unit.subs) {
-                    if (remainingValue < key) break
-                    remainingValue /= key
-                    unitStr = value
-                }
-            }
-            return listOf(Pair(remainingValue, unitStr))
+            return results
         }
     }
 }
