@@ -188,7 +188,7 @@ class ShapeParameters(
 
     private fun selectedShape() = derivedStateOf { shapes[shapeIx] }
 
-    fun genShape(addedRotation: Float, autoSize: Boolean = true) =
+    fun genShape(addedRotation: Float = 0f, autoSize: Boolean = true) =
         selectedShape().value.shapegen().let { poly ->
             poly.transformed(
                 Matrix().apply {

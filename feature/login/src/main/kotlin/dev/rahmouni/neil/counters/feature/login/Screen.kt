@@ -17,40 +17,26 @@
 package dev.rahmouni.neil.counters.feature.login
 
 import androidx.annotation.VisibleForTesting
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionLayout
-import androidx.compose.animation.core.ArcMode
-import androidx.compose.animation.core.EaseInOutQuint
-import androidx.compose.animation.core.EaseOutBack
-import androidx.compose.animation.core.ExperimentalAnimationSpecApi
-import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.EaseOutCirc
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.NoAccounts
-import androidx.compose.material.icons.outlined.PlusOne
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -61,32 +47,32 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
-import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
-import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
-import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.NONE
-import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
-import dev.rahmouni.neil.counters.core.designsystem.component.user.UserAvatarAndName
-import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
-import dev.rahmouni.neil.counters.core.designsystem.rn3ShrinkVerticallyTransition
+import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCorners
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCornersSurfaceGroup
+import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCornersSurfaceGroupDefaults
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
+import dev.rahmouni.neil.counters.core.shapes.Rn3Shapes
+import dev.rahmouni.neil.counters.core.shapes.Shape
 import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
+import dev.rahmouni.neil.counters.feature.login.ui.AddAccountTile
+import dev.rahmouni.neil.counters.feature.login.ui.AnonymousTile
+import dev.rahmouni.neil.counters.feature.login.ui.CountersLogo
+import dev.rahmouni.neil.counters.feature.login.ui.Tile
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -135,183 +121,98 @@ internal fun LoginScreen(
     }
 }
 
-@OptIn(ExperimentalSharedTransitionApi::class, ExperimentalAnimationSpecApi::class)
 @Composable
-private fun LoginPanel(
-    onConfirmSignIn: (anonymous: Boolean) -> Unit,
-) {
+private fun LoginPanel(onConfirmSignIn: (anonymous: Boolean) -> Unit) {
     val inPreview = LocalInspectionMode.current
     var trigger by rememberSaveable { mutableStateOf(inPreview) }
     val auth = LocalAuthHelper.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val haptics = getHaptic()
 
     val user by auth.getUserFlow().collectAsStateWithLifecycle(LoggedOutUser)
 
     LaunchedEffect(Unit) {
-        delay(100)
+        delay(1)
         trigger = true
     }
+    val infiniteTransition = rememberInfiniteTransition(label = "")
+    val bgShapeRotationPerpetual by infiniteTransition.animateFloat(
+        initialValue = 0F,
+        targetValue = 360F * 2,
+        animationSpec = infiniteRepeatable(
+            animation = tween(80_000, easing = LinearEasing),
+        ),
+        label = "Shape rotation animation -- perpetual",
+    )
+    val bgShapeRotationIntroduction: Float by animateFloatAsState(
+        if (trigger) 180f else 0f,
+        animationSpec = tween(durationMillis = 5000, easing = EaseOutCirc),
+        label = "Shape rotation animation -- introduction",
+    )
 
-    SharedTransitionLayout {
-        AnimatedContent(
-            trigger,
-            label = "splashScreen to loginScreen SET",
-        ) { triggerVisibility ->
-            if (triggerVisibility) {
-                Column(
-                    modifier = Modifier
-                        .padding(horizontal = 24.dp)
-                        .fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Surface(
-                        Modifier
-                            .size(80.dp)
-                            .sharedElement(
-                                rememberSharedContentState(key = "background"),
-                                animatedVisibilityScope = this@AnimatedContent,
-                                boundsTransform = { initialBounds, targetBounds ->
-                                    keyframes {
-                                        initialBounds at 0 using ArcMode.ArcBelow using EaseInOutQuint
-                                        targetBounds at durationMillis
-                                    }
-                                },
-                            ),
-                        color = Color(136, 18, 41),
-                        shape = RoundedCornerShape(16.dp),
-                    ) {
-                        Modifier
-                            .skipToLookaheadSize()
-                            .animateEnterExit(
-                                enter = slideInVertically(
-                                    animationSpec = tween(
-                                        delayMillis = 250,
-                                        easing = EaseOutBack,
-                                    ),
-                                ) { it } + fadeIn(tween(durationMillis = 1, delayMillis = 250)),
-                            ).let { modifier ->
-                                when {
-                                    BuildConfig.DEBUG -> Icon(
-                                        Icons.Outlined.Rn3,
-                                        null,
-                                        modifier.scale(.6f),
-                                        tint = Color.White,
-                                    )
 
-                                    else -> Icon(
-                                        Icons.Outlined.PlusOne,
-                                        null,
-                                        modifier.scale(.75f),
-                                        tint = Color.White,
-                                    )
-                                }
-                            }
-                    }
-
-                    Text(
-                        "Welcome to Counters!",
-                        modifier = Modifier.padding(16.dp),
-                        style = MaterialTheme.typography.headlineSmall,
-                    )
-
-                    Spacer(Modifier.height(48.dp))
-
-                    Rn3TileSmallHeader(
-                        Modifier.fillMaxWidth(),
-                        "Continue with:",
-                        Rn3TileSmallHeaderDefaults.paddingValues.add(bottom = 4.dp),
-                    )
-                    Rn3RoundedCornersSurfaceGroup {
-                        item {
-                            Surface(tonalElevation = 8.dp, shape = it.toComposeShape()) {
-                                Rn3TileClick(
-                                    title = "Without an account",
-                                    icon = Icons.Outlined.NoAccounts,
-                                    supportingContent = { Text("You can sign in later anytime") },
-                                    trailingContent = {
-                                        Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, null)
-                                    },
-                                    onClick = { onConfirmSignIn(true) },
-                                )
-                            }
-                        }
-                    }
-                    Spacer(Modifier.height(12.dp))
-                    Rn3RoundedCornersSurfaceGroup {
-                        item(user is SignedInUser) {
-                            Surface(tonalElevation = 8.dp, shape = it.toComposeShape()) {
-                                Row(
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .clickable(
-                                            onClick = {
-                                                haptics.click()
-                                                onConfirmSignIn(false)
-                                            },
-                                        )
-                                        .padding(16.dp),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    user.UserAvatarAndName(showEmail = true)
-                                    Icon(
-                                        Icons.AutoMirrored.Outlined.KeyboardArrowRight,
-                                        null,
-                                    )
-                                }
-                            }
-                        }
-                        item {
-                            Surface(tonalElevation = 8.dp, shape = it.toComposeShape()) {
-                                Row(
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .clickable {
-                                            haptics.click()
-                                            scope.launch {
-                                                auth.signIn(context, false)
-                                            }
-                                        }
-                                        .padding(16.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    Icon(
-                                        Icons.Outlined.Add,
-                                        null,
-                                    )
-                                    Spacer(Modifier.width(16.dp))
-                                    Column {
-                                        Text("Add an account")
-                                        AnimatedVisibility(
-                                            visible = user !is SignedInUser,
-                                            exit = rn3ShrinkVerticallyTransition(),
-                                        ) {
-                                            Text(
-                                                "Sign in to sync your data across devices",
-                                                style = MaterialTheme.typography.bodyMedium,
-                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+    Box {
+        Box(
+            Modifier
+                .offset((-120).dp, (-80).dp)
+                .width(300.dp)
+                .aspectRatio(1f)
+                .graphicsLayer {
+                    rotationZ =
+                        (bgShapeRotationIntroduction + bgShapeRotationPerpetual) / 2f
                 }
-            } else {
-                with(this@SharedTransitionLayout) {
-                    Box(
-                        Modifier
-                            .background(Color(136, 18, 41))
-                            .sharedElement(
-                                rememberSharedContentState(key = "background"),
-                                animatedVisibilityScope = this@AnimatedContent,
-                            ),
-                    ) {
-                        Spacer(Modifier.fillMaxSize())
+                .clip(Shape(Rn3Shapes.Scallop))
+                .background(MaterialTheme.colorScheme.secondaryContainer),
+        ) {}
+
+        Box(
+            Modifier
+                .align(Alignment.BottomEnd)
+                .offset(30.dp, (-50).dp)
+                .width(100.dp)
+                .aspectRatio(1f)
+                .graphicsLayer {
+                    rotationZ = -bgShapeRotationIntroduction - bgShapeRotationPerpetual
+                }
+                .clip(Shape(Rn3Shapes.ScallopPointy))
+                .background(MaterialTheme.colorScheme.tertiaryContainer),
+        ) {}
+
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            CountersLogo()
+
+            Text(
+                "Welcome to Counters!",
+                modifier = Modifier.padding(16.dp),
+                style = MaterialTheme.typography.titleLarge,
+            )
+
+            Spacer(Modifier.height(48.dp))
+            Rn3TileSmallHeader(
+                Modifier.fillMaxWidth(),
+                "Continue with:",
+                paddingValues = Rn3TileSmallHeaderDefaults.paddingValues.copy(start = 8.dp),
+            )
+            AnonymousTile(Rn3RoundedCorners(all = Rn3RoundedCornersSurfaceGroupDefaults.roundedCornerExternal)) {
+                onConfirmSignIn(true)
+            }
+
+            Spacer(Modifier.height(12.dp))
+            Rn3RoundedCornersSurfaceGroup {
+                item(user is SignedInUser) {
+                    user.Tile(shape = it) { onConfirmSignIn(false) }
+                }
+                item {
+                    AddAccountTile(expanded = user !is SignedInUser, shape = it) {
+                        scope.launch {
+                            auth.signIn(context, false)
+                        }
                     }
                 }
             }
@@ -319,10 +220,12 @@ private fun LoginPanel(
     }
 }
 
+
+/*@OptIn(ExperimentalSharedTransitionApi::class)
 @Rn3PreviewScreen
 @Composable
 private fun Default() {
     Rn3Theme {
-        LoginScreen()
+            LoginScreen()
     }
-}
+}*/

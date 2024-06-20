@@ -45,7 +45,7 @@ internal class DemoAuthHelper @Inject constructor() : AuthHelper {
         private val DEMO_ANONYMOUS_USER = AnonymousUser("demoAnonymousUser")
     }
 
-    private val currentUser = MutableStateFlow<Rn3User>(LoggedOutUser)
+    private val currentUser = MutableStateFlow<Rn3User>(DEMO_SIGNEDIN_USER)
 
     override suspend fun quickFirstSignIn(context: Context) {
         // currentUser.compareAndSet(currentUser.value, DEMO_SIGNEDIN_USER)

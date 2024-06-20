@@ -27,6 +27,8 @@ android {
 }
 
 dependencies {
+    api(libs.androidx.compose.foundation)
+
     api(projects.core.analytics)
 
     implementation(libs.coil.kt)

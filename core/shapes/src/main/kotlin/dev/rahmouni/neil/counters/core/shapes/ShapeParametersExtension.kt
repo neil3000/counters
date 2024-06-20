@@ -17,26 +17,14 @@
 package dev.rahmouni.neil.counters.core.shapes
 
 val loadingShapeParameters = listOf(
-    // Scallop (smooth)
-    ShapeParameters(
-        sides = 15,
-        innerRadius = .892f,
-        roundness = 1f,
-        shapeId = ShapeParameters.ShapeId.Star,
-    ),
+    Rn3ShapeParameters.Scallop,
     // Triangle
     ShapeParameters(
         innerRadius = 0.1f,
         roundness = 0.22f,
         shapeId = ShapeParameters.ShapeId.Triangle,
     ),
-    // scallop (pointy)
-    ShapeParameters(
-        sides = 12,
-        innerRadius = .928f,
-        roundness = .1f,
-        shapeId = ShapeParameters.ShapeId.Star,
-    ),
+    Rn3ShapeParameters.ScallopPointy,
     // Clover
     ShapeParameters(
         sides = 4,
@@ -46,3 +34,23 @@ val loadingShapeParameters = listOf(
         shapeId = ShapeParameters.ShapeId.Star,
     ),
 )
+
+object Rn3ShapeParameters {
+    val Scallop = ShapeParameters(
+        sides = 15,
+        innerRadius = .892f,
+        roundness = 1f,
+        shapeId = ShapeParameters.ShapeId.Star,
+    )
+    val ScallopPointy = ShapeParameters(
+        sides = 12,
+        innerRadius = .928f,
+        roundness = .1f,
+        shapeId = ShapeParameters.ShapeId.Star,
+    )
+}
+
+object Rn3Shapes {
+    val Scallop = Rn3ShapeParameters.Scallop.genShape().normalized()
+    val ScallopPointy = Rn3ShapeParameters.ScallopPointy.genShape().normalized()
+}
