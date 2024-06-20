@@ -37,7 +37,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.AnimatedNumber
@@ -64,19 +63,23 @@ internal fun CounterEntity.DashboardCard(
         modifier = modifier,
     ) {
         Column(
-            modifier = Modifier.combinedClickable(
-                onClick = {
-                    haptics.click()
+            modifier = Modifier
+                .padding(2.dp)
+                .combinedClickable(
+                    onClick = {
+                        haptics.click()
 
-                    Toast.makeText(context, uid, Toast.LENGTH_SHORT).show()
-                    // TODO("Not implemented - add counter page")
-                },
-                onLongClick = {
-                    haptics.longPress()
+                        Toast
+                            .makeText(context, uid, Toast.LENGTH_SHORT)
+                            .show()
+                        // TODO("Not implemented - add counter page")
+                    },
+                    onLongClick = {
+                        haptics.longPress()
 
-                    // TODO("Not implemented - add long clicks")
-                },
-            ),
+                        // TODO("Not implemented - add long clicks")
+                    },
+                ),
         ) {
             Text(
                 text = getTitle(),
@@ -111,15 +114,14 @@ internal fun CounterEntity.DashboardCard(
                     displayData.forEach { (value, unit) ->
                         AnimatedNumber(
                             currentValue = value,
-                            modifier = Modifier.weight(1f, fill = false),
+                            modifier = Modifier
+                                .weight(1f, fill = false)
+                                .align(Alignment.Bottom),
                         ) { targetValue ->
                             Text(
                                 text = targetValue.toString(),
-                                textAlign = TextAlign.Center,
                                 style = MaterialTheme.typography.headlineLarge,
                                 softWrap = false,
-                                modifier = Modifier
-                                    .alpha(0.85f),
                             )
                         }
 

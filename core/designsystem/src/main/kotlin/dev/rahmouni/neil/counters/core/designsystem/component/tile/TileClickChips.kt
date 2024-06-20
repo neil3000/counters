@@ -98,11 +98,11 @@ private fun Rn3TileClickChipsImpl(
     val haptic = getHaptic()
 
     Column(
-        Modifier.clickable {
+        modifier = Modifier.clickable {
             onClick()
             haptic.click()
         },
-        Arrangement.spacedBy((-8).dp),
+        verticalArrangement = Arrangement.spacedBy((-8).dp),
     ) {
         ListItem(
             headlineContent = { Text(text = title) },
