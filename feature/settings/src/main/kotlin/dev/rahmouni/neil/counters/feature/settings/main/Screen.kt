@@ -215,7 +215,6 @@ private fun SettingsPanel(
             .verticalScroll(rememberScrollState())
             .padding(paddingValues),
     ) {
-
         // accountTile
         when (data.user) {
             is SignedInUser -> Rn3ExpandableSurface(

@@ -17,27 +17,16 @@
 package dev.rahmouni.neil.counters.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import dev.rahmouni.neil.counters.CountersNavHost
-import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
-import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
-import dev.rahmouni.neil.counters.feature.dashboard.DASHBOARD_ROUTE
-import dev.rahmouni.neil.counters.feature.login.LOGIN_ROUTE
 
 @Composable
 fun CountersApp(
     appState: CountersAppState,
     modifier: Modifier = Modifier,
 ) {
-    val auth = LocalAuthHelper.current
-    val startDestination: String by rememberSaveable { mutableStateOf(if (auth.getUser() is LoggedOutUser) LOGIN_ROUTE else DASHBOARD_ROUTE) }
-
     CountersNavHost(
         appState = appState,
         modifier = modifier,
-        startDestination = startDestination,
     )
 }

@@ -17,11 +17,21 @@
 package dev.rahmouni.neil.counters.core.designsystem.component
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.core.ArcMode
+import androidx.compose.animation.core.EaseInOutQuint
+import androidx.compose.animation.core.EaseOutBack
+import androidx.compose.animation.core.ExperimentalAnimationSpecApi
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
@@ -49,6 +59,8 @@ import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowHeightSizeClass.Companion.COMPACT
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
+import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
+import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.DASHBOARD
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.LARGE
@@ -60,7 +72,11 @@ import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.toRn3PaddingValues
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalSharedTransitionApi::class,
+    ExperimentalAnimationSpecApi::class,
+)
 @Composable
 fun Rn3Scaffold(
     modifier: Modifier = Modifier,
@@ -111,6 +127,11 @@ fun Rn3Scaffold(
                 onBackIconButtonClicked = onBackIconButtonClicked,
                 actions = topAppBarActions,
             ) {
+                val sharedTransitionScope = LocalSharedTransitionScope.current
+                    ?: throw IllegalStateException("RahNeil_N3:4F6o9kodw29Oaj8zoDlAWesB1Merqam9")
+                val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
+                    ?: throw IllegalStateException("RahNeil_N3:743RaDiJYkZUoAmVqvPrWsm6BgQ9h78Y")
+
                 Row(
                     horizontalArrangement = spacedBy(12.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -118,32 +139,74 @@ fun Rn3Scaffold(
                     if (topAppBarStyle == DASHBOARD) {
                         val ee1 = (1..1000).random() == 1 || config.getBoolean("ee_1_force")
 
-                        Surface(
-                            Modifier.size(36.dp),
-                            color = Color(136, 18, 41),
-                            shape = RoundedCornerShape(8.dp),
-                        ) {
-                            when {
-                                BuildConfig.DEBUG -> Icon(
-                                    Icons.Outlined.Rn3,
-                                    null,
-                                    Modifier.scale(.6f),
-                                    tint = Color.White,
-                                )
+                        with(sharedTransitionScope) {
+                            Surface(
+                                Modifier
+                                    .size(36.dp)
+                                    .sharedElement(
+                                        rememberSharedContentState(key = "countersLogo_background"),
+                                        animatedVisibilityScope = animatedVisibilityScope,
+                                        boundsTransform = { initialBounds, targetBounds ->
+                                            keyframes {
+                                                initialBounds at 0 using ArcMode.ArcBelow using EaseInOutQuint
+                                                targetBounds at durationMillis
+                                            }
+                                        },
+                                    ),
+                                color = Color(136, 18, 41),
+                                shape = RoundedCornerShape(8.dp),
+                            ) {
+                                with(animatedVisibilityScope) {
+                                    Modifier
+                                        .fillMaxSize()
+                                        .skipToLookaheadSize()
+                                        .animateEnterExit(
+                                            enter = slideInVertically(
+                                                animationSpec = tween(
+                                                    delayMillis = 250,
+                                                    easing = EaseOutBack,
+                                                ),
+                                            ) { it } + fadeIn(
+                                                tween(
+                                                    durationMillis = 1,
+                                                    delayMillis = 250,
+                                                ),
+                                            ),
+                                        )
+                                        .sharedElement(
+                                            rememberSharedContentState(key = "countersLogo_icon"),
+                                            animatedVisibilityScope = animatedVisibilityScope,
+                                            boundsTransform = { initialBounds, targetBounds ->
+                                                keyframes {
+                                                    initialBounds at 0 using ArcMode.ArcBelow using EaseInOutQuint
+                                                    targetBounds at durationMillis
+                                                }
+                                            },
+                                        ).let { modifier ->
+                                            when {
+                                                BuildConfig.DEBUG -> Icon(
+                                                    Icons.Outlined.Rn3,
+                                                    null,
+                                                    modifier.scale(.6f),
+                                                    tint = Color.White,
+                                                )
 
-                                ee1 -> Icon(
-                                    Icons.Outlined.ExposurePlus2,
-                                    null,
-                                    Modifier.scale(.75f),
-                                    tint = Color.White,
-                                )
+                                                ee1 -> Icon(
+                                                    Icons.Outlined.ExposurePlus2,
+                                                    null,
+                                                    modifier.scale(.75f),
+                                                    tint = Color.White,
+                                                )
 
-                                else -> Icon(
-                                    Icons.Outlined.PlusOne,
-                                    null,
-                                    Modifier.scale(.75f),
-                                    tint = Color.White,
-                                )
+                                                else -> Icon(
+                                                    Icons.Outlined.PlusOne,
+                                                    null,
+                                                    modifier.scale(.75f),
+                                                    tint = Color.White,
+                                                )
+                                            }
+                                        }
+                                }
                             }
                         }
                     }

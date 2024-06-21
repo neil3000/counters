@@ -16,10 +16,12 @@
 
 package dev.rahmouni.neil.counters.feature.login
 
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
 
 const val LOGIN_ROUTE = "login"
 
@@ -31,9 +33,11 @@ fun NavGraphBuilder.loginScreen(
     navigateToDashboard: () -> Unit,
 ) {
     composable(route = LOGIN_ROUTE) {
-        LoginRoute(
-            navController = navController,
-            navigateToDashboard = navigateToDashboard,
-        )
+        CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
+            LoginRoute(
+                navController = navController,
+                navigateToDashboard = navigateToDashboard,
+            )
+        }
     }
 }

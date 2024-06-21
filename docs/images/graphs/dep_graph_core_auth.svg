@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" height="44pt" viewBox="0.00 0.00 123.69 44.00"
-    width="124pt" xmlns="http://www.w3.org/2000/svg">
-    <g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(4 40)">
+<svg height="116pt" viewBox="0.00 0.00 158.79 116.00" width="159pt" xmlns="http://www.w3.org/2000/svg">
+    <g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(4 112)">
     <title>G</title>
-        <polygon fill="white" points="-4,4 -4,-40 119.69,-40 119.69,4 -4,4" stroke="transparent" />
+        <polygon fill="white" points="-4,4 -4,-112 154.79,-112 154.79,4 -4,4"
+            stroke="transparent" />
     <g id="node1" class="node">
       <title>:core:auth</title>
-        <ellipse cx="57.84" cy="-18" fill="none" rx="57.69" ry="18" stroke="black" />
-        <text font-family="Times,serif" font-size="14.00" text-anchor="middle" x="57.84" y="-14.3">
+        <ellipse cx="75.39" cy="-90" fill="none" rx="57.69" ry="18" stroke="black" />
+        <text font-family="Times,serif" font-size="14.00" text-anchor="middle" x="75.39" y="-86.3">
             :core:auth
         </text>
+    </g>
+        <g class="node" id="node2">
+            <title>:core:common</title>
+            <ellipse cx="75.39" cy="-18" fill="none" rx="75.29" ry="18" stroke="black" />
+            <text font-family="Times,serif" font-size="14.00" text-anchor="middle" x="75.39"
+                y="-14.3">:core:common
+            </text>
+        </g>
+        <g class="edge" id="edge1">
+            <title>:core:auth-&gt;:core:common</title>
+            <path d="M75.39,-71.7C75.39,-63.98 75.39,-54.71 75.39,-46.11" fill="none" stroke="red"
+                stroke-width="2" />
+            <polygon fill="red" points="78.89,-46.1 75.39,-36.1 71.89,-46.1 78.89,-46.1" stroke="red"
+                stroke-width="2" />
     </g>
   </g>
 </svg>

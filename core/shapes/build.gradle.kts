@@ -23,7 +23,8 @@ android {
 }
 
 dependencies {
+    api(libs.androidx.graphics.shapes.android)
+
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.graphics.shapes.android)
     implementation(libs.androidx.compose.foundation)
 }

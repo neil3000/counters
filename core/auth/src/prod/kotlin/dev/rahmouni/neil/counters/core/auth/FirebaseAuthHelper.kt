@@ -89,15 +89,17 @@ internal class FirebaseAuthHelper @Inject constructor() : AuthHelper {
     override suspend fun signIn(context: Context, anonymously: Boolean) {
         if (anonymously) {
             Firebase.auth.signInAnonymously()
-        } else try {
-            signInWithCredentialManager(context, false)
-        } catch (e: Exception) {
-            if (e is GetCredentialCancellationException) {
-                // It's ok to cancel the credential request
-                return
-            }
+        } else {
+            try {
+                signInWithCredentialManager(context, false)
+            } catch (e: Exception) {
+                if (e is GetCredentialCancellationException) {
+                    // It's ok to cancel the credential request
+                    return
+                }
 
-            throw e
+                throw e
+            }
         }
     }
 
