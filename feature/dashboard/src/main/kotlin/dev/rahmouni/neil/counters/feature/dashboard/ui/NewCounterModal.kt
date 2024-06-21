@@ -37,6 +37,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.data.model.CounterRawData
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.feature.dashboard.model.InitializeUnits
+import dev.rahmouni.neil.counters.feature.dashboard.model.UnitRepository
 import kotlinx.coroutines.launch
 import dev.rahmouni.neil.counters.core.feedback.R as feedback
 import dev.rahmouni.neil.counters.feature.dashboard.R as dashboard
@@ -46,6 +48,8 @@ import dev.rahmouni.neil.counters.feature.dashboard.R as dashboard
 internal fun newCounterModal(onCreateCounter: (counterRawData: CounterRawData) -> Unit): () -> Unit {
     val haptic = getHaptic()
     val scope = rememberCoroutineScope()
+
+    if (UnitRepository.findUnit("METER") == null) InitializeUnits()
 
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)

@@ -26,7 +26,7 @@ import dev.rahmouni.neil.counters.feature.dashboard.R
 
 internal data class CounterEntity(
     val uid: String,
-    val currentValue: Long,
+    val currentValue: Double,
     private val color: String,
     private val title: String?,
     private val unit: CounterUnit?,
@@ -36,15 +36,15 @@ internal data class CounterEntity(
 ) {
     fun getDisplayData(): List<Pair<Double, String?>> {
         return when {
-            unit == null -> listOf(Pair(currentValue.toDouble(), ""))
+            unit == null -> listOf(Pair(currentValue, ""))
             fixedUnit -> {
                 if (prefix != null && displayUnit == null) {
                     val (unitReceived, _) = getDisplayUnit(unit, prefix)
                     displayUnit = unitReceived
                 }
-                listOf(Pair(currentValue.toDouble(), displayUnit ?: unit.shortName))
+                listOf(Pair(currentValue, displayUnit))
             }
-            else -> getDisplayData(unit, prefix, currentValue.toDouble())
+            else -> getDisplayData(unit, prefix, currentValue)
         }
     }
 
@@ -75,10 +75,10 @@ internal fun CounterRawData.toEntity(): CounterEntity {
 
     return CounterEntity(
         uid = uid!!,
-        currentValue = currentValue,
+        currentValue = currentValue.toDouble(),
         color = color,
         title = title,
-        unit = UnitRepository.findUnitByVariableName(unit),
+        unit = UnitRepository.findUnit(unit),
         prefix = prefix,
     )
 }

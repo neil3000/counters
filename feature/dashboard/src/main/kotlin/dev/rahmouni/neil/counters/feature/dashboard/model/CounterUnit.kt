@@ -22,7 +22,6 @@ val prefixMap = mapOf(
 
 data class CounterUnit(
     val unitName: String,
-    val shortName: String,
     val alignment: Alignment.Vertical,
     val base: Double? = null,
     val subs: List<Pair<Double, String>> = emptyList(),
@@ -34,232 +33,249 @@ data class Conversion(
     val toUnit: () -> CounterUnit,
 )
 
+object UnitRepository {
+    private val units = mutableMapOf<String, CounterUnit>()
+
+    fun addUnit(name: String, unit: CounterUnit) {
+        units[name] = unit
+    }
+
+    fun findUnit(name: String?): CounterUnit? = units[name]
+
+    fun addConversion(fromUnit: String, factor: Double, toUnit: String) {
+        findUnit(fromUnit)?.conversions?.add(Conversion(factor) { findUnit(toUnit)!! })
+    }
+}
+
 @Composable
 fun InitializeUnits() {
-    UnitRepository.addUnit(
-        "LITER",
-        CounterUnit(
+    val units = listOf(
+        "LITER" to CounterUnit(
             unitName = stringResource(R.string.feature_dashboard_counterUnit_liter),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_liter_short),
-            alignment = Alignment.Bottom,
-            base = 10.0,
-        ),
-    )
-
-    UnitRepository.addUnit(
-        "GRAM",
-        CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_gram),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_gram_short),
             alignment = Alignment.Bottom,
             base = 10.0,
             subs = listOf(
-                Pair(3.0, "ton"),
+                Pair(1.0, stringResource(R.string.feature_dashboard_counterUnit_liter_short)),
             ),
         ),
-    )
-
-    UnitRepository.addUnit(
-        "OUNCE",
-        CounterUnit(
+        "GRAM" to CounterUnit(
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_gram),
+            alignment = Alignment.Bottom,
+            base = 10.0,
+            subs = listOf(
+                Pair(1.0, stringResource(R.string.feature_dashboard_counterUnit_gram_short)),
+                Pair(3.0, stringResource(R.string.feature_dashboard_counterUnit_ton_short)),
+            ),
+        ),
+        "OUNCE" to CounterUnit(
             unitName = stringResource(R.string.feature_dashboard_counterUnit_ounce),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_ounce_short),
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
+                Pair(1.0, stringResource(R.string.feature_dashboard_counterUnit_ounce_short)),
                 Pair(16.0, stringResource(R.string.feature_dashboard_counterUnit_pound_short)),
                 Pair(2000.0, stringResource(R.string.feature_dashboard_counterUnit_shortTon_short)),
                 Pair(1.12, stringResource(R.string.feature_dashboard_counterUnit_longTon_short)),
             ),
         ),
-    )
-
-    UnitRepository.addUnit(
-        "INCH",
-        CounterUnit(
+        "INCH" to CounterUnit(
             unitName = stringResource(R.string.feature_dashboard_counterUnit_inch),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_inch_short),
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
+                Pair(1.0, stringResource(R.string.feature_dashboard_counterUnit_inch_short)),
                 Pair(12.0, stringResource(R.string.feature_dashboard_counterUnit_foot_short)),
                 Pair(3.0, stringResource(R.string.feature_dashboard_counterUnit_yard_short)),
-                Pair(1760.0065617, stringResource(R.string.feature_dashboard_counterUnit_mile_short)),
+                Pair(
+                    1760.0065617,
+                    stringResource(R.string.feature_dashboard_counterUnit_mile_short),
+                ),
             ),
         ),
-    )
-
-    UnitRepository.addUnit(
-        "METER",
-        CounterUnit(
+        "METER" to CounterUnit(
             unitName = stringResource(R.string.feature_dashboard_counterUnit_meter),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_meter_short),
             alignment = Alignment.Bottom,
             base = 10.0,
+            subs = listOf(
+                Pair(0.0, stringResource(R.string.feature_dashboard_counterUnit_meter_short)),
+            ),
         ),
-    )
-
-    UnitRepository.addUnit(
-        "SQUARE_METER",
-        CounterUnit(
+        "SQUARE_METER" to CounterUnit(
             unitName = stringResource(R.string.feature_dashboard_counterUnit_squareMeter),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_squareMeter_short),
             alignment = Alignment.Bottom,
             base = 100.0,
+            subs = listOf(
+                Pair(0.0, stringResource(R.string.feature_dashboard_counterUnit_squareMeter_short)),
+            ),
         ),
-    )
-
-    UnitRepository.addUnit(
-        "SQUARE_INCH",
-        CounterUnit(
+        "SQUARE_INCH" to CounterUnit(
             unitName = stringResource(R.string.feature_dashboard_counterUnit_squareInch),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_squareInch_short),
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
-                Pair(144.0, stringResource(R.string.feature_dashboard_counterUnit_squareFoot_short)),
+                Pair(
+                    1.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_squareInch_short),
+                ),
+                Pair(
+                    144.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_squareFoot_short),
+                ),
                 Pair(9.0, stringResource(R.string.feature_dashboard_counterUnit_squareYard_short)),
                 Pair(4840.0, stringResource(R.string.feature_dashboard_counterUnit_acre_short)),
-                Pair(640.0, stringResource(R.string.feature_dashboard_counterUnit_squareMile_short)),
+                Pair(
+                    640.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_squareMile_short),
+                ),
             ),
         ),
-    )
-
-
-    UnitRepository.addUnit(
-        "CUBIC_METER",
-        CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_cubicMeters),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_cubicMeter_short),
+        "CUBIC_METER" to CounterUnit(
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_cubicMeter),
             alignment = Alignment.Bottom,
             base = 1000.0,
+            subs = listOf(
+                Pair(0.0, stringResource(R.string.feature_dashboard_counterUnit_cubicMeter_short)),
+            ),
         ),
-    )
-
-    UnitRepository.addUnit(
-        "CUBIC_INCH",
-        CounterUnit(
+        "CUBIC_INCH" to CounterUnit(
             unitName = stringResource(R.string.feature_dashboard_counterUnit_cubicInch),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_cubicInch_short),
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
-                Pair(1728.0, stringResource(R.string.feature_dashboard_counterUnit_cubicFoot_short)),
+                Pair(
+                    1.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_cubicInch_short),
+                ),
+                Pair(
+                    1728.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_cubicFoot_short),
+                ),
                 Pair(27.0, stringResource(R.string.feature_dashboard_counterUnit_cubicYard_short)),
-                Pair(5451773612.4, stringResource(R.string.feature_dashboard_counterUnit_cubicMile_short)),
+                Pair(
+                    5451773612.4,
+                    stringResource(R.string.feature_dashboard_counterUnit_cubicMile_short),
+                ),
             ),
         ),
-    )
-
-    UnitRepository.addUnit(
-        "US_GALLON",
-        CounterUnit(
+        "US_GALLON" to CounterUnit(
             unitName = stringResource(R.string.feature_dashboard_counterUnit_usGallon),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_usGallon_short),
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
-                Pair(1.0, stringResource(R.string.feature_dashboard_counterUnit_gallon_teaspoon_short)),
-                Pair(3.0, stringResource(R.string.feature_dashboard_counterUnit_gallon_tablespoon_short)),
-                Pair(2.0, stringResource(R.string.feature_dashboard_counterUnit_gallon_fluidOunce_short)),
-                Pair(8.0, stringResource(R.string.feature_dashboard_counterUnit_gallon_cup_short)),
-                Pair(2.0, stringResource(R.string.feature_dashboard_counterUnit_gallon_pint_short)),
-                Pair(2.0, stringResource(R.string.feature_dashboard_counterUnit_gallon_quart_short)),
-                Pair(4.0, stringResource(R.string.feature_dashboard_counterUnit_gallon_gallon_short)),
+                Pair(
+                    1.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_teaspoon_short),
+                ),
+                Pair(
+                    3.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_tablespoon_short),
+                ),
+                Pair(
+                    2.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_fluidOunce_short),
+                ),
+                Pair(8.0, stringResource(R.string.feature_dashboard_counterUnit_cup_short)),
+                Pair(2.0, stringResource(R.string.feature_dashboard_counterUnit_pint_short)),
+                Pair(
+                    2.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_quart_short),
+                ),
+                Pair(
+                    4.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_gallon_short),
+                ),
             ),
         ),
-    )
-
-    UnitRepository.addUnit(
-        "IMPERIAL_GALLON",
-        CounterUnit(
+        "IMPERIAL_GALLON" to CounterUnit(
             unitName = stringResource(R.string.feature_dashboard_counterUnit_imperialGallon),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_imperialGallon_short),
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
-                Pair(1.0, stringResource(R.string.feature_dashboard_counterUnit_gallon_teaspoon_short)),
-                Pair(3.0, stringResource(R.string.feature_dashboard_counterUnit_gallon_tablespoon_short)),
-                Pair(1.6, stringResource(R.string.feature_dashboard_counterUnit_gallon_fluidOunce_short)),
-                Pair(20.0, stringResource(R.string.feature_dashboard_counterUnit_gallon_pint_short)),
-                Pair(2.0, stringResource(R.string.feature_dashboard_counterUnit_gallon_quart_short)),
-                Pair(4.0, stringResource(R.string.feature_dashboard_counterUnit_gallon_gallon_short)),
+                Pair(
+                    1.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_teaspoon_short),
+                ),
+                Pair(
+                    3.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_tablespoon_short),
+                ),
+                Pair(
+                    1.6,
+                    stringResource(R.string.feature_dashboard_counterUnit_fluidOunce_short),
+                ),
+                Pair(
+                    20.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_pint_short),
+                ),
+                Pair(
+                    2.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_quart_short),
+                ),
+                Pair(
+                    4.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_gallon_short),
+                ),
             ),
         ),
-    )
-
-    UnitRepository.addUnit(
-        "SECONDS",
-        CounterUnit(
+        "SECONDS" to CounterUnit(
             unitName = stringResource(R.string.feature_dashboard_counterUnit_second),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_second_short),
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
-                Pair(60.0, stringResource(R.string.feature_dashboard_counterUnit_time_minute_short)),
+                Pair(
+                    1.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_second_short),
+                ),
+                Pair(
+                    60.0,
+                    stringResource(R.string.feature_dashboard_counterUnit_time_minute_short),
+                ),
                 Pair(60.0, stringResource(R.string.feature_dashboard_counterUnit_time_hour_short)),
                 Pair(24.0, stringResource(R.string.feature_dashboard_counterUnit_time_day_short)),
-                Pair(30.4167, stringResource(R.string.feature_dashboard_counterUnit_time_month_short)),
+                Pair(
+                    30.4167,
+                    stringResource(R.string.feature_dashboard_counterUnit_time_month_short),
+                ),
                 Pair(12.0, stringResource(R.string.feature_dashboard_counterUnit_time_year_short)),
             ),
         ),
-    )
-
-    UnitRepository.addUnit(
-        "BYTE",
-        CounterUnit(
+        "BYTE" to CounterUnit(
             unitName = stringResource(R.string.feature_dashboard_counterUnit_byte),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_byte_short),
             alignment = Alignment.Bottom,
             base = 10.0,
+            subs = listOf(
+                Pair(0.0, stringResource(R.string.feature_dashboard_counterUnit_byte_short)),
+            ),
         ),
-    )
-
-    UnitRepository.addUnit(
-        "CELSIUS",
-        CounterUnit(
+        "CELSIUS" to CounterUnit(
             unitName = stringResource(R.string.feature_dashboard_counterUnit_celsius),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_celsius_short),
             alignment = Alignment.Top,
             base = null,
+            subs = listOf(
+                Pair(0.0, stringResource(R.string.feature_dashboard_counterUnit_celsius_short)),
+            ),
         ),
-    )
-
-    UnitRepository.addUnit(
-        "FAHRENHEIT",
-        CounterUnit(
+        "FAHRENHEIT" to CounterUnit(
             unitName = stringResource(R.string.feature_dashboard_counterUnit_fahrenheit),
-            shortName = stringResource(R.string.feature_dashboard_counterUnit_fahrenheit_short),
             alignment = Alignment.Top,
+            subs = listOf(
+                Pair(0.0, stringResource(R.string.feature_dashboard_counterUnit_fahrenheit_short)),
+            ),
         ),
     )
 
-    initializeConversions()
-}
+    units.forEach { (name, unit) -> UnitRepository.addUnit(name, unit) }
 
-private fun initializeConversions() {
-    val inch = UnitRepository.findUnitByVariableName("INCH")
-    val meter = UnitRepository.findUnitByVariableName("METER")
-    inch?.conversions?.add(Conversion(0.0254) { meter!! })
-    meter?.conversions?.add(Conversion(39.37007874) { inch!! })
-}
-
-object UnitRepository {
-    private val units: MutableMap<String, CounterUnit> = mutableMapOf()
-
-    fun addUnit(variableName: String, unit: CounterUnit) {
-        units[variableName] = unit
-    }
-
-    fun findUnitByVariableName(variableName: String?): CounterUnit? {
-        return units[variableName]
-    }
+    UnitRepository.addConversion("INCH", 0.0254, "METER")
+    UnitRepository.addConversion("METER", 39.37007874, "INCH")
+    UnitRepository.addConversion("SQUARE_METER", 1550.0031, "SQUARE_INCH")
+    UnitRepository.addConversion("SQUARE_INCH", 0.00064516, "SQUARE_METER")
 }
 
 fun getDisplayUnit(unit: CounterUnit, prefix: Long): Pair<String, Long> {
     val closestPrefix = prefixMap.keys.minByOrNull { abs(it - prefix) } ?: 0L
     val unitStr = unit.subs.find { it.first.toLong() == closestPrefix }?.second
-        ?: "${prefixMap[closestPrefix] ?: ""}${unit.shortName}"
+        ?: "${prefixMap[closestPrefix] ?: ""}${unit.subs[0].second}"
     val realPrefix = abs(closestPrefix - prefix)
 
     return Pair(unitStr, realPrefix)
@@ -289,7 +305,7 @@ fun getDisplayData(
     var remainingValue = currentValue
 
     fun addResult(value: Double, unitString: String) {
-        if (value > 0) results.add(Pair(value, unitString))
+        results.add(Pair(value, unitString))
     }
 
     fun processUnitsWithBase(base: Double) {
@@ -301,7 +317,7 @@ fun getDisplayData(
                     base,
                     prefix,
                 )
-                addResult((remainingValue / divider).toInt().toDouble(), unitStr)
+                if (remainingValue > 0) addResult((remainingValue / divider).toInt().toDouble(), unitStr)
                 remainingValue %= divider
             }
         } else {
@@ -316,13 +332,12 @@ fun getDisplayData(
     }
 
     fun processUnitsWithoutBase() {
-        var unitStr = unit.shortName
+        var unitStr = unit.subs[0].second
 
-        if (unit.subs.isNotEmpty()) {
             for ((key, value) in unit.subs) {
                 if (remainingValue < key) break
                 if (separatedUnits) {
-                    addResult((remainingValue / key).toInt().toDouble(), value)
+                    if (remainingValue > 0) addResult((remainingValue / key).toInt().toDouble(), value)
                     remainingValue %= key
                 } else {
                     remainingValue /= key
@@ -330,8 +345,7 @@ fun getDisplayData(
                 }
             }
             results.reverse()
-        }
-        addResult(remainingValue, if (separatedUnits) unit.shortName else unitStr)
+        addResult(remainingValue, unitStr)
     }
 
     unit.base?.let { base -> processUnitsWithBase(base) } ?: processUnitsWithoutBase()
