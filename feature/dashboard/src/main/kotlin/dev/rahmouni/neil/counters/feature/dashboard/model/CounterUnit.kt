@@ -55,7 +55,7 @@ fun InitializeUnits() {
             alignment = Alignment.Bottom,
             base = 10.0,
             subs = listOf(
-                Pair(1.0, stringResource(R.string.feature_dashboard_counterUnit_liter_short)),
+                Pair(0.0, stringResource(R.string.feature_dashboard_counterUnit_liter_short)),
             ),
         ),
         "GRAM" to CounterUnit(
@@ -63,7 +63,7 @@ fun InitializeUnits() {
             alignment = Alignment.Bottom,
             base = 10.0,
             subs = listOf(
-                Pair(1.0, stringResource(R.string.feature_dashboard_counterUnit_gram_short)),
+                Pair(0.0, stringResource(R.string.feature_dashboard_counterUnit_gram_short)),
                 Pair(3.0, stringResource(R.string.feature_dashboard_counterUnit_ton_short)),
             ),
         ),
@@ -72,7 +72,7 @@ fun InitializeUnits() {
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
-                Pair(1.0, stringResource(R.string.feature_dashboard_counterUnit_ounce_short)),
+                Pair(0.0, stringResource(R.string.feature_dashboard_counterUnit_ounce_short)),
                 Pair(16.0, stringResource(R.string.feature_dashboard_counterUnit_pound_short)),
                 Pair(2000.0, stringResource(R.string.feature_dashboard_counterUnit_shortTon_short)),
                 Pair(1.12, stringResource(R.string.feature_dashboard_counterUnit_longTon_short)),
@@ -83,7 +83,7 @@ fun InitializeUnits() {
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
-                Pair(1.0, stringResource(R.string.feature_dashboard_counterUnit_inch_short)),
+                Pair(0.0, stringResource(R.string.feature_dashboard_counterUnit_inch_short)),
                 Pair(12.0, stringResource(R.string.feature_dashboard_counterUnit_foot_short)),
                 Pair(3.0, stringResource(R.string.feature_dashboard_counterUnit_yard_short)),
                 Pair(
@@ -114,7 +114,7 @@ fun InitializeUnits() {
             base = null,
             subs = listOf(
                 Pair(
-                    1.0,
+                    0.0,
                     stringResource(R.string.feature_dashboard_counterUnit_squareInch_short),
                 ),
                 Pair(
@@ -143,7 +143,7 @@ fun InitializeUnits() {
             base = null,
             subs = listOf(
                 Pair(
-                    1.0,
+                    0.0,
                     stringResource(R.string.feature_dashboard_counterUnit_cubicInch_short),
                 ),
                 Pair(
@@ -163,7 +163,7 @@ fun InitializeUnits() {
             base = null,
             subs = listOf(
                 Pair(
-                    1.0,
+                    0.0,
                     stringResource(R.string.feature_dashboard_counterUnit_teaspoon_short),
                 ),
                 Pair(
@@ -192,7 +192,7 @@ fun InitializeUnits() {
             base = null,
             subs = listOf(
                 Pair(
-                    1.0,
+                    0.0,
                     stringResource(R.string.feature_dashboard_counterUnit_teaspoon_short),
                 ),
                 Pair(
@@ -223,7 +223,7 @@ fun InitializeUnits() {
             base = null,
             subs = listOf(
                 Pair(
-                    1.0,
+                    0.0,
                     stringResource(R.string.feature_dashboard_counterUnit_second_short),
                 ),
                 Pair(
@@ -285,12 +285,14 @@ private fun calculateDisplayValues(
     currentValue: Double,
     unit: CounterUnit,
     base: Double,
-    prefix: Long?,
+    prefix: Long?
 ): DisplayType {
-    val order = (log10(currentValue) / log10(base)).toLong()
-    val adjustedPrefix = (prefix ?: 0) + order
-    val (unitStr, realPrefix) = getDisplayUnit(unit, adjustedPrefix)
-    val divider = base.pow((order - realPrefix).toDouble())
+    val logOrder = (log10(currentValue) / log10(base)).toInt()
+    val adjustedPrefix = (prefix ?: 0L) + logOrder
+    val closestPrefix = prefixMap.keys.filter { it <= adjustedPrefix }.maxOrNull() ?: 0L
+    val divider = base.pow((closestPrefix).toDouble())
+    val unitStr = unit.subs.find { it.first.toLong() == closestPrefix }?.second
+        ?: "${prefixMap[closestPrefix] ?: ""}${unit.subs[0].second}"
 
     return Pair(divider, unitStr)
 }
