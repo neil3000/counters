@@ -73,7 +73,8 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValu
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.toRn3PaddingValues
 
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class,
+    ExperimentalMaterial3Api::class,
+    ExperimentalSharedTransitionApi::class,
     ExperimentalAnimationSpecApi::class,
 )
 @Composable

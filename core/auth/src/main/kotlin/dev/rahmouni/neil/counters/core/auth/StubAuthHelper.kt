@@ -38,12 +38,12 @@ class StubAuthHelper @Inject constructor() : AuthHelper {
 
     override fun getUser(): dev.rahmouni.neil.counters.core.user.Rn3User =
         dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser(
-        uid = "androidPreviewId",
-        displayName = "Android Preview",
-        pfpUri = null,
-        isAdmin = false,
-        email = "androidPreview@rahmouni.dev",
-    )
+            uid = "androidPreviewId",
+            displayName = "Android Preview",
+            pfpUri = null,
+            isAdmin = false,
+            email = "androidPreview@rahmouni.dev",
+        )
 
     override fun getUserFlow(): Flow<dev.rahmouni.neil.counters.core.user.Rn3User> =
         throw NotImplementedError("Not available in Preview")

@@ -150,7 +150,6 @@ private fun LoginPanel(onConfirmSignIn: (anonymous: Boolean) -> Unit) {
         label = "Shape rotation animation -- introduction",
     )
 
-
     Box {
         Box(
             Modifier
@@ -219,7 +218,6 @@ private fun LoginPanel(onConfirmSignIn: (anonymous: Boolean) -> Unit) {
         }
     }
 }
-
 
 /*@OptIn(ExperimentalSharedTransitionApi::class)
 @Rn3PreviewScreen
