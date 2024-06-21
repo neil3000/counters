@@ -18,7 +18,7 @@ package dev.rahmouni.neil.counters.feature.dashboard.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.rahmouni.neil.counters.feature.dashboard.model.CounterEntity
-import dev.rahmouni.neil.counters.feature.dashboard.model.CounterUnit
+import dev.rahmouni.neil.counters.feature.dashboard.model.UnitRepository
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData.dashboardData_default
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData.dashboardData_mutations
 
@@ -39,7 +39,7 @@ internal object PreviewParameterData {
                 uid = "id1",
                 title = "Push-ups",
                 color = "PRIMARY",
-                unit = CounterUnit.GRAMS,
+                unit = UnitRepository.findUnitByVariableName("GRAM"),
                 prefix = 3,
                 currentValue = 30,
             ),
@@ -47,7 +47,7 @@ internal object PreviewParameterData {
                 uid = "id2",
                 title = "Coffee cups",
                 color = "PRIMARY",
-                unit = CounterUnit.SECONDS,
+                unit = UnitRepository.findUnitByVariableName("BYTE"),
                 prefix = null,
                 currentValue = 2,
             ),

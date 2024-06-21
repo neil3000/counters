@@ -39,12 +39,12 @@ internal data class CounterEntity(
             unit == null -> listOf(Pair(currentValue.toDouble(), ""))
             fixedUnit -> {
                 if (prefix != null && displayUnit == null) {
-                    val (unitReceived, _) = CounterUnit.getDisplayUnit(unit, prefix)
+                    val (unitReceived, _) = getDisplayUnit(unit, prefix)
                     displayUnit = unitReceived
                 }
                 listOf(Pair(currentValue.toDouble(), displayUnit ?: unit.shortName))
             }
-            else -> CounterUnit.getDisplayData(unit, prefix, currentValue.toDouble())
+            else -> getDisplayData(unit, prefix, currentValue.toDouble())
         }
     }
 
@@ -78,7 +78,7 @@ internal fun CounterRawData.toEntity(): CounterEntity {
         currentValue = currentValue,
         color = color,
         title = title,
-        unit = CounterUnit.entries.find { it.unitName == unit },
+        unit = UnitRepository.findUnitByVariableName(unit),
         prefix = prefix,
     )
 }
