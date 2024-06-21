@@ -171,6 +171,16 @@ fun Rn3Scaffold(
                                                     delayMillis = 250,
                                                 ),
                                             ),
+                                        )
+                                        .sharedElement(
+                                            rememberSharedContentState(key = "countersLogo_icon"),
+                                            animatedVisibilityScope = animatedVisibilityScope,
+                                            boundsTransform = { initialBounds, targetBounds ->
+                                                keyframes {
+                                                    initialBounds at 0 using ArcMode.ArcBelow using EaseInOutQuint
+                                                    targetBounds at durationMillis
+                                                }
+                                            },
                                         ).let { modifier ->
                                             when {
                                                 BuildConfig.DEBUG -> Icon(

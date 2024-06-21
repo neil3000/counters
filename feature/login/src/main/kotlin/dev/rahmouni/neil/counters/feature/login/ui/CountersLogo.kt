@@ -104,14 +104,27 @@ internal fun CountersLogo() {
                 with(animatedVisibilityScope) {
                     Modifier
                         .fillMaxSize()
-                        .skipToLookaheadSize()
                         .animateEnterExit(
                             enter = slideInVertically(
                                 animationSpec = tween(
                                     delayMillis = 250,
                                     easing = EaseOutBack,
                                 ),
-                            ) { it } + fadeIn(tween(durationMillis = 1, delayMillis = 250)),
+                            ) { it } + fadeIn(
+                                tween(
+                                    durationMillis = 1,
+                                    delayMillis = 250,
+                                ),
+                            ),
+                        ).sharedElement(
+                            rememberSharedContentState(key = "countersLogo_icon"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { initialBounds, targetBounds ->
+                                keyframes {
+                                    initialBounds at 0 using ArcMode.ArcBelow using EaseInOutQuint
+                                    targetBounds at durationMillis
+                                }
+                            },
                         ).let { modifier ->
                             when {
                                 BuildConfig.DEBUG -> Icon(

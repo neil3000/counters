@@ -44,6 +44,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.feature.dashboard.R
 import dev.rahmouni.neil.counters.feature.dashboard.model.CounterEntity
+import java.text.NumberFormat
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -64,7 +65,6 @@ internal fun CounterEntity.DashboardCard(
     ) {
         Column(
             modifier = Modifier
-                .padding(2.dp)
                 .combinedClickable(
                     onClick = {
                         haptics.click()
@@ -79,7 +79,8 @@ internal fun CounterEntity.DashboardCard(
 
                         // TODO("Not implemented - add long clicks")
                     },
-                ),
+                )
+                .padding(2.dp),
         ) {
             Text(
                 text = getTitle(),
@@ -119,9 +120,10 @@ internal fun CounterEntity.DashboardCard(
                                 .align(Alignment.Bottom),
                         ) { targetValue ->
                             Text(
-                                text = targetValue.toString(),
+                                text = NumberFormat.getNumberInstance().format(targetValue),
                                 style = MaterialTheme.typography.headlineLarge,
-                                softWrap = false,
+                                maxLines = 1,
+                                overflow = TextOverflow.Clip,
                             )
                         }
 

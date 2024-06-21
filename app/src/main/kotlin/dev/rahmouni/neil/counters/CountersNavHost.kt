@@ -37,8 +37,10 @@ import dev.rahmouni.neil.counters.core.feedback.feedbackDialog
 import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.feature.aboutme.aboutMeScreen
 import dev.rahmouni.neil.counters.feature.aboutme.navigateToAboutMe
+import dev.rahmouni.neil.counters.feature.dashboard.DASHBOARD_ROUTE
 import dev.rahmouni.neil.counters.feature.dashboard.dashboardScreen
 import dev.rahmouni.neil.counters.feature.dashboard.navigateToDashboard
+import dev.rahmouni.neil.counters.feature.login.LOGIN_ROUTE
 import dev.rahmouni.neil.counters.feature.login.loginScreen
 import dev.rahmouni.neil.counters.feature.login.navigateToLogin
 import dev.rahmouni.neil.counters.feature.settings.navigateToSettings
@@ -60,10 +62,8 @@ fun CountersNavHost(
 
     LaunchedEffect(Unit) {
         delay(100)
-        if (auth.getUser() is LoggedOutUser) {
-            navController.navigateToLogin()
-        } else {
-            navController.navigateToDashboard()
+        navController.navigate(if (auth.getUser() is LoggedOutUser) LOGIN_ROUTE else DASHBOARD_ROUTE) {
+            popUpTo("SPLASHSCREEN_SET_ROUTE") { inclusive = true }
         }
     }
 
@@ -77,7 +77,11 @@ fun CountersNavHost(
                 ) {
                     aboutMeScreen(navController)
                     dashboardScreen(navController, navController::navigateToSettings)
-                    loginScreen(navController, navController::navigateToDashboard)
+                    loginScreen(navController) {
+                        navController.navigateToDashboard {
+                            popUpTo(LOGIN_ROUTE) { inclusive = true }
+                        }
+                    }
                     settingsNavigation(
                         navController,
                         navController::navigateToLogin,
