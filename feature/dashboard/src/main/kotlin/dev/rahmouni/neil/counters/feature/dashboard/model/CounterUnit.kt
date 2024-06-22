@@ -24,12 +24,13 @@ data class CounterUnit(
     val unitName: String,
     val alignment: Alignment.Vertical,
     val base: Double? = null,
-    val subs: List<Pair<Double, String>> = emptyList(),
+    val subs: List<Pair<Double, String>> = listOf(),
     val conversions: MutableList<Conversion> = mutableListOf(),
 )
 
 data class Conversion(
-    val factor: Double,
+    val factor: Double = 1.0,
+    val addition: Double = 0.0,
     val toUnit: () -> CounterUnit,
 )
 
@@ -42,16 +43,25 @@ object UnitRepository {
 
     fun findUnit(name: String?): CounterUnit? = units[name]
 
-    fun addConversion(fromUnit: String, factor: Double, toUnit: String) {
-        findUnit(fromUnit)?.conversions?.add(Conversion(factor) { findUnit(toUnit)!! })
+    fun addConversion(
+        fromUnit: String,
+        factor: Double = 1.0,
+        addition: Double = 0.0,
+        toUnit: String,
+    ) {
+        findUnit(fromUnit)?.let { from ->
+            findUnit(toUnit)?.let { to ->
+                from.conversions.add(Conversion(factor, addition) { to })
+            }
+        }
     }
 }
 
 @Composable
 fun InitializeUnits() {
-    val units = listOf(
+    listOf(
         "LITER" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_liter),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_liter_Title),
             alignment = Alignment.Bottom,
             base = 10.0,
             subs = listOf(
@@ -59,7 +69,7 @@ fun InitializeUnits() {
             ),
         ),
         "GRAM" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_gram),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_gram_Title),
             alignment = Alignment.Bottom,
             base = 10.0,
             subs = listOf(
@@ -68,7 +78,7 @@ fun InitializeUnits() {
             ),
         ),
         "OUNCE" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_ounce),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_ounce_Title),
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
@@ -79,7 +89,7 @@ fun InitializeUnits() {
             ),
         ),
         "INCH" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_inch),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_inch_Title),
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
@@ -93,7 +103,7 @@ fun InitializeUnits() {
             ),
         ),
         "METER" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_meter),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_meter_Title),
             alignment = Alignment.Bottom,
             base = 10.0,
             subs = listOf(
@@ -101,7 +111,7 @@ fun InitializeUnits() {
             ),
         ),
         "SQUARE_METER" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_squareMeter),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_squareMeter_Title),
             alignment = Alignment.Bottom,
             base = 100.0,
             subs = listOf(
@@ -109,7 +119,7 @@ fun InitializeUnits() {
             ),
         ),
         "SQUARE_INCH" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_squareInch),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_squareInch_Title),
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
@@ -130,7 +140,7 @@ fun InitializeUnits() {
             ),
         ),
         "CUBIC_METER" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_cubicMeter),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_cubicMeter_Title),
             alignment = Alignment.Bottom,
             base = 1000.0,
             subs = listOf(
@@ -138,7 +148,7 @@ fun InitializeUnits() {
             ),
         ),
         "CUBIC_INCH" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_cubicInch),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_cubicInch_Title),
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
@@ -158,7 +168,7 @@ fun InitializeUnits() {
             ),
         ),
         "US_GALLON" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_usGallon),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_usGallon_Title),
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
@@ -187,7 +197,7 @@ fun InitializeUnits() {
             ),
         ),
         "IMPERIAL_GALLON" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_imperialGallon),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_imperialGallon_Title),
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
@@ -218,7 +228,7 @@ fun InitializeUnits() {
             ),
         ),
         "SECONDS" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_second),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_second_Title),
             alignment = Alignment.Bottom,
             base = null,
             subs = listOf(
@@ -240,7 +250,7 @@ fun InitializeUnits() {
             ),
         ),
         "BYTE" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_byte),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_byte_Title),
             alignment = Alignment.Bottom,
             base = 10.0,
             subs = listOf(
@@ -248,7 +258,7 @@ fun InitializeUnits() {
             ),
         ),
         "CELSIUS" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_celsius),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_celsius_Title),
             alignment = Alignment.Top,
             base = null,
             subs = listOf(
@@ -256,43 +266,60 @@ fun InitializeUnits() {
             ),
         ),
         "FAHRENHEIT" to CounterUnit(
-            unitName = stringResource(R.string.feature_dashboard_counterUnit_fahrenheit),
+            unitName = stringResource(R.string.feature_dashboard_counterUnit_fahrenheit_Title),
             alignment = Alignment.Top,
             subs = listOf(
                 Pair(0.0, stringResource(R.string.feature_dashboard_counterUnit_fahrenheit_short)),
             ),
         ),
-    )
+    ).forEach { (name, unit) -> UnitRepository.addUnit(name, unit) }
 
-    units.forEach { (name, unit) -> UnitRepository.addUnit(name, unit) }
-
-    UnitRepository.addConversion("INCH", 0.0254, "METER")
-    UnitRepository.addConversion("METER", 39.37007874, "INCH")
-    UnitRepository.addConversion("SQUARE_METER", 1550.0031, "SQUARE_INCH")
-    UnitRepository.addConversion("SQUARE_INCH", 0.00064516, "SQUARE_METER")
+    with(UnitRepository) {
+        addConversion(fromUnit = "INCH", factor = 0.0254, toUnit = "METER")
+        addConversion(fromUnit = "METER", factor = 39.37007874, toUnit = "INCH")
+        addConversion(fromUnit = "SQUARE_METER", factor = 1550.0031, toUnit = "SQUARE_INCH")
+        addConversion(fromUnit = "SQUARE_INCH", factor = 0.00064516, toUnit = "SQUARE_METER")
+        addConversion(fromUnit = "GRAM", factor = 0.00220462, toUnit = "POUND")
+        addConversion(fromUnit = "POUND", factor = 453.592, toUnit = "GRAM")
+        addConversion(fromUnit = "LITER", factor = 0.264172, toUnit = "US_GALLON")
+        addConversion(fromUnit = "US_GALLON", factor = 3.78541, toUnit = "LITER")
+        addConversion(
+            fromUnit = "CELSIUS",
+            factor = 9.0 / 5.0,
+            addition = 32.0,
+            toUnit = "FAHRENHEIT",
+        )
+        addConversion(
+            fromUnit = "FAHRENHEIT",
+            factor = 5.0 / 9.0,
+            addition = -32.0 * (5.0 / 9.0),
+            toUnit = "CELSIUS",
+        )
+    }
 }
 
 fun getDisplayUnit(unit: CounterUnit, prefix: Long): Pair<String, Long> {
-    val closestPrefix = prefixMap.keys.minByOrNull { abs(it - prefix) } ?: 0L
+    val (closestPrefix, unitStr) = getClosestPrefix(unit, prefix)
+    return Pair(unitStr, abs(closestPrefix - prefix))
+}
+
+private fun getClosestPrefix(unit: CounterUnit, prefix: Long): Pair<Long, String> {
+    val closestPrefix = prefixMap.keys.filter { it <= prefix }.maxOrNull() ?: 0L
     val unitStr = unit.subs.find { it.first.toLong() == closestPrefix }?.second
         ?: "${prefixMap[closestPrefix] ?: ""}${unit.subs[0].second}"
-    val realPrefix = abs(closestPrefix - prefix)
-
-    return Pair(unitStr, realPrefix)
+    return Pair(closestPrefix, unitStr)
 }
 
 private fun calculateDisplayValues(
     currentValue: Double,
     unit: CounterUnit,
     base: Double,
-    prefix: Long?
+    prefix: Long?,
 ): DisplayType {
     val logOrder = (log10(currentValue) / log10(base)).toInt()
     val adjustedPrefix = (prefix ?: 0L) + logOrder
-    val closestPrefix = prefixMap.keys.filter { it <= adjustedPrefix }.maxOrNull() ?: 0L
+    val (closestPrefix, unitStr) = getClosestPrefix(unit, adjustedPrefix)
     val divider = base.pow((closestPrefix).toDouble())
-    val unitStr = unit.subs.find { it.first.toLong() == closestPrefix }?.second
-        ?: "${prefixMap[closestPrefix] ?: ""}${unit.subs[0].second}"
 
     return Pair(divider, unitStr)
 }
@@ -319,7 +346,10 @@ fun getDisplayData(
                     base,
                     prefix,
                 )
-                if (remainingValue > 0) addResult((remainingValue / divider).toInt().toDouble(), unitStr)
+                if (remainingValue > 0) addResult(
+                    (remainingValue / divider).toInt().toDouble(),
+                    unitStr,
+                )
                 remainingValue %= divider
             }
         } else {
@@ -336,17 +366,17 @@ fun getDisplayData(
     fun processUnitsWithoutBase() {
         var unitStr = unit.subs[0].second
 
-            for ((key, value) in unit.subs) {
-                if (remainingValue < key) break
-                if (separatedUnits) {
-                    if (remainingValue > 0) addResult((remainingValue / key).toInt().toDouble(), value)
-                    remainingValue %= key
-                } else {
-                    remainingValue /= key
-                    unitStr = value
-                }
+        for ((key, value) in unit.subs) {
+            if (remainingValue < key) break
+            if (separatedUnits) {
+                if (remainingValue > 0) addResult((remainingValue / key).toInt().toDouble(), value)
+                remainingValue %= key
+            } else {
+                remainingValue /= key
+                unitStr = value
             }
-            results.reverse()
+        }
+        results.reverse()
         addResult(remainingValue, unitStr)
     }
 
