@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import rahmouni.neil.counters.BuildConfig
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
@@ -42,6 +43,7 @@ class MainActivityViewModel @Inject constructor(
     private var isAppFirstLaunch = false
     private var shouldShowLoginScreenOnStartup = false
 
+    @Suppress("KotlinConstantConditions")
     val uiState: StateFlow<MainActivityUiState> =
         authHelper.getUserFlow().combine(userDataRepository.userData) { user, userData ->
             if (user == Rn3User.Loading) {
@@ -57,8 +59,8 @@ class MainActivityViewModel @Inject constructor(
                     ),
                     hasMetricsEnabled = userData.hasMetricsEnabled,
                     hasCrashlyticsEnabled = userData.hasCrashlyticsEnabled,
-                    isAppFirstLaunch = isAppFirstLaunch,
-                    shouldShowLoginScreenOnStartup = shouldShowLoginScreenOnStartup,
+                    isAppFirstLaunch = BuildConfig.FLAVOR != "demo" && isAppFirstLaunch,
+                    shouldShowLoginScreenOnStartup = BuildConfig.FLAVOR != "demo" && shouldShowLoginScreenOnStartup,
                 )
             }
         }.stateIn(

@@ -22,7 +22,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import dev.rahmouni.neil.counters.core.user.Rn3User
-import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
+import dev.rahmouni.neil.counters.core.user.Rn3User.Loading
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -36,11 +36,9 @@ class LoginViewModel @Inject constructor(
     authHelper: AuthHelper,
 ) : ViewModel() {
 
-    private var devSettingsEnabled = false
-
     val user: StateFlow<Rn3User> = authHelper.getUserFlow().stateIn(
         scope = viewModelScope,
-        initialValue = LoggedOutUser,
+        initialValue = Loading,
         started = WhileSubscribed(5.seconds.inWholeMilliseconds),
     )
 
