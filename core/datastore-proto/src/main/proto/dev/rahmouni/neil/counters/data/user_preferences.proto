@@ -8,6 +8,8 @@ message UserPreferences {
   bool accessibility_hasIconTooltipsDisabled = 2;
   bool hasMetricsDisabled = 3;
   bool hasCrashlyticsDisabled = 4;
+  bool shouldNotShowLoginScreenOnStartup = 5;
+  bool isNotAppFirstLaunch = 6;
 
-  // NEXT AVAILABLE ID: 5
+  // NEXT AVAILABLE ID: 7
 }

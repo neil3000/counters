@@ -121,17 +121,19 @@ internal fun SettingsRoute(
     SettingsScreen(
         modifier = modifier,
         uiState,
-        onAccountTileSwitchAccountTileClicked = navigateToLogin,
-        onAccountTileLogoutTileClicked = {
-            scope.launch { auth.signOut(context) }
-            navigateToLogin()
-        },
-        onAccountTileLoginButtonClicked = navigateToLogin,
-        onBackIconButtonClicked = navController::popBackStack,
         feedbackTopAppBarAction = FeedbackScreenContext(
             "SettingsScreen",
             "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d",
         ).toTopAppBarAction(navController::navigateToFeedback),
+        onAccountTileSwitchAccountTileClicked = navigateToLogin,
+        onAccountTileLogoutTileClicked = {
+            viewModel.logout()
+            scope.launch { auth.signOut(context) }
+
+            navigateToLogin()
+        },
+        onAccountTileLoginButtonClicked = navigateToLogin,
+        onBackIconButtonClicked = navController::popBackStack,
         onClickDataAndPrivacyTile = navController::navigateToDataAndPrivacySettings,
         onClickAccessibilityTile = navController::navigateToAccessibilitySettings,
         changelogTileUri = config.getString("changelog_url")

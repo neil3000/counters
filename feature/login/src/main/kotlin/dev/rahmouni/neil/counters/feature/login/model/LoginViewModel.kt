@@ -14,57 +14,39 @@
  * limitations under the License.
  */
 
-package dev.rahmouni.neil.counters.feature.settings.main.model
+package dev.rahmouni.neil.counters.feature.login.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
-import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState.Success
-import dev.rahmouni.neil.counters.feature.settings.main.model.data.SettingsData
+import dev.rahmouni.neil.counters.core.user.Rn3User
+import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
+class LoginViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
     authHelper: AuthHelper,
 ) : ViewModel() {
 
     private var devSettingsEnabled = false
 
-    val uiState: StateFlow<SettingsUiState> =
-        authHelper.getUserFlow().map { user ->
-            Success(
-                SettingsData(
-                    user = user,
-                    devSettingsEnabled = devSettingsEnabled,
-                ),
-            )
-        }.stateIn(
-            scope = viewModelScope,
-            initialValue = Success(
-                SettingsData(
-                    user = authHelper.getUser(),
-                    devSettingsEnabled = devSettingsEnabled,
-                ),
-            ),
-            started = WhileSubscribed(5.seconds.inWholeMilliseconds),
-        )
+    val user: StateFlow<Rn3User> = authHelper.getUserFlow().stateIn(
+        scope = viewModelScope,
+        initialValue = LoggedOutUser,
+        started = WhileSubscribed(5.seconds.inWholeMilliseconds),
+    )
 
-    fun setDevSettingsEnabled(enabled: Boolean) {
-        devSettingsEnabled = enabled
-    }
-
-    fun logout() {
+    fun login() {
         viewModelScope.launch {
-            userDataRepository.setShouldShowLoginScreenOnStartup(true)
+            userDataRepository.setShouldShowLoginScreenOnStartup(false)
         }
     }
 }

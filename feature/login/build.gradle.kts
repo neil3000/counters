@@ -32,5 +32,6 @@ dependencies {
     implementation(libs.coil.kt.compose)
 
     implementation(projects.core.auth)
+    implementation(projects.core.data)
     implementation(projects.core.shapes)
 }

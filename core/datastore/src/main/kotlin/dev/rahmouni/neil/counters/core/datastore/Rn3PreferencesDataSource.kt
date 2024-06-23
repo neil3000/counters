@@ -32,6 +32,8 @@ class Rn3PreferencesDataSource @Inject constructor(
             hasAccessibilityIconTooltipsEnabled = !userPref.accessibilityHasIconTooltipsDisabled,
             hasMetricsEnabled = !userPref.hasMetricsDisabled,
             hasCrashlyticsEnabled = !userPref.hasCrashlyticsDisabled,
+            shouldShowLoginScreenOnStartup = !userPref.shouldNotShowLoginScreenOnStartup,
+            isAppFirstLaunch = !userPref.isNotAppFirstLaunch,
         )
     }
 
@@ -56,6 +58,18 @@ class Rn3PreferencesDataSource @Inject constructor(
     suspend fun setCrashlyticsEnabledPreference(value: Boolean) {
         userPreferences.updateData {
             it.copy { this.hasCrashlyticsDisabled = !value }
+        }
+    }
+
+    suspend fun setShouldShowLoginScreenOnStartup(value: Boolean) {
+        userPreferences.updateData {
+            it.copy { this.shouldNotShowLoginScreenOnStartup = !value }
+        }
+    }
+
+    suspend fun setNotAppFirstLaunch() {
+        userPreferences.updateData {
+            it.copy { this.isNotAppFirstLaunch = true }
         }
     }
 }

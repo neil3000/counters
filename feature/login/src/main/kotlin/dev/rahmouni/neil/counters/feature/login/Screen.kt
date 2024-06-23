@@ -52,6 +52,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
@@ -67,8 +68,9 @@ import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenCo
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.shapes.Rn3Shapes
 import dev.rahmouni.neil.counters.core.shapes.Shape
-import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
+import dev.rahmouni.neil.counters.core.user.Rn3User
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
+import dev.rahmouni.neil.counters.feature.login.model.LoginViewModel
 import dev.rahmouni.neil.counters.feature.login.ui.AddAccountTile
 import dev.rahmouni.neil.counters.feature.login.ui.AnonymousTile
 import dev.rahmouni.neil.counters.feature.login.ui.CountersLogo
@@ -79,6 +81,7 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun LoginRoute(
     modifier: Modifier = Modifier,
+    viewModel: LoginViewModel = hiltViewModel(),
     navController: NavController,
     navigateToDashboard: () -> Unit,
 ) {
@@ -86,8 +89,11 @@ internal fun LoginRoute(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
+    val user by viewModel.user.collectAsStateWithLifecycle()
+
     LoginScreen(
         modifier,
+        user = user,
         feedbackTopAppBarAction = FeedbackScreenContext(
             "LoginScreen",
             "KjMSjlWvIFeFt7kp2IPuTAU3yKkdyTqY",
@@ -98,7 +104,14 @@ internal fun LoginRoute(
                     auth.signIn(context, true)
                 }
             }
+
+            viewModel.login()
             navigateToDashboard()
+        },
+        onAddAccountTileClicked = {
+            scope.launch {
+                auth.signIn(context, false)
+            }
         },
     )
 }
@@ -107,8 +120,10 @@ internal fun LoginRoute(
 @Composable
 internal fun LoginScreen(
     modifier: Modifier = Modifier,
+    user: Rn3User,
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onConfirmSignIn: (anonymous: Boolean) -> Unit = {},
+    onAddAccountTileClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
         modifier,
@@ -117,19 +132,18 @@ internal fun LoginScreen(
         listOfNotNull(feedbackTopAppBarAction),
         topAppBarStyle = NONE,
     ) {
-        LoginPanel(onConfirmSignIn)
+        LoginPanel(user, onConfirmSignIn, onAddAccountTileClicked)
     }
 }
 
 @Composable
-private fun LoginPanel(onConfirmSignIn: (anonymous: Boolean) -> Unit) {
+private fun LoginPanel(
+    user: Rn3User,
+    onConfirmSignIn: (anonymous: Boolean) -> Unit,
+    onAddAccountTileClicked: () -> Unit,
+) {
     val inPreview = LocalInspectionMode.current
     var trigger by rememberSaveable { mutableStateOf(inPreview) }
-    val auth = LocalAuthHelper.current
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-
-    val user by auth.getUserFlow().collectAsStateWithLifecycle(LoggedOutUser)
 
     LaunchedEffect(Unit) {
         delay(1)
@@ -208,11 +222,11 @@ private fun LoginPanel(onConfirmSignIn: (anonymous: Boolean) -> Unit) {
                     user.Tile(shape = it) { onConfirmSignIn(false) }
                 }
                 item {
-                    AddAccountTile(expanded = user !is SignedInUser, shape = it) {
-                        scope.launch {
-                            auth.signIn(context, false)
-                        }
-                    }
+                    AddAccountTile(
+                        expanded = user !is SignedInUser,
+                        shape = it,
+                        onClick = onAddAccountTileClicked,
+                    )
                 }
             }
         }

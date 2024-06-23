@@ -21,4 +21,6 @@ data class UserData(
     val hasAccessibilityIconTooltipsEnabled: Boolean,
     val hasMetricsEnabled: Boolean,
     val hasCrashlyticsEnabled: Boolean,
+    val shouldShowLoginScreenOnStartup: Boolean,
+    val isAppFirstLaunch: Boolean,
 )

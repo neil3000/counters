@@ -87,11 +87,6 @@ class MainActivity : ComponentActivity() {
 
         // Update the uiState
         lifecycleScope.launch {
-            // If the user is not signed in, launch the sign in process.
-            if (authHelper.getUser() is LoggedOutUser) {
-                authHelper.quickFirstSignIn(this@MainActivity)
-            }
-
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState
                     .onEach {
@@ -100,6 +95,15 @@ class MainActivity : ComponentActivity() {
                         if (it is Success) {
                             Firebase.analytics.setAnalyticsCollectionEnabled(!BuildConfig.DEBUG && it.hasMetricsEnabled)
                             Firebase.crashlytics.setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG && it.hasCrashlyticsEnabled)
+
+                            if (it.isAppFirstLaunch) {
+                                // If the user is not signed in, launch the sign in process.
+                                if (authHelper.getUser() is LoggedOutUser) {
+                                    authHelper.quickFirstSignIn(this@MainActivity)
+                                }
+
+                                viewModel.setNotAppFirstLaunch()
+                            }
                         }
 
                         @Suppress("KotlinConstantConditions")
@@ -132,7 +136,10 @@ class MainActivity : ComponentActivity() {
                     LocalAuthHelper provides authHelper,
                 ) {
                     Rn3Theme {
-                        CountersApp(appState)
+                        CountersApp(
+                            appState,
+                            showLoginScreen = (uiState as Success).shouldShowLoginScreenOnStartup,
+                        )
                     }
                 }
             }

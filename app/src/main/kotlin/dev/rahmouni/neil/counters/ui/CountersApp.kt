@@ -24,9 +24,11 @@ import dev.rahmouni.neil.counters.CountersNavHost
 fun CountersApp(
     appState: CountersAppState,
     modifier: Modifier = Modifier,
+    showLoginScreen: Boolean,
 ) {
     CountersNavHost(
         appState = appState,
         modifier = modifier,
+        showLoginScreen = showLoginScreen,
     )
 }

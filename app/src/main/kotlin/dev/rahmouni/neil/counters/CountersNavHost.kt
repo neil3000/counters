@@ -54,7 +54,7 @@ import kotlinx.coroutines.delay
 fun CountersNavHost(
     appState: CountersAppState,
     modifier: Modifier = Modifier,
-    startDestination: String = "SPLASHSCREEN_SET_ROUTE",
+    showLoginScreen: Boolean,
 ) {
     val auth = LocalAuthHelper.current
 
@@ -62,7 +62,7 @@ fun CountersNavHost(
 
     LaunchedEffect(Unit) {
         delay(100)
-        navController.navigate(if (auth.getUser() is LoggedOutUser) LOGIN_ROUTE else DASHBOARD_ROUTE) {
+        navController.navigate(if (auth.getUser() is LoggedOutUser || showLoginScreen) LOGIN_ROUTE else DASHBOARD_ROUTE) {
             popUpTo("SPLASHSCREEN_SET_ROUTE") { inclusive = true }
         }
     }
@@ -72,7 +72,7 @@ fun CountersNavHost(
             CompositionLocalProvider(LocalSharedTransitionScope provides this) {
                 NavHost(
                     navController = navController,
-                    startDestination = startDestination,
+                    startDestination = "SPLASHSCREEN_SET_ROUTE",
                     modifier = modifier,
                 ) {
                     aboutMeScreen(navController)
