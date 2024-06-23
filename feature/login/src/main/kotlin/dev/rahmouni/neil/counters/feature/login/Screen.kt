@@ -58,7 +58,7 @@ import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
-import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.NONE
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.TRANSPARENT
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCorners
@@ -130,7 +130,7 @@ internal fun LoginScreen(
         "",
         null,
         listOfNotNull(feedbackTopAppBarAction),
-        topAppBarStyle = NONE,
+        topAppBarStyle = TRANSPARENT,
     ) {
         LoginPanel(user, onConfirmSignIn, onAddAccountTileClicked)
     }

@@ -32,6 +32,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import dev.rahmouni.neil.counters.core.designsystem.DropdownMenu
 import dev.rahmouni.neil.counters.core.designsystem.R
@@ -49,6 +50,7 @@ fun Rn3SmallTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     onBackIconButtonClicked: (() -> Unit)? = null,
     actions: List<TopAppBarAction> = emptyList(),
+    transparent: Boolean = false,
     title: @Composable () -> Unit,
 ) {
     TopAppBar(
@@ -81,6 +83,10 @@ fun Rn3SmallTopAppBar(
         },
         windowInsets = windowInsets,
         scrollBehavior = scrollBehavior,
+        colors = if (transparent) TopAppBarDefaults.topAppBarColors().copy(
+            containerColor = Color.Transparent,
+            scrolledContainerColor = Color.Transparent,
+        ) else TopAppBarDefaults.topAppBarColors(),
     )
 }
 
