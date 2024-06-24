@@ -41,6 +41,8 @@ internal class FirebaseAnalyticsHelper @Inject constructor(
     override fun clearMetrics() {
         firebaseAnalytics.resetAnalyticsData()
 
+        FirebaseAnalytics.Event.SCREEN_VIEW
+
         logEvent(
             AnalyticsEvent(type = "dataAndPrivacy_clearMetricsTile_clicked"),
         )

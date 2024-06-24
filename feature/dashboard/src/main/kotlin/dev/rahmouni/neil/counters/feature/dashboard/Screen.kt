@@ -52,6 +52,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
+import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.feature.dashboard.model.DashboardUiState
 import dev.rahmouni.neil.counters.feature.dashboard.model.DashboardViewModel
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.DashboardData
@@ -80,6 +81,8 @@ internal fun DashboardRoute(
         onCreateCounter = viewModel::createCounter,
         onIncrementCounter = viewModel::incrementCounter,
     )
+
+    TrackScreenViewEvent(screenName = "Dashboard")
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

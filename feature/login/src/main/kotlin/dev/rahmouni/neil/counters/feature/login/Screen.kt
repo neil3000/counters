@@ -55,6 +55,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import dev.rahmouni.neil.counters.core.analytics.AnalyticsEvent
+import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
@@ -68,6 +70,7 @@ import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenCo
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.shapes.Rn3Shapes
 import dev.rahmouni.neil.counters.core.shapes.Shape
+import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.core.user.Rn3User
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.login.model.LoginViewModel
@@ -87,6 +90,7 @@ internal fun LoginRoute(
 ) {
     val auth = LocalAuthHelper.current
     val context = LocalContext.current
+    val analytics = LocalAnalyticsHelper.current
     val scope = rememberCoroutineScope()
 
     val user by viewModel.user.collectAsStateWithLifecycle()
@@ -105,6 +109,18 @@ internal fun LoginRoute(
                 }
             }
 
+            analytics.logEvent(
+                AnalyticsEvent(
+                    type = AnalyticsEvent.Types.LOGIN,
+                    extras = listOf(
+                        AnalyticsEvent.Param(
+                            key = AnalyticsEvent.ParamKeys.METHOD,
+                            value = if (anonymous) "anonymous" else "credential_manager",
+                        ),
+                    ),
+                ),
+            )
+
             viewModel.login()
             navigateToDashboard()
         },
@@ -114,6 +130,8 @@ internal fun LoginRoute(
             }
         },
     )
+
+    TrackScreenViewEvent(screenName = "Login")
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

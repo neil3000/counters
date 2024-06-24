@@ -17,7 +17,7 @@
 package dev.rahmouni.neil.counters.core.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import dev.rahmouni.neil.counters.core.analytics.AnalyticsEvent
 import dev.rahmouni.neil.counters.core.analytics.AnalyticsEvent.Param
 import dev.rahmouni.neil.counters.core.analytics.AnalyticsEvent.ParamKeys
@@ -46,7 +46,6 @@ fun AnalyticsHelper.logScreenView(screenName: String) {
 fun TrackScreenViewEvent(
     screenName: String,
     analyticsHelper: AnalyticsHelper = LocalAnalyticsHelper.current,
-) = DisposableEffect(Unit) {
+) = LaunchedEffect(Unit) {
     analyticsHelper.logScreenView(screenName)
-    onDispose {}
 }
