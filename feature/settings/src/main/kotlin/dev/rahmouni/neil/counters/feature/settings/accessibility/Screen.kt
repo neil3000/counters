@@ -50,6 +50,7 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValu
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
+import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.AccessibilitySettingsUiState
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.AccessibilitySettingsUiState.Loading
@@ -58,7 +59,7 @@ import dev.rahmouni.neil.counters.feature.settings.accessibility.model.Accessibi
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.AccessibilitySettingsData
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.AccessibilitySettingsDataPreviewParameterProvider
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.PreviewParameterData
-import dev.rahmouni.neil.counters.feature.settings.logAndroidAccessibilityTileClicked
+import dev.rahmouni.neil.counters.feature.settings.logDataAndPrivacySettingsUiEvent
 
 @Composable
 internal fun AccessibilitySettingsRoute(
@@ -82,10 +83,12 @@ internal fun AccessibilitySettingsRoute(
         setEmphasizedSwitches = viewModel::setEmphasizedSwitches,
         setIconTooltips = viewModel::setIconTooltips,
         onClickAndroidAccessibilityTile = {
-            analyticsHelper.logAndroidAccessibilityTileClicked()
+            analyticsHelper.logDataAndPrivacySettingsUiEvent("androidAccessibilityTile")
             context.openAndroidAccessibilitySettingsActivity()
         },
     )
+
+    TrackScreenViewEvent(screenName = "AccessibilitySettings")
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

@@ -61,6 +61,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallH
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
+import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.feature.settings.BuildConfig
 import dev.rahmouni.neil.counters.feature.settings.R
 import dev.rahmouni.neil.counters.feature.settings.developer.links.navigateToDeveloperSettingsLinks
@@ -89,6 +90,8 @@ internal fun DeveloperSettingsRoute(
             throw RuntimeException("RahNeil_N3:SimulateCrashTile:FakeCrash (${UUID.randomUUID()})")
         },
     )
+
+    TrackScreenViewEvent(screenName = "DeveloperSettings")
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

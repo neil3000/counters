@@ -44,7 +44,7 @@ internal class FirebaseAnalyticsHelper @Inject constructor(
         FirebaseAnalytics.Event.SCREEN_VIEW
 
         logEvent(
-            AnalyticsEvent(type = "dataAndPrivacy_clearMetricsTile_clicked"),
+            AnalyticsEvent(type = "analytics_clearedMetrics"),
         )
     }
 }

@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import dev.rahmouni.neil.counters.core.analytics.AnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.model.CounterRawData
 import dev.rahmouni.neil.counters.core.data.model.IncrementRawData
@@ -29,6 +30,7 @@ import kotlinx.coroutines.flow.transformLatest
 import javax.inject.Inject
 
 class FirestoreCountersDataRepository @Inject constructor(
+    private val analyticsHelper: AnalyticsHelper,
     private val authHelper: AuthHelper,
 ) : CountersDataRepository {
 
@@ -58,6 +60,8 @@ class FirestoreCountersDataRepository @Inject constructor(
                     ownerUserUid = authHelper.getUser().getUid(),
                 ),
             )
+
+        analyticsHelper.logCreatedCounter()
     }
 
     override fun createIncrement(
@@ -74,5 +78,7 @@ class FirestoreCountersDataRepository @Inject constructor(
                 )
                 it.collection("increments").add(incrementRawData)
             }
+
+        analyticsHelper.logCreatedIncrement()
     }
 }

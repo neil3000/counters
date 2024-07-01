@@ -19,30 +19,23 @@ package dev.rahmouni.neil.counters.feature.settings
 import dev.rahmouni.neil.counters.core.analytics.AnalyticsEvent
 import dev.rahmouni.neil.counters.core.analytics.AnalyticsHelper
 
-internal fun AnalyticsHelper.logAndroidAccessibilityTileClicked() =
+internal fun AnalyticsHelper.logAccessibilitySettingsUiEvent(uiId: String) =
     logEvent(
         AnalyticsEvent(
-            type = "accessibility_androidAccessibilityTile_clicked",
+            type = "accessibilitySettings_${uiId}_clicked",
         ),
     )
 
-internal fun AnalyticsHelper.logChangelogTileClicked() =
+internal fun AnalyticsHelper.logDataAndPrivacySettingsUiEvent(uiId: String) =
     logEvent(
         AnalyticsEvent(
-            type = "settings_changelogTile_clicked",
+            type = "dataAndPrivacySettings_${uiId}_clicked",
         ),
     )
 
-internal fun AnalyticsHelper.logDiscordTileClicked() =
+internal fun AnalyticsHelper.logSettingsUiEvent(uiId: String) =
     logEvent(
         AnalyticsEvent(
-            type = "settings_discordTile_clicked",
-        ),
-    )
-
-internal fun AnalyticsHelper.logOssLicensesTileClicked() =
-    logEvent(
-        AnalyticsEvent(
-            type = "settings_ossLicensesTile_clicked",
+            type = "settings_${uiId}_clicked",
         ),
     )

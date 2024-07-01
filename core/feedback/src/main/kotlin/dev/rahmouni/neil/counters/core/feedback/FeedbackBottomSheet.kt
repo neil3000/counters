@@ -57,6 +57,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackContextPage
 import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackDescriptionPage
 import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackTypePage
+import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import kotlinx.coroutines.launch
 
 @Composable
@@ -180,4 +181,6 @@ fun FeedbackBottomSheet(
             }
         }
     }
+
+    TrackScreenViewEvent(screenName = "FeedbackBottomSheet")
 }

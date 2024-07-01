@@ -66,6 +66,7 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValu
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
+import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.feature.settings.R
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState
@@ -75,7 +76,7 @@ import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndP
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.DataAndPrivacySettingsData
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.DataAndPrivacySettingsDataPreviewParameterProvider
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.PreviewParameterData
-import dev.rahmouni.neil.counters.feature.settings.logAndroidAccessibilityTileClicked
+import dev.rahmouni.neil.counters.feature.settings.logDataAndPrivacySettingsUiEvent
 
 @Composable
 internal fun DataAndPrivacySettingsRoute(
@@ -87,7 +88,6 @@ internal fun DataAndPrivacySettingsRoute(
     val analytics = LocalAnalyticsHelper.current
     val config = LocalConfigHelper.current
 
-    // TODO clear metrics
     DataAndPrivacySettingsScreen(
         modifier,
         uiState,
@@ -99,9 +99,12 @@ internal fun DataAndPrivacySettingsRoute(
         onMetricsTileCheckedChange = viewModel::setMetricsEnabled,
         onClearMetricsTileClicked = analytics::clearMetrics,
         onCrashlyticsTileCheckedChange = viewModel::setCrashlyticsEnabled,
-        privacyPolicyTileUri = config.getString("privacy_policy_url")
-            .toRn3Uri(analytics::logAndroidAccessibilityTileClicked),
+        privacyPolicyTileUri = config.getString("privacy_policy_url").toRn3Uri {
+            analytics.logDataAndPrivacySettingsUiEvent("privacyPolicyTile")
+        },
     )
+
+    TrackScreenViewEvent(screenName = "DataAndPrivacySettings")
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

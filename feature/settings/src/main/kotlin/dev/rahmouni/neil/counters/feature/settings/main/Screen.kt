@@ -82,14 +82,13 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValu
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
+import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.accessibility.navigateToAccessibilitySettings
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.navigateToDataAndPrivacySettings
 import dev.rahmouni.neil.counters.feature.settings.developer.main.navigateToDeveloperSettingsMain
-import dev.rahmouni.neil.counters.feature.settings.logChangelogTileClicked
-import dev.rahmouni.neil.counters.feature.settings.logDiscordTileClicked
-import dev.rahmouni.neil.counters.feature.settings.logOssLicensesTileClicked
+import dev.rahmouni.neil.counters.feature.settings.logSettingsUiEvent
 import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState
 import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState.Loading
 import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState.Success
@@ -125,29 +124,56 @@ internal fun SettingsRoute(
             "SettingsScreen",
             "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d",
         ).toTopAppBarAction(navController::navigateToFeedback),
-        onAccountTileSwitchAccountTileClicked = navigateToLogin,
+        onBackIconButtonClicked = navController::popBackStack,
+        onAccountTileSwitchAccountTileClicked = {
+            analytics.logSettingsUiEvent("accountTileSwitchAccountTile")
+            navigateToLogin()
+        },
         onAccountTileLogoutTileClicked = {
+            analytics.logSettingsUiEvent("accountTileLogoutTile")
+
             viewModel.logout()
             scope.launch { auth.signOut(context) }
 
             navigateToLogin()
         },
-        onAccountTileLoginButtonClicked = navigateToLogin,
-        onBackIconButtonClicked = navController::popBackStack,
-        onClickDataAndPrivacyTile = navController::navigateToDataAndPrivacySettings,
-        onClickAccessibilityTile = navController::navigateToAccessibilitySettings,
-        changelogTileUri = config.getString("changelog_url")
-            .toRn3Uri(analytics::logChangelogTileClicked),
-        discordTileUri = config.getString("discord_invite_url")
-            .toRn3Uri(analytics::logDiscordTileClicked),
-        onClickContributeTile = { TODO() },
-        onClickAboutMeTile = navigateToAboutMe,
-        onClickDeveloperSettingsTile = navController::navigateToDeveloperSettingsMain,
+        onAccountTileLoginButtonClicked = {
+            analytics.logSettingsUiEvent("accountTileLoginButton")
+            navigateToLogin()
+        },
+        onClickDataAndPrivacyTile = {
+            analytics.logSettingsUiEvent("dataAndPrivacyTile")
+            navController.navigateToDataAndPrivacySettings()
+        },
+        onClickAccessibilityTile = {
+            analytics.logSettingsUiEvent("accessibilityTile")
+            navController.navigateToAccessibilitySettings()
+        },
+        changelogTileUri = config.getString("changelog_url").toRn3Uri {
+            analytics.logSettingsUiEvent("changelogTile")
+        },
+        discordTileUri = config.getString("discord_invite_url").toRn3Uri {
+            analytics.logSettingsUiEvent("discordTile")
+        },
+        onClickContributeTile = {
+            analytics.logSettingsUiEvent("contributeTile")
+            TODO()
+        },
+        onClickAboutMeTile = {
+            analytics.logSettingsUiEvent("accessibilityTile")
+            navigateToAboutMe()
+        },
+        onClickDeveloperSettingsTile = {
+            analytics.logSettingsUiEvent("developerSettingsTile")
+            navController.navigateToDeveloperSettingsMain()
+        },
         onClickOssLicensesTile = {
+            analytics.logSettingsUiEvent("ossLicensesTile")
             context.openOssLicensesActivity()
-            analytics.logOssLicensesTileClicked()
         },
     )
+
+    TrackScreenViewEvent(screenName = "Settings")
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

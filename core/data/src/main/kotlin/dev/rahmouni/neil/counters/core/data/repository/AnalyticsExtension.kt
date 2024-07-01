@@ -62,3 +62,13 @@ internal fun AnalyticsHelper.logCrashlyticsPreferenceChanged(value: Boolean) =
             ),
         ),
     )
+
+internal fun AnalyticsHelper.logCreatedCounter() =
+    logEvent(
+        AnalyticsEvent(type = "created_counter"),
+    )
+
+internal fun AnalyticsHelper.logCreatedIncrement() =
+    logEvent(
+        AnalyticsEvent(type = "created_increment"),
+    )
