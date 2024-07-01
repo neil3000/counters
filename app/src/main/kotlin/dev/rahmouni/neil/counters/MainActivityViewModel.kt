@@ -74,7 +74,6 @@ class MainActivityViewModel @Inject constructor(
             userDataRepository.setNotAppFirstLaunch()
         }
     }
-
 }
 
 sealed interface MainActivityUiState {

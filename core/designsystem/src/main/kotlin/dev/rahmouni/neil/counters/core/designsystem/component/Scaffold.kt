@@ -91,7 +91,6 @@ fun Rn3Scaffold(
     val config = LocalConfigHelper.current
 
     when {
-
         // LARGE
         topAppBarStyle == LARGE && windowHeightClass != COMPACT -> Rn3ScaffoldImpl(
             modifier,
@@ -253,5 +252,5 @@ enum class TopAppBarStyle {
     LARGE,
     SMALL,
     DASHBOARD,
-    TRANSPARENT
+    TRANSPARENT,
 }

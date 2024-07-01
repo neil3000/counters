@@ -83,10 +83,14 @@ fun Rn3SmallTopAppBar(
         },
         windowInsets = windowInsets,
         scrollBehavior = scrollBehavior,
-        colors = if (transparent) TopAppBarDefaults.topAppBarColors().copy(
-            containerColor = Color.Transparent,
-            scrolledContainerColor = Color.Transparent,
-        ) else TopAppBarDefaults.topAppBarColors(),
+        colors = if (transparent) {
+            TopAppBarDefaults.topAppBarColors().copy(
+                containerColor = Color.Transparent,
+                scrolledContainerColor = Color.Transparent,
+            )
+        } else {
+            TopAppBarDefaults.topAppBarColors()
+        },
     )
 }
 
