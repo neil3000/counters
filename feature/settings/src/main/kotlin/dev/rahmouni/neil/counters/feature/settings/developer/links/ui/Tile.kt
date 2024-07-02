@@ -45,6 +45,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.feature.settings.R
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -101,7 +102,7 @@ internal fun LinkRn3UrlRawData.Tile(
                 AnimatedNumber(currentValue = clicks.toDouble()) { targetValue ->
                     Box(Modifier.sizeIn(36.dp, 36.dp)) {
                         Text(
-                            text = targetValue.toString(),
+                            text = targetValue.roundToInt().toString(),
                             style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier.align(Alignment.Center),
                         )
