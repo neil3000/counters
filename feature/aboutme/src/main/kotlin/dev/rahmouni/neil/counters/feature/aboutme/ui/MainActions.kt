@@ -40,6 +40,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizo
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.CoffeeAnimated
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.feature.aboutme.R
 
 @Composable
@@ -68,10 +69,9 @@ fun MainActions(portfolioUri: Rn3Uri) {
 
             Rn3TileHorizontalDivider(
                 color = MaterialTheme.colorScheme.secondary,
-                paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
-                    top = 0.dp,
-                    bottom = 0.dp,
-                ),
+                paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues
+                    .only(HORIZONTAL)
+                    .add(vertical = 4.dp),
             )
 
             // buyMeCoffeeTile //TODO logic
