@@ -76,11 +76,12 @@ internal fun FeedbackContextPage(
             }
         }
         if (bug) {
+            // TODO replace `enabled = false` by `enabled = onCurrentPageValue` once that #462 is done
             Rn3TileSwitch(
                 title = stringResource(R.string.core_feedback_contextPage_screenshotTile_title),
                 icon = Icons.Outlined.Screenshot,
                 checked = onCurrentPageValue && sendScreenshotValue,
-                enabled = false, //TODO replace by "onCurrentPageValue" once that
+                enabled = false,
                 supportingText = stringResource(R.string.core_feedback_contextPage_screenshotTile_supportingText),
             ) {
                 sendScreenshotValue = it

@@ -137,7 +137,7 @@ fun Rn3Scaffold(
                                 Modifier
                                     .size(36.dp)
                                     .then(
-                                        if (animatedVisibilityScope != null)
+                                        if (animatedVisibilityScope != null) {
                                             Modifier.sharedElement(
                                                 rememberSharedContentState(key = "countersLogo_background"),
                                                 animatedVisibilityScope = animatedVisibilityScope,
@@ -148,7 +148,9 @@ fun Rn3Scaffold(
                                                     }
                                                 },
                                             )
-                                        else Modifier,
+                                        } else {
+                                            Modifier
+                                        },
                                     ),
                                 color = Color(136, 18, 41),
                                 shape = RoundedCornerShape(8.dp),
@@ -157,7 +159,7 @@ fun Rn3Scaffold(
                                     .fillMaxSize()
                                     .skipToLookaheadSize()
                                     .then(
-                                        if (animatedVisibilityScope != null)
+                                        if (animatedVisibilityScope != null) {
                                             with(animatedVisibilityScope) {
                                                 Modifier
                                                     .animateEnterExit(
@@ -184,7 +186,9 @@ fun Rn3Scaffold(
                                                         },
                                                     )
                                             }
-                                        else Modifier,
+                                        } else {
+                                            Modifier
+                                        },
                                     ).let { modifier ->
                                         when {
                                             BuildConfig.DEBUG -> Icon(
