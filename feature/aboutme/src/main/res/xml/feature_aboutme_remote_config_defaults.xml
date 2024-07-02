@@ -28,6 +28,9 @@
     </entry>
     <entry>
         <key>socialLinks</key>
-        <value>[{"id":"instagram","url":"https://www.instagram.com/neil_rahmouni","tooltip":"Instagram"},{"id":"threads","url":"https://www.threads.net/@neil_rahmouni","tooltip":"Threads"},{"id":"mastodon","url":"https://mastodon.social/@neil_rahmouni@androiddev.social","tooltip":"Mastodon"},{"id":"discord","url":"https://discord.gg/4Y7EdE9kRY","tooltip":"Discord Server"},{"id":"linkedin","url":"https://www.linkedin.com/in/neil-rahmouni","tooltip":"Linkedin"},{"id":"gitlab","url":"https://gitlab.com/neil3000","tooltip":"Gitlab"}]</value>
+        <value>
+            [{"id":"instagram","url":"https://neil.rahmouni.dev/MGfO8w7tgB0Z1dNZF6TG","tooltip":"Instagram"},{"id":"threads","url":"https://neil.rahmouni.dev/u0cvoPR6svd5IFB5hs8H","tooltip":"Threads"},{"id":"mastodon","url":"https://neil.rahmouni.dev/hCAWDjEpiDj8skPbbuLb","tooltip":"Mastodon"},{"id":"discord","url":"https://neil.rahmouni.dev/DnLWYTO4QVyRuHS3Jwqo","tooltip":"Discord
+            Server"},{"id":"linkedin","url":"https://neil.rahmouni.dev/aHQtI6dsVfjcy4GKFckO","tooltip":"Linkedin"},{"id":"gitlab","url":"https://neil.rahmouni.dev/3uomlGBjoJqbq1tzzk3l","tooltip":"Gitlab"}]
+        </value>
     </entry>
 </defaultsMap>
