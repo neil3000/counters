@@ -80,7 +80,7 @@ internal fun FeedbackContextPage(
                 title = stringResource(R.string.core_feedback_contextPage_screenshotTile_title),
                 icon = Icons.Outlined.Screenshot,
                 checked = onCurrentPageValue && sendScreenshotValue,
-                enabled = onCurrentPageValue,
+                enabled = false, //TODO replace by "onCurrentPageValue" once that
                 supportingText = stringResource(R.string.core_feedback_contextPage_screenshotTile_supportingText),
             ) {
                 sendScreenshotValue = it

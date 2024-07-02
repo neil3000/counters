@@ -124,7 +124,6 @@ fun Rn3Scaffold(
                 val sharedTransitionScope = LocalSharedTransitionScope.current
                     ?: throw IllegalStateException("RahNeil_N3:4F6o9kodw29Oaj8zoDlAWesB1Merqam9")
                 val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
-                    ?: throw IllegalStateException("RahNeil_N3:743RaDiJYkZUoAmVqvPrWsm6BgQ9h78Y")
 
                 Row(
                     horizontalArrangement = spacedBy(12.dp),
@@ -137,70 +136,79 @@ fun Rn3Scaffold(
                             Surface(
                                 Modifier
                                     .size(36.dp)
-                                    .sharedElement(
-                                        rememberSharedContentState(key = "countersLogo_background"),
-                                        animatedVisibilityScope = animatedVisibilityScope,
-                                        boundsTransform = { initialBounds, targetBounds ->
-                                            keyframes {
-                                                initialBounds at 0 using ArcMode.ArcBelow using EaseInOutQuint
-                                                targetBounds at durationMillis
-                                            }
-                                        },
+                                    .then(
+                                        if (animatedVisibilityScope != null)
+                                            Modifier.sharedElement(
+                                                rememberSharedContentState(key = "countersLogo_background"),
+                                                animatedVisibilityScope = animatedVisibilityScope,
+                                                boundsTransform = { initialBounds, targetBounds ->
+                                                    keyframes {
+                                                        initialBounds at 0 using ArcMode.ArcBelow using EaseInOutQuint
+                                                        targetBounds at durationMillis
+                                                    }
+                                                },
+                                            )
+                                        else Modifier,
                                     ),
                                 color = Color(136, 18, 41),
                                 shape = RoundedCornerShape(8.dp),
                             ) {
-                                with(animatedVisibilityScope) {
-                                    Modifier
-                                        .fillMaxSize()
-                                        .skipToLookaheadSize()
-                                        .animateEnterExit(
-                                            enter = slideInVertically(
-                                                animationSpec = tween(
-                                                    delayMillis = 250,
-                                                    easing = EaseOutBack,
-                                                ),
-                                            ) { it } + fadeIn(
-                                                tween(
-                                                    durationMillis = 1,
-                                                    delayMillis = 250,
-                                                ),
-                                            ),
-                                        )
-                                        .sharedElement(
-                                            rememberSharedContentState(key = "countersLogo_icon"),
-                                            animatedVisibilityScope = animatedVisibilityScope,
-                                            boundsTransform = { initialBounds, targetBounds ->
-                                                keyframes {
-                                                    initialBounds at 0 using ArcMode.ArcBelow using EaseInOutQuint
-                                                    targetBounds at durationMillis
-                                                }
-                                            },
-                                        ).let { modifier ->
-                                            when {
-                                                BuildConfig.DEBUG -> Icon(
-                                                    Icons.Outlined.Rn3,
-                                                    null,
-                                                    modifier.scale(.6f),
-                                                    tint = Color.White,
-                                                )
-
-                                                ee1 -> Icon(
-                                                    Icons.Outlined.ExposurePlus2,
-                                                    null,
-                                                    modifier.scale(.75f),
-                                                    tint = Color.White,
-                                                )
-
-                                                else -> Icon(
-                                                    Icons.Outlined.PlusOne,
-                                                    null,
-                                                    modifier.scale(.75f),
-                                                    tint = Color.White,
-                                                )
+                                Modifier
+                                    .fillMaxSize()
+                                    .skipToLookaheadSize()
+                                    .then(
+                                        if (animatedVisibilityScope != null)
+                                            with(animatedVisibilityScope) {
+                                                Modifier
+                                                    .animateEnterExit(
+                                                        enter = slideInVertically(
+                                                            animationSpec = tween(
+                                                                delayMillis = 250,
+                                                                easing = EaseOutBack,
+                                                            ),
+                                                        ) { it } + fadeIn(
+                                                            tween(
+                                                                durationMillis = 1,
+                                                                delayMillis = 250,
+                                                            ),
+                                                        ),
+                                                    )
+                                                    .sharedElement(
+                                                        rememberSharedContentState(key = "countersLogo_icon"),
+                                                        animatedVisibilityScope = animatedVisibilityScope,
+                                                        boundsTransform = { initialBounds, targetBounds ->
+                                                            keyframes {
+                                                                initialBounds at 0 using ArcMode.ArcBelow using EaseInOutQuint
+                                                                targetBounds at durationMillis
+                                                            }
+                                                        },
+                                                    )
                                             }
+                                        else Modifier,
+                                    ).let { modifier ->
+                                        when {
+                                            BuildConfig.DEBUG -> Icon(
+                                                Icons.Outlined.Rn3,
+                                                null,
+                                                modifier.scale(.6f),
+                                                tint = Color.White,
+                                            )
+
+                                            ee1 -> Icon(
+                                                Icons.Outlined.ExposurePlus2,
+                                                null,
+                                                modifier.scale(.75f),
+                                                tint = Color.White,
+                                            )
+
+                                            else -> Icon(
+                                                Icons.Outlined.PlusOne,
+                                                null,
+                                                modifier.scale(.75f),
+                                                tint = Color.White,
+                                            )
                                         }
-                                }
+                                    }
                             }
                         }
                     }
