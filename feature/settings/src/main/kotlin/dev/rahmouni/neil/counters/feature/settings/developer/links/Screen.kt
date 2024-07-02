@@ -83,6 +83,7 @@ internal fun DeveloperSettingsLinksScreen(
         onBackIconButtonClicked,
         floatingActionButton = {
             FloatingActionButton(
+                modifier = it,
                 onClick = {
                     haptics.click()
 
