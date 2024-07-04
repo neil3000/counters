@@ -89,6 +89,8 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.metrics)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.play.app.update)
+    implementation(libs.play.app.update.ktx)
 
     ksp(libs.hilt.compiler)
 

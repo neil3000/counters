@@ -16,7 +16,7 @@
 
 package dev.rahmouni.neil.counters.core.testing.repository
 
-import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 import dev.rahmouni.neil.counters.core.model.data.UserData
 import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 import kotlinx.coroutines.flow.Flow
@@ -28,6 +28,8 @@ val emptyUserData = UserData(
     hasAccessibilityIconTooltipsEnabled = true,
     hasMetricsEnabled = true,
     hasCrashlyticsEnabled = true,
+    shouldShowLoginScreenOnStartup = false,
+    isAppFirstLaunch = false,
 )
 
 class TestUserDataRepository : UserDataRepository {
@@ -61,6 +63,18 @@ class TestUserDataRepository : UserDataRepository {
     override suspend fun setCrashlyticsEnabled(value: Boolean) {
         currentUserData.let { current ->
             _userData.tryEmit(current.copy(hasCrashlyticsEnabled = value))
+        }
+    }
+
+    override suspend fun setShouldShowLoginScreenOnStartup(value: Boolean) {
+        currentUserData.let { current ->
+            _userData.tryEmit(current.copy(shouldShowLoginScreenOnStartup = value))
+        }
+    }
+
+    override suspend fun setNotAppFirstLaunch() {
+        currentUserData.let { current ->
+            _userData.tryEmit(current.copy(isAppFirstLaunch = false))
         }
     }
 

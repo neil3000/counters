@@ -97,7 +97,7 @@ class CountersAppScreenSizesScreenshotTests {
                 ) {
                     Rn3Theme {
                         val fakeAppState = rememberCountersAppState()
-                        CountersApp(fakeAppState)
+                        CountersApp(fakeAppState, showLoginScreen = false)
                     }
                 }
             }

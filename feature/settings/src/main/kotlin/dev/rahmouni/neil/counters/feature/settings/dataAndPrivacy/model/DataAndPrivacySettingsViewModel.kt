@@ -19,7 +19,7 @@ package dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState.Loading
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.DataAndPrivacySettingsUiState.Success
 import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.model.data.DataAndPrivacySettingsData

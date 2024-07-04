@@ -3,38 +3,38 @@ accompanist = "0.34.0"
 androidDesugarJdkLibs = "2.0.4"
 # AGP and tools should be updated together
 androidGradlePlugin = "8.5.0"
-androidTools = "31.4.1"
+androidTools = "31.5.0"
 androidxActivity = "1.9.0"
 androidxAppCompat = "1.7.0"
 androidxBrowser = "1.8.0"
-androidxComposeAlpha = "1.7.0-beta02"
-androidxComposeBom = "2024.05.00"
+androidxComposeAlpha = "1.7.0-beta04"
+androidxComposeBom = "2024.06.00"
 androidxComposeCompiler = "1.5.12"
 androidxComposeUiTest = "1.7.0-beta02"
-androidxComposeMaterial3Adaptive = "1.0.0-beta02"
+androidxComposeMaterial3Adaptive = "1.0.0-beta04"
 androidxComposeRuntimeTracing = "1.0.0-beta01"
 androidxCore = "1.14.0-alpha01"
 androidxCoreSplashscreen = "1.0.1"
 androidxDataStore = "1.1.1"
-androidxEspresso = "3.5.1"
+androidxEspresso = "3.6.1"
 androidxHiltNavigationCompose = "1.2.0"
-androidxLifecycle = "2.8.1"
-androidxMacroBenchmark = "1.3.0-alpha05"
+androidxLifecycle = "2.8.3"
+androidxMacroBenchmark = "1.3.0-beta01"
 androidxMetrics = "1.0.0-beta01"
-androidxNavigation = "2.8.0-beta02"
+androidxNavigation = "2.8.0-beta04"
 androidxProfileinstaller = "1.4.0-alpha01"
-androidxTestCore = "1.5.0"
-androidxTestExt = "1.1.5"
-androidxTestRules = "1.5.0"
-androidxTestRunner = "1.5.2"
+androidxTestCore = "1.6.1"
+androidxTestExt = "1.2.1"
+androidxTestRules = "1.6.1"
+androidxTestRunner = "1.6.1"
 androidxTracing = "1.3.0-alpha02"
 androidxUiAutomator = "2.3.0"
 androidxWindowManager = "1.3.0"
 androidxWork = "2.9.0"
 coil = "2.6.0"
 dependencyGuard = "0.4.3"
-firebaseBom = "33.1.0"
-firebaseCrashlyticsPlugin = "3.0.1"
+firebaseBom = "33.1.1"
+firebaseCrashlyticsPlugin = "3.0.2"
 firebasePerfPlugin = "1.4.2"
 gmsPlugin = "4.4.2"
 googleOss = "17.1.0"
@@ -52,6 +52,7 @@ moduleGraph = "2.5.0"
 okhttp = "4.12.0"
 protobuf = "4.26.1"
 protobufPlugin = "0.9.4"
+playAppUpdate = "2.1.0"
 retrofit = "2.9.0"
 retrofitKotlinxSerializationJson = "1.0.0"
 robolectric = "4.11.1"
@@ -62,21 +63,21 @@ turbine = "1.0.0"
 playServicesTasks = "18.2.0"
 adaptiveAndroid = "1.7.0-alpha08"
 graphicsShapesAndroid = "1.0.0-beta01"
-animationGraphicsAndroid = "1.6.7"
-material3 = "1.3.0-beta02"
+animationGraphicsAndroid = "1.6.8"
+material3 = "1.3.0-beta04"
 material3AdaptiveAndroid = "1.0.0-alpha06"
 firebaseCommonKtx = "21.0.0"
-uiTooling = "1.6.7"
+uiTooling = "1.6.8"
 navigationRuntimeKtx = "2.7.7"
 credentials = "1.2.2"
-googleid = "1.1.0"
+googleid = "1.1.1"
 core = "1.13.1"
 dynamicanimationKtx = "1.0.0"
 
 [libraries]
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
-androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
-androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
+androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentials" }
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
 accompanist-adaptive = { group = "com.google.accompanist", name = "accompanist-adaptive", version.ref = "accompanist" }
 android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
@@ -152,6 +153,8 @@ lint-tests = { group = "com.android.tools.lint", name = "lint-tests", version.re
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
+play-app-update = { group = "com.google.android.play", name = "app-update", version.ref = "playAppUpdate" }
+play-app-update-ktx = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "playAppUpdate" }
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationJson" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }

@@ -17,6 +17,7 @@
 package dev.rahmouni.neil.counters.core.data.repository
 
 import dev.rahmouni.neil.counters.core.analytics.NoOpAnalyticsHelper
+import dev.rahmouni.neil.counters.core.data.repository.userData.OfflineFirstUserDataRepository
 import dev.rahmouni.neil.counters.core.datastore.Rn3PreferencesDataSource
 import dev.rahmouni.neil.counters.core.datastore.test.testUserPreferencesDataStore
 import dev.rahmouni.neil.counters.core.model.data.UserData
@@ -64,6 +65,8 @@ class OfflineFirstUserDataRepositoryTest {
                     hasAccessibilityIconTooltipsEnabled = true,
                     hasMetricsEnabled = true,
                     hasCrashlyticsEnabled = true,
+                    shouldShowLoginScreenOnStartup = true,
+                    isAppFirstLaunch = true,
                 ),
                 subject.userData.first(),
             )

@@ -19,7 +19,7 @@ package dev.rahmouni.neil.counters.feature.settings.accessibility.model
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.AccessibilitySettingsData
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow

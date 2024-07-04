@@ -21,7 +21,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.data.model.CounterRawData
 import dev.rahmouni.neil.counters.core.data.model.IncrementRawData
-import dev.rahmouni.neil.counters.core.data.repository.CountersDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.countersData.CountersDataRepository
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.DashboardData
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow

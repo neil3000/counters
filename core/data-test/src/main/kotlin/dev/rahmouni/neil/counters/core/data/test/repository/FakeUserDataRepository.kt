@@ -16,7 +16,7 @@
 
 package dev.rahmouni.neil.counters.core.data.test.repository
 
-import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 import dev.rahmouni.neil.counters.core.datastore.Rn3PreferencesDataSource
 import dev.rahmouni.neil.counters.core.model.data.UserData
 import kotlinx.coroutines.flow.Flow
@@ -49,5 +49,13 @@ class FakeUserDataRepository @Inject constructor(
 
     override suspend fun setCrashlyticsEnabled(value: Boolean) {
         rn3PreferencesDataSource.setCrashlyticsEnabledPreference(value)
+    }
+
+    override suspend fun setShouldShowLoginScreenOnStartup(value: Boolean) {
+        rn3PreferencesDataSource.setShouldShowLoginScreenOnStartup(value)
+    }
+
+    override suspend fun setNotAppFirstLaunch() {
+        rn3PreferencesDataSource.setNotAppFirstLaunch()
     }
 }

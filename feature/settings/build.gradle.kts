@@ -39,6 +39,8 @@ dependencies {
 
     implementation(libs.androidx.appcompat)
     implementation(libs.coil.kt.compose)
+    implementation(libs.play.app.update)
+    implementation(libs.play.app.update.ktx)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.common.ktx)

@@ -20,12 +20,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.rahmouni.neil.counters.core.data.repository.CountersDataRepository
-import dev.rahmouni.neil.counters.core.data.repository.FirestoreCountersDataRepository
-import dev.rahmouni.neil.counters.core.data.repository.FirestoreLinksRn3UrlDataRepository
-import dev.rahmouni.neil.counters.core.data.repository.LinksRn3UrlDataRepository
-import dev.rahmouni.neil.counters.core.data.repository.OfflineFirstUserDataRepository
-import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.countersData.CountersDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.countersData.FirestoreCountersDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.linksRn3UrlData.FirestoreLinksRn3UrlDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.linksRn3UrlData.LinksRn3UrlDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.userData.OfflineFirstUserDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 
 @Module
 @InstallIn(SingletonComponent::class)

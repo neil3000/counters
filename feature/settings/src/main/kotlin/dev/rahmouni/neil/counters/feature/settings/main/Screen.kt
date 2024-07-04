@@ -19,9 +19,11 @@ package dev.rahmouni.neil.counters.feature.settings.main
 import android.content.Context
 import android.provider.Settings
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -31,12 +33,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.AccessibilityNew
+import androidx.compose.material.icons.outlined.ArrowCircleUp
 import androidx.compose.material.icons.outlined.DataObject
+import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material.icons.outlined.Warning
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -54,6 +59,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.UpdateAvailability
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
@@ -65,7 +72,9 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickConfirmationDialog
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
@@ -79,6 +88,7 @@ import dev.rahmouni.neil.counters.core.designsystem.icons.Discord
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
 import dev.rahmouni.neil.counters.core.designsystem.icons.SyncSavedLocally
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
@@ -114,17 +124,24 @@ internal fun SettingsRoute(
     val auth = LocalAuthHelper.current
 
     val scope = rememberCoroutineScope()
+    val appUpdateInfoTask = AppUpdateManagerFactory.create(context).appUpdateInfo
+
+    appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+        if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+            // Request the update.
+        }
+    }
 
     viewModel.setDevSettingsEnabled(context.areAndroidDeveloperSettingsOn())
 
     SettingsScreen(
         modifier = modifier,
         uiState,
+        onBackIconButtonClicked = navController::popBackStack,
         feedbackTopAppBarAction = FeedbackScreenContext(
             "SettingsScreen",
             "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d",
         ).toTopAppBarAction(navController::navigateToFeedback),
-        onBackIconButtonClicked = navController::popBackStack,
         onAccountTileSwitchAccountTileClicked = {
             analytics.logSettingsUiEvent("accountTileSwitchAccountTile")
             navigateToLogin()
@@ -140,6 +157,11 @@ internal fun SettingsRoute(
         onAccountTileLoginButtonClicked = {
             analytics.logSettingsUiEvent("accountTileLoginButton")
             navigateToLogin()
+        },
+        updateAvailable = true,
+        onUpdateAvailableTileClicked = {
+            analytics.logSettingsUiEvent("updateAvailableTile")
+            TODO()
         },
         onClickDataAndPrivacyTile = {
             analytics.logSettingsUiEvent("dataAndPrivacyTile")
@@ -181,11 +203,13 @@ internal fun SettingsRoute(
 internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     uiState: SettingsUiState,
+    onBackIconButtonClicked: () -> Unit = {},
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onAccountTileSwitchAccountTileClicked: () -> Unit = {},
     onAccountTileLogoutTileClicked: () -> Unit = {},
     onAccountTileLoginButtonClicked: () -> Unit = {},
-    onBackIconButtonClicked: () -> Unit = {},
+    updateAvailable: Boolean = false,
+    onUpdateAvailableTileClicked: () -> Unit = {},
     onClickDataAndPrivacyTile: () -> Unit = {},
     onClickAccessibilityTile: () -> Unit = {},
     changelogTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
@@ -209,6 +233,8 @@ internal fun SettingsScreen(
                 onAccountTileSwitchAccountTileClicked,
                 onAccountTileLogoutTileClicked,
                 onAccountTileLoginButtonClicked,
+                updateAvailable,
+                onUpdateAvailableTileClicked,
                 onClickDataAndPrivacyTile,
                 onClickAccessibilityTile,
                 changelogTileUri,
@@ -229,6 +255,8 @@ private fun SettingsPanel(
     onAccountTileSwitchAccountTileClicked: () -> Unit,
     onAccountTileLogoutTileClicked: () -> Unit,
     onAccountTileLoginButtonClicked: () -> Unit,
+    updateAvailable: Boolean,
+    onUpdateAvailableTileClicked: () -> Unit,
     onClickDataAndPrivacyTile: () -> Unit,
     onClickAccessibilityTile: () -> Unit,
     changelogTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
@@ -238,6 +266,8 @@ private fun SettingsPanel(
     onClickDeveloperSettingsTile: () -> Unit,
     onClickOssLicensesTile: () -> Unit,
 ) {
+    val haptics = getHaptic()
+
     Column(
         Modifier
             .verticalScroll(rememberScrollState())
@@ -300,6 +330,40 @@ private fun SettingsPanel(
                     OutlinedButton(onClick = onAccountTileLoginButtonClicked) {
                         Text(stringResource(string.feature_settings_settingsScreen_accountLoginTile_loginButton_text))
                     }
+                }
+            }
+        }
+
+        // updateAvailableTile
+        if (updateAvailable) {
+            Surface(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        Rn3ExpandableSurfaceDefaults.paddingValues
+                            .only(HORIZONTAL)
+                            .add(vertical = 4.dp),
+                    ),
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shape = Rn3ExpandableSurfaceDefaults.shape,
+            ) {
+                Row(
+                    Modifier
+                        .padding(horizontal = 16.dp, vertical = 16.dp)
+                        .clickable {
+                            haptics.click()
+                            onUpdateAvailableTileClicked()
+                        },
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(Outlined.ArrowCircleUp, contentDescription = null)
+                    Text(
+                        "Update available",
+                        Modifier.padding(top = 2.dp, start = 12.dp, end = 16.dp),
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Icon(Outlined.FileDownload, null)
                 }
             }
         }
