@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Counters
     Copyright (C) 2024 Rahmouni Neïl
 
     This program is free software: you can redistribute it and/or modify
@@ -16,6 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+
 <resources>
     <string name="feature_aboutme_aboutMeScreen_scaffold_title">À propos de moi</string>
     <string name="feature_aboutme_biography_headerTile_title">À propos de moi</string>
