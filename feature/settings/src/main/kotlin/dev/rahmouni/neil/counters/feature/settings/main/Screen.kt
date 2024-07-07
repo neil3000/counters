@@ -1,167 +1,444 @@
+/*
+ * Copyright 2024 Rahmouni Neïl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package dev.rahmouni.neil.counters.feature.settings.main
 
 import android.content.Context
 import android.provider.Settings
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Outlined
+import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.AccessibilityNew
+import androidx.compose.material.icons.outlined.ArrowCircleUp
 import androidx.compose.material.icons.outlined.DataObject
+import androidx.compose.material.icons.outlined.FileDownload
+import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.StarBorder
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material.icons.outlined.Warning
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.UpdateAvailability
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
-import dev.rahmouni.neil.counters.core.common.openLink
+import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
+import dev.rahmouni.neil.counters.core.common.Rn3Uri
+import dev.rahmouni.neil.counters.core.common.openOssLicensesActivity
+import dev.rahmouni.neil.counters.core.common.toRn3Uri
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
-import dev.rahmouni.neil.counters.core.designsystem.Rn3
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LargeTopAppBar
+import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickConfirmationDialog
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
-import dev.rahmouni.neil.counters.core.feedback.getFeedbackID
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
+import dev.rahmouni.neil.counters.core.designsystem.component.user.UserAvatarAndName
+import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
+import dev.rahmouni.neil.counters.core.designsystem.icons.DevicesOff
+import dev.rahmouni.neil.counters.core.designsystem.icons.Discord
+import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
+import dev.rahmouni.neil.counters.core.designsystem.icons.SyncSavedLocally
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
+import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
+import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
+import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
+import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.settings.R.string
-import dev.rahmouni.neil.counters.feature.settings.logChangelogTileClicked
+import dev.rahmouni.neil.counters.feature.settings.accessibility.navigateToAccessibilitySettings
+import dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy.navigateToDataAndPrivacySettings
+import dev.rahmouni.neil.counters.feature.settings.developer.main.navigateToDeveloperSettingsMain
+import dev.rahmouni.neil.counters.feature.settings.logSettingsUiEvent
+import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState
+import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState.Loading
+import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState.Success
+import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsViewModel
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.SettingsData
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.SettingsDataPreviewParameterProvider
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun SettingsRoute(
     modifier: Modifier = Modifier,
-    onBackIconButtonClicked: () -> Unit,
-    onClickDataAndPrivacyTile: () -> Unit,
-    onClickAccessibilityTile: () -> Unit,
-    onClickContributeTile: () -> Unit,
-    onClickAboutMeTile: () -> Unit,
-    onClickDeveloperSettings: () -> Unit,
+    viewModel: SettingsViewModel = hiltViewModel(),
+    navController: NavController,
+    navigateToLogin: () -> Unit,
+    navigateToAboutMe: () -> Unit,
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     val context = LocalContext.current
     val analytics = LocalAnalyticsHelper.current
     val config = LocalConfigHelper.current
+    val auth = LocalAuthHelper.current
+
+    val scope = rememberCoroutineScope()
+    val appUpdateInfoTask = AppUpdateManagerFactory.create(context).appUpdateInfo
+
+    appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+        if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+            // Request the update.
+        }
+    }
+
+    viewModel.setDevSettingsEnabled(context.areAndroidDeveloperSettingsOn())
 
     SettingsScreen(
         modifier = modifier,
-        showDeveloperSettings = context.areAndroidDeveloperSettingsOn(),
-        onBackIconButtonClicked = onBackIconButtonClicked,
-        onClickDataAndPrivacyTile = onClickDataAndPrivacyTile,
-        onClickAccessibilityTile = onClickAccessibilityTile,
-        isChangelogAvailable = config.getString("changelog_url") != "null",
-        onClickChangelogTile = {
-            context.openLink(config.getString("changelog_url"))
-            analytics.logChangelogTileClicked()
+        uiState,
+        onBackIconButtonClicked = navController::popBackStack,
+        feedbackTopAppBarAction = FeedbackScreenContext(
+            "SettingsScreen",
+            "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d",
+        ).toTopAppBarAction(navController::navigateToFeedback),
+        onAccountTileSwitchAccountTileClicked = {
+            analytics.logSettingsUiEvent("accountTileSwitchAccountTile")
+            navigateToLogin()
         },
-        onClickContributeTile = onClickContributeTile,
-        onClickAboutMeTile = onClickAboutMeTile,
-        onClickDeveloperSettings = onClickDeveloperSettings,
+        onAccountTileLogoutTileClicked = {
+            analytics.logSettingsUiEvent("accountTileLogoutTile")
+
+            viewModel.logout()
+            scope.launch { auth.signOut(context) }
+
+            navigateToLogin()
+        },
+        onAccountTileLoginButtonClicked = {
+            analytics.logSettingsUiEvent("accountTileLoginButton")
+            navigateToLogin()
+        },
+        updateAvailable = true,
+        onUpdateAvailableTileClicked = {
+            analytics.logSettingsUiEvent("updateAvailableTile")
+            TODO()
+        },
+        onClickDataAndPrivacyTile = {
+            analytics.logSettingsUiEvent("dataAndPrivacyTile")
+            navController.navigateToDataAndPrivacySettings()
+        },
+        onClickAccessibilityTile = {
+            analytics.logSettingsUiEvent("accessibilityTile")
+            navController.navigateToAccessibilitySettings()
+        },
+        changelogTileUri = config.getString("changelog_url").toRn3Uri {
+            analytics.logSettingsUiEvent("changelogTile")
+        },
+        discordTileUri = config.getString("discord_invite_url").toRn3Uri {
+            analytics.logSettingsUiEvent("discordTile")
+        },
+        onClickContributeTile = {
+            analytics.logSettingsUiEvent("contributeTile")
+            TODO()
+        },
+        onClickAboutMeTile = {
+            analytics.logSettingsUiEvent("accessibilityTile")
+            navigateToAboutMe()
+        },
+        onClickDeveloperSettingsTile = {
+            analytics.logSettingsUiEvent("developerSettingsTile")
+            navController.navigateToDeveloperSettingsMain()
+        },
+        onClickOssLicensesTile = {
+            analytics.logSettingsUiEvent("ossLicensesTile")
+            context.openOssLicensesActivity()
+        },
     )
+
+    TrackScreenViewEvent(screenName = "Settings")
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SettingsScreen(
     modifier: Modifier = Modifier,
-    showDeveloperSettings: Boolean = false,
+    uiState: SettingsUiState,
     onBackIconButtonClicked: () -> Unit = {},
+    feedbackTopAppBarAction: TopAppBarAction? = null,
+    onAccountTileSwitchAccountTileClicked: () -> Unit = {},
+    onAccountTileLogoutTileClicked: () -> Unit = {},
+    onAccountTileLoginButtonClicked: () -> Unit = {},
+    updateAvailable: Boolean = false,
+    onUpdateAvailableTileClicked: () -> Unit = {},
     onClickDataAndPrivacyTile: () -> Unit = {},
     onClickAccessibilityTile: () -> Unit = {},
-    isChangelogAvailable: Boolean = true,
-    onClickChangelogTile: () -> Unit = {},
+    changelogTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
+    discordTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
     onClickContributeTile: () -> Unit = {},
     onClickAboutMeTile: () -> Unit = {},
-    onClickDeveloperSettings: () -> Unit = {},
+    onClickDeveloperSettingsTile: () -> Unit = {},
+    onClickOssLicensesTile: () -> Unit = {},
 ) {
-    Column(modifier) {
-        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    Rn3Scaffold(
+        modifier,
+        stringResource(string.feature_settings_settingsScreen_topAppBarTitle),
+        onBackIconButtonClicked,
+        topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
+    ) {
+        when (uiState) {
+            Loading -> {}
+            is Success -> SettingsPanel(
+                it,
+                uiState.settingsData,
+                onAccountTileSwitchAccountTileClicked,
+                onAccountTileLogoutTileClicked,
+                onAccountTileLoginButtonClicked,
+                updateAvailable,
+                onUpdateAvailableTileClicked,
+                onClickDataAndPrivacyTile,
+                onClickAccessibilityTile,
+                changelogTileUri,
+                discordTileUri,
+                onClickContributeTile,
+                onClickAboutMeTile,
+                onClickDeveloperSettingsTile,
+                onClickOssLicensesTile,
+            )
+        }
+    }
+}
 
-        Scaffold(
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                @Suppress("SpellCheckingInspection")
-                Rn3LargeTopAppBar(
-                    title = stringResource(string.feature_settings_settingsScreen_topAppBar_title),
-                    scrollBehavior = scrollBehavior,
-                    feedbackPageID = getFeedbackID(
-                        localName = "SettingsScreen",
-                        localID = "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d",
-                    ),
-                    onBackIconButtonClicked = onBackIconButtonClicked,
-                )
-            },
-        ) {
-            Column(Modifier.padding(it)) {
+@Composable
+private fun SettingsPanel(
+    paddingValues: Rn3PaddingValues,
+    data: SettingsData,
+    onAccountTileSwitchAccountTileClicked: () -> Unit,
+    onAccountTileLogoutTileClicked: () -> Unit,
+    onAccountTileLoginButtonClicked: () -> Unit,
+    updateAvailable: Boolean,
+    onUpdateAvailableTileClicked: () -> Unit,
+    onClickDataAndPrivacyTile: () -> Unit,
+    onClickAccessibilityTile: () -> Unit,
+    changelogTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
+    discordTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
+    onClickContributeTile: () -> Unit,
+    onClickAboutMeTile: () -> Unit,
+    onClickDeveloperSettingsTile: () -> Unit,
+    onClickOssLicensesTile: () -> Unit,
+) {
+    val haptics = getHaptic()
 
-                // // generalHeaderTile
-                Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_generalHeaderTile_title))
+    Column(
+        Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(paddingValues),
+    ) {
+        // accountTile
+        when (data.user) {
+            is SignedInUser -> Rn3ExpandableSurface(
+                content = { data.user.UserAvatarAndName(showEmail = it) },
+                expandedContent = {
+                    Column {
+                        Rn3TileHorizontalDivider(
+                            paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
+                                top = 0.dp,
+                                bottom = 0.dp,
+                            ),
+                        )
 
-                // dataAndPrivacyTile
-                Rn3TileClick(
-                    title = stringResource(string.feature_settings_settingsScreen_dataAndPrivacyTile_title),
-                    icon = Outlined.Shield,
-                    onClick = onClickDataAndPrivacyTile,
-                )
+                        // switchAccountTile
+                        Rn3TileClick(
+                            title = "Switch account",
+                            icon = Outlined.Group,
+                            onClick = onAccountTileSwitchAccountTileClicked,
+                        )
 
-                // accessibilityTile
-                Rn3TileClick(
-                    title = stringResource(string.feature_settings_settingsScreen_accessibilityTile_title),
-                    icon = Outlined.AccessibilityNew,
-                    onClick = onClickAccessibilityTile,
-                )
+                        // logoutTile
+                        Rn3TileClickConfirmationDialog(
+                            title = stringResource(string.feature_settings_settingsScreen_accountLogoutTile_title),
+                            icon = Icons.AutoMirrored.Outlined.Logout,
+                            bodyHeader = stringResource(string.feature_settings_settingsScreen_accountLogoutTile_bodyHeader),
+                            bodyBulletPoints = mapOf(
+                                Outlined.SyncSavedLocally to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_currentDataStoredLocallyAndContinueToWorkOnDevice),
+                                Outlined.DevicesOff to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvailableOnOtherDevices),
+                                Outlined.Warning to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_mayLoseDataIfSomethingHappensToDevice),
+                            ),
+                            onClick = {
+                                onAccountTileLogoutTileClicked()
+                            },
+                        )
+                    }
+                },
+                tonalElevation = 4.dp,
+            )
 
-                Rn3TileHorizontalDivider()
+            else -> Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                shape = RoundedCornerShape(16.dp),
+                color = MaterialTheme.colorScheme.surfaceContainer,
+            ) {
+                Row(
+                    Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    data.user.UserAvatarAndName()
 
-                // // aboutHeaderTile
-                Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_aboutHeaderTile_title))
-
-                // changelogTile
-                if (isChangelogAvailable) {
-                    Rn3TileClick(
-                        title = stringResource(string.feature_settings_settingsScreen_changelogTile_title),
-                        icon = Outlined.NewReleases,
-                        onClick = onClickChangelogTile,
-                        external = true,
-                    )
-                }
-
-                // contributeTile
-                Rn3TileClick(
-                    title = "Contribute & help", //TODO i18n
-                    icon = Outlined.StarBorder,
-                    onClick = onClickContributeTile, //TODO
-                )
-
-                // aboutMeTile
-                Rn3TileClick(
-                    title = "About me", //TODO i18n
-                    icon = Outlined.Rn3,
-                    onClick = onClickAboutMeTile, //TODO
-                )
-
-                Rn3TileHorizontalDivider()
-
-                // // advancedSettingsHeaderTile
-                Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_advancedSettingsHeaderTile_title))
-
-                // developerSettingsTile
-                if (showDeveloperSettings) {
-                    Rn3TileClick(
-                        title = "Developer settings",
-                        icon = Outlined.DataObject,
-                        supportingText = "Shown since you have Dev Settings on",
-                        onClick = onClickDeveloperSettings,
-                    )
+                    // loginButton
+                    OutlinedButton(onClick = onAccountTileLoginButtonClicked) {
+                        Text(stringResource(string.feature_settings_settingsScreen_accountLoginTile_loginButton_text))
+                    }
                 }
             }
         }
+
+        // updateAvailableTile
+        if (updateAvailable) {
+            Surface(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        Rn3ExpandableSurfaceDefaults.paddingValues
+                            .only(HORIZONTAL)
+                            .add(vertical = 4.dp),
+                    ),
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shape = Rn3ExpandableSurfaceDefaults.shape,
+            ) {
+                Row(
+                    Modifier
+                        .padding(horizontal = 16.dp, vertical = 16.dp)
+                        .clickable {
+                            haptics.click()
+                            onUpdateAvailableTileClicked()
+                        },
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(Outlined.ArrowCircleUp, contentDescription = null)
+                    Text(
+                        "Update available",
+                        Modifier.padding(top = 2.dp, start = 12.dp, end = 16.dp),
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Icon(Outlined.FileDownload, null)
+                }
+            }
+        }
+
+        // generalHeaderTile
+        Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_generalHeaderTile_title))
+
+        // dataAndPrivacyTile
+        Rn3TileClick(
+            title = stringResource(string.feature_settings_settingsScreen_dataAndPrivacyTile_title),
+            icon = Outlined.Shield,
+            onClick = onClickDataAndPrivacyTile,
+        )
+
+        // accessibilityTile
+        Rn3TileClick(
+            title = stringResource(string.feature_settings_settingsScreen_accessibilityTile_title),
+            icon = Outlined.AccessibilityNew,
+            onClick = onClickAccessibilityTile,
+        )
+
+        Rn3TileHorizontalDivider()
+
+        // aboutHeaderTile
+        Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_aboutHeaderTile_title))
+
+        // changelogTile
+        Rn3TileUri(
+            title = stringResource(string.feature_settings_settingsScreen_changelogTile_title),
+            icon = Outlined.NewReleases,
+            uri = changelogTileUri,
+        )
+
+        // discordTile
+        Rn3TileUri(
+            title = stringResource(string.feature_settings_settingsScreen_discordTile_title),
+            icon = Outlined.Discord,
+            uri = discordTileUri,
+        )
+
+        // contributeTile
+        Rn3TileClick(
+            title = stringResource(string.feature_settings_settingsScreen_contributeTile_title),
+            icon = Outlined.StarBorder,
+            onClick = onClickContributeTile,
+        )
+
+        // aboutMeTile
+        Rn3TileClick(
+            title = stringResource(string.feature_settings_settingsScreen_aboutMeTile_title),
+            icon = Outlined.Rn3,
+            onClick = onClickAboutMeTile,
+        )
+
+        Rn3TileHorizontalDivider()
+
+        // otherHeaderTile
+        Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_otherHeaderTile_title))
+
+        // developerSettingsTile
+        if (data.devSettingsEnabled) {
+            Rn3TileClick(
+                title = stringResource(string.feature_settings_settingsScreen_developer_title),
+                icon = Outlined.DataObject,
+                supportingText = stringResource(string.feature_settings_settingsScreen_developer_supportingText),
+                onClick = onClickDeveloperSettingsTile,
+            )
+        }
+
+        // ossLicensesTile
+        Rn3TileClick(
+            title = stringResource(string.feature_settings_settingsScreen_ossLicensesTile_title),
+            icon = Outlined.Contract,
+            onClick = onClickOssLicensesTile,
+        )
     }
 }
 
@@ -180,6 +457,21 @@ private fun Context.areAndroidDeveloperSettingsOn(): Boolean {
 @Composable
 private fun Default() {
     Rn3Theme {
-        SettingsScreen()
+        SettingsScreen(
+            uiState = Success(PreviewParameterData.settingsData_default),
+        )
+    }
+}
+
+@Rn3PreviewUiStates
+@Composable
+private fun UiStates(
+    @PreviewParameter(SettingsDataPreviewParameterProvider::class)
+    settingsData: SettingsData,
+) {
+    Rn3Theme {
+        SettingsScreen(
+            uiState = Success(settingsData = settingsData),
+        )
     }
 }

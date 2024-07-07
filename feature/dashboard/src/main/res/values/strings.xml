@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+     Copyright 2024 Rahmouni Neïl
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources>
+    <string name="feature_dashboard_bottomSheet_textField_label">Counter name</string>
+    <string name="feature_dashboard_counterEntity_defaultTitle">Unnamed Counter</string>
+    <string name="feature_dashboard_counterUnit_acre_short">ac</string>
+    <string name="feature_dashboard_counterUnit_byte_Title">Byte</string>
+    <string name="feature_dashboard_counterUnit_byte_short">B</string>
+    <string name="feature_dashboard_counterUnit_celsius_Title">Celsius</string>
+    <string name="feature_dashboard_counterUnit_celsius_short">°C</string>
+    <string name="feature_dashboard_counterUnit_cubicFoot_short">ft³</string>
+    <string name="feature_dashboard_counterUnit_cubicInch_Title">Cubic Inch</string>
+    <string name="feature_dashboard_counterUnit_cubicInch_short">in³</string>
+    <string name="feature_dashboard_counterUnit_cubicMeter_short">m³</string>
+    <string name="feature_dashboard_counterUnit_cubicMeter_Title">Cubic Meter</string>
+    <string name="feature_dashboard_counterUnit_cubicMile_short">mi³</string>
+    <string name="feature_dashboard_counterUnit_cubicYard_short">yd³</string>
+    <string name="feature_dashboard_counterUnit_cup_short">cup</string>
+    <string name="feature_dashboard_counterUnit_fahrenheit_Title">Fahrenheit</string>
+    <string name="feature_dashboard_counterUnit_fahrenheit_short">°F</string>
+    <string name="feature_dashboard_counterUnit_fluidOunce_short">fl. oz.</string>
+    <string name="feature_dashboard_counterUnit_foot_short">ft</string>
+    <string name="feature_dashboard_counterUnit_gallon_short">gal</string>
+    <string name="feature_dashboard_counterUnit_gram_Title">Gram</string>
+    <string name="feature_dashboard_counterUnit_gram_short">g</string>
+    <string name="feature_dashboard_counterUnit_imperialGallon_Title">Imperial Gallon</string>
+    <string name="feature_dashboard_counterUnit_inch_Title">Inch</string>
+    <string name="feature_dashboard_counterUnit_inch_short">in</string>
+    <string name="feature_dashboard_counterUnit_liter_Title">Liter</string>
+    <string name="feature_dashboard_counterUnit_liter_short">L</string>
+    <string name="feature_dashboard_counterUnit_longTon_short">LT</string>
+    <string name="feature_dashboard_counterUnit_meter_Title">Meter</string>
+    <string name="feature_dashboard_counterUnit_meter_short">m</string>
+    <string name="feature_dashboard_counterUnit_mile_short">mi</string>
+    <string name="feature_dashboard_counterUnit_ounce_Title">Ounce</string>
+    <string name="feature_dashboard_counterUnit_ounce_short">oz</string>
+    <string name="feature_dashboard_counterUnit_pint_short">pt</string>
+    <string name="feature_dashboard_counterUnit_pound_short">lb</string>
+    <string name="feature_dashboard_counterUnit_quart_short">qt</string>
+    <string name="feature_dashboard_counterUnit_second_Title">Second</string>
+    <string name="feature_dashboard_counterUnit_second_short">s</string>
+    <string name="feature_dashboard_counterUnit_shortTon_short">ST</string>
+    <string name="feature_dashboard_counterUnit_squareFoot_short">ft²</string>
+    <string name="feature_dashboard_counterUnit_squareInch_Title">Square Inch</string>
+    <string name="feature_dashboard_counterUnit_squareInch_short">in²</string>
+    <string name="feature_dashboard_counterUnit_squareMeter_Title">Square Meter</string>
+    <string name="feature_dashboard_counterUnit_squareMeter_short">m²</string>
+    <string name="feature_dashboard_counterUnit_squareMile_short">mi²</string>
+    <string name="feature_dashboard_counterUnit_squareYard_short">yd²</string>
+    <string name="feature_dashboard_counterUnit_tablespoon_short">tbsp.</string>
+    <string name="feature_dashboard_counterUnit_teaspoon_short">tsp.</string>
+    <string name="feature_dashboard_counterUnit_time_day_short">d</string>
+    <string name="feature_dashboard_counterUnit_time_hour_short">h</string>
+    <string name="feature_dashboard_counterUnit_time_minute_short">min</string>
+    <string name="feature_dashboard_counterUnit_time_month_short">mon</string>
+    <string name="feature_dashboard_counterUnit_time_year_short">yr</string>
+    <string name="feature_dashboard_counterUnit_ton_short">ton</string>
+    <string name="feature_dashboard_counterUnit_usGallon_Title">US Gallon</string>
+    <string name="feature_dashboard_counterUnit_yard_short">yd</string>
+    <string name="feature_dashboard_dashboardCard_addButton_contentDescription">Increment by one</string>
+    <string name="feature_dashboard_dashboardCard_removeButton_contentDescription">Decrement by one</string>
+    <string name="feature_dashboard_dashboardScreen_topAppBarActions_settings">Settings</string>
+    <string name="feature_dashboard_dashboardScreen_topAppBarTitle">Counters</string>
+    <string name="feature_dashboard_fab_newCounter">New Counter</string>
+</resources>

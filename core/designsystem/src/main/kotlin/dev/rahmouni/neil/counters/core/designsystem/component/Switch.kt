@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 Rahmouni Neïl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package dev.rahmouni.neil.counters.core.designsystem.component
 
 import android.annotation.SuppressLint
@@ -15,8 +31,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.Wallpapers
 import dev.rahmouni.neil.counters.core.accessibility.AccessibilityHelper
 import dev.rahmouni.neil.counters.core.accessibility.LocalAccessibilityHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
@@ -29,8 +43,8 @@ fun Rn3Switch(
     modifier: Modifier = Modifier,
     checked: Boolean,
     contentDescription: String?,
-    thumbContent: @Composable (() -> Unit)? = null,
     enabled: Boolean = true,
+    thumbContent: @Composable (() -> Unit)? = null,
     interactionSource: MutableInteractionSource? = null,
     onCheckedChange: ((Boolean) -> Unit)?,
 ) {
@@ -44,13 +58,22 @@ fun Rn3Switch(
                 onCheckedChange(it)
                 haptic.toggle(it)
             }
-        } else null,
-        modifier = if (contentDescription == null) modifier else modifier.semantics {
-            this.contentDescription = contentDescription
+        } else {
+            null
         },
-        thumbContent = thumbContent ?: if (accessibilityHelper.hasEmphasizedSwitchesEnabled && checked) {
-            { Rn3SwitchAccessibilityEmphasizedThumbContent() }
-        } else null,
+        modifier = if (contentDescription == null) {
+            modifier
+        } else {
+            modifier.semantics {
+                this.contentDescription = contentDescription
+            }
+        },
+        thumbContent = thumbContent
+            ?: if (accessibilityHelper.hasEmphasizedSwitchesEnabled && checked) {
+                { Rn3SwitchAccessibilityEmphasizedThumbContent() }
+            } else {
+                null
+            },
         enabled = enabled,
         interactionSource = interactionSource ?: remember { MutableInteractionSource() },
     )
@@ -100,7 +123,7 @@ private fun OffDisabled() {
 @Composable
 private fun OnAccessibility() {
     CompositionLocalProvider(
-        LocalAccessibilityHelper provides AccessibilityHelper(hasEmphasizedSwitchesEnabled = true)
+        LocalAccessibilityHelper provides AccessibilityHelper(hasEmphasizedSwitchesEnabled = true),
     ) {
         Rn3Theme {
             Rn3Switch(checked = true, contentDescription = null) {}

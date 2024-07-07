@@ -1,274 +1,229 @@
+/*
+ * Copyright 2024 Rahmouni Neïl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package dev.rahmouni.neil.counters.feature.aboutme
 
+import android.app.Activity
 import androidx.annotation.VisibleForTesting
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Matrix
-import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.asComposePath
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.graphics.shapes.CornerRounding
-import androidx.graphics.shapes.Morph
-import androidx.graphics.shapes.RoundedPolygon
-import androidx.graphics.shapes.star
-import androidx.graphics.shapes.toPath
-import coil.compose.rememberAsyncImagePainter
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import androidx.window.core.layout.WindowWidthSizeClass.Companion.COMPACT
+import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
+import com.google.accompanist.adaptive.TwoPane
+import com.google.accompanist.adaptive.TwoPaneStrategy
+import com.google.accompanist.adaptive.VerticalTwoPaneStrategy
+import com.google.accompanist.adaptive.calculateDisplayFeatures
+import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
+import com.google.firebase.initialize
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
+import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
-import kotlin.math.floor
+import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SystemBarSpacer
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.TOP
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
+import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
+import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
+import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeUiState
+import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeUiState.Loading
+import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeUiState.Success
+import dev.rahmouni.neil.counters.feature.aboutme.model.AboutMeViewModel
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.AboutMeData
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.AboutMeDataPreviewParameterProvider
+import dev.rahmouni.neil.counters.feature.aboutme.model.data.PreviewParameterData.aboutMeData_default
+import dev.rahmouni.neil.counters.feature.aboutme.ui.Biography
+import dev.rahmouni.neil.counters.feature.aboutme.ui.LoadingPfp
+import dev.rahmouni.neil.counters.feature.aboutme.ui.MainActions
+import dev.rahmouni.neil.counters.feature.aboutme.ui.SocialLinks
 
 @Composable
 internal fun AboutMeRoute(
     modifier: Modifier = Modifier,
-    onBackIconButtonClicked: () -> Unit,
+    viewModel: AboutMeViewModel = hiltViewModel(),
+    navController: NavController,
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    if (!FirebaseApp.getApps(context).any { it.name == "RahNeil_N3" }) {
+        val options = FirebaseOptions.Builder()
+            .setProjectId("rahneil-n3")
+            .setApplicationId("1:818465066811:android:c519829569270bdba7b11e")
+            .setApiKey("AIzaSyCILHyvBfAdZ9bo7njs0hqY5dV2z5gxvnE")
+            .build()
+        Firebase.initialize(context, options, "RahNeil_N3")
+    }
+
     AboutMeScreen(
         modifier,
-        onBackIconButtonClicked,
+        uiState,
+        onBackIconButtonClicked = navController::popBackStack,
+        feedbackTopAppBarAction = FeedbackScreenContext(
+            "AccessibilitySettingsScreen",
+            "jrKt4Xe58KDipPJsm1iPUijn6BMsNc8g",
+        ).toTopAppBarAction(navController::navigateToFeedback),
     )
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AboutMeScreen(
     modifier: Modifier = Modifier,
+    uiState: AboutMeUiState,
     onBackIconButtonClicked: () -> Unit = {},
+    feedbackTopAppBarAction: TopAppBarAction? = null,
 ) {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    Rn3Scaffold(
+        modifier,
+        stringResource(R.string.feature_aboutme_aboutMeScreen_scaffold_title),
+        onBackIconButtonClicked,
+        topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
+        topAppBarStyle = TopAppBarStyle.SMALL,
+    ) {
+        val aboutMeData = if (uiState is Success) uiState.aboutMeData else null
 
-    Scaffold(
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopAppBar(
-                title = { Text("About me") },
-                navigationIcon = {
-                    Rn3IconButton(
-                        icon = Icons.AutoMirrored.Outlined.ArrowBack,
-                        contentDescription = "",
-                        onClick = onBackIconButtonClicked,
-                    )
-                },
-                scrollBehavior = scrollBehavior,
-            )
-        },
-        contentWindowInsets = WindowInsets.displayCutout,
-    ) { paddingValues ->
-        AboutMePanel(paddingValues)
+        when {
+            currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass != COMPACT ->
+                TwoPanePanel(
+                    it,
+                    aboutMeData,
+                    HorizontalTwoPaneStrategy(.4f),
+                )
+
+            currentWindowAdaptiveInfo().windowPosture.isTabletop ->
+                TwoPanePanel(
+                    it,
+                    aboutMeData,
+                    VerticalTwoPaneStrategy(.4f),
+                )
+
+            else -> ColumnPanel(it, aboutMeData)
+        }
     }
 }
 
 @Composable
-private fun AboutMePanel(paddingValues: PaddingValues) {
-    Box(
-        Modifier
-            .padding(paddingValues)
-            .fillMaxSize(),
-    ) {
-        val shape1 = RoundedPolygon.star(
-            numVerticesPerRadius = 12,
-            innerRadius = 0.892F,
-            rounding = CornerRounding(1.0F, 0.0F),
-            innerRounding = CornerRounding(1.0F, 0.0F),
-        )
-        val shape2 = RoundedPolygon.star(
-            numVerticesPerRadius = 8,
-            innerRadius = 0.884f,
-            rounding = CornerRounding(0.16f, 0f),
-            innerRounding = CornerRounding(0.16f, 0f),
-        )
-        val shape3 = RoundedPolygon.star(
-            numVerticesPerRadius = 15,
-            innerRadius = 0.892f,
-            rounding = CornerRounding(1.0f, 0.0f),
-            innerRounding = CornerRounding(1.0f, 0.0f),
-        )
+private fun TwoPanePanel(
+    paddingValues: Rn3PaddingValues,
+    aboutMeData: AboutMeData?,
+    strategy: TwoPaneStrategy,
+) {
+    val context = LocalContext.current
 
-        val infiniteAnimation = rememberInfiniteTransition("infinite animation")
+    var finishedLoadingAnimation by remember { mutableStateOf(aboutMeData != null) }
 
-        Column(
-            Modifier
-                .padding(24.dp)
-                .fillMaxSize(),
-        ) {
-            val morphs = remember {
-                listOf(
-                    Morph(shape1, shape2),
-                    Morph(shape2, shape3),
-                    Morph(shape3, shape1),
-                )
-            }
-            val animatedProgress = infiniteAnimation.animateFloat(
-                initialValue = 0f,
-                targetValue = 3f,
-                animationSpec = infiniteRepeatable(
-                    tween(3000, easing = FastOutLinearInEasing),
-                    repeatMode = RepeatMode.Reverse,
-                ),
-                label = "animatedMorphProgress",
-            )
-            val animatedRotation = infiniteAnimation.animateFloat(
-                initialValue = 0f,
-                targetValue = 360f,
-                animationSpec = infiniteRepeatable(
-                    tween(30000, easing = LinearEasing),
-                    repeatMode = RepeatMode.Restart,
-                ),
-                label = "animatedMorphProgress",
-            )
-
-            Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Bottom,
+    TwoPane(
+        first = {
+            LoadingPfp(
+                Modifier
+                    .fillMaxHeight()
+                    .padding(paddingValues.only(TOP)),
+                aboutMeData?.pfp,
+                finishedLoadingAnimation,
+            ) { finishedLoadingAnimation = true }
+        },
+        second = {
+            Column(
+                Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp),
             ) {
-                Text(
-                    "Hi",
-                    fontSize = TextUnit(12f, TextUnitType.Em),
-                )
-                Box(
-                    Modifier
-                        .fillMaxWidth(.5f)
-                        .aspectRatio(1f)
-                        .padding(bottom = 8.dp)
-                        .clip(
-                            PfpShape(
-                                morphs[floor(animatedProgress.value).toInt()],
-                                animatedProgress.value % 1,
-                                animatedRotation.value,
-                            ),
-                        )
-                        .background(MaterialTheme.colorScheme.primary),
+                AnimatedVisibility(
+                    visible = finishedLoadingAnimation,
+                    enter = fadeIn() + expandVertically(),
                 ) {
-                    Image(
-                        painter = rememberAsyncImagePainter("https://lh3.googleusercontent.com/pw/AP1GczN5SMNjm_3K-WhJLL_0GCpgEn_XiB61-oVfsR1iObwuFtUGejnhK1FtOpGCb_weyj7AamPJKhOt1dcV6pRx6lM-z3ktd2BFdBZ7AOsMd3Tv4YrEGejWko7BZ_zpWwBnOC8VEIK9dk9AeuOJkmfvEQZlkA=w637-h637-s-no-gm?authuser=0"),
-                        contentDescription = "Neïl Rahmouni",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize(),
-                    )
+                    Column {
+                        if (aboutMeData != null) {
+                            Biography(aboutMeData.bioShort)
+                            MainActions(aboutMeData.portfolioUri)
+                            SocialLinks(aboutMeData.socialLinks)
+                            Rn3SystemBarSpacer()
+                        }
+                    }
                 }
             }
-            Row {
-                Text(
-                    "I'm ",
-                    fontSize = TextUnit(6f, TextUnitType.Em),
-                )
-                Text(
-                    "Neïl Rahmouni",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = TextUnit(6f, TextUnitType.Em),
-                )
-            }
-            Text(
-                "I'm a software engineer",
-                fontSize = TextUnit(6f, TextUnitType.Em),
-            )
+        },
+        strategy = strategy,
+        displayFeatures = calculateDisplayFeatures(activity = context as Activity),
+        modifier = Modifier.padding(paddingValues),
+    )
+}
+
+@Composable
+private fun ColumnPanel(paddingValues: Rn3PaddingValues, aboutMeData: AboutMeData?) {
+    var finishedLoadingAnimation by remember { mutableStateOf(aboutMeData != null) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(paddingValues.add(horizontal = 24.dp)),
+        verticalArrangement = Arrangement.Center,
+    ) {
+        LoadingPfp(
+            pfp = aboutMeData?.pfp,
+            finishedLoadingAnimation = finishedLoadingAnimation,
+        ) { finishedLoadingAnimation = true }
+
+        AnimatedVisibility(visible = !finishedLoadingAnimation) {
+            Spacer(modifier = Modifier.height(paddingValues.top))
         }
 
-        val rotBg1 = infiniteAnimation.animateFloat(
-            initialValue = 0f,
-            targetValue = 120f,
-            animationSpec = infiniteRepeatable(
-                tween(30000, easing = LinearEasing),
-                repeatMode = RepeatMode.Reverse,
-            ),
-            label = "animatedMorphProgress",
-        )
-        Box(
-            Modifier
-                .align(Alignment.BottomEnd)
-                .offset(150.dp, (-200).dp)
-                .size(300.dp)
-                .clip(BgShape(shape1, rotBg1.value))
-                .background(MaterialTheme.colorScheme.primaryContainer),
-        )
-    }
-}
-
-class PfpShape(
-    private val morph: Morph,
-    private val percentage: Float,
-    private val rotation: Float,
-) : Shape {
-
-    private val matrix = Matrix()
-    override fun createOutline(
-        size: Size,
-        layoutDirection: LayoutDirection,
-        density: Density,
-    ): Outline {
-        matrix.scale(size.width / 2f, size.height / 2f)
-        matrix.translate(1f, 1f)
-        matrix.rotateZ(rotation)
-
-        val path = morph.toPath(progress = percentage).asComposePath()
-        path.transform(matrix)
-
-        return Outline.Generic(path)
-    }
-}
-
-class BgShape(
-    private val polygon: RoundedPolygon,
-    private val rotation: Float,
-) : Shape {
-
-    private val matrix = Matrix()
-    override fun createOutline(
-        size: Size,
-        layoutDirection: LayoutDirection,
-        density: Density,
-    ): Outline {
-        matrix.scale(size.width / 2f, size.height / 2f)
-        matrix.translate(1f, 1f)
-        matrix.rotateZ(rotation)
-
-        val path = polygon.toPath().asComposePath()
-        path.transform(matrix)
-
-        return Outline.Generic(path)
+        AnimatedVisibility(
+            visible = finishedLoadingAnimation,
+            enter = fadeIn() + expandVertically(),
+        ) {
+            Column(Modifier.padding(top = 24.dp)) {
+                if (aboutMeData != null) {
+                    Biography(aboutMeData.bioShort)
+                    MainActions(aboutMeData.portfolioUri)
+                    SocialLinks(aboutMeData.socialLinks)
+                    Rn3SystemBarSpacer()
+                }
+            }
+        }
     }
 }
 
@@ -276,6 +231,25 @@ class BgShape(
 @Composable
 private fun Default() {
     Rn3Theme {
-        AboutMeScreen()
+        AboutMeScreen(uiState = Success(aboutMeData_default))
+    }
+}
+
+@Rn3PreviewUiStates
+@Composable
+private fun Loading() {
+    Rn3Theme {
+        AboutMeScreen(uiState = Loading)
+    }
+}
+
+@Rn3PreviewUiStates
+@Composable
+private fun UiStates(
+    @PreviewParameter(AboutMeDataPreviewParameterProvider::class)
+    aboutMeData: AboutMeData,
+) {
+    Rn3Theme {
+        AboutMeScreen(uiState = Success(aboutMeData))
     }
 }

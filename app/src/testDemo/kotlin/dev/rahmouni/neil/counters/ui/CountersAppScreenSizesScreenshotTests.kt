@@ -1,8 +1,21 @@
+/*
+ * Copyright 2024 Rahmouni Neïl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package dev.rahmouni.neil.counters.ui
 
-import android.util.Log
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.test.DeviceConfigurationOverride
@@ -12,20 +25,14 @@ import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.work.Configuration
-import androidx.work.testing.SynchronousExecutor
-import androidx.work.testing.WorkManagerTestInitHelper
 import com.github.takahirom.roborazzi.captureRoboImage
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
-import dev.rahmouni.neil.counters.core.data.repository.UserDataRepository
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.testing.util.DefaultRoborazziOptions
 import dev.rahmouni.neil.counters.uitesthiltmanifest.HiltComponentActivity
-import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -36,12 +43,10 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.LooperMode
 import java.util.TimeZone
-import javax.inject.Inject
 
 /**
  * Tests that the navigation UI is rendered correctly on different screen sizes.
  */
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 // Configure Robolectric to use a very large screen size that can fit all of the test sizes.
@@ -49,7 +54,7 @@ import javax.inject.Inject
 @Config(application = HiltTestApplication::class, qualifiers = "w1000dp-h1000dp-480dpi")
 @LooperMode(LooperMode.Mode.PAUSED)
 @HiltAndroidTest
-class Rn3AppScreenSizesScreenshotTests {
+class CountersAppScreenSizesScreenshotTests {
 
     /**
      * Manages the components' state and is used to perform injection on your test
@@ -71,28 +76,9 @@ class Rn3AppScreenSizesScreenshotTests {
     @get:Rule(order = 2)
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
-    @Inject
-    lateinit var userDataRepository: UserDataRepository
-
     @Before
     fun setup() {
-        val config = Configuration.Builder()
-            .setMinimumLoggingLevel(Log.DEBUG)
-            .setExecutor(SynchronousExecutor())
-            .build()
-
-        // Initialize WorkManager for instrumentation tests.
-        WorkManagerTestInitHelper.initializeTestWorkManager(
-            InstrumentationRegistry.getInstrumentation().context,
-            config,
-        )
-
         hiltRule.inject()
-
-        // Configure user data
-        runBlocking {
-            //nothing much to do yet
-        }
     }
 
     @Before
@@ -110,12 +96,8 @@ class Rn3AppScreenSizesScreenshotTests {
                     override = DeviceConfigurationOverride.ForcedSize(DpSize(width, height)),
                 ) {
                     Rn3Theme {
-                        val fakeAppState = rememberCountersAppState(
-                            windowSizeClass = WindowSizeClass.calculateFromSize(
-                                DpSize(width, height),
-                            ),
-                        )
-                        CountersApp(fakeAppState)
+                        val fakeAppState = rememberCountersAppState()
+                        CountersApp(fakeAppState, showLoginScreen = false)
                     }
                 }
             }

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 Rahmouni Neïl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package dev.rahmouni.neil.counters.core.designsystem.component
 
 import androidx.compose.foundation.layout.Arrangement
@@ -13,18 +29,13 @@ import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 
-private const val DEFAULT_HORIZONTAL_PADDING__DP = 32
-private const val DEFAULT_ARRANGEMENT_HORIZONTAL_SPACING__DP = 16
-
 @Composable
 fun Rn3LazyRowWithPadding(
     modifier: Modifier = Modifier,
-    horizontalPadding: Dp = DEFAULT_HORIZONTAL_PADDING__DP.dp,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
-        DEFAULT_ARRANGEMENT_HORIZONTAL_SPACING__DP.dp,
-    ),
+    horizontalPadding: Dp = 8.dp,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(16.dp),
     verticalAlignment: Alignment.Vertical = Alignment.Top,
-    content: (LazyListScope.() -> Unit),
+    content: LazyListScope.() -> Unit,
 ) {
     LazyRow(
         modifier,
@@ -39,7 +50,7 @@ fun Rn3LazyRowWithPadding(
 
 private fun LazyListScope.rn3Spacer(horizontalPadding: Dp) {
     item {
-        Spacer(modifier = Modifier.size(0.dp, horizontalPadding))
+        Spacer(modifier = Modifier.size(horizontalPadding, 0.dp))
     }
 }
 

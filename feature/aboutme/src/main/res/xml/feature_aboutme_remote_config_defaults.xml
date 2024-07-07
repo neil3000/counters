@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+     Copyright 2024 Rahmouni Neïl
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<defaultsMap>
+    <entry>
+        <key>pfp_img</key>
+        <value>LOCAL_IMAGE</value>
+    </entry>
+    <entry>
+        <key>bio_short</key>
+        <value>Hi! I'm Neïl 👋\nI'm a 22 year old software engineering student, currently living in Paris 🥖</value>
+    </entry>
+    <entry>
+        <key>portfolio_url</key>
+        <value>SOON</value>
+    </entry>
+    <entry>
+        <key>socialLinks</key>
+        <value>
+            [{"id":"instagram","url":"https://neil.rahmouni.dev/MGfO8w7tgB0Z1dNZF6TG","tooltip":"Instagram"},{"id":"threads","url":"https://neil.rahmouni.dev/u0cvoPR6svd5IFB5hs8H","tooltip":"Threads"},{"id":"mastodon","url":"https://neil.rahmouni.dev/hCAWDjEpiDj8skPbbuLb","tooltip":"Mastodon"},{"id":"discord","url":"https://neil.rahmouni.dev/DnLWYTO4QVyRuHS3Jwqo","tooltip":"Discord
+            Server"},{"id":"linkedin","url":"https://neil.rahmouni.dev/aHQtI6dsVfjcy4GKFckO","tooltip":"Linkedin"},{"id":"gitlab","url":"https://neil.rahmouni.dev/3uomlGBjoJqbq1tzzk3l","tooltip":"Gitlab"}]
+        </value>
+    </entry>
+</defaultsMap>

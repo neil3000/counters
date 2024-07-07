@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+     Copyright 2024 Rahmouni Neïl
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources>
+    <string name="core_feedback_localeID">HArTPI9dPUFph1JhV81xFfzOH2edfjfr</string>
+    <string name="core_feedback_backButton_title">Retour</string>
+    <string name="core_feedback_closeButton_contentDescription">Fermer</string>
+    <string name="core_feedback_contextPage_additionalInfoTile_supportingText">Telles que la version de l\'application et d\'Android</string>
+    <string name="core_feedback_contextPage_additionalInfoTile_title">Envoyer des informations supplémentaires</string>
+    <string name="core_feedback_contextPage_bugPageTile_title">Le bug était sur la page actuelle</string>
+    <string name="core_feedback_contextPage_contextMessage">Nous avons juste besoin d\'un peu plus de contexte :</string>
+    <string name="core_feedback_contextPage_screenshotTile_supportingText">Uniquement si le problème est visuel</string>
+    <string name="core_feedback_contextPage_screenshotTile_title">Inclure une capture d\'écran</string>
+    <string name="core_feedback_contextPage_suggestionPageTile_title">La suggestion concerne cette page</string>
+    <string name="core_feedback_continueButton_title">Continuer</string>
+    <string name="core_feedback_descriptionPage_bugMessage">Veuillez décrire le bug et comment il s\'est produit en détail</string>
+    <string name="core_feedback_descriptionPage_personalInfoMessage">⚠️ Ne pas inclure d\'informations personnelles</string>
+    <string name="core_feedback_descriptionPage_suggestionMessage">Expliquez votre suggestion et essayez de donner des exemples</string>
+    <string name="core_feedback_descriptionPage_textField_label">Description</string>
+    <string name="core_feedback_topBar_title">Envoyer un retour</string>
+    <string name="core_feedback_topAppBarAction_title">Envoyer un retour</string>
+    <string name="core_feedback_typePage_bug">Bug</string>
+    <string name="core_feedback_typePage_suggestion">Suggestion</string>
+    <string name="core_feedback_typePage_typeMessage">Quel type de retour souhaitez-vous envoyer ?</string>
+    <string name="core_feedback_typePage_welcomeMessage">Bienvenue ! 👋</string>
+</resources>

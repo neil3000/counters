@@ -1,9 +1,6 @@
-import com.android.build.api.dsl.ApplicationExtension
-import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import dev.rahmouni.neil.counters.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
 class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
@@ -22,17 +19,8 @@ class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("firebase.config").get())
                 "implementation"(libs.findLibrary("firebase.performance").get())
                 "implementation"(libs.findLibrary("firebase.crashlytics").get())
-            }
-
-            extensions.configure<ApplicationExtension> {
-                buildTypes.configureEach {
-                    // Disable the Crashlytics mapping file upload. This feature should only be
-                    // enabled if a Firebase backend is available and configured in
-                    // google-services.json.
-                    configure<CrashlyticsExtension> {
-                        mappingFileUploadEnabled = false
-                    }
-                }
+                "implementation"(libs.findLibrary("firebase.auth").get())
+                "implementation"(libs.findLibrary("firebase.firestore").get())
             }
         }
     }

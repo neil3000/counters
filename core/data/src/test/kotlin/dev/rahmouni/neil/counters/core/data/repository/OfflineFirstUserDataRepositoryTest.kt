@@ -1,8 +1,27 @@
+/*
+ * Copyright 2024 Rahmouni Neïl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package dev.rahmouni.neil.counters.core.data.repository
 
 import dev.rahmouni.neil.counters.core.analytics.NoOpAnalyticsHelper
+import dev.rahmouni.neil.counters.core.data.repository.userData.OfflineFirstUserDataRepository
+import dev.rahmouni.neil.counters.core.datastore.Rn3PreferencesDataSource
+import dev.rahmouni.neil.counters.core.datastore.test.testUserPreferencesDataStore
+import dev.rahmouni.neil.counters.core.model.data.UserData
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -11,8 +30,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class OfflineFirstUserDataRepositoryTest {
 
@@ -44,46 +61,14 @@ class OfflineFirstUserDataRepositoryTest {
         testScope.runTest {
             assertEquals(
                 UserData(
-                    bookmarkedNewsResources = emptySet(),
-                    viewedNewsResources = emptySet(),
-                    followedTopics = emptySet(),
-                    themeBrand = ThemeBrand.DEFAULT,
-                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                    useDynamicColor = false,
-                    shouldHideOnboarding = false,
+                    hasAccessibilityEmphasizedSwitchesEnabled = false,
+                    hasAccessibilityIconTooltipsEnabled = true,
+                    hasMetricsEnabled = true,
+                    hasCrashlyticsEnabled = true,
+                    shouldShowLoginScreenOnStartup = true,
+                    isAppFirstLaunch = true,
                 ),
                 subject.userData.first(),
             )
-        }
-
-    @Test
-    fun offlineFirstUserDataRepository_set_dark_theme_config_delegates_to_nia_preferences() =
-        testScope.runTest {
-            subject.setDarkThemeConfig(DarkThemeConfig.DARK)
-
-            assertEquals(
-                DarkThemeConfig.DARK,
-                subject.userData
-                    .map { it.darkThemeConfig }
-                    .first(),
-            )
-            assertEquals(
-                DarkThemeConfig.DARK,
-                niaPreferencesDataSource
-                    .userData
-                    .map { it.darkThemeConfig }
-                    .first(),
-            )
-        }
-
-    @Test
-    fun whenUserCompletesOnboarding_thenRemovesAllInterests_shouldHideOnboardingIsFalse() =
-        testScope.runTest {
-            subject.setFollowedTopicIds(setOf("1"))
-            subject.setShouldHideOnboarding(true)
-            assertTrue(subject.userData.first().shouldHideOnboarding)
-
-            subject.setFollowedTopicIds(emptySet())
-            assertFalse(subject.userData.first().shouldHideOnboarding)
         }
 }

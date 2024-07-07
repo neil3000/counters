@@ -1,3 +1,5 @@
-# :core:analytics module
+# :core:config module
+
 ## Dependency graph
-![Dependency graph](../../docs/images/graphs/dep_graph_core_analytics.svg)
+
+![Dependency graph](../../docs/images/graphs/dep_graph_core_config.svg)

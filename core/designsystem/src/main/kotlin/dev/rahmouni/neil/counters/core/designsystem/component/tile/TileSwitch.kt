@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 Rahmouni Neïl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package dev.rahmouni.neil.counters.core.designsystem.component.tile
 
 import androidx.compose.foundation.LocalIndication
@@ -12,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
@@ -26,6 +43,8 @@ fun Rn3TileSwitch(
     title: String,
     icon: ImageVector,
     supportingText: String? = null,
+    enabled: Boolean = true,
+    thumbContent: @Composable (() -> Unit)? = null,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
 ) {
@@ -35,27 +54,36 @@ fun Rn3TileSwitch(
 
     ListItem(
         headlineContent = { Text(text = title) },
-        modifier = modifier.toggleable(
-            value = checked,
-            interactionSource = interactionSource,
-            indication = indication,
-            role = Role.Switch,
-        ) {
-            onCheckedChange(it)
-            haptic.toggle(it)
-        },
+        modifier = modifier
+            .toggleable(
+                value = checked,
+                interactionSource = interactionSource,
+                indication = indication,
+                role = Role.Switch,
+                enabled = enabled,
+            ) {
+                if (enabled) {
+                    onCheckedChange(it)
+                    haptic.toggle(it)
+                }
+            }
+            .alpha(if (enabled) 1f else .5f),
         supportingContent = if (supportingText != null) {
             { Text(text = supportingText) }
-        } else null,
+        } else {
+            null
+        },
         leadingContent = {
             Icon(imageVector = icon, contentDescription = null)
         },
         trailingContent = {
             Rn3Switch(
                 checked = checked,
-                contentDescription = null, // Null as to None -- because text is already present in the Tile itself
+                contentDescription = null,
                 interactionSource = interactionSource,
                 onCheckedChange = null,
+                enabled = enabled,
+                thumbContent = thumbContent,
             )
         },
     )
@@ -67,7 +95,8 @@ private fun Default() {
     Rn3Theme {
         Surface {
             Rn3TileClick(
-                title = "Title", icon = Outlined.EmojiEvents,
+                title = "Title",
+                icon = Outlined.EmojiEvents,
             ) {}
         }
     }
@@ -79,7 +108,8 @@ private fun On() {
     Rn3Theme {
         Surface {
             Rn3TileClick(
-                title = "Title", icon = Outlined.EmojiEvents,
+                title = "Title",
+                icon = Outlined.EmojiEvents,
             ) {}
         }
     }

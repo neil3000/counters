@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+     Copyright 2024 Rahmouni Neïl
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="24dp"
+            android:height="24dp"
+            android:viewportWidth="960"
+            android:viewportHeight="960">
+            <path
+                android:name="square"
+                android:fillColor="#000"
+                android:pathData="M 200 120 C 178 120 159.182 127.849 143.516 143.516 C 127.849 159.182 120 178 120 200 L 120 760 C 120 782 127.849 800.818 143.516 816.484 C 159.182 832.151 178 840 200 840 L 760 840 C 782 840 800.818 832.151 816.484 816.484 C 832.151 800.818 840 782 840 760 L 840 480 L 760 480 L 760 760 L 200 760 L 200 200 L 480 200 L 480 120 Z"
+                android:strokeWidth="1" />
+            <path
+                android:name="arrow"
+                android:fillColor="#000"
+                android:pathData="M 560 120 L 560 200 L 703.984 200 L 332.031 572.031 L 387.969 627.969 L 760 256.016 L 760 400 L 840 400 L 840 120 Z"
+                android:strokeWidth="1" />
+        </vector>
+    </aapt:attr>
+    <target android:name="arrow">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="250"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="pathData"
+                android:valueFrom="M 560 120 L 560 200 L 703.984 200 L 332.031 572.031 L 387.969 627.969 L 760 256.016 L 760 400 L 840 400 L 840 120 Z"
+                android:valueTo="M 680.009 0 L 680.009 80 L 823.993 80 L 452.04 452.031 L 507.978 507.969 L 880.009 136.016 L 880.009 280 L 960.009 280 L 960.009 0 Z"
+                android:valueType="pathType" />
+        </aapt:attr>
+    </target>
+    <target android:name="square">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="250"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="pathData"
+                android:valueFrom="M 200 120 C 178 120 159.182 127.849 143.516 143.516 C 127.849 159.182 120 178 120 200 L 120 760 C 120 782 127.849 800.818 143.516 816.484 C 159.182 832.151 178 840 200 840 L 760 840 C 782 840 800.818 832.151 816.484 816.484 C 832.151 800.818 840 782 840 760 L 840 480 L 760 480 L 760 760 L 200 760 L 200 200 L 480 200 L 480 120 Z M 728.256 175.677 L 728.256 175.677 L 728.256 175.677 L 728.256 175.677"
+                android:valueTo="M 200 120 C 178 120 159.182 127.849 143.516 143.516 C 127.849 159.182 120 178 120 200 L 120 760 C 120 782 127.849 800.818 143.516 816.484 C 159.182 832.151 178 840 200 840 L 760 840 C 782 840 800.818 832.151 816.484 816.484 C 832.151 800.818 840 782 840 760 L 840 287.969 L 760 367.891 L 760 760 L 200 760 L 200 200 L 591.953 200 L 671.875 120 Z M 776.875 127.031 L 703.986 200 L 703.906 200 L 776.875 127.031"
+                android:valueType="pathType" />
+        </aapt:attr>
+    </target>
+</animated-vector>
