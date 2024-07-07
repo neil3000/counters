@@ -1,6 +1,6 @@
 <div align='center'>
     <h1><b>🐢 Counters 🔥</b></h1>
-    <a><img src='./app_icon.png' width='527'/></a>
+    <a><img src='./app_icon.png' width='250'/></a>
     <p>TODO: description</p>
 
 <a>![Current version](https://badgen.net/badge/Current%20version/2.0.15/green?)</a>
