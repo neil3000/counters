@@ -38,9 +38,7 @@ import androidx.compose.material.icons.outlined.ArrowCircleUp
 import androidx.compose.material.icons.outlined.DataObject
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Group
-import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.Shield
-import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -64,10 +62,7 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.UpdateAvailability
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
-import dev.rahmouni.neil.counters.core.common.Rn3Uri
 import dev.rahmouni.neil.counters.core.common.openOssLicensesActivity
-import dev.rahmouni.neil.counters.core.common.toRn3Uri
-import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -81,12 +76,9 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickC
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.component.user.UserAvatarAndName
 import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
 import dev.rahmouni.neil.counters.core.designsystem.icons.DevicesOff
-import dev.rahmouni.neil.counters.core.designsystem.icons.Discord
-import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
 import dev.rahmouni.neil.counters.core.designsystem.icons.SyncSavedLocally
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
@@ -115,13 +107,11 @@ internal fun SettingsRoute(
     viewModel: SettingsViewModel = hiltViewModel(),
     navController: NavController,
     navigateToLogin: () -> Unit,
-    navigateToAboutMe: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val analytics = LocalAnalyticsHelper.current
-    val config = LocalConfigHelper.current
     val auth = LocalAuthHelper.current
 
     val scope = rememberCoroutineScope()
@@ -172,20 +162,6 @@ internal fun SettingsRoute(
             analytics.logSettingsUiEvent("accessibilityTile")
             navController.navigateToAccessibilitySettings()
         },
-        changelogTileUri = config.getString("changelog_url").toRn3Uri {
-            analytics.logSettingsUiEvent("changelogTile")
-        },
-        discordTileUri = config.getString("discord_invite_url").toRn3Uri {
-            analytics.logSettingsUiEvent("discordTile")
-        },
-        onClickContributeTile = {
-            analytics.logSettingsUiEvent("contributeTile")
-            TODO()
-        },
-        onClickAboutMeTile = {
-            analytics.logSettingsUiEvent("accessibilityTile")
-            navigateToAboutMe()
-        },
         onClickDeveloperSettingsTile = {
             analytics.logSettingsUiEvent("developerSettingsTile")
             navController.navigateToDeveloperSettingsMain()
@@ -213,10 +189,6 @@ internal fun SettingsScreen(
     onUpdateAvailableTileClicked: () -> Unit = {},
     onClickDataAndPrivacyTile: () -> Unit = {},
     onClickAccessibilityTile: () -> Unit = {},
-    changelogTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
-    discordTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
-    onClickContributeTile: () -> Unit = {},
-    onClickAboutMeTile: () -> Unit = {},
     onClickDeveloperSettingsTile: () -> Unit = {},
     onClickOssLicensesTile: () -> Unit = {},
 ) {
@@ -238,10 +210,6 @@ internal fun SettingsScreen(
                 onUpdateAvailableTileClicked,
                 onClickDataAndPrivacyTile,
                 onClickAccessibilityTile,
-                changelogTileUri,
-                discordTileUri,
-                onClickContributeTile,
-                onClickAboutMeTile,
                 onClickDeveloperSettingsTile,
                 onClickOssLicensesTile,
             )
@@ -260,10 +228,6 @@ private fun SettingsPanel(
     onUpdateAvailableTileClicked: () -> Unit,
     onClickDataAndPrivacyTile: () -> Unit,
     onClickAccessibilityTile: () -> Unit,
-    changelogTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
-    discordTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
-    onClickContributeTile: () -> Unit,
-    onClickAboutMeTile: () -> Unit,
     onClickDeveloperSettingsTile: () -> Unit,
     onClickOssLicensesTile: () -> Unit,
 ) {
@@ -384,39 +348,6 @@ private fun SettingsPanel(
             title = stringResource(string.feature_settings_settingsScreen_accessibilityTile_title),
             icon = Outlined.AccessibilityNew,
             onClick = onClickAccessibilityTile,
-        )
-
-        Rn3TileHorizontalDivider()
-
-        // aboutHeaderTile
-        Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_aboutHeaderTile_title))
-
-        // changelogTile
-        Rn3TileUri(
-            title = stringResource(string.feature_settings_settingsScreen_changelogTile_title),
-            icon = Outlined.NewReleases,
-            uri = changelogTileUri,
-        )
-
-        // discordTile
-        Rn3TileUri(
-            title = stringResource(string.feature_settings_settingsScreen_discordTile_title),
-            icon = Outlined.Discord,
-            uri = discordTileUri,
-        )
-
-        // contributeTile
-        Rn3TileClick(
-            title = stringResource(string.feature_settings_settingsScreen_contributeTile_title),
-            icon = Outlined.StarBorder,
-            onClick = onClickContributeTile,
-        )
-
-        // aboutMeTile
-        Rn3TileClick(
-            title = stringResource(string.feature_settings_settingsScreen_aboutMeTile_title),
-            icon = Outlined.Rn3,
-            onClick = onClickAboutMeTile,
         )
 
         Rn3TileHorizontalDivider()

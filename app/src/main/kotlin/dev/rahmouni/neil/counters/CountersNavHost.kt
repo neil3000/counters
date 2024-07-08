@@ -36,11 +36,9 @@ import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
 import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
 import dev.rahmouni.neil.counters.core.feedback.feedbackDialog
 import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
-import dev.rahmouni.neil.counters.feature.aboutme.aboutMeScreen
-import dev.rahmouni.neil.counters.feature.aboutme.navigateToAboutMe
-import dev.rahmouni.neil.counters.feature.dashboard.DASHBOARD_ROUTE
-import dev.rahmouni.neil.counters.feature.dashboard.dashboardScreen
-import dev.rahmouni.neil.counters.feature.dashboard.navigateToDashboard
+import dev.rahmouni.neil.counters.feature.localfeed.LOCALFEED_ROUTE
+import dev.rahmouni.neil.counters.feature.localfeed.localFeedScreen
+import dev.rahmouni.neil.counters.feature.localfeed.navigateToLocalFeed
 import dev.rahmouni.neil.counters.feature.login.LOGIN_ROUTE
 import dev.rahmouni.neil.counters.feature.login.loginScreen
 import dev.rahmouni.neil.counters.feature.login.navigateToLogin
@@ -63,7 +61,7 @@ fun CountersNavHost(
 
     LaunchedEffect(Unit) {
         delay(100)
-        navController.navigate(if (auth.getUser() is LoggedOutUser || showLoginScreen) LOGIN_ROUTE else DASHBOARD_ROUTE) {
+        navController.navigate(if (auth.getUser() is LoggedOutUser || showLoginScreen) LOGIN_ROUTE else LOCALFEED_ROUTE) {
             popUpTo("SPLASHSCREEN_SET_ROUTE") { inclusive = true }
         }
     }
@@ -76,17 +74,15 @@ fun CountersNavHost(
                     startDestination = "SPLASHSCREEN_SET_ROUTE",
                     modifier = modifier,
                 ) {
-                    aboutMeScreen(navController)
-                    dashboardScreen(navController, navController::navigateToSettings)
+                    localFeedScreen(navController, navController::navigateToSettings)
                     loginScreen(navController) {
-                        navController.navigateToDashboard {
+                        navController.navigateToLocalFeed {
                             popUpTo(LOGIN_ROUTE) { inclusive = true }
                         }
                     }
                     settingsNavigation(
                         navController,
                         navController::navigateToLogin,
-                        navController::navigateToAboutMe,
                     )
 
                     feedbackDialog(navController)
@@ -94,7 +90,7 @@ fun CountersNavHost(
                     composable("SPLASHSCREEN_SET_ROUTE") {
                         Box(
                             Modifier
-                                .background(Color(136, 18, 41))
+                                .background(Color(color = 0xFFE8175D))
                                 .sharedElement(
                                     rememberSharedContentState(key = "countersLogo_background"),
                                     animatedVisibilityScope = this@composable,

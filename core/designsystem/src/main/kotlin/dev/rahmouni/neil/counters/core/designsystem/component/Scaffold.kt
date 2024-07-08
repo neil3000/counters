@@ -19,32 +19,19 @@ package dev.rahmouni.neil.counters.core.designsystem.component
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.core.ArcMode
-import androidx.compose.animation.core.EaseInOutQuint
-import androidx.compose.animation.core.EaseOutBack
 import androidx.compose.animation.core.ExperimentalAnimationSpecApi
-import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ExposurePlus2
-import androidx.compose.material.icons.outlined.PlusOne
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -52,24 +39,17 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowHeightSizeClass.Companion.COMPACT
-import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
-import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
-import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
-import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
-import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.DASHBOARD
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.LARGE
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.TRANSPARENT
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3LargeTopAppBar
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
-import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.toRn3PaddingValues
 
@@ -89,7 +69,6 @@ fun Rn3Scaffold(
     content: @Composable (Rn3PaddingValues) -> Unit,
 ) {
     val windowHeightClass = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
-    val config = LocalConfigHelper.current
 
     when {
         // LARGE
@@ -108,7 +87,7 @@ fun Rn3Scaffold(
             )
         }
 
-        // SMALL or DASHBOARD or TRANSPARENT
+        // SMALL or HOME or TRANSPARENT
         else -> Rn3ScaffoldImpl(
             modifier,
             TopAppBarDefaults.pinnedScrollBehavior(),
@@ -122,100 +101,12 @@ fun Rn3Scaffold(
                 actions = topAppBarActions,
                 transparent = topAppBarStyle == TRANSPARENT,
             ) {
-                val sharedTransitionScope = LocalSharedTransitionScope.current
-                    ?: throw IllegalStateException("RahNeil_N3:4F6o9kodw29Oaj8zoDlAWesB1Merqam9")
-                val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
-
                 Row(
                     horizontalArrangement = spacedBy(12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    if (topAppBarStyle == DASHBOARD) {
-                        val ee1 = (1..1000).random() == 1 || config.getBoolean("ee_1_force")
-
-                        with(sharedTransitionScope) {
-                            Surface(
-                                Modifier
-                                    .size(36.dp)
-                                    .then(
-                                        if (animatedVisibilityScope != null) {
-                                            Modifier.sharedElement(
-                                                rememberSharedContentState(key = "countersLogo_background"),
-                                                animatedVisibilityScope = animatedVisibilityScope,
-                                                boundsTransform = { initialBounds, targetBounds ->
-                                                    keyframes {
-                                                        initialBounds at 0 using ArcMode.ArcBelow using EaseInOutQuint
-                                                        targetBounds at durationMillis
-                                                    }
-                                                },
-                                            )
-                                        } else {
-                                            Modifier
-                                        },
-                                    ),
-                                color = Color(136, 18, 41),
-                                shape = RoundedCornerShape(8.dp),
-                            ) {
-                                Modifier
-                                    .fillMaxSize()
-                                    .skipToLookaheadSize()
-                                    .then(
-                                        if (animatedVisibilityScope != null) {
-                                            with(animatedVisibilityScope) {
-                                                Modifier
-                                                    .animateEnterExit(
-                                                        enter = slideInVertically(
-                                                            animationSpec = tween(
-                                                                delayMillis = 250,
-                                                                easing = EaseOutBack,
-                                                            ),
-                                                        ) { it } + fadeIn(
-                                                            tween(
-                                                                durationMillis = 1,
-                                                                delayMillis = 250,
-                                                            ),
-                                                        ),
-                                                    )
-                                                    .sharedElement(
-                                                        rememberSharedContentState(key = "countersLogo_icon"),
-                                                        animatedVisibilityScope = animatedVisibilityScope,
-                                                        boundsTransform = { initialBounds, targetBounds ->
-                                                            keyframes {
-                                                                initialBounds at 0 using ArcMode.ArcBelow using EaseInOutQuint
-                                                                targetBounds at durationMillis
-                                                            }
-                                                        },
-                                                    )
-                                            }
-                                        } else {
-                                            Modifier
-                                        },
-                                    ).let { modifier ->
-                                        when {
-                                            BuildConfig.DEBUG -> Icon(
-                                                Icons.Outlined.Rn3,
-                                                null,
-                                                modifier.scale(.6f),
-                                                tint = Color.White,
-                                            )
-
-                                            ee1 -> Icon(
-                                                Icons.Outlined.ExposurePlus2,
-                                                null,
-                                                modifier.scale(.75f),
-                                                tint = Color.White,
-                                            )
-
-                                            else -> Icon(
-                                                Icons.Outlined.PlusOne,
-                                                null,
-                                                modifier.scale(.75f),
-                                                tint = Color.White,
-                                            )
-                                        }
-                                    }
-                            }
-                        }
+                    if (topAppBarStyle == HOME) {
+                        Logo(modifier = Modifier.size(36.dp), shape = RoundedCornerShape(8.dp))
                     }
                     Text(
                         topAppBarTitle,
@@ -257,13 +148,13 @@ fun Rn3ScaffoldImpl(
  *
  * • [SMALL] represents a classic [SmallTopAppBar][Rn3SmallTopAppBar]
  *
- * • [DASHBOARD] represents a classic [SmallTopAppBar][Rn3SmallTopAppBar] with the Counters Logo before the title.
+ * • [HOME] represents a classic [SmallTopAppBar][Rn3SmallTopAppBar] with the Logo before the title.
  *
  * • [TRANSPARENT] is [SMALL] but with no background color on the appbar.
  */
 enum class TopAppBarStyle {
     LARGE,
     SMALL,
-    DASHBOARD,
+    HOME,
     TRANSPARENT,
 }

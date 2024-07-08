@@ -17,5 +17,6 @@
 -->
 
 <resources>
-    <color name="ic_launcher_background">#e8175d</color>
+    <string name="feature_localfeed_topAppBarActions_settings">Settings</string>
+    <string name="feature_localfeed_topAppBarTitle" translatable="false">ReBased</string>
 </resources>

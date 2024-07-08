@@ -15,29 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.feature.login
+package dev.rahmouni.neil.counters.feature.localfeed
 
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
 
-const val LOGIN_ROUTE = "login"
+const val LOCALFEED_ROUTE = "localfeed"
 
-fun NavController.navigateToLogin(navOptions: NavOptions? = null) =
-    navigate(LOGIN_ROUTE, navOptions)
+fun NavController.navigateToLocalFeed(builder: NavOptionsBuilder.() -> Unit) =
+    navigate(LOCALFEED_ROUTE, builder)
 
-fun NavGraphBuilder.loginScreen(
+fun NavGraphBuilder.localFeedScreen(
     navController: NavController,
-    navigateToLocalFeed: () -> Unit,
+    navigateToSettings: () -> Unit,
 ) {
-    composable(route = LOGIN_ROUTE) {
+    composable(route = LOCALFEED_ROUTE) {
         CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
-            LoginRoute(
+            LocalFeedRoute(
                 navController = navController,
-                navigateToLocalFeed = navigateToLocalFeed,
+                navigateToSettings = navigateToSettings,
             )
         }
     }

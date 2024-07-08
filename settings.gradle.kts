@@ -16,12 +16,11 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Counters_2"
+rootProject.name = "ReBased"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 include(":app")
-include(":app-rn3-catalog")
 
 include(":core:accessibility")
 include(":core:analytics")
@@ -41,8 +40,7 @@ include(":core:shapes")
 include(":core:testing")
 include(":core:ui")
 
-include(":feature:aboutme")
-include(":feature:dashboard")
+include(":feature:localfeed")
 include(":feature:login")
 include(":feature:settings")
 

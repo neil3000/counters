@@ -15,26 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.feature.settings.main
+@Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
+plugins {
+    alias(libs.plugins.rn3.android.feature)
+    alias(libs.plugins.rn3.android.library.compose)
+    alias(libs.plugins.rn3.android.library.jacoco)
+}
 
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
-import androidx.navigation.compose.composable
+android {
+    namespace = "dev.rahmouni.neil.counters.feature.localfeed"
+}
 
-const val SETTINGS_MAIN_ROUTE = "main"
+dependencies {
+    api(libs.androidx.compose.material.iconsExtended)
 
-internal fun NavController.navigateToSettingsMain(navOptions: NavOptions? = null) =
-    navigate(SETTINGS_MAIN_ROUTE, navOptions)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.coil.kt.compose)
 
-internal fun NavGraphBuilder.mainScreen(
-    navController: NavController,
-    navigateToLogin: () -> Unit,
-) {
-    composable(route = SETTINGS_MAIN_ROUTE) {
-        SettingsRoute(
-            navController = navController,
-            navigateToLogin = navigateToLogin,
-        )
-    }
+    implementation(projects.core.data)
 }

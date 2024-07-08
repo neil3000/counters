@@ -43,7 +43,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
-import dev.rahmouni.neil.counters.core.feedback.R
+import dev.rahmouni.neil.counters.core.feedback.R.string
 
 @Composable
 internal fun FeedbackDescriptionPage(
@@ -66,13 +66,13 @@ internal fun FeedbackDescriptionPage(
         FeedbackMessages(
             listOf(
                 if (bug) {
-                    stringResource(R.string.core_feedback_descriptionPage_bugMessage)
+                    stringResource(string.core_feedback_descriptionPage_bugMessage)
                 } else {
                     stringResource(
-                        R.string.core_feedback_descriptionPage_suggestionMessage,
+                        string.core_feedback_descriptionPage_suggestionMessage,
                     )
                 },
-                stringResource(R.string.core_feedback_descriptionPage_personalInfoMessage),
+                stringResource(string.core_feedback_descriptionPage_personalInfoMessage),
             ),
         )
 
@@ -83,7 +83,7 @@ internal fun FeedbackDescriptionPage(
                 .fillMaxWidth()
                 .padding(16.dp)
                 .focusRequester(focusRequester),
-            label = { Text(text = stringResource(R.string.core_feedback_descriptionPage_textField_label)) },
+            label = { Text(text = stringResource(string.core_feedback_descriptionPage_textField_label)) },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
@@ -102,7 +102,7 @@ internal fun FeedbackDescriptionPage(
                     previousPage(currentDescription)
                 },
             ) {
-                Text(stringResource(R.string.core_feedback_backButton_title))
+                Text(stringResource(string.core_feedback_backButton_title))
             }
             Button(
                 onClick = {
@@ -112,7 +112,7 @@ internal fun FeedbackDescriptionPage(
                 Modifier.fillMaxWidth(),
                 enabled = currentDescription.isNotBlank(),
             ) {
-                Text(stringResource(R.string.core_feedback_continueButton_title))
+                Text(stringResource(string.core_feedback_continueButton_title))
             }
         }
     }

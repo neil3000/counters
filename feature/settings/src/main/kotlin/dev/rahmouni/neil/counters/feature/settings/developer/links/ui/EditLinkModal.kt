@@ -48,7 +48,7 @@ import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlRawData
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ConfirmationDialog
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.rn3ErrorButtonColors
-import dev.rahmouni.neil.counters.feature.settings.R
+import dev.rahmouni.neil.counters.feature.settings.R.string
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -93,9 +93,9 @@ internal fun editLinkModal(
                     modifier = Modifier.fillMaxWidth(),
                     value = currentPath,
                     onValueChange = { currentPath = it },
-                    label = { Text(stringResource(R.string.feature_settings_developerSettingsLinksScreen_pathTextField_label)) },
+                    label = { Text(stringResource(string.feature_settings_developerSettingsLinksScreen_pathTextField_label)) },
                     singleLine = true,
-                    prefix = { Text(stringResource(R.string.feature_settings_developerSettingsLinksScreen_pathTextField_prefix)) },
+                    prefix = { Text(stringResource(string.feature_settings_developerSettingsLinksScreen_pathTextField_prefix)) },
                     enabled = !editing,
                 )
 
@@ -104,7 +104,7 @@ internal fun editLinkModal(
                     modifier = Modifier.fillMaxWidth(),
                     value = currentRedirectUrl,
                     onValueChange = { currentRedirectUrl = it },
-                    label = { Text(stringResource(R.string.feature_settings_developerSettingsLinksScreen_redirectUrlTextField_label)) },
+                    label = { Text(stringResource(string.feature_settings_developerSettingsLinksScreen_redirectUrlTextField_label)) },
                     singleLine = true,
                 )
 
@@ -113,7 +113,7 @@ internal fun editLinkModal(
                     modifier = Modifier.fillMaxWidth(),
                     value = currentDescription,
                     onValueChange = { currentDescription = it },
-                    label = { Text(stringResource(R.string.feature_settings_developerSettingsLinksScreen_descriptionTextField_label)) },
+                    label = { Text(stringResource(string.feature_settings_developerSettingsLinksScreen_descriptionTextField_label)) },
                     singleLine = true,
                 )
 
@@ -125,7 +125,7 @@ internal fun editLinkModal(
                         Rn3ConfirmationDialog(
                             icon = Icons.Outlined.DeleteForever,
                             body = { },
-                            confirmLabel = stringResource(R.string.feature_settings_developerSettingsLinksScreen_deleteButton_confirmationDialog_confirmLabel),
+                            confirmLabel = stringResource(string.feature_settings_developerSettingsLinksScreen_deleteButton_confirmationDialog_confirmLabel),
                             onConfirm = {
                                 hide()
                                 onDelete(currentPath)
@@ -140,7 +140,7 @@ internal fun editLinkModal(
                             ) {
                                 Icon(
                                     Icons.Outlined.DeleteForever,
-                                    stringResource(R.string.feature_settings_developerSettingsLinksScreen_deleteButton_icon_contentDescription),
+                                    stringResource(string.feature_settings_developerSettingsLinksScreen_deleteButton_icon_contentDescription),
                                 )
                             }
                         }
@@ -167,7 +167,7 @@ internal fun editLinkModal(
                         enabled = enabled,
                         modifier = Modifier.fillMaxWidth(),
                     ) {
-                        Text(stringResource(R.string.feature_settings_developerSettingsLinksScreen_confirmButton_text))
+                        Text(stringResource(string.feature_settings_developerSettingsLinksScreen_confirmButton_text))
                     }
                 }
             }

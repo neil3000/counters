@@ -35,7 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.designsystem.R
+import dev.rahmouni.neil.counters.core.designsystem.R.string
 import dev.rahmouni.neil.counters.core.designsystem.rn3ErrorContainer
 
 @Composable
@@ -58,7 +58,7 @@ fun Rn3ConfirmationDialog(
                 openDialog = false
             },
             title = {
-                Text(text = stringResource(R.string.core_designsystem_confirmationDialog_title))
+                Text(text = stringResource(string.core_designsystem_confirmationDialog_title))
             },
             icon = {
                 Icon(
@@ -70,7 +70,7 @@ fun Rn3ConfirmationDialog(
             confirmButton = {
                 Column(Modifier.fillMaxWidth(), Arrangement.spacedBy(8.dp)) {
                     Rn3LargeButton(
-                        text = stringResource(R.string.core_designsystem_confirmationDialog_cancelButton_text),
+                        text = stringResource(string.core_designsystem_confirmationDialog_cancelButton_text),
                         icon = Icons.Outlined.Close,
                     ) {
                         openDialog = false

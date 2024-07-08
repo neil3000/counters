@@ -55,7 +55,6 @@
     <string name="feature_settings_developerSettingsScreen_simulateCrashTile_title" translatable="false">Simulate crash</string>
     <string name="feature_settings_developerSettingsScreen_topAppBarTitle" translatable="false"><![CDATA[Developer settings]]></string>
     <string name="feature_settings_settingsScreen_aboutHeaderTile_title">About</string>
-    <string name="feature_settings_settingsScreen_aboutMeTile_title">About me</string>
     <string name="feature_settings_settingsScreen_accessibilityTile_title">Accessibility</string>
     <string name="feature_settings_settingsScreen_accountLoginTile_loginButton_text">Login</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_body_actionCannotBeUndone">This action *cannot be undone.*</string>

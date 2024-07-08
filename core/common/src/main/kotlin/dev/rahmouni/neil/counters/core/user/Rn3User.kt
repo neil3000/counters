@@ -19,7 +19,7 @@ package dev.rahmouni.neil.counters.core.user
 
 import android.content.Context
 import android.net.Uri
-import dev.rahmouni.neil.counters.core.common.R
+import dev.rahmouni.neil.counters.core.common.R.string
 
 sealed interface Rn3User {
 
@@ -44,7 +44,7 @@ sealed interface Rn3User {
     fun getDisplayName(context: Context): String {
         return when (this) {
             is SignedInUser -> displayName
-            else -> context.getString(R.string.core_common_user_notSignedIn)
+            else -> context.getString(string.core_common_user_notSignedIn)
         }
     }
 

@@ -29,7 +29,7 @@ val customIconsList
     @Composable
     get() = listOf(
         Outlined.Tooltip,
-        Outlined.Rn3,
+        Outlined.Logo,
         Outlined.Contract,
         Outlined.Discord,
         Outlined.Instagram,
@@ -45,9 +45,9 @@ val Outlined.Tooltip
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_tooltip)
 
-val Outlined.Rn3
+val Outlined.Logo
     @Composable
-    get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_rn3)
+    get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_logo)
 
 val Outlined.Contract
     @Composable

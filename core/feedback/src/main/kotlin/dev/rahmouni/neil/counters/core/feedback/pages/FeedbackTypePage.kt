@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
 import dev.rahmouni.neil.counters.core.feedback.FeedbackOptions
-import dev.rahmouni.neil.counters.core.feedback.R
+import dev.rahmouni.neil.counters.core.feedback.R.string
 import kotlinx.coroutines.delay
 
 @Composable
@@ -56,8 +56,8 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
     Column {
         FeedbackMessages(
             listOf(
-                stringResource(R.string.core_feedback_typePage_welcomeMessage),
-                stringResource(R.string.core_feedback_typePage_typeMessage),
+                stringResource(string.core_feedback_typePage_welcomeMessage),
+                stringResource(string.core_feedback_typePage_typeMessage),
             ),
         )
 
@@ -67,9 +67,9 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
         ) {
             FeedbackOptions(
                 mapOf(
-                    "BUG" to stringResource(R.string.core_feedback_typePage_bug),
+                    "BUG" to stringResource(string.core_feedback_typePage_bug),
                     "FEATURE" to stringResource(
-                        R.string.core_feedback_typePage_suggestion,
+                        string.core_feedback_typePage_suggestion,
                     ),
                 ),
                 currentType,
@@ -86,7 +86,7 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
                 .padding(start = 16.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
             enabled = trigger,
         ) {
-            Text(stringResource(R.string.core_feedback_continueButton_title))
+            Text(stringResource(string.core_feedback_continueButton_title))
         }
     }
 }

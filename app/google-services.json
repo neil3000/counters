@@ -186,7 +186,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:743616795299:android:1b3a1eaad190b5a806e516",
         "android_client_info": {
-          "package_name": "rahmouni.neil.counters.demo.debug"
+          "package_name": "rahmouni.neil.rebased.demo.debug"
         }
       },
       "oauth_client": [

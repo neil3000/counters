@@ -27,12 +27,12 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dev.rahmouni.neil.counters.MainActivity
 import dev.rahmouni.neil.counters.core.rules.GrantPostNotificationsPermissionRule
+import dev.rahmouni.neil.counters.feature.settings.R.string
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import kotlin.properties.ReadOnlyProperty
-import dev.rahmouni.neil.counters.feature.settings.R as SettingsR
 
 /**
  * Tests all the navigation flows that are handled by the navigation library.
@@ -70,7 +70,7 @@ class NavigationTest {
         ReadOnlyProperty<Any, String> { _, _ -> activity.getString(resId) }
 
     // The strings used for matching in these tests
-    private val settings by composeTestRule.stringResource(SettingsR.string.feature_settings_settingsScreen_topAppBarTitle)
+    private val settings by composeTestRule.stringResource(string.feature_settings_settingsScreen_topAppBarTitle)
 
     @Before
     fun setup() = hiltRule.inject()

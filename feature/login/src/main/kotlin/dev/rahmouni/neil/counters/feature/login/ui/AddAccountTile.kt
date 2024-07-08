@@ -34,10 +34,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.rn3ShrinkVerticallyTransition
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCorners
+import dev.rahmouni.neil.counters.feature.login.R.string
 
 @Composable
 internal fun AddAccountTile(expanded: Boolean, shape: Rn3RoundedCorners, onClick: () -> Unit) {
@@ -60,13 +62,13 @@ internal fun AddAccountTile(expanded: Boolean, shape: Rn3RoundedCorners, onClick
             )
             Spacer(Modifier.width(16.dp))
             Column {
-                Text("Add an account")
+                Text(stringResource(string.feature_login_addAccount))
                 AnimatedVisibility(
                     visible = expanded,
                     exit = rn3ShrinkVerticallyTransition(),
                 ) {
                     Text(
-                        "Sign in to sync your data across devices",
+                        stringResource(string.feature_login_SingIntoSync),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

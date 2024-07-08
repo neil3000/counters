@@ -60,11 +60,11 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileCopy
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
-import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
+import dev.rahmouni.neil.counters.core.designsystem.icons.Logo
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.feature.settings.BuildConfig
-import dev.rahmouni.neil.counters.feature.settings.R
+import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.developer.links.navigateToDeveloperSettingsLinks
 import dev.rahmouni.neil.counters.feature.settings.developer.main.model.DeveloperSettingsUiState
 import dev.rahmouni.neil.counters.feature.settings.developer.main.model.DeveloperSettingsViewModel
@@ -107,7 +107,7 @@ internal fun DeveloperSettingsScreen(
 ) {
     Rn3Scaffold(
         modifier,
-        stringResource(R.string.feature_settings_developerSettingsScreen_topAppBarTitle),
+        stringResource(string.feature_settings_developerSettingsScreen_topAppBarTitle),
         onBackIconButtonClicked,
     ) {
         DeveloperSettingsPanel(
@@ -134,8 +134,8 @@ private fun DeveloperSettingsPanel(
         // buildconfigTile
         item {
             Rn3TileClick(
-                title = stringResource(R.string.feature_settings_developerSettingsScreen_buildconfigTile_title),
-                icon = Icons.Outlined.Rn3,
+                title = stringResource(string.feature_settings_developerSettingsScreen_buildconfigTile_title),
+                icon = Icons.Outlined.Logo,
                 supportingText = "${BuildConfig.FLAVOR} / ${BuildConfig.BUILD_TYPE}",
             ) {}
         }
@@ -144,11 +144,11 @@ private fun DeveloperSettingsPanel(
         item {
             data.isUserAdmin.let { enabled ->
                 Rn3TileClick(
-                    title = stringResource(R.string.feature_settings_developerSettingsScreen_linksRn3UrlTile_title),
+                    title = stringResource(string.feature_settings_developerSettingsScreen_linksRn3UrlTile_title),
                     icon = Icons.Outlined.Link,
                     onClick = onLinksRn3UrlTileClicked,
                     enabled = enabled,
-                    supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_linksRn3UrlTile_supportingText).takeUnless { enabled },
+                    supportingText = stringResource(string.feature_settings_developerSettingsScreen_linksRn3UrlTile_supportingText).takeUnless { enabled },
                 )
             }
         }
@@ -158,10 +158,10 @@ private fun DeveloperSettingsPanel(
             @Suppress("KotlinConstantConditions")
             (BuildConfig.FLAVOR == "demo").let { enabled ->
                 Rn3TileClickConfirmationDialog(
-                    title = stringResource(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_title),
+                    title = stringResource(string.feature_settings_developerSettingsScreen_clearPersistenceTile_title),
                     icon = Icons.Outlined.DeleteForever,
                     body = {},
-                    supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_clearPersistenceTile_supportingText).takeUnless { enabled },
+                    supportingText = stringResource(string.feature_settings_developerSettingsScreen_clearPersistenceTile_supportingText).takeUnless { enabled },
                     enabled = enabled,
                     onClick = onClearPersistenceTileClicked,
                 )
@@ -172,10 +172,10 @@ private fun DeveloperSettingsPanel(
         item {
             (BuildConfig.DEBUG || data.isUserAdmin).let { enabled ->
                 Rn3TileClickConfirmationDialog(
-                    title = stringResource(R.string.feature_settings_developerSettingsScreen_simulateCrashTile_title),
+                    title = stringResource(string.feature_settings_developerSettingsScreen_simulateCrashTile_title),
                     icon = Icons.Outlined.Report,
                     body = {},
-                    supportingText = stringResource(R.string.feature_settings_developerSettingsScreen_simulateCrashTile_supportingText).takeUnless { enabled },
+                    supportingText = stringResource(string.feature_settings_developerSettingsScreen_simulateCrashTile_supportingText).takeUnless { enabled },
                     onClick = onSimulateCrashTileClicked,
                     enabled = enabled,
                 )
@@ -196,7 +196,7 @@ private fun DeveloperSettingsPanel(
                 item {
                     Rn3TileSmallHeader(
                         title = stringResource(
-                            R.string.feature_settings_developerSettingsScreen_configHeaderTile_title,
+                            string.feature_settings_developerSettingsScreen_configHeaderTile_title,
                             appName,
                         ),
                     )
@@ -207,29 +207,29 @@ private fun DeveloperSettingsPanel(
                     installation.addOnSuccessListener { installationID = it }
 
                     Rn3TileCopy(
-                        title = stringResource(R.string.feature_settings_developerSettingsScreen_firebaseIdTile_title),
+                        title = stringResource(string.feature_settings_developerSettingsScreen_firebaseIdTile_title),
                         icon = Icons.Outlined.LocalFireDepartment,
                         text = installationID
-                            ?: stringResource(R.string.feature_settings_developerSettingsScreen_firebaseIdTile_text_loading),
+                            ?: stringResource(string.feature_settings_developerSettingsScreen_firebaseIdTile_text_loading),
                     )
                 }
 
                 item {
                     Rn3TileClick(
-                        title = stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_title),
+                        title = stringResource(string.feature_settings_developerSettingsScreen_rcStatusTile_title),
                         icon = Icons.Outlined.DataArray,
                         supportingText = when (remoteConfig.info.lastFetchStatus) {
                             LAST_FETCH_STATUS_SUCCESS ->
                                 stringResource(
-                                    R.string.feature_settings_developerSettingsScreen_rcStatusTile_success,
+                                    string.feature_settings_developerSettingsScreen_rcStatusTile_success,
                                     DateUtils.getRelativeTimeSpanString(
                                         remoteConfig.info.fetchTimeMillis,
                                     ),
                                 )
 
-                            LAST_FETCH_STATUS_FAILURE -> stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_failure)
-                            LAST_FETCH_STATUS_THROTTLED -> stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_throttled)
-                            LAST_FETCH_STATUS_NO_FETCH_YET -> stringResource(R.string.feature_settings_developerSettingsScreen_rcStatusTile_noFetchYet)
+                            LAST_FETCH_STATUS_FAILURE -> stringResource(string.feature_settings_developerSettingsScreen_rcStatusTile_failure)
+                            LAST_FETCH_STATUS_THROTTLED -> stringResource(string.feature_settings_developerSettingsScreen_rcStatusTile_throttled)
+                            LAST_FETCH_STATUS_NO_FETCH_YET -> stringResource(string.feature_settings_developerSettingsScreen_rcStatusTile_noFetchYet)
                             else -> "RahNeil_N3:Error:NMdUsSOSmdgHuvcFuFr6WjorE25ZszWZ"
                         },
                     ) {}

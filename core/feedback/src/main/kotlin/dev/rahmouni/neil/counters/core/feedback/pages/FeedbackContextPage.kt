@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
-import dev.rahmouni.neil.counters.core.feedback.R
+import dev.rahmouni.neil.counters.core.feedback.R.string
 
 @Composable
 internal fun FeedbackContextPage(
@@ -59,15 +59,15 @@ internal fun FeedbackContextPage(
     var sendAdditionalInfoValue by rememberSaveable { mutableStateOf(sendAdditionalInfo) }
 
     Column {
-        FeedbackMessages(listOf(stringResource(R.string.core_feedback_contextPage_contextMessage)))
+        FeedbackMessages(listOf(stringResource(string.core_feedback_contextPage_contextMessage)))
 
         if (hasContext) {
             Rn3TileSwitch(
                 title = if (bug) {
-                    stringResource(R.string.core_feedback_contextPage_bugPageTile_title)
+                    stringResource(string.core_feedback_contextPage_bugPageTile_title)
                 } else {
                     stringResource(
-                        R.string.core_feedback_contextPage_suggestionPageTile_title,
+                        string.core_feedback_contextPage_suggestionPageTile_title,
                     )
                 },
                 icon = Icons.Outlined.LocationOn,
@@ -79,20 +79,20 @@ internal fun FeedbackContextPage(
         if (bug) {
             // TODO replace `enabled = false` by `enabled = onCurrentPageValue` once that #462 is done
             Rn3TileSwitch(
-                title = stringResource(R.string.core_feedback_contextPage_screenshotTile_title),
+                title = stringResource(string.core_feedback_contextPage_screenshotTile_title),
                 icon = Icons.Outlined.Screenshot,
                 checked = onCurrentPageValue && sendScreenshotValue,
                 enabled = false,
-                supportingText = stringResource(R.string.core_feedback_contextPage_screenshotTile_supportingText),
+                supportingText = stringResource(string.core_feedback_contextPage_screenshotTile_supportingText),
             ) {
                 sendScreenshotValue = it
             }
         }
         Rn3TileSwitch(
-            title = stringResource(R.string.core_feedback_contextPage_additionalInfoTile_title),
+            title = stringResource(string.core_feedback_contextPage_additionalInfoTile_title),
             icon = Icons.Outlined.Android,
             checked = sendAdditionalInfoValue,
-            supportingText = stringResource(R.string.core_feedback_contextPage_additionalInfoTile_supportingText),
+            supportingText = stringResource(string.core_feedback_contextPage_additionalInfoTile_supportingText),
         ) {
             sendAdditionalInfoValue = it
         }
@@ -111,7 +111,7 @@ internal fun FeedbackContextPage(
                     )
                 },
             ) {
-                Text(stringResource(R.string.core_feedback_backButton_title))
+                Text(stringResource(string.core_feedback_backButton_title))
             }
             Button(
                 onClick = {
@@ -124,7 +124,7 @@ internal fun FeedbackContextPage(
                 },
                 Modifier.fillMaxWidth(),
             ) {
-                Text(stringResource(R.string.core_feedback_continueButton_title))
+                Text(stringResource(string.core_feedback_continueButton_title))
             }
         }
     }

@@ -55,6 +55,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
+import dev.rahmouni.neil.counters.core.feedback.R.string
 import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackContextPage
 import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackDescriptionPage
 import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackTypePage
@@ -97,13 +98,13 @@ fun FeedbackBottomSheet(
                 ) {
                     Icon(Icons.Outlined.Feedback, null)
                     Text(
-                        stringResource(R.string.core_feedback_topBar_title),
+                        stringResource(string.core_feedback_topBar_title),
                         fontWeight = FontWeight.SemiBold,
                     )
                     Spacer(Modifier.weight(1f))
                     Rn3IconButton(
                         icon = Icons.Outlined.Close,
-                        contentDescription = stringResource(R.string.core_feedback_closeButton_contentDescription),
+                        contentDescription = stringResource(string.core_feedback_closeButton_contentDescription),
                     ) {
                         scope.launch { sheetState.hide() }.invokeOnCompletion {
                             navController.popBackStack()
