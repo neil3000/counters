@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.core.designsystem.component
+package dev.rahmouni.neil.counters.feature.login.ui
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.core.ArcMode
@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ExposurePlus2
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -52,7 +51,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
 import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
 import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
@@ -61,10 +59,7 @@ import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalSharedTransitionApi::class, ExperimentalAnimationSpecApi::class)
 @Composable
-fun Logo(modifier: Modifier = Modifier, shape: RoundedCornerShape = RoundedCornerShape(8.dp)) {
-    val config = LocalConfigHelper.current
-    val ee1 = (1..1000).random() == 1 || config.getBoolean("ee_1_force")
-
+internal fun Logo() {
     val sharedTransitionScope = LocalSharedTransitionScope.current
         ?: throw IllegalStateException("RahNeil_N3:4F6o9kodw29Oaj8zoDlAWesB1Merqam9")
     val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
@@ -80,9 +75,10 @@ fun Logo(modifier: Modifier = Modifier, shape: RoundedCornerShape = RoundedCorne
 
     with(sharedTransitionScope) {
         Surface(
-            modifier = modifier
+            Modifier
+                .size(80.dp)
                 .sharedElement(
-                    rememberSharedContentState(key = "countersLogo_background"),
+                    rememberSharedContentState(key = "Logo_background"),
                     animatedVisibilityScope = animatedVisibilityScope,
                     boundsTransform = { initialBounds, targetBounds ->
                         keyframes {
@@ -92,9 +88,9 @@ fun Logo(modifier: Modifier = Modifier, shape: RoundedCornerShape = RoundedCorne
                     },
                 ),
             color = Color(color = 0xFFE8175D),
-            shape = shape,
+            shape = RoundedCornerShape(16.dp),
         ) {
-            Box(modifier) {
+            Box(Modifier.size(80.dp)) {
                 if (shinyPosition.value.absoluteValue != 45f) {
                     Box(
                         Modifier
@@ -136,7 +132,7 @@ fun Logo(modifier: Modifier = Modifier, shape: RoundedCornerShape = RoundedCorne
                                 ),
                             ),
                         ).sharedElement(
-                            rememberSharedContentState(key = "countersLogo_icon"),
+                            rememberSharedContentState(key = "Logo_icon"),
                             animatedVisibilityScope = animatedVisibilityScope,
                             boundsTransform = { initialBounds, targetBounds ->
                                 keyframes {
@@ -150,13 +146,6 @@ fun Logo(modifier: Modifier = Modifier, shape: RoundedCornerShape = RoundedCorne
                                     Icons.Outlined.Logo,
                                     null,
                                     modifier.scale(.6f),
-                                    tint = Color.White,
-                                )
-
-                                ee1 -> Icon(
-                                    Icons.Outlined.ExposurePlus2,
-                                    null,
-                                    modifier.scale(.75f),
                                     tint = Color.White,
                                 )
 

@@ -44,14 +44,14 @@ import dev.rahmouni.neil.counters.feature.login.loginScreen
 import dev.rahmouni.neil.counters.feature.login.navigateToLogin
 import dev.rahmouni.neil.counters.feature.settings.navigateToSettings
 import dev.rahmouni.neil.counters.feature.settings.settingsNavigation
-import dev.rahmouni.neil.counters.ui.CountersAppState
+import dev.rahmouni.neil.counters.ui.AppState
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "DesignSystem")
 @Composable
-fun CountersNavHost(
-    appState: CountersAppState,
+fun NavHost(
+    appState: AppState,
     modifier: Modifier = Modifier,
     showLoginScreen: Boolean,
 ) {
@@ -92,7 +92,7 @@ fun CountersNavHost(
                             Modifier
                                 .background(Color(color = 0xFFE8175D))
                                 .sharedElement(
-                                    rememberSharedContentState(key = "countersLogo_background"),
+                                    rememberSharedContentState(key = "Logo_background"),
                                     animatedVisibilityScope = this@composable,
                                 ),
                         ) {

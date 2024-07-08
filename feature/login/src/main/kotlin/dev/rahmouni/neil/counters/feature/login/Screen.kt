@@ -36,9 +36,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -63,7 +61,7 @@ import dev.rahmouni.neil.counters.core.analytics.AnalyticsEvent
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
-import dev.rahmouni.neil.counters.core.designsystem.component.Logo
+import dev.rahmouni.neil.counters.feature.login.ui.Logo
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.TRANSPARENT
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
@@ -221,7 +219,7 @@ private fun LoginPanel(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            Logo(modifier = Modifier.size(80.dp), shape = RoundedCornerShape(16.dp))
+            Logo()
 
             Text(
                 stringResource(string.feature_login_welcomeMessage_start) + stringResource(string.feature_login_welcomeMessage_appName) + stringResource(

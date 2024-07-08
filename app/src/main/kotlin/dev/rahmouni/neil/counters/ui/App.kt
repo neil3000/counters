@@ -19,15 +19,15 @@ package dev.rahmouni.neil.counters.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import dev.rahmouni.neil.counters.CountersNavHost
+import dev.rahmouni.neil.counters.NavHost
 
 @Composable
-fun CountersApp(
-    appState: CountersAppState,
+fun App(
+    appState: AppState,
     modifier: Modifier = Modifier,
     showLoginScreen: Boolean,
 ) {
-    CountersNavHost(
+    NavHost(
         appState = appState,
         modifier = modifier,
         showLoginScreen = showLoginScreen,

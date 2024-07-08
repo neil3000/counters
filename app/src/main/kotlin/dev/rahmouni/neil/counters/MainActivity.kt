@@ -47,7 +47,7 @@ import dev.rahmouni.neil.counters.core.config.ConfigHelper
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
-import dev.rahmouni.neil.counters.ui.CountersApp
+import dev.rahmouni.neil.counters.ui.App
 import dev.rahmouni.neil.counters.ui.rememberCountersAppState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -137,7 +137,7 @@ class MainActivity : ComponentActivity() {
                     LocalAuthHelper provides authHelper,
                 ) {
                     Rn3Theme {
-                        CountersApp(
+                        App(
                             appState,
                             showLoginScreen = (uiState as Success).shouldShowLoginScreenOnStartup,
                         )

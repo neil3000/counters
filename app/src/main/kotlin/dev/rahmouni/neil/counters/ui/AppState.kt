@@ -30,15 +30,15 @@ import dev.rahmouni.neil.counters.core.ui.TrackDisposableJank
 @Composable
 fun rememberCountersAppState(
     navController: NavHostController = rememberNavController(),
-): CountersAppState {
+): AppState {
     NavigationTrackingSideEffect(navController)
     return remember(navController) {
-        CountersAppState(navController = navController)
+        AppState(navController = navController)
     }
 }
 
 @Stable
-class CountersAppState(val navController: NavHostController) {
+class AppState(val navController: NavHostController) {
     val currentDestination: NavDestination?
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
