@@ -1,5 +1,5 @@
 <div align='center'>
-    <h1><b>🐢 Counters 🔥</b></h1>
+    <h1><b>Counters (Material You)</b></h1>
     <a><img src='./docs/images/readme_header.gif' width='250'/></a>
     <p>TODO: description</p>
 
