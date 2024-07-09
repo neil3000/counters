@@ -1,6 +1,6 @@
 <div align='center'>
     <h1><b>🐢 Counters 🔥</b></h1>
-    <a><img src='./docs/images/readme_header.webm' width='250'/></a>
+    <a><img src='./docs/images/readme_header.gif' width='250'/></a>
     <p>TODO: description</p>
 
 <a>![Current version](https://badgen.net/badge/Current%20version/2.0.15/green?)</a>
