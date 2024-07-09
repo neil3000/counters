@@ -1,1 +1,1 @@
-manim -pql --transparent --format=webm manim.py
+manim -pql --transparent --format=gif manim.py
