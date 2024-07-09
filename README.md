@@ -12,7 +12,7 @@
 Downloads
 ====
 
-<a><img src='/docs/images/readme_download_play.png' width='400'/></a>
+<a><img src='/docs/images/readme_download_play.png' width='600'/></a>
 
 <TODO: buttons to downloads>
 
