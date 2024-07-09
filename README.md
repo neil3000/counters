@@ -12,7 +12,8 @@
 Downloads
 ====
 
-<a><img src='/docs/images/readme_download_play.png' width='600'/></a>
+<div><a href="https://google.fr/"><img src='/docs/images/readme_download_play.png' width='500'/></a></div>
+<div><a href="https://google.fr/"><img src='/docs/images/readme_download_play.png' width='250'/></a><a href="https://google.fr/"><img src='/docs/images/readme_download_play.png' width='250'/></a></div>
 
 <TODO: buttons to downloads>
 
