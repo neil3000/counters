@@ -14,7 +14,12 @@
 <a href="https://counters.rahmouni.dev/Jz8IGPZ2fLN08YV8dZqX" target="_blank"><img src='./docs/images/readme_download_manually_demo.png' width='250'/></a>
 </div>
 
-<TODO: buttons to advanced downloads>
+<details>
+<summary>More download options</summary>
+
+• &nbsp; <a href="" target="_blank">Download Counters Catalog</a>
+
+</details>
 </div>
 
 Issue board & tasks
