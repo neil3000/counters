@@ -14,7 +14,7 @@
 <a href="https://counters.rahmouni.dev/Jz8IGPZ2fLN08YV8dZqX" target="_blank"><img src='./docs/images/readme_download_manually_demo.png' width='250'/></a>
 </div>
 
-<TODO: buttons to downloads>
+<TODO: buttons to advanced downloads>
 </div>
 
 Issue board & tasks
