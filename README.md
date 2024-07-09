@@ -23,14 +23,12 @@ Issue board & tasks
 
 Issues / tasks are all categorized using the following labels:
 
-- **Priorities:** <br/>~P0 ~P1 ~P2 ~P3 ~P4 
-- **Progress:** <br/>~Planned ~Doing ~"A/B" ~Clean
-- **A/B progress:** <br/>~Pending ~"10%" ~"25%" ~"50%"
-- **Type:** <br/>~Release ~documentation ~enhancement ~refactor ~support
-- **Bugs:** <br/>~bug ~confirmed &nbsp; (confirmed means the bug is replicable)
-- **Modules (core):** <br/>~"core/auth" ~"core/common" ~"core/config" ~"core/data" ~"core/designsystem" ~"core/feedback" ~"core/ui"
-- **Modules (feature):** <br/>~"feature/aboutme" ~"feature/dashboard" ~"feature/login" ~"feature/settings"
-- **Blocked:** <br/>~BLOCKED &nbsp; (issue that is being blocked by another one)
+- **Priorities:** ~P0 ~P1 ~P2 ~P3 ~P4 
+- **Progress:** ~Planned ~Doing ~"A/B" ~Clean
+- **A/B progress:** ~Pending ~"10%" ~"25%" ~"50%"
+- **Type:** ~Release ~documentation ~enhancement ~refactor ~support
+- **Bugs:** ~bug ~confirmed &nbsp; (confirmed means the bug is replicable)
+- **Blocked:** ~BLOCKED &nbsp; (issue that is being blocked by another one)
 
 Progress labels are used as categories on the [issue board](https://url.rahmouni.dev/5SDw).
 
@@ -43,6 +41,10 @@ Priorities follow the [Google Issue Tracker issue priorities](https://developers
 | ~P2 | An issue that needs to be addressed on a reasonable timescale. Such an issue could be any of the following: <br/>・ An issue that would be ~P0 or ~P1 but has a reasonable workaround<br/>・ An issue that is important to a large percentage of users and is connected to core organizational functions<br/>・ An issue that is an impediment to the work of other teams and has no reasonable workaround.|
 | ~P3 | An issue that should be addressed when able. Such an issue is relevant to core organizational functions or the work of other teams, but does not impede progress or else has a reasonable workaround. |
 | ~P4 | An issue that should be addressed eventually. Such an issue is not relevant to core organizational functions or the work of other teams, or else it relates only to the attractiveness or pleasantness of the system. |
+
+Moreover, issues / tasks are categorized using labels representing what app modules the issue touches:<br/>
+~"core/auth" ~"core/common" ~"core/config" ~"core/data" ~"core/designsystem" ~"core/feedback" ~"core/ui"<br/>
+~"feature/aboutme" ~"feature/dashboard" ~"feature/login" ~"feature/settings"
 
 App dependency graph
 ====
