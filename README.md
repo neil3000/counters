@@ -5,8 +5,6 @@
 
 <a>![Current version](https://badgen.net/badge/Current%20version/2.0.15/green?)</a>
 
-</div>
-
 ---
 
 Downloads
@@ -19,6 +17,7 @@ Downloads
 </div>
 
 <TODO: buttons to downloads>
+</div>
 
 Issue board & tasks
 ====
