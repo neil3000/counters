@@ -31,6 +31,7 @@ class Rn3PreferencesDataSource @Inject constructor(
         UserData(
             hasAccessibilityEmphasizedSwitchesEnabled = userPref.accessibilityHasEmphasizedSwitchesEnabled,
             hasAccessibilityIconTooltipsEnabled = !userPref.accessibilityHasIconTooltipsDisabled,
+            hasAccessibilityAltTextEnabled = userPref.accessibilityHasAltTextEnabled,
             hasMetricsEnabled = !userPref.hasMetricsDisabled,
             hasCrashlyticsEnabled = !userPref.hasCrashlyticsDisabled,
             shouldShowLoginScreenOnStartup = !userPref.shouldNotShowLoginScreenOnStartup,
@@ -47,6 +48,12 @@ class Rn3PreferencesDataSource @Inject constructor(
     suspend fun setAccessibilityIconTooltipsPreference(value: Boolean) {
         userPreferences.updateData {
             it.copy { this.accessibilityHasIconTooltipsDisabled = !value }
+        }
+    }
+
+    suspend fun setAccessibilityAltTextPreference(value: Boolean) {
+        userPreferences.updateData {
+            it.copy { this.accessibilityHasAltTextEnabled = !value }
         }
     }
 

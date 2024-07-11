@@ -18,4 +18,9 @@
 
 <resources>
     <string name="feature_localfeed_topAppBarActions_settings">Paramètres</string>
+    <string name="feature_localfeed_bottomBar_map">Carte</string>
+    <string name="feature_localfeed_bottomBar_local">Local</string>
+    <string name="feature_localfeed_bottomBar_add">Ajouter</string>
+    <string name="feature_localfeed_bottomBar_friends">Amis</string>
+    <string name="feature_localfeed_bottomBar_events">Évènements</string>
 </resources>

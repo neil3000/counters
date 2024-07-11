@@ -91,11 +91,11 @@ internal fun LocalFeedScreen(
             feedbackTopAppBarAction,
         ),
         bottomBarItems = listOf(
-            BottomBarItem(Icons.Filled.Map, "Map") { /* Action */ },
-            BottomBarItem(Icons.Filled.Place, "Local") { /* Action */ },
-            BottomBarItem(Icons.Filled.Add, "Add", true) { /* Action */ },
-            BottomBarItem(Icons.Filled.People, "Friends") { /* Action */ },
-            BottomBarItem(Icons.Filled.Event, "Events") { /* Action */ },
+            BottomBarItem(Icons.Filled.Map, stringResource(string.feature_localfeed_bottomBar_map)) { /* Action */ },
+            BottomBarItem(Icons.Filled.Place, stringResource(string.feature_localfeed_bottomBar_local)) { /* Action */ },
+            BottomBarItem(Icons.Filled.Add, stringResource(string.feature_localfeed_bottomBar_add), true) { /* Action */ },
+            BottomBarItem(Icons.Filled.People, stringResource(string.feature_localfeed_bottomBar_friends)) { /* Action */ },
+            BottomBarItem(Icons.Filled.Event, stringResource(string.feature_localfeed_bottomBar_events)) { /* Action */ },
         ),
         topAppBarStyle = HOME,
     ) {

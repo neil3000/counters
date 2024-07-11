@@ -20,6 +20,7 @@ package dev.rahmouni.neil.counters.core.data.repository.userData
 import dev.rahmouni.neil.counters.core.analytics.AnalyticsHelper
 import dev.rahmouni.neil.counters.core.data.repository.logAccessibilityEmphasizedSwitchesPreferenceChanged
 import dev.rahmouni.neil.counters.core.data.repository.logAccessibilityIconTooltipsPreferenceChanged
+import dev.rahmouni.neil.counters.core.data.repository.logAccessibilityAltTextPreferenceChanged
 import dev.rahmouni.neil.counters.core.data.repository.logCrashlyticsPreferenceChanged
 import dev.rahmouni.neil.counters.core.data.repository.logMetricsPreferenceChanged
 import dev.rahmouni.neil.counters.core.datastore.Rn3PreferencesDataSource
@@ -42,6 +43,11 @@ internal class OfflineFirstUserDataRepository @Inject constructor(
     override suspend fun setAccessibilityIconTooltips(value: Boolean) {
         rn3PreferencesDataSource.setAccessibilityIconTooltipsPreference(value)
         analyticsHelper.logAccessibilityIconTooltipsPreferenceChanged(value)
+    }
+
+    override suspend fun setAccessibilityAltText(value: Boolean) {
+        rn3PreferencesDataSource.setAccessibilityAltTextPreference(value)
+        analyticsHelper.logAccessibilityAltTextPreferenceChanged(value)
     }
 
     override suspend fun setMetricsEnabled(value: Boolean) {

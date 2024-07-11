@@ -44,6 +44,16 @@ internal fun AnalyticsHelper.logAccessibilityIconTooltipsPreferenceChanged(value
         ),
     )
 
+internal fun AnalyticsHelper.logAccessibilityAltTextPreferenceChanged(value: Boolean) =
+    logEvent(
+        AnalyticsEvent(
+            type = "accessibility_altText_preference_changed",
+            extras = listOf(
+                Param(key = "accessibility_altText_preference", value = value.toString()),
+            ),
+        ),
+    )
+
 internal fun AnalyticsHelper.logMetricsPreferenceChanged(value: Boolean) =
     logEvent(
         AnalyticsEvent(

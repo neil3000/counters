@@ -31,7 +31,6 @@
     <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title">Politique de confidentialité</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_topAppBarTitle">Données et Confidentialité</string>
     <string name="feature_settings_settingsScreen_aboutHeaderTile_title">À propos</string>
-    <string name="feature_settings_settingsScreen_aboutMeTile_title">À propos de moi</string>
     <string name="feature_settings_settingsScreen_accessibilityTile_title">Accessibilité</string>
     <string name="feature_settings_settingsScreen_accountLoginTile_loginButton_text">Connexion</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_body_actionCannotBeUndone">Cette action *ne peut pas être annulée.*</string>
@@ -52,6 +51,8 @@
     <string name="feature_settings_settingsScreen_developer_supportingText">Affiché car vous avez activé les paramètres développeur</string>
     <string name="feature_settings_settingsScreen_developer_title">Paramètres développeur</string>
     <string name="feature_settings_settingsScreen_discordTile_title">Rejoignez notre Discord</string>
+    <string name="feature_settings_settingsScreen_iconAltTextTile_supportingText">Voir les descriptions de texte alternatif pour les photos et vidéos des autres si elles sont disponibles</string>
+    <string name="feature_settings_settingsScreen_iconAltTextTile_title">Afficher le texte alternatif</string>
     <string name="feature_settings_settingsScreen_emphasizedSwitchesTile_title">Mettre en évidence les interrupteurs sélectionnés</string>
     <string name="feature_settings_settingsScreen_generalHeaderTile_title">Général</string>
     <string name="feature_settings_settingsScreen_iconTooltipsTile_supportingText">Active les popups informatifs lorsque vous appuyez longuement sur les boutons d\'icônes</string>

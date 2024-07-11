@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons.Outlined
+import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.SettingsAccessibility
 import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.runtime.Composable
@@ -83,6 +84,7 @@ internal fun AccessibilitySettingsRoute(
         ).toTopAppBarAction(navController::navigateToFeedback),
         setEmphasizedSwitches = viewModel::setEmphasizedSwitches,
         setIconTooltips = viewModel::setIconTooltips,
+        setAltText = viewModel::setAltText,
         onClickAndroidAccessibilityTile = {
             analyticsHelper.logDataAndPrivacySettingsUiEvent("androidAccessibilityTile")
             context.openAndroidAccessibilitySettingsActivity()
@@ -101,6 +103,7 @@ internal fun AccessibilitySettingsScreen(
     feedbackTopAppBarAction: TopAppBarAction? = null,
     setEmphasizedSwitches: (Boolean) -> Unit = {},
     setIconTooltips: (Boolean) -> Unit = {},
+    setAltText: (Boolean) -> Unit = {},
     onClickAndroidAccessibilityTile: () -> Unit = {},
 ) {
     Rn3Scaffold(
@@ -116,6 +119,7 @@ internal fun AccessibilitySettingsScreen(
                 uiState.accessibilitySettingsData,
                 setEmphasizedSwitches,
                 setIconTooltips,
+                setAltText,
                 onClickAndroidAccessibilityTile,
             )
         }
@@ -128,6 +132,7 @@ private fun AccessibilitySettingsPanel(
     data: AccessibilitySettingsData,
     setEmphasizedSwitches: (Boolean) -> Unit,
     setIconTooltips: (Boolean) -> Unit,
+    setAltText: (Boolean) -> Unit,
     onClickAndroidAccessibilityTile: () -> Unit,
 ) {
     Column(
@@ -150,6 +155,15 @@ private fun AccessibilitySettingsPanel(
             supportingText = stringResource(string.feature_settings_settingsScreen_iconTooltipsTile_supportingText),
             checked = data.hasIconTooltipsEnabled,
             onCheckedChange = setIconTooltips,
+        )
+
+        // iconTooltipsTile
+        Rn3TileSwitch(
+            title = stringResource(string.feature_settings_settingsScreen_iconAltTextTile_title),
+            icon = Outlined.Description,
+            supportingText = stringResource(string.feature_settings_settingsScreen_iconAltTextTile_supportingText),
+            checked = data.hasAltTextEnabled,
+            onCheckedChange = setAltText,
         )
 
         Rn3TileHorizontalDivider()
