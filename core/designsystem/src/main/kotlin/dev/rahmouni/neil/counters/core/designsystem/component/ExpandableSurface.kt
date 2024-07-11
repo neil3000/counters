@@ -22,10 +22,6 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -56,6 +52,8 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
+import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
+import dev.rahmouni.neil.counters.core.designsystem.rn3ShrinkVerticallyTransition
 
 @Composable
 fun Rn3ExpandableSurface(
@@ -99,8 +97,8 @@ fun Rn3ExpandableSurface(
             }
             AnimatedVisibility(
                 visible = isExpanded,
-                enter = fadeIn() + expandVertically(),
-                exit = fadeOut() + shrinkVertically(),
+                enter = rn3ExpandVerticallyTransition(),
+                exit = rn3ShrinkVerticallyTransition(),
             ) {
                 expandedContent()
             }

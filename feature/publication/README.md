@@ -1,4 +1,4 @@
-# :feature:localfeed module
+# :feature:publication module
 
 ## Dependency graph
 

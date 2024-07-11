@@ -17,6 +17,8 @@
 
 package dev.rahmouni.neil.counters.feature.login.ui
 
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.NoAccounts
@@ -24,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
@@ -35,7 +38,15 @@ internal fun AnonymousTile(shape: Rn3RoundedCorners, onClick: () -> Unit) {
     Surface(tonalElevation = 8.dp, shape = shape.toComposeShape()) {
         Rn3TileClick(
             title = stringResource(string.feature_login_withoutAccount),
-            icon = Icons.Outlined.NoAccounts,
+            leadingContent = {
+                Icon(
+                    Icons.Outlined.NoAccounts,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(37.dp)
+                        .padding(horizontal = 2.dp),
+                )
+            },
             supportingContent = { Text(stringResource(string.feature_login_SignInLater)) },
             trailingContent = {
                 Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, null)

@@ -302,23 +302,23 @@ private fun SettingsPanel(
         // updateAvailableTile
         if (updateAvailable) {
             Surface(
-                Modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(
                         Rn3ExpandableSurfaceDefaults.paddingValues
                             .only(HORIZONTAL)
-                            .add(vertical = 4.dp),
+                            .add(bottom = 8.dp),
                     ),
                 color = MaterialTheme.colorScheme.primaryContainer,
                 shape = Rn3ExpandableSurfaceDefaults.shape,
             ) {
                 Row(
-                    Modifier
-                        .padding(horizontal = 16.dp, vertical = 16.dp)
+                    modifier = Modifier
                         .clickable {
                             haptics.click()
                             onUpdateAvailableTileClicked()
-                        },
+                        }
+                        .padding(horizontal = 16.dp, vertical = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(Outlined.ArrowCircleUp, contentDescription = null)

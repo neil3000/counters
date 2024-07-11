@@ -43,6 +43,7 @@ include(":core:ui")
 include(":feature:localfeed")
 include(":feature:login")
 include(":feature:settings")
+include(":feature:publication")
 
 include(":lint")
 include(":ui-test-hilt-manifest")

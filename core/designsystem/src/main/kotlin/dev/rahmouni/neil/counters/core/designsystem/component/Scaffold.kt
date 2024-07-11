@@ -19,19 +19,35 @@ package dev.rahmouni.neil.counters.core.designsystem.component
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.core.ArcMode
+import androidx.compose.animation.core.EaseInOutQuint
+import androidx.compose.animation.core.EaseOutBack
 import androidx.compose.animation.core.ExperimentalAnimationSpecApi
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ExposurePlus2
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -39,11 +55,15 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowHeightSizeClass.Companion.COMPACT
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
+import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
 import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
 import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
@@ -53,24 +73,9 @@ import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMA
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.TRANSPARENT
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3LargeTopAppBar
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
+import dev.rahmouni.neil.counters.core.designsystem.icons.Logo
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.toRn3PaddingValues
-import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
-import androidx.compose.animation.core.ArcMode
-import androidx.compose.animation.core.EaseInOutQuint
-import androidx.compose.animation.core.EaseOutBack
-import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ExposurePlus2
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
-import dev.rahmouni.neil.counters.core.designsystem.icons.Logo
 
 @OptIn(
     ExperimentalMaterial3Api::class,
@@ -84,6 +89,7 @@ fun Rn3Scaffold(
     onBackIconButtonClicked: (() -> Unit)?,
     topAppBarActions: List<TopAppBarAction> = emptyList(),
     topAppBarStyle: TopAppBarStyle = LARGE,
+    bottomBarItems: List<BottomBarItem> = emptyList(),
     floatingActionButton: @Composable (Modifier) -> Unit = {},
     content: @Composable (Rn3PaddingValues) -> Unit,
 ) {
@@ -97,6 +103,7 @@ fun Rn3Scaffold(
             TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
             content,
             floatingActionButton,
+            bottomBarItems,
         ) { scrollBehavior ->
             Rn3LargeTopAppBar(
                 modifier,
@@ -113,6 +120,7 @@ fun Rn3Scaffold(
             TopAppBarDefaults.pinnedScrollBehavior(),
             content,
             floatingActionButton,
+            bottomBarItems,
         ) { scrollBehavior ->
             Rn3SmallTopAppBar(
                 modifier,
@@ -235,10 +243,49 @@ fun Rn3ScaffoldImpl(
     scrollBehavior: TopAppBarScrollBehavior,
     content: @Composable (Rn3PaddingValues) -> Unit,
     floatingActionButton: @Composable (Modifier) -> Unit,
+    bottomBarItems: List<BottomBarItem> = emptyList(),
     topBarComponent: @Composable (scrollBehavior: TopAppBarScrollBehavior) -> Unit,
 ) {
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        bottomBar = {
+            if (bottomBarItems.isNotEmpty()) {
+                NavigationBar {
+                    bottomBarItems.forEachIndexed { index, item ->
+                        if (item.special) {
+                            NavigationBarItem(
+                                icon = {
+                                    Icon(
+                                        item.icon,
+                                        contentDescription = item.label,
+                                        modifier = Modifier.size(50.dp),
+                                    )
+                                },
+                                selected = false,
+                                alwaysShowLabel = false,
+                                onClick = item.onClick,
+                                colors = NavigationBarItemColors(
+                                    selectedIconColor = Color.White,
+                                    selectedTextColor = MaterialTheme.colorScheme.surfaceContainer,
+                                    selectedIndicatorColor = MaterialTheme.colorScheme.surfaceContainer,
+                                    unselectedIconColor = Color(color = 0xFFE8175D),
+                                    unselectedTextColor = MaterialTheme.colorScheme.surfaceContainer,
+                                    disabledIconColor = MaterialTheme.colorScheme.surfaceContainer,
+                                    disabledTextColor = MaterialTheme.colorScheme.surfaceContainer,
+                                ),
+                            )
+                        } else {
+                            NavigationBarItem(
+                                icon = { Icon(item.icon, contentDescription = null) },
+                                label = { Text(item.label) },
+                                selected = false,
+                                onClick = item.onClick,
+                            )
+                        }
+                    }
+                }
+            }
+        },
         topBar = { topBarComponent(scrollBehavior) },
         contentWindowInsets = WindowInsets.statusBars.add(WindowInsets.displayCutout),
         floatingActionButton = { floatingActionButton(Modifier.navigationBarsPadding()) },
@@ -266,3 +313,10 @@ enum class TopAppBarStyle {
     HOME,
     TRANSPARENT,
 }
+
+data class BottomBarItem(
+    val icon: ImageVector,
+    val label: String,
+    val special: Boolean = false,
+    val onClick: () -> Unit,
+)

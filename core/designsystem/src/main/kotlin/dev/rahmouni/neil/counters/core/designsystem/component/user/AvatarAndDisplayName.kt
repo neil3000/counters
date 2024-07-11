@@ -54,13 +54,13 @@ fun Rn3User.UserAvatarAndName(modifier: Modifier = Modifier, showEmail: Boolean 
                         20f * 2,
                         Resources.getSystem().displayMetrics,
                     )
-                    .toDp() + 4.dp
+                    .toDp()
             },
         ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Avatar()
-        Column(Modifier.padding(top = 2.dp, start = 16.dp, end = 16.dp)) {
+        Column(Modifier.padding(start = 16.dp, end = 16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     getDisplayName(context),

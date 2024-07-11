@@ -23,14 +23,36 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 
-fun rn3ExpandVerticallyTransition() = fadeIn(
+fun rn3ExpandVerticallyTransition(
+    fadeDelay: Int = 50,
+    fadeDuration: Int = 0,
+    expandDelay: Int = 0,
+    expandDuration: Int = 0,
+) = fadeIn(
     animationSpec = tween(
-        delayMillis = 50,
+        delayMillis = fadeDelay,
+        durationMillis = fadeDuration,
     ),
-) + expandVertically()
-
-fun rn3ShrinkVerticallyTransition() = fadeOut() + shrinkVertically(
+) + expandVertically(
     animationSpec = tween(
-        delayMillis = 50,
+        delayMillis = expandDelay,
+        durationMillis = expandDuration,
+    ),
+)
+
+fun rn3ShrinkVerticallyTransition(
+    fadeDelay: Int = 0,
+    fadeDuration: Int = 0,
+    shrinkDelay: Int = 50,
+    shrinkDuration: Int = 0,
+) = fadeOut(
+    animationSpec = tween(
+        delayMillis = fadeDelay,
+        durationMillis = fadeDuration,
+    ),
+) + shrinkVertically(
+    animationSpec = tween(
+        delayMillis = shrinkDelay,
+        durationMillis = shrinkDuration,
     ),
 )

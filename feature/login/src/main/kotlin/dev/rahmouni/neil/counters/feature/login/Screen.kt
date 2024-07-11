@@ -61,7 +61,6 @@ import dev.rahmouni.neil.counters.core.analytics.AnalyticsEvent
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
-import dev.rahmouni.neil.counters.feature.login.ui.Logo
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.TRANSPARENT
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
@@ -80,6 +79,7 @@ import dev.rahmouni.neil.counters.feature.login.R.string
 import dev.rahmouni.neil.counters.feature.login.model.LoginViewModel
 import dev.rahmouni.neil.counters.feature.login.ui.AddAccountTile
 import dev.rahmouni.neil.counters.feature.login.ui.AnonymousTile
+import dev.rahmouni.neil.counters.feature.login.ui.Logo
 import dev.rahmouni.neil.counters.feature.login.ui.Tile
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -233,7 +233,10 @@ private fun LoginPanel(
             Rn3TileSmallHeader(
                 Modifier.fillMaxWidth(),
                 stringResource(string.feature_login_choose),
-                paddingValues = Rn3TileSmallHeaderDefaults.paddingValues.copy(start = 8.dp),
+                paddingValues = Rn3TileSmallHeaderDefaults.paddingValues.copy(
+                    start = 8.dp,
+                    bottom = 6.dp,
+                ),
             )
             AnonymousTile(Rn3RoundedCorners(all = Rn3RoundedCornersSurfaceGroupDefaults.roundedCornerExternal)) {
                 onConfirmSignIn(true)

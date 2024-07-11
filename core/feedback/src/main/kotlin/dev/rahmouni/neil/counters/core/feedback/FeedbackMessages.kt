@@ -19,9 +19,6 @@ package dev.rahmouni.neil.counters.core.feedback
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -38,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
 
 @Composable
 internal fun FeedbackMessages(messages: List<String>) {
@@ -54,12 +52,12 @@ internal fun FeedbackMessages(messages: List<String>) {
             AnimatedVisibility(
                 visible = trigger,
                 enter = if (index > 0) {
-                    expandVertically(
-                        tween(
-                            250,
-                            delayMillis = index * 1000,
-                        ),
-                    ) + fadeIn(tween(250, delayMillis = index * 1000 + 250))
+                    rn3ExpandVerticallyTransition(
+                        fadeDelay = index * 1000 + 250,
+                        fadeDuration = 250,
+                        expandDelay = index * 1000,
+                        expandDuration = 250,
+                    )
                 } else {
                     EnterTransition.None
                 },
@@ -70,7 +68,7 @@ internal fun FeedbackMessages(messages: List<String>) {
                 ) {
                     Text(
                         text = message,
-                        Modifier.padding(vertical = 6.dp, horizontal = 16.dp),
+                        Modifier.padding(vertical = 10.dp, horizontal = 14.dp),
                         style = MaterialTheme.typography.labelMedium.copy(
                             fontWeight = FontWeight.Normal,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
