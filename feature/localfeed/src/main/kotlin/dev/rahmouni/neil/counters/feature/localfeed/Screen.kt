@@ -36,11 +36,12 @@ import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
-import dev.rahmouni.neil.counters.core.designsystem.component.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
@@ -58,6 +59,10 @@ internal fun LocalFeedRoute(
     modifier: Modifier = Modifier,
     navController: NavController,
     navigateToSettings: () -> Unit,
+    navigateToMap: () -> Unit,
+    navigateToPublication: () -> Unit,
+    navigateToFiends: () -> Unit,
+    navigateToEvents: () -> Unit,
 ) {
     LocalFeedScreen(
         modifier,
@@ -66,6 +71,10 @@ internal fun LocalFeedRoute(
             "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8",
         ).toTopAppBarAction(navController::navigateToFeedback),
         onSettingsTopAppBarActionClicked = navigateToSettings,
+        onMapBottomBarItemClicked = navigateToMap,
+        onAddBottomBarItemClicked = navigateToPublication,
+        onFriendsBottomBarItemClicked = navigateToFiends,
+        onEventsBottomBarItemClicked = navigateToEvents,
     )
 
     TrackScreenViewEvent(screenName = "LocalFeed")
@@ -77,12 +86,16 @@ internal fun LocalFeedScreen(
     modifier: Modifier = Modifier,
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
+    onMapBottomBarItemClicked: () -> Unit = {},
+    onAddBottomBarItemClicked: () -> Unit = {},
+    onFriendsBottomBarItemClicked: () -> Unit = {},
+    onEventsBottomBarItemClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
-        modifier,
-        stringResource(string.feature_localfeed_topAppBarTitle),
-        null,
-        listOfNotNull(
+        modifier = modifier,
+        topAppBarTitle =  stringResource(string.feature_localfeed_topAppBarTitle),
+        onBackIconButtonClicked = null,
+        topAppBarActions = listOfNotNull(
             TopAppBarAction(
                 Icons.Outlined.Settings,
                 stringResource(string.feature_localfeed_topAppBarActions_settings),
@@ -91,11 +104,11 @@ internal fun LocalFeedScreen(
             feedbackTopAppBarAction,
         ),
         bottomBarItems = listOf(
-            BottomBarItem(Icons.Filled.Map, stringResource(string.feature_localfeed_bottomBar_map)) { /* Action */ },
-            BottomBarItem(Icons.Filled.Place, stringResource(string.feature_localfeed_bottomBar_local)) { /* Action */ },
-            BottomBarItem(Icons.Filled.Add, stringResource(string.feature_localfeed_bottomBar_add), true) { /* Action */ },
-            BottomBarItem(Icons.Filled.People, stringResource(string.feature_localfeed_bottomBar_friends)) { /* Action */ },
-            BottomBarItem(Icons.Filled.Event, stringResource(string.feature_localfeed_bottomBar_events)) { /* Action */ },
+            BottomBarItem(icon = Icons.Filled.Map, label = stringResource(string.feature_localfeed_bottomBar_map), onClick = onMapBottomBarItemClicked),
+            BottomBarItem(icon = Icons.Filled.Place, label = stringResource(string.feature_localfeed_bottomBar_local), onClick = {}, selected = true),
+            BottomBarItem(icon = Icons.Filled.Add, label = stringResource(string.feature_localfeed_bottomBar_add), onClick = onAddBottomBarItemClicked, unselectedIconColor = Color(color = 0xFFE8175D), fullSize = true),
+            BottomBarItem(icon = Icons.Filled.People, label = stringResource(string.feature_localfeed_bottomBar_friends), onClick = onFriendsBottomBarItemClicked),
+            BottomBarItem(icon = Icons.Filled.Event, label = stringResource(string.feature_localfeed_bottomBar_events), onClick = onEventsBottomBarItemClicked),
         ),
         topAppBarStyle = HOME,
     ) {

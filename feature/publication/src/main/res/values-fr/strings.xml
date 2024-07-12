@@ -16,5 +16,6 @@
 -->
 
 <resources>
-    <string name="feature_localfeed_topAppBarActions_settings">Paramètres</string>
+    <string name="feature_publication_topAppBarActions_settings">Paramètres</string>
+    <string name="feature_publication_topAppBarTitle">Publier</string>
 </resources>

@@ -91,6 +91,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.play.app.update)
     implementation(libs.play.app.update.ktx)
+    implementation(project(":feature:publication"))
 
     ksp(libs.hilt.compiler)
 

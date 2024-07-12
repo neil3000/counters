@@ -15,21 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.feature.localfeed
+package dev.rahmouni.neil.counters.feature.publication
 
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptionsBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
 
 const val PUBLICATION_ROUTE = "publication"
 
-fun NavController.navigateToLocalFeed(builder: NavOptionsBuilder.() -> Unit) =
-    navigate(PUBLICATION_ROUTE, builder)
+fun NavController.navigateToPublication(navOptions: NavOptions? = null) =
+    navigate(PUBLICATION_ROUTE, navOptions)
 
-fun NavGraphBuilder.PublicationScreen(
+fun NavGraphBuilder.publicationScreen(
     navController: NavController,
     navigateToSettings: () -> Unit,
 ) {

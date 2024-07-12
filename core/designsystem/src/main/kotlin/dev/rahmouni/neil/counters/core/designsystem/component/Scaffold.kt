@@ -42,10 +42,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ExposurePlus2
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -57,12 +55,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowHeightSizeClass.Companion.COMPACT
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
+import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
 import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
 import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
@@ -251,37 +249,15 @@ fun Rn3ScaffoldImpl(
         bottomBar = {
             if (bottomBarItems.isNotEmpty()) {
                 NavigationBar {
-                    bottomBarItems.forEachIndexed { index, item ->
-                        if (item.special) {
+                    bottomBarItems.forEachIndexed { _, item ->
                             NavigationBarItem(
-                                icon = {
-                                    Icon(
-                                        item.icon,
-                                        contentDescription = item.label,
-                                        modifier = Modifier.size(50.dp),
-                                    )
-                                },
-                                selected = false,
-                                alwaysShowLabel = false,
-                                onClick = item.onClick,
-                                colors = NavigationBarItemColors(
-                                    selectedIconColor = Color.White,
-                                    selectedTextColor = MaterialTheme.colorScheme.surfaceContainer,
-                                    selectedIndicatorColor = MaterialTheme.colorScheme.surfaceContainer,
-                                    unselectedIconColor = Color(color = 0xFFE8175D),
-                                    unselectedTextColor = MaterialTheme.colorScheme.surfaceContainer,
-                                    disabledIconColor = MaterialTheme.colorScheme.surfaceContainer,
-                                    disabledTextColor = MaterialTheme.colorScheme.surfaceContainer,
-                                ),
-                            )
-                        } else {
-                            NavigationBarItem(
-                                icon = { Icon(item.icon, contentDescription = null) },
+                                icon = { item.Icon() },
                                 label = { Text(item.label) },
-                                selected = false,
+                                selected = item.selected,
+                                alwaysShowLabel = !item.fullSize,
                                 onClick = item.onClick,
+                                colors = item.colors(),
                             )
-                        }
                     }
                 }
             }
@@ -313,10 +289,3 @@ enum class TopAppBarStyle {
     HOME,
     TRANSPARENT,
 }
-
-data class BottomBarItem(
-    val icon: ImageVector,
-    val label: String,
-    val special: Boolean = false,
-    val onClick: () -> Unit,
-)

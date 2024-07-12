@@ -32,12 +32,20 @@ fun NavController.navigateToLocalFeed(builder: NavOptionsBuilder.() -> Unit) =
 fun NavGraphBuilder.localFeedScreen(
     navController: NavController,
     navigateToSettings: () -> Unit,
+    navigateToMap: () -> Unit,
+    navigateToPublication: () -> Unit,
+    navigateToFiends: () -> Unit,
+    navigateToEvents: () -> Unit,
 ) {
     composable(route = LOCALFEED_ROUTE) {
         CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
             LocalFeedRoute(
                 navController = navController,
                 navigateToSettings = navigateToSettings,
+                navigateToMap = navigateToMap,
+                navigateToPublication = navigateToPublication,
+                navigateToFiends = navigateToFiends,
+                navigateToEvents = navigateToEvents
             )
         }
     }

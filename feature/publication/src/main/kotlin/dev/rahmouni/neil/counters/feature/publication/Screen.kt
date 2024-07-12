@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.feature.localfeed
+package dev.rahmouni.neil.counters.feature.publication
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.material.icons.Icons
@@ -26,11 +26,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
-import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
-import dev.rahmouni.neil.counters.feature.localfeed.R.string
+import dev.rahmouni.neil.counters.feature.publication.R.string
 
 @Composable
 internal fun PublicationRoute(
@@ -41,36 +41,38 @@ internal fun PublicationRoute(
 
     PublicationScreen(
         modifier,
+        onBackIconButtonClicked = navController::popBackStack,
         feedbackTopAppBarAction = FeedbackScreenContext(
-            "LocalFeedScreen",
-            "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8",
+            "PublicationScreen",
+            "MC4xwGf6j0RfzJV4O8tDBEn3BObAfFQr",
         ).toTopAppBarAction(navController::navigateToFeedback),
         onSettingsTopAppBarActionClicked = navigateToSettings,
     )
 
-    TrackScreenViewEvent(screenName = "LocalFeed")
+    TrackScreenViewEvent(screenName = "Publication")
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 @Composable
 internal fun PublicationScreen(
     modifier: Modifier = Modifier,
+    onBackIconButtonClicked: () -> Unit = {},
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
         modifier,
-        stringResource(string.feature_localfeed_topAppBarTitle),
-        null,
+        stringResource(string.feature_publication_topAppBarTitle),
+        onBackIconButtonClicked,
         listOfNotNull(
             TopAppBarAction(
                 Icons.Outlined.Settings,
-                stringResource(string.feature_localfeed_topAppBarActions_settings),
+                stringResource(string.feature_publication_topAppBarActions_settings),
                 onSettingsTopAppBarActionClicked,
             ),
             feedbackTopAppBarAction,
         ),
-        topAppBarStyle = HOME,
+        topAppBarStyle = SMALL,
     ) {
     }
 }

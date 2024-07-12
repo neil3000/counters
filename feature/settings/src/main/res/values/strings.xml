@@ -79,7 +79,7 @@
     <string name="feature_settings_settingsScreen_generalHeaderTile_title">General</string>
     <string name="feature_settings_settingsScreen_iconTooltipsTile_supportingText">Enable informative popups when you long press icon buttons</string>
     <string name="feature_settings_settingsScreen_iconTooltipsTile_title">Icon tooltips</string>
-    <string name="feature_settings_settingsScreen_iconAltTextTile_supportingText">See alt text descriptions for others photos and videos if they're available</string>
+    <string name="feature_settings_settingsScreen_iconAltTextTile_supportingText">See alt text descriptions for others photos and videos if they are available</string>
     <string name="feature_settings_settingsScreen_iconAltTextTile_title">Show alt text</string>
     <string name="feature_settings_settingsScreen_ossLicensesTile_title">Open source licenses</string>
     <string name="feature_settings_settingsScreen_otherHeaderTile_title">Other</string>

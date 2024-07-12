@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.filterNotNull
 val emptyUserData = UserData(
     hasAccessibilityEmphasizedSwitchesEnabled = false,
     hasAccessibilityIconTooltipsEnabled = true,
+    hasAccessibilityAltTextEnabled = false,
     hasMetricsEnabled = true,
     hasCrashlyticsEnabled = true,
     shouldShowLoginScreenOnStartup = false,
@@ -52,6 +53,12 @@ class TestUserDataRepository : UserDataRepository {
     override suspend fun setAccessibilityIconTooltips(value: Boolean) {
         currentUserData.let { current ->
             _userData.tryEmit(current.copy(hasAccessibilityIconTooltipsEnabled = value))
+        }
+    }
+
+    override suspend fun setAccessibilityAltText(value: Boolean) {
+        currentUserData.let { current ->
+            _userData.tryEmit(current.copy(hasAccessibilityAltTextEnabled = value))
         }
     }
 

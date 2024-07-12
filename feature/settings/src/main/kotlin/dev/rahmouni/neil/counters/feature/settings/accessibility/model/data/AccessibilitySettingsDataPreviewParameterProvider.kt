@@ -35,11 +35,13 @@ internal object PreviewParameterData {
     val accessibilitySettingsData_default = AccessibilitySettingsData(
         hasEmphasizedSwitchesEnabled = false,
         hasIconTooltipsEnabled = true,
+        hasAltTextEnabled = false,
     )
     val accessibilitySettingsData_mutations = with(accessibilitySettingsData_default) {
         sequenceOf(
             copy(hasEmphasizedSwitchesEnabled = true),
             copy(hasIconTooltipsEnabled = false),
+            copy(hasAltTextEnabled = true),
         )
     }
 }

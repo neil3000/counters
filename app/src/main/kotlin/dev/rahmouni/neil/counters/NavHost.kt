@@ -43,6 +43,8 @@ import dev.rahmouni.neil.counters.feature.login.LOGIN_ROUTE
 import dev.rahmouni.neil.counters.feature.login.loginScreen
 import dev.rahmouni.neil.counters.feature.login.navigateToLogin
 import dev.rahmouni.neil.counters.feature.settings.navigateToSettings
+import dev.rahmouni.neil.counters.feature.publication.navigateToPublication
+import dev.rahmouni.neil.counters.feature.publication.publicationScreen
 import dev.rahmouni.neil.counters.feature.settings.settingsNavigation
 import dev.rahmouni.neil.counters.ui.AppState
 import kotlinx.coroutines.delay
@@ -74,7 +76,7 @@ fun NavHost(
                     startDestination = "SPLASHSCREEN_SET_ROUTE",
                     modifier = modifier,
                 ) {
-                    localFeedScreen(navController, navController::navigateToSettings)
+                    localFeedScreen(navController, navController::navigateToSettings, {}, navController::navigateToPublication, {}, {})
                     loginScreen(navController) {
                         navController.navigateToLocalFeed {
                             popUpTo(LOGIN_ROUTE) { inclusive = true }
@@ -84,6 +86,7 @@ fun NavHost(
                         navController,
                         navController::navigateToLogin,
                     )
+                    publicationScreen(navController, navController::navigateToSettings)
 
                     feedbackDialog(navController)
 

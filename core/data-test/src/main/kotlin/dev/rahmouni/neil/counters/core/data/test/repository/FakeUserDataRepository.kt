@@ -44,6 +44,10 @@ class FakeUserDataRepository @Inject constructor(
         rn3PreferencesDataSource.setAccessibilityIconTooltipsPreference(value)
     }
 
+    override suspend fun setAccessibilityAltText(value: Boolean) {
+        rn3PreferencesDataSource.setAccessibilityAltTextPreference(value)
+    }
+
     override suspend fun setMetricsEnabled(value: Boolean) {
         rn3PreferencesDataSource.setMetricsEnabledPreference(value)
     }
