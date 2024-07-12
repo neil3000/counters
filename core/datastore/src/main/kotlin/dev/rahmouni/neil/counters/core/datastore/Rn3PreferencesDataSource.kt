@@ -32,6 +32,8 @@ class Rn3PreferencesDataSource @Inject constructor(
             hasAccessibilityEmphasizedSwitchesEnabled = userPref.accessibilityHasEmphasizedSwitchesEnabled,
             hasAccessibilityIconTooltipsEnabled = !userPref.accessibilityHasIconTooltipsDisabled,
             hasAccessibilityAltTextEnabled = userPref.accessibilityHasAltTextEnabled,
+            hasTravelModeEnabled = userPref.hasTravelModeEnabled,
+            hasFriendsMainEnabled = userPref.hasFriendsMainEnabled,
             hasMetricsEnabled = !userPref.hasMetricsDisabled,
             hasCrashlyticsEnabled = !userPref.hasCrashlyticsDisabled,
             shouldShowLoginScreenOnStartup = !userPref.shouldNotShowLoginScreenOnStartup,
@@ -66,6 +68,18 @@ class Rn3PreferencesDataSource @Inject constructor(
     suspend fun setCrashlyticsEnabledPreference(value: Boolean) {
         userPreferences.updateData {
             it.copy { this.hasCrashlyticsDisabled = !value }
+        }
+    }
+
+    suspend fun setTravelModeEnabledPreference(value: Boolean) {
+        userPreferences.updateData {
+            it.copy { this.hasTravelModeEnabled = !value }
+        }
+    }
+
+    suspend fun setFriendsMainEnabledPreference(value: Boolean) {
+        userPreferences.updateData {
+            it.copy { this.hasFriendsMainEnabled = !value }
         }
     }
 

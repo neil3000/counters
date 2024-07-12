@@ -26,6 +26,7 @@ import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState.Su
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.SettingsData
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -40,20 +41,27 @@ class SettingsViewModel @Inject constructor(
 
     private var devSettingsEnabled = false
 
-    val uiState: StateFlow<SettingsUiState> =
-        authHelper.getUserFlow().map { user ->
-            Success(
-                SettingsData(
-                    user = user,
-                    devSettingsEnabled = devSettingsEnabled,
-                ),
-            )
-        }.stateIn(
+    val uiState: StateFlow<SettingsUiState> = userDataRepository.userData
+        .flatMapConcat { userData ->
+            authHelper.getUserFlow().map { user ->
+                Success(
+                    SettingsData(
+                        user = user,
+                        devSettingsEnabled = devSettingsEnabled,
+                        hasTravelModeEnabled = userData.hasTravelModeEnabled,
+                        hasFriendsMainEnabled = userData.hasFriendsMainEnabled,
+                    ),
+                )
+            }
+        }
+        .stateIn(
             scope = viewModelScope,
             initialValue = Success(
                 SettingsData(
                     user = authHelper.getUser(),
                     devSettingsEnabled = devSettingsEnabled,
+                    hasTravelModeEnabled = false,
+                    hasFriendsMainEnabled = false,
                 ),
             ),
             started = WhileSubscribed(5.seconds.inWholeMilliseconds),
@@ -61,6 +69,18 @@ class SettingsViewModel @Inject constructor(
 
     fun setDevSettingsEnabled(enabled: Boolean) {
         devSettingsEnabled = enabled
+    }
+
+    fun setTravelMode(value: Boolean) {
+        viewModelScope.launch {
+            userDataRepository.setTravelMode(value)
+        }
+    }
+
+    fun setFriendsMain(value: Boolean) {
+        viewModelScope.launch {
+            userDataRepository.setFriendsMain(value)
+        }
     }
 
     fun logout() {

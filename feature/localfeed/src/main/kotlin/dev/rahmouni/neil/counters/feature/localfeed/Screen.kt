@@ -17,8 +17,8 @@
 
 package dev.rahmouni.neil.counters.feature.localfeed
 
-import Post
-import Publication
+import LocalPost
+import LocalPublication
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
@@ -30,9 +30,9 @@ import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationCity
-import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.Route
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -59,9 +59,9 @@ internal fun LocalFeedRoute(
     modifier: Modifier = Modifier,
     navController: NavController,
     navigateToSettings: () -> Unit,
-    navigateToMap: () -> Unit,
+    navigateToConnect: () -> Unit,
+    navigateToFriends: () -> Unit,
     navigateToPublication: () -> Unit,
-    navigateToFiends: () -> Unit,
     navigateToEvents: () -> Unit,
 ) {
     LocalFeedScreen(
@@ -71,9 +71,9 @@ internal fun LocalFeedRoute(
             "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8",
         ).toTopAppBarAction(navController::navigateToFeedback),
         onSettingsTopAppBarActionClicked = navigateToSettings,
-        onMapBottomBarItemClicked = navigateToMap,
+        onConnectBottomBarItemClicked = navigateToConnect,
+        onFriendsBottomBarItemClicked = navigateToFriends,
         onAddBottomBarItemClicked = navigateToPublication,
-        onFriendsBottomBarItemClicked = navigateToFiends,
         onEventsBottomBarItemClicked = navigateToEvents,
     )
 
@@ -86,9 +86,9 @@ internal fun LocalFeedScreen(
     modifier: Modifier = Modifier,
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
-    onMapBottomBarItemClicked: () -> Unit = {},
-    onAddBottomBarItemClicked: () -> Unit = {},
+    onConnectBottomBarItemClicked: () -> Unit = {},
     onFriendsBottomBarItemClicked: () -> Unit = {},
+    onAddBottomBarItemClicked: () -> Unit = {},
     onEventsBottomBarItemClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
@@ -104,10 +104,23 @@ internal fun LocalFeedScreen(
             feedbackTopAppBarAction,
         ),
         bottomBarItems = listOf(
-            BottomBarItem(icon = Icons.Filled.Map, label = stringResource(string.feature_localfeed_bottomBar_map), onClick = onMapBottomBarItemClicked),
-            BottomBarItem(icon = Icons.Filled.Place, label = stringResource(string.feature_localfeed_bottomBar_local), onClick = {}, selected = true),
+            BottomBarItem(
+                icon = Icons.Filled.Route,
+                label = stringResource(string.feature_localfeed_bottomBar_connect),
+                onClick = onConnectBottomBarItemClicked,
+            ),
+            BottomBarItem(
+                icon = Icons.Filled.People,
+                label = stringResource(string.feature_localfeed_bottomBar_friends),
+                onClick = onFriendsBottomBarItemClicked,
+            ),
             BottomBarItem(icon = Icons.Filled.Add, label = stringResource(string.feature_localfeed_bottomBar_add), onClick = onAddBottomBarItemClicked, unselectedIconColor = Color(color = 0xFFE8175D), fullSize = true),
-            BottomBarItem(icon = Icons.Filled.People, label = stringResource(string.feature_localfeed_bottomBar_friends), onClick = onFriendsBottomBarItemClicked),
+            BottomBarItem(
+                icon = Icons.Filled.Place,
+                label = stringResource(string.feature_localfeed_bottomBar_local),
+                onClick = {},
+                selected = true,
+            ),
             BottomBarItem(icon = Icons.Filled.Event, label = stringResource(string.feature_localfeed_bottomBar_events), onClick = onEventsBottomBarItemClicked),
         ),
         topAppBarStyle = HOME,
@@ -128,14 +141,14 @@ private fun LocalFeedPanel(
             .padding(paddingValues),
     ) {
         listOf(
-            Post(
+            LocalPost(
                 timestamp = LocalDateTime.now(),
                 title = "Rediscover Street King Charles",
                 content = "The Street King Charles was under construction, but now it's all clear! The renovation has finished, making this spot more accessible and enjoyable. Explore the new look of this iconic street and join me on this adventure.",
                 place = "Street King Charles",
                 placeIcon = Icons.Filled.Directions,
             ),
-            Post(
+            LocalPost(
                 timestamp = LocalDateTime.now().minusMinutes(30),
                 title = "Bike for Sale in London",
                 content = "I'm selling my road bike in excellent condition! It's perfect for anyone looking to explore the city or commute efficiently. Details: Brand - Trek, Model - Emonda, Year - 2020, Color - Black. Contact me if interested!",
@@ -143,21 +156,21 @@ private fun LocalFeedPanel(
                 placeIcon = Icons.Filled.LocationCity,
                 buttons = listOf("I'm interested"),
             ),
-            Post(
+            LocalPost(
                 timestamp = LocalDateTime.now().minusHours(3),
                 title = "Celebrating England's Newest National Park",
                 content = "Exciting news for nature enthusiasts! England welcomes its newest national park, providing vast spaces for hiking, wildlife exploration, and stunning scenery. Discover the endless trails and the beauty of our protected lands. Join us in celebrating this great addition to our national heritage.",
                 place = "England",
                 placeIcon = Icons.Filled.Flag,
             ),
-            Post(
+            LocalPost(
                 timestamp = LocalDateTime.now().minusDays(1),
                 title = "Noisy Neighbors",
                 content = "Seems like there's an impromptu concert every night next door! The music and noise levels from my neighbors have become a real challenge.",
                 place = "221B Baker Street",
                 placeIcon = Icons.Filled.Home,
             ),
-            Post(
+            LocalPost(
                 timestamp = LocalDateTime.now().minusDays(5),
                 title = "Power Outage in Chelsea",
                 content = "Is anyone else experiencing a power outage in Chelsea?",
@@ -166,7 +179,7 @@ private fun LocalFeedPanel(
                 buttons = listOf("Yes", "No"),
             ),
         ).forEach { post ->
-            Publication(post)
+            LocalPublication(post)
             Rn3TileHorizontalDivider(
                 paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
                     top = 0.dp,

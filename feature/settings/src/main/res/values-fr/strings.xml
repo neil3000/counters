@@ -26,6 +26,10 @@
     <string name="feature_settings_dataAndPrivacySettingsScreen_metricsHeaderTile_title">Métriques</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title">En savoir plus</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_metricsTile_title">Métriques</string>
+    <string name="feature_settings_mainScreen_travelModeTile_title">Mode voyage</string>
+    <string name="feature_settings_mainScreen_friendsMainTile_title">Amis en principal</string>
+    <string name="feature_settings_mainScreen_travelModeTile_supportingText">Configuration adaptée quand vous n\'êtes pas chez vous</string>
+    <string name="feature_settings_mainScreen_friendsMainTile_supportingText">Ouvre l\'application sur la page \"amis\"</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicyHeaderTile_title">Politique de confidentialité</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title">Résumé</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title">Politique de confidentialité</string>

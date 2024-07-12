@@ -19,7 +19,7 @@
 <resources>
     <string name="feature_localfeed_topAppBarActions_settings">Settings</string>
     <string name="feature_localfeed_topAppBarTitle" translatable="false">ReBased</string>
-    <string name="feature_localfeed_bottomBar_map">Map</string>
+    <string name="feature_localfeed_bottomBar_connect">Connect</string>
     <string name="feature_localfeed_bottomBar_local">Local</string>
     <string name="feature_localfeed_bottomBar_add">Add</string>
     <string name="feature_localfeed_bottomBar_friends">Friends</string>

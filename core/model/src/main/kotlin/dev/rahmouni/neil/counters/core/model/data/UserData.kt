@@ -21,6 +21,8 @@ data class UserData(
     val hasAccessibilityEmphasizedSwitchesEnabled: Boolean,
     val hasAccessibilityIconTooltipsEnabled: Boolean,
     val hasAccessibilityAltTextEnabled: Boolean,
+    val hasTravelModeEnabled: Boolean,
+    val hasFriendsMainEnabled: Boolean,
     val hasMetricsEnabled: Boolean,
     val hasCrashlyticsEnabled: Boolean,
     val shouldShowLoginScreenOnStartup: Boolean,

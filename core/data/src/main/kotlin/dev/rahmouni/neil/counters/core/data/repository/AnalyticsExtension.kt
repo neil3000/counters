@@ -74,6 +74,26 @@ internal fun AnalyticsHelper.logCrashlyticsPreferenceChanged(value: Boolean) =
         ),
     )
 
+internal fun AnalyticsHelper.logTravelModePreferenceChanged(value: Boolean) =
+    logEvent(
+        AnalyticsEvent(
+            type = "travelmode_preference_changed",
+            extras = listOf(
+                Param(key = "travelmode_preference", value = value.toString()),
+            ),
+        ),
+    )
+
+internal fun AnalyticsHelper.logFriendsMainPreferenceChanged(value: Boolean) =
+    logEvent(
+        AnalyticsEvent(
+            type = "friendsmain_preference_changed",
+            extras = listOf(
+                Param(key = "friendsmain_preference", value = value.toString()),
+            ),
+        ),
+    )
+
 internal fun AnalyticsHelper.logCreatedCounter() =
     logEvent(
         AnalyticsEvent(type = "created_counter"),

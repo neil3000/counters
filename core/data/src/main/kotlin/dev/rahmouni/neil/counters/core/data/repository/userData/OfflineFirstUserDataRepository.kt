@@ -18,11 +18,13 @@
 package dev.rahmouni.neil.counters.core.data.repository.userData
 
 import dev.rahmouni.neil.counters.core.analytics.AnalyticsHelper
+import dev.rahmouni.neil.counters.core.data.repository.logAccessibilityAltTextPreferenceChanged
 import dev.rahmouni.neil.counters.core.data.repository.logAccessibilityEmphasizedSwitchesPreferenceChanged
 import dev.rahmouni.neil.counters.core.data.repository.logAccessibilityIconTooltipsPreferenceChanged
-import dev.rahmouni.neil.counters.core.data.repository.logAccessibilityAltTextPreferenceChanged
 import dev.rahmouni.neil.counters.core.data.repository.logCrashlyticsPreferenceChanged
+import dev.rahmouni.neil.counters.core.data.repository.logFriendsMainPreferenceChanged
 import dev.rahmouni.neil.counters.core.data.repository.logMetricsPreferenceChanged
+import dev.rahmouni.neil.counters.core.data.repository.logTravelModePreferenceChanged
 import dev.rahmouni.neil.counters.core.datastore.Rn3PreferencesDataSource
 import dev.rahmouni.neil.counters.core.model.data.UserData
 import kotlinx.coroutines.flow.Flow
@@ -58,6 +60,16 @@ internal class OfflineFirstUserDataRepository @Inject constructor(
     override suspend fun setCrashlyticsEnabled(value: Boolean) {
         rn3PreferencesDataSource.setCrashlyticsEnabledPreference(value)
         analyticsHelper.logCrashlyticsPreferenceChanged(value)
+    }
+
+    override suspend fun setTravelMode(value: Boolean) {
+        rn3PreferencesDataSource.setTravelModeEnabledPreference(value)
+        analyticsHelper.logTravelModePreferenceChanged(value)
+    }
+
+    override suspend fun setFriendsMain(value: Boolean) {
+        rn3PreferencesDataSource.setFriendsMainEnabledPreference(value)
+        analyticsHelper.logFriendsMainPreferenceChanged(value)
     }
 
     override suspend fun setShouldShowLoginScreenOnStartup(value: Boolean) =

@@ -38,6 +38,10 @@ interface UserDataRepository {
 
     suspend fun setAccessibilityAltText(value: Boolean)
 
+    suspend fun setTravelMode(value: Boolean)
+
+    suspend fun setFriendsMain(value: Boolean)
+
     suspend fun setMetricsEnabled(value: Boolean)
     suspend fun setCrashlyticsEnabled(value: Boolean)
     suspend fun setShouldShowLoginScreenOnStartup(value: Boolean)

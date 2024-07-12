@@ -43,11 +43,15 @@ object PreviewParameterData {
             email = "androidPreview@rahmouni.dev",
         ),
         devSettingsEnabled = false,
+        hasTravelModeEnabled = false,
+        hasFriendsMainEnabled = false,
     )
     val settingsData_mutations = with(settingsData_default) {
         sequenceOf(
             copy(user = AnonymousUser("androidPreviewID")),
             copy(devSettingsEnabled = true),
+            copy(hasTravelModeEnabled = false),
+            copy(hasFriendsMainEnabled = false),
         )
     }
 }

@@ -25,7 +25,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.Info
@@ -162,7 +162,7 @@ private fun DataAndPrivacySettingsPanel(
         // metricsTile
         Rn3TileSwitch(
             title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsTile_title),
-            icon = Icons.Outlined.Analytics,
+            icon = Outlined.Analytics,
             checked = data.hasMetricsEnabled,
             onCheckedChange = onMetricsTileCheckedChange,
         )
@@ -170,15 +170,15 @@ private fun DataAndPrivacySettingsPanel(
         // clearMetricsTile
         Rn3TileClickConfirmationDialog(
             title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_clearMetricsTile_title),
-            icon = Icons.Outlined.RestartAlt,
+            icon = Outlined.RestartAlt,
             bodyHeader = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_clearMetricsTile_bodyHeader),
             bodyBulletPoints = mapOf(
-                Icons.Outlined.RestartAlt to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_onDeviceMetricsDataCleared),
-                (if (data.hasMetricsEnabled) Icons.Outlined.ToggleOn else Icons.Outlined.ToggleOff) to pluralStringResource(
+                Outlined.RestartAlt to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_onDeviceMetricsDataCleared),
+                (if (data.hasMetricsEnabled) Outlined.ToggleOn else Outlined.ToggleOff) to pluralStringResource(
                     R.plurals.feature_settings_settingsScreen_accountLogoutTile_body_metricsRemainStateButCanChangeInSettings,
                     data.hasMetricsEnabled.compareTo(false),
                 ),
-                Icons.Outlined.Warning to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_actionCannotBeUndone),
+                Outlined.Warning to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_actionCannotBeUndone),
             ),
             onClick = onClearMetricsTileClicked,
         )
@@ -186,7 +186,7 @@ private fun DataAndPrivacySettingsPanel(
         // metricsInfoTile
         Rn3ExpandableSurface(
             content = {
-                Icon(Icons.Outlined.Info, null)
+                Icon(Outlined.Info, null)
                 Spacer(Modifier.width(16.dp))
                 Text(stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title))
             },
@@ -206,7 +206,7 @@ private fun DataAndPrivacySettingsPanel(
         // crashlyticsTile
         Rn3TileSwitch(
             title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsTile_title),
-            icon = Icons.Outlined.BugReport,
+            icon = Outlined.BugReport,
             checked = data.hasCrashlyticsEnabled,
             onCheckedChange = onCrashlyticsTileCheckedChange,
         )
@@ -214,7 +214,7 @@ private fun DataAndPrivacySettingsPanel(
         // crashlyticsInfoTile
         Rn3ExpandableSurface(
             content = {
-                Icon(Icons.Outlined.Info, null)
+                Icon(Outlined.Info, null)
                 Spacer(Modifier.width(16.dp))
                 Text(stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title))
             },
@@ -234,7 +234,7 @@ private fun DataAndPrivacySettingsPanel(
         // privacyPolicyTile
         Rn3TileUri(
             title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title),
-            icon = Icons.Outlined.Policy,
+            icon = Outlined.Policy,
             uri = privacyPolicyTileUri,
         )
 

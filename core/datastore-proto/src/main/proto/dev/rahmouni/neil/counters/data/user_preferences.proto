@@ -11,6 +11,8 @@ message UserPreferences {
   bool hasCrashlyticsDisabled = 5;
   bool shouldNotShowLoginScreenOnStartup = 6;
   bool isNotAppFirstLaunch = 7;
+  bool hasTravelModeEnabled = 8;
+  bool hasFriendsMainEnabled = 9;
 
-  // NEXT AVAILABLE ID: 8
+  // NEXT AVAILABLE ID: 10
 }

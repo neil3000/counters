@@ -36,15 +36,21 @@ import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
 import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
 import dev.rahmouni.neil.counters.core.feedback.feedbackDialog
 import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
+import dev.rahmouni.neil.counters.feature.connect.connectScreen
+import dev.rahmouni.neil.counters.feature.connect.navigateToConnect
+import dev.rahmouni.neil.counters.feature.events.eventsScreen
+import dev.rahmouni.neil.counters.feature.events.navigateToEvents
+import dev.rahmouni.neil.counters.feature.friendsfeed.friendsFeedScreen
+import dev.rahmouni.neil.counters.feature.friendsfeed.navigateToFriendsFeed
 import dev.rahmouni.neil.counters.feature.localfeed.LOCALFEED_ROUTE
 import dev.rahmouni.neil.counters.feature.localfeed.localFeedScreen
 import dev.rahmouni.neil.counters.feature.localfeed.navigateToLocalFeed
 import dev.rahmouni.neil.counters.feature.login.LOGIN_ROUTE
 import dev.rahmouni.neil.counters.feature.login.loginScreen
 import dev.rahmouni.neil.counters.feature.login.navigateToLogin
-import dev.rahmouni.neil.counters.feature.settings.navigateToSettings
 import dev.rahmouni.neil.counters.feature.publication.navigateToPublication
 import dev.rahmouni.neil.counters.feature.publication.publicationScreen
+import dev.rahmouni.neil.counters.feature.settings.navigateToSettings
 import dev.rahmouni.neil.counters.feature.settings.settingsNavigation
 import dev.rahmouni.neil.counters.ui.AppState
 import kotlinx.coroutines.delay
@@ -76,12 +82,45 @@ fun NavHost(
                     startDestination = "SPLASHSCREEN_SET_ROUTE",
                     modifier = modifier,
                 ) {
-                    localFeedScreen(navController, navController::navigateToSettings, {}, navController::navigateToPublication, {}, {})
+                    connectScreen(
+                        navController,
+                        navController::navigateToSettings,
+                        { navController.navigateToFriendsFeed {} },
+                        navController::navigateToPublication,
+                        { navController.navigateToLocalFeed {} },
+                        navController::navigateToEvents,
+                    )
+                    friendsFeedScreen(
+                        navController,
+                        navController::navigateToSettings,
+                        navController::navigateToConnect,
+                        navController::navigateToPublication,
+                        { navController.navigateToLocalFeed {} },
+                        navController::navigateToEvents,
+                    )
+                    localFeedScreen(
+                        navController,
+                        navController::navigateToSettings,
+                        navController::navigateToConnect,
+                        { navController.navigateToFriendsFeed {} },
+                        navController::navigateToPublication,
+                        navController::navigateToEvents,
+                    )
+                    eventsScreen(
+                        navController,
+                        navController::navigateToSettings,
+                        navController::navigateToConnect,
+                        { navController.navigateToFriendsFeed {} },
+                        navController::navigateToPublication,
+                        { navController.navigateToLocalFeed {} },
+                    )
+
                     loginScreen(navController) {
                         navController.navigateToLocalFeed {
                             popUpTo(LOGIN_ROUTE) { inclusive = true }
                         }
                     }
+
                     settingsNavigation(
                         navController,
                         navController::navigateToLogin,

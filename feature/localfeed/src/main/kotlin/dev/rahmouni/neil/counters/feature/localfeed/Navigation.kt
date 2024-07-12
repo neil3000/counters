@@ -32,9 +32,9 @@ fun NavController.navigateToLocalFeed(builder: NavOptionsBuilder.() -> Unit) =
 fun NavGraphBuilder.localFeedScreen(
     navController: NavController,
     navigateToSettings: () -> Unit,
-    navigateToMap: () -> Unit,
-    navigateToPublication: () -> Unit,
+    navigateToConnect: () -> Unit,
     navigateToFiends: () -> Unit,
+    navigateToPublication: () -> Unit,
     navigateToEvents: () -> Unit,
 ) {
     composable(route = LOCALFEED_ROUTE) {
@@ -42,10 +42,10 @@ fun NavGraphBuilder.localFeedScreen(
             LocalFeedRoute(
                 navController = navController,
                 navigateToSettings = navigateToSettings,
-                navigateToMap = navigateToMap,
+                navigateToConnect = navigateToConnect,
+                navigateToFriends = navigateToFiends,
                 navigateToPublication = navigateToPublication,
-                navigateToFiends = navigateToFiends,
-                navigateToEvents = navigateToEvents
+                navigateToEvents = navigateToEvents,
             )
         }
     }

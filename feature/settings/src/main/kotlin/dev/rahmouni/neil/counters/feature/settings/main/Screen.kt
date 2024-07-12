@@ -36,8 +36,10 @@ import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.AccessibilityNew
 import androidx.compose.material.icons.outlined.ArrowCircleUp
 import androidx.compose.material.icons.outlined.DataObject
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Group
+import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.Icon
@@ -76,6 +78,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickC
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.component.user.UserAvatarAndName
 import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
 import dev.rahmouni.neil.counters.core.designsystem.icons.DevicesOff
@@ -170,6 +173,8 @@ internal fun SettingsRoute(
             analytics.logSettingsUiEvent("ossLicensesTile")
             context.openOssLicensesActivity()
         },
+        setTravelMode = viewModel::setTravelMode,
+        setFriendsMain = viewModel::setFriendsMain,
     )
 
     TrackScreenViewEvent(screenName = "Settings")
@@ -191,6 +196,8 @@ internal fun SettingsScreen(
     onClickAccessibilityTile: () -> Unit = {},
     onClickDeveloperSettingsTile: () -> Unit = {},
     onClickOssLicensesTile: () -> Unit = {},
+    setTravelMode: (Boolean) -> Unit = {},
+    setFriendsMain: (Boolean) -> Unit = {},
 ) {
     Rn3Scaffold(
         modifier,
@@ -212,6 +219,8 @@ internal fun SettingsScreen(
                 onClickAccessibilityTile,
                 onClickDeveloperSettingsTile,
                 onClickOssLicensesTile,
+                setTravelMode,
+                setFriendsMain,
             )
         }
     }
@@ -230,6 +239,8 @@ private fun SettingsPanel(
     onClickAccessibilityTile: () -> Unit,
     onClickDeveloperSettingsTile: () -> Unit,
     onClickOssLicensesTile: () -> Unit,
+    setTravelMode: (Boolean) -> Unit,
+    setFriendsMain: (Boolean) -> Unit,
 ) {
     val haptics = getHaptic()
 
@@ -335,6 +346,24 @@ private fun SettingsPanel(
 
         // generalHeaderTile
         Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_generalHeaderTile_title))
+
+        // TravelModeTile
+        Rn3TileSwitch(
+            title = stringResource(string.feature_settings_mainScreen_travelModeTile_title),
+            icon = Outlined.Public,
+            supportingText = stringResource(string.feature_settings_mainScreen_travelModeTile_supportingText),
+            checked = data.hasTravelModeEnabled,
+            onCheckedChange = setTravelMode,
+        )
+
+        // MainFriendsTile
+        Rn3TileSwitch(
+            title = stringResource(string.feature_settings_mainScreen_friendsMainTile_title),
+            icon = Outlined.Favorite,
+            supportingText = stringResource(string.feature_settings_mainScreen_friendsMainTile_supportingText),
+            checked = data.hasFriendsMainEnabled,
+            onCheckedChange = setFriendsMain,
+        )
 
         // dataAndPrivacyTile
         Rn3TileClick(

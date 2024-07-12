@@ -26,6 +26,10 @@
     <string name="feature_settings_dataAndPrivacySettingsScreen_metricsHeaderTile_title">Metrics</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title">Learn more</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_metricsTile_title">Metrics</string>
+    <string name="feature_settings_mainScreen_travelModeTile_title">Travel mode</string>
+    <string name="feature_settings_mainScreen_friendsMainTile_title">Friends main</string>
+    <string name="feature_settings_mainScreen_travelModeTile_supportingText">Adapted app configuration when you\'re not home</string>
+    <string name="feature_settings_mainScreen_friendsMainTile_supportingText">Open the app on "friends" tab</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicyHeaderTile_title">Privacy policy</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title">Summary</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title">Privacy policy</string>
