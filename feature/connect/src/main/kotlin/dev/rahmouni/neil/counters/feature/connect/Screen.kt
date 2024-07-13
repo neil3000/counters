@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Route
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -33,7 +34,7 @@ import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
-import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
@@ -78,10 +79,11 @@ internal fun ConnectScreen(
     onEventsBottomBarItemClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
-        modifier,
-        stringResource(string.feature_connect_topAppBarTitle),
-        null,
-        listOfNotNull(
+        modifier = modifier,
+        topAppBarTitle = stringResource(string.feature_connect_topAppBarTitle),
+        topAppBarTitleAlignment = CenterHorizontally,
+        onBackIconButtonClicked = null,
+        topAppBarActions =  listOfNotNull(
             TopAppBarAction(
                 Icons.Outlined.Settings,
                 stringResource(string.feature_connect_topAppBarActions_settings),
@@ -119,7 +121,7 @@ internal fun ConnectScreen(
                 onClick = onEventsBottomBarItemClicked,
             ),
         ),
-        topAppBarStyle = SMALL,
+        topAppBarStyle = HOME,
     ) {
     }
 }

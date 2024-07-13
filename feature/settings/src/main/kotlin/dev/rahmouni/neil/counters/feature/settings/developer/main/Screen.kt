@@ -106,9 +106,9 @@ internal fun DeveloperSettingsScreen(
     onSimulateCrashTileClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
-        modifier,
-        stringResource(string.feature_settings_developerSettingsScreen_topAppBarTitle),
-        onBackIconButtonClicked,
+        modifier = modifier,
+        topAppBarTitle =  stringResource(string.feature_settings_developerSettingsScreen_topAppBarTitle),
+        onBackIconButtonClicked = onBackIconButtonClicked,
     ) {
         DeveloperSettingsPanel(
             it,

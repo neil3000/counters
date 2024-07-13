@@ -121,9 +121,9 @@ internal fun DataAndPrivacySettingsScreen(
     privacyPolicyTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
 ) {
     Rn3Scaffold(
-        modifier,
-        stringResource(string.feature_settings_dataAndPrivacySettingsScreen_topAppBarTitle),
-        onBackIconButtonClicked,
+        modifier = modifier,
+        topAppBarTitle = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_topAppBarTitle),
+        onBackIconButtonClicked = onBackIconButtonClicked,
         topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
     ) {
         when (uiState) {

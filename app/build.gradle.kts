@@ -92,6 +92,7 @@ dependencies {
     implementation(libs.play.app.update.ktx)
     implementation(project(":feature:publication"))
     implementation(project(":feature:friendsfeed"))
+    implementation(project(":feature:localfeed"))
     implementation(project(":feature:events"))
     implementation(project(":feature:connect"))
 

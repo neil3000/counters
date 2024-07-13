@@ -200,9 +200,9 @@ internal fun SettingsScreen(
     setFriendsMain: (Boolean) -> Unit = {},
 ) {
     Rn3Scaffold(
-        modifier,
-        stringResource(string.feature_settings_settingsScreen_topAppBarTitle),
-        onBackIconButtonClicked,
+        modifier = modifier,
+        topAppBarTitle =  stringResource(string.feature_settings_settingsScreen_topAppBarTitle),
+        onBackIconButtonClicked =  onBackIconButtonClicked,
         topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
     ) {
         when (uiState) {

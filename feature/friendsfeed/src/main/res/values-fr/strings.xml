@@ -17,6 +17,7 @@
 
 <resources>
     <string name="feature_friendsfeed_topAppBarActions_settings">Paramètres</string>
+    <string name="feature_friendsfeed_topAppBarTitle">Amis</string>
     <string name="feature_friendsfeed_bottomBar_connect">Connexion</string>
     <string name="feature_friendsfeed_bottomBar_local">Local</string>
     <string name="feature_friendsfeed_bottomBar_add">Ajouter</string>

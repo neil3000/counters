@@ -61,10 +61,10 @@ internal fun PublicationScreen(
     onSettingsTopAppBarActionClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
-        modifier,
-        stringResource(string.feature_publication_topAppBarTitle),
-        onBackIconButtonClicked,
-        listOfNotNull(
+        modifier = modifier,
+        topAppBarTitle = stringResource(string.feature_publication_topAppBarTitle),
+        onBackIconButtonClicked = onBackIconButtonClicked,
+        topAppBarActions =  listOfNotNull(
             TopAppBarAction(
                 Icons.Outlined.Settings,
                 stringResource(string.feature_publication_topAppBarActions_settings),

@@ -148,9 +148,9 @@ internal fun LoginScreen(
 ) {
     Rn3Scaffold(
         modifier,
-        "",
-        null,
-        listOfNotNull(feedbackTopAppBarAction),
+        topAppBarTitle = "",
+        onBackIconButtonClicked = null,
+        topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
         topAppBarStyle = TRANSPARENT,
     ) {
         LoginPanel(user, onConfirmSignIn, onAddAccountTileClicked)

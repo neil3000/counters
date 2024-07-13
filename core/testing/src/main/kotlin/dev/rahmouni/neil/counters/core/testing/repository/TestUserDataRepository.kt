@@ -28,6 +28,8 @@ val emptyUserData = UserData(
     hasAccessibilityEmphasizedSwitchesEnabled = false,
     hasAccessibilityIconTooltipsEnabled = true,
     hasAccessibilityAltTextEnabled = false,
+    hasTravelModeEnabled = false,
+    hasFriendsMainEnabled = false,
     hasMetricsEnabled = true,
     hasCrashlyticsEnabled = true,
     shouldShowLoginScreenOnStartup = false,
@@ -59,6 +61,18 @@ class TestUserDataRepository : UserDataRepository {
     override suspend fun setAccessibilityAltText(value: Boolean) {
         currentUserData.let { current ->
             _userData.tryEmit(current.copy(hasAccessibilityAltTextEnabled = value))
+        }
+    }
+
+    override suspend fun setTravelMode(value: Boolean) {
+        currentUserData.let { current ->
+            _userData.tryEmit(current.copy(hasTravelModeEnabled = value))
+        }
+    }
+
+    override suspend fun setFriendsMain(value: Boolean) {
+        currentUserData.let { current ->
+            _userData.tryEmit(current.copy(hasFriendsMainEnabled = value))
         }
     }
 

@@ -27,16 +27,18 @@ import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ExposurePlus2
@@ -52,6 +54,7 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -84,6 +87,7 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.toRn3PaddingVa
 fun Rn3Scaffold(
     modifier: Modifier = Modifier,
     topAppBarTitle: String,
+    topAppBarTitleAlignment: Alignment.Horizontal = Start,
     onBackIconButtonClicked: (() -> Unit)?,
     topAppBarActions: List<TopAppBarAction> = emptyList(),
     topAppBarStyle: TopAppBarStyle = LARGE,
@@ -132,7 +136,6 @@ fun Rn3Scaffold(
                 val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
 
                 Row(
-                    horizontalArrangement = spacedBy(12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     if (topAppBarStyle == HOME) {
@@ -223,9 +226,13 @@ fun Rn3Scaffold(
                         }
                     }
                     Text(
-                        topAppBarTitle,
+                        text = topAppBarTitle,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = if (topAppBarStyle == HOME) 12.dp else 0.dp)
+                            .wrapContentWidth(topAppBarTitleAlignment),
                     )
                 }
             }

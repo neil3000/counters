@@ -79,9 +79,9 @@ internal fun DeveloperSettingsLinksScreen(
         editLinkModal(onConfirm = onConfirmButtonClicked, onDelete = onDeleteButtonClicked)
 
     Rn3Scaffold(
-        modifier,
-        stringResource(string.feature_settings_developerSettingsLinksScreen_topAppBarTitle),
-        onBackIconButtonClicked,
+        modifier = modifier,
+        topAppBarTitle = stringResource(string.feature_settings_developerSettingsLinksScreen_topAppBarTitle),
+        onBackIconButtonClicked = onBackIconButtonClicked,
         floatingActionButton = {
             FloatingActionButton(
                 modifier = it,
