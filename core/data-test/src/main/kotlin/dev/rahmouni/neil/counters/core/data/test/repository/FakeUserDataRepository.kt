@@ -48,6 +48,14 @@ class FakeUserDataRepository @Inject constructor(
         rn3PreferencesDataSource.setAccessibilityAltTextPreference(value)
     }
 
+    override suspend fun setTravelMode(value: Boolean) {
+        rn3PreferencesDataSource.setTravelModePreference(value)
+    }
+
+    override suspend fun setFriendsMain(value: Boolean) {
+        rn3PreferencesDataSource.setFriendsMainPreference(value)
+    }
+
     override suspend fun setMetricsEnabled(value: Boolean) {
         rn3PreferencesDataSource.setMetricsEnabledPreference(value)
     }

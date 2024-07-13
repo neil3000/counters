@@ -57,9 +57,12 @@ class MainActivityViewModel @Inject constructor(
                     accessibilityHelper = AccessibilityHelper(
                         hasEmphasizedSwitchesEnabled = userData.hasAccessibilityEmphasizedSwitchesEnabled,
                         hasIconTooltipsEnabled = userData.hasAccessibilityIconTooltipsEnabled,
+                        hasAltTextEnabled = userData.hasAccessibilityAltTextEnabled,
                     ),
                     hasMetricsEnabled = userData.hasMetricsEnabled,
                     hasCrashlyticsEnabled = userData.hasCrashlyticsEnabled,
+                    hasTravelModeEnabled = userData.hasTravelModeEnabled,
+                    hasFriendsMainEnabled = userData.hasFriendsMainEnabled,
                     isAppFirstLaunch = BuildConfig.FLAVOR != "demo" && isAppFirstLaunch,
                     shouldShowLoginScreenOnStartup = BuildConfig.FLAVOR != "demo" && shouldShowLoginScreenOnStartup,
                 )
@@ -85,5 +88,7 @@ sealed interface MainActivityUiState {
         val hasCrashlyticsEnabled: Boolean,
         val isAppFirstLaunch: Boolean,
         val shouldShowLoginScreenOnStartup: Boolean,
+        val hasTravelModeEnabled: Boolean,
+        val hasFriendsMainEnabled: Boolean,
     ) : MainActivityUiState
 }

@@ -64,6 +64,9 @@ class OfflineFirstUserDataRepositoryTest {
                 UserData(
                     hasAccessibilityEmphasizedSwitchesEnabled = false,
                     hasAccessibilityIconTooltipsEnabled = true,
+                    hasAccessibilityAltTextEnabled = false,
+                    hasTravelModeEnabled = false,
+                    hasFriendsMainEnabled = false,
                     hasMetricsEnabled = true,
                     hasCrashlyticsEnabled = true,
                     shouldShowLoginScreenOnStartup = true,

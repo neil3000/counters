@@ -71,13 +71,13 @@ class Rn3PreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun setTravelModeEnabledPreference(value: Boolean) {
+    suspend fun setTravelModePreference(value: Boolean) {
         userPreferences.updateData {
             it.copy { this.hasTravelModeEnabled = !value }
         }
     }
 
-    suspend fun setFriendsMainEnabledPreference(value: Boolean) {
+    suspend fun setFriendsMainPreference(value: Boolean) {
         userPreferences.updateData {
             it.copy { this.hasFriendsMainEnabled = !value }
         }

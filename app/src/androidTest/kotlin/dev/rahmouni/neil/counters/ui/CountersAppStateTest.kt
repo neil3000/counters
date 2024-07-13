@@ -32,27 +32,27 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 /**
- * Tests [CountersAppState].
+ * Tests [AppState].
  *
  * Note: This could become an unit test if Robolectric is added to the project and the Context
  * is faked.
  */
-class CountersAppStateTest {
+class AppStateTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
     // Subject under test.
-    private lateinit var state: CountersAppState
+    private lateinit var state: AppState
 
     @Test
-    fun countersAppState_currentDestination() = runTest {
+    fun appState_currentDestination() = runTest {
         var currentDestination: String? = null
 
         composeTestRule.setContent {
             val navController = rememberTestNavController()
             state = remember(navController) {
-                CountersAppState(navController = navController)
+                AppState(navController = navController)
             }
 
             // Update currentDestination whenever it changes

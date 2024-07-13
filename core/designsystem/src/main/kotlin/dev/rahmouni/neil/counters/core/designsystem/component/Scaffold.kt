@@ -231,7 +231,7 @@ fun Rn3Scaffold(
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(end = if (topAppBarStyle == HOME) 12.dp else 0.dp)
+                            .padding(end = if (topAppBarStyle == HOME) 4.dp else 0.dp, start = if (topAppBarStyle == HOME) 0.dp else 32.dp)
                             .wrapContentWidth(topAppBarTitleAlignment),
                     )
                 }

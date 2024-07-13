@@ -43,6 +43,9 @@ class UserPreferencesSerializerTest {
         val expectedUserPreferences = userPreferences {
             accessibilityHasEmphasizedSwitchesEnabled = false
             accessibilityHasIconTooltipsDisabled = true
+            accessibilityHasAltTextEnabled = false
+            hasTravelModeEnabled = false
+            hasFriendsMainEnabled = false
             hasMetricsDisabled = false
             hasCrashlyticsDisabled = false
         }
