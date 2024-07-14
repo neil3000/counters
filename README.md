@@ -1,7 +1,7 @@
 <div align='center'>
     <h1><b>Counters (Material You)</b></h1>
     <a><img src='./docs/images/readme_header.gif' width='250'/></a>
-    <p>TODO: description</p>
+    <p>Create simple counters to track your habits, progress, workout or medication</p>
 
 <a>![Latest release](https://gitlab.com/neil3000/counters/-/badges/release.svg)</a>
 
@@ -15,7 +15,7 @@
 </div>
 
 <details>
-<summary>More download options</summary>
+<summary><b>More download options</b></summary>
 
 <a href="https://counters.rahmouni.dev/Jz8IGPZ2fLN08YV8dZqX" target="_blank"><img src='./docs/images/readme_download_other_demo_aab.png' width='500'/></a><br/>
 <a href="https://counters.rahmouni.dev/DtO8pwMBJTWc9Tgyvl1f" target="_blank"><img src='./docs/images/readme_download_other_demo_apk.png' width='500'/></a>
