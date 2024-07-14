@@ -3,7 +3,7 @@
     <a><img src='./docs/images/readme_header.gif' width='250'/></a>
     <p>TODO: description</p>
 
-<a>![Current version](https://badgen.net/badge/Current%20version/2.0.15/green?)</a>
+<a>![Latest release](https://gitlab.com/neil3000/counters/-/badges/release.svg)</a>
 
 
 
@@ -11,13 +11,14 @@
 <div><a href="https://counters.rahmouni.dev/FBbIuKSG1L9L02XABran" target="_blank"><img src='/docs/images/readme_download_play.png' width='500'/></a></div>
 <div>
 <a href="https://counters.rahmouni.dev/DvvzQtgHzPLiMClAymgW" target="_blank"><img src='./docs/images/readme_download_manually_main.png' width='250'/></a>
-<a href="https://counters.rahmouni.dev/Jz8IGPZ2fLN08YV8dZqX" target="_blank"><img src='./docs/images/readme_download_manually_demo.png' width='250'/></a>
+<a href="https://counters.rahmouni.dev/ZNI7QPBaLijPL2jmimlN" target="_blank"><img src='./docs/images/readme_download_manually_legacy.png' width='250'/></a>
 </div>
 
 <details>
 <summary>More download options</summary>
 
-• &nbsp; <a href="" target="_blank">Download Counters Catalog</a>
+<a href="https://counters.rahmouni.dev/Jz8IGPZ2fLN08YV8dZqX" target="_blank"><img src='./docs/images/readme_download_other_demo_aab.png' width='500'/></a><br/>
+<a href="https://counters.rahmouni.dev/DtO8pwMBJTWc9Tgyvl1f" target="_blank"><img src='./docs/images/readme_download_other_demo_apk.png' width='500'/></a>
 
 </details>
 </div>
