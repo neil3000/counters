@@ -17,7 +17,7 @@
 <details>
 <summary>More download options</summary>
 
-<a href="https://counters.rahmouni.dev/Jz8IGPZ2fLN08YV8dZqX" target="_blank"><img src='./docs/images/readme_download_other_demo_aab.png' width='500'/></a>
+<a href="https://counters.rahmouni.dev/Jz8IGPZ2fLN08YV8dZqX" target="_blank"><img src='./docs/images/readme_download_other_demo_aab.png' width='500'/></a><br/>
 <a href="https://counters.rahmouni.dev/DtO8pwMBJTWc9Tgyvl1f" target="_blank"><img src='./docs/images/readme_download_other_demo_apk.png' width='500'/></a>
 
 </details>
