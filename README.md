@@ -65,4 +65,4 @@ Contributors
 • Neïl Rahmouni @neil3000 <br/>
 • Aurélien Coppée @Laizo
 
-<a><img src='https://media.rahmouni.dev/counters_contributors.png' width='200'/></a>
+<a><img src='./docs/images/readme_contributors.png' width='200'/></a>
