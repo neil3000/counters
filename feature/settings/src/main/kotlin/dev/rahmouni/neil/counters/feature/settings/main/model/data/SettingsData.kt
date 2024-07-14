@@ -17,9 +17,27 @@
 
 package dev.rahmouni.neil.counters.feature.settings.main.model.data
 
+import com.google.android.play.core.appupdate.AppUpdateInfo
+import com.google.android.play.core.appupdate.AppUpdateManager
 import dev.rahmouni.neil.counters.core.user.Rn3User
 
 data class SettingsData(
     val user: Rn3User,
     val devSettingsEnabled: Boolean,
+    val inAppUpdateData: InAppUpdateState,
 )
+
+sealed interface InAppUpdateState {
+
+    data object NoUpdateAvailable : InAppUpdateState
+    data class UpdateAvailable(
+        val appUpdateManager: AppUpdateManager?,
+        val appUpdateInfo: AppUpdateInfo?,
+    ) : InAppUpdateState
+
+    data class DownloadingUpdate(val progress: Float) : InAppUpdateState
+    data class WaitingForRestart(val appUpdateManager: AppUpdateManager?) : InAppUpdateState
+
+    fun shouldShowTile() = this != NoUpdateAvailable
+    fun actionPossible() = this is UpdateAvailable || this is WaitingForRestart
+}

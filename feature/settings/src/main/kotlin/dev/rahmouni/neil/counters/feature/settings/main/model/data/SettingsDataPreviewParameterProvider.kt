@@ -20,6 +20,8 @@ package dev.rahmouni.neil.counters.feature.settings.main.model.data
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.InAppUpdateState.NoUpdateAvailable
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.InAppUpdateState.UpdateAvailable
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_default
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData.settingsData_mutations
 
@@ -43,11 +45,13 @@ object PreviewParameterData {
             email = "androidPreview@rahmouni.dev",
         ),
         devSettingsEnabled = false,
+        inAppUpdateData = NoUpdateAvailable,
     )
     val settingsData_mutations = with(settingsData_default) {
         sequenceOf(
             copy(user = AnonymousUser("androidPreviewID")),
             copy(devSettingsEnabled = true),
+            copy(inAppUpdateData = UpdateAvailable(null, null)),
         )
     }
 }

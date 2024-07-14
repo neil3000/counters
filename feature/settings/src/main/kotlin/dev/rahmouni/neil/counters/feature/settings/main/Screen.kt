@@ -19,7 +19,12 @@ package dev.rahmouni.neil.counters.feature.settings.main
 
 import android.content.Context
 import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.VisibleForTesting
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,6 +32,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -34,20 +40,23 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.AccessibilityNew
-import androidx.compose.material.icons.outlined.ArrowCircleUp
 import androidx.compose.material.icons.outlined.DataObject
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.NewReleases
+import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material.icons.outlined.Warning
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -61,7 +70,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.model.UpdateAvailability
 import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
@@ -91,6 +99,7 @@ import dev.rahmouni.neil.counters.core.designsystem.icons.SyncSavedLocally
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
+import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
@@ -104,6 +113,10 @@ import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState
 import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState.Loading
 import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsUiState.Success
 import dev.rahmouni.neil.counters.feature.settings.main.model.SettingsViewModel
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.InAppUpdateState.DownloadingUpdate
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.InAppUpdateState.NoUpdateAvailable
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.InAppUpdateState.UpdateAvailable
+import dev.rahmouni.neil.counters.feature.settings.main.model.data.InAppUpdateState.WaitingForRestart
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.PreviewParameterData
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.SettingsData
 import dev.rahmouni.neil.counters.feature.settings.main.model.data.SettingsDataPreviewParameterProvider
@@ -125,16 +138,16 @@ internal fun SettingsRoute(
     val auth = LocalAuthHelper.current
 
     val scope = rememberCoroutineScope()
-    val appUpdateInfoTask = AppUpdateManagerFactory.create(context).appUpdateInfo
-
-    appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-        if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-            // Request the update.
-        }
-    }
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {}
 
     viewModel.setDevSettingsEnabled(context.areAndroidDeveloperSettingsOn())
 
+    LaunchedEffect(Unit) {
+        viewModel.checkForInAppUpdate(AppUpdateManagerFactory.create(context))
+    }
+
+    @Suppress("SpellCheckingInspection")
     SettingsScreen(
         modifier = modifier,
         uiState,
@@ -159,10 +172,8 @@ internal fun SettingsRoute(
             analytics.logSettingsUiEvent("accountTileLoginButton")
             navigateToLogin()
         },
-        updateAvailable = true,
         onUpdateAvailableTileClicked = {
-            analytics.logSettingsUiEvent("updateAvailableTile")
-            TODO()
+            viewModel.performInAppUpdateAction(context, launcher)
         },
         onClickDataAndPrivacyTile = {
             analytics.logSettingsUiEvent("dataAndPrivacyTile")
@@ -209,7 +220,6 @@ internal fun SettingsScreen(
     onAccountTileSwitchAccountTileClicked: () -> Unit = {},
     onAccountTileLogoutTileClicked: () -> Unit = {},
     onAccountTileLoginButtonClicked: () -> Unit = {},
-    updateAvailable: Boolean = false,
     onUpdateAvailableTileClicked: () -> Unit = {},
     onClickDataAndPrivacyTile: () -> Unit = {},
     onClickAccessibilityTile: () -> Unit = {},
@@ -234,7 +244,6 @@ internal fun SettingsScreen(
                 onAccountTileSwitchAccountTileClicked,
                 onAccountTileLogoutTileClicked,
                 onAccountTileLoginButtonClicked,
-                updateAvailable,
                 onUpdateAvailableTileClicked,
                 onClickDataAndPrivacyTile,
                 onClickAccessibilityTile,
@@ -256,7 +265,6 @@ private fun SettingsPanel(
     onAccountTileSwitchAccountTileClicked: () -> Unit,
     onAccountTileLogoutTileClicked: () -> Unit,
     onAccountTileLoginButtonClicked: () -> Unit,
-    updateAvailable: Boolean,
     onUpdateAvailableTileClicked: () -> Unit,
     onClickDataAndPrivacyTile: () -> Unit,
     onClickAccessibilityTile: () -> Unit,
@@ -336,35 +344,70 @@ private fun SettingsPanel(
         }
 
         // updateAvailableTile
-        if (updateAvailable) {
-            Surface(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        Rn3ExpandableSurfaceDefaults.paddingValues
-                            .only(HORIZONTAL)
-                            .add(vertical = 4.dp),
-                    ),
-                color = MaterialTheme.colorScheme.primaryContainer,
-                shape = Rn3ExpandableSurfaceDefaults.shape,
+        with(data.inAppUpdateData) {
+            AnimatedVisibility(
+                visible = shouldShowTile(),
+                enter = rn3ExpandVerticallyTransition(),
             ) {
-                Row(
+                val color by animateColorAsState(
+                    targetValue = if (actionPossible())
+                        MaterialTheme.colorScheme.primaryContainer
+                    else MaterialTheme.colorScheme.surfaceColorAtElevation(
+                        Rn3ExpandableSurfaceDefaults.tonalElevation,
+                    ),
+                    label = "Rn3ExpandableSurfaceDefaults background color",
+                )
+
+                Surface(
                     Modifier
-                        .padding(horizontal = 16.dp, vertical = 16.dp)
-                        .clickable {
-                            haptics.click()
-                            onUpdateAvailableTileClicked()
-                        },
-                    verticalAlignment = Alignment.CenterVertically,
+                        .fillMaxWidth()
+                        .padding(
+                            Rn3ExpandableSurfaceDefaults.paddingValues
+                                .only(HORIZONTAL)
+                                .add(vertical = 4.dp),
+                        ),
+                    color = color,
+                    shape = Rn3ExpandableSurfaceDefaults.shape,
                 ) {
-                    Icon(Outlined.ArrowCircleUp, contentDescription = null)
-                    Text(
-                        "Update available",
-                        Modifier.padding(top = 2.dp, start = 12.dp, end = 16.dp),
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Icon(Outlined.FileDownload, null)
+                    Row(
+                        Modifier
+                            .clickable(enabled = actionPossible()) {
+                                haptics.click()
+                                onUpdateAvailableTileClicked()
+                            }
+                            .padding(horizontal = 16.dp, vertical = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            when (this@with) {
+                                is UpdateAvailable -> "Update available"
+                                is DownloadingUpdate -> "Downloading..."
+                                is WaitingForRestart -> "Restart to apply"
+                                NoUpdateAvailable -> "RahNeil_N3:GsKMAaulylNilvukEZCbJI4jWLXbRRzb"
+                            },
+                            Modifier.padding(top = 2.dp),
+                            style = MaterialTheme.typography.titleMedium,
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        when (this@with) {
+                            is DownloadingUpdate -> {
+                                val progressFloat by animateFloatAsState(
+                                    targetValue = progress,
+                                    label = "inAppUpdate CircularProgressIndicator progress",
+                                )
+                                CircularProgressIndicator(
+                                    progress = { progressFloat },
+                                    modifier = Modifier.size(24.dp),
+                                    trackColor = MaterialTheme.colorScheme.surface,
+                                )
+                            }
+
+                            NoUpdateAvailable -> {}
+                            is UpdateAvailable -> Icon(Outlined.FileDownload, null)
+                            is WaitingForRestart -> Icon(Outlined.RestartAlt, null)
+                        }
+                    }
                 }
             }
         }
@@ -442,6 +485,7 @@ private fun SettingsPanel(
         )
     }
 }
+
 
 @Composable
 private fun Context.areAndroidDeveloperSettingsOn(): Boolean {
