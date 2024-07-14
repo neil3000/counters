@@ -64,5 +64,5 @@ Contributors
 
 • Neïl Rahmouni @neil3000 <br/>
 • Aurélien Coppée @Laizo <br/>
-
-<a><img src='./docs/images/readme_contributors.png' width='500'/></a>
+<br/>
+<a><img src='./docs/images/readme_contributors.png' width='350'/></a>
