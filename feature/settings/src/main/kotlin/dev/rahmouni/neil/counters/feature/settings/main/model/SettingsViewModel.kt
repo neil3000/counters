@@ -163,7 +163,9 @@ class SettingsViewModel @Inject constructor(
                             inAppUpdateState.value,
                             WaitingForRestart(null),
                         )
-                    } else throw IllegalStateException("RahNeil_N3:IUi0odoQJdMeXIfwhCfuuHfFGlkhgVpv")
+                    } else {
+                        throw IllegalStateException("RahNeil_N3:IUi0odoQJdMeXIfwhCfuuHfFGlkhgVpv")
+                    }
                 }
 
                 is WaitingForRestart -> {
@@ -174,10 +176,14 @@ class SettingsViewModel @Inject constructor(
                         appUpdateManager.completeUpdate()
                     } else if (demo) {
                         with(context as Activity, function())
-                    } else throw IllegalStateException("RahNeil_N3:Td2sNDcBF0ot05rVwQzzVs6qqd4QAcVv")
+                    } else {
+                        throw IllegalStateException("RahNeil_N3:Td2sNDcBF0ot05rVwQzzVs6qqd4QAcVv")
+                    }
                 }
 
-                else -> @Suppress("SpellCheckingInspection") throw IllegalAccessException("RahNeil_N3:b0yHUf1FkIETpJ0EX3qpJuBNyvmeZarn")
+                else ->
+                    @Suppress("SpellCheckingInspection")
+                    throw IllegalAccessException("RahNeil_N3:b0yHUf1FkIETpJ0EX3qpJuBNyvmeZarn")
             }
         }
     }

@@ -350,11 +350,13 @@ private fun SettingsPanel(
                 enter = rn3ExpandVerticallyTransition(),
             ) {
                 val color by animateColorAsState(
-                    targetValue = if (actionPossible())
+                    targetValue = if (actionPossible()) {
                         MaterialTheme.colorScheme.primaryContainer
-                    else MaterialTheme.colorScheme.surfaceColorAtElevation(
-                        Rn3ExpandableSurfaceDefaults.tonalElevation,
-                    ),
+                    } else {
+                        MaterialTheme.colorScheme.surfaceColorAtElevation(
+                            Rn3ExpandableSurfaceDefaults.tonalElevation,
+                        )
+                    },
                     label = "Rn3ExpandableSurfaceDefaults background color",
                 )
 
@@ -485,7 +487,6 @@ private fun SettingsPanel(
         )
     }
 }
-
 
 @Composable
 private fun Context.areAndroidDeveloperSettingsOn(): Boolean {
