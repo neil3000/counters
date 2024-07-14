@@ -3,7 +3,7 @@
     <a><img src='./docs/images/readme_header.gif' width='250'/></a>
     <p>TODO: description</p>
 
-<a>![Current version](https://badgen.net/badge/Current%20version/2.0.15/green?)</a>
+<a>![Latest release](https://gitlab.com/neil3000/counters/-/badges/release.svg)</a>
 
 
 
