@@ -5,17 +5,22 @@
 
 <a>![Current version](https://badgen.net/badge/Current%20version/2.0.15/green?)</a>
 
+
+
+
+<div><a href="https://counters.rahmouni.dev/FBbIuKSG1L9L02XABran" target="_blank"><img src='/docs/images/readme_download_play.png' width='500'/></a></div>
+<div>
+<a href="https://counters.rahmouni.dev/DvvzQtgHzPLiMClAymgW" target="_blank"><img src='./docs/images/readme_download_manually_main.png' width='250'/></a>
+<a href="https://counters.rahmouni.dev/Jz8IGPZ2fLN08YV8dZqX" target="_blank"><img src='./docs/images/readme_download_manually_demo.png' width='250'/></a>
 </div>
 
----
+<details>
+<summary>More download options</summary>
 
-Downloads
-====
+• &nbsp; <a href="" target="_blank">Download Counters Catalog</a>
 
-<div><a href="https://counters.rahmouni.dev/FBbIuKSG1L9L02XABran"><img src='/docs/images/readme_download_play.png' width='500'/></a></div>
-<div><a href="https://google.fr/"><img src='/docs/images/readme_download_play.png' width='250'/></a><a href="https://google.fr/"><img src='/docs/images/readme_download_play.png' width='250'/></a></div>
-
-<TODO: buttons to downloads>
+</details>
+</div>
 
 Issue board & tasks
 ====
