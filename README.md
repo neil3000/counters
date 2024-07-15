@@ -89,7 +89,8 @@ Manim
 ====
 This project utilizes Python and the animation library Manim to generate all the visual content you see in this README, our documentation, changelogs, and demo materials.
 
-These include images and videos that showcase the app's features and functionality, to try to keep a similar visual design & consistency between releases & changelogs posts.
+These include images and videos that showcase the app's features and functionality, to try to keep a similar visual design & consistency between releases & changelogs posts.<br/>
+This also allows us to generate videos programmatically, which can be used in coordination with the **automated screenshot tests** of the app to create demo videos & branding materials that are kept up to date even when the design or layout changes. Those can later on be used on our app listing page (Play Store page) or to illustrate the documentation.
 
 The entire Python codebase responsible for generating these visuals can be found within the [manim folder of this project](/manim).
 
