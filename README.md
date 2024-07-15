@@ -23,6 +23,20 @@
 </details>
 </div>
 
+About the app
+====
+Counters is an Android app made using Kotlin & Jetpack Compose.
+
+The app is a multimodule app _(more on that in the [Modules section](#modules))_ which handles depency injection using Hilt and Dagger.
+
+The app mostly tries to follow clean architecture & MVMM principles, with the multimodule aspect in mind too.
+
+Backend uses Firebase and Google Cloud (GCP).
+
+This repository also contains the code of the Cloud Functions that we use with this project _(more on that in the [Cloud Functions section](#cloud-functions))_, notably a Cloud Function-based URL shortener and a system that automatically creates Gitlab issues & sends alerts on our Discord when Firebase Crashlytics raises an issue.
+
+The images & videos used in the changelog as well as this readme are made using Python and Manim _(more on that in the [Manim section](#manim))_.
+
 Issue board & tasks
 ====
 
@@ -55,7 +69,7 @@ Moreover, issues / tasks are categorized using labels representing what app modu
 ~"core/auth" ~"core/common" ~"core/config" ~"core/data" ~"core/designsystem" ~"core/feedback" ~"core/ui"<br/>
 ~"feature/aboutme" ~"feature/dashboard" ~"feature/login" ~"feature/settings"
 
-App dependency graph
+Modules
 ====
 ![Dependency graph](../docs/images/graphs/dep_graph_app.svg)
 
