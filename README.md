@@ -75,7 +75,19 @@ Moreover, issues / tasks are categorized using labels representing what app modu
 
 Modules
 ====
+<TODO: explanation of the different modules with their labels and gitlab folder>
+
+<TODO: explanation of dependency graphs being generated for each module and "here is dependency graph for the whole app":>
+
 ![Dependency graph](../docs/images/graphs/dep_graph_app.svg)
+
+Cloud functions
+====
+<TODO: explanation of the different functions and their role>
+
+Manim
+====
+<TODO: explain role of manim and link to folder>
 
 Contributors
 ====
