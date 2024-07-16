@@ -1,6 +1,7 @@
-# built application files
+#built application files
 *.apk
 *.ap_
+*.dm
 
 # files for the dex VM
 *.dex
@@ -34,6 +35,9 @@ local.properties
 /.idea/codeStyles/*
 !/.idea/codeStyles/Project.xml
 !/.idea/codeStyles/codeStyleConfig.xml
+
+# Vscode settings
+.vscode/settings.json
 
 # Gradle cache
 .gradle

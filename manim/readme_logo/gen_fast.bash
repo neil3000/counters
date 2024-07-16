@@ -1,0 +1,1 @@
+manim -pql --transparent --format=gif manim.py
