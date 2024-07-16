@@ -36,6 +36,9 @@ local.properties
 !/.idea/codeStyles/Project.xml
 !/.idea/codeStyles/codeStyleConfig.xml
 
+# Vscode settings
+.vscode/settings.json
+
 # Gradle cache
 .gradle
 
