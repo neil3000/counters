@@ -120,7 +120,10 @@ private fun Rn3TileClickChipsImpl(
                 null
             },
         )
-        Rn3LazyRowWithPadding(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier.padding(bottom = 8.dp)) {
+        Rn3LazyRowWithPadding(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = modifier.padding(bottom = 8.dp),
+        ) {
             chips()
         }
     }

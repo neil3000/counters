@@ -40,7 +40,11 @@ data class BottomBarItem(
     @Composable
     fun Icon() {
         if (fullSize) {
-            Icon(imageVector = this.icon, contentDescription = this.label, modifier = Modifier.size(50.dp))
+            Icon(
+                imageVector = this.icon,
+                contentDescription = this.label,
+                modifier = Modifier.size(50.dp),
+            )
         } else {
             Icon(imageVector = this.icon, contentDescription = null)
         }
@@ -50,7 +54,7 @@ data class BottomBarItem(
     fun colors(): NavigationBarItemColors {
         return NavigationBarItemDefaults.colors(
             selectedIconColor = selectedIconColor ?: Color.Unspecified,
-            unselectedIconColor = unselectedIconColor ?: Color.Unspecified
+            unselectedIconColor = unselectedIconColor ?: Color.Unspecified,
         )
     }
 }

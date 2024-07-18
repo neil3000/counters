@@ -211,8 +211,8 @@ internal fun SettingsScreen(
 ) {
     Rn3Scaffold(
         modifier = modifier,
-        topAppBarTitle =  stringResource(string.feature_settings_settingsScreen_topAppBarTitle),
-        onBackIconButtonClicked =  onBackIconButtonClicked,
+        topAppBarTitle = stringResource(string.feature_settings_settingsScreen_topAppBarTitle),
+        onBackIconButtonClicked = onBackIconButtonClicked,
         topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
     ) {
         when (uiState) {

@@ -21,7 +21,7 @@ enum class Rn3Flavor(val dimension: FlavorDimension, val applicationIdSuffix: St
 
 fun configureFlavors(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
-    flavorConfigurationBlock: ProductFlavor.(flavor: Rn3Flavor) -> Unit = {}
+    flavorConfigurationBlock: ProductFlavor.(flavor: Rn3Flavor) -> Unit = {},
 ) {
     commonExtension.apply {
         flavorDimensions += FlavorDimension.contentType.name

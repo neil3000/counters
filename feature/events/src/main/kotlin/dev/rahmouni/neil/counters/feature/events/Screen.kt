@@ -83,7 +83,7 @@ internal fun EventsScreen(
         topAppBarTitle = stringResource(string.feature_events_topAppBarTitle),
         topAppBarTitleAlignment = CenterHorizontally,
         onBackIconButtonClicked = null,
-        topAppBarActions =  listOfNotNull(
+        topAppBarActions = listOfNotNull(
             TopAppBarAction(
                 Icons.Outlined.Settings,
                 stringResource(string.feature_events_topAppBarActions_settings),

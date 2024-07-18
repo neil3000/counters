@@ -41,20 +41,20 @@ fun AnimatedNumber(
         transitionSpec = {
             if (targetState > initialState) {
                 (
-                    slideInVertically { height -> (height / 1.8f).toInt() } +
-                        fadeIn(tween(200))
-                    ).togetherWith(
-                    slideOutVertically { height -> -(height / 1.8f).toInt() } +
-                        fadeOut(tween(150)),
-                )
+                        slideInVertically { height -> (height / 1.8f).toInt() } +
+                                fadeIn(tween(200))
+                        ).togetherWith(
+                        slideOutVertically { height -> -(height / 1.8f).toInt() } +
+                                fadeOut(tween(150)),
+                    )
             } else {
                 (
-                    slideInVertically { height -> -(height / 1.8f).toInt() } +
-                        fadeIn(tween(200))
-                    ).togetherWith(
-                    slideOutVertically { height -> (height / 1.8f).toInt() } +
-                        fadeOut(tween(150)),
-                )
+                        slideInVertically { height -> -(height / 1.8f).toInt() } +
+                                fadeIn(tween(200))
+                        ).togetherWith(
+                        slideOutVertically { height -> (height / 1.8f).toInt() } +
+                                fadeOut(tween(150)),
+                    )
             }.using(SizeTransform(clip = false))
         },
         label = "animated number",

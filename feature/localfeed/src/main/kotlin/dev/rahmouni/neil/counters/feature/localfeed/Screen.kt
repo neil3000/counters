@@ -17,19 +17,14 @@
 
 package dev.rahmouni.neil.counters.feature.localfeed
 
-import LocalPost
-import LocalPublication
+import Publication
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Directions
 import androidx.compose.material.icons.filled.Event
-import androidx.compose.material.icons.filled.Flag
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.LocationCity
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Route
@@ -49,6 +44,10 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizo
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
+import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
+import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
+import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
+import dev.rahmouni.neil.counters.core.designsystem.rebased.User
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
@@ -94,7 +93,7 @@ internal fun LocalFeedScreen(
 ) {
     Rn3Scaffold(
         modifier = modifier,
-        topAppBarTitle =  stringResource(string.feature_localfeed_topAppBarTitle),
+        topAppBarTitle = stringResource(string.feature_localfeed_topAppBarTitle),
         topAppBarTitleAlignment = CenterHorizontally,
         onBackIconButtonClicked = null,
         topAppBarActions = listOfNotNull(
@@ -116,14 +115,24 @@ internal fun LocalFeedScreen(
                 label = stringResource(string.feature_localfeed_bottomBar_friends),
                 onClick = onFriendsBottomBarItemClicked,
             ),
-            BottomBarItem(icon = Icons.Filled.Add, label = stringResource(string.feature_localfeed_bottomBar_add), onClick = onAddBottomBarItemClicked, unselectedIconColor = Color(color = 0xFFE8175D), fullSize = true),
+            BottomBarItem(
+                icon = Icons.Filled.Add,
+                label = stringResource(string.feature_localfeed_bottomBar_add),
+                onClick = onAddBottomBarItemClicked,
+                unselectedIconColor = Color(color = 0xFFE8175D),
+                fullSize = true,
+            ),
             BottomBarItem(
                 icon = Icons.Filled.Place,
                 label = stringResource(string.feature_localfeed_bottomBar_local),
                 onClick = {},
                 selected = true,
             ),
-            BottomBarItem(icon = Icons.Filled.Event, label = stringResource(string.feature_localfeed_bottomBar_events), onClick = onEventsBottomBarItemClicked),
+            BottomBarItem(
+                icon = Icons.Filled.Event,
+                label = stringResource(string.feature_localfeed_bottomBar_events),
+                onClick = onEventsBottomBarItemClicked,
+            ),
         ),
         topAppBarStyle = HOME,
     ) {
@@ -143,45 +152,55 @@ private fun LocalFeedPanel(
             .padding(paddingValues),
     ) {
         listOf(
-            LocalPost(
+            Post(
+                id = "test",
+                userId = "test",
+                sharingScope = SharingScope.STREET,
+                location = "Street King Charles",
                 timestamp = LocalDateTime.now(),
-                title = "Rediscover Street King Charles",
                 content = "The Street King Charles was under construction, but now it's all clear! The renovation has finished, making this spot more accessible and enjoyable. Explore the new look of this iconic street and join me on this adventure.",
-                place = "Street King Charles",
-                placeIcon = Icons.Filled.Directions,
+                postType = PostType.TEXT,
             ),
-            LocalPost(
+            Post(
+                id = "test",
+                userId = "test",
+                sharingScope = SharingScope.CITY,
+                location = "London",
                 timestamp = LocalDateTime.now().minusMinutes(30),
-                title = "Bike for Sale in London",
                 content = "I'm selling my road bike in excellent condition! It's perfect for anyone looking to explore the city or commute efficiently. Details: Brand - Trek, Model - Emonda, Year - 2020, Color - Black. Contact me if interested!",
-                place = "London",
-                placeIcon = Icons.Filled.LocationCity,
-                buttons = listOf("I'm interested"),
+                postType = PostType.BUTTONS,
+                additionalInfos = listOf("I'm interested"),
             ),
-            LocalPost(
+            Post(
+                id = "test",
+                userId = "test",
+                sharingScope = SharingScope.COUNTRY,
+                location = "UK",
                 timestamp = LocalDateTime.now().minusHours(3),
-                title = "Celebrating England's Newest National Park",
                 content = "Exciting news for nature enthusiasts! England welcomes its newest national park, providing vast spaces for hiking, wildlife exploration, and stunning scenery. Discover the endless trails and the beauty of our protected lands. Join us in celebrating this great addition to our national heritage.",
-                place = "England",
-                placeIcon = Icons.Filled.Flag,
+                postType = PostType.TEXT,
             ),
-            LocalPost(
+            Post(
+                id = "test",
+                userId = "4",
+                sharingScope = SharingScope.BUILDING,
+                location = "221B Baker Street",
                 timestamp = LocalDateTime.now().minusDays(1),
-                title = "Noisy Neighbors",
                 content = "Seems like there's an impromptu concert every night next door! The music and noise levels from my neighbors have become a real challenge.",
-                place = "221B Baker Street",
-                placeIcon = Icons.Filled.Home,
+                postType = PostType.TEXT,
             ),
-            LocalPost(
+            Post(
+                id = "test",
+                userId = "test",
+                sharingScope = SharingScope.DISTRICT,
+                location = "Chelsea",
                 timestamp = LocalDateTime.now().minusDays(5),
-                title = "Power Outage in Chelsea",
                 content = "Is anyone else experiencing a power outage in Chelsea?",
-                place = "Chelsea",
-                placeIcon = Icons.Filled.Place,
-                buttons = listOf("Yes", "No"),
+                postType = PostType.POLL,
+                additionalInfos = listOf("Yes", "No"),
             ),
         ).forEach { post ->
-            LocalPublication(post)
+            Publication(post, UserRepository.users)
             Rn3TileHorizontalDivider(
                 paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
                     top = 0.dp,
@@ -190,4 +209,39 @@ private fun LocalFeedPanel(
             )
         }
     }
+}
+
+object UserRepository {
+    val users = listOf(
+        User(
+            userId = "1",
+            name = "Alice Smith",
+            email = "alice.smith@example.com",
+            phone = "123-456-7890",
+        ),
+        User(
+            userId = "2",
+            name = "Bob Johnson",
+            email = "bob.johnson@example.com",
+            phone = "234-567-8901",
+        ),
+        User(
+            userId = "3",
+            name = "Carol Williams",
+            email = "carol.williams@example.com",
+            phone = "345-678-9012",
+        ),
+        User(
+            userId = "4",
+            name = "David Brown",
+            email = "david.brown@example.com",
+            phone = "456-789-0123",
+        ),
+        User(
+            userId = "5",
+            name = "Eva Davis",
+            email = "eva.davis@example.com",
+            phone = "567-890-1234",
+        ),
+    )
 }
