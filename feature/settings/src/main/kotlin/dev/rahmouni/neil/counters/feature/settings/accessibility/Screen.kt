@@ -198,6 +198,7 @@ private fun UiStates(
         LocalAccessibilityHelper provides AccessibilityHelper(
             hasEmphasizedSwitchesEnabled = accessibilitySettingsData.hasEmphasizedSwitchesEnabled,
             hasIconTooltipsEnabled = accessibilitySettingsData.hasIconTooltipsEnabled,
+            hasAltTextEnabled = accessibilitySettingsData.hasAltTextEnabled,
         ),
     ) {
         Rn3Theme {

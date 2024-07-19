@@ -17,7 +17,6 @@
 
 package dev.rahmouni.neil.counters.feature.localfeed
 
-import Publication
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
@@ -44,6 +43,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
+import dev.rahmouni.neil.counters.core.designsystem.Publication
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME

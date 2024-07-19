@@ -28,6 +28,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
@@ -42,7 +46,6 @@ import dev.rahmouni.neil.counters.feature.events.eventsScreen
 import dev.rahmouni.neil.counters.feature.events.navigateToEvents
 import dev.rahmouni.neil.counters.feature.friendsfeed.friendsFeedScreen
 import dev.rahmouni.neil.counters.feature.friendsfeed.navigateToFriendsFeed
-import dev.rahmouni.neil.counters.feature.localfeed.LOCALFEED_ROUTE
 import dev.rahmouni.neil.counters.feature.localfeed.localFeedScreen
 import dev.rahmouni.neil.counters.feature.localfeed.navigateToLocalFeed
 import dev.rahmouni.neil.counters.feature.login.LOGIN_ROUTE
@@ -61,15 +64,17 @@ import kotlinx.coroutines.delay
 fun NavHost(
     appState: AppState,
     modifier: Modifier = Modifier,
-    showLoginScreen: Boolean,
+    routes: List<String>,
 ) {
     val auth = LocalAuthHelper.current
+    val pageCount by remember { mutableIntStateOf(0) }
 
     val navController = appState.navController
 
     LaunchedEffect(Unit) {
         delay(100)
-        navController.navigate(if (auth.getUser() is LoggedOutUser || showLoginScreen) LOGIN_ROUTE else LOCALFEED_ROUTE) {
+        navController.navigate(if (auth.getUser() is LoggedOutUser) LOGIN_ROUTE else routes[pageCount]) {
+            if (pageCount < routes.size - 1) pageCount + 1
             popUpTo("SPLASHSCREEN_SET_ROUTE") { inclusive = true }
         }
     }
@@ -116,7 +121,8 @@ fun NavHost(
                     )
 
                     loginScreen(navController) {
-                        navController.navigateToLocalFeed {
+                        navController.navigate(routes[pageCount]) {
+                            if (pageCount < routes.size - 1) pageCount + 1
                             popUpTo(LOGIN_ROUTE) { inclusive = true }
                         }
                     }

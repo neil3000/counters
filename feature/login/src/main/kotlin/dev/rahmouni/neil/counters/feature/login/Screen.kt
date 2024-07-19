@@ -89,7 +89,7 @@ internal fun LoginRoute(
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
     navController: NavController,
-    navigateToLocalFeed: () -> Unit,
+    navigateToNextPage: () -> Unit,
 ) {
     val auth = LocalAuthHelper.current
     val context = LocalContext.current
@@ -125,7 +125,7 @@ internal fun LoginRoute(
             )
 
             viewModel.login()
-            navigateToLocalFeed()
+            navigateToNextPage()
         },
         onAddAccountTileClicked = {
             scope.launch {

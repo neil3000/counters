@@ -15,13 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.feature.localfeed.model
+package dev.rahmouni.neil.counters.feature.connect.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
-import dev.rahmouni.neil.counters.feature.connect.model.ConnectUiState
 import dev.rahmouni.neil.counters.feature.connect.model.ConnectUiState.Success
 import dev.rahmouni.neil.counters.feature.connect.model.data.ConnectData
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed

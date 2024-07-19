@@ -19,8 +19,10 @@
     <string name="feature_connect_topAppBarActions_settings">Paramètres</string>
     <string name="feature_connect_topAppBarTitle">Connexion</string>
     <string name="feature_connect_bottomBar_connect">Connexion</string>
+    <string name="feature_connect_fab_text">Ajouter ami</string>
     <string name="feature_connect_bottomBar_local">Local</string>
     <string name="feature_connect_bottomBar_add">Ajouter</string>
     <string name="feature_connect_bottomBar_friends">Amis</string>
     <string name="feature_connect_bottomBar_events">Évènements</string>
+    <string name="feature_connect_bottomBar_add_disabled">Vous ne pouvez pas poster si vous n\'êtes pas connecté</string>
 </resources>

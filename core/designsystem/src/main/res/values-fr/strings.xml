@@ -23,4 +23,8 @@
     <string name="core_designsystem_tileUri_inMaintenance_supportingText">En maintenance, revenez plus tard ~</string>
     <string name="core_designsystem_tileUri_soonAvailable_supportingText">Disponible bientôt ~</string>
     <string name="core_designsystem_tileUri_unavailable_supportingText">Indisponible pour l\'instant, revenez plus tard</string>
+    <string name="core_designsystem_timeElapsed_day">j</string>
+    <string name="core_designsystem_timeElapsed_minute">m</string>
+    <string name="core_designsystem_timeElapsed_hours">h</string>
+    <string name="core_designsystem_timeElapsed_now">maintenant</string>
 </resources>

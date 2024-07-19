@@ -25,11 +25,11 @@ import dev.rahmouni.neil.counters.NavHost
 fun App(
     appState: AppState,
     modifier: Modifier = Modifier,
-    showLoginScreen: Boolean,
+    routes: List<String>,
 ) {
     NavHost(
         appState = appState,
         modifier = modifier,
-        showLoginScreen = showLoginScreen,
+        routes = routes,
     )
 }

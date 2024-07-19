@@ -18,4 +18,5 @@
 
 <resources>
     <string name="core_common_copiedText_toast">Copié</string>
+    <string name="core_common_user_notSignedIn">Non connecté</string>
 </resources>

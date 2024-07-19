@@ -21,5 +21,6 @@ data class Friend(
     val userId: String,
     val name: String,
     val email: String,
-    val phone: String,
+    val phone: String?,
+    val nearby: Boolean = false,
 )

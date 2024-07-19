@@ -31,13 +31,13 @@ fun NavController.navigateToLogin(navOptions: NavOptions? = null) =
 
 fun NavGraphBuilder.loginScreen(
     navController: NavController,
-    navigateToLocalFeed: () -> Unit,
+    navigateToNextPage: () -> Unit,
 ) {
     composable(route = LOGIN_ROUTE) {
         CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
             LoginRoute(
                 navController = navController,
-                navigateToLocalFeed = navigateToLocalFeed,
+                navigateToNextPage = navigateToNextPage,
             )
         }
     }

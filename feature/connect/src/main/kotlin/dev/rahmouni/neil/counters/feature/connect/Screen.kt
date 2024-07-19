@@ -44,7 +44,6 @@ import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Route
-import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Settings
@@ -80,7 +79,6 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Friend
@@ -94,7 +92,8 @@ import dev.rahmouni.neil.counters.feature.connect.R.string
 import dev.rahmouni.neil.counters.feature.connect.model.ConnectUiState.Loading
 import dev.rahmouni.neil.counters.feature.connect.model.ConnectUiState.Success
 import dev.rahmouni.neil.counters.feature.connect.model.data.ConnectData
-import dev.rahmouni.neil.counters.feature.localfeed.model.ConnectViewModel
+import dev.rahmouni.neil.counters.feature.connect.ui.Rn3FriendTileClick
+import dev.rahmouni.neil.counters.feature.connect.model.ConnectViewModel
 import kotlinx.coroutines.launch
 
 
@@ -301,10 +300,10 @@ private fun ColumnPanel(paddingValues: Rn3PaddingValues) {
         }
 
         users.forEach { user ->
-            Rn3TileClick(
+            Rn3FriendTileClick(
                 title = user.name,
-                icon = Outlined.AccountCircle,
                 onClick = {},
+                button = user.nearby,
             )
         }
     }
@@ -318,12 +317,14 @@ object UserRepository {
             name = "Alice Smith",
             email = "alice.smith@example.com",
             phone = "123-456-7890",
+            nearby = true,
         ),
         Friend(
             userId = "2",
             name = "Bob Johnson",
             email = "bob.johnson@example.com",
             phone = "234-567-8901",
+            nearby = true,
         ),
         Friend(
             userId = "3",

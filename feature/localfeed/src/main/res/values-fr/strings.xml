@@ -24,4 +24,5 @@
     <string name="feature_localfeed_bottomBar_add">Ajouter</string>
     <string name="feature_localfeed_bottomBar_friends">Amis</string>
     <string name="feature_localfeed_bottomBar_events">Évènements</string>
+    <string name="feature_localfeed_bottomBar_add_disabled">Vous ne pouvez pas poster si vous n\'\'êtes pas connecté</string>
 </resources>
