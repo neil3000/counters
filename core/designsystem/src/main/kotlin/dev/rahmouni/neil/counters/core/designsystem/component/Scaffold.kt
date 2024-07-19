@@ -267,6 +267,7 @@ fun Rn3ScaffoldImpl(
                             alwaysShowLabel = !item.fullSize,
                             onClick = item.onClick,
                             colors = item.colors(),
+                            enabled = item.enabled,
                         )
                     }
                 }

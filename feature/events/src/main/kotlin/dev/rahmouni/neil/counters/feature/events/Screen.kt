@@ -17,32 +17,46 @@
 
 package dev.rahmouni.neil.counters.feature.events
 
+import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Route
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
+import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
+import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.events.R.string
+import dev.rahmouni.neil.counters.feature.events.model.EventsUiState.Loading
+import dev.rahmouni.neil.counters.feature.events.model.EventsUiState.Success
+import dev.rahmouni.neil.counters.feature.events.model.EventsViewModel
+import dev.rahmouni.neil.counters.feature.events.model.data.EventsData
 
 @Composable
 internal fun EventsRoute(
     modifier: Modifier = Modifier,
+    viewModel: EventsViewModel = hiltViewModel(),
     navController: NavController,
     navigateToSettings: () -> Unit,
     navigateToConnect: () -> Unit,
@@ -50,9 +64,13 @@ internal fun EventsRoute(
     navigateToPublication: () -> Unit,
     navigateToLocal: () -> Unit,
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    EventsScreen(
+    when (uiState) {
+        Loading -> {}
+        is Success -> EventsScreen(
         modifier,
+            (uiState as Success).eventsData,
         feedbackTopAppBarAction = FeedbackScreenContext(
             "EventsScreen",
             "3Lwm8ZWbaZWmtHL8OnBFSEPxAAbRsmvX",
@@ -63,6 +81,7 @@ internal fun EventsRoute(
         onAddBottomBarItemClicked = navigateToPublication,
         onLocalBottomBarItemClicked = navigateToLocal,
     )
+    }
 
     TrackScreenViewEvent(screenName = "events")
 }
@@ -71,6 +90,7 @@ internal fun EventsRoute(
 @Composable
 internal fun EventsScreen(
     modifier: Modifier = Modifier,
+    data: EventsData,
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
     onConnectBottomBarItemClicked: () -> Unit = {},
@@ -78,6 +98,37 @@ internal fun EventsScreen(
     onAddBottomBarItemClicked: () -> Unit = {},
     onLocalBottomBarItemClicked: () -> Unit = {},
 ) {
+    val haptics = getHaptic()
+    val context = LocalContext.current
+
+    val add = when (data.user) {
+        is SignedInUser -> BottomBarItem(
+            icon = Filled.Add,
+            label = stringResource(string.feature_events_bottomBar_add),
+            onClick = onAddBottomBarItemClicked,
+            unselectedIconColor = Color(color = 0xFFE8175D),
+            fullSize = true,
+        )
+
+        else -> BottomBarItem(
+            icon = Filled.Add,
+            label = stringResource(string.feature_events_bottomBar_add),
+            onClick = {
+                haptics.click()
+
+                Toast
+                    .makeText(
+                        context,
+                        context.getString(string.feature_events_bottomBar_add_disabled),
+                        Toast.LENGTH_SHORT,
+                    )
+                    .show()
+            },
+            unselectedIconColor = MaterialTheme.colorScheme.secondaryContainer,
+            fullSize = true,
+        )
+    }
+
     Rn3Scaffold(
         modifier = modifier,
         topAppBarTitle = stringResource(string.feature_events_topAppBarTitle),
@@ -93,29 +144,23 @@ internal fun EventsScreen(
         ),
         bottomBarItems = listOf(
             BottomBarItem(
-                icon = Icons.Filled.Route,
+                icon = Filled.Route,
                 label = stringResource(string.feature_events_bottomBar_connect),
                 onClick = onConnectBottomBarItemClicked,
             ),
             BottomBarItem(
-                icon = Icons.Filled.People,
+                icon = Filled.People,
                 label = stringResource(string.feature_events_bottomBar_friends),
                 onClick = onFriendsBottomBarItemClicked,
             ),
+            add,
             BottomBarItem(
-                icon = Icons.Filled.Add,
-                label = stringResource(string.feature_events_bottomBar_add),
-                onClick = onAddBottomBarItemClicked,
-                unselectedIconColor = Color(color = 0xFFE8175D),
-                fullSize = true,
-            ),
-            BottomBarItem(
-                icon = Icons.Filled.Place,
+                icon = Filled.Place,
                 label = stringResource(string.feature_events_bottomBar_local),
                 onClick = onLocalBottomBarItemClicked,
             ),
             BottomBarItem(
-                icon = Icons.Filled.Event,
+                icon = Filled.Event,
                 label = stringResource(string.feature_events_bottomBar_events),
                 onClick = {},
                 selected = true,

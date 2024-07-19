@@ -23,4 +23,5 @@
     <string name="feature_events_bottomBar_add">Add</string>
     <string name="feature_events_bottomBar_friends">Friends</string>
     <string name="feature_events_bottomBar_events">Events</string>
+    <string name="feature_events_bottomBar_add_disabled">You can\'t post if you\'re not connected</string>
 </resources>

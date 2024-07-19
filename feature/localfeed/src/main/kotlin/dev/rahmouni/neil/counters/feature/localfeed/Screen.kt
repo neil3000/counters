@@ -18,45 +18,59 @@
 package dev.rahmouni.neil.counters.feature.localfeed
 
 import Publication
+import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Route
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
+import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
+import dev.rahmouni.neil.counters.core.designsystem.rebased.Friend
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
 import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
-import dev.rahmouni.neil.counters.core.designsystem.rebased.User
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
+import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.localfeed.R.string
+import dev.rahmouni.neil.counters.feature.localfeed.model.LocalFeedUiState.Loading
+import dev.rahmouni.neil.counters.feature.localfeed.model.LocalFeedUiState.Success
+import dev.rahmouni.neil.counters.feature.localfeed.model.LocalFeedViewModel
+import dev.rahmouni.neil.counters.feature.localfeed.model.data.LocalFeedData
 import java.time.LocalDateTime
 
 @Composable
 internal fun LocalFeedRoute(
     modifier: Modifier = Modifier,
+    viewModel: LocalFeedViewModel = hiltViewModel(),
     navController: NavController,
     navigateToSettings: () -> Unit,
     navigateToConnect: () -> Unit,
@@ -64,18 +78,24 @@ internal fun LocalFeedRoute(
     navigateToPublication: () -> Unit,
     navigateToEvents: () -> Unit,
 ) {
-    LocalFeedScreen(
-        modifier,
-        feedbackTopAppBarAction = FeedbackScreenContext(
-            "LocalFeedScreen",
-            "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8",
-        ).toTopAppBarAction(navController::navigateToFeedback),
-        onSettingsTopAppBarActionClicked = navigateToSettings,
-        onConnectBottomBarItemClicked = navigateToConnect,
-        onFriendsBottomBarItemClicked = navigateToFriends,
-        onAddBottomBarItemClicked = navigateToPublication,
-        onEventsBottomBarItemClicked = navigateToEvents,
-    )
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    when (uiState) {
+        Loading -> {}
+        is Success -> LocalFeedScreen(
+            modifier,
+            (uiState as Success).localFeedData,
+            feedbackTopAppBarAction = FeedbackScreenContext(
+                "LocalFeedScreen",
+                "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8",
+            ).toTopAppBarAction(navController::navigateToFeedback),
+            onSettingsTopAppBarActionClicked = navigateToSettings,
+            onConnectBottomBarItemClicked = navigateToConnect,
+            onFriendsBottomBarItemClicked = navigateToFriends,
+            onAddBottomBarItemClicked = navigateToPublication,
+            onEventsBottomBarItemClicked = navigateToEvents,
+        )
+    }
 
     TrackScreenViewEvent(screenName = "LocalFeed")
 }
@@ -84,6 +104,7 @@ internal fun LocalFeedRoute(
 @Composable
 internal fun LocalFeedScreen(
     modifier: Modifier = Modifier,
+    data: LocalFeedData,
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
     onConnectBottomBarItemClicked: () -> Unit = {},
@@ -91,6 +112,37 @@ internal fun LocalFeedScreen(
     onAddBottomBarItemClicked: () -> Unit = {},
     onEventsBottomBarItemClicked: () -> Unit = {},
 ) {
+    val haptics = getHaptic()
+    val context = LocalContext.current
+
+    val add = when (data.user) {
+        is SignedInUser -> BottomBarItem(
+            icon = Filled.Add,
+            label = stringResource(string.feature_localfeed_bottomBar_add),
+            onClick = onAddBottomBarItemClicked,
+            unselectedIconColor = Color(color = 0xFFE8175D),
+            fullSize = true,
+        )
+
+        else -> BottomBarItem(
+            icon = Filled.Add,
+            label = stringResource(string.feature_localfeed_bottomBar_add),
+            onClick = {
+                haptics.click()
+
+                Toast
+                    .makeText(
+                        context,
+                        context.getString(string.feature_localfeed_bottomBar_add_disabled),
+                        Toast.LENGTH_SHORT,
+                    )
+                    .show()
+            },
+            unselectedIconColor = MaterialTheme.colorScheme.secondaryContainer,
+            fullSize = true,
+        )
+    }
+
     Rn3Scaffold(
         modifier = modifier,
         topAppBarTitle = stringResource(string.feature_localfeed_topAppBarTitle),
@@ -106,30 +158,24 @@ internal fun LocalFeedScreen(
         ),
         bottomBarItems = listOf(
             BottomBarItem(
-                icon = Icons.Filled.Route,
+                icon = Filled.Route,
                 label = stringResource(string.feature_localfeed_bottomBar_connect),
                 onClick = onConnectBottomBarItemClicked,
             ),
             BottomBarItem(
-                icon = Icons.Filled.People,
+                icon = Filled.People,
                 label = stringResource(string.feature_localfeed_bottomBar_friends),
                 onClick = onFriendsBottomBarItemClicked,
             ),
+            add,
             BottomBarItem(
-                icon = Icons.Filled.Add,
-                label = stringResource(string.feature_localfeed_bottomBar_add),
-                onClick = onAddBottomBarItemClicked,
-                unselectedIconColor = Color(color = 0xFFE8175D),
-                fullSize = true,
-            ),
-            BottomBarItem(
-                icon = Icons.Filled.Place,
+                icon = Filled.Place,
                 label = stringResource(string.feature_localfeed_bottomBar_local),
                 onClick = {},
                 selected = true,
             ),
             BottomBarItem(
-                icon = Icons.Filled.Event,
+                icon = Filled.Event,
                 label = stringResource(string.feature_localfeed_bottomBar_events),
                 onClick = onEventsBottomBarItemClicked,
             ),
@@ -200,7 +246,7 @@ private fun LocalFeedPanel(
                 additionalInfos = listOf("Yes", "No"),
             ),
         ).forEach { post ->
-            Publication(post, UserRepository.users)
+            Publication(post, UserRepository.friends)
             Rn3TileHorizontalDivider(
                 paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
                     top = 0.dp,
@@ -212,32 +258,32 @@ private fun LocalFeedPanel(
 }
 
 object UserRepository {
-    val users = listOf(
-        User(
+    val friends = listOf(
+        Friend(
             userId = "1",
             name = "Alice Smith",
             email = "alice.smith@example.com",
             phone = "123-456-7890",
         ),
-        User(
+        Friend(
             userId = "2",
             name = "Bob Johnson",
             email = "bob.johnson@example.com",
             phone = "234-567-8901",
         ),
-        User(
+        Friend(
             userId = "3",
             name = "Carol Williams",
             email = "carol.williams@example.com",
             phone = "345-678-9012",
         ),
-        User(
+        Friend(
             userId = "4",
             name = "David Brown",
             email = "david.brown@example.com",
             phone = "456-789-0123",
         ),
-        User(
+        Friend(
             userId = "5",
             name = "Eva Davis",
             email = "eva.davis@example.com",

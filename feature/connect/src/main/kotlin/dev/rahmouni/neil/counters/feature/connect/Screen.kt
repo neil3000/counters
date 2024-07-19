@@ -17,6 +17,7 @@
 
 package dev.rahmouni.neil.counters.feature.connect
 
+import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
@@ -29,25 +30,25 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.Icons.Filled
+import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Route
 import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -55,6 +56,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -62,34 +64,44 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
+import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
-import dev.rahmouni.neil.counters.core.designsystem.rebased.User
+import dev.rahmouni.neil.counters.core.designsystem.rebased.Friend
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.shapes.MorphableShape
 import dev.rahmouni.neil.counters.core.shapes.loadingShapeParameters
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
+import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.connect.R.string
+import dev.rahmouni.neil.counters.feature.connect.model.ConnectUiState.Loading
+import dev.rahmouni.neil.counters.feature.connect.model.ConnectUiState.Success
+import dev.rahmouni.neil.counters.feature.connect.model.data.ConnectData
+import dev.rahmouni.neil.counters.feature.localfeed.model.ConnectViewModel
 import kotlinx.coroutines.launch
 
 
 @Composable
 internal fun ConnectRoute(
     modifier: Modifier = Modifier,
+    viewModel: ConnectViewModel = hiltViewModel(),
     navController: NavController,
     navigateToSettings: () -> Unit,
     navigateToFriends: () -> Unit,
@@ -97,8 +109,13 @@ internal fun ConnectRoute(
     navigateToLocal: () -> Unit,
     navigateToEvents: () -> Unit,
 ) {
-    ConnectScreen(
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    when (uiState) {
+        Loading -> {}
+        is Success -> ConnectScreen(
         modifier,
+            (uiState as Success).connectData,
         feedbackTopAppBarAction = FeedbackScreenContext(
             "ConnectScreen",
             "oujWHHHpuFbChUEYhyGX39V2exJ299Dw",
@@ -109,6 +126,7 @@ internal fun ConnectRoute(
         onLocalBottomBarItemClicked = navigateToLocal,
         onEventsBottomBarItemClicked = navigateToEvents,
     )
+    }
 
     TrackScreenViewEvent(screenName = "connect")
 }
@@ -117,6 +135,7 @@ internal fun ConnectRoute(
 @Composable
 internal fun ConnectScreen(
     modifier: Modifier = Modifier,
+    data: ConnectData,
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
     onFriendsBottomBarItemClicked: () -> Unit = {},
@@ -124,6 +143,39 @@ internal fun ConnectScreen(
     onLocalBottomBarItemClicked: () -> Unit = {},
     onEventsBottomBarItemClicked: () -> Unit = {},
 ) {
+    val haptics = getHaptic()
+    val context = LocalContext.current
+
+    val fabExpanded = remember { mutableStateOf(true) }
+
+    val add = when (data.user) {
+        is SignedInUser -> BottomBarItem(
+            icon = Filled.Add,
+            label = stringResource(string.feature_connect_bottomBar_add),
+            onClick = onAddBottomBarItemClicked,
+            unselectedIconColor = Color(color = 0xFFE8175D),
+            fullSize = true,
+        )
+
+        else -> BottomBarItem(
+            icon = Filled.Add,
+            label = stringResource(string.feature_connect_bottomBar_add),
+            onClick = {
+                haptics.click()
+
+                Toast
+                    .makeText(
+                        context,
+                        context.getString(string.feature_connect_bottomBar_add_disabled),
+                        Toast.LENGTH_SHORT,
+                    )
+                    .show()
+            },
+            unselectedIconColor = MaterialTheme.colorScheme.secondaryContainer,
+            fullSize = true,
+        )
+    }
+
     Rn3Scaffold(
         modifier = modifier,
         topAppBarTitle = stringResource(string.feature_connect_topAppBarTitle),
@@ -137,6 +189,17 @@ internal fun ConnectScreen(
             ),
             feedbackTopAppBarAction,
         ),
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                modifier = it,
+                text = { Text(stringResource(string.feature_connect_fab_text)) },
+                icon = { Icon(Outlined.Add, null) },
+                onClick = {
+                    haptics.click()
+                },
+                expanded = fabExpanded.value,
+            )
+        },
         bottomBarItems = listOf(
             BottomBarItem(
                 icon = Filled.Route,
@@ -149,13 +212,7 @@ internal fun ConnectScreen(
                 label = stringResource(string.feature_connect_bottomBar_friends),
                 onClick = onFriendsBottomBarItemClicked,
             ),
-            BottomBarItem(
-                icon = Filled.Add,
-                label = stringResource(string.feature_connect_bottomBar_add),
-                onClick = onAddBottomBarItemClicked,
-                unselectedIconColor = Color(color = 0xFFE8175D),
-                fullSize = true,
-            ),
+            add,
             BottomBarItem(
                 icon = Filled.Place,
                 label = stringResource(string.feature_connect_bottomBar_local),
@@ -180,7 +237,7 @@ private fun ColumnPanel(paddingValues: Rn3PaddingValues) {
 
     val animatedRotation = remember { Animatable(0f) }
 
-    val users = UserRepository.users
+    val users = UserRepository.friends
 
     LaunchedEffect(Unit) {
         launch {
@@ -196,9 +253,8 @@ private fun ColumnPanel(paddingValues: Rn3PaddingValues) {
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(paddingValues)
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState())
+            .padding(paddingValues.add(bottom = 80.dp)),
         horizontalAlignment = CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -229,7 +285,11 @@ private fun ColumnPanel(paddingValues: Rn3PaddingValues) {
             )
         }
 
-        Row(modifier = Modifier.padding(vertical = 20.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        Row(
+            modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
             Text(
                 text = "Neïl Rahmouni",
                 color = MaterialTheme.colorScheme.primary,
@@ -239,19 +299,12 @@ private fun ColumnPanel(paddingValues: Rn3PaddingValues) {
             Rn3IconButton(icon = Outlined.Edit, contentDescription = "edit profile", contentColor = MaterialTheme.colorScheme.primary) {
             }
         }
+
         users.forEach { user ->
-            Rn3ExpandableSurface(
-                content = {
-                    Icon(Outlined.AccountCircle, null)
-                    Spacer(Modifier.width(16.dp))
-                    Text(user.name)
-                },
-                expandedContent = {
-                    Text(
-                        text = "",
-                        Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
-                    )
-                },
+            Rn3TileClick(
+                title = user.name,
+                icon = Outlined.AccountCircle,
+                onClick = {},
             )
         }
     }
@@ -259,32 +312,32 @@ private fun ColumnPanel(paddingValues: Rn3PaddingValues) {
 
 
 object UserRepository {
-    val users = listOf(
-        User(
+    val friends = listOf(
+        Friend(
             userId = "1",
             name = "Alice Smith",
             email = "alice.smith@example.com",
             phone = "123-456-7890",
         ),
-        User(
+        Friend(
             userId = "2",
             name = "Bob Johnson",
             email = "bob.johnson@example.com",
             phone = "234-567-8901",
         ),
-        User(
+        Friend(
             userId = "3",
             name = "Carol Williams",
             email = "carol.williams@example.com",
             phone = "345-678-9012",
         ),
-        User(
+        Friend(
             userId = "4",
             name = "David Brown",
             email = "david.brown@example.com",
             phone = "456-789-0123",
         ),
-        User(
+        Friend(
             userId = "5",
             name = "Eva Davis",
             email = "eva.davis@example.com",

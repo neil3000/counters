@@ -34,6 +34,7 @@ data class BottomBarItem(
     var selectedIconColor: Color? = null,
     var unselectedIconColor: Color? = null,
     val selected: Boolean = false,
+    val enabled: Boolean = true,
     val fullSize: Boolean = false,
 ) {
 

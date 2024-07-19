@@ -15,11 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.core.designsystem.rebased
+package dev.rahmouni.neil.counters.feature.friendsfeed.model
 
-data class User(
-    val userId: String,
-    val name: String,
-    val email: String,
-    val phone: String,
-)
+import dev.rahmouni.neil.counters.feature.friendsfeed.model.data.FriendsFeedData
+
+sealed interface FriendsFeedUiState {
+    data object Loading : FriendsFeedUiState
+    data class Success(val friendsFeedData: FriendsFeedData) :
+        FriendsFeedUiState
+}
