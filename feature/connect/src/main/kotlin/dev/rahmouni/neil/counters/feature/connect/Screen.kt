@@ -42,8 +42,7 @@ import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.People
-import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.filled.Route
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Settings
@@ -79,6 +78,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Friend
@@ -91,9 +91,9 @@ import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.connect.R.string
 import dev.rahmouni.neil.counters.feature.connect.model.ConnectUiState.Loading
 import dev.rahmouni.neil.counters.feature.connect.model.ConnectUiState.Success
+import dev.rahmouni.neil.counters.feature.connect.model.ConnectViewModel
 import dev.rahmouni.neil.counters.feature.connect.model.data.ConnectData
 import dev.rahmouni.neil.counters.feature.connect.ui.Rn3FriendTileClick
-import dev.rahmouni.neil.counters.feature.connect.model.ConnectViewModel
 import kotlinx.coroutines.launch
 
 
@@ -201,7 +201,7 @@ internal fun ConnectScreen(
         },
         bottomBarItems = listOf(
             BottomBarItem(
-                icon = Filled.Route,
+                icon = Outlined.HumanGreetingProximity,
                 label = stringResource(string.feature_connect_bottomBar_connect),
                 onClick = {},
                 selected = true,
@@ -213,8 +213,8 @@ internal fun ConnectScreen(
             ),
             add,
             BottomBarItem(
-                icon = Filled.Place,
-                label = stringResource(string.feature_connect_bottomBar_local),
+                icon = Filled.Public,
+                label = stringResource(string.feature_connect_bottomBar_public),
                 onClick = onLocalBottomBarItemClicked,
             ),
             BottomBarItem(

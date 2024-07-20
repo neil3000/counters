@@ -19,7 +19,7 @@
     <string name="feature_events_topAppBarActions_settings">Settings</string>
     <string name="feature_events_topAppBarTitle">Events</string>
     <string name="feature_events_bottomBar_connect">Connect</string>
-    <string name="feature_events_bottomBar_local">Local</string>
+    <string name="feature_events_bottomBar_public">Public</string>
     <string name="feature_events_bottomBar_add">Add</string>
     <string name="feature_events_bottomBar_friends">Friends</string>
     <string name="feature_events_bottomBar_events">Events</string>

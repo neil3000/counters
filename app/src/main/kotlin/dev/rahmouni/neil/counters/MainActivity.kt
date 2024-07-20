@@ -47,8 +47,8 @@ import dev.rahmouni.neil.counters.core.config.ConfigHelper
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
-import dev.rahmouni.neil.counters.feature.friendsfeed.FRIENDSFEED_ROUTE
-import dev.rahmouni.neil.counters.feature.localfeed.LOCALFEED_ROUTE
+import dev.rahmouni.neil.counters.feature.feed.friends.FRIENDSFEED_ROUTE
+import dev.rahmouni.neil.counters.feature.feed.publics.PUBLICFEED_ROUTE
 import dev.rahmouni.neil.counters.feature.login.LOGIN_ROUTE
 import dev.rahmouni.neil.counters.ui.App
 import dev.rahmouni.neil.counters.ui.rememberCountersAppState
@@ -136,7 +136,7 @@ class MainActivity : ComponentActivity() {
                 val routes = mutableListOf<String>().apply {
                     if ((uiState as Success).shouldShowLoginScreenOnStartup) add(LOGIN_ROUTE)
                     if ((uiState as Success).hasFriendsMainEnabled) add(FRIENDSFEED_ROUTE)
-                    if (isEmpty()) add(LOCALFEED_ROUTE)
+                    if (isEmpty()) add(PUBLICFEED_ROUTE)
                 }
                 CompositionLocalProvider(
                     LocalAnalyticsHelper provides analyticsHelper,

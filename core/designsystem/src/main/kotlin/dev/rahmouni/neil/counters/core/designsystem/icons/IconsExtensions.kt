@@ -44,6 +44,7 @@ val customIconsList
         Outlined.Road,
         Outlined.Bank,
         Outlined.HomeGroup,
+        Outlined.HumanGreetingProximity,
         Outlined.Belgium,
         Outlined.France,
         Outlined.UK,
@@ -109,6 +110,10 @@ val Outlined.Bank
 val Outlined.HomeGroup
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_home_group)
+
+val Outlined.HumanGreetingProximity
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.core_designsystem_icon_human_greeting_proximity)
 
 val Outlined.Belgium
     @Composable

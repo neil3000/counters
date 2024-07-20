@@ -21,11 +21,11 @@ import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Filled
+import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.People
-import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.filled.Route
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -43,6 +43,7 @@ import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
@@ -144,7 +145,7 @@ internal fun EventsScreen(
         ),
         bottomBarItems = listOf(
             BottomBarItem(
-                icon = Filled.Route,
+                icon = Outlined.HumanGreetingProximity,
                 label = stringResource(string.feature_events_bottomBar_connect),
                 onClick = onConnectBottomBarItemClicked,
             ),
@@ -155,8 +156,8 @@ internal fun EventsScreen(
             ),
             add,
             BottomBarItem(
-                icon = Filled.Place,
-                label = stringResource(string.feature_events_bottomBar_local),
+                icon = Filled.Public,
+                label = stringResource(string.feature_events_bottomBar_public),
                 onClick = onLocalBottomBarItemClicked,
             ),
             BottomBarItem(

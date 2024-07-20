@@ -16,12 +16,13 @@
 -->
 
 <resources>
-    <string name="feature_events_topAppBarActions_settings">Paramètres</string>
-    <string name="feature_events_topAppBarTitle">Évènements</string>
-    <string name="feature_events_bottomBar_connect">Connexion</string>
-    <string name="feature_events_bottomBar_public">Publique</string>
-    <string name="feature_events_bottomBar_add">Ajouter</string>
-    <string name="feature_events_bottomBar_friends">Amis</string>
-    <string name="feature_events_bottomBar_events">Évènements</string>
-    <string name="feature_events_bottomBar_add_disabled">Vous ne pouvez pas poster si vous n\'êtes pas connecté</string>
+    <string name="feature_feed_topAppBarActions_settings">Settings</string>
+    <string name="feature_feed_topAppBarTitle_friends">Friends</string>
+    <string name="feature_feed_topAppBarTitle_public">Public</string>
+    <string name="feature_feed_bottomBar_connect">Connect</string>
+    <string name="feature_feed_bottomBar_public">Public</string>
+    <string name="feature_feed_bottomBar_add">Add</string>
+    <string name="feature_feed_bottomBar_friends">Friends</string>
+    <string name="feature_feed_bottomBar_events">Events</string>
+    <string name="feature_feed_bottomBar_add_disabled">You can\'t post if you\'re not connected</string>
 </resources>

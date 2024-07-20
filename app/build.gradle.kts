@@ -84,17 +84,16 @@ android {
 dependencies {
     implementation(projects.feature.login)
     implementation(projects.feature.settings)
+    implementation(projects.feature.publication)
+    implementation(projects.feature.feed)
+    implementation(projects.feature.events)
+    implementation(projects.feature.connect)
 
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.metrics)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.play.app.update)
     implementation(libs.play.app.update.ktx)
-    implementation(project(":feature:publication"))
-    implementation(project(":feature:friendsfeed"))
-    implementation(project(":feature:localfeed"))
-    implementation(project(":feature:events"))
-    implementation(project(":feature:connect"))
 
     ksp(libs.hilt.compiler)
 
