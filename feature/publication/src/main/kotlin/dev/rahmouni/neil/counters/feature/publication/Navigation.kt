@@ -32,12 +32,18 @@ fun NavController.navigateToPublication(navOptions: NavOptions? = null) =
 fun NavGraphBuilder.publicationScreen(
     navController: NavController,
     navigateToSettings: () -> Unit,
+    navigateToPublic: () -> Unit,
+    navigateToFriends: () -> Unit,
+    navigateToEvents: () -> Unit,
 ) {
     composable(route = PUBLICATION_ROUTE) {
         CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
             PublicationRoute(
                 navController = navController,
                 navigateToSettings = navigateToSettings,
+                navigateToPublic = navigateToPublic,
+                navigateToFriends = navigateToFriends,
+                navigateToEvents = navigateToEvents,
             )
         }
     }

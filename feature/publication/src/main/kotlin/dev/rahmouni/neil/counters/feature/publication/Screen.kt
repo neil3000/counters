@@ -20,12 +20,14 @@ package dev.rahmouni.neil.counters.feature.publication
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -62,16 +64,26 @@ import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
+import dev.rahmouni.neil.counters.core.designsystem.rebased.FeedType
+import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
+import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
+import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.feature.publication.R.string
+import dev.rahmouni.neil.counters.feature.publication.data.Analyse
+import dev.rahmouni.neil.counters.feature.publication.data.AnalyseType
+import java.time.LocalDateTime
 
 @Composable
 internal fun PublicationRoute(
     modifier: Modifier = Modifier,
     navController: NavController,
     navigateToSettings: () -> Unit,
+    navigateToPublic: () -> Unit,
+    navigateToFriends: () -> Unit,
+    navigateToEvents: () -> Unit,
 ) {
 
     PublicationScreen(
@@ -82,6 +94,9 @@ internal fun PublicationRoute(
             "MC4xwGf6j0RfzJV4O8tDBEn3BObAfFQr",
         ).toTopAppBarAction(navController::navigateToFeedback),
         onSettingsTopAppBarActionClicked = navigateToSettings,
+        onPublicPostButtonClicked = navigateToPublic,
+        onFriendsPostButtonClicked = navigateToFriends,
+        onEventsPostButtonClicked = navigateToEvents,
     )
 
     TrackScreenViewEvent(screenName = "Publication")
@@ -95,6 +110,9 @@ internal fun PublicationScreen(
     onBackIconButtonClicked: () -> Unit = {},
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
+    onPublicPostButtonClicked: () -> Unit = {},
+    onFriendsPostButtonClicked: () -> Unit = {},
+    onEventsPostButtonClicked: () -> Unit = {},
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState(
         SheetState(
@@ -114,6 +132,19 @@ internal fun PublicationScreen(
     var isAnalyzed by rememberSaveable { mutableStateOf(false) }
     var currentDescription by rememberSaveable { mutableStateOf("") }
     var showError by rememberSaveable { mutableStateOf(false) }
+    var analyse: Analyse = Analyse(
+        AnalyseType.NEEDPICTURE,
+        Post(
+            id = "test",
+            userId = "test",
+            sharingScope = SharingScope.STREET,
+            location = "Street King James",
+            timestamp = LocalDateTime.now(),
+            content = currentDescription,
+            postType = PostType.TEXT,
+            feed = FeedType.FRIENDS,
+        )
+    )
 
     BottomSheetScaffold(
         modifier = modifier,
@@ -163,27 +194,53 @@ internal fun PublicationScreen(
                         onClick = {
                             haptic.click()
                             isAnalyzed = true
+                            analyse = Analyse(
+                                AnalyseType.NEEDPICTURE,
+                                Post(
+                                    id = "test",
+                                    userId = "test",
+                                    sharingScope = SharingScope.STREET,
+                                    location = "Street King James",
+                                    timestamp = LocalDateTime.now(),
+                                    content = currentDescription,
+                                    postType = PostType.TEXT,
+                                    feed = FeedType.FRIENDS,
+                                )
+                            )
                         },
+                        enabled = !isAnalyzed
                     ) {
                         Text(text = "Analyse")
                     }
                     } else {
-                        Row (verticalAlignment = Alignment.CenterVertically) {
+                        Row (
+                            modifier = Modifier.weight(1f),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Start) {
                         Rn3IconButton(
                             icon = Icons.Outlined.Info,
-                            contentDescription = "Informations about the categorisation",
+                            contentDescription = "Information about the categorisation",
                             onClick = {},
                         )
-                        Text(
-                            modifier = Modifier.padding(horizontal = 4.dp),
-                            text = "In public for building",
-                        )
+                            Text(
+                                modifier = Modifier.padding(horizontal = 4.dp),
+                                text = analyse.result.text(analyse.post.feed.text, analyse.post.sharingScope.text),
+                                softWrap = true,
+                            )
                         }
                         Button(
+                            modifier = Modifier.width(IntrinsicSize.Min),
                             onClick = {
                                 haptic.click()
-                                isAnalyzed = true
+                                if (analyse.post.feed == FeedType.PUBLIC) {
+                                    onPublicPostButtonClicked()
+                                } else if (analyse.post.feed == FeedType.FRIENDS)  {
+                                    onFriendsPostButtonClicked()
+                                } else if (analyse.post.feed == FeedType.EVENTS)  {
+                                    onEventsPostButtonClicked()
+                                }
                             },
+                            enabled = analyse.result == AnalyseType.SUCCESS
                         ) {
                             Text(text = "Post")
                         }
@@ -204,6 +261,7 @@ internal fun PublicationScreen(
                     if (text.length <= 500) {
                         currentDescription = text
                         showError = text.length >= 500
+                        isAnalyzed = false
                     }
                 },
                 modifier = Modifier

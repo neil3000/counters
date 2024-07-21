@@ -130,7 +130,7 @@ fun NavHost(
                         navController,
                         navController::navigateToLogin,
                     )
-                    publicationScreen(navController, navController::navigateToSettings)
+                    publicationScreen(navController, navController::navigateToSettings, { navController.navigateToPublicFeed {} }, { navController.navigateToFriendsFeed {} }, navController::navigateToEvents)
 
                     feedbackDialog(navController)
 

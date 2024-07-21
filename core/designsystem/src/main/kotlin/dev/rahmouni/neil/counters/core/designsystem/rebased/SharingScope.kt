@@ -26,15 +26,15 @@ import dev.rahmouni.neil.counters.core.designsystem.icons.Road
 import dev.rahmouni.neil.counters.core.designsystem.icons.UK
 import dev.rahmouni.neil.counters.core.designsystem.icons.USA
 
-enum class SharingScope {
-    GLOBAL,
-    COUNTRY,
-    REGION,
-    CITY,
-    DISTRICT,
-    NEIGHBORHOOD,
-    STREET,
-    BUILDING;
+enum class SharingScope(val text: String) {
+    GLOBAL(text = "Global"),
+    COUNTRY(text = "Country"),
+    REGION(text = "Region"),
+    CITY(text = "City"),
+    DISTRICT(text = "District"),
+    NEIGHBORHOOD(text = "Neighborhood"),
+    STREET(text = "Street"),
+    BUILDING(text = "Building");
 
     @Composable
     fun icon(location: String? = null): ImageVector {

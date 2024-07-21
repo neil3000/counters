@@ -29,6 +29,8 @@ data class Post(
     val sharingScope: SharingScope,
     val location: String,
     val timestamp: LocalDateTime,
+    val feed: FeedType,
+    val categories: List<String> = emptyList(),
     val content: String,
     val postType: PostType,
     val additionalInfos: List<String> = emptyList(),

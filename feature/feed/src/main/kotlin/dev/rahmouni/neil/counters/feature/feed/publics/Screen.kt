@@ -51,6 +51,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizo
 import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
+import dev.rahmouni.neil.counters.core.designsystem.rebased.FeedType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Friend
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
 import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
@@ -206,6 +207,7 @@ private fun PublicFeedPanel(
                 timestamp = LocalDateTime.now(),
                 content = "The Street King Charles was under construction, but now it's all clear! The renovation has finished, making this spot more accessible and enjoyable. Explore the new look of this iconic street and join me on this adventure.",
                 postType = PostType.TEXT,
+                feed = FeedType.PUBLIC,
             ),
             Post(
                 id = "test",
@@ -216,6 +218,7 @@ private fun PublicFeedPanel(
                 content = "I'm selling my road bike in excellent condition! It's perfect for anyone looking to explore the city or commute efficiently. Details: Brand - Trek, Model - Emonda, Year - 2020, Color - Black. Contact me if interested!",
                 postType = PostType.BUTTONS,
                 additionalInfos = listOf("I'm interested"),
+                feed = FeedType.PUBLIC,
             ),
             Post(
                 id = "test",
@@ -225,6 +228,7 @@ private fun PublicFeedPanel(
                 timestamp = LocalDateTime.now().minusHours(3),
                 content = "Exciting news for nature enthusiasts! England welcomes its newest national park, providing vast spaces for hiking, wildlife exploration, and stunning scenery. Discover the endless trails and the beauty of our protected lands. Join us in celebrating this great addition to our national heritage.",
                 postType = PostType.TEXT,
+                feed = FeedType.PUBLIC,
             ),
             Post(
                 id = "test",
@@ -234,6 +238,7 @@ private fun PublicFeedPanel(
                 timestamp = LocalDateTime.now().minusDays(1),
                 content = "Seems like there's an impromptu concert every night next door! The music and noise levels from my neighbors have become a real challenge.",
                 postType = PostType.TEXT,
+                feed = FeedType.PUBLIC,
             ),
             Post(
                 id = "test",
@@ -244,6 +249,7 @@ private fun PublicFeedPanel(
                 content = "Is anyone else experiencing a power outage in Chelsea?",
                 postType = PostType.POLL,
                 additionalInfos = listOf("Yes", "No"),
+                feed = FeedType.PUBLIC,
             ),
         ).forEach { post ->
             Publication(post, UserRepository.friends)
