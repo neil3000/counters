@@ -34,13 +34,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.R.string
 import dev.rahmouni.neil.counters.core.designsystem.rn3ErrorContainer
 
 @Composable
-fun Rn3ConfirmationDialog(
+fun Rn3Dialog(
     icon: ImageVector,
+    title: String,
     body: @Composable () -> Unit,
     confirmLabel: String,
     onConfirm: () -> Unit,
@@ -58,7 +60,7 @@ fun Rn3ConfirmationDialog(
                 openDialog = false
             },
             title = {
-                Text(text = stringResource(string.core_designsystem_confirmationDialog_title))
+                Text(text = title, textAlign = TextAlign.Center)
             },
             icon = {
                 Icon(

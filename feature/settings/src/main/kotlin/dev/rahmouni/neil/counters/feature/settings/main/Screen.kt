@@ -41,6 +41,7 @@ import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.AccessibilityNew
 import androidx.compose.material.icons.outlined.DataObject
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Group
@@ -272,9 +273,16 @@ private fun SettingsPanel(
 
                         // switchAccountTile
                         Rn3TileClick(
-                            title = "Switch account",
+                            title = stringResource(string.feature_settings_settingsScreen_switchAccountTile_title),
                             icon = Outlined.Group,
                             onClick = onAccountTileSwitchAccountTileClicked,
+                        )
+
+                        // editInfoTile
+                        Rn3TileClick(
+                            title = stringResource(string.feature_settings_settingsScreen_editInfoTile_title),
+                            icon = Outlined.Edit,
+                            onClick = {},
                         )
 
                         // logoutTile

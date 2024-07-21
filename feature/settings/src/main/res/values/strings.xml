@@ -89,6 +89,9 @@
     <string name="feature_settings_settingsScreen_otherHeaderTile_title">Other</string>
     <string name="feature_settings_settingsScreen_topAppBarTitle">Settings</string>
     <string name="feature_settings_developerSettingsLinksScreen_deleteButton_confirmationDialog_confirmLabel" translatable="false">Delete</string>
+    <string name="feature_settings_settingsScreen_switchAccountTile_title">Switch account</string>
+    <string name="feature_settings_settingsScreen_editInfoTile_title">Edit your information</string>
+    <string name="feature_settings_confirmationDialog_title">Are you sure ?</string>
     <plurals name="feature_settings_linkRn3UrlTile_favoriteIconButton_contentDescription" translatable="false">
         <item quantity="one">Remove from favorites</item>
         <item quantity="other">Add to favorites</item>

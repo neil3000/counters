@@ -45,7 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlRawData
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ConfirmationDialog
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.rn3ErrorButtonColors
 import dev.rahmouni.neil.counters.feature.settings.R.string
@@ -122,8 +122,9 @@ internal fun editLinkModal(
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     // deleteButton
                     if (editing) {
-                        Rn3ConfirmationDialog(
+                        Rn3Dialog(
                             icon = Icons.Outlined.DeleteForever,
+                            title = stringResource(string.feature_settings_confirmationDialog_title),
                             body = { },
                             confirmLabel = stringResource(string.feature_settings_developerSettingsLinksScreen_deleteButton_confirmationDialog_confirmLabel),
                             onConfirm = {

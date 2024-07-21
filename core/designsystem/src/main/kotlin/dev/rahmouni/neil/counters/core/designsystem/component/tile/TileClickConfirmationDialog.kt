@@ -29,8 +29,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ConfirmationDialog
+import dev.rahmouni.neil.counters.core.designsystem.R.string
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
 import dev.rahmouni.neil.counters.core.designsystem.toRn3FormattedString
 
 @Composable
@@ -85,8 +87,9 @@ fun Rn3TileClickConfirmationDialog(
     onClick: () -> Unit,
     body: @Composable () -> Unit,
 ) {
-    Rn3ConfirmationDialog(
+    Rn3Dialog(
         icon = icon,
+        title = stringResource(string.core_designsystem_confirmationDialog_title),
         body = body,
         confirmLabel = title,
         onConfirm = onClick,

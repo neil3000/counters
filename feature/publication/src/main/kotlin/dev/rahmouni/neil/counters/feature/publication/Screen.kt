@@ -27,21 +27,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AddPhotoAlternate
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Report
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
+import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -58,9 +63,11 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
@@ -68,6 +75,7 @@ import dev.rahmouni.neil.counters.core.designsystem.rebased.FeedType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
 import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
+import dev.rahmouni.neil.counters.core.designsystem.toRn3FormattedString
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
@@ -131,19 +139,21 @@ internal fun PublicationScreen(
 
     var isAnalyzed by rememberSaveable { mutableStateOf(false) }
     var currentDescription by rememberSaveable { mutableStateOf("") }
-    var showError by rememberSaveable { mutableStateOf(false) }
-    var analyse: Analyse = Analyse(
-        AnalyseType.NEEDPICTURE,
+    var showEmpty by rememberSaveable { mutableStateOf(false) }
+    var showTooLarge by rememberSaveable { mutableStateOf(false) }
+
+    var analyse = Analyse(
+        AnalyseType.SUCCESS,
+        listOf(FeedType.PUBLIC, FeedType.FRIENDS),
+        listOf(SharingScope.STREET, SharingScope.BUILDING),
         Post(
             id = "test",
             userId = "test",
-            sharingScope = SharingScope.STREET,
             location = "Street King James",
             timestamp = LocalDateTime.now(),
             content = currentDescription,
             postType = PostType.TEXT,
-            feed = FeedType.FRIENDS,
-        )
+        ),
     )
 
     BottomSheetScaffold(
@@ -187,62 +197,116 @@ internal fun PublicationScreen(
                     if (!isAnalyzed) {
                     Rn3IconButton(
                         icon = Icons.Outlined.AddPhotoAlternate,
-                        contentDescription = "Import an image",
+                        contentDescription = stringResource(string.feature_publication_imageButton_description),
                         onClick = {},
                     )
                     Button(
                         onClick = {
                             haptic.click()
+                            if (currentDescription.isNotEmpty()) {
                             isAnalyzed = true
                             analyse = Analyse(
-                                AnalyseType.NEEDPICTURE,
+                                AnalyseType.SUCCESS,
+                                listOf(FeedType.PUBLIC, FeedType.FRIENDS),
+                                listOf(SharingScope.STREET, SharingScope.BUILDING),
                                 Post(
                                     id = "test",
                                     userId = "test",
-                                    sharingScope = SharingScope.STREET,
                                     location = "Street King James",
                                     timestamp = LocalDateTime.now(),
                                     content = currentDescription,
                                     postType = PostType.TEXT,
-                                    feed = FeedType.FRIENDS,
-                                )
+                                ),
                             )
+                            } else {
+                                showEmpty = true
+                            }
                         },
-                        enabled = !isAnalyzed
+                        enabled = !isAnalyzed && !showEmpty,
                     ) {
-                        Text(text = "Analyse")
+                        Text(text = stringResource(string.feature_publication_analyseButton))
                     }
                     } else {
                         Row (
                             modifier = Modifier.weight(1f),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Start) {
-                        Rn3IconButton(
-                            icon = Icons.Outlined.Info,
-                            contentDescription = "Information about the categorisation",
-                            onClick = {},
-                        )
+                            Rn3Dialog(
+                                icon = Icons.Outlined.Report,
+                                title = stringResource(string.feature_publication_infoDialog_title),
+                                body = {
+                                    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                                        Text(text = stringResource(string.feature_publication_infoDialog_textTitle))
+                                        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                                            Icon(
+                                                Icons.Outlined.Edit,
+                                                null,
+                                                Modifier
+                                                    .padding(top = 2.dp)
+                                                    .size(SuggestionChipDefaults.IconSize),
+                                                tint = MaterialTheme.colorScheme.secondary,
+                                            )
+
+                                            Text(text = stringResource(string.feature_publication_infoDialog_textEdit).toRn3FormattedString())
+                                        }
+                                    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                                        Icon(
+                                            Icons.Outlined.Report,
+                                            null,
+                                            Modifier
+                                                .padding(top = 2.dp)
+                                                .size(SuggestionChipDefaults.IconSize),
+                                            tint = MaterialTheme.colorScheme.secondary,
+                                        )
+
+                                        Text(text = stringResource(string.feature_publication_infoDialog_textReport).toRn3FormattedString())
+                                    }
+                                    }
+                                },
+                                confirmLabel = stringResource(string.feature_publication_infoDialog_button),
+                                onConfirm = { /*TODO*/ },
+                            ) {
+                                Rn3IconButton(
+                                    icon = Icons.Outlined.Info,
+                                    contentDescription = stringResource(string.feature_publication_informationButton_description),
+                                    onClick = it,
+                                )
+                            }
+                            if (analyse.result != AnalyseType.SUCCESS) {
                             Text(
                                 modifier = Modifier.padding(horizontal = 4.dp),
-                                text = analyse.result.text(analyse.post.feed.text, analyse.post.sharingScope.text),
+                                text = analyse.result.text,
                                 softWrap = true,
                             )
+                            } else {
+                                Row {
+                                    Text(
+                                        text = analyse.feed[0].text,
+                                        textDecoration = if (analyse.scope.size > 1) TextDecoration.Underline else null,
+                                    )
+                                    Text(text = " - ")
+                                    Text(
+                                        text = analyse.scope[0].text,
+                                        textDecoration = if (analyse.scope.size > 1) TextDecoration.Underline else null,
+                                    )
+                                }
+                            }
                         }
                         Button(
                             modifier = Modifier.width(IntrinsicSize.Min),
                             onClick = {
                                 haptic.click()
-                                if (analyse.post.feed == FeedType.PUBLIC) {
+                                if (analyse.feed[0] == FeedType.PUBLIC) {
                                     onPublicPostButtonClicked()
-                                } else if (analyse.post.feed == FeedType.FRIENDS)  {
+                                } else if (analyse.feed[0] == FeedType.FRIENDS) {
                                     onFriendsPostButtonClicked()
-                                } else if (analyse.post.feed == FeedType.EVENTS)  {
+                                } else if (analyse.feed[0] == FeedType.EVENTS) {
                                     onEventsPostButtonClicked()
                                 }
                             },
-                            enabled = analyse.result == AnalyseType.SUCCESS
+                            enabled = analyse.result == AnalyseType.SUCCESS,
                         ) {
-                            Text(text = "Post")
+                            Text(text = stringResource(string.feature_publication_postButton))
                         }
                     }
                 }
@@ -260,7 +324,8 @@ internal fun PublicationScreen(
                 onValueChange = { text ->
                     if (text.length <= 500) {
                         currentDescription = text
-                        showError = text.length >= 500
+                        showTooLarge = text.length >= 500
+                        if (text.isNotEmpty()) showEmpty = false
                         isAnalyzed = false
                     }
                 },
@@ -276,9 +341,16 @@ internal fun PublicationScreen(
                     },
                 ),
                 supportingText = {
-                    if (showError) {
+                    if (showTooLarge) {
                         Text(
-                            "Character limit of 500 reached",
+                            stringResource(string.feature_publication_textField_characterLimit),
+                            color = MaterialTheme.colorScheme.error,
+                        )
+                    }
+
+                    if (showEmpty) {
+                        Text(
+                            stringResource(string.feature_publication_textField_isEmpty),
                             color = MaterialTheme.colorScheme.error,
                         )
                     }

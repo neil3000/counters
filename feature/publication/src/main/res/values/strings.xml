@@ -19,4 +19,15 @@
     <string name="feature_publication_topAppBarActions_settings">Settings</string>
     <string name="feature_publication_topAppBarTitle">Publish</string>
     <string name="feature_publication_textField_label">Your post</string>
+    <string name="feature_publication_textField_characterLimit">Character limit of 500 reached</string>
+    <string name="feature_publication_textField_isEmpty">Text field is empty</string>
+    <string name="feature_publication_postButton">Post</string>
+    <string name="feature_publication_analyseButton">Analyse</string>
+    <string name="feature_publication_informationButton_description">Information about the categorisation</string>
+    <string name="feature_publication_imageButton_description">Import an image</string>
+    <string name="feature_publication_infoDialog_title">How does the categorisation work</string>
+    <string name="feature_publication_infoDialog_textTitle">The categorization of your post is handled by Gemini.</string>
+    <string name="feature_publication_infoDialog_textEdit">You can adjust the settings if one or both of the parameters are underlined.</string>
+    <string name="feature_publication_infoDialog_textReport">If you disagree with the categorization assigned to your post, you can indicate it by using the report button.</string>
+    <string name="feature_publication_infoDialog_button">Report categorisation</string>
 </resources>
