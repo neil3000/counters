@@ -70,6 +70,7 @@ class OfflineFirstUserDataRepositoryTest {
                     hasMetricsEnabled = true,
                     hasCrashlyticsEnabled = true,
                     shouldShowLoginScreenOnStartup = true,
+                    needInformation = false,
                     isAppFirstLaunch = true,
                 ),
                 subject.userData.first(),

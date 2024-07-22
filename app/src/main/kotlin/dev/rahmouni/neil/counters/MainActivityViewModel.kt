@@ -43,6 +43,7 @@ class MainActivityViewModel @Inject constructor(
 
     private var isAppFirstLaunch = false
     private var shouldShowLoginScreenOnStartup = false
+    private var needInformation = false
 
     @Suppress("KotlinConstantConditions")
     val uiState: StateFlow<MainActivityUiState> =
@@ -52,6 +53,7 @@ class MainActivityViewModel @Inject constructor(
             } else {
                 if (userData.isAppFirstLaunch) isAppFirstLaunch = true
                 if (userData.shouldShowLoginScreenOnStartup) shouldShowLoginScreenOnStartup = true
+                if (userData.needInformation) needInformation = true
 
                 Success(
                     accessibilityHelper = AccessibilityHelper(
@@ -63,6 +65,7 @@ class MainActivityViewModel @Inject constructor(
                     hasCrashlyticsEnabled = userData.hasCrashlyticsEnabled,
                     hasTravelModeEnabled = userData.hasTravelModeEnabled,
                     hasFriendsMainEnabled = userData.hasFriendsMainEnabled,
+                    needInformation = BuildConfig.FLAVOR != "demo" && needInformation,
                     isAppFirstLaunch = BuildConfig.FLAVOR != "demo" && isAppFirstLaunch,
                     shouldShowLoginScreenOnStartup = BuildConfig.FLAVOR != "demo" && shouldShowLoginScreenOnStartup,
                 )
@@ -88,6 +91,7 @@ sealed interface MainActivityUiState {
         val hasCrashlyticsEnabled: Boolean,
         val isAppFirstLaunch: Boolean,
         val shouldShowLoginScreenOnStartup: Boolean,
+        val needInformation: Boolean,
         val hasTravelModeEnabled: Boolean,
         val hasFriendsMainEnabled: Boolean,
     ) : MainActivityUiState

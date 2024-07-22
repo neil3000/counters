@@ -135,8 +135,9 @@ class MainActivity : ComponentActivity() {
             if (uiState is Success) {
                 val routes = mutableListOf<String>().apply {
                     if ((uiState as Success).shouldShowLoginScreenOnStartup) add(LOGIN_ROUTE)
+                    // if (!(uiState as Success).needInformation) add(INFORMATION_ROUTE)
                     if ((uiState as Success).hasFriendsMainEnabled) add(FRIENDSFEED_ROUTE)
-                    if (isEmpty()) add(PUBLICFEED_ROUTE)
+                    if (!(uiState as Success).hasFriendsMainEnabled) add(PUBLICFEED_ROUTE)
                 }
                 CompositionLocalProvider(
                     LocalAnalyticsHelper provides analyticsHelper,

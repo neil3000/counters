@@ -124,6 +124,7 @@ internal fun SettingsRoute(
     viewModel: SettingsViewModel = hiltViewModel(),
     navController: NavController,
     navigateToLogin: () -> Unit,
+    navigateToInformation: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -185,6 +186,10 @@ internal fun SettingsRoute(
             analytics.logSettingsUiEvent("ossLicensesTile")
             context.openOssLicensesActivity()
         },
+        onClickInfoTile = {
+            analytics.logSettingsUiEvent("informationTile")
+            navigateToInformation()
+        },
         setTravelMode = viewModel::setTravelMode,
         setFriendsMain = viewModel::setFriendsMain,
     )
@@ -207,6 +212,7 @@ internal fun SettingsScreen(
     onClickAccessibilityTile: () -> Unit = {},
     onClickDeveloperSettingsTile: () -> Unit = {},
     onClickOssLicensesTile: () -> Unit = {},
+    onClickInfoTile: () -> Unit = {},
     setTravelMode: (Boolean) -> Unit = {},
     setFriendsMain: (Boolean) -> Unit = {},
 ) {
@@ -229,6 +235,7 @@ internal fun SettingsScreen(
                 onClickAccessibilityTile,
                 onClickDeveloperSettingsTile,
                 onClickOssLicensesTile,
+                onClickInfoTile,
                 setTravelMode,
                 setFriendsMain,
             )
@@ -248,6 +255,7 @@ private fun SettingsPanel(
     onClickAccessibilityTile: () -> Unit,
     onClickDeveloperSettingsTile: () -> Unit,
     onClickOssLicensesTile: () -> Unit,
+    onClickInfoTile: () -> Unit,
     setTravelMode: (Boolean) -> Unit,
     setFriendsMain: (Boolean) -> Unit,
 ) {
@@ -276,13 +284,6 @@ private fun SettingsPanel(
                             title = stringResource(string.feature_settings_settingsScreen_switchAccountTile_title),
                             icon = Outlined.Group,
                             onClick = onAccountTileSwitchAccountTileClicked,
-                        )
-
-                        // editInfoTile
-                        Rn3TileClick(
-                            title = stringResource(string.feature_settings_settingsScreen_editInfoTile_title),
-                            icon = Outlined.Edit,
-                            onClick = {},
                         )
 
                         // logoutTile
@@ -365,9 +366,9 @@ private fun SettingsPanel(
                     ) {
                         Text(
                             when (this@with) {
-                                is UpdateAvailable -> "Update available"
-                                is DownloadingUpdate -> "Downloading..."
-                                is WaitingForRestart -> "Restart to apply"
+                                is UpdateAvailable -> stringResource(string.eature_settings_settingsScreen_updateAvailable)
+                                is DownloadingUpdate -> stringResource(string.eature_settings_settingsScreen_updateDownloading)
+                                is WaitingForRestart -> stringResource(string.eature_settings_settingsScreen_updateRestart)
                                 NoUpdateAvailable -> "RahNeil_N3:GsKMAaulylNilvukEZCbJI4jWLXbRRzb"
                             },
                             Modifier.padding(top = 2.dp, start = 12.dp, end = 16.dp),
@@ -399,6 +400,13 @@ private fun SettingsPanel(
 
         // generalHeaderTile
         Rn3TileSmallHeader(title = stringResource(string.feature_settings_settingsScreen_generalHeaderTile_title))
+
+        // editInfoTile
+        Rn3TileClick(
+            title = stringResource(string.feature_settings_settingsScreen_editInfoTile_title),
+            icon = Outlined.Edit,
+            onClick = onClickInfoTile,
+        )
 
         // TravelModeTile
         Rn3TileSwitch(

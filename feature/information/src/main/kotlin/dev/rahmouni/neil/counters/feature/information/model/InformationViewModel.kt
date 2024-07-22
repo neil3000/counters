@@ -15,17 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.core.model.data
+package dev.rahmouni.neil.counters.feature.information.model
 
-data class UserData(
-    val hasAccessibilityEmphasizedSwitchesEnabled: Boolean,
-    val hasAccessibilityIconTooltipsEnabled: Boolean,
-    val hasAccessibilityAltTextEnabled: Boolean,
-    val hasTravelModeEnabled: Boolean,
-    val hasFriendsMainEnabled: Boolean,
-    val hasMetricsEnabled: Boolean,
-    val hasCrashlyticsEnabled: Boolean,
-    val shouldShowLoginScreenOnStartup: Boolean,
-    val needInformation: Boolean,
-    val isAppFirstLaunch: Boolean,
-)
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class InformationViewModel @Inject constructor(
+    private val userDataRepository: UserDataRepository,
+) : ViewModel() {
+
+    fun save() {
+        viewModelScope.launch {
+            userDataRepository.needInformation(false)
+        }
+    }
+}

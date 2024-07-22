@@ -38,6 +38,7 @@ class Rn3PreferencesDataSource @Inject constructor(
             hasCrashlyticsEnabled = !userPref.hasCrashlyticsDisabled,
             shouldShowLoginScreenOnStartup = !userPref.shouldNotShowLoginScreenOnStartup,
             isAppFirstLaunch = !userPref.isNotAppFirstLaunch,
+            needInformation = !userPref.isInformationValid,
         )
     }
 
@@ -86,6 +87,12 @@ class Rn3PreferencesDataSource @Inject constructor(
     suspend fun setShouldShowLoginScreenOnStartup(value: Boolean) {
         userPreferences.updateData {
             it.copy { this.shouldNotShowLoginScreenOnStartup = !value }
+        }
+    }
+
+    suspend fun setNeedInformation(value: Boolean) {
+        userPreferences.updateData {
+            it.copy { this.isInformationValid = !value }
         }
     }
 

@@ -39,17 +39,20 @@ import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
 import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
 import dev.rahmouni.neil.counters.core.feedback.feedbackDialog
 import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
-import dev.rahmouni.neil.counters.feature.connect.connectScreen
-import dev.rahmouni.neil.counters.feature.connect.navigateToConnect
 import dev.rahmouni.neil.counters.feature.events.eventsScreen
 import dev.rahmouni.neil.counters.feature.events.navigateToEvents
 import dev.rahmouni.neil.counters.feature.feed.friends.friendsFeedScreen
 import dev.rahmouni.neil.counters.feature.feed.friends.navigateToFriendsFeed
 import dev.rahmouni.neil.counters.feature.feed.publics.navigateToPublicFeed
 import dev.rahmouni.neil.counters.feature.feed.publics.publicFeedScreen
+import dev.rahmouni.neil.counters.feature.connect.connectScreen
+import dev.rahmouni.neil.counters.feature.connect.navigateToConnect
+import dev.rahmouni.neil.counters.feature.information.INFORMATION_ROUTE
+import dev.rahmouni.neil.counters.feature.information.informationScreen
 import dev.rahmouni.neil.counters.feature.login.LOGIN_ROUTE
 import dev.rahmouni.neil.counters.feature.login.loginScreen
 import dev.rahmouni.neil.counters.feature.login.navigateToLogin
+import dev.rahmouni.neil.counters.feature.information.navigateToInformation
 import dev.rahmouni.neil.counters.feature.publication.navigateToPublication
 import dev.rahmouni.neil.counters.feature.publication.publicationScreen
 import dev.rahmouni.neil.counters.feature.settings.navigateToSettings
@@ -126,9 +129,17 @@ fun NavHost(
                         }
                     }
 
+                    informationScreen(navController) {
+                        navController.navigate(routes[pageCount]) {
+                            if (pageCount < routes.size - 1) pageCount + 1
+                            popUpTo(INFORMATION_ROUTE) { inclusive = true }
+                        }
+                    }
+
                     settingsNavigation(
                         navController,
                         navController::navigateToLogin,
+                        navController::navigateToInformation,
                     )
                     publicationScreen(navController, navController::navigateToSettings, { navController.navigateToPublicFeed {} }, { navController.navigateToFriendsFeed {} }, navController::navigateToEvents)
 

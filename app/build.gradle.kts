@@ -84,6 +84,7 @@ android {
 dependencies {
     implementation(projects.feature.login)
     implementation(projects.feature.settings)
+    implementation(projects.feature.information)
     implementation(projects.feature.publication)
     implementation(projects.feature.feed)
     implementation(projects.feature.events)

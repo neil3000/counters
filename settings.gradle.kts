@@ -45,6 +45,7 @@ include(":feature:connect")
 include(":feature:login")
 include(":feature:settings")
 include(":feature:publication")
+include(":feature:information")
 
 include(":lint")
 include(":ui-test-hilt-manifest")

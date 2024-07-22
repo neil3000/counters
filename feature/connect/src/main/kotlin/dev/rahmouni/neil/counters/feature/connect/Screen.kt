@@ -17,6 +17,7 @@
 
 package dev.rahmouni.neil.counters.feature.connect
 
+import android.content.Context
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.compose.animation.core.Animatable
@@ -44,7 +45,6 @@ import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -63,7 +63,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
@@ -72,9 +71,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
@@ -225,12 +224,12 @@ internal fun ConnectScreen(
         ),
         topAppBarStyle = HOME,
     ) {
-        ColumnPanel(it)
+        ColumnPanel(it, data, context)
     }
 }
 
 @Composable
-private fun ColumnPanel(paddingValues: Rn3PaddingValues) {
+private fun ColumnPanel(paddingValues: Rn3PaddingValues, data : ConnectData, context: Context) {
     val morphCursor by remember { mutableIntStateOf(0) }
     val morphProgress = remember { Animatable(0f) }
 
@@ -257,46 +256,49 @@ private fun ColumnPanel(paddingValues: Rn3PaddingValues) {
         horizontalAlignment = CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Box(
-            Modifier
-                .widthIn(max = 200.dp)
-                .fillMaxWidth()
-                .aspectRatio(1f)
-                .clip(
-                    MorphableShape(
-                        loadingShapeParameters[morphCursor]
-                            .genShape(animatedRotation.value)
-                            .normalized(),
-                        loadingShapeParameters[(morphCursor + 1) % loadingShapeParameters.size]
-                            .genShape(animatedRotation.value)
-                            .normalized(),
-                        morphProgress.value,
-                    ),
-                )
-                .background(MaterialTheme.colorScheme.primary),
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.feature_connect_pfp),
-                contentDescription = "Neïl Rahmouni",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize(),
-            )
-        }
+        when (data.user) {
+            is SignedInUser -> {
+                    Box(
+                        Modifier
+                            .widthIn(max = 200.dp)
+                            .fillMaxWidth()
+                            .aspectRatio(1f)
+                            .clip(
+                                MorphableShape(
+                                    loadingShapeParameters[morphCursor]
+                                        .genShape(animatedRotation.value)
+                                        .normalized(),
+                                    loadingShapeParameters[(morphCursor + 1) % loadingShapeParameters.size]
+                                        .genShape(animatedRotation.value)
+                                        .normalized(),
+                                    morphProgress.value,
+                                ),
+                            )
+                            .background(MaterialTheme.colorScheme.primary),
+                    ) {
+                        Image(
+                            painter = rememberAsyncImagePainter(data.user.pfpUri),
+                            contentDescription = data.user.getDisplayName(context),
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .fillMaxSize(),
+                        )
+                    }
 
-        Row(
-            modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-        ) {
-            Text(
-                text = "Neïl Rahmouni",
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Medium,
-                fontSize = TextUnit(5f, TextUnitType.Em),
-            )
-            Rn3IconButton(icon = Outlined.Edit, contentDescription = "edit profile", contentColor = MaterialTheme.colorScheme.primary) {
-            }
+                    Row(
+                        modifier = Modifier.padding(top = 16.dp, bottom = 32.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        Text(
+                            text = data.user.getDisplayName(context),
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = TextUnit(5f, TextUnitType.Em),
+                        )
+                    }
+                }
+            else -> {}
         }
 
         users.forEach { user ->

@@ -15,28 +15,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.feature.settings.main
+package dev.rahmouni.neil.counters.feature.information
 
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
 
-const val SETTINGS_MAIN_ROUTE = "main"
+const val INFORMATION_ROUTE = "information"
 
-internal fun NavController.navigateToSettingsMain(navOptions: NavOptions? = null) =
-    navigate(SETTINGS_MAIN_ROUTE, navOptions)
+fun NavController.navigateToInformation(navOptions: NavOptions? = null) =
+    navigate(INFORMATION_ROUTE, navOptions)
 
-internal fun NavGraphBuilder.mainScreen(
+fun NavGraphBuilder.informationScreen(
     navController: NavController,
-    navigateToLogin: () -> Unit,
-    navigateToInformation: () -> Unit,
+    navigateToNextPage: () -> Unit,
 ) {
-    composable(route = SETTINGS_MAIN_ROUTE) {
-        SettingsRoute(
-            navController = navController,
-            navigateToLogin = navigateToLogin,
-            navigateToInformation = navigateToInformation,
-        )
+    composable(route = INFORMATION_ROUTE) {
+        CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
+            InformationRoute(
+                navController = navController,
+                navigateToNextPage = navigateToNextPage,
+            )
+        }
     }
 }

@@ -34,7 +34,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AddPhotoAlternate
-import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Report
 import androidx.compose.material.icons.outlined.Settings
@@ -237,18 +236,6 @@ internal fun PublicationScreen(
                                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                                         Text(text = stringResource(string.feature_publication_infoDialog_textTitle))
                                         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                                            Icon(
-                                                Icons.Outlined.Edit,
-                                                null,
-                                                Modifier
-                                                    .padding(top = 2.dp)
-                                                    .size(SuggestionChipDefaults.IconSize),
-                                                tint = MaterialTheme.colorScheme.secondary,
-                                            )
-
-                                            Text(text = stringResource(string.feature_publication_infoDialog_textEdit).toRn3FormattedString())
-                                        }
-                                    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                                         Icon(
                                             Icons.Outlined.Report,
                                             null,

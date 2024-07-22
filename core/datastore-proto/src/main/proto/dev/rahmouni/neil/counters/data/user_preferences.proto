@@ -13,6 +13,7 @@ message UserPreferences {
   bool isNotAppFirstLaunch = 7;
   bool hasTravelModeEnabled = 8;
   bool hasFriendsMainEnabled = 9;
+  bool isInformationValid = 10;
 
-  // NEXT AVAILABLE ID: 10
+  // NEXT AVAILABLE ID: 11
 }

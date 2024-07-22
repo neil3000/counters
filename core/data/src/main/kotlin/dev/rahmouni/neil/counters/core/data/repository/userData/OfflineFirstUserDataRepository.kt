@@ -72,6 +72,10 @@ internal class OfflineFirstUserDataRepository @Inject constructor(
         analyticsHelper.logFriendsMainPreferenceChanged(value)
     }
 
+    override suspend fun needInformation(value: Boolean) {
+        rn3PreferencesDataSource.setNeedInformation(value)
+    }
+
     override suspend fun setShouldShowLoginScreenOnStartup(value: Boolean) =
         rn3PreferencesDataSource.setShouldShowLoginScreenOnStartup(value)
 

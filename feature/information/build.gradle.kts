@@ -15,17 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.core.model.data
+@Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
+plugins {
+    alias(libs.plugins.rn3.android.feature)
+    alias(libs.plugins.rn3.android.library.compose)
+    alias(libs.plugins.rn3.android.library.jacoco)
+}
 
-data class UserData(
-    val hasAccessibilityEmphasizedSwitchesEnabled: Boolean,
-    val hasAccessibilityIconTooltipsEnabled: Boolean,
-    val hasAccessibilityAltTextEnabled: Boolean,
-    val hasTravelModeEnabled: Boolean,
-    val hasFriendsMainEnabled: Boolean,
-    val hasMetricsEnabled: Boolean,
-    val hasCrashlyticsEnabled: Boolean,
-    val shouldShowLoginScreenOnStartup: Boolean,
-    val needInformation: Boolean,
-    val isAppFirstLaunch: Boolean,
-)
+android {
+    namespace = "dev.rahmouni.neil.counters.feature.information"
+}
+
+dependencies {
+    api(libs.androidx.compose.material.iconsExtended)
+
+    implementation(libs.androidx.appcompat)
+    implementation(libs.coil.kt.compose)
+
+    implementation(projects.core.auth)
+    implementation(projects.core.data)
+    implementation(projects.core.shapes)
+}
