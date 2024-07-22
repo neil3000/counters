@@ -26,10 +26,10 @@ import java.time.temporal.ChronoUnit
 data class Post(
     val id: String,
     val userId: String,
-    val sharingScope: SharingScope = SharingScope.BUILDING,
+    val sharingScope: SharingScope,
     val location: String,
     val timestamp: LocalDateTime,
-    val feed: FeedType = FeedType.PUBLIC,
+    val feed: FeedType,
     val categories: List<String> = emptyList(),
     val content: String,
     val postType: PostType,

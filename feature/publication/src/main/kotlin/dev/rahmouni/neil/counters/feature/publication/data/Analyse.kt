@@ -17,13 +17,9 @@
 
 package dev.rahmouni.neil.counters.feature.publication.data
 
-import dev.rahmouni.neil.counters.core.designsystem.rebased.FeedType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
-import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
 
 data class Analyse(
     val result: AnalyseType,
-    val feed: List<FeedType>,
-    val scope: List<SharingScope>,
     val post: Post,
 )

@@ -63,7 +63,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
@@ -144,11 +143,11 @@ internal fun PublicationScreen(
 
     var analyse = Analyse(
         AnalyseType.SUCCESS,
-        listOf(FeedType.PUBLIC, FeedType.FRIENDS),
-        listOf(SharingScope.STREET, SharingScope.BUILDING),
         Post(
             id = "test",
             userId = "test",
+            feed = FeedType.PUBLIC,
+            sharingScope = SharingScope.STREET,
             location = "Street King James",
             timestamp = LocalDateTime.now(),
             content = currentDescription,
@@ -207,11 +206,11 @@ internal fun PublicationScreen(
                             isAnalyzed = true
                             analyse = Analyse(
                                 AnalyseType.SUCCESS,
-                                listOf(FeedType.PUBLIC, FeedType.FRIENDS),
-                                listOf(SharingScope.STREET, SharingScope.BUILDING),
                                 Post(
                                     id = "test",
                                     userId = "test",
+                                    feed = FeedType.PUBLIC,
+                                    sharingScope = SharingScope.STREET,
                                     location = "Street King James",
                                     timestamp = LocalDateTime.now(),
                                     content = currentDescription,
@@ -272,35 +271,21 @@ internal fun PublicationScreen(
                                     onClick = it,
                                 )
                             }
-                            if (analyse.result != AnalyseType.SUCCESS) {
                             Text(
                                 modifier = Modifier.padding(horizontal = 4.dp),
-                                text = analyse.result.text,
+                                text = analyse.result.text(analyse.post.feed.text, analyse.post.sharingScope.text),
                                 softWrap = true,
                             )
-                            } else {
-                                Row {
-                                    Text(
-                                        text = analyse.feed[0].text,
-                                        textDecoration = if (analyse.scope.size > 1) TextDecoration.Underline else null,
-                                    )
-                                    Text(text = " - ")
-                                    Text(
-                                        text = analyse.scope[0].text,
-                                        textDecoration = if (analyse.scope.size > 1) TextDecoration.Underline else null,
-                                    )
-                                }
-                            }
                         }
                         Button(
                             modifier = Modifier.width(IntrinsicSize.Min),
                             onClick = {
                                 haptic.click()
-                                if (analyse.feed[0] == FeedType.PUBLIC) {
+                                if (analyse.post.feed == FeedType.PUBLIC) {
                                     onPublicPostButtonClicked()
-                                } else if (analyse.feed[0] == FeedType.FRIENDS) {
+                                } else if (analyse.post.feed == FeedType.FRIENDS) {
                                     onFriendsPostButtonClicked()
-                                } else if (analyse.feed[0] == FeedType.EVENTS) {
+                                } else if (analyse.post.feed == FeedType.EVENTS) {
                                     onEventsPostButtonClicked()
                                 }
                             },
