@@ -78,8 +78,8 @@ fun Rn3Dialog(
                         openDialog = false
                     }
                     Rn3LargeButton(
-                        confirmLabel,
-                        icon,
+                        text = confirmLabel,
+                        icon = icon,
                         color = MaterialTheme.colorScheme.rn3ErrorContainer,
                     ) {
                         openDialog = false

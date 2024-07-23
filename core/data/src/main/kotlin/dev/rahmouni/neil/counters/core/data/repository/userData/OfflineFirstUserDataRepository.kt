@@ -63,16 +63,16 @@ internal class OfflineFirstUserDataRepository @Inject constructor(
     }
 
     override suspend fun setTravelMode(value: Boolean) {
-        rn3PreferencesDataSource.setTravelModePreference(value)
+        rn3PreferencesDataSource.setTravelModeEnabledPreference(value)
         analyticsHelper.logTravelModePreferenceChanged(value)
     }
 
     override suspend fun setFriendsMain(value: Boolean) {
-        rn3PreferencesDataSource.setFriendsMainPreference(value)
+        rn3PreferencesDataSource.setFriendsMainEnabledPreference(value)
         analyticsHelper.logFriendsMainPreferenceChanged(value)
     }
 
-    override suspend fun needInformation(value: Boolean) {
+    override suspend fun setNeedInformation(value: Boolean) {
         rn3PreferencesDataSource.setNeedInformation(value)
     }
 

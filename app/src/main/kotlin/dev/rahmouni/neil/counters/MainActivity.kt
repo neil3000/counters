@@ -49,6 +49,7 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.feature.feed.friends.FRIENDSFEED_ROUTE
 import dev.rahmouni.neil.counters.feature.feed.publics.PUBLICFEED_ROUTE
+import dev.rahmouni.neil.counters.feature.information.INFORMATION_ROUTE
 import dev.rahmouni.neil.counters.feature.login.LOGIN_ROUTE
 import dev.rahmouni.neil.counters.ui.App
 import dev.rahmouni.neil.counters.ui.rememberCountersAppState
@@ -135,7 +136,7 @@ class MainActivity : ComponentActivity() {
             if (uiState is Success) {
                 val routes = mutableListOf<String>().apply {
                     if ((uiState as Success).shouldShowLoginScreenOnStartup) add(LOGIN_ROUTE)
-                    // if (!(uiState as Success).needInformation) add(INFORMATION_ROUTE)
+                    if ((uiState as Success).needInformation) add(INFORMATION_ROUTE)
                     if ((uiState as Success).hasFriendsMainEnabled) add(FRIENDSFEED_ROUTE)
                     if (!(uiState as Success).hasFriendsMainEnabled) add(PUBLICFEED_ROUTE)
                 }

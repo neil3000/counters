@@ -224,7 +224,7 @@ private fun PublicFeedPanel(
                 id = "test",
                 userId = "test",
                 sharingScope = SharingScope.COUNTRY,
-                location = "UK",
+                location = "GB",
                 timestamp = LocalDateTime.now().minusHours(3),
                 content = "Exciting news for nature enthusiasts! England welcomes its newest national park, providing vast spaces for hiking, wildlife exploration, and stunning scenery. Discover the endless trails and the beauty of our protected lands. Join us in celebrating this great addition to our national heritage.",
                 postType = PostType.TEXT,

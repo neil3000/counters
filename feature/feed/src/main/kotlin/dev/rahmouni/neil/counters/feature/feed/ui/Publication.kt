@@ -25,9 +25,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.rebased.Country
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Friend
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
 import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
+import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
 
 @Composable
 fun Publication(post: Post, friendRepository: List<Friend>) {
@@ -68,7 +70,12 @@ fun Publication(post: Post, friendRepository: List<Friend>) {
                     if (user != null) {
                         Text(text = user.name, fontWeight = FontWeight.Bold)
                     } else {
-                        Text(text = post.location, fontWeight = FontWeight.Bold)
+                        if (post.sharingScope == SharingScope.COUNTRY) {
+                            Text(text =  Country.getCountryNameFromIso(post.location), fontWeight = FontWeight.Bold)
+                        }
+                        else {
+                            Text(text = post.location, fontWeight = FontWeight.Bold)
+                        }
                     }
                     Text(
                         text = post.timeElapsed(),

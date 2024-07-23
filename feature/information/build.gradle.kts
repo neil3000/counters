@@ -35,4 +35,6 @@ dependencies {
     implementation(projects.core.auth)
     implementation(projects.core.data)
     implementation(projects.core.shapes)
+    implementation(projects.core.config)
+    implementation(projects.feature.settings)
 }

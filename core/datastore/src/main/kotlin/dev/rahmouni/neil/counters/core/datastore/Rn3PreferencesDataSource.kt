@@ -56,7 +56,7 @@ class Rn3PreferencesDataSource @Inject constructor(
 
     suspend fun setAccessibilityAltTextPreference(value: Boolean) {
         userPreferences.updateData {
-            it.copy { this.accessibilityHasAltTextEnabled = !value }
+            it.copy { this.accessibilityHasAltTextEnabled = value }
         }
     }
 
@@ -72,15 +72,15 @@ class Rn3PreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun setTravelModePreference(value: Boolean) {
+    suspend fun setTravelModeEnabledPreference(value: Boolean) {
         userPreferences.updateData {
-            it.copy { this.hasTravelModeEnabled = !value }
+            it.copy { this.hasTravelModeEnabled = value }
         }
     }
 
-    suspend fun setFriendsMainPreference(value: Boolean) {
+    suspend fun setFriendsMainEnabledPreference(value: Boolean) {
         userPreferences.updateData {
-            it.copy { this.hasFriendsMainEnabled = !value }
+            it.copy { this.hasFriendsMainEnabled = value }
         }
     }
 

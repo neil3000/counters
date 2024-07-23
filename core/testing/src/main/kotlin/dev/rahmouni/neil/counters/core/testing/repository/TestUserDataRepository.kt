@@ -33,6 +33,7 @@ val emptyUserData = UserData(
     hasMetricsEnabled = true,
     hasCrashlyticsEnabled = true,
     shouldShowLoginScreenOnStartup = false,
+    needInformation = false,
     isAppFirstLaunch = false,
 )
 
@@ -91,6 +92,12 @@ class TestUserDataRepository : UserDataRepository {
     override suspend fun setShouldShowLoginScreenOnStartup(value: Boolean) {
         currentUserData.let { current ->
             _userData.tryEmit(current.copy(shouldShowLoginScreenOnStartup = value))
+        }
+    }
+
+    override suspend fun setNeedInformation(value: Boolean) {
+        currentUserData.let { current ->
+            _userData.tryEmit(current.copy(needInformation = value))
         }
     }
 

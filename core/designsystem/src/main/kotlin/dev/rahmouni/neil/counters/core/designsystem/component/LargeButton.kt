@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Rn3LargeButton(
+    modifier: Modifier = Modifier,
     text: String,
     icon: ImageVector,
     color: Color = MaterialTheme.colorScheme.surface,
@@ -53,7 +54,7 @@ fun Rn3LargeButton(
     Surface(
         color = color,
         shape = shape,
-        modifier = Modifier.requiredWidthIn(min = 280.dp),
+        modifier = modifier.requiredWidthIn(min = 280.dp),
         tonalElevation = -LocalAbsoluteTonalElevation.current,
     ) {
         Row(

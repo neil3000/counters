@@ -45,6 +45,6 @@ interface UserDataRepository {
     suspend fun setMetricsEnabled(value: Boolean)
     suspend fun setCrashlyticsEnabled(value: Boolean)
     suspend fun setShouldShowLoginScreenOnStartup(value: Boolean)
-    suspend fun needInformation(value: Boolean)
+    suspend fun setNeedInformation(value: Boolean)
     suspend fun setNotAppFirstLaunch()
 }

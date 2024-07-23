@@ -31,7 +31,7 @@ class InformationViewModel @Inject constructor(
 
     fun save() {
         viewModelScope.launch {
-            userDataRepository.needInformation(false)
+            userDataRepository.setNeedInformation(false)
         }
     }
 }

@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material.icons.outlined.Info
@@ -42,7 +41,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.SuggestionChipDefaults
@@ -59,7 +57,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -68,6 +65,7 @@ import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3OutlinedTextField
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
 import dev.rahmouni.neil.counters.core.designsystem.rebased.FeedType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
@@ -291,42 +289,13 @@ internal fun PublicationScreen(
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            OutlinedTextField(
+            Rn3OutlinedTextField(
                 value = currentDescription,
-                onValueChange = { text ->
-                    if (text.length <= 500) {
-                        currentDescription = text
-                        showTooLarge = text.length >= 500
-                        if (text.isNotEmpty()) showEmpty = false
-                        isAnalyzed = false
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .focusRequester(focusRequester),
+                onValueChange = { newText -> currentDescription = newText },
+                onEmptyStateChange = { emptyState -> showEmpty = emptyState },
+                maxCharacters = 500,
                 label = { Text(text = stringResource(string.feature_publication_textField_label)) },
                 singleLine = false,
-                keyboardActions = KeyboardActions(
-                    onDone = {
-
-                    },
-                ),
-                supportingText = {
-                    if (showTooLarge) {
-                        Text(
-                            stringResource(string.feature_publication_textField_characterLimit),
-                            color = MaterialTheme.colorScheme.error,
-                        )
-                    }
-
-                    if (showEmpty) {
-                        Text(
-                            stringResource(string.feature_publication_textField_isEmpty),
-                            color = MaterialTheme.colorScheme.error,
-                        )
-                    }
-                },
             )
         }
     }

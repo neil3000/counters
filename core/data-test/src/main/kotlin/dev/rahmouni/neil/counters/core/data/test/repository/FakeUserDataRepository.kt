@@ -49,11 +49,11 @@ class FakeUserDataRepository @Inject constructor(
     }
 
     override suspend fun setTravelMode(value: Boolean) {
-        rn3PreferencesDataSource.setTravelModePreference(value)
+        rn3PreferencesDataSource.setTravelModeEnabledPreference(value)
     }
 
     override suspend fun setFriendsMain(value: Boolean) {
-        rn3PreferencesDataSource.setFriendsMainPreference(value)
+        rn3PreferencesDataSource.setFriendsMainEnabledPreference(value)
     }
 
     override suspend fun setMetricsEnabled(value: Boolean) {
@@ -70,5 +70,9 @@ class FakeUserDataRepository @Inject constructor(
 
     override suspend fun setNotAppFirstLaunch() {
         rn3PreferencesDataSource.setNotAppFirstLaunch()
+    }
+
+    override suspend fun setNeedInformation(value: Boolean) {
+        rn3PreferencesDataSource.setNeedInformation(value)
     }
 }

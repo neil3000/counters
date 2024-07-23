@@ -69,6 +69,7 @@ import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilitySc
 import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOMETRANSPARENT
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.LARGE
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.TRANSPARENT
@@ -129,7 +130,7 @@ fun Rn3Scaffold(
                 scrollBehavior = scrollBehavior,
                 onBackIconButtonClicked = onBackIconButtonClicked,
                 actions = topAppBarActions,
-                transparent = topAppBarStyle == TRANSPARENT,
+                transparent = (topAppBarStyle == TRANSPARENT || topAppBarStyle == HOMETRANSPARENT),
             ) {
                 val sharedTransitionScope = LocalSharedTransitionScope.current
                     ?: throw IllegalStateException("RahNeil_N3:4F6o9kodw29Oaj8zoDlAWesB1Merqam9")
@@ -138,7 +139,7 @@ fun Rn3Scaffold(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    if (topAppBarStyle == HOME) {
+                    if (topAppBarStyle == HOME || topAppBarStyle == HOMETRANSPARENT) {
                         val ee1 = (1..1000).random() == 1 || config.getBoolean("ee_1_force")
 
                         with(sharedTransitionScope) {
@@ -299,4 +300,5 @@ enum class TopAppBarStyle {
     SMALL,
     HOME,
     TRANSPARENT,
+    HOMETRANSPARENT,
 }
