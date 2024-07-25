@@ -71,7 +71,10 @@ fun Publication(post: Post, friendRepository: List<Friend>) {
                         Text(text = user.name, fontWeight = FontWeight.Bold)
                     } else {
                         if (post.sharingScope == SharingScope.COUNTRY) {
-                            Text(text =  Country.getCountryNameFromIso(post.location), fontWeight = FontWeight.Bold)
+                            Text(
+                                text = Country.getNameFromIso(post.location),
+                                fontWeight = FontWeight.Bold,
+                            )
                         }
                         else {
                             Text(text = post.location, fontWeight = FontWeight.Bold)

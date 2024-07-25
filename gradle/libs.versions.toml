@@ -6,6 +6,7 @@ androidGradlePlugin = "8.5.0"
 androidTools = "31.5.0"
 androidxActivity = "1.9.0"
 androidxAppCompat = "1.7.0"
+androidxAutofill = "1.2.0-beta01"
 androidxBrowser = "1.8.0"
 androidxComposeAlpha = "1.7.0-beta04"
 androidxComposeBom = "2024.06.00"
@@ -83,6 +84,7 @@ accompanist-adaptive = { group = "com.google.accompanist", name = "accompanist-a
 android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
+androidx-autofill = { group = "androidx.autofill", name = "autofill", version.ref = "androidxAutofill" }
 androidx-benchmark-macro = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidxMacroBenchmark" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "androidxBrowser" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }

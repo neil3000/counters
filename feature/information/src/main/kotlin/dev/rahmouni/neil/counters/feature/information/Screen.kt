@@ -20,9 +20,11 @@ package dev.rahmouni.neil.counters.feature.information
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -37,7 +39,6 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,7 +48,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.AutofillType
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -57,9 +62,9 @@ import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LargeButton
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3OutlinedTextField
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
-import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOMETRANSPARENT
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3OutlinedTextField
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
@@ -110,13 +115,13 @@ internal fun ConnectScreen(
         topAppBarTitleAlignment = CenterHorizontally,
         onBackIconButtonClicked = null,
         topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
-        topAppBarStyle = HOMETRANSPARENT,
+        topAppBarStyle = HOME,
     ) {
         ColumnPanel(it, onValidateLocationClicked, privacyPolicyTileUri)
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 private fun ColumnPanel(
     paddingValues: Rn3PaddingValues,
@@ -127,25 +132,27 @@ private fun ColumnPanel(
         modifier = Modifier
             .padding(paddingValues)
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {
         var country by rememberSaveable { mutableStateOf<Country?>(null) }
-        var city by rememberSaveable { mutableStateOf("") }
+        var locality by rememberSaveable { mutableStateOf("") }
         var street by rememberSaveable { mutableStateOf("") }
-        var number by rememberSaveable { mutableStateOf("") }
         var postalCode by rememberSaveable { mutableStateOf("") }
         var region by rememberSaveable { mutableStateOf("") }
-        var addressLine2 by rememberSaveable { mutableStateOf("") }
+        var auxiliaryDetails by rememberSaveable { mutableStateOf("") }
+        var phoneNumber by rememberSaveable { mutableStateOf("") }
+        var phoneCountryCode by rememberSaveable { mutableStateOf<Country?>(null) }
 
         var isEmpty by rememberSaveable { mutableStateOf(true) }
+        var hasUserInteracted by rememberSaveable { mutableStateOf(false) }
 
         var expanded by remember { mutableStateOf(false) }
 
+        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = { expanded = !expanded },
         ) {
-            OutlinedTextField(
+            Rn3OutlinedTextField(
                 readOnly = true,
                 value = country?.text ?: "",
                 onValueChange = {},
@@ -156,105 +163,196 @@ private fun ColumnPanel(
                 colors = OutlinedTextFieldDefaults.colors(),
                 modifier = Modifier
                     .menuAnchor(type = MenuAnchorType.PrimaryEditable, enabled = true)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                onEmptyStateChange = { emptyState -> isEmpty = emptyState },
+                enableAutofill = true,
+                autofillTypes = AutofillType.AddressCountry,
             )
 
             ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                 Country.entries.sortedBy { it.text }.forEach { selectedCountry ->
                     DropdownMenuItem(
-                        text = { Text(text = selectedCountry.text) },
+                        text = {
+                            Row(verticalAlignment = CenterVertically) {
+                                Icon(
+                                    imageVector = Country.getIcon(selectedCountry),
+                                    contentDescription = "Flag of ${selectedCountry.text}",
+                                    modifier = Modifier.size(24.dp),
+                                    tint = Color.Unspecified,
+                                )
+                                Spacer(Modifier.size(16.dp))
+                                Text(text = selectedCountry.text)
+                            }
+                        },
                         onClick = {
                             expanded = false
                             country = selectedCountry
                             isEmpty = false
-                        }
+                        },
                     )
                 }
             }
         }
 
-        Rn3OutlinedTextField(
-            value = city,
-            onValueChange = { newText -> city = newText },
+            Rn3OutlinedTextField(
+                value = region,
+                onValueChange = { newText -> region = newText; hasUserInteracted = true },
+                onEmptyStateChange = { emptyState -> isEmpty = emptyState },
+                hasUserInteracted = hasUserInteracted,
+                maxCharacters = 100,
+                label = { Text(text = "Region") },
+                beEmpty = true,
+                singleLine = true,
+                enableAutofill = true,
+                autofillTypes = AutofillType.AddressRegion,
+            )
+
+            Rn3OutlinedTextField(
+                value = locality,
+                onValueChange = { newText -> locality = newText; hasUserInteracted = true },
             onEmptyStateChange = { emptyState -> isEmpty = emptyState },
+                hasUserInteracted = hasUserInteracted,
             maxCharacters = 100,
-            label = { Text(text = "City") },
+                label = { Text(text = "Locality") },
             singleLine = true,
+                enableAutofill = true,
+                autofillTypes = AutofillType.AddressLocality,
         )
+
+            Rn3OutlinedTextField(
+                value = postalCode,
+                onValueChange = { newText -> postalCode = newText; hasUserInteracted = true },
+                onEmptyStateChange = { emptyState -> isEmpty = emptyState },
+                hasUserInteracted = hasUserInteracted,
+                maxCharacters = 20,
+                label = { Text(text = "Postal Code") },
+                beEmpty = true,
+                singleLine = true,
+                enableAutofill = true,
+                autofillTypes = AutofillType.PostalCode,
+            )
 
         Rn3OutlinedTextField(
             value = street,
-            onValueChange = { newText -> street = newText },
+            onValueChange = { newText -> street = newText; hasUserInteracted = true },
             onEmptyStateChange = { emptyState -> isEmpty = emptyState },
+            hasUserInteracted = hasUserInteracted,
             maxCharacters = 200,
-            label = { Text(text = "street") },
+            label = { Text(text = "Street") },
             singleLine = false,
+            enableAutofill = true,
+            autofillTypes = AutofillType.AddressStreet,
         )
 
         Rn3OutlinedTextField(
-            value = number,
-            onValueChange = { newText -> number = newText },
+            value = auxiliaryDetails,
+            onValueChange = { newText -> auxiliaryDetails = newText; hasUserInteracted = true },
             onEmptyStateChange = { emptyState -> isEmpty = emptyState },
-            maxCharacters = 10,
-            label = { Text(text = "Number") },
-            singleLine = true,
-        )
-
-        Rn3OutlinedTextField(
-            value = postalCode,
-            onValueChange = { newText -> postalCode = newText },
-            onEmptyStateChange = { emptyState -> isEmpty = emptyState },
-            maxCharacters = 20,
-            label = { Text(text = "Postal Code") },
-            beEmpty = true,
-            singleLine = true,
-        )
-
-        Rn3OutlinedTextField(
-            value = addressLine2,
-            onValueChange = { newText -> addressLine2 = newText },
-            onEmptyStateChange = { emptyState -> isEmpty = emptyState },
+            hasUserInteracted = hasUserInteracted,
             maxCharacters = 200,
-            label = { Text(text = "Address Line 2") },
+            label = { Text(text = "Auxiliary details") },
             beEmpty = true,
             singleLine = false,
+            enableAutofill = true,
+            autofillTypes = AutofillType.AddressAuxiliaryDetails,
         )
 
-        Rn3OutlinedTextField(
-            value = region,
-            onValueChange = { newText -> region = newText },
-            onEmptyStateChange = { emptyState -> isEmpty = emptyState },
-            maxCharacters = 100,
-            label = { Text(text = "State/Region") },
-            beEmpty = true,
-            singleLine = true,
-        )
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                ExposedDropdownMenuBox(
+                    modifier = Modifier.weight(1f),
+                    expanded = expanded,
+                    onExpandedChange = { expanded = !expanded },
+                ) {
+                    Rn3OutlinedTextField(
+                        readOnly = true,
+                        value = phoneCountryCode?.text ?: "",
+                        onValueChange = {},
+                        label = { Text(text = "") },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                        },
+                        colors = OutlinedTextFieldDefaults.colors(),
+                        modifier = Modifier
+                            .menuAnchor(type = MenuAnchorType.PrimaryEditable, enabled = true)
+                            .fillMaxWidth(),
+                        onEmptyStateChange = { emptyState -> isEmpty = emptyState },
+                        enableAutofill = true,
+                        autofillTypes = AutofillType.PhoneCountryCode,
+                    )
 
-        Rn3ExpandableSurface(
-            content = {
-                Icon(Outlined.Info, null)
-                Spacer(Modifier.width(16.dp))
-                Text("Why do we need this")
-            },
-            expandedContent = {
-                Column {
-                Text(modifier = Modifier.padding(horizontal = 16.dp),
-                    text = "The core functionality of our application is based on your location")
-                Rn3TileUri(
-                    title = "Privacy policy",
-                    icon = Outlined.Policy,
-                    uri = privacyPolicyTileUri,
-                )
+                    ExposedDropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                    ) {
+                        Country.entries.sortedBy { it.text }.forEach { selectedCountry ->
+                            DropdownMenuItem(
+                                text = {
+                                    Row(verticalAlignment = CenterVertically) {
+                                        Icon(
+                                            imageVector = Country.getIcon(selectedCountry),
+                                            contentDescription = "Flag of ${selectedCountry.text}",
+                                            modifier = Modifier.size(24.dp),
+                                            tint = Color.Unspecified,
+                                        )
+                                        Spacer(Modifier.size(16.dp))
+                                        Text(text = ("+" + selectedCountry.phoneCode.toString()))
+                                    }
+                                },
+                                onClick = {
+                                    expanded = false
+                                    phoneCountryCode = selectedCountry
+                                    isEmpty = false
+                                },
+                            )
+                        }
+                    }
                 }
-            },
-        )
+
+                Rn3OutlinedTextField(
+                    modifier = Modifier.weight(2f),
+                    value = phoneNumber,
+                    onValueChange = { newText -> phoneNumber = newText; hasUserInteracted = true },
+                    onEmptyStateChange = { emptyState -> isEmpty = emptyState },
+                    hasUserInteracted = hasUserInteracted,
+                    maxCharacters = 20,
+                    label = { Text(text = "Phone number") },
+                    beEmpty = true,
+                    singleLine = true,
+                    enableAutofill = true,
+                    autofillTypes = AutofillType.PhoneNumber,
+                )
+            }
+        }
+
      Rn3LargeButton(
          modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp),
          text = "Save",
          icon = Outlined.Check,
          color = MaterialTheme.colorScheme.primary,
      ) {
+         hasUserInteracted = true
          if (!isEmpty) onValidateLocationClicked()
      }
- }
+
+        Rn3ExpandableSurface(
+            content = {
+                Icon(imageVector = Outlined.Info, contentDescription = null)
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(text = "Why do we need this")
+            },
+            expandedContent = {
+                Column {
+                    Text(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        text = "The core functionality of our application is based on your location",
+                    )
+                    Rn3TileUri(
+                        title = "Privacy policy",
+                        icon = Outlined.Policy,
+                        uri = privacyPolicyTileUri,
+                    )
+                }
+            },
+        )
+    }
 }

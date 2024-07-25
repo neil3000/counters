@@ -26,4 +26,6 @@
     <string name="core_designsystem_timeElapsed_minute">m</string>
     <string name="core_designsystem_timeElapsed_hours">h</string>
     <string name="core_designsystem_timeElapsed_now">now</string>
+    <string name="core_designsystem_limitCharactersReached">The limit of %1$s characters has been reached</string>
+    <string name="core_designsystem_pleaseFillout">Please fill out this field</string>
 </resources>

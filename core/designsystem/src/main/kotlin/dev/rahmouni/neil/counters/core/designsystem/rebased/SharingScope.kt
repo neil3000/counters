@@ -35,7 +35,7 @@ enum class SharingScope(val text: String) {
     fun icon(location: String): ImageVector {
         return when (this) {
             GLOBAL -> Icons.Outlined.Public
-            COUNTRY -> Country.getCountryIcon(location)
+            COUNTRY -> Country.getIconFromIso(location)
             REGION -> Icons.Outlined.Landscape
             CITY -> Icons.Outlined.LocationCity
             DISTRICT -> Icons.Outlined.Bank

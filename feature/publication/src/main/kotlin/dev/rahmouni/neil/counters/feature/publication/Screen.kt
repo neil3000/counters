@@ -31,7 +31,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Report
@@ -55,8 +55,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -64,8 +67,8 @@ import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3OutlinedTextField
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3OutlinedTextField
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
 import dev.rahmouni.neil.counters.core.designsystem.rebased.FeedType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
@@ -106,7 +109,7 @@ internal fun PublicationRoute(
     TrackScreenViewEvent(screenName = "Publication")
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 @Composable
 internal fun PublicationScreen(
@@ -128,15 +131,17 @@ internal fun PublicationScreen(
     val haptic = getHaptic()
 
     val focusRequester = remember { FocusRequester() }
+    var textFieldInitialized by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
+    LaunchedEffect(textFieldInitialized) {
+        if (textFieldInitialized) {
+            focusRequester.requestFocus()
+        }
     }
 
     var isAnalyzed by rememberSaveable { mutableStateOf(false) }
     var currentDescription by rememberSaveable { mutableStateOf("") }
     var showEmpty by rememberSaveable { mutableStateOf(false) }
-    var showTooLarge by rememberSaveable { mutableStateOf(false) }
 
     var analyse = Analyse(
         AnalyseType.SUCCESS,
@@ -169,7 +174,7 @@ internal fun PublicationScreen(
                 actions = listOfNotNull(
                     feedbackTopAppBarAction,
                     TopAppBarAction(
-                        Icons.Outlined.Settings,
+                        Outlined.Settings,
                         stringResource(string.feature_publication_topAppBarActions_settings),
                         onSettingsTopAppBarActionClicked,
                     ),
@@ -192,14 +197,13 @@ internal fun PublicationScreen(
 
                     if (!isAnalyzed) {
                     Rn3IconButton(
-                        icon = Icons.Outlined.AddPhotoAlternate,
+                        icon = Outlined.AddPhotoAlternate,
                         contentDescription = stringResource(string.feature_publication_imageButton_description),
                         onClick = {},
                     )
                     Button(
                         onClick = {
                             haptic.click()
-                            if (currentDescription.isNotEmpty()) {
                             isAnalyzed = true
                             analyse = Analyse(
                                 AnalyseType.SUCCESS,
@@ -214,9 +218,6 @@ internal fun PublicationScreen(
                                     postType = PostType.TEXT,
                                 ),
                             )
-                            } else {
-                                showEmpty = true
-                            }
                         },
                         enabled = !isAnalyzed && !showEmpty,
                     ) {
@@ -228,16 +229,16 @@ internal fun PublicationScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Start) {
                             Rn3Dialog(
-                                icon = Icons.Outlined.Report,
+                                icon = Outlined.Report,
                                 title = stringResource(string.feature_publication_infoDialog_title),
                                 body = {
                                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                                         Text(text = stringResource(string.feature_publication_infoDialog_textTitle))
                                         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                                         Icon(
-                                            Icons.Outlined.Report,
-                                            null,
-                                            Modifier
+                                            imageVector = Outlined.Report,
+                                            contentDescription = null,
+                                            modifier = Modifier
                                                 .padding(top = 2.dp)
                                                 .size(SuggestionChipDefaults.IconSize),
                                             tint = MaterialTheme.colorScheme.secondary,
@@ -251,7 +252,7 @@ internal fun PublicationScreen(
                                 onConfirm = { /*TODO*/ },
                             ) {
                                 Rn3IconButton(
-                                    icon = Icons.Outlined.Info,
+                                    icon = Outlined.Info,
                                     contentDescription = stringResource(string.feature_publication_informationButton_description),
                                     onClick = it,
                                 )
@@ -290,6 +291,15 @@ internal fun PublicationScreen(
                 .padding(innerPadding),
         ) {
             Rn3OutlinedTextField(
+                modifier = Modifier
+                    .focusRequester(focusRequester)
+                    .onFocusChanged {
+                        if (it.isFocused) {
+                            textFieldInitialized = true
+                        }
+                    }
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 value = currentDescription,
                 onValueChange = { newText -> currentDescription = newText },
                 onEmptyStateChange = { emptyState -> showEmpty = emptyState },

@@ -31,6 +31,7 @@ dependencies {
 
     implementation(libs.androidx.appcompat)
     implementation(libs.coil.kt.compose)
+    implementation(libs.androidx.autofill)
 
     implementation(projects.core.auth)
     implementation(projects.core.data)
