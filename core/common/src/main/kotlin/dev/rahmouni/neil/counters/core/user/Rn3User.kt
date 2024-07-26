@@ -25,13 +25,19 @@ sealed interface Rn3User {
 
     data object Loading : Rn3User
     data object LoggedOutUser : Rn3User
-    data class AnonymousUser(internal val uid: String) : Rn3User
+    data class AnonymousUser(
+        internal val uid: String,
+        internal var address: AddressInfo,
+        internal var phone: PhoneInfo?,
+    ) : Rn3User
     data class SignedInUser(
         internal val uid: String,
         internal val displayName: String,
         val pfpUri: Uri?,
         internal val isAdmin: Boolean,
         internal val email: String,
+        internal var address: AddressInfo,
+        internal var phone: PhoneInfo?,
     ) : Rn3User
 
     fun getUid(): String = when (this) {
@@ -52,6 +58,38 @@ sealed interface Rn3User {
         return when (this) {
             is SignedInUser -> email
             else -> null
+        }
+    }
+
+    fun getPhone(): PhoneInfo? {
+        return when (this) {
+            is SignedInUser -> phone
+            is AnonymousUser -> phone
+            else -> null
+        }
+    }
+
+    fun getAddress(): AddressInfo? {
+        return when (this) {
+            is SignedInUser -> address
+            is AnonymousUser -> address
+            else -> null
+        }
+    }
+
+    fun setPhone(phoneInfo: PhoneInfo?) {
+        when (this) {
+            is SignedInUser -> this.phone = phoneInfo
+            is AnonymousUser -> this.phone = phoneInfo
+            else -> {} // No operation or log an error if it's unexpected
+        }
+    }
+
+    fun setAddress(addressInfo: AddressInfo) {
+        when (this) {
+            is SignedInUser -> this.address = addressInfo
+            is AnonymousUser -> this.address = addressInfo
+            else -> {} // No operation or log an error if it's unexpected
         }
     }
 

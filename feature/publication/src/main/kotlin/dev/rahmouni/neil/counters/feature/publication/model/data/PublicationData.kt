@@ -15,11 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.feature.publication.data
+package dev.rahmouni.neil.counters.feature.publication.model.data
 
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
+import dev.rahmouni.neil.counters.core.user.Rn3User
 
-data class Analyse(
-    var result: AnalyseType,
-    val post: Post,
+data class PublicationData(
+    val user: Rn3User,
 )

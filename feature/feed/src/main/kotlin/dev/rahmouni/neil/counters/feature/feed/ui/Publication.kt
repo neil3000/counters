@@ -23,16 +23,16 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.data.model.Friend
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Country
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Friend
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
 import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
 
 @Composable
-fun Publication(post: Post, friendRepository: List<Friend>) {
+fun Publication(post: Post, friendRepository: List<Friend>, enabled: Boolean) {
     val haptic = getHaptic()
 
     val user = post.userId.let { id ->
@@ -105,6 +105,7 @@ fun Publication(post: Post, friendRepository: List<Friend>) {
                     ) {
                         post.additionalInfos.forEach { info ->
                             Button(
+                                enabled = enabled,
                                 onClick = {
                                     haptic.click()
                                 },

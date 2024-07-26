@@ -63,6 +63,8 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
@@ -81,20 +83,29 @@ import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.feature.publication.R.string
 import dev.rahmouni.neil.counters.feature.publication.data.Analyse
 import dev.rahmouni.neil.counters.feature.publication.data.AnalyseType
+import dev.rahmouni.neil.counters.feature.publication.model.PublicationUiState.Loading
+import dev.rahmouni.neil.counters.feature.publication.model.PublicationUiState.Success
+import dev.rahmouni.neil.counters.feature.publication.model.PublicationViewModel
+import dev.rahmouni.neil.counters.feature.publication.model.data.PublicationData
 import java.time.LocalDateTime
 
 @Composable
 internal fun PublicationRoute(
     modifier: Modifier = Modifier,
+    viewModel: PublicationViewModel = hiltViewModel(),
     navController: NavController,
     navigateToSettings: () -> Unit,
     navigateToPublic: () -> Unit,
     navigateToFriends: () -> Unit,
     navigateToEvents: () -> Unit,
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    PublicationScreen(
-        modifier,
+    when (uiState) {
+        Loading -> {}
+        is Success -> PublicationScreen(
+            modifier = modifier,
+            data = (uiState as Success).publicationData,
         onBackIconButtonClicked = navController::popBackStack,
         feedbackTopAppBarAction = FeedbackScreenContext(
             "PublicationScreen",
@@ -105,6 +116,7 @@ internal fun PublicationRoute(
         onFriendsPostButtonClicked = navigateToFriends,
         onEventsPostButtonClicked = navigateToEvents,
     )
+    }
 
     TrackScreenViewEvent(screenName = "Publication")
 }
@@ -114,6 +126,7 @@ internal fun PublicationRoute(
 @Composable
 internal fun PublicationScreen(
     modifier: Modifier = Modifier,
+    data: PublicationData,
     onBackIconButtonClicked: () -> Unit = {},
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
@@ -215,9 +228,15 @@ internal fun PublicationScreen(
                                     location = "Street King James",
                                     timestamp = LocalDateTime.now(),
                                     content = currentDescription,
-                                    postType = PostType.TEXT,
+                                    postType = PostType.BUTTONS,
+                                    additionalInfos = listOf("test"),
                                 ),
                             )
+                            if (analyse.post.postType == PostType.BUTTONS && data.user.getPhone()
+                                    ?.isValid() != true
+                            ) {
+                                analyse.result = AnalyseType.NEEDPHONE
+                            }
                         },
                         enabled = !isAnalyzed && !showEmpty,
                     ) {
@@ -267,12 +286,18 @@ internal fun PublicationScreen(
                             modifier = Modifier.width(IntrinsicSize.Min),
                             onClick = {
                                 haptic.click()
-                                if (analyse.post.feed == FeedType.PUBLIC) {
-                                    onPublicPostButtonClicked()
-                                } else if (analyse.post.feed == FeedType.FRIENDS) {
-                                    onFriendsPostButtonClicked()
-                                } else if (analyse.post.feed == FeedType.EVENTS) {
-                                    onEventsPostButtonClicked()
+                                when (analyse.post.feed) {
+                                    FeedType.PUBLIC -> {
+                                        onPublicPostButtonClicked()
+                                    }
+
+                                    FeedType.FRIENDS -> {
+                                        onFriendsPostButtonClicked()
+                                    }
+
+                                    FeedType.EVENTS -> {
+                                        onEventsPostButtonClicked()
+                                    }
                                 }
                             },
                             enabled = analyse.result == AnalyseType.SUCCESS,

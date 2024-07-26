@@ -15,28 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.feature.connect.model.data
+package dev.rahmouni.neil.counters.feature.publication.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.rahmouni.neil.counters.core.user.AddressInfo
 import dev.rahmouni.neil.counters.core.user.PhoneInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
-import dev.rahmouni.neil.counters.feature.connect.model.data.PreviewParameterData.connectData_default
-import dev.rahmouni.neil.counters.feature.connect.model.data.PreviewParameterData.connectData_mutations
+import dev.rahmouni.neil.counters.feature.publication.model.data.PreviewParameterData.publicationData_default
+import dev.rahmouni.neil.counters.feature.publication.model.data.PreviewParameterData.publicationData_mutations
 
 /**
  * This [PreviewParameterProvider](https://developer.android.com/reference/kotlin/androidx/compose/ui/tooling/preview/PreviewParameterProvider)
- * provides list of [ConnectData] for Composable previews.
+ * provides list of [PublicationData] for Composable previews.
  */
-class ConnectDataPreviewParameterProvider :
-    PreviewParameterProvider<ConnectData> {
-    override val values: Sequence<ConnectData> =
-        sequenceOf(connectData_default).plus(connectData_mutations)
+class FriendsFeedDataPreviewParameterProvider :
+    PreviewParameterProvider<PublicationData> {
+    override val values: Sequence<PublicationData> =
+        sequenceOf(publicationData_default).plus(publicationData_mutations)
 }
 
 object PreviewParameterData {
-    val connectData_default = ConnectData(
+    val publicationData_default = PublicationData(
         user = SignedInUser(
             uid = "androidPreviewID",
             displayName = "Android Preview",
@@ -54,7 +54,7 @@ object PreviewParameterData {
             ),
         ),
     )
-    val connectData_mutations = with(connectData_default) {
+    val publicationData_mutations = with(publicationData_default) {
         sequenceOf(
             copy(
                 user = AnonymousUser(

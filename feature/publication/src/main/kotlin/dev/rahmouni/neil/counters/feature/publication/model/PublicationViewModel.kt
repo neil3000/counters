@@ -15,46 +15,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.feature.information.model
+package dev.rahmouni.neil.counters.feature.publication.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
-import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
-import dev.rahmouni.neil.counters.feature.information.model.InformationUiState.Success
-import dev.rahmouni.neil.counters.feature.information.model.data.InformationData
+import dev.rahmouni.neil.counters.feature.publication.model.PublicationUiState.Success
+import dev.rahmouni.neil.counters.feature.publication.model.data.PublicationData
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
-class InformationViewModel @Inject constructor(
+class PublicationViewModel @Inject constructor(
     authHelper: AuthHelper,
-    private val userDataRepository: UserDataRepository,
 ) : ViewModel() {
-
-    fun save() {
-        viewModelScope.launch {
-            userDataRepository.setNeedInformation(false)
-        }
-    }
-
-    val uiState: StateFlow<InformationUiState> =
+    val uiState: StateFlow<PublicationUiState> =
         authHelper.getUserFlow().map { user ->
             Success(
-                InformationData(
+                PublicationData(
                     user = user,
                 ),
             )
         }.stateIn(
             scope = viewModelScope,
             initialValue = Success(
-                InformationData(
+                PublicationData(
                     user = authHelper.getUser(),
                 ),
             ),

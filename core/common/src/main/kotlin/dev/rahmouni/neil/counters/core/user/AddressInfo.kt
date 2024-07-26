@@ -14,12 +14,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package dev.rahmouni.neil.counters.core.user
 
-package dev.rahmouni.neil.counters.feature.publication.data
-
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
-
-data class Analyse(
-    var result: AnalyseType,
-    val post: Post,
+data class AddressInfo(
+    var country: String = "", //TODO: move to Country data
+    var region: String = "",
+    var locality: String = "",
+    var street: String = "",
+    var postalCode: String = "",
+    var auxiliaryDetails: String = "",
 )

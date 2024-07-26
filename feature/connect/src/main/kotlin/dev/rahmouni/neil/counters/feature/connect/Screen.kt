@@ -72,6 +72,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import dev.rahmouni.neil.counters.core.data.model.Friend
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
@@ -80,7 +81,6 @@ import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Friend
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.shapes.MorphableShape
@@ -305,7 +305,9 @@ private fun ColumnPanel(paddingValues: Rn3PaddingValues, data : ConnectData, con
             Rn3FriendTileClick(
                 title = user.name,
                 onClick = {},
-                button = user.nearby,
+                button = if (data.user.getPhone()?.isValid() == true) {
+                    user.nearby
+                } else false,
             )
         }
     }

@@ -15,11 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.feature.publication.data
+package dev.rahmouni.neil.counters.feature.information.model
 
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
+import dev.rahmouni.neil.counters.feature.information.model.data.InformationData
 
-data class Analyse(
-    var result: AnalyseType,
-    val post: Post,
-)
+sealed interface InformationUiState {
+    data object Loading : InformationUiState
+    data class Success(val informationData: InformationData) :
+        InformationUiState
+}

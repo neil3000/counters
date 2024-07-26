@@ -22,7 +22,6 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.filled.Add
@@ -42,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import dev.rahmouni.neil.counters.core.data.model.Friend
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
@@ -53,13 +53,13 @@ import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rebased.FeedType
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Friend
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
 import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
+import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.feed.R.string
 import dev.rahmouni.neil.counters.feature.feed.friends.model.FriendsFeedUiState.Loading
@@ -186,6 +186,7 @@ internal fun FriendsFeedScreen(
     ) {
         FriendsFeedPanel(
             it,
+            data,
         )
     }
 }
@@ -193,6 +194,7 @@ internal fun FriendsFeedScreen(
 @Composable
 private fun FriendsFeedPanel(
     paddingValues: Rn3PaddingValues,
+    data: FriendsFeedData,
 ) {
     Column(
         Modifier
@@ -253,7 +255,14 @@ private fun FriendsFeedPanel(
                 feed = FeedType.FRIENDS,
             ),
         ).forEach { post ->
-            Publication(post, UserRepository.friends)
+            Publication(
+                post, UserRepository.friends,
+                if (data.user is SignedInUser || data.user is AnonymousUser) {
+                    data.user.getPhone()?.isValid() == true
+                } else {
+                    false
+                },
+            )
             Rn3TileHorizontalDivider(
                 paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
                     top = 0.dp,
