@@ -36,6 +36,9 @@ interface UserDataRepository {
      */
     suspend fun setAccessibilityIconTooltips(value: Boolean)
 
+    /**
+     * Sets whether the user has enabled the accessibility settings that show alt texts
+     */
     suspend fun setAccessibilityAltText(value: Boolean)
 
     suspend fun setTravelMode(value: Boolean)

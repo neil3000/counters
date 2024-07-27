@@ -21,7 +21,7 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 /**
- * [Application] class for Counters
+ * [Application] class for ReBased
  */
 @HiltAndroidApp
 class CountersApplication : Application()

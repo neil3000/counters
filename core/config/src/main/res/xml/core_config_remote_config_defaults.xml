@@ -23,7 +23,7 @@
     </entry>
     <entry>
         <key>feedback_email</key>
-        <value>counters@rahmouni.dev</value>
+        <value></value>
     </entry>
     <entry>
         <key>play_store_url</key>
@@ -32,18 +32,6 @@
     <entry>
         <key>changelog_url</key>
         <value>https://gitlab.com/neil3000/counters/-/wikis/Changelog</value>
-    </entry>
-    <entry>
-        <key>contributor_tag</key>
-        <value>null</value>
-    </entry>
-    <entry>
-        <key>help_url</key>
-        <value>https://gitlab.com/neil3000/counters/-/wikis/Help</value>
-    </entry>
-    <entry>
-        <key>discord_invite_url</key>
-        <value>https://discord.gg/4Y7EdE9kRY</value>
     </entry>
     <entry>
         <key>metrics_info_short</key>
@@ -59,7 +47,7 @@
         </value>
     </entry>
     <entry>
-        <key>ee_1_force</key>
+        <key>alternateIcon_force</key>
         <value>false</value>
     </entry>
 </defaultsMap>

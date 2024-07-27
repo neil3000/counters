@@ -92,9 +92,9 @@
     <string name="feature_settings_settingsScreen_switchAccountTile_title">Switch account</string>
     <string name="feature_settings_settingsScreen_editInfoTile_title">Edit your information</string>
     <string name="feature_settings_confirmationDialog_title">Are you sure ?</string>
-    <string name="eature_settings_settingsScreen_updateAvailable">Update available</string>
-    <string name="eature_settings_settingsScreen_updateDownloading">Downloading...</string>
-    <string name="eature_settings_settingsScreen_updateRestart">Restart to apply</string>
+    <string name="feature_settings_settingsScreen_updateAvailable">Update available</string>
+    <string name="feature_settings_settingsScreen_updateDownloading">Downloading...</string>
+    <string name="feature_settings_settingsScreen_updateRestart">Restart to apply</string>
     <plurals name="feature_settings_linkRn3UrlTile_favoriteIconButton_contentDescription" translatable="false">
         <item quantity="one">Remove from favorites</item>
         <item quantity="other">Add to favorites</item>

@@ -41,8 +41,8 @@ sealed interface FeedbackContext {
         fun toTopAppBarAction(navigateToFeedback: (Context, FeedbackContext) -> Unit): TopAppBarAction =
             LocalContext.current.let { context ->
                 TopAppBarAction(
-                    Icons.Outlined.Feedback,
-                    stringResource(string.core_feedback_topAppBarAction_title),
+                    icon = Icons.Outlined.Feedback,
+                    title = stringResource(string.core_feedback_topAppBarAction_title),
                 ) {
                     navigateToFeedback(context, this)
                 }

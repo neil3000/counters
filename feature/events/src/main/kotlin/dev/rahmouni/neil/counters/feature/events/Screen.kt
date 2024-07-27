@@ -19,7 +19,6 @@ package dev.rahmouni.neil.counters.feature.events
 
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.filled.Add
@@ -35,10 +34,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
+import dev.rahmouni.neil.counters.core.designsystem.R.color
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
@@ -107,7 +108,7 @@ internal fun EventsScreen(
             icon = Filled.Add,
             label = stringResource(string.feature_events_bottomBar_add),
             onClick = onAddBottomBarItemClicked,
-            unselectedIconColor = Color(color = 0xFFE8175D),
+            unselectedIconColor = Color(ContextCompat.getColor(context, color.core_designsystem_color)),
             fullSize = true,
         )
 
@@ -137,7 +138,7 @@ internal fun EventsScreen(
         onBackIconButtonClicked = null,
         topAppBarActions = listOfNotNull(
             TopAppBarAction(
-                Icons.Outlined.Settings,
+                Outlined.Settings,
                 stringResource(string.feature_events_topAppBarActions_settings),
                 onSettingsTopAppBarActionClicked,
             ),

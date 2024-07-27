@@ -52,7 +52,7 @@ import dev.rahmouni.neil.counters.feature.feed.publics.PUBLICFEED_ROUTE
 import dev.rahmouni.neil.counters.feature.information.INFORMATION_ROUTE
 import dev.rahmouni.neil.counters.feature.login.LOGIN_ROUTE
 import dev.rahmouni.neil.counters.ui.App
-import dev.rahmouni.neil.counters.ui.rememberCountersAppState
+import dev.rahmouni.neil.counters.ui.rememberAppState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -129,7 +129,7 @@ class MainActivity : ComponentActivity() {
         configHelper.init(this)
 
         setContent {
-            val appState = rememberCountersAppState()
+            val appState = rememberAppState()
 
             enableEdgeToEdge()
 
@@ -148,7 +148,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Rn3Theme {
                         App(
-                            appState,
+                            appState = appState,
                             routes = routes,
                         )
                     }

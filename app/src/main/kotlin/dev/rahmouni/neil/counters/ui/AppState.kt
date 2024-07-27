@@ -28,7 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import dev.rahmouni.neil.counters.core.ui.TrackDisposableJank
 
 @Composable
-fun rememberCountersAppState(
+fun rememberAppState(
     navController: NavHostController = rememberNavController(),
 ): AppState {
     NavigationTrackingSideEffect(navController)

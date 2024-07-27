@@ -48,7 +48,7 @@ internal fun FeedbackOptions(
     val haptic = getHaptic()
 
     Row(
-        Modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
     ) {

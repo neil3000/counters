@@ -46,15 +46,8 @@ class StubAuthHelper @Inject constructor() : AuthHelper {
             pfpUri = null,
             isAdmin = false,
             email = "androidPreview@rahmouni.dev",
-            address = AddressInfo(
-                country = "United Kingdom",
-                locality = "London",
-                street = "221B Baker Street",
-            ),
-            phone = PhoneInfo(
-                code = "44",
-                number = "1234567890",
-            ),
+            address = AddressInfo(),
+            phone = PhoneInfo(),
         )
 
     override fun getUserFlow(): Flow<dev.rahmouni.neil.counters.core.user.Rn3User> =

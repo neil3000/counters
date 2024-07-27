@@ -45,7 +45,7 @@ internal fun FeedbackMessages(messages: List<String>) {
     }
 
     Column(
-        Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp),
+        modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         messages.forEachIndexed { index, message ->
@@ -68,7 +68,7 @@ internal fun FeedbackMessages(messages: List<String>) {
                 ) {
                     Text(
                         text = message,
-                        Modifier.padding(vertical = 10.dp, horizontal = 14.dp),
+                        modifier =Modifier.padding(vertical = 10.dp, horizontal = 14.dp),
                         style = MaterialTheme.typography.labelMedium.copy(
                             fontWeight = FontWeight.Normal,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,

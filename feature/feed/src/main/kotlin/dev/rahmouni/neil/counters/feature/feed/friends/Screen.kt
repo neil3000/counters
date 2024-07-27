@@ -38,11 +38,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.data.model.Friend
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
+import dev.rahmouni.neil.counters.core.designsystem.R.color
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
@@ -122,7 +124,7 @@ internal fun FriendsFeedScreen(
             icon = Filled.Add,
             label = stringResource(string.feature_feed_bottomBar_add),
             onClick = onAddBottomBarItemClicked,
-            unselectedIconColor = Color(color = 0xFFE8175D),
+            unselectedIconColor = Color(ContextCompat.getColor(context, color.core_designsystem_color)),
             fullSize = true,
         )
 

@@ -33,6 +33,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
@@ -59,6 +61,7 @@ import dev.rahmouni.neil.counters.feature.settings.navigateToSettings
 import dev.rahmouni.neil.counters.feature.settings.settingsNavigation
 import dev.rahmouni.neil.counters.ui.AppState
 import kotlinx.coroutines.delay
+import rahmouni.neil.counters.R.color
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "DesignSystem")
@@ -122,6 +125,14 @@ fun NavHost(
                         { navController.navigateToPublicFeed {} },
                     )
 
+                    publicationScreen(
+                        navController,
+                        navController::navigateToSettings,
+                        { navController.navigateToPublicFeed {} },
+                        { navController.navigateToFriendsFeed {} },
+                        navController::navigateToEvents
+                    )
+
                     loginScreen(navController) {
                         navController.navigate(routes[pageCount]) {
                             if (pageCount < routes.size - 1) pageCount + 1
@@ -141,14 +152,15 @@ fun NavHost(
                         navController::navigateToLogin,
                         navController::navigateToInformation,
                     )
-                    publicationScreen(navController, navController::navigateToSettings, { navController.navigateToPublicFeed {} }, { navController.navigateToFriendsFeed {} }, navController::navigateToEvents)
 
                     feedbackDialog(navController)
 
                     composable("SPLASHSCREEN_SET_ROUTE") {
+                        val context = LocalContext.current
+
                         Box(
                             Modifier
-                                .background(Color(color = 0xFFE8175D))
+                                .background(Color(ContextCompat.getColor(context, color.ic_launcher_background)))
                                 .sharedElement(
                                     rememberSharedContentState(key = "Logo_background"),
                                     animatedVisibilityScope = this@composable,

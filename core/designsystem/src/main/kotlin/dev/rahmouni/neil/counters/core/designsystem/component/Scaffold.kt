@@ -59,14 +59,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.window.core.layout.WindowHeightSizeClass.Companion.COMPACT
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
-import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
 import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
 import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
+import dev.rahmouni.neil.counters.core.designsystem.R.color
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.LARGE
@@ -139,7 +141,8 @@ fun Rn3Scaffold(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     if (topAppBarStyle == HOME) {
-                        val ee1 = (1..1000).random() == 1 || config.getBoolean("ee_1_force")
+                        val alternateIcon = (1..1000).random() == 1 || config.getBoolean("alternateIcon_force")
+                        val context = LocalContext.current
 
                         with(sharedTransitionScope) {
                             Surface(
@@ -161,7 +164,7 @@ fun Rn3Scaffold(
                                             Modifier
                                         },
                                     ),
-                                color = Color(color = 0xFFE8175D),
+                                color = Color(ContextCompat.getColor(context, color.core_designsystem_color)),
                                 shape = RoundedCornerShape(8.dp),
                             ) {
                                 Modifier
@@ -200,14 +203,7 @@ fun Rn3Scaffold(
                                         },
                                     ).let { modifier ->
                                         when {
-                                            BuildConfig.DEBUG -> Icon(
-                                                Icons.Outlined.Logo,
-                                                null,
-                                                modifier.scale(.6f),
-                                                tint = Color.White,
-                                            )
-
-                                            ee1 -> Icon(
+                                            alternateIcon -> Icon(
                                                 Icons.Outlined.ExposurePlus2,
                                                 null,
                                                 modifier.scale(.75f),

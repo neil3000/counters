@@ -90,15 +90,15 @@ fun FeedbackBottomSheet(
         Column {
             Surface(tonalElevation = 2.dp) {
                 Row(
-                    Modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = spacedBy(16.dp),
                 ) {
-                    Icon(Icons.Outlined.Feedback, null)
+                    Icon(imageVector = Icons.Outlined.Feedback, contentDescription = null)
                     Text(
-                        stringResource(string.core_feedback_topBar_title),
+                        text = stringResource(string.core_feedback_topBar_title),
                         fontWeight = FontWeight.SemiBold,
                     )
                     Spacer(Modifier.weight(1f))

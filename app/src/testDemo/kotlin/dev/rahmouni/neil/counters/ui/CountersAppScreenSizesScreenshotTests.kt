@@ -33,6 +33,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.testing.util.DefaultRoborazziOptions
+import dev.rahmouni.neil.counters.feature.feed.publics.PUBLICFEED_ROUTE
 import dev.rahmouni.neil.counters.uitesthiltmanifest.HiltComponentActivity
 import org.junit.Before
 import org.junit.Rule
@@ -97,8 +98,8 @@ class AppScreenSizesScreenshotTests {
                     override = DeviceConfigurationOverride.ForcedSize(DpSize(width, height)),
                 ) {
                     Rn3Theme {
-                        val fakeAppState = rememberCountersAppState()
-                        App(fakeAppState, showLoginScreen = false)
+                        val fakeAppState = rememberAppState()
+                        App(appState = fakeAppState, routes = listOf(PUBLICFEED_ROUTE))
                     }
                 }
             }

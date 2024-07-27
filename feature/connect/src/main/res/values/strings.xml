@@ -20,7 +20,6 @@
     <string name="feature_connect_topAppBarTitle">Connect</string>
     <string name="feature_connect_bottomBar_connect">Connect</string>
     <string name="feature_connect_fab_text">Add friend</string>
-    <string name="feature_connect_editInfoTile_title">Edit your information</string>
     <string name="feature_connect_bottomBar_public">Public</string>
     <string name="feature_connect_bottomBar_add">Add</string>
     <string name="feature_connect_bottomBar_friends">Friends</string>

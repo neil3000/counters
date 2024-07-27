@@ -81,7 +81,7 @@ sealed interface Rn3User {
         when (this) {
             is SignedInUser -> this.phone = phoneInfo
             is AnonymousUser -> this.phone = phoneInfo
-            else -> {} // No operation or log an error if it's unexpected
+            else -> {}
         }
     }
 
@@ -89,7 +89,7 @@ sealed interface Rn3User {
         when (this) {
             is SignedInUser -> this.address = addressInfo
             is AnonymousUser -> this.address = addressInfo
-            else -> {} // No operation or log an error if it's unexpected
+            else -> {}
         }
     }
 

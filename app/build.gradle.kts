@@ -32,7 +32,7 @@ plugins {
 android {
     defaultConfig {
         applicationId = "rahmouni.neil.rebased"
-        versionCode = 730041
+        versionCode = 1
         versionName = "0.0.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         // Custom test runner to set up Hilt dependency graph

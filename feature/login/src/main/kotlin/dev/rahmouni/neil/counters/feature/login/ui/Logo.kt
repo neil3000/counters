@@ -48,12 +48,15 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
 import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
 import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
+import dev.rahmouni.neil.counters.core.designsystem.R.color
 import dev.rahmouni.neil.counters.core.designsystem.icons.Logo
 import kotlin.math.absoluteValue
 
@@ -66,6 +69,8 @@ internal fun Logo() {
         ?: throw IllegalStateException("RahNeil_N3:743RaDiJYkZUoAmVqvPrWsm6BgQ9h78Y")
 
     var trigger by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+
     LaunchedEffect(Unit) { trigger = true }
     val shinyPosition: Dp by animateDpAsState(
         if (trigger) 45.dp else (-45).dp,
@@ -87,7 +92,7 @@ internal fun Logo() {
                         }
                     },
                 ),
-            color = Color(color = 0xFFE8175D),
+            color = Color(ContextCompat.getColor(context, color.core_designsystem_color)),
             shape = RoundedCornerShape(16.dp),
         ) {
             Box(Modifier.size(80.dp)) {

@@ -31,7 +31,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
-import dev.rahmouni.neil.counters.core.user.Rn3User
+import dev.rahmouni.neil.counters.core.user.AddressInfo
+import dev.rahmouni.neil.counters.core.user.PhoneInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
@@ -42,7 +43,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
-const val WEB_CLIENT_ID = "743616795299-b7pstjgcvnq3sm77ia43vm66okovpejq.apps.googleusercontent.com"
+const val WEB_CLIENT_ID = "499650930811-h9dse9paapmusebli5mqvsg181cvvvob.apps.googleusercontent.com"
 
 /**
  * Implementation of `ConfigHelper` that fetches the value from the Firebase Remote Config backend.
@@ -128,7 +129,10 @@ internal class FirebaseAuthHelper @Inject constructor() : AuthHelper {
     private fun FirebaseUser?.toRn3User(claims: Map<String, Any>): dev.rahmouni.neil.counters.core.user.Rn3User {
         with(this) {
             if (this == null) return LoggedOutUser
-            if (isAnonymous) return AnonymousUser(uid)
+            if (isAnonymous) return AnonymousUser(
+                uid = uid,
+                address = AddressInfo(),
+                phone = PhoneInfo(),)
 
             return SignedInUser(
                 uid = uid,
@@ -136,6 +140,8 @@ internal class FirebaseAuthHelper @Inject constructor() : AuthHelper {
                 pfpUri = photoUrl,
                 isAdmin = claims["role"] == "Admin",
                 email = email.toString(),
+                address = AddressInfo(),
+                phone = PhoneInfo(),
             )
         }
     }

@@ -52,7 +52,7 @@ class Rn3LargeTopAppBarScreenshotTests {
 
     @Test
     fun multipleThemes() {
-        composeTestRule.captureMultiTheme("TopAppBar") {
+        composeTestRule.captureMultiTheme(name = "TopAppBar") {
             rn3LargeTopAppBarExample()
         }
     }
@@ -61,10 +61,10 @@ class Rn3LargeTopAppBarScreenshotTests {
     fun hugeFont() {
         composeTestRule.setContent {
             CompositionLocalProvider(
-                LocalInspectionMode provides true,
+                value = LocalInspectionMode provides true,
             ) {
                 DeviceConfigurationOverride(
-                    DeviceConfigurationOverride.FontScale(2f),
+                    DeviceConfigurationOverride.FontScale(fontScale = 2f),
                 ) {
                     Rn3Theme {
                         rn3LargeTopAppBarExample()
@@ -74,7 +74,7 @@ class Rn3LargeTopAppBarScreenshotTests {
         }
         composeTestRule.onRoot()
             .captureRoboImage(
-                "src/test/screenshots/Rn3LargeTopAppBar/Rn3LargeTopAppBar_fontScale2.png",
+                filePath = "src/test/screenshots/Rn3LargeTopAppBar/Rn3LargeTopAppBar_fontScale2.png",
                 roborazziOptions = DefaultRoborazziOptions,
             )
     }

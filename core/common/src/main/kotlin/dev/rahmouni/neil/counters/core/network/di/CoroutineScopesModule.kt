@@ -41,5 +41,5 @@ internal object CoroutineScopesModule {
     @ApplicationScope
     fun providesCoroutineScope(
         @Dispatcher(Default) dispatcher: CoroutineDispatcher,
-    ): CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
+    ): CoroutineScope = CoroutineScope(context = SupervisorJob() + dispatcher)
 }

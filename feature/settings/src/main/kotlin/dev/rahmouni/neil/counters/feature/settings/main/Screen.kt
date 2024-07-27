@@ -366,9 +366,9 @@ private fun SettingsPanel(
                     ) {
                         Text(
                             when (this@with) {
-                                is UpdateAvailable -> stringResource(string.eature_settings_settingsScreen_updateAvailable)
-                                is DownloadingUpdate -> stringResource(string.eature_settings_settingsScreen_updateDownloading)
-                                is WaitingForRestart -> stringResource(string.eature_settings_settingsScreen_updateRestart)
+                                is UpdateAvailable -> stringResource(string.feature_settings_settingsScreen_updateAvailable)
+                                is DownloadingUpdate -> stringResource(string.feature_settings_settingsScreen_updateDownloading)
+                                is WaitingForRestart -> stringResource(string.feature_settings_settingsScreen_updateRestart)
                                 NoUpdateAvailable -> "RahNeil_N3:GsKMAaulylNilvukEZCbJI4jWLXbRRzb"
                             },
                             Modifier.padding(top = 2.dp, start = 12.dp, end = 16.dp),

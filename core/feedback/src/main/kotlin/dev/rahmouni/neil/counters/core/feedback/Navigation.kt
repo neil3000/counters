@@ -44,7 +44,7 @@ fun NavController.navigateToFeedback(
             if (feedbackContext is FeedbackScreenContext) {
                 "contextID=${
                     feedbackContext.getID(
-                        context,
+                        context = context,
                     )
                 }"
             } else {
@@ -62,27 +62,27 @@ fun NavGraphBuilder.feedbackDialog(navController: NavController) {
             dismissOnClickOutside = false,
         ),
         arguments = listOf(
-            navArgument("contextID") {
+            navArgument(name = "contextID") {
                 defaultValue = null
                 nullable = true
             },
-            navArgument("page") { defaultValue = "type" },
-            navArgument("type") { defaultValue = "BUG" },
-            navArgument("description") { defaultValue = "" },
-            navArgument("onCurrentPage") { defaultValue = true },
-            navArgument("sendScreenshot") { defaultValue = false },
-            navArgument("sendAdditionalInfo") { defaultValue = true },
+            navArgument(name = "page") { defaultValue = "type" },
+            navArgument(name = "type") { defaultValue = "BUG" },
+            navArgument(name = "description") { defaultValue = "" },
+            navArgument(name = "onCurrentPage") { defaultValue = true },
+            navArgument(name = "sendScreenshot") { defaultValue = false },
+            navArgument(name = "sendAdditionalInfo") { defaultValue = true },
         ),
     ) {
         FeedbackBottomSheet(
-            navController,
-            it.arguments?.getString("contextID"),
-            it.arguments?.getString("page") ?: "type",
-            it.arguments?.getString("type") ?: "BUG",
-            it.arguments?.getString("description") ?: "",
-            it.arguments?.getBoolean("onCurrentPage") ?: true,
-            it.arguments?.getBoolean("sendScreenshot") ?: false,
-            it.arguments?.getBoolean("sendAdditionalInfo") ?: true,
+            navController = navController,
+            contextID = it.arguments?.getString("contextID"),
+            pageDef = it.arguments?.getString("page") ?: "type",
+            typeDef = it.arguments?.getString("type") ?: "BUG",
+            descriptionDef = it.arguments?.getString("description") ?: "",
+            onCurrentPageDef = it.arguments?.getBoolean("onCurrentPage") ?: true,
+            sendScreenshotDef = it.arguments?.getBoolean("sendScreenshot") ?: false,
+            sendAdditionalInfoDef = it.arguments?.getBoolean("sendAdditionalInfo") ?: true,
         )
     }
 }
