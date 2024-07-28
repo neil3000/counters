@@ -261,7 +261,7 @@ private fun PublicFeedPanel(
                 post = post,
                 friendRepository = UserRepository.friends,
                 enabled = if (data.user is SignedInUser || data.user is AnonymousUser) {
-                    data.user.getPhone()?.isValid() == true
+                    data.phone.isValid() == true
                 } else {
                     false
                 },

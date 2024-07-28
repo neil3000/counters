@@ -43,28 +43,10 @@ internal class DemoAuthHelper @Inject constructor() : AuthHelper {
             pfpUri = "https://firebasestorage.googleapis.com/v0/b/rahneil-n3-counters.appspot.com/o/demo%2Fpfp.jpg?alt=media".toUri(),
             isAdmin = false,
             email = "demo@rahmouni.dev",
-            address = AddressInfo(
-                country = "United Kingdom",
-                locality = "London",
-                street = "221B Baker Street",
-            ),
-            phone = PhoneInfo(
-                code = "44",
-                number = "1234567890",
-            ),
         )
 
         private val DEMO_ANONYMOUS_USER = AnonymousUser(
             "demoAnonymousUser",
-            address = AddressInfo(
-                country = "United Kingdom",
-                locality = "London",
-                street = "221B Baker Street",
-            ),
-            phone = PhoneInfo(
-                code = "44",
-                number = "1234567890",
-            ),
         )
     }
 

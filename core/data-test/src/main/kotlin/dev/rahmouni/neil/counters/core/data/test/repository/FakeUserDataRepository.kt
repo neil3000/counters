@@ -19,6 +19,8 @@ package dev.rahmouni.neil.counters.core.data.test.repository
 
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 import dev.rahmouni.neil.counters.core.datastore.Rn3PreferencesDataSource
+import dev.rahmouni.neil.counters.core.model.data.AddressInfo
+import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.model.data.UserData
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -74,5 +76,13 @@ class FakeUserDataRepository @Inject constructor(
 
     override suspend fun setNeedInformation(value: Boolean) {
         rn3PreferencesDataSource.setNeedInformation(value)
+    }
+
+    override suspend fun setAddressInfo(value: AddressInfo) {
+        rn3PreferencesDataSource.setAddressInfo(value)
+    }
+
+    override suspend fun setPhoneInfo(value: PhoneInfo) {
+        rn3PreferencesDataSource.setPhoneInfo(value)
     }
 }

@@ -232,8 +232,7 @@ internal fun PublicationScreen(
                                     additionalInfos = listOf("test"),
                                 ),
                             )
-                            if (analyse.post.postType == PostType.BUTTONS && data.user.getPhone()
-                                    ?.isValid() != true
+                            if (analyse.post.postType == PostType.BUTTONS && data.phone.isValid()
                             ) {
                                 analyse.result = AnalyseType.NEEDPHONE
                             }

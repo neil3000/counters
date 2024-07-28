@@ -74,9 +74,9 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Country
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
+import dev.rahmouni.neil.counters.core.model.data.AddressInfo
+import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
-import dev.rahmouni.neil.counters.core.user.AddressInfo
-import dev.rahmouni.neil.counters.core.user.PhoneInfo
 import dev.rahmouni.neil.counters.feature.information.model.InformationUiState.Loading
 import dev.rahmouni.neil.counters.feature.information.model.InformationUiState.Success
 import dev.rahmouni.neil.counters.feature.information.model.InformationViewModel
@@ -104,10 +104,10 @@ internal fun InformationRoute(
             "ConnectScreen",
             "oujWHHHpuFbChUEYhyGX39V2exJ299Dw",
         ).toTopAppBarAction(navController::navigateToFeedback),
-        onValidateLocationClicked = {
-            viewModel.save()
-            navigateToNextPage()
-        },
+            onValidateLocationClicked = { address, phone ->
+                viewModel.save(address, phone)
+                navigateToNextPage()
+            },
         privacyPolicyTileUri = config.getString("privacy_policy_url").toRn3Uri {
         },
         )
@@ -122,7 +122,7 @@ internal fun InformationScreen(
     modifier: Modifier = Modifier,
     data: InformationData,
     feedbackTopAppBarAction: TopAppBarAction? = null,
-    onValidateLocationClicked: () -> Unit = {},
+    onValidateLocationClicked: (AddressInfo, PhoneInfo) -> Unit,
     privacyPolicyTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
 ) {
     Rn3Scaffold(
@@ -142,7 +142,7 @@ internal fun InformationScreen(
 private fun InformationForm(
     paddingValues: Rn3PaddingValues,
     data: InformationData,
-    onValidateLocationClicked: () -> Unit = {},
+    onValidateLocationClicked: (AddressInfo, PhoneInfo) -> Unit,
     privacyPolicyTileUri: Rn3Uri,
 ) {
     Column(
@@ -151,8 +151,8 @@ private fun InformationForm(
             .verticalScroll(rememberScrollState()),
     ) {
 
-        var address by remember { mutableStateOf(data.user.getAddress() ?: AddressInfo()) }
-        var phone by remember { mutableStateOf(data.user.getPhone() ?: PhoneInfo()) }
+        var address by remember { mutableStateOf(data.address) }
+        var phone by remember { mutableStateOf(data.phone) }
 
         var isEmptyCountry by rememberSaveable { mutableStateOf(true) }
         var isEmptyLocality by rememberSaveable { mutableStateOf(true) }
@@ -412,9 +412,7 @@ private fun InformationForm(
      ) {
          hasUserInteracted = true
          if (!isEmptyCountry && !isEmptyStreet && !isEmptyLocality) {
-             onValidateLocationClicked()
-             data.user.setAddress(address)
-             data.user.setPhone(phone)
+             onValidateLocationClicked(address, phone)
          }
      }
     }

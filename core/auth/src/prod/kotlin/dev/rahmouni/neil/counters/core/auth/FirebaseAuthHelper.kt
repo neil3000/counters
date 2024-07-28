@@ -31,8 +31,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
-import dev.rahmouni.neil.counters.core.user.AddressInfo
-import dev.rahmouni.neil.counters.core.user.PhoneInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
@@ -131,8 +129,7 @@ internal class FirebaseAuthHelper @Inject constructor() : AuthHelper {
             if (this == null) return LoggedOutUser
             if (isAnonymous) return AnonymousUser(
                 uid = uid,
-                address = AddressInfo(),
-                phone = PhoneInfo(),)
+            )
 
             return SignedInUser(
                 uid = uid,
@@ -140,8 +137,6 @@ internal class FirebaseAuthHelper @Inject constructor() : AuthHelper {
                 pfpUri = photoUrl,
                 isAdmin = claims["role"] == "Admin",
                 email = email.toString(),
-                address = AddressInfo(),
-                phone = PhoneInfo(),
             )
         }
     }

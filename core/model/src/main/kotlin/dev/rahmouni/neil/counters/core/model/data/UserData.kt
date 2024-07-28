@@ -28,4 +28,6 @@ data class UserData(
     val shouldShowLoginScreenOnStartup: Boolean,
     val needInformation: Boolean,
     val isAppFirstLaunch: Boolean,
+    val address: AddressInfo,
+    val phone: PhoneInfo,
 )

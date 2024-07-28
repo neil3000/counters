@@ -21,11 +21,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
+import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
+import dev.rahmouni.neil.counters.feature.feed.publics.model.PublicFeedUiState.Loading
 import dev.rahmouni.neil.counters.feature.feed.publics.model.PublicFeedUiState.Success
 import dev.rahmouni.neil.counters.feature.feed.publics.model.data.PublicFeedData
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
@@ -33,22 +35,24 @@ import kotlin.time.Duration.Companion.seconds
 @HiltViewModel
 class PublicFeedViewModel @Inject constructor(
     authHelper: AuthHelper,
+    userDataRepository: UserDataRepository,
 ) : ViewModel() {
 
     val uiState: StateFlow<PublicFeedUiState> =
-        authHelper.getUserFlow().map { user ->
+        combine(
+            userDataRepository.userData,
+            authHelper.getUserFlow(),
+        ) { userData, user ->
             Success(
                 PublicFeedData(
                     user = user,
+                    address = userData.address,
+                    phone = userData.phone,
                 ),
             )
         }.stateIn(
             scope = viewModelScope,
-            initialValue = Success(
-                PublicFeedData(
-                    user = authHelper.getUser(),
-                ),
-            ),
+            initialValue = Loading,
             started = WhileSubscribed(5.seconds.inWholeMilliseconds),
         )
 }

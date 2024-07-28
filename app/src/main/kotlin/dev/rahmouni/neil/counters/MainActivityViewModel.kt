@@ -25,6 +25,8 @@ import dev.rahmouni.neil.counters.MainActivityUiState.Success
 import dev.rahmouni.neil.counters.core.accessibility.AccessibilityHelper
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
+import dev.rahmouni.neil.counters.core.model.data.AddressInfo
+import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -68,6 +70,8 @@ class MainActivityViewModel @Inject constructor(
                     needInformation = BuildConfig.FLAVOR != "demo" && needInformation,
                     isAppFirstLaunch = BuildConfig.FLAVOR != "demo" && isAppFirstLaunch,
                     shouldShowLoginScreenOnStartup = BuildConfig.FLAVOR != "demo" && shouldShowLoginScreenOnStartup,
+                    address = userData.address,
+                    phone = userData.phone,
                 )
             }
         }.stateIn(
@@ -94,5 +98,7 @@ sealed interface MainActivityUiState {
         val needInformation: Boolean,
         val hasTravelModeEnabled: Boolean,
         val hasFriendsMainEnabled: Boolean,
+        val address: AddressInfo,
+        val phone: PhoneInfo,
     ) : MainActivityUiState
 }

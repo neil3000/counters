@@ -19,6 +19,7 @@ package dev.rahmouni.neil.counters.feature.settings.developer.main
 
 import android.text.format.DateUtils
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
@@ -29,6 +30,8 @@ import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.QuestionMark
 import androidx.compose.material.icons.outlined.Report
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -135,8 +139,14 @@ private fun DeveloperSettingsPanel(
         item {
             Rn3TileClick(
                 title = stringResource(string.feature_settings_developerSettingsScreen_buildconfigTile_title),
-                icon = Icons.Outlined.Logo,
-                supportingText = "${BuildConfig.FLAVOR} / ${BuildConfig.BUILD_TYPE}",
+                leadingContent = {
+                    Icon(
+                        imageVector = Icons.Outlined.Logo,
+                        contentDescription = null,
+                        modifier = Modifier.size(32.dp),
+                    )
+                },
+                supportingContent = { Text(text = "${BuildConfig.FLAVOR} / ${BuildConfig.BUILD_TYPE}") },
             ) {}
         }
 

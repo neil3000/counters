@@ -18,8 +18,6 @@
 package dev.rahmouni.neil.counters.feature.events.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.rahmouni.neil.counters.core.user.AddressInfo
-import dev.rahmouni.neil.counters.core.user.PhoneInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.events.model.data.PreviewParameterData.eventsData_default
@@ -43,15 +41,6 @@ object PreviewParameterData {
             pfpUri = null,
             isAdmin = false,
             email = "androidPreview@rahmouni.dev",
-            address = AddressInfo(
-                country = "United Kingdom",
-                locality = "London",
-                street = "221B Baker Street",
-            ),
-            phone = PhoneInfo(
-                code = "44",
-                number = "1234567890",
-            ),
         ),
     )
     val eventsData_mutations = with(eventsData_default) {
@@ -59,15 +48,6 @@ object PreviewParameterData {
             copy(
                 user = AnonymousUser(
                     uid = "androidPreviewID",
-                    address = AddressInfo(
-                        country = "United Kingdom",
-                        locality = "London",
-                        street = "221B Baker Street",
-                    ),
-                    phone = PhoneInfo(
-                        code = "44",
-                        number = "1234567890",
-                    ),
                 ),
             ),
         )

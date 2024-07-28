@@ -306,7 +306,7 @@ private fun ColumnPanel(paddingValues: Rn3PaddingValues, data : ConnectData, con
             Rn3FriendTileClick(
                 title = user.name,
                 onClick = {},
-                button = if (data.user.getPhone()?.isValid() == true) {
+                button = if (data.phone.isValid() == true) {
                     user.nearby
                 } else false,
             )

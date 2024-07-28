@@ -18,6 +18,8 @@
 package dev.rahmouni.neil.counters.core.datastore
 
 import androidx.datastore.core.DataStore
+import dev.rahmouni.neil.counters.core.model.data.AddressInfo
+import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.model.data.UserData
 import kotlinx.coroutines.flow.map
 import rahmouni.neil.counters.core.datastore.UserPreferences
@@ -39,6 +41,18 @@ class Rn3PreferencesDataSource @Inject constructor(
             shouldShowLoginScreenOnStartup = !userPref.shouldNotShowLoginScreenOnStartup,
             isAppFirstLaunch = !userPref.isNotAppFirstLaunch,
             needInformation = !userPref.isInformationValid,
+            address = AddressInfo(
+                country = userPref.address.country,
+                region = userPref.address.region,
+                locality = userPref.address.locality,
+                street = userPref.address.street,
+                postalCode = userPref.address.postalCode,
+                auxiliaryDetails = userPref.address.auxiliaryDetails,
+            ),
+            phone = PhoneInfo(
+                number = userPref.phone.number,
+                code = userPref.phone.code,
+            ),
         )
     }
 
@@ -99,6 +113,32 @@ class Rn3PreferencesDataSource @Inject constructor(
     suspend fun setNotAppFirstLaunch() {
         userPreferences.updateData {
             it.copy { this.isNotAppFirstLaunch = true }
+        }
+    }
+
+    suspend fun setAddressInfo(addressInfo: AddressInfo) {
+        userPreferences.updateData {
+            it.copy {
+                this.address.copy {
+                    this.country = addressInfo.country
+                    this.region = addressInfo.region
+                    this.locality = addressInfo.locality
+                    this.street = addressInfo.street
+                    this.postalCode = addressInfo.postalCode
+                    this.auxiliaryDetails = addressInfo.auxiliaryDetails
+                }
+            }
+        }
+    }
+
+    suspend fun setPhoneInfo(phoneInfo: PhoneInfo) {
+        userPreferences.updateData {
+            it.copy {
+                this.phone.copy {
+                    this.code = phoneInfo.code.toString()
+                    this.number = phoneInfo.number
+                }
+            }
         }
     }
 }

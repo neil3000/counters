@@ -17,8 +17,12 @@
 
 package dev.rahmouni.neil.counters.feature.publication.model.data
 
+import dev.rahmouni.neil.counters.core.model.data.AddressInfo
+import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User
 
 data class PublicationData(
     val user: Rn3User,
+    val address: AddressInfo,
+    val phone: PhoneInfo,
 )

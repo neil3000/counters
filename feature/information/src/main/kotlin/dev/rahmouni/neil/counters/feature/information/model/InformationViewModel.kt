@@ -22,11 +22,14 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
+import dev.rahmouni.neil.counters.core.model.data.AddressInfo
+import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
+import dev.rahmouni.neil.counters.feature.information.model.InformationUiState.Loading
 import dev.rahmouni.neil.counters.feature.information.model.InformationUiState.Success
 import dev.rahmouni.neil.counters.feature.information.model.data.InformationData
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,26 +41,29 @@ class InformationViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
 ) : ViewModel() {
 
-    fun save() {
+    fun save(address: AddressInfo, phone: PhoneInfo) {
         viewModelScope.launch {
             userDataRepository.setNeedInformation(false)
+            userDataRepository.setAddressInfo(address)
+            userDataRepository.setPhoneInfo(phone)
         }
     }
 
     val uiState: StateFlow<InformationUiState> =
-        authHelper.getUserFlow().map { user ->
+        combine(
+            userDataRepository.userData,
+            authHelper.getUserFlow(),
+        ) { userData, user ->
             Success(
                 InformationData(
                     user = user,
+                    address = userData.address,
+                    phone = userData.phone,
                 ),
             )
         }.stateIn(
             scope = viewModelScope,
-            initialValue = Success(
-                InformationData(
-                    user = authHelper.getUser(),
-                ),
-            ),
+            initialValue = Loading,
             started = WhileSubscribed(5.seconds.inWholeMilliseconds),
         )
 }

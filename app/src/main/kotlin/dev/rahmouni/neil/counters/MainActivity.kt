@@ -18,6 +18,7 @@
 package dev.rahmouni.neil.counters
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -140,6 +141,7 @@ class MainActivity : ComponentActivity() {
                     if ((uiState as Success).hasFriendsMainEnabled) add(FRIENDSFEED_ROUTE)
                     if (!(uiState as Success).hasFriendsMainEnabled) add(PUBLICFEED_ROUTE)
                 }
+                Log.d("NavigationDebug", "Routes initialized: $routes")
                 CompositionLocalProvider(
                     LocalAnalyticsHelper provides analyticsHelper,
                     LocalAccessibilityHelper provides (uiState as Success).accessibilityHelper,

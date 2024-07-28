@@ -17,8 +17,12 @@
 
 package dev.rahmouni.neil.counters.feature.connect.model.data
 
+import dev.rahmouni.neil.counters.core.model.data.AddressInfo
+import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User
 
 data class ConnectData(
     val user: Rn3User,
+    val address: AddressInfo,
+    val phone: PhoneInfo,
 )

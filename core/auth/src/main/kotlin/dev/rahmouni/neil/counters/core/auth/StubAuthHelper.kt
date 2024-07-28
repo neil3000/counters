@@ -18,8 +18,6 @@
 package dev.rahmouni.neil.counters.core.auth
 
 import android.content.Context
-import dev.rahmouni.neil.counters.core.user.AddressInfo
-import dev.rahmouni.neil.counters.core.user.PhoneInfo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -46,8 +44,6 @@ class StubAuthHelper @Inject constructor() : AuthHelper {
             pfpUri = null,
             isAdmin = false,
             email = "androidPreview@rahmouni.dev",
-            address = AddressInfo(),
-            phone = PhoneInfo(),
         )
 
     override fun getUserFlow(): Flow<dev.rahmouni.neil.counters.core.user.Rn3User> =
