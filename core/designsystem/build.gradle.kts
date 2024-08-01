@@ -54,6 +54,7 @@ dependencies {
 
     implementation(projects.core.common)
     implementation(projects.core.config)
+    implementation(projects.core.model)
 
     testImplementation(libs.androidx.compose.ui.test)
     testImplementation(libs.hilt.android.testing)

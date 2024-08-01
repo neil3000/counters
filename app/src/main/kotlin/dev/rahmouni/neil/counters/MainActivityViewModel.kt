@@ -70,7 +70,14 @@ class MainActivityViewModel @Inject constructor(
                     needInformation = BuildConfig.FLAVOR != "demo" && needInformation,
                     isAppFirstLaunch = BuildConfig.FLAVOR != "demo" && isAppFirstLaunch,
                     shouldShowLoginScreenOnStartup = BuildConfig.FLAVOR != "demo" && shouldShowLoginScreenOnStartup,
-                    address = userData.address,
+                    address = AddressInfo(
+                        country = userData.address.country,
+                        region = userData.address.region,
+                        locality = userData.address.locality,
+                        postalCode = userData.address.postalCode,
+                        street = userData.address.street,
+                        auxiliaryDetails = userData.address.auxiliaryDetails,
+                    ),
                     phone = userData.phone,
                 )
             }

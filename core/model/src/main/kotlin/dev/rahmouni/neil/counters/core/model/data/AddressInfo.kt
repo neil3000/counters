@@ -18,10 +18,10 @@
 package dev.rahmouni.neil.counters.core.model.data
 
 data class AddressInfo(
-    var country: String = "", //TODO: move to Country data
-    var region: String = "",
-    var locality: String = "",
-    var street: String = "",
-    var postalCode: String = "",
-    var auxiliaryDetails: String = "",
+    val country: Country?,
+    val region: String?,
+    val locality: String,
+    val street: String,
+    val postalCode: String?,
+    val auxiliaryDetails: String?,
 )

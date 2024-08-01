@@ -40,6 +40,8 @@ dependencies {
     api(projects.core.model)
     api(projects.core.common)
 
+    implementation(projects.core.designsystem)
+
     testImplementation(projects.core.datastoreTest)
     testImplementation(libs.kotlinx.coroutines.test)
 }

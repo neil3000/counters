@@ -154,7 +154,6 @@ internal fun PublicationScreen(
 
     var isAnalyzed by rememberSaveable { mutableStateOf(false) }
     var currentDescription by rememberSaveable { mutableStateOf("") }
-    var showEmpty by rememberSaveable { mutableStateOf(false) }
 
     var analyse = Analyse(
         AnalyseType.SUCCESS,
@@ -232,12 +231,12 @@ internal fun PublicationScreen(
                                     additionalInfos = listOf("test"),
                                 ),
                             )
-                            if (analyse.post.postType == PostType.BUTTONS && data.phone.isValid()
+                            if (analyse.post.postType == PostType.BUTTONS && !data.phone.isValid()
                             ) {
                                 analyse.result = AnalyseType.NEEDPHONE
                             }
                         },
-                        enabled = !isAnalyzed && !showEmpty,
+                        enabled = !isAnalyzed && currentDescription.isNotEmpty(),
                     ) {
                         Text(text = stringResource(string.feature_publication_analyseButton))
                     }
@@ -326,7 +325,6 @@ internal fun PublicationScreen(
                     .padding(horizontal = 16.dp),
                 value = currentDescription,
                 onValueChange = { newText -> currentDescription = newText },
-                onEmptyStateChange = { emptyState -> showEmpty = emptyState },
                 maxCharacters = 500,
                 label = { Text(text = stringResource(string.feature_publication_textField_label)) },
                 singleLine = false,

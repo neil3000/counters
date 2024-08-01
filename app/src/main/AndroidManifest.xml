@@ -31,7 +31,7 @@
         tools:node="remove" />
 
     <application
-        android:name="dev.rahmouni.neil.counters.CountersApplication"
+        android:name="dev.rahmouni.neil.counters.Application"
         android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"

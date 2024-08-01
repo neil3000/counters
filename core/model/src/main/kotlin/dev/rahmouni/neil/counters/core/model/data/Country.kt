@@ -15,13 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters
+package dev.rahmouni.neil.counters.core.model.data
 
-import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+enum class Country(val text: String, val isoCode: String, val phoneCode: Int) {
+    FRANCE(text = "France", isoCode = "FR", phoneCode = 33),
+    BELGIUM(text = "Belgium", isoCode = "BE", phoneCode = 32),
+    UNITED_KINGDOM(text = "United Kingdom", isoCode = "GB", phoneCode = 44),
+    USA(text = "United States", isoCode = "US", phoneCode = 1);
 
-/**
- * [Application] class for ReBased
- */
-@HiltAndroidApp
-class Application : Application()
+    companion object {
+        val isoMap = entries.associateBy(Country::isoCode)
+    }
+}

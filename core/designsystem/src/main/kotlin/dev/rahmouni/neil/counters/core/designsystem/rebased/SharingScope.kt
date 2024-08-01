@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Flag
 import androidx.compose.material.icons.outlined.Landscape
 import androidx.compose.material.icons.outlined.LocationCity
 import androidx.compose.material.icons.outlined.Public
@@ -20,6 +21,7 @@ import dev.rahmouni.neil.counters.core.designsystem.icons.Bank
 import dev.rahmouni.neil.counters.core.designsystem.icons.Building
 import dev.rahmouni.neil.counters.core.designsystem.icons.HomeGroup
 import dev.rahmouni.neil.counters.core.designsystem.icons.Road
+import dev.rahmouni.neil.counters.core.model.data.Country
 
 enum class SharingScope(val text: String) {
     GLOBAL(text = "Global"),
@@ -35,7 +37,7 @@ enum class SharingScope(val text: String) {
     fun icon(location: String): ImageVector {
         return when (this) {
             GLOBAL -> Icons.Outlined.Public
-            COUNTRY -> Country.getIconFromIso(location)
+            COUNTRY -> Country.getCountryFromIso(location)?.getIcon() ?: Icons.Outlined.Flag
             REGION -> Icons.Outlined.Landscape
             CITY -> Icons.Outlined.LocationCity
             DISTRICT -> Icons.Outlined.Bank

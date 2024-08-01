@@ -18,7 +18,9 @@
 package dev.rahmouni.neil.counters.core.datastore
 
 import androidx.datastore.core.DataStore
+import dev.rahmouni.neil.counters.core.designsystem.rebased.getCountryFromIso
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
+import dev.rahmouni.neil.counters.core.model.data.Country
 import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.model.data.UserData
 import kotlinx.coroutines.flow.map
@@ -42,16 +44,16 @@ class Rn3PreferencesDataSource @Inject constructor(
             isAppFirstLaunch = !userPref.isNotAppFirstLaunch,
             needInformation = !userPref.isInformationValid,
             address = AddressInfo(
-                country = userPref.address.country,
-                region = userPref.address.region,
+                country = Country.getCountryFromIso(userPref.address.country),
+                region = userPref.address.region.ifBlank { null },
                 locality = userPref.address.locality,
                 street = userPref.address.street,
-                postalCode = userPref.address.postalCode,
-                auxiliaryDetails = userPref.address.auxiliaryDetails,
+                postalCode = userPref.address.postalCode.ifBlank { null },
+                auxiliaryDetails = userPref.address.auxiliaryDetails.ifBlank { null },
             ),
             phone = PhoneInfo(
-                number = userPref.phone.number,
-                code = userPref.phone.code,
+                number = userPref.phone.number.ifBlank { null },
+                code = Country.getCountryFromIso(userPref.phone.code),
             ),
         )
     }
@@ -119,13 +121,13 @@ class Rn3PreferencesDataSource @Inject constructor(
     suspend fun setAddressInfo(addressInfo: AddressInfo) {
         userPreferences.updateData {
             it.copy {
-                this.address.copy {
-                    this.country = addressInfo.country
-                    this.region = addressInfo.region
+                this.address = this.address.copy {
+                    this.country = addressInfo.country?.isoCode ?: ""
+                    this.region = addressInfo.region ?: ""
                     this.locality = addressInfo.locality
                     this.street = addressInfo.street
-                    this.postalCode = addressInfo.postalCode
-                    this.auxiliaryDetails = addressInfo.auxiliaryDetails
+                    this.postalCode = addressInfo.postalCode ?: ""
+                    this.auxiliaryDetails = addressInfo.auxiliaryDetails ?: ""
                 }
             }
         }
@@ -134,9 +136,9 @@ class Rn3PreferencesDataSource @Inject constructor(
     suspend fun setPhoneInfo(phoneInfo: PhoneInfo) {
         userPreferences.updateData {
             it.copy {
-                this.phone.copy {
-                    this.code = phoneInfo.code.toString()
-                    this.number = phoneInfo.number
+                this.phone = this.phone.copy {
+                    this.code = phoneInfo.code?.isoCode ?: ""
+                    this.number = phoneInfo.number ?: ""
                 }
             }
         }

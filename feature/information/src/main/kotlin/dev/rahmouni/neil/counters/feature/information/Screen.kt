@@ -71,10 +71,11 @@ import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOM
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Country
+import dev.rahmouni.neil.counters.core.designsystem.rebased.getIcon
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
+import dev.rahmouni.neil.counters.core.model.data.Country
 import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.feature.information.model.InformationUiState.Loading
@@ -150,13 +151,9 @@ private fun InformationForm(
             .padding(paddingValues)
             .verticalScroll(rememberScrollState()),
     ) {
-
         var address by remember { mutableStateOf(data.address) }
         var phone by remember { mutableStateOf(data.phone) }
 
-        var isEmptyCountry by rememberSaveable { mutableStateOf(true) }
-        var isEmptyLocality by rememberSaveable { mutableStateOf(true) }
-        var isEmptyStreet by rememberSaveable { mutableStateOf(true) }
         var hasUserInteracted by rememberSaveable { mutableStateOf(false) }
 
         var countryExpanded by remember { mutableStateOf(false) }
@@ -214,9 +211,10 @@ private fun InformationForm(
         ) {
             Rn3OutlinedTextField(
                 readOnly = true,
-                value = address.country,
+                value = address.country?.text ?: "",
                 onValueChange = {},
                 label = { Text(text = "Country") },
+                hasUserInteracted = hasUserInteracted,
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = countryExpanded)
                 },
@@ -224,7 +222,6 @@ private fun InformationForm(
                 modifier = Modifier
                     .menuAnchor(type = MenuAnchorType.PrimaryEditable, enabled = true)
                     .fillMaxWidth(),
-                onEmptyStateChange = { emptyState -> isEmptyCountry = emptyState },
                 enableAutofill = true,
                 autofillTypes = AutofillType.AddressCountry,
             )
@@ -249,8 +246,7 @@ private fun InformationForm(
                         },
                         onClick = {
                             countryExpanded = false
-                            address = address.copy(country = selectedCountry.text)
-                            isEmptyCountry = false
+                            address = address.copy(country = selectedCountry)
                         },
                     )
                 }
@@ -258,9 +254,8 @@ private fun InformationForm(
         }
 
             Rn3OutlinedTextField(
-                value = address.region,
+                value = address.region ?: "",
                 onValueChange = { newRegion -> address = address.copy(region = newRegion) },
-                onEmptyStateChange = { },
                 hasUserInteracted = hasUserInteracted,
                 maxCharacters = 100,
                 label = { Text(text = "Region") },
@@ -275,7 +270,6 @@ private fun InformationForm(
                 modifier = Modifier.weight(1.5f),
                 value = address.locality,
                 onValueChange = { newLocality -> address = address.copy(locality = newLocality) },
-                onEmptyStateChange = { emptyState -> isEmptyLocality = emptyState },
                 hasUserInteracted = hasUserInteracted,
             maxCharacters = 100,
                 label = { Text(text = "Locality") },
@@ -290,12 +284,10 @@ private fun InformationForm(
                     .onFocusChanged { focusState ->
                         isFocusedPostalCode = focusState.isFocused
                     },
-                value = address.postalCode,
+                value = address.postalCode ?: "",
                 onValueChange = { newPostalCode ->
                     address = address.copy(postalCode = newPostalCode)
                 },
-                onEmptyStateChange = { },
-                hasUserInteracted = hasUserInteracted,
                 maxCharacters = 20,
                 label = { Text(if (showFullLabelPostalCode || address.postalCode != "") "Postal Code" else "Postal") },
                 beEmpty = true,
@@ -308,7 +300,6 @@ private fun InformationForm(
         Rn3OutlinedTextField(
             value = address.street,
             onValueChange = { newStreet -> address = address.copy(street = newStreet) },
-            onEmptyStateChange = { emptyState -> isEmptyStreet = emptyState },
             hasUserInteracted = hasUserInteracted,
             maxCharacters = 200,
             label = { Text(text = "Street") },
@@ -318,12 +309,10 @@ private fun InformationForm(
         )
 
         Rn3OutlinedTextField(
-            value = address.auxiliaryDetails,
+            value = address.auxiliaryDetails ?: "",
             onValueChange = { newAuxiliaryDetails ->
                 address = address.copy(auxiliaryDetails = newAuxiliaryDetails)
             },
-            onEmptyStateChange = { },
-            hasUserInteracted = hasUserInteracted,
             maxCharacters = 200,
             label = { Text(text = "Auxiliary details") },
             beEmpty = true,
@@ -338,13 +327,12 @@ private fun InformationForm(
                     expanded = phoneCodeExpanded,
                     onExpandedChange = { phoneCodeExpanded = !phoneCodeExpanded },
                 ) {
-                    val value = phone.code?.let { "+${it}" } ?: ""
 
                     Rn3OutlinedTextField(
                         readOnly = true,
-                        value = value,
+                        value = phone.code?.let { "+${it.phoneCode}" } ?: "",
                         onValueChange = {},
-                        label = { Text(if (showFullLabelPhoneCode || value != "") "Phone Code" else "Code") },
+                        label = { Text(if (showFullLabelPhoneCode || phone.code != null) "Phone Code" else "Code") },
                         trailingIcon = {
                             ExposedDropdownMenuDefaults.TrailingIcon(expanded = phoneCodeExpanded)
                         },
@@ -355,7 +343,6 @@ private fun InformationForm(
                             .onFocusChanged { focusState ->
                                 isFocusedPhoneCode = focusState.isFocused
                             },
-                        onEmptyStateChange = { },
                         enableAutofill = true,
                         beEmpty = true,
                         autofillTypes = AutofillType.PhoneCountryCode,
@@ -381,7 +368,7 @@ private fun InformationForm(
                                 },
                                 onClick = {
                                     phoneCodeExpanded = false
-                                    phone = phone.copy(code = selectedPhoneCode.text)
+                                    phone = phone.copy(code = selectedPhoneCode)
                                 },
                             )
                         }
@@ -390,10 +377,8 @@ private fun InformationForm(
 
                 Rn3OutlinedTextField(
                     modifier = Modifier.weight(1.5f),
-                    value = phone.number,
+                    value = phone.number ?: "",
                     onValueChange = { newNumber -> phone = phone.copy(number = newNumber) },
-                    onEmptyStateChange = { },
-                    hasUserInteracted = hasUserInteracted,
                     maxCharacters = 20,
                     label = { Text(text = "Phone number") },
                     beEmpty = true,
@@ -411,7 +396,7 @@ private fun InformationForm(
          color = MaterialTheme.colorScheme.primary,
      ) {
          hasUserInteracted = true
-         if (!isEmptyCountry && !isEmptyStreet && !isEmptyLocality) {
+         if (address.country != null && address.street.isNotEmpty() && address.locality.isNotEmpty()) {
              onValidateLocationClicked(address, phone)
          }
      }

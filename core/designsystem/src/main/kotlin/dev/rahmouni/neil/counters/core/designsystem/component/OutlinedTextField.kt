@@ -25,7 +25,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -59,7 +58,6 @@ fun Rn3OutlinedTextField(
     singleLine: Boolean = true,
     beEmpty: Boolean = false,
     hasUserInteracted: Boolean = false,
-    onEmptyStateChange: (Boolean) -> Unit,
     onTextChange: (() -> Unit)? = null,
     enableAutofill: Boolean = false,
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
@@ -68,21 +66,13 @@ fun Rn3OutlinedTextField(
     var isEmpty by rememberSaveable { mutableStateOf(value.isEmpty()) }
     val isTooLarge = maxCharacters?.let { value.length >= it } ?: false
 
-    LaunchedEffect(isEmpty) {
-        onEmptyStateChange(isEmpty)
-    }
-
     OutlinedTextField(
         value = value,
         readOnly = readOnly,
         onValueChange = { text ->
             if (maxCharacters == null || text.length <= maxCharacters) {
                 onValueChange(text)
-                val wasEmpty = isEmpty
                 isEmpty = text.isEmpty()
-                if (wasEmpty != isEmpty) {
-                    onEmptyStateChange(isEmpty)
-                }
                 onTextChange?.invoke()
             }
         },
@@ -161,7 +151,6 @@ private fun Default() {
             Rn3OutlinedTextField(
                 value = "Sample Text",
                 onValueChange = {},
-                onEmptyStateChange = {},
                 maxCharacters = 20,
                 label = { Text("Label") },
             )
@@ -178,7 +167,6 @@ private fun Empty() {
             Rn3OutlinedTextField(
                 value = "",
                 onValueChange = {},
-                onEmptyStateChange = {},
                 maxCharacters = 20,
                 beEmpty = false,
                 label = { Text("Label") },

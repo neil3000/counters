@@ -41,7 +41,7 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ExposurePlus2
+import androidx.compose.material.icons.outlined.RemoveRedEye
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -204,7 +204,7 @@ fun Rn3Scaffold(
                                     ).let { modifier ->
                                         when {
                                             alternateIcon -> Icon(
-                                                Icons.Outlined.ExposurePlus2,
+                                                Icons.Outlined.RemoveRedEye,
                                                 null,
                                                 modifier.scale(.75f),
                                                 tint = Color.White,

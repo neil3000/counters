@@ -44,8 +44,18 @@ object PreviewParameterData {
             isAdmin = false,
             email = "androidPreview@rahmouni.dev",
         ),
-        address = AddressInfo(),
-        phone = PhoneInfo(),
+        address = AddressInfo(
+            country = null,
+            region = null,
+            locality = "",
+            postalCode = null,
+            street = "",
+            auxiliaryDetails = null,
+        ),
+        phone = PhoneInfo(
+            number = null,
+            code = null,
+        ),
     )
     val publicationData_mutations = with(publicationData_default) {
         sequenceOf(

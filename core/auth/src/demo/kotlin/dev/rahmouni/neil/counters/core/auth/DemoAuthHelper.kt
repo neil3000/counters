@@ -19,8 +19,6 @@ package dev.rahmouni.neil.counters.core.auth
 
 import android.content.Context
 import androidx.core.net.toUri
-import dev.rahmouni.neil.counters.core.user.AddressInfo
-import dev.rahmouni.neil.counters.core.user.PhoneInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User
 import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser

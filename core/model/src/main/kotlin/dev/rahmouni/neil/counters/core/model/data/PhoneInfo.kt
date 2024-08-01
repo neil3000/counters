@@ -18,8 +18,8 @@
 package dev.rahmouni.neil.counters.core.model.data
 
 data class PhoneInfo(
-    var number: String = "",
-    var code: String? = null, //TODO: move to Country data
+    val number: String?,
+    val code: Country?,
 ) {
-    fun isValid(): Boolean = number.isNotBlank() && code != null
+    fun isValid(): Boolean = number != null && code != null
 }

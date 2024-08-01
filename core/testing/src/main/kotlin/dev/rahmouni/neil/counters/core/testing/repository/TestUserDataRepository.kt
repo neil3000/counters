@@ -18,6 +18,8 @@
 package dev.rahmouni.neil.counters.core.testing.repository
 
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
+import dev.rahmouni.neil.counters.core.model.data.AddressInfo
+import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.model.data.UserData
 import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 import kotlinx.coroutines.flow.Flow
@@ -35,6 +37,18 @@ val emptyUserData = UserData(
     shouldShowLoginScreenOnStartup = false,
     needInformation = false,
     isAppFirstLaunch = false,
+    address = AddressInfo(
+        country = null,
+        region = null,
+        locality = "",
+        postalCode = null,
+        street = "",
+        auxiliaryDetails = null,
+    ),
+    phone = PhoneInfo(
+        number = null,
+        code = null,
+    ),
 )
 
 class TestUserDataRepository : UserDataRepository {
@@ -104,6 +118,36 @@ class TestUserDataRepository : UserDataRepository {
     override suspend fun setNotAppFirstLaunch() {
         currentUserData.let { current ->
             _userData.tryEmit(current.copy(isAppFirstLaunch = false))
+        }
+    }
+
+    override suspend fun setAddressInfo(value: AddressInfo) {
+        currentUserData.let { current ->
+            _userData.tryEmit(
+                current.copy(
+                    address = AddressInfo(
+                        country = null,
+                        region = null,
+                        locality = "",
+                        postalCode = null,
+                        street = "",
+                        auxiliaryDetails = null,
+                    ),
+                ),
+            )
+        }
+    }
+
+    override suspend fun setPhoneInfo(value: PhoneInfo) {
+        currentUserData.let { current ->
+            _userData.tryEmit(
+                current.copy(
+                    phone = PhoneInfo(
+                        number = null,
+                        code = null,
+                    ),
+                ),
+            )
         }
     }
 

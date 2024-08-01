@@ -26,10 +26,11 @@ import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.data.model.Friend
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Country
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
 import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
+import dev.rahmouni.neil.counters.core.designsystem.rebased.getCountryFromIso
+import dev.rahmouni.neil.counters.core.model.data.Country
 
 @Composable
 fun Publication(post: Post, friendRepository: List<Friend>, enabled: Boolean) {
@@ -72,7 +73,8 @@ fun Publication(post: Post, friendRepository: List<Friend>, enabled: Boolean) {
                     } else {
                         if (post.sharingScope == SharingScope.COUNTRY) {
                             Text(
-                                text = Country.getNameFromIso(post.location),
+                                text = Country.getCountryFromIso(post.location)?.text
+                                    ?: "Country not found",
                                 fontWeight = FontWeight.Bold,
                             )
                         }
