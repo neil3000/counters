@@ -17,8 +17,6 @@
 
 package dev.rahmouni.neil.counters.core.designsystem.component.user
 
-import android.content.res.Resources
-import android.util.TypedValue
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,7 +35,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
 import dev.rahmouni.neil.counters.core.designsystem.rn3ShrinkVerticallyTransition
@@ -47,22 +44,11 @@ import dev.rahmouni.neil.counters.core.user.Rn3User
 fun Rn3User.UserAvatarAndName(
     modifier: Modifier = Modifier,
     showEmail: Boolean = false,
-    supportingText: String? = null,
 ) {
     val context = LocalContext.current
 
     Row(
-        modifier = modifier.defaultMinSize(
-            minHeight =
-            with(LocalDensity.current) {
-                TypedValue
-                    .applyDimension(
-                        TypedValue.COMPLEX_UNIT_SP,
-                        20f * 2,
-                        Resources.getSystem().displayMetrics,
-                    ).toDp()
-            },
-        ),
+        modifier = modifier.defaultMinSize(minHeight = 44.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Avatar()
@@ -75,6 +61,7 @@ fun Rn3User.UserAvatarAndName(
                 )
                 if (isAdmin()) {
                     Spacer(modifier = Modifier.width(4.dp))
+
                     Icon(
                         imageVector = Icons.Outlined.VerifiedUser,
                         contentDescription = null,
@@ -85,14 +72,12 @@ fun Rn3User.UserAvatarAndName(
             }
 
             AnimatedVisibility(
-                visible = (getEmailAddress() != null && showEmail) || supportingText != null,
+                visible = (getEmailAddress() != null && showEmail),
                 enter = rn3ExpandVerticallyTransition(),
                 exit = rn3ShrinkVerticallyTransition(),
             ) {
                 Text(
-                    text = if (showEmail) {
-                        getEmailAddress().toString()
-                    } else supportingText ?: "",
+                    text = getEmailAddress().toString(),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodyMedium,
                 )

@@ -152,7 +152,7 @@ private fun Default() {
                 value = "Sample Text",
                 onValueChange = {},
                 maxCharacters = 20,
-                label = { Text("Label") },
+                label = { Text(text = "Label") },
             )
         }
     }
@@ -169,7 +169,7 @@ private fun Empty() {
                 onValueChange = {},
                 maxCharacters = 20,
                 beEmpty = false,
-                label = { Text("Label") },
+                label = { Text(text = "Label") },
                 hasUserInteracted = true,
             )
         }

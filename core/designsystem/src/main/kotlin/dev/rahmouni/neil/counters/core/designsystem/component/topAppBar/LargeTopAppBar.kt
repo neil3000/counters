@@ -76,7 +76,7 @@ fun Rn3LargeTopAppBar(
                 0 -> Unit
                 1 -> actions[0].IconButton()
                 else -> {
-                    var expanded by remember { mutableStateOf(false) }
+                    var expanded by remember { mutableStateOf(value = false) }
 
                     Rn3IconButton(
                         icon = Icons.Outlined.MoreVert,

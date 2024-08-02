@@ -61,10 +61,10 @@ enum class SharingScope(private val resourceId: Int) {
             modifier = Modifier
                 .size(34.dp)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primary)
+                .background(MaterialTheme.colorScheme.primaryContainer)
                 .padding(6.dp),
             contentDescription = null,
-            tint = if (this == COUNTRY) Color.Unspecified else MaterialTheme.colorScheme.onPrimary,
+            tint = if (this == COUNTRY) Color.Unspecified else MaterialTheme.colorScheme.onPrimaryContainer,
         )
     }
 }

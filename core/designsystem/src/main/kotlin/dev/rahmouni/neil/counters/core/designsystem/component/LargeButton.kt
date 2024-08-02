@@ -21,10 +21,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidthIn
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalAbsoluteTonalElevation
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +36,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 
 @Composable
 fun Rn3LargeButton(
@@ -46,7 +46,7 @@ fun Rn3LargeButton(
     icon: ImageVector,
     color: Color = MaterialTheme.colorScheme.surface,
     leadingIcon: ImageVector? = null,
-    shape: Shape = RoundedCornerShape(16.dp),
+    shape: Shape = Rn3ExpandableSurfaceDefaults.shape,
     onClick: () -> Unit,
 ) {
     val haptics = getHaptic()
@@ -64,29 +64,27 @@ fun Rn3LargeButton(
                     haptics.click()
                     onClick()
                 }
-                .padding(16.dp)
+                .padding(Rn3ExpandableSurfaceDefaults.paddingValues)
                 .fillMaxWidth(1f),
         ) {
             if (leadingIcon != null) {
                 Icon(
                     imageVector = leadingIcon,
                     contentDescription = null,
-                    modifier = Modifier.padding(end = 16.dp),
                 )
             }
             Text(
                 text = text,
                 color = MaterialTheme.colorScheme.contentColorFor(color),
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(4.dp),
+                modifier = Modifier.padding(Rn3TileSmallHeaderDefaults.paddingValues.copy(start = if (leadingIcon != null) 16.dp else 0.dp)),
             )
             Spacer(Modifier.weight(1f))
             Icon(
                 imageVector = icon,
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(start = 16.dp)
-                    .width(24.dp),
+                    .size(24.dp),
             )
         }
     }

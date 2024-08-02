@@ -71,7 +71,7 @@ fun Rn3SmallTopAppBar(
                 0 -> Unit
                 1 -> actions[0].IconButton()
                 else -> {
-                    var expanded by remember { mutableStateOf(false) }
+                    var expanded by remember { mutableStateOf(value = false) }
 
                     Rn3IconButton(
                         icon = Icons.Outlined.MoreVert,
@@ -101,7 +101,7 @@ fun Rn3SmallTopAppBar(
 private fun Default() {
     Rn3Theme {
         Rn3SmallTopAppBar(
-            title = { Text("Preview default") },
+            title = { Text(text = "Preview default") },
             scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
         )
     }
@@ -113,7 +113,7 @@ private fun Default() {
 private fun BackArrow() {
     Rn3Theme {
         Rn3SmallTopAppBar(
-            title = { Text("Preview back button") },
+            title = { Text(text = "Preview back button") },
             scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
         )
     }

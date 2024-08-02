@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Android
 import androidx.compose.material.icons.outlined.LocationOn
@@ -37,8 +36,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
 import dev.rahmouni.neil.counters.core.feedback.R.string
 
@@ -98,7 +99,7 @@ internal fun FeedbackContextPage(
         }
 
         Row(
-            Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
+            Modifier.padding(Rn3ExpandableSurfaceDefaults.paddingValues),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             FilledTonalButton(

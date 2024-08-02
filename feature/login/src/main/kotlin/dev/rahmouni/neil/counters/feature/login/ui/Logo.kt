@@ -53,7 +53,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
 import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
 import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
 import dev.rahmouni.neil.counters.core.designsystem.R.color
@@ -147,13 +146,6 @@ internal fun Logo() {
                             },
                         ).let { modifier ->
                             when {
-                                BuildConfig.DEBUG -> Icon(
-                                    Icons.Outlined.Logo,
-                                    null,
-                                    modifier.scale(.6f),
-                                    tint = Color.White,
-                                )
-
                                 else -> Icon(
                                     Icons.Outlined.Logo,
                                     null,

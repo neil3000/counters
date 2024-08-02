@@ -24,9 +24,9 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -37,7 +37,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 
 @Composable
 internal fun FeedbackOptions(
@@ -50,7 +52,8 @@ internal fun FeedbackOptions(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(Rn3ExpandableSurfaceDefaults.paddingValues),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         options.forEach { (key, title) ->
             ExtendedFloatingActionButton(
@@ -69,8 +72,7 @@ internal fun FeedbackOptions(
                     onOptionSelected(key)
                 },
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = 8.dp, vertical = 12.dp),
+                    .weight(1f),
                 containerColor = if (key == selectedOption) FloatingActionButtonDefaults.containerColor else MaterialTheme.colorScheme.surfaceVariant,
                 elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp),
             )

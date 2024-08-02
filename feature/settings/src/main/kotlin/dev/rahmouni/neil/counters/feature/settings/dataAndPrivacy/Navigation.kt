@@ -26,8 +26,8 @@ internal const val DATA_AND_PRIVACY_ROUTE = "dataAndPrivacy"
 
 internal fun NavController.navigateToDataAndPrivacySettings(navOptions: NavOptions? = null) =
     navigate(
-        DATA_AND_PRIVACY_ROUTE,
-        navOptions,
+        route = DATA_AND_PRIVACY_ROUTE,
+        navOptions = navOptions,
     )
 
 internal fun NavGraphBuilder.dataAndPrivacyScreen(navController: NavController) {

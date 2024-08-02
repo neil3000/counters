@@ -31,13 +31,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.Icons.Outlined
@@ -80,10 +82,11 @@ import dev.rahmouni.neil.counters.core.data.model.Friend
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.R.color
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
-import dev.rahmouni.neil.counters.core.designsystem.component.user.UserAvatarAndName
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
 import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
@@ -92,6 +95,7 @@ import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.shapes.MorphableShape
 import dev.rahmouni.neil.counters.core.shapes.loadingShapeParameters
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
+import dev.rahmouni.neil.counters.core.user.Rn3User.Loading.getDisplayName
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.connect.R.string
 import dev.rahmouni.neil.counters.feature.connect.model.ConnectUiState.Loading
@@ -304,7 +308,7 @@ private fun ColumnPanel(
                     }
 
                     Row(
-                        modifier = Modifier.padding(top = 16.dp, bottom = 32.dp),
+                        modifier = Modifier.padding(Rn3TileSmallHeaderDefaults.paddingValues),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center,
                     ) {
@@ -314,28 +318,45 @@ private fun ColumnPanel(
                             fontWeight = FontWeight.Medium,
                             fontSize = TextUnit(value = 5f, type = TextUnitType.Em),
                         )
+
+                        Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
 
             else -> Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.surfaceContainer,
+                    .padding(Rn3ExpandableSurfaceDefaults.paddingValues),
+                shape = Rn3ExpandableSurfaceDefaults.shape,
+                tonalElevation = Rn3ExpandableSurfaceDefaults.tonalElevation,
             ) {
                 Row(
+                    modifier = Modifier
+                        .padding(Rn3TileSmallHeaderDefaults.paddingValues)
+                        .defaultMinSize(minHeight = 44.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    data.user.UserAvatarAndName(
-                        modifier = Modifier.weight(1f),
-                        supportingText = "Log you in to save your friends across devices",
-                    )
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth(),
+                    ) {
+                        Text(
+                            text = getDisplayName(context),
+                            style = MaterialTheme.typography.titleMedium,
+                        )
+                        Text(
+                            text = stringResource(string.feature_connect_loginTile_supportingtext),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(16.dp))
 
                     // loginButton
                     OutlinedButton(onClick = onAccountTileLoginButtonClicked) {
-                        Text(text = "Login")
+                        Text(text = stringResource(string.feature_connect_loginTile_button))
                     }
                 }
             }

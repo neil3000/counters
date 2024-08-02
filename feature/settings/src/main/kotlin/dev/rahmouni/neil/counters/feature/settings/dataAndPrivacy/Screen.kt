@@ -21,7 +21,6 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -56,6 +55,7 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickConfirmationDialog
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
@@ -90,18 +90,18 @@ internal fun DataAndPrivacySettingsRoute(
     val config = LocalConfigHelper.current
 
     DataAndPrivacySettingsScreen(
-        modifier,
-        uiState,
+        modifier = modifier,
+        uiState = uiState,
         onBackIconButtonClicked = navController::popBackStack,
         feedbackTopAppBarAction = FeedbackScreenContext(
-            "DataAndPrivacySettingsScreen",
-            "Cql6OgxiWaapWpb38eGNGRZbmFuR8JuQ",
-        ).toTopAppBarAction(navController::navigateToFeedback),
+            localName = "DataAndPrivacySettingsScreen",
+            localID = "Cql6OgxiWaapWpb38eGNGRZbmFuR8JuQ",
+        ).toTopAppBarAction(navigateToFeedback = navController::navigateToFeedback),
         onMetricsTileCheckedChange = viewModel::setMetricsEnabled,
         onClearMetricsTileClicked = analytics::clearMetrics,
         onCrashlyticsTileCheckedChange = viewModel::setCrashlyticsEnabled,
-        privacyPolicyTileUri = config.getString("privacy_policy_url").toRn3Uri {
-            analytics.logDataAndPrivacySettingsUiEvent("privacyPolicyTile")
+        privacyPolicyTileUri = config.getString(key = "privacy_policy_url").toRn3Uri {
+            analytics.logDataAndPrivacySettingsUiEvent(uiId = "privacyPolicyTile")
         },
     )
 
@@ -129,12 +129,12 @@ internal fun DataAndPrivacySettingsScreen(
         when (uiState) {
             Loading -> {}
             is Success -> DataAndPrivacySettingsPanel(
-                it,
+                paddingValues = it,
                 data = uiState.dataAndPrivacySettingsData,
-                onMetricsTileCheckedChange,
-                onClearMetricsTileClicked,
-                onCrashlyticsTileCheckedChange,
-                privacyPolicyTileUri,
+                onMetricsTileCheckedChange = onMetricsTileCheckedChange,
+                onClearMetricsTileClicked = onClearMetricsTileClicked,
+                onCrashlyticsTileCheckedChange = onCrashlyticsTileCheckedChange,
+                privacyPolicyTileUri = privacyPolicyTileUri,
             )
         }
     }
@@ -152,7 +152,7 @@ private fun DataAndPrivacySettingsPanel(
     val config = LocalConfigHelper.current
 
     Column(
-        Modifier
+        modifier = Modifier
             .verticalScroll(rememberScrollState())
             .padding(paddingValues),
     ) {
@@ -186,14 +186,14 @@ private fun DataAndPrivacySettingsPanel(
         // metricsInfoTile
         Rn3ExpandableSurface(
             content = {
-                Icon(Outlined.Info, null)
-                Spacer(Modifier.width(16.dp))
-                Text(stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title))
+                Icon(imageVector = Outlined.Info, contentDescription = null)
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(text = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title))
             },
             expandedContent = {
                 Text(
-                    config.getString("metrics_info_short"),
-                    Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
+                    text = config.getString("metrics_info_short"),
+                    modifier = Modifier.padding(Rn3TileSmallHeaderDefaults.paddingValues.copy(top = 0.dp)),
                 )
             },
         )
@@ -214,14 +214,14 @@ private fun DataAndPrivacySettingsPanel(
         // crashlyticsInfoTile
         Rn3ExpandableSurface(
             content = {
-                Icon(Outlined.Info, null)
-                Spacer(Modifier.width(16.dp))
-                Text(stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title))
+                Icon(imageVector = Outlined.Info, contentDescription = null)
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(text = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title))
             },
             expandedContent = {
                 Text(
-                    config.getString("crashlytics_info_short"),
-                    Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
+                    text = config.getString("crashlytics_info_short"),
+                    modifier = Modifier.padding(Rn3TileSmallHeaderDefaults.paddingValues.copy(top = 0.dp)),
                 )
             },
         )
@@ -241,7 +241,7 @@ private fun DataAndPrivacySettingsPanel(
         // privacyPolicySummaryTile
         Card(
             modifier = Modifier
-                .padding(vertical = 8.dp, horizontal = 16.dp)
+                .padding(Rn3ExpandableSurfaceDefaults.paddingValues)
                 .fillMaxWidth(),
         ) {
             Column {
@@ -251,7 +251,7 @@ private fun DataAndPrivacySettingsPanel(
                 )
                 Text(
                     text = config.getString("privacy_policy_short"),
-                    Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
+                    modifier = Modifier.padding(Rn3TileSmallHeaderDefaults.paddingValues.copy(top = 0.dp)),
                 )
             }
         }

@@ -20,7 +20,8 @@ package dev.rahmouni.neil.counters.core.designsystem.component.tile
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -60,12 +61,12 @@ fun Rn3TileClickConfirmationDialog(
             Text(text = bodyHeader)
             bodyBulletPoints.forEach { (icon, text) ->
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Spacer(modifier = Modifier.height(2.dp))
+
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        modifier = Modifier
-                            .padding(top = 2.dp)
-                            .size(SuggestionChipDefaults.IconSize),
+                        modifier = Modifier.size(SuggestionChipDefaults.IconSize),
                         tint = MaterialTheme.colorScheme.secondary,
                     )
 

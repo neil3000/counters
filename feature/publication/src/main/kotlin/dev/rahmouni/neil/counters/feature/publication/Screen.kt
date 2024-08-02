@@ -68,10 +68,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3OutlinedTextField
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rebased.FeedType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
 import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
@@ -325,7 +327,7 @@ internal fun PublicationScreen(
                         }
                     }
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                    .padding(Rn3ExpandableSurfaceDefaults.paddingValues),
                 value = currentDescription,
                 onValueChange = { newText -> currentDescription = newText },
                 maxCharacters = 500,

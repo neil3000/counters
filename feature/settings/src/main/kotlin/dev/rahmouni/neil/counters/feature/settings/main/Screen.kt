@@ -29,11 +29,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Outlined
@@ -301,18 +300,19 @@ private fun SettingsPanel(
                         )
                     }
                 },
-                tonalElevation = 4.dp,
             )
 
             else -> Surface(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(Rn3ExpandableSurfaceDefaults.paddingValues),
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.surfaceContainer,
+                shape = Rn3ExpandableSurfaceDefaults.shape,
+                tonalElevation = Rn3ExpandableSurfaceDefaults.tonalElevation,
             ) {
                 Row(
-                    Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                    modifier = Modifier
+                        .padding(Rn3TileSmallHeaderDefaults.paddingValues)
+                        .defaultMinSize(minHeight = 44.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -340,7 +340,7 @@ private fun SettingsPanel(
                             Rn3ExpandableSurfaceDefaults.tonalElevation,
                         )
                     },
-                    label = "Rn3ExpandableSurfaceDefaults background color",
+                    label = "Rn3UpdateTileDefaults background color",
                 )
 
                 Surface(
@@ -356,7 +356,7 @@ private fun SettingsPanel(
                                 haptics.click()
                                 onUpdateAvailableTileClicked()
                             }
-                            .padding(Rn3TileSmallHeaderDefaults.paddingValues),
+                            .padding(Rn3ExpandableSurfaceDefaults.paddingValues),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
@@ -368,6 +368,11 @@ private fun SettingsPanel(
                                 NoUpdateAvailable -> "RahNeil_N3:GsKMAaulylNilvukEZCbJI4jWLXbRRzb"
                             },
                             style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(
+                                Rn3TileSmallHeaderDefaults.paddingValues.copy(
+                                    start = 0.dp,
+                                ),
+                            ),
                         )
 
                         when (this@with) {

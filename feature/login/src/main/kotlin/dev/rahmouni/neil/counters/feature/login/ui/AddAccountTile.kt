@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.rn3ShrinkVerticallyTransition
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCorners
@@ -45,7 +46,10 @@ import dev.rahmouni.neil.counters.feature.login.R.string
 internal fun AddAccountTile(expanded: Boolean, shape: Rn3RoundedCorners, onClick: () -> Unit) {
     val haptics = getHaptic()
 
-    Surface(tonalElevation = 8.dp, shape = shape.toComposeShape()) {
+    Surface(
+        tonalElevation = Rn3ExpandableSurfaceDefaults.tonalElevation,
+        shape = shape.toComposeShape(),
+    ) {
         Row(
             Modifier
                 .fillMaxWidth()

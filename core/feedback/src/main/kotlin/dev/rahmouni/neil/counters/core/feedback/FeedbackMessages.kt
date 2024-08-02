@@ -21,7 +21,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -35,6 +36,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
 
 @Composable
@@ -44,9 +48,11 @@ internal fun FeedbackMessages(messages: List<String>) {
         trigger = true
     }
 
+    Spacer(modifier = Modifier.height(16.dp))
+
     Column(
-        modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp),
+        modifier = Modifier.padding(Rn3ExpandableSurfaceDefaults.paddingValues),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         messages.forEachIndexed { index, message ->
             AnimatedVisibility(
@@ -63,12 +69,12 @@ internal fun FeedbackMessages(messages: List<String>) {
                 },
             ) {
                 Surface(
-                    color = MaterialTheme.colorScheme.surfaceContainer,
+                    tonalElevation = Rn3ExpandableSurfaceDefaults.tonalElevation,
                     shape = RoundedCornerShape(8.dp),
                 ) {
                     Text(
                         text = message,
-                        modifier =Modifier.padding(vertical = 10.dp, horizontal = 14.dp),
+                        modifier = Modifier.padding(Rn3TileSmallHeaderDefaults.paddingValues),
                         style = MaterialTheme.typography.labelMedium.copy(
                             fontWeight = FontWeight.Normal,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,

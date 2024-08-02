@@ -45,11 +45,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
@@ -62,6 +64,7 @@ fun Rn3ExpandableSurface(
     expandedContent: @Composable AnimatedVisibilityScope.() -> Unit,
     paddingValues: Rn3PaddingValues = Rn3ExpandableSurfaceDefaults.paddingValues,
     tonalElevation: Dp = Rn3ExpandableSurfaceDefaults.tonalElevation,
+    shape: Shape = Rn3ExpandableSurfaceDefaults.shape,
 ) {
     val haptic = getHaptic()
 
@@ -78,7 +81,7 @@ fun Rn3ExpandableSurface(
             .fillMaxWidth()
             .padding(paddingValues),
         tonalElevation = tonalElevation,
-        shape = Rn3ExpandableSurfaceDefaults.shape,
+        shape = shape,
     ) {
         Column(
             modifier = Modifier.toggleable(
@@ -133,7 +136,11 @@ private fun Default() {
                 expandedContent = {
                     Text(
                         text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nec leo justo. Praesent consequat et tortor sit amet sodales. Praesent pulvinar gravida metus, ac pretium dolor.",
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        modifier = Modifier.padding(
+                            Rn3TileSmallHeaderDefaults.paddingValues.copy(
+                                top = 0.dp,
+                            ),
+                        ),
                     )
                 },
             )

@@ -65,6 +65,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.TRANSPARENT
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCorners
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCornersSurfaceGroup
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCornersSurfaceGroupDefaults
@@ -225,7 +226,7 @@ private fun LoginPanel(
                 stringResource(string.feature_login_welcomeMessage_start) + stringResource(string.feature_login_welcomeMessage_appName) + stringResource(
                     string.feature_login_welcomeMessage_ending,
                 ),
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(Rn3TileSmallHeaderDefaults.paddingValues),
                 style = MaterialTheme.typography.titleLarge,
             )
 
@@ -235,14 +236,15 @@ private fun LoginPanel(
                 stringResource(string.feature_login_choose),
                 paddingValues = Rn3TileSmallHeaderDefaults.paddingValues.copy(
                     start = 8.dp,
-                    bottom = 6.dp,
+                    bottom = 10.dp,
                 ),
             )
             AnonymousTile(Rn3RoundedCorners(all = Rn3RoundedCornersSurfaceGroupDefaults.roundedCornerExternal)) {
                 onConfirmSignIn(true)
             }
 
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(16.dp))
+
             Rn3RoundedCornersSurfaceGroup {
                 item(user is SignedInUser) {
                     user.Tile(shape = it) { onConfirmSignIn(false) }

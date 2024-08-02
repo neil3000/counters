@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Feedback
@@ -54,7 +53,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.R.string
 import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackContextPage
 import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackDescriptionPage
@@ -88,11 +89,11 @@ fun FeedbackBottomSheet(
         dragHandle = {},
     ) {
         Column {
-            Surface(tonalElevation = 2.dp) {
+            Surface(tonalElevation = Rn3ExpandableSurfaceDefaults.tonalElevation) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
+                        .padding(Rn3ExpandableSurfaceDefaults.paddingValues.copy(end = 0.dp)),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = spacedBy(16.dp),
                 ) {

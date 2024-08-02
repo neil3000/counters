@@ -70,7 +70,10 @@ fun Rn3Dialog(
             },
             text = body,
             confirmButton = {
-                Column(Modifier.fillMaxWidth(), Arrangement.spacedBy(8.dp)) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
                     Rn3LargeButton(
                         text = stringResource(string.core_designsystem_confirmationDialog_cancelButton_text),
                         icon = Icons.Outlined.Close,

@@ -64,10 +64,12 @@ import dev.rahmouni.neil.counters.core.common.toRn3Uri
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LargeButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3OutlinedTextField
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
@@ -184,6 +186,7 @@ private fun InformationForm(
                 showFullLabelPhoneCode = false
             }
         }
+
         Rn3ExpandableSurface(
             content = {
                 Icon(imageVector = Outlined.Info, contentDescription = null)
@@ -193,7 +196,11 @@ private fun InformationForm(
             expandedContent = {
                 Column {
                     Text(
-                        modifier = Modifier.padding(horizontal = 16.dp),
+                        modifier = Modifier.padding(
+                            Rn3TileSmallHeaderDefaults.paddingValues.copy(
+                                top = 0.dp,
+                            ),
+                        ),
                         text = "The core functionality of our application is based on your location",
                     )
                     Rn3TileUri(
@@ -392,10 +399,10 @@ private fun InformationForm(
         }
 
      Rn3LargeButton(
-         modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp),
+         modifier = Modifier.padding(Rn3ExpandableSurfaceDefaults.paddingValues),
          text = "Save",
          icon = Outlined.Check,
-         color = MaterialTheme.colorScheme.primary,
+         color = MaterialTheme.colorScheme.primaryContainer,
      ) {
          hasUserInteracted = true
          if (address.country != null && address.street.isNotEmpty() && address.locality.isNotEmpty()) {
