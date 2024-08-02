@@ -126,7 +126,7 @@ fun FeedbackBottomSheet(
                     targetState = page,
                     transitionSpec = {
                         (expandVertically { height -> height } + fadeIn()).togetherWith(
-                            shrinkVertically { height -> height } + fadeOut(),
+                            exit = shrinkVertically { height -> height } + fadeOut(),
                         )
                             .using(SizeTransform(clip = false))
                     },

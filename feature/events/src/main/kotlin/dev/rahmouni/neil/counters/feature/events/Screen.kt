@@ -64,7 +64,7 @@ internal fun EventsRoute(
     navigateToConnect: () -> Unit,
     navigateToFriends: () -> Unit,
     navigateToPublication: () -> Unit,
-    navigateToLocal: () -> Unit,
+    navigateToPublic: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -81,7 +81,7 @@ internal fun EventsRoute(
         onConnectBottomBarItemClicked = navigateToConnect,
         onFriendsBottomBarItemClicked = navigateToFriends,
         onAddBottomBarItemClicked = navigateToPublication,
-        onLocalBottomBarItemClicked = navigateToLocal,
+            onPublicBottomBarItemClicked = navigateToPublic,
     )
     }
 
@@ -98,7 +98,7 @@ internal fun EventsScreen(
     onConnectBottomBarItemClicked: () -> Unit = {},
     onFriendsBottomBarItemClicked: () -> Unit = {},
     onAddBottomBarItemClicked: () -> Unit = {},
-    onLocalBottomBarItemClicked: () -> Unit = {},
+    onPublicBottomBarItemClicked: () -> Unit = {},
 ) {
     val haptics = getHaptic()
     val context = LocalContext.current
@@ -159,7 +159,7 @@ internal fun EventsScreen(
             BottomBarItem(
                 icon = Filled.Public,
                 label = stringResource(string.feature_events_bottomBar_public),
-                onClick = onLocalBottomBarItemClicked,
+                onClick = onPublicBottomBarItemClicked,
             ),
             BottomBarItem(
                 icon = Filled.Event,

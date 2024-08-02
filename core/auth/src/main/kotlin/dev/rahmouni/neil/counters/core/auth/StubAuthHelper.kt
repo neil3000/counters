@@ -29,13 +29,13 @@ import javax.inject.Singleton
 class StubAuthHelper @Inject constructor() : AuthHelper {
 
     override suspend fun quickFirstSignIn(context: Context) =
-        throw NotImplementedError("Not available in Preview")
+        throw NotImplementedError(message = "Not available in Preview")
 
     override suspend fun signIn(context: Context, anonymously: Boolean) =
-        throw NotImplementedError("Not available in Preview")
+        throw NotImplementedError(message = "Not available in Preview")
 
     override suspend fun signOut(context: Context) =
-        throw NotImplementedError("Not available in Preview")
+        throw NotImplementedError(message = "Not available in Preview")
 
     override fun getUser(): dev.rahmouni.neil.counters.core.user.Rn3User =
         dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser(
@@ -47,5 +47,5 @@ class StubAuthHelper @Inject constructor() : AuthHelper {
         )
 
     override fun getUserFlow(): Flow<dev.rahmouni.neil.counters.core.user.Rn3User> =
-        throw NotImplementedError("Not available in Preview")
+        throw NotImplementedError(message = "Not available in Preview")
 }

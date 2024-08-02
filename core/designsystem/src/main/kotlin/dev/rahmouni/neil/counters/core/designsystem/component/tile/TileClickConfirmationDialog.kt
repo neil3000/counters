@@ -57,19 +57,19 @@ fun Rn3TileClickConfirmationDialog(
         onClick = onClick,
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text(bodyHeader)
+            Text(text = bodyHeader)
             bodyBulletPoints.forEach { (icon, text) ->
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     Icon(
-                        icon,
-                        null,
-                        Modifier
+                        imageVector = icon,
+                        contentDescription = null,
+                        modifier = Modifier
                             .padding(top = 2.dp)
                             .size(SuggestionChipDefaults.IconSize),
                         tint = MaterialTheme.colorScheme.secondary,
                     )
 
-                    Text(text.toRn3FormattedString())
+                    Text(text = text.toRn3FormattedString())
                 }
             }
         }

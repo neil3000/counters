@@ -78,103 +78,104 @@ fun NavHost(
     val navController = appState.navController
 
     LaunchedEffect(Unit) {
-        delay(100)
-        navController.navigate(if (auth.getUser() is LoggedOutUser) LOGIN_ROUTE else routes[pageCount]) {
+        delay(timeMillis = 100)
+        navController.navigate(route = if (auth.getUser() is LoggedOutUser) LOGIN_ROUTE else routes[pageCount]) {
             if (pageCount < routes.size - 1) pageCount + 1
-            popUpTo("SPLASHSCREEN_SET_ROUTE") { inclusive = true }
+            popUpTo(route = "SPLASHSCREEN_SET_ROUTE") { inclusive = true }
         }
     }
 
     Scaffold {
         SharedTransitionLayout {
-            CompositionLocalProvider(LocalSharedTransitionScope provides this) {
+            CompositionLocalProvider(value = LocalSharedTransitionScope provides this) {
                 NavHost(
                     navController = navController,
                     startDestination = "SPLASHSCREEN_SET_ROUTE",
                     modifier = modifier,
                 ) {
                     connectScreen(
-                        navController,
-                        navController::navigateToSettings,
-                        { navController.navigateToFriendsFeed {} },
-                        navController::navigateToPublication,
-                        { navController.navigateToPublicFeed {} },
-                        navController::navigateToEvents,
+                        navController = navController,
+                        navigateToSettings = navController::navigateToSettings,
+                        navigateToFriends = { navController.navigateToFriendsFeed {} },
+                        navigateToPublication = navController::navigateToPublication,
+                        navigateToPublic = { navController.navigateToPublicFeed {} },
+                        navigateToEvents = navController::navigateToEvents,
+                        navigateToLogin = navController::navigateToLogin,
                     )
                     friendsFeedScreen(
-                        navController,
-                        navController::navigateToSettings,
-                        navController::navigateToConnect,
-                        navController::navigateToPublication,
-                        { navController.navigateToPublicFeed {} },
-                        navController::navigateToEvents,
+                        navController = navController,
+                        navigateToSettings = navController::navigateToSettings,
+                        navigateToConnect = navController::navigateToConnect,
+                        navigateToPublication = navController::navigateToPublication,
+                        navigateToPublic = { navController.navigateToPublicFeed {} },
+                        navigateToEvents = navController::navigateToEvents,
                     )
                     publicFeedScreen(
-                        navController,
-                        navController::navigateToSettings,
-                        navController::navigateToConnect,
-                        { navController.navigateToFriendsFeed {} },
-                        navController::navigateToPublication,
-                        navController::navigateToEvents,
+                        navController = navController,
+                        navigateToSettings = navController::navigateToSettings,
+                        navigateToConnect = navController::navigateToConnect,
+                        navigateToFriends = { navController.navigateToFriendsFeed {} },
+                        navigateToPublication = navController::navigateToPublication,
+                        navigateToEvents = navController::navigateToEvents,
                     )
                     eventsScreen(
-                        navController,
-                        navController::navigateToSettings,
-                        navController::navigateToConnect,
-                        { navController.navigateToFriendsFeed {} },
-                        navController::navigateToPublication,
-                        { navController.navigateToPublicFeed {} },
+                        navController = navController,
+                        navigateToSettings = navController::navigateToSettings,
+                        navigateToConnect = navController::navigateToConnect,
+                        navigateToFriends = { navController.navigateToFriendsFeed {} },
+                        navigateToPublication = navController::navigateToPublication,
+                        navigateToPublic = { navController.navigateToPublicFeed {} },
                     )
 
                     publicationScreen(
-                        navController,
-                        navController::navigateToSettings,
-                        { navController.navigateToPublicFeed {} },
-                        { navController.navigateToFriendsFeed {} },
-                        navController::navigateToEvents
+                        navController = navController,
+                        navigateToSettings = navController::navigateToSettings,
+                        navigateToPublic = { navController.navigateToPublicFeed {} },
+                        navigateToFriends = { navController.navigateToFriendsFeed {} },
+                        navigateToEvents = navController::navigateToEvents,
                     )
 
-                    loginScreen(navController) {
+                    loginScreen(navController = navController) {
                         if (pageCount < routes.size - 1) pageCount++
-                        navController.navigate(routes[pageCount]) {
-                            popUpTo(LOGIN_ROUTE) { inclusive = true }
+                        navController.navigate(route = routes[pageCount]) {
+                            popUpTo(route = LOGIN_ROUTE) { inclusive = true }
                         }
                     }
 
-                    informationScreen(navController) {
+                    informationScreen(navController = navController) {
                         if (pageCount < routes.size - 1) pageCount++
-                        navController.navigate(routes[pageCount]) {
-                            popUpTo(INFORMATION_ROUTE) { inclusive = true }
+                        navController.navigate(route = routes[pageCount]) {
+                            popUpTo(route = INFORMATION_ROUTE) { inclusive = true }
                         }
                     }
 
                     settingsNavigation(
-                        navController,
-                        navController::navigateToLogin,
-                        navController::navigateToInformation,
+                        navController = navController,
+                        navigateToLogin = navController::navigateToLogin,
+                        navigateToInformation = navController::navigateToInformation,
                     )
 
-                    feedbackDialog(navController)
+                    feedbackDialog(navController = navController)
 
-                    composable("SPLASHSCREEN_SET_ROUTE") {
+                    composable(route = "SPLASHSCREEN_SET_ROUTE") {
                         val context = LocalContext.current
 
                         Box(
-                            Modifier
+                            modifier = Modifier
                                 .background(
-                                    Color(
-                                        ContextCompat.getColor(
+                                    color = Color(
+                                        color = ContextCompat.getColor(
                                             context,
                                             color.ic_launcher_background,
                                         ),
                                     ),
                                 )
                                 .sharedElement(
-                                    rememberSharedContentState(key = "Logo_background"),
+                                    state = rememberSharedContentState(key = "Logo_background"),
                                     animatedVisibilityScope = this@composable,
                                 ),
                         ) {
-                            Spacer(Modifier.fillMaxSize())
+                            Spacer(modifier = Modifier.fillMaxSize())
                         }
                     }
                 }

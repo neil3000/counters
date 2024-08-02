@@ -64,6 +64,7 @@ internal fun FeedbackDescriptionPage(
 
     Column {
         FeedbackMessages(
+            messages =
             listOf(
                 if (bug) {
                     stringResource(string.core_feedback_descriptionPage_bugMessage)
@@ -93,7 +94,7 @@ internal fun FeedbackDescriptionPage(
         )
 
         Row(
-            Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             horizontalArrangement = spacedBy(8.dp),
         ) {
             FilledTonalButton(
@@ -102,17 +103,17 @@ internal fun FeedbackDescriptionPage(
                     previousPage(currentDescription)
                 },
             ) {
-                Text(stringResource(string.core_feedback_backButton_title))
+                Text(text = stringResource(string.core_feedback_backButton_title))
             }
             Button(
                 onClick = {
                     haptic.click()
                     nextPage(currentDescription)
                 },
-                Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 enabled = currentDescription.isNotBlank(),
             ) {
-                Text(stringResource(string.core_feedback_continueButton_title))
+                Text(text = stringResource(string.core_feedback_continueButton_title))
             }
         }
     }

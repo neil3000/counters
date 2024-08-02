@@ -59,7 +59,7 @@ internal fun FeedbackContextPage(
     var sendAdditionalInfoValue by rememberSaveable { mutableStateOf(sendAdditionalInfo) }
 
     Column {
-        FeedbackMessages(listOf(stringResource(string.core_feedback_contextPage_contextMessage)))
+        FeedbackMessages(messages = listOf(stringResource(string.core_feedback_contextPage_contextMessage)))
 
         if (hasContext) {
             Rn3TileSwitch(
@@ -111,7 +111,7 @@ internal fun FeedbackContextPage(
                     )
                 },
             ) {
-                Text(stringResource(string.core_feedback_backButton_title))
+                Text(text = stringResource(string.core_feedback_backButton_title))
             }
             Button(
                 onClick = {
@@ -122,9 +122,9 @@ internal fun FeedbackContextPage(
                         sendAdditionalInfoValue,
                     )
                 },
-                Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
             ) {
-                Text(stringResource(string.core_feedback_continueButton_title))
+                Text(text = stringResource(string.core_feedback_continueButton_title))
             }
         }
     }

@@ -33,7 +33,7 @@ fun NavGraphBuilder.publicFeedScreen(
     navController: NavController,
     navigateToSettings: () -> Unit,
     navigateToConnect: () -> Unit,
-    navigateToFiends: () -> Unit,
+    navigateToFriends: () -> Unit,
     navigateToPublication: () -> Unit,
     navigateToEvents: () -> Unit,
 ) {
@@ -43,7 +43,7 @@ fun NavGraphBuilder.publicFeedScreen(
                 navController = navController,
                 navigateToSettings = navigateToSettings,
                 navigateToConnect = navigateToConnect,
-                navigateToFriends = navigateToFiends,
+                navigateToFriends = navigateToFriends,
                 navigateToPublication = navigateToPublication,
                 navigateToEvents = navigateToEvents,
             )

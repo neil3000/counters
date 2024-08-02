@@ -62,7 +62,7 @@
     <string name="feature_settings_settingsScreen_accessibilityTile_title">Accessibility</string>
     <string name="feature_settings_settingsScreen_accountLoginTile_loginButton_text">Login</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_body_actionCannotBeUndone">This action *cannot be undone.*</string>
-    <string name="feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvailableOnOtherDevices">Your Counters *won\'t be available* on your *other devices*.</string>
+    <string name="feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvailableOnOtherDevices">Your Friends *won\'t be available* on your *other devices*.</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_body_currentDataStoredLocallyAndContinueToWorkOnDevice">Your current data will still be stored locally and continue to work on this device.</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_bodyHeader">If you sign out:</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_body_mayLoseDataIfSomethingHappensToDevice">You *may lose your data* if something happens to this device.</string>

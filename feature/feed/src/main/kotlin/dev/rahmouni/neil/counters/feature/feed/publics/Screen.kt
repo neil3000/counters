@@ -221,7 +221,7 @@ private fun PublicFeedPanel(
                 location = "London",
                 timestamp = LocalDateTime.now().minusMinutes(30),
                 content = "I'm selling my road bike in excellent condition! It's perfect for anyone looking to explore the city or commute efficiently. Details: Brand - Trek, Model - Emonda, Year - 2020, Color - Black. Contact me if interested!",
-                postType = PostType.BUTTONS,
+                postType = PostType.CONTACT,
                 additionalInfos = listOf("I'm interested"),
                 feed = FeedType.PUBLIC,
             ),

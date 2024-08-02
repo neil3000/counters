@@ -17,13 +17,15 @@
 
 package dev.rahmouni.neil.counters.core.model.data
 
-enum class Country(val text: String, val isoCode: String, val phoneCode: Int) {
-    FRANCE(text = "France", isoCode = "FR", phoneCode = 33),
-    BELGIUM(text = "Belgium", isoCode = "BE", phoneCode = 32),
-    UNITED_KINGDOM(text = "United Kingdom", isoCode = "GB", phoneCode = 44),
-    USA(text = "United States", isoCode = "US", phoneCode = 1);
+enum class Country(val isoCode: String, val phoneCode: Int) {
+    FRANCE(isoCode = "FR", phoneCode = 33),
+    BELGIUM(isoCode = "BE", phoneCode = 32),
+    UNITED_KINGDOM(isoCode = "GB", phoneCode = 44),
+    USA(isoCode = "US", phoneCode = 1);
 
     companion object {
-        val isoMap = entries.associateBy(Country::isoCode)
+        private val isoMap by lazy { entries.associateBy(Country::isoCode) }
+
+        fun getCountryFromIso(isoCode: String): Country? = isoMap[isoCode]
     }
 }

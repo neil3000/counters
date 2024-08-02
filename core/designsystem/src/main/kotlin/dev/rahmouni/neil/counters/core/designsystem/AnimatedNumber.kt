@@ -42,18 +42,18 @@ fun AnimatedNumber(
             if (targetState > initialState) {
                 (
                         slideInVertically { height -> (height / 1.8f).toInt() } +
-                                fadeIn(tween(200))
+                                fadeIn(animationSpec = tween(durationMillis = 200))
                         ).togetherWith(
-                        slideOutVertically { height -> -(height / 1.8f).toInt() } +
-                                fadeOut(tween(150)),
+                        exit = slideOutVertically { height -> -(height / 1.8f).toInt() } +
+                                fadeOut(animationSpec = tween(durationMillis = 150)),
                     )
             } else {
                 (
                         slideInVertically { height -> -(height / 1.8f).toInt() } +
-                                fadeIn(tween(200))
+                                fadeIn(animationSpec = tween(durationMillis = 200))
                         ).togetherWith(
-                        slideOutVertically { height -> (height / 1.8f).toInt() } +
-                                fadeOut(tween(150)),
+                        exit = slideOutVertically { height -> (height / 1.8f).toInt() } +
+                                fadeOut(animationSpec = tween(durationMillis = 150)),
                     )
             }.using(SizeTransform(clip = false))
         },

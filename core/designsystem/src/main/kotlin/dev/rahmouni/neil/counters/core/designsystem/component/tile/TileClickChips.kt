@@ -58,7 +58,7 @@ fun Rn3TileClickChips(
         modifier,
         title,
         {
-            Icon(imageVector = icon, null)
+            Icon(imageVector = icon, contentDescription = null)
         },
         external,
         onClick,

@@ -29,7 +29,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
 import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
-import dev.rahmouni.neil.counters.core.designsystem.rebased.getCountryFromIso
+import dev.rahmouni.neil.counters.core.designsystem.rebased.text
 import dev.rahmouni.neil.counters.core.model.data.Country
 
 @Composable
@@ -73,7 +73,7 @@ fun Publication(post: Post, friendRepository: List<Friend>, enabled: Boolean) {
                     } else {
                         if (post.sharingScope == SharingScope.COUNTRY) {
                             Text(
-                                text = Country.getCountryFromIso(post.location)?.text
+                                text = Country.getCountryFromIso(post.location)?.text()
                                     ?: "Country not found",
                                 fontWeight = FontWeight.Bold,
                             )
@@ -98,7 +98,7 @@ fun Publication(post: Post, friendRepository: List<Friend>, enabled: Boolean) {
                 modifier = Modifier.padding(end = 8.dp),
             )
             if (post.additionalInfos.isNotEmpty()) {
-                if (post.postType == PostType.BUTTONS) {
+                if (post.postType == PostType.CONTACT) {
                     Row(
                         modifier = Modifier
                             .padding(top = 14.dp)

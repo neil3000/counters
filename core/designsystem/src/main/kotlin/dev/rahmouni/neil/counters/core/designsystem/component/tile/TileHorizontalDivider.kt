@@ -36,7 +36,7 @@ fun Rn3TileHorizontalDivider(
     paddingValues: Rn3PaddingValues = Rn3TileHorizontalDividerDefaults.paddingValues,
 ) {
     HorizontalDivider(
-        modifier.padding(paddingValues),
+        modifier = modifier.padding(paddingValues),
         color = color,
     )
 }

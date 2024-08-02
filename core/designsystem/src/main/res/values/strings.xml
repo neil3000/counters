@@ -18,7 +18,7 @@
 <resources>
     <string name="core_designsystem_confirmationDialog_cancelButton_text">Cancel</string>
     <string name="core_designsystem_confirmationDialog_title">Are you sure?</string>
-    <string name="core_designsystem_largeTopAppBar_navigationIcon_iconButton_arrowBack_contentDescription">Go back</string>
+    <string name="core_designsystem_topAppBar_navigationIcon_iconButton_arrowBack_contentDescription">Go back</string>
     <string name="core_designsystem_tileUri_inMaintenance_supportingText">In maintenance, check back later ~</string>
     <string name="core_designsystem_tileUri_soonAvailable_supportingText">Available soon ~</string>
     <string name="core_designsystem_tileUri_unavailable_supportingText">Unavailable for now, check back later</string>
@@ -28,4 +28,20 @@
     <string name="core_designsystem_timeElapsed_now">now</string>
     <string name="core_designsystem_limitCharactersReached">The limit of %1$s characters has been reached</string>
     <string name="core_designsystem_pleaseFillout">Please fill out this field</string>
+    <string name="core_designsystem_countryText_france">France</string>
+    <string name="core_designsystem_countryText_belgium">Belgium</string>
+    <string name="core_designsystem_countryText_unitedKingdom">United Kingdom</string>
+    <string name="core_designsystem_countryText_unitedStates">United States</string>
+    <string name="core_designsystem_topAppBar_actions_iconButton_moreVert_contentDescription">See more</string>
+    <string name="core_designsystem_feedType_public">Public</string>
+    <string name="core_designsystem_feedType_friends">Friends</string>
+    <string name="core_designsystem_feedType_events">Events</string>
+    <string name="core_designsystem_sharingScope_global">Global</string>
+    <string name="core_designsystem_sharingScope_country">Country</string>
+    <string name="core_designsystem_sharingScope_region">Region</string>
+    <string name="core_designsystem_sharingScope_city">City</string>
+    <string name="core_designsystem_sharingScope_district">District</string>
+    <string name="core_designsystem_sharingScope_neighborhood">Neighborhood</string>
+    <string name="core_designsystem_sharingScope_street">Street</string>
+    <string name="core_designsystem_sharingScope_building">Building</string>
 </resources>

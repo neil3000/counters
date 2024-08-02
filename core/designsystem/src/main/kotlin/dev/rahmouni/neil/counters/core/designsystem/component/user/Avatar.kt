@@ -44,11 +44,11 @@ fun Rn3User.Avatar() {
                 .clip(CircleShape),
         )
 
-        else -> Icon(Icons.Outlined.NoAccounts, null)
+        else -> Icon(imageVector = Icons.Outlined.NoAccounts, contentDescription = null)
     }
 }
 
 @Composable
 private fun FallbackPfp() {
-    Icon(Icons.Outlined.AccountCircle, null)
+    Icon(imageVector = Icons.Outlined.AccountCircle, contentDescription = null)
 }

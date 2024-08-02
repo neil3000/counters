@@ -34,7 +34,7 @@ fun NavGraphBuilder.friendsFeedScreen(
     navigateToSettings: () -> Unit,
     navigateToConnect: () -> Unit,
     navigateToPublication: () -> Unit,
-    navigateToLocal: () -> Unit,
+    navigateToPublic: () -> Unit,
     navigateToEvents: () -> Unit,
 ) {
     composable(route = FRIENDSFEED_ROUTE) {
@@ -44,7 +44,7 @@ fun NavGraphBuilder.friendsFeedScreen(
                 navigateToSettings = navigateToSettings,
                 navigateToConnect = navigateToConnect,
                 navigateToPublication = navigateToPublication,
-                navigateToLocal = navigateToLocal,
+                navigateToPublic = navigateToPublic,
                 navigateToEvents = navigateToEvents,
             )
         }

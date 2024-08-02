@@ -79,7 +79,7 @@ internal fun FriendsFeedRoute(
     navigateToSettings: () -> Unit,
     navigateToConnect: () -> Unit,
     navigateToPublication: () -> Unit,
-    navigateToLocal: () -> Unit,
+    navigateToPublic: () -> Unit,
     navigateToEvents: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -96,7 +96,7 @@ internal fun FriendsFeedRoute(
         onSettingsTopAppBarActionClicked = navigateToSettings,
         onConnectBottomBarItemClicked = navigateToConnect,
         onAddBottomBarItemClicked = navigateToPublication,
-        onLocalBottomBarItemClicked = navigateToLocal,
+            onPublicBottomBarItemClicked = navigateToPublic,
         onEventsBottomBarItemClicked = navigateToEvents,
     )
     }
@@ -113,7 +113,7 @@ internal fun FriendsFeedScreen(
     onSettingsTopAppBarActionClicked: () -> Unit = {},
     onConnectBottomBarItemClicked: () -> Unit = {},
     onAddBottomBarItemClicked: () -> Unit = {},
-    onLocalBottomBarItemClicked: () -> Unit = {},
+    onPublicBottomBarItemClicked: () -> Unit = {},
     onEventsBottomBarItemClicked: () -> Unit = {},
 ) {
     val haptics = getHaptic()
@@ -176,7 +176,7 @@ internal fun FriendsFeedScreen(
             BottomBarItem(
                 icon = Filled.Public,
                 label = stringResource(string.feature_feed_bottomBar_public),
-                onClick = onLocalBottomBarItemClicked,
+                onClick = onPublicBottomBarItemClicked,
             ),
             BottomBarItem(
                 icon = Filled.Event,
@@ -221,7 +221,7 @@ private fun FriendsFeedPanel(
                 location = "London",
                 timestamp = LocalDateTime.now().minusMinutes(30),
                 content = "I'm selling my road bike in excellent condition! It's perfect for anyone looking to explore the city or commute efficiently. Details: Brand - Trek, Model - Emonda, Year - 2020, Color - Black. Contact me if interested!",
-                postType = PostType.BUTTONS,
+                postType = PostType.CONTACT,
                 additionalInfos = listOf("I'm interested"),
                 feed = FeedType.FRIENDS,
             ),

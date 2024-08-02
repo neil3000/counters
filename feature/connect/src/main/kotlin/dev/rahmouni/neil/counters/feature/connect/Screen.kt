@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.Icons.Outlined
@@ -49,6 +50,8 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -80,6 +83,7 @@ import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.component.user.UserAvatarAndName
 import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
@@ -105,26 +109,28 @@ internal fun ConnectRoute(
     navigateToSettings: () -> Unit,
     navigateToFriends: () -> Unit,
     navigateToPublication: () -> Unit,
-    navigateToLocal: () -> Unit,
+    navigateToPublic: () -> Unit,
     navigateToEvents: () -> Unit,
+    navigateToLogin: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (uiState) {
         Loading -> {}
         is Success -> ConnectScreen(
-        modifier,
-            (uiState as Success).connectData,
-        feedbackTopAppBarAction = FeedbackScreenContext(
-            "ConnectScreen",
-            "oujWHHHpuFbChUEYhyGX39V2exJ299Dw",
-        ).toTopAppBarAction(navController::navigateToFeedback),
-        onSettingsTopAppBarActionClicked = navigateToSettings,
-        onFriendsBottomBarItemClicked = navigateToFriends,
-        onAddBottomBarItemClicked = navigateToPublication,
-        onLocalBottomBarItemClicked = navigateToLocal,
-        onEventsBottomBarItemClicked = navigateToEvents,
-    )
+            modifier = modifier,
+            data = (uiState as Success).connectData,
+            feedbackTopAppBarAction = FeedbackScreenContext(
+                localName = "ConnectScreen",
+                localID = "oujWHHHpuFbChUEYhyGX39V2exJ299Dw",
+            ).toTopAppBarAction(navController::navigateToFeedback),
+            onSettingsTopAppBarActionClicked = navigateToSettings,
+            onFriendsBottomBarItemClicked = navigateToFriends,
+            onAddBottomBarItemClicked = navigateToPublication,
+            onPublicBottomBarItemClicked = navigateToPublic,
+            onEventsBottomBarItemClicked = navigateToEvents,
+            onAccountTileLoginButtonClicked = navigateToLogin,
+        )
     }
 
     TrackScreenViewEvent(screenName = "connect")
@@ -139,13 +145,14 @@ internal fun ConnectScreen(
     onSettingsTopAppBarActionClicked: () -> Unit = {},
     onFriendsBottomBarItemClicked: () -> Unit = {},
     onAddBottomBarItemClicked: () -> Unit = {},
-    onLocalBottomBarItemClicked: () -> Unit = {},
+    onPublicBottomBarItemClicked: () -> Unit = {},
     onEventsBottomBarItemClicked: () -> Unit = {},
+    onAccountTileLoginButtonClicked: () -> Unit = {},
 ) {
     val haptics = getHaptic()
     val context = LocalContext.current
 
-    val fabExpanded = remember { mutableStateOf(true) }
+    val fabExpanded = remember { mutableStateOf(value = true) }
 
     val add = when (data.user) {
         is SignedInUser -> BottomBarItem(
@@ -215,7 +222,7 @@ internal fun ConnectScreen(
             BottomBarItem(
                 icon = Filled.Public,
                 label = stringResource(string.feature_connect_bottomBar_public),
-                onClick = onLocalBottomBarItemClicked,
+                onClick = onPublicBottomBarItemClicked,
             ),
             BottomBarItem(
                 icon = Filled.Event,
@@ -225,16 +232,26 @@ internal fun ConnectScreen(
         ),
         topAppBarStyle = HOME,
     ) {
-        ColumnPanel(it, data, context)
+        ColumnPanel(
+            paddingValues = it,
+            data = data,
+            context = context,
+            onAccountTileLoginButtonClicked = onAccountTileLoginButtonClicked,
+        )
     }
 }
 
 @Composable
-private fun ColumnPanel(paddingValues: Rn3PaddingValues, data : ConnectData, context: Context) {
-    val morphCursor by remember { mutableIntStateOf(0) }
-    val morphProgress = remember { Animatable(0f) }
+private fun ColumnPanel(
+    paddingValues: Rn3PaddingValues,
+    data: ConnectData,
+    context: Context,
+    onAccountTileLoginButtonClicked: () -> Unit,
+) {
+    val morphCursor by remember { mutableIntStateOf(value = 0) }
+    val morphProgress = remember { Animatable(initialValue = 0f) }
 
-    val animatedRotation = remember { Animatable(0f) }
+    val animatedRotation = remember { Animatable(initialValue = 0f) }
 
     val users = UserRepository.friends
 
@@ -243,7 +260,7 @@ private fun ColumnPanel(paddingValues: Rn3PaddingValues, data : ConnectData, con
             animatedRotation.animateTo(
                 targetValue = 360f,
                 animationSpec = infiniteRepeatable(
-                    tween(40000, easing = LinearEasing),
+                    animation = tween(durationMillis = 40000, easing = LinearEasing),
                     repeatMode = RepeatMode.Restart,
                 ),
             )
@@ -260,10 +277,10 @@ private fun ColumnPanel(paddingValues: Rn3PaddingValues, data : ConnectData, con
         when (data.user) {
             is SignedInUser -> {
                     Box(
-                        Modifier
+                        modifier = Modifier
                             .widthIn(max = 200.dp)
                             .fillMaxWidth()
-                            .aspectRatio(1f)
+                            .aspectRatio(ratio = 1f)
                             .clip(
                                 MorphableShape(
                                     loadingShapeParameters[morphCursor]
@@ -295,18 +312,40 @@ private fun ColumnPanel(paddingValues: Rn3PaddingValues, data : ConnectData, con
                             text = data.user.getDisplayName(context),
                             color = MaterialTheme.colorScheme.primary,
                             fontWeight = FontWeight.Medium,
-                            fontSize = TextUnit(5f, TextUnitType.Em),
+                            fontSize = TextUnit(value = 5f, type = TextUnitType.Em),
                         )
                     }
                 }
-            else -> {}
+
+            else -> Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                shape = RoundedCornerShape(16.dp),
+                color = MaterialTheme.colorScheme.surfaceContainer,
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    data.user.UserAvatarAndName(
+                        modifier = Modifier.weight(1f),
+                        supportingText = "Log you in to save your friends across devices",
+                    )
+
+                    // loginButton
+                    OutlinedButton(onClick = onAccountTileLoginButtonClicked) {
+                        Text(text = "Login")
+                    }
+                }
+            }
         }
 
         users.forEach { user ->
             Rn3FriendTileClick(
                 title = user.name,
                 onClick = {},
-                button = if (data.phone.isValid() == true) {
+                button = if (data.phone.isValid()) {
                     user.nearby
                 } else false,
             )

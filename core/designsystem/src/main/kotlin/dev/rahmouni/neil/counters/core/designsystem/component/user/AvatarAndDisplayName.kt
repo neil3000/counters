@@ -22,9 +22,11 @@ import android.util.TypedValue
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.VerifiedUser
 import androidx.compose.material3.FilterChipDefaults
@@ -42,49 +44,55 @@ import dev.rahmouni.neil.counters.core.designsystem.rn3ShrinkVerticallyTransitio
 import dev.rahmouni.neil.counters.core.user.Rn3User
 
 @Composable
-fun Rn3User.UserAvatarAndName(modifier: Modifier = Modifier, showEmail: Boolean = false) {
+fun Rn3User.UserAvatarAndName(
+    modifier: Modifier = Modifier,
+    showEmail: Boolean = false,
+    supportingText: String? = null,
+) {
     val context = LocalContext.current
 
     Row(
-        modifier.height(
+        modifier = modifier.defaultMinSize(
+            minHeight =
             with(LocalDensity.current) {
                 TypedValue
                     .applyDimension(
                         TypedValue.COMPLEX_UNIT_SP,
                         20f * 2,
                         Resources.getSystem().displayMetrics,
-                    )
-                    .toDp()
+                    ).toDp()
             },
         ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Avatar()
-        Column(Modifier.padding(start = 16.dp, end = 16.dp)) {
+
+        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    getDisplayName(context),
+                    text = getDisplayName(context),
                     style = MaterialTheme.typography.titleMedium,
                 )
                 if (isAdmin()) {
+                    Spacer(modifier = Modifier.width(4.dp))
                     Icon(
-                        Icons.Outlined.VerifiedUser,
-                        null,
-                        modifier = Modifier
-                            .padding(start = 4.dp)
-                            .size(FilterChipDefaults.IconSize),
+                        imageVector = Icons.Outlined.VerifiedUser,
+                        contentDescription = null,
+                        modifier = Modifier.size(FilterChipDefaults.IconSize),
                         tint = MaterialTheme.colorScheme.secondary,
                     )
                 }
             }
 
             AnimatedVisibility(
-                visible = getEmailAddress() != null && showEmail,
+                visible = (getEmailAddress() != null && showEmail) || supportingText != null,
                 enter = rn3ExpandVerticallyTransition(),
                 exit = rn3ShrinkVerticallyTransition(),
             ) {
                 Text(
-                    getEmailAddress().toString(),
+                    text = if (showEmail) {
+                        getEmailAddress().toString()
+                    } else supportingText ?: "",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodyMedium,
                 )

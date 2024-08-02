@@ -92,14 +92,17 @@ class AppScreenSizesScreenshotTests {
     private fun testRn3AppScreenshotWithSize(width: Dp, height: Dp, screenshotName: String) {
         composeTestRule.setContent {
             CompositionLocalProvider(
-                LocalInspectionMode provides true,
+                value = LocalInspectionMode provides true,
             ) {
                 DeviceConfigurationOverride(
                     override = DeviceConfigurationOverride.ForcedSize(DpSize(width, height)),
                 ) {
                     Rn3Theme {
                         val fakeAppState = rememberAppState()
-                        App(appState = fakeAppState, routes = listOf(PUBLICFEED_ROUTE))
+                        App(
+                            appState = fakeAppState,
+                            routes = listOf(PUBLICFEED_ROUTE),
+                        )
                     }
                 }
             }

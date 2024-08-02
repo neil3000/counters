@@ -38,6 +38,6 @@ internal class FirebaseConfigHelper @Inject constructor(
     }
 
     override fun getString(key: String): String {
-        return firebaseConfig.getString(key).replace("\\n", "\n")
+        return firebaseConfig.getString(key).replace(oldValue = "\\n", newValue = "\n")
     }
 }

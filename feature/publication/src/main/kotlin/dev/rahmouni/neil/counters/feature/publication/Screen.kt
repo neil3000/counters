@@ -227,11 +227,11 @@ internal fun PublicationScreen(
                                     location = "Street King James",
                                     timestamp = LocalDateTime.now(),
                                     content = currentDescription,
-                                    postType = PostType.BUTTONS,
+                                    postType = PostType.CONTACT,
                                     additionalInfos = listOf("test"),
                                 ),
                             )
-                            if (analyse.post.postType == PostType.BUTTONS && !data.phone.isValid()
+                            if (analyse.post.postType == PostType.CONTACT && !data.phone.isValid()
                             ) {
                                 analyse.result = AnalyseType.NEEDPHONE
                             }
@@ -276,7 +276,10 @@ internal fun PublicationScreen(
                             }
                             Text(
                                 modifier = Modifier.padding(horizontal = 4.dp),
-                                text = analyse.result.text(analyse.post.feed.text, analyse.post.sharingScope.text),
+                                text = analyse.result.text(
+                                    analyse.post.feed.text(),
+                                    analyse.post.sharingScope.text(),
+                                ),
                                 softWrap = true,
                             )
                         }

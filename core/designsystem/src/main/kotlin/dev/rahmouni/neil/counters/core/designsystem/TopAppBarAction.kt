@@ -44,7 +44,7 @@ data class TopAppBarAction(val icon: ImageVector, val title: String, val onClick
                 if (onClick != null) onClick()
             },
             leadingIcon = {
-                Icon(this.icon, null)
+                Icon(imageVector = this.icon, contentDescription = null)
             },
         )
     }

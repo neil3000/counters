@@ -49,9 +49,15 @@ val DefaultRoborazziOptions =
     )
 
 enum class DefaultTestDevices(val description: String, val spec: String) {
-    PHONE("phone", "spec:shape=Normal,width=640,height=360,unit=dp,dpi=480"),
-    FOLDABLE("foldable", "spec:shape=Normal,width=673,height=841,unit=dp,dpi=480"),
-    TABLET("tablet", "spec:shape=Normal,width=1280,height=800,unit=dp,dpi=480"),
+    PHONE(description = "phone", spec = "spec:shape=Normal,width=640,height=360,unit=dp,dpi=480"),
+    FOLDABLE(
+        description = "foldable",
+        spec = "spec:shape=Normal,width=673,height=841,unit=dp,dpi=480",
+    ),
+    TABLET(
+        description = "tablet",
+        spec = "spec:shape=Normal,width=1280,height=800,unit=dp,dpi=480",
+    ),
 }
 
 fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureMultiDevice(
@@ -59,7 +65,12 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     body: @Composable () -> Unit,
 ) {
     DefaultTestDevices.entries.forEach {
-        this.captureForDevice(it.description, it.spec, screenshotName, body = body)
+        this.captureForDevice(
+            deviceName = it.description,
+            deviceSpec = it.spec,
+            screenshotName = screenshotName,
+            body = body,
+        )
     }
 }
 
@@ -78,7 +89,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
 
     this.activity.setContent {
         CompositionLocalProvider(
-            LocalInspectionMode provides true,
+            value = LocalInspectionMode provides true,
         ) {
             DeviceConfigurationOverride(
                 override = DeviceConfigurationOverride.Companion.DarkMode(darkMode),
@@ -89,7 +100,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     }
     this.onRoot()
         .captureRoboImage(
-            "src/test/screenshots/${screenshotName}_$deviceName.png",
+            filePath = "src/test/screenshots/${screenshotName}_$deviceName.png",
             roborazziOptions = roborazziOptions,
         )
 }
@@ -106,11 +117,11 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
 ) {
     val darkModeValues = if (shouldCompareDarkMode) listOf(true, false) else listOf(false)
 
-    var darkMode by mutableStateOf(true)
+    var darkMode by mutableStateOf(value = true)
 
     this.setContent {
         CompositionLocalProvider(
-            LocalInspectionMode provides true,
+            value = LocalInspectionMode provides true,
         ) {
             Rn3Theme(
                 darkTheme = darkMode,
@@ -136,7 +147,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
 
         this.onRoot()
             .captureRoboImage(
-                "src/test/screenshots/" +
+                filePath = "src/test/screenshots/" +
                         "$name/$filename" +
                         "_$darkModeDesc" +
                         ".png",
@@ -164,7 +175,7 @@ private fun generateDescription(
  * Extracts some properties from the spec string. Note that this function is not exhaustive.
  */
 private fun extractSpecs(deviceSpec: String): TestDeviceSpecs {
-    val specs = deviceSpec.substringAfter("spec:")
+    val specs = deviceSpec.substringAfter(delimiter = "spec:")
         .split(",").map { it.split("=") }.associate { it[0] to it[1] }
     val width = specs["width"]?.toInt() ?: 640
     val height = specs["height"]?.toInt() ?: 480

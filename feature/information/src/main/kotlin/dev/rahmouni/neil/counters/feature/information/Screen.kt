@@ -71,7 +71,9 @@ import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOM
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
-import dev.rahmouni.neil.counters.core.designsystem.rebased.getIcon
+import dev.rahmouni.neil.counters.core.designsystem.rebased.icon
+import dev.rahmouni.neil.counters.core.designsystem.rebased.sortedCountries
+import dev.rahmouni.neil.counters.core.designsystem.rebased.text
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
@@ -211,7 +213,7 @@ private fun InformationForm(
         ) {
             Rn3OutlinedTextField(
                 readOnly = true,
-                value = address.country?.text ?: "",
+                value = address.country?.text() ?: "",
                 onValueChange = {},
                 label = { Text(text = "Country") },
                 hasUserInteracted = hasUserInteracted,
@@ -230,18 +232,18 @@ private fun InformationForm(
                 expanded = countryExpanded,
                 onDismissRequest = { countryExpanded = false },
             ) {
-                Country.entries.sortedBy { it.text }.forEach { selectedCountry ->
+                Country.sortedCountries().forEach { selectedCountry ->
                     DropdownMenuItem(
                         text = {
                             Row(verticalAlignment = CenterVertically) {
                                 Icon(
-                                    imageVector = Country.getIcon(selectedCountry),
-                                    contentDescription = "Flag of ${selectedCountry.text}",
+                                    imageVector = selectedCountry.icon(),
+                                    contentDescription = null,
                                     modifier = Modifier.size(24.dp),
                                     tint = Color.Unspecified,
                                 )
                                 Spacer(Modifier.size(16.dp))
-                                Text(text = selectedCountry.text)
+                                Text(text = selectedCountry.text())
                             }
                         },
                         onClick = {
@@ -352,13 +354,13 @@ private fun InformationForm(
                         expanded = phoneCodeExpanded,
                         onDismissRequest = { phoneCodeExpanded = false },
                     ) {
-                        Country.entries.sortedBy { it.text }.forEach { selectedPhoneCode ->
+                        Country.sortedCountries().forEach { selectedPhoneCode ->
                             DropdownMenuItem(
                                 text = {
                                     Row(verticalAlignment = CenterVertically) {
                                         Icon(
-                                            imageVector = Country.getIcon(selectedPhoneCode),
-                                            contentDescription = "Flag of ${selectedPhoneCode.text}",
+                                            imageVector = selectedPhoneCode.icon(),
+                                            contentDescription = null,
                                             modifier = Modifier.size(24.dp),
                                             tint = Color.Unspecified,
                                         )

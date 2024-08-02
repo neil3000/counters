@@ -34,8 +34,9 @@ fun NavGraphBuilder.connectScreen(
     navigateToSettings: () -> Unit,
     navigateToFriends: () -> Unit,
     navigateToPublication: () -> Unit,
-    navigateToLocal: () -> Unit,
+    navigateToPublic: () -> Unit,
     navigateToEvents: () -> Unit,
+    navigateToLogin: () -> Unit,
 ) {
     composable(route = CONNECT_ROUTE) {
         CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
@@ -44,8 +45,9 @@ fun NavGraphBuilder.connectScreen(
                 navigateToSettings = navigateToSettings,
                 navigateToFriends = navigateToFriends,
                 navigateToPublication = navigateToPublication,
-                navigateToLocal = navigateToLocal,
+                navigateToPublic = navigateToPublic,
                 navigateToEvents = navigateToEvents,
+                navigateToLogin = navigateToLogin,
             )
         }
     }

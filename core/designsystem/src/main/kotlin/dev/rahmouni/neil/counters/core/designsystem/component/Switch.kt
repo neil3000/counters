@@ -83,7 +83,11 @@ fun Rn3Switch(
 @VisibleForTesting
 @Composable
 fun Rn3SwitchAccessibilityEmphasizedThumbContent() {
-    Icon(Icons.Outlined.Check, null, Modifier.size(SwitchDefaults.IconSize))
+    Icon(
+        imageVector = Icons.Outlined.Check,
+        contentDescription = null,
+        modifier = Modifier.size(SwitchDefaults.IconSize),
+    )
 }
 
 // Previews
@@ -124,7 +128,7 @@ private fun OffDisabled() {
 @Composable
 private fun OnAccessibility() {
     CompositionLocalProvider(
-        LocalAccessibilityHelper provides AccessibilityHelper(hasEmphasizedSwitchesEnabled = true),
+        value = LocalAccessibilityHelper provides AccessibilityHelper(hasEmphasizedSwitchesEnabled = true),
     ) {
         Rn3Theme {
             Rn3Switch(checked = true, contentDescription = null) {}

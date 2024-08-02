@@ -39,7 +39,7 @@ fun Rn3LazyRowWithPadding(
     content: LazyListScope.() -> Unit,
 ) {
     LazyRow(
-        modifier,
+        modifier = modifier,
         horizontalArrangement = horizontalArrangement,
         verticalAlignment = verticalAlignment,
     ) {

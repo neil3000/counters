@@ -64,8 +64,8 @@ fun Rn3Dialog(
             },
             icon = {
                 Icon(
-                    icon,
-                    null,
+                    imageVector = icon,
+                    contentDescription = null,
                 )
             },
             text = body,

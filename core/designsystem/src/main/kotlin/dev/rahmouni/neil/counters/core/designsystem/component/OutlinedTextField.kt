@@ -175,3 +175,21 @@ private fun Empty() {
         }
     }
 }
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Rn3PreviewComponentVariation
+@Composable
+private fun Full() {
+    Rn3Theme {
+        Surface {
+            Rn3OutlinedTextField(
+                value = "",
+                onValueChange = {},
+                maxCharacters = 0,
+                beEmpty = false,
+                label = { Text("Label") },
+                hasUserInteracted = true,
+            )
+        }
+    }
+}

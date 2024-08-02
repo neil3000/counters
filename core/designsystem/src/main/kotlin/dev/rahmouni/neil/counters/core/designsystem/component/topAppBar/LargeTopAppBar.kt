@@ -56,7 +56,7 @@ fun Rn3LargeTopAppBar(
     LargeTopAppBar(
         title = {
             Text(
-                title,
+                text = title,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -66,7 +66,7 @@ fun Rn3LargeTopAppBar(
             if (onBackIconButtonClicked != null) {
                 Rn3IconButton(
                     icon = Outlined.ArrowBack,
-                    contentDescription = stringResource(string.core_designsystem_largeTopAppBar_navigationIcon_iconButton_arrowBack_contentDescription),
+                    contentDescription = stringResource(string.core_designsystem_topAppBar_navigationIcon_iconButton_arrowBack_contentDescription),
                     onClick = onBackIconButtonClicked,
                 )
             }
@@ -80,7 +80,7 @@ fun Rn3LargeTopAppBar(
 
                     Rn3IconButton(
                         icon = Icons.Outlined.MoreVert,
-                        contentDescription = "See more",
+                        contentDescription = stringResource(string.core_designsystem_topAppBar_actions_iconButton_moreVert_contentDescription),
                     ) { expanded = true }
 
                     actions.DropdownMenu(expanded = expanded) { expanded = false }

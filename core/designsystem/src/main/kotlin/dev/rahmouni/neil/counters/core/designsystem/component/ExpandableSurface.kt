@@ -81,7 +81,7 @@ fun Rn3ExpandableSurface(
         shape = Rn3ExpandableSurfaceDefaults.shape,
     ) {
         Column(
-            Modifier.toggleable(
+            modifier = Modifier.toggleable(
                 value = isExpanded,
                 onValueChange = {
                     haptic.click()
@@ -90,10 +90,17 @@ fun Rn3ExpandableSurface(
                 role = Role.DropdownList,
             ),
         ) {
-            Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 content(isExpanded)
                 Spacer(modifier = Modifier.weight(1f))
-                Icon(Outlined.ExpandMore, null, Modifier.rotate(degreeAnimation))
+                Icon(
+                    imageVector = Outlined.ExpandMore,
+                    contentDescription = null,
+                    modifier = Modifier.rotate(degreeAnimation),
+                )
             }
             AnimatedVisibility(
                 visible = isExpanded,
@@ -119,8 +126,8 @@ private fun Default() {
         Surface {
             Rn3ExpandableSurface(
                 content = {
-                    Icon(Outlined.Info, null)
-                    Spacer(Modifier.width(16.dp))
+                    Icon(imageVector = Outlined.Info, contentDescription = null)
+                    Spacer(modifier = Modifier.width(16.dp))
                     Text(text = "Info")
                 },
                 expandedContent = {

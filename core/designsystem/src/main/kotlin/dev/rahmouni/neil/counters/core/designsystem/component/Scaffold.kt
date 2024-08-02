@@ -103,15 +103,15 @@ fun Rn3Scaffold(
     when {
         // LARGE
         topAppBarStyle == LARGE && windowHeightClass != COMPACT -> Rn3ScaffoldImpl(
-            modifier,
-            TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
-            content,
-            floatingActionButton,
-            bottomBarItems,
+            modifier = modifier,
+            scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
+            content = content,
+            floatingActionButton = floatingActionButton,
+            bottomBarItems = bottomBarItems,
         ) { scrollBehavior ->
             Rn3LargeTopAppBar(
-                modifier,
-                topAppBarTitle,
+                modifier = modifier,
+                title = topAppBarTitle,
                 scrollBehavior = scrollBehavior,
                 onBackIconButtonClicked = onBackIconButtonClicked,
                 actions = topAppBarActions,
@@ -120,14 +120,14 @@ fun Rn3Scaffold(
 
         // SMALL or HOME or TRANSPARENT
         else -> Rn3ScaffoldImpl(
-            modifier,
-            TopAppBarDefaults.pinnedScrollBehavior(),
-            content,
-            floatingActionButton,
-            bottomBarItems,
+            modifier = modifier,
+            scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+            content = content,
+            floatingActionButton = floatingActionButton,
+            bottomBarItems = bottomBarItems,
         ) { scrollBehavior ->
             Rn3SmallTopAppBar(
-                modifier,
+                modifier = modifier,
                 scrollBehavior = scrollBehavior,
                 onBackIconButtonClicked = onBackIconButtonClicked,
                 actions = topAppBarActions,
@@ -146,7 +146,7 @@ fun Rn3Scaffold(
 
                         with(sharedTransitionScope) {
                             Surface(
-                                Modifier
+                                modifier = Modifier
                                     .size(36.dp)
                                     .then(
                                         if (animatedVisibilityScope != null) {
@@ -181,14 +181,14 @@ fun Rn3Scaffold(
                                                                 easing = EaseOutBack,
                                                             ),
                                                         ) { it } + fadeIn(
-                                                            tween(
+                                                            animationSpec = tween(
                                                                 durationMillis = 1,
                                                                 delayMillis = 250,
                                                             ),
                                                         ),
                                                     )
                                                     .sharedElement(
-                                                        rememberSharedContentState(key = "Logo_icon"),
+                                                        state = rememberSharedContentState(key = "Logo_icon"),
                                                         animatedVisibilityScope = animatedVisibilityScope,
                                                         boundsTransform = { initialBounds, targetBounds ->
                                                             keyframes {
@@ -204,16 +204,16 @@ fun Rn3Scaffold(
                                     ).let { modifier ->
                                         when {
                                             alternateIcon -> Icon(
-                                                Icons.Outlined.RemoveRedEye,
-                                                null,
-                                                modifier.scale(.75f),
+                                                imageVector = Icons.Outlined.RemoveRedEye,
+                                                contentDescription = null,
+                                                modifier = modifier.scale(.75f),
                                                 tint = Color.White,
                                             )
 
                                             else -> Icon(
-                                                Icons.Outlined.Logo,
-                                                null,
-                                                modifier.scale(.75f),
+                                                imageVector = Icons.Outlined.Logo,
+                                                contentDescription = null,
+                                                modifier = modifier.scale(.75f),
                                                 tint = Color.White,
                                             )
                                         }
@@ -231,7 +231,7 @@ fun Rn3Scaffold(
                                 end = if (topAppBarStyle == HOME) 4.dp else 0.dp,
                                 start = if (topAppBarStyle == HOME) 0.dp else 32.dp,
                             )
-                            .wrapContentWidth(topAppBarTitleAlignment),
+                            .wrapContentWidth(align = topAppBarTitleAlignment),
                     )
                 }
             }

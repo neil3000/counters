@@ -36,7 +36,7 @@ class UserPreferencesSerializer @Inject constructor() : Serializer<UserPreferenc
             // readFrom is already called on the data store background thread
             UserPreferences.parseFrom(input)
         } catch (exception: InvalidProtocolBufferException) {
-            throw CorruptionException("Cannot read proto.", exception)
+            throw CorruptionException(message = "Cannot read proto.", cause = exception)
         }
 
     override suspend fun writeTo(t: UserPreferences, output: OutputStream) {

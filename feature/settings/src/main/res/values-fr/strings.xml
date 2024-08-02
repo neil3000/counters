@@ -38,7 +38,7 @@
     <string name="feature_settings_settingsScreen_accessibilityTile_title">Accessibilité</string>
     <string name="feature_settings_settingsScreen_accountLoginTile_loginButton_text">Connexion</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_body_actionCannotBeUndone">Cette action *ne peut pas être annulée.*</string>
-    <string name="feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvailableOnOtherDevices">Vos compteurs ne seront pas disponibles sur vos autres appareils.</string>
+    <string name="feature_settings_settingsScreen_accountLogoutTile_body_countersNotAvailableOnOtherDevices">Vos Amis ne seront pas disponibles sur vos autres appareils.</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_body_currentDataStoredLocallyAndContinueToWorkOnDevice">Vos données actuelles seront toujours stockées localement et continueront de fonctionner sur cet appareil.</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_bodyHeader">Si vous vous déconnectez :</string>
     <string name="feature_settings_settingsScreen_accountLogoutTile_body_mayLoseDataIfSomethingHappensToDevice">Vous pourriez perdre vos données si quelque chose arrive à cet appareil.</string>

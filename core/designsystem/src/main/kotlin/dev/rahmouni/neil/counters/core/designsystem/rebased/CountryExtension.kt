@@ -20,6 +20,8 @@ package dev.rahmouni.neil.counters.core.designsystem.rebased
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import dev.rahmouni.neil.counters.core.designsystem.R.string
 import dev.rahmouni.neil.counters.core.designsystem.icons.Belgium
 import dev.rahmouni.neil.counters.core.designsystem.icons.France
 import dev.rahmouni.neil.counters.core.designsystem.icons.UK
@@ -27,20 +29,22 @@ import dev.rahmouni.neil.counters.core.designsystem.icons.USA
 import dev.rahmouni.neil.counters.core.model.data.Country
 
 @Composable
-fun Country.getIcon(): ImageVector {
-    return when (this) {
-        Country.FRANCE -> Icons.Outlined.France
-        Country.BELGIUM -> Icons.Outlined.Belgium
-        Country.UNITED_KINGDOM -> Icons.Outlined.UK
-        Country.USA -> Icons.Outlined.USA
-    }
+fun Country.icon(): ImageVector = when (this) {
+    Country.FRANCE -> Icons.Outlined.France
+    Country.BELGIUM -> Icons.Outlined.Belgium
+    Country.UNITED_KINGDOM -> Icons.Outlined.UK
+    Country.USA -> Icons.Outlined.USA
 }
 
 @Composable
-fun Country.Companion.getIcon(country: Country): ImageVector {
-    return country.getIcon()
+fun Country.text(): String = when (this) {
+    Country.FRANCE -> stringResource(string.core_designsystem_countryText_france)
+    Country.BELGIUM -> stringResource(string.core_designsystem_countryText_belgium)
+    Country.UNITED_KINGDOM -> stringResource(string.core_designsystem_countryText_unitedKingdom)
+    Country.USA -> stringResource(string.core_designsystem_countryText_unitedStates)
 }
 
-fun Country.Companion.getCountryFromIso(isoCode: String): Country? {
-    return isoMap[isoCode]
+@Composable
+fun Country.Companion.sortedCountries(): List<Country> {
+    return Country.entries.sortedBy { country -> country.name }
 }

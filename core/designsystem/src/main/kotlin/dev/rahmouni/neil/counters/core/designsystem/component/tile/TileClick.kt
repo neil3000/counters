@@ -70,7 +70,7 @@ fun Rn3TileClick(
             {
                 Rn3TriggerReverseAnimatedIcon(
                     icon = Outlined.OpenInNewAnimated,
-                    null,
+                    contentDescription = null,
                     interactionSource = { interactionSource },
                 )
             }

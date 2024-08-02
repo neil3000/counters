@@ -68,7 +68,11 @@ fun Rn3LargeButton(
                 .fillMaxWidth(1f),
         ) {
             if (leadingIcon != null) {
-                Icon(leadingIcon, null, Modifier.padding(end = 16.dp))
+                Icon(
+                    imageVector = leadingIcon,
+                    contentDescription = null,
+                    modifier = Modifier.padding(end = 16.dp),
+                )
             }
             Text(
                 text = text,
@@ -78,9 +82,9 @@ fun Rn3LargeButton(
             )
             Spacer(Modifier.weight(1f))
             Icon(
-                icon,
-                null,
-                Modifier
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier
                     .padding(start = 16.dp)
                     .width(24.dp),
             )

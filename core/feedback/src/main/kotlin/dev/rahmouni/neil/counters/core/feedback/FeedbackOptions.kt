@@ -54,14 +54,14 @@ internal fun FeedbackOptions(
     ) {
         options.forEach { (key, title) ->
             ExtendedFloatingActionButton(
-                text = { Text(title, color = MaterialTheme.colorScheme.onSurfaceVariant) },
+                text = { Text(text = title, color = MaterialTheme.colorScheme.onSurfaceVariant) },
                 icon = {
                     AnimatedVisibility(
                         visible = selectedOption == key,
                         enter = fadeIn() + scaleIn() + expandHorizontally(),
                         exit = fadeOut() + scaleOut() + shrinkHorizontally(),
                     ) {
-                        Icon(Icons.Outlined.Check, null)
+                        Icon(imageVector = Icons.Outlined.Check, contentDescription = null)
                     }
                 },
                 onClick = {

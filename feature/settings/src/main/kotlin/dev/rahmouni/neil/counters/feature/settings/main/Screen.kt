@@ -29,7 +29,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -87,13 +86,13 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickC
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
+import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.component.user.UserAvatarAndName
 import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
 import dev.rahmouni.neil.counters.core.designsystem.icons.DevicesOff
 import dev.rahmouni.neil.counters.core.designsystem.icons.SyncSavedLocally
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
-import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
@@ -308,7 +307,7 @@ private fun SettingsPanel(
             else -> Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                    .padding(Rn3ExpandableSurfaceDefaults.paddingValues),
                 shape = RoundedCornerShape(16.dp),
                 color = MaterialTheme.colorScheme.surfaceContainer,
             ) {
@@ -317,11 +316,11 @@ private fun SettingsPanel(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    data.user.UserAvatarAndName()
+                    data.user.UserAvatarAndName(modifier = Modifier.weight(1f))
 
                     // loginButton
                     OutlinedButton(onClick = onAccountTileLoginButtonClicked) {
-                        Text(stringResource(string.feature_settings_settingsScreen_accountLoginTile_loginButton_text))
+                        Text(text = stringResource(string.feature_settings_settingsScreen_accountLoginTile_loginButton_text))
                     }
                 }
             }
@@ -347,11 +346,7 @@ private fun SettingsPanel(
                 Surface(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(
-                            Rn3ExpandableSurfaceDefaults.paddingValues
-                                .only(HORIZONTAL)
-                                .add(bottom = 8.dp),
-                        ),
+                        .padding(Rn3ExpandableSurfaceDefaults.paddingValues.copy(top = 0.dp)),
                     color = color,
                     shape = Rn3ExpandableSurfaceDefaults.shape,
                 ) {
@@ -361,20 +356,19 @@ private fun SettingsPanel(
                                 haptics.click()
                                 onUpdateAvailableTileClicked()
                             }
-                            .padding(horizontal = 16.dp, vertical = 16.dp),
+                            .padding(Rn3TileSmallHeaderDefaults.paddingValues),
                         verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text(
-                            when (this@with) {
+                            text = when (this@with) {
                                 is UpdateAvailable -> stringResource(string.feature_settings_settingsScreen_updateAvailable)
                                 is DownloadingUpdate -> stringResource(string.feature_settings_settingsScreen_updateDownloading)
                                 is WaitingForRestart -> stringResource(string.feature_settings_settingsScreen_updateRestart)
                                 NoUpdateAvailable -> "RahNeil_N3:GsKMAaulylNilvukEZCbJI4jWLXbRRzb"
                             },
-                            Modifier.padding(top = 2.dp, start = 12.dp, end = 16.dp),
                             style = MaterialTheme.typography.titleMedium,
                         )
-                        Spacer(modifier = Modifier.weight(1f))
 
                         when (this@with) {
                             is DownloadingUpdate -> {
@@ -390,8 +384,15 @@ private fun SettingsPanel(
                             }
 
                             NoUpdateAvailable -> {}
-                            is UpdateAvailable -> Icon(Outlined.FileDownload, null)
-                            is WaitingForRestart -> Icon(Outlined.RestartAlt, null)
+                            is UpdateAvailable -> Icon(
+                                imageVector = Outlined.FileDownload,
+                                contentDescription = null,
+                            )
+
+                            is WaitingForRestart -> Icon(
+                                imageVector = Outlined.RestartAlt,
+                                contentDescription = null,
+                            )
                         }
                     }
                 }

@@ -47,7 +47,7 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
 
     var trigger by rememberSaveable { mutableStateOf(false) }
     LaunchedEffect(Unit) {
-        delay(1750)
+        delay(timeMillis = 1750)
         trigger = true
     }
 
@@ -55,6 +55,7 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
 
     Column {
         FeedbackMessages(
+            messages =
             listOf(
                 stringResource(string.core_feedback_typePage_welcomeMessage),
                 stringResource(string.core_feedback_typePage_typeMessage),
@@ -63,9 +64,15 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
 
         AnimatedVisibility(
             visible = trigger,
-            enter = fadeIn(tween(150, 150)) + expandVertically(),
+            enter = fadeIn(
+                animationSpec = tween(
+                    durationMillis = 150,
+                    delayMillis = 150,
+                ),
+            ) + expandVertically(),
         ) {
             FeedbackOptions(
+                options =
                 mapOf(
                     "BUG" to stringResource(string.core_feedback_typePage_bug),
                     "FEATURE" to stringResource(
@@ -81,12 +88,12 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
                 haptic.click()
                 nextPage(currentType)
             },
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
             enabled = trigger,
         ) {
-            Text(stringResource(string.core_feedback_continueButton_title))
+            Text(text = stringResource(string.core_feedback_continueButton_title))
         }
     }
 }

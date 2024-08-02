@@ -40,16 +40,19 @@ internal fun AnonymousTile(shape: Rn3RoundedCorners, onClick: () -> Unit) {
             title = stringResource(string.feature_login_withoutAccount),
             leadingContent = {
                 Icon(
-                    Icons.Outlined.NoAccounts,
+                    imageVector = Icons.Outlined.NoAccounts,
                     contentDescription = null,
                     modifier = Modifier
                         .size(37.dp)
                         .padding(horizontal = 2.dp),
                 )
             },
-            supportingContent = { Text(stringResource(string.feature_login_SignInLater)) },
+            supportingContent = { Text(text = stringResource(string.feature_login_SignInLater)) },
             trailingContent = {
-                Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, null)
+                Icon(
+                    imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
+                    contentDescription = null,
+                )
             },
             onClick = onClick,
         )
