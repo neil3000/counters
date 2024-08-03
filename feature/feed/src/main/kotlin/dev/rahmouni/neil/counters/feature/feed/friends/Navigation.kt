@@ -27,7 +27,7 @@ import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilitySc
 const val FRIENDSFEED_ROUTE = "friendsfeed"
 
 fun NavController.navigateToFriendsFeed(builder: NavOptionsBuilder.() -> Unit) =
-    navigate(FRIENDSFEED_ROUTE, builder)
+    navigate(route = FRIENDSFEED_ROUTE, builder = builder)
 
 fun NavGraphBuilder.friendsFeedScreen(
     navController: NavController,
@@ -38,7 +38,7 @@ fun NavGraphBuilder.friendsFeedScreen(
     navigateToEvents: () -> Unit,
 ) {
     composable(route = FRIENDSFEED_ROUTE) {
-        CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
+        CompositionLocalProvider(value = LocalNavAnimatedVisibilityScope provides this) {
             FriendsFeedRoute(
                 navController = navController,
                 navigateToSettings = navigateToSettings,

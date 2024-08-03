@@ -26,8 +26,8 @@ const val DEVELOPER_SETTINGS_LINKS_ROUTE = "links"
 
 internal fun NavController.navigateToDeveloperSettingsLinks(navOptions: NavOptions? = null) =
     navigate(
-        DEVELOPER_SETTINGS_LINKS_ROUTE,
-        navOptions,
+        route = DEVELOPER_SETTINGS_LINKS_ROUTE,
+        navOptions = navOptions,
     )
 
 internal fun NavGraphBuilder.developerSettingsLinksScreen(navController: NavController) {

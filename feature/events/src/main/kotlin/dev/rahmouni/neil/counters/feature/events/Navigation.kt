@@ -27,7 +27,7 @@ import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilitySc
 const val EVENTS_ROUTE = "events"
 
 fun NavController.navigateToEvents(navOptions: NavOptions? = null) =
-    navigate(EVENTS_ROUTE, navOptions)
+    navigate(route = EVENTS_ROUTE, navOptions = navOptions)
 
 fun NavGraphBuilder.eventsScreen(
     navController: NavController,
@@ -38,7 +38,7 @@ fun NavGraphBuilder.eventsScreen(
     navigateToPublic: () -> Unit,
 ) {
     composable(route = EVENTS_ROUTE) {
-        CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
+        CompositionLocalProvider(value = LocalNavAnimatedVisibilityScope provides this) {
             EventsRoute(
                 navController = navController,
                 navigateToSettings = navigateToSettings,

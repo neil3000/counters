@@ -33,7 +33,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
@@ -90,7 +90,7 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(Rn3ExpandableSurfaceDefaults.paddingValues),
+                .padding(Rn3SurfaceDefaults.paddingValues),
             enabled = trigger,
         ) {
             Text(text = stringResource(string.core_feedback_continueButton_title))

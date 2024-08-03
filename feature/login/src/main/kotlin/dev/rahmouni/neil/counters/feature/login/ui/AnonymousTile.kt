@@ -29,7 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCorners
 import dev.rahmouni.neil.counters.feature.login.R.string
@@ -37,7 +37,7 @@ import dev.rahmouni.neil.counters.feature.login.R.string
 @Composable
 internal fun AnonymousTile(shape: Rn3RoundedCorners, onClick: () -> Unit) {
     Surface(
-        tonalElevation = Rn3ExpandableSurfaceDefaults.tonalElevation,
+        tonalElevation = Rn3SurfaceDefaults.tonalElevation,
         shape = shape.toComposeShape(),
     ) {
         Rn3TileClick(

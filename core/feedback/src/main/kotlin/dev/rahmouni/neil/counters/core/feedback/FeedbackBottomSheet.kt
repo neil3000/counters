@@ -53,8 +53,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.R.string
 import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackContextPage
@@ -89,11 +89,11 @@ fun FeedbackBottomSheet(
         dragHandle = {},
     ) {
         Column {
-            Surface(tonalElevation = Rn3ExpandableSurfaceDefaults.tonalElevation) {
+            Surface(tonalElevation = Rn3SurfaceDefaults.tonalElevation) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(Rn3ExpandableSurfaceDefaults.paddingValues.copy(end = 0.dp)),
+                        .padding(Rn3SurfaceDefaults.paddingValues.copy(end = 0.dp)),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = spacedBy(16.dp),
                 ) {

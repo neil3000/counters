@@ -75,12 +75,12 @@ internal fun AccessibilitySettingsRoute(
     val analyticsHelper = LocalAnalyticsHelper.current
 
     AccessibilitySettingsScreen(
-        modifier,
-        uiState,
+        modifier = modifier,
+        uiState = uiState,
         onBackIconButtonClicked = navController::popBackStack,
         feedbackTopAppBarAction = FeedbackScreenContext(
-            "AccessibilitySettingsScreen",
-            "jrKt4Xe58KDipPJsm1iPUijn6BMsNc8g",
+            localName = "AccessibilitySettingsScreen",
+            localID = "jrKt4Xe58KDipPJsm1iPUijn6BMsNc8g",
         ).toTopAppBarAction(navController::navigateToFeedback),
         setEmphasizedSwitches = viewModel::setEmphasizedSwitches,
         setIconTooltips = viewModel::setIconTooltips,
@@ -115,12 +115,12 @@ internal fun AccessibilitySettingsScreen(
         when (uiState) {
             Loading -> {}
             is Success -> AccessibilitySettingsPanel(
-                it,
-                uiState.accessibilitySettingsData,
-                setEmphasizedSwitches,
-                setIconTooltips,
-                setAltText,
-                onClickAndroidAccessibilityTile,
+                paddingValues = it,
+                data = uiState.accessibilitySettingsData,
+                setEmphasizedSwitches = setEmphasizedSwitches,
+                setIconTooltips = setIconTooltips,
+                setAltText = setAltText,
+                onClickAndroidAccessibilityTile = onClickAndroidAccessibilityTile,
             )
         }
     }
@@ -136,7 +136,7 @@ private fun AccessibilitySettingsPanel(
     onClickAndroidAccessibilityTile: () -> Unit,
 ) {
     Column(
-        Modifier
+        modifier = Modifier
             .verticalScroll(rememberScrollState())
             .padding(paddingValues),
     ) {
@@ -195,7 +195,7 @@ private fun UiStates(
     accessibilitySettingsData: AccessibilitySettingsData,
 ) {
     CompositionLocalProvider(
-        LocalAccessibilityHelper provides AccessibilityHelper(
+        value = LocalAccessibilityHelper provides AccessibilityHelper(
             hasEmphasizedSwitchesEnabled = accessibilitySettingsData.hasEmphasizedSwitchesEnabled,
             hasIconTooltipsEnabled = accessibilitySettingsData.hasIconTooltipsEnabled,
             hasAltTextEnabled = accessibilitySettingsData.hasAltTextEnabled,

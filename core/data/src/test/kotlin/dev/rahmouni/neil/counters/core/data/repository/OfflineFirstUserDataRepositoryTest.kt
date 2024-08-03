@@ -21,6 +21,8 @@ import dev.rahmouni.neil.counters.core.analytics.NoOpAnalyticsHelper
 import dev.rahmouni.neil.counters.core.data.repository.userData.OfflineFirstUserDataRepository
 import dev.rahmouni.neil.counters.core.datastore.Rn3PreferencesDataSource
 import dev.rahmouni.neil.counters.core.datastore.test.testUserPreferencesDataStore
+import dev.rahmouni.neil.counters.core.model.data.AddressInfo
+import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.model.data.UserData
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
@@ -72,6 +74,18 @@ class OfflineFirstUserDataRepositoryTest {
                     shouldShowLoginScreenOnStartup = true,
                     needInformation = false,
                     isAppFirstLaunch = true,
+                    address = AddressInfo(
+                        country = null,
+                        region = null,
+                        locality = "",
+                        postalCode = null,
+                        street = "",
+                        auxiliaryDetails = null,
+                    ),
+                    phone = PhoneInfo(
+                        number = null,
+                        code = null,
+                    ),
                 ),
                 subject.userData.first(),
             )

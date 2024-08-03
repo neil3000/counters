@@ -40,7 +40,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
@@ -83,7 +83,7 @@ internal fun FeedbackDescriptionPage(
             onValueChange = { currentDescription = it },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(Rn3ExpandableSurfaceDefaults.paddingValues)
+                .padding(Rn3SurfaceDefaults.paddingValues)
                 .focusRequester(focusRequester),
             label = { Text(text = stringResource(string.core_feedback_descriptionPage_textField_label)) },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -95,7 +95,7 @@ internal fun FeedbackDescriptionPage(
         )
 
         Row(
-            modifier = Modifier.padding(Rn3ExpandableSurfaceDefaults.paddingValues),
+            modifier = Modifier.padding(Rn3SurfaceDefaults.paddingValues),
             horizontalArrangement = spacedBy(8.dp),
         ) {
             FilledTonalButton(

@@ -18,11 +18,13 @@
 package dev.rahmouni.neil.counters.core.designsystem.component
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.requiredWidthIn
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalAbsoluteTonalElevation
 import androidx.compose.material3.MaterialTheme
@@ -36,7 +38,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 
 @Composable
@@ -46,7 +47,7 @@ fun Rn3LargeButton(
     icon: ImageVector,
     color: Color = MaterialTheme.colorScheme.surface,
     leadingIcon: ImageVector? = null,
-    shape: Shape = Rn3ExpandableSurfaceDefaults.shape,
+    shape: Shape = Rn3SurfaceDefaults.shape,
     onClick: () -> Unit,
 ) {
     val haptics = getHaptic()
@@ -58,28 +59,40 @@ fun Rn3LargeButton(
         tonalElevation = -LocalAbsoluteTonalElevation.current,
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .clickable {
                     haptics.click()
                     onClick()
                 }
-                .padding(Rn3ExpandableSurfaceDefaults.paddingValues)
-                .fillMaxWidth(1f),
+                .padding(Rn3TextDefaults.paddingValues),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            if (leadingIcon != null) {
-                Icon(
-                    imageVector = leadingIcon,
-                    contentDescription = null,
+            Row(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+            ) {
+                if (leadingIcon != null) {
+                    Icon(
+                        imageVector = leadingIcon,
+                        contentDescription = null,
+                    )
+                }
+                Text(
+                    text = text,
+                    color = MaterialTheme.colorScheme.contentColorFor(color),
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(
+                        Rn3TextDefaults.paddingValues.copy(
+                            start = if (leadingIcon != null) Rn3TextDefaults.paddingValues.start else 0.dp,
+                        ),
+                    ),
                 )
             }
-            Text(
-                text = text,
-                color = MaterialTheme.colorScheme.contentColorFor(color),
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(Rn3TileSmallHeaderDefaults.paddingValues.copy(start = if (leadingIcon != null) 16.dp else 0.dp)),
-            )
-            Spacer(Modifier.weight(1f))
+
+            Spacer(modifier = Modifier.width(16.dp))
+
             Icon(
                 imageVector = icon,
                 contentDescription = null,

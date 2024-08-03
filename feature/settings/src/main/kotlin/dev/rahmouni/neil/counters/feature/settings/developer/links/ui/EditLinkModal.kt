@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material3.Button
@@ -47,6 +46,9 @@ import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlRawData
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalBigPadding
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ErrorButtonColors
 import dev.rahmouni.neil.counters.feature.settings.R.string
 import kotlinx.coroutines.launch
@@ -85,7 +87,7 @@ internal fun editLinkModal(
             sheetState = bottomSheetState,
         ) {
             Column(
-                Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(Rn3AdditionalBigPadding.paddingValues.only(HORIZONTAL)),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 // pathTextField
@@ -93,9 +95,9 @@ internal fun editLinkModal(
                     modifier = Modifier.fillMaxWidth(),
                     value = currentPath,
                     onValueChange = { currentPath = it },
-                    label = { Text(stringResource(string.feature_settings_developerSettingsLinksScreen_pathTextField_label)) },
+                    label = { Text(text = stringResource(string.feature_settings_developerSettingsLinksScreen_pathTextField_label)) },
                     singleLine = true,
-                    prefix = { Text(stringResource(string.feature_settings_developerSettingsLinksScreen_pathTextField_prefix)) },
+                    prefix = { Text(text = stringResource(string.feature_settings_developerSettingsLinksScreen_pathTextField_prefix)) },
                     enabled = !editing,
                 )
 
@@ -104,7 +106,7 @@ internal fun editLinkModal(
                     modifier = Modifier.fillMaxWidth(),
                     value = currentRedirectUrl,
                     onValueChange = { currentRedirectUrl = it },
-                    label = { Text(stringResource(string.feature_settings_developerSettingsLinksScreen_redirectUrlTextField_label)) },
+                    label = { Text(text = stringResource(string.feature_settings_developerSettingsLinksScreen_redirectUrlTextField_label)) },
                     singleLine = true,
                 )
 
@@ -113,7 +115,7 @@ internal fun editLinkModal(
                     modifier = Modifier.fillMaxWidth(),
                     value = currentDescription,
                     onValueChange = { currentDescription = it },
-                    label = { Text(stringResource(string.feature_settings_developerSettingsLinksScreen_descriptionTextField_label)) },
+                    label = { Text(text = stringResource(string.feature_settings_developerSettingsLinksScreen_descriptionTextField_label)) },
                     singleLine = true,
                 )
 
@@ -140,8 +142,8 @@ internal fun editLinkModal(
                                 colors = ButtonDefaults.rn3ErrorButtonColors(),
                             ) {
                                 Icon(
-                                    Icons.Outlined.DeleteForever,
-                                    stringResource(string.feature_settings_developerSettingsLinksScreen_deleteButton_icon_contentDescription),
+                                    imageVector = Icons.Outlined.DeleteForever,
+                                    contentDescription = stringResource(string.feature_settings_developerSettingsLinksScreen_deleteButton_icon_contentDescription),
                                 )
                             }
                         }
@@ -168,7 +170,7 @@ internal fun editLinkModal(
                         enabled = enabled,
                         modifier = Modifier.fillMaxWidth(),
                     ) {
-                        Text(stringResource(string.feature_settings_developerSettingsLinksScreen_confirmButton_text))
+                        Text(text = stringResource(string.feature_settings_developerSettingsLinksScreen_confirmButton_text))
                     }
                 }
             }

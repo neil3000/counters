@@ -82,11 +82,11 @@ import dev.rahmouni.neil.counters.core.data.model.Friend
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.R.color
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
 import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
@@ -193,17 +193,17 @@ internal fun ConnectScreen(
         onBackIconButtonClicked = null,
         topAppBarActions = listOfNotNull(
             TopAppBarAction(
-                Outlined.Settings,
-                stringResource(string.feature_connect_topAppBarActions_settings),
-                onSettingsTopAppBarActionClicked,
+                icon = Outlined.Settings,
+                title = stringResource(string.feature_connect_topAppBarActions_settings),
+                onClick = onSettingsTopAppBarActionClicked,
             ),
             feedbackTopAppBarAction,
         ),
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 modifier = it,
-                text = { Text(stringResource(string.feature_connect_fab_text)) },
-                icon = { Icon(Outlined.Add, null) },
+                text = { Text(text = stringResource(string.feature_connect_fab_text)) },
+                icon = { Icon(imageVector = Outlined.Add, contentDescription = null) },
                 onClick = {
                     haptics.click()
                 },
@@ -308,7 +308,7 @@ private fun ColumnPanel(
                     }
 
                     Row(
-                        modifier = Modifier.padding(Rn3TileSmallHeaderDefaults.paddingValues),
+                        modifier = Modifier.padding(Rn3TextDefaults.paddingValues),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center,
                     ) {
@@ -326,13 +326,13 @@ private fun ColumnPanel(
             else -> Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(Rn3ExpandableSurfaceDefaults.paddingValues),
-                shape = Rn3ExpandableSurfaceDefaults.shape,
-                tonalElevation = Rn3ExpandableSurfaceDefaults.tonalElevation,
+                    .padding(Rn3SurfaceDefaults.paddingValues),
+                shape = Rn3SurfaceDefaults.shape,
+                tonalElevation = Rn3SurfaceDefaults.tonalElevation,
             ) {
                 Row(
                     modifier = Modifier
-                        .padding(Rn3TileSmallHeaderDefaults.paddingValues)
+                        .padding(Rn3TextDefaults.paddingValues)
                         .defaultMinSize(minHeight = 44.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,

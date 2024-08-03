@@ -27,14 +27,14 @@ import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilitySc
 const val INFORMATION_ROUTE = "information"
 
 fun NavController.navigateToInformation(navOptions: NavOptions? = null) =
-    navigate(INFORMATION_ROUTE, navOptions)
+    navigate(route = INFORMATION_ROUTE, navOptions = navOptions)
 
 fun NavGraphBuilder.informationScreen(
     navController: NavController,
     navigateToNextPage: () -> Unit,
 ) {
     composable(route = INFORMATION_ROUTE) {
-        CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
+        CompositionLocalProvider(value = LocalNavAnimatedVisibilityScope provides this) {
             InformationRoute(
                 navController = navController,
                 navigateToNextPage = navigateToNextPage,

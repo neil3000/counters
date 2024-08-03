@@ -27,7 +27,7 @@ import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilitySc
 const val PUBLICFEED_ROUTE = "publicfeed"
 
 fun NavController.navigateToPublicFeed(builder: NavOptionsBuilder.() -> Unit) =
-    navigate(PUBLICFEED_ROUTE, builder)
+    navigate(route = PUBLICFEED_ROUTE, builder = builder)
 
 fun NavGraphBuilder.publicFeedScreen(
     navController: NavController,
@@ -38,7 +38,7 @@ fun NavGraphBuilder.publicFeedScreen(
     navigateToEvents: () -> Unit,
 ) {
     composable(route = PUBLICFEED_ROUTE) {
-        CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
+        CompositionLocalProvider(value = LocalNavAnimatedVisibilityScope provides this) {
             PublicFeedRoute(
                 navController = navController,
                 navigateToSettings = navigateToSettings,

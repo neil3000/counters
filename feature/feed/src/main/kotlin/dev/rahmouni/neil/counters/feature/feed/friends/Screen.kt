@@ -47,10 +47,10 @@ import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.R.color
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
@@ -87,18 +87,18 @@ internal fun FriendsFeedRoute(
     when (uiState) {
         Loading -> {}
         is Success -> FriendsFeedScreen(
-        modifier,
-            (uiState as Success).friendsFeedData,
-        feedbackTopAppBarAction = FeedbackScreenContext(
-            "FriendsFeedScreen",
-            "GSChPsxOkpZYCqOdHXt9iZkNwdm0oJNj",
-        ).toTopAppBarAction(navController::navigateToFeedback),
-        onSettingsTopAppBarActionClicked = navigateToSettings,
-        onConnectBottomBarItemClicked = navigateToConnect,
-        onAddBottomBarItemClicked = navigateToPublication,
+            modifier = modifier,
+            data = (uiState as Success).friendsFeedData,
+            feedbackTopAppBarAction = FeedbackScreenContext(
+                localName = "FriendsFeedScreen",
+                localID = "GSChPsxOkpZYCqOdHXt9iZkNwdm0oJNj",
+            ).toTopAppBarAction(navController::navigateToFeedback),
+            onSettingsTopAppBarActionClicked = navigateToSettings,
+            onConnectBottomBarItemClicked = navigateToConnect,
+            onAddBottomBarItemClicked = navigateToPublication,
             onPublicBottomBarItemClicked = navigateToPublic,
-        onEventsBottomBarItemClicked = navigateToEvents,
-    )
+            onEventsBottomBarItemClicked = navigateToEvents,
+        )
     }
 
     TrackScreenViewEvent(screenName = "FriendsFeed")
@@ -154,9 +154,9 @@ internal fun FriendsFeedScreen(
         onBackIconButtonClicked = null,
         topAppBarActions = listOfNotNull(
             TopAppBarAction(
-                Outlined.Settings,
-                stringResource(string.feature_feed_topAppBarActions_settings),
-                onSettingsTopAppBarActionClicked,
+                icon = Outlined.Settings,
+                title = stringResource(string.feature_feed_topAppBarActions_settings),
+                onClick = onSettingsTopAppBarActionClicked,
             ),
             feedbackTopAppBarAction,
         ),
@@ -187,8 +187,8 @@ internal fun FriendsFeedScreen(
         topAppBarStyle = HOME,
     ) {
         FriendsFeedPanel(
-            it,
-            data,
+            paddingValues = it,
+            data = data,
         )
     }
 }
@@ -199,7 +199,7 @@ private fun FriendsFeedPanel(
     data: FriendsFeedData,
 ) {
     Column(
-        Modifier
+        modifier = Modifier
             .verticalScroll(rememberScrollState())
             .padding(paddingValues),
     ) {
@@ -258,15 +258,16 @@ private fun FriendsFeedPanel(
             ),
         ).forEach { post ->
             Publication(
-                post, UserRepository.friends,
-                if (data.user is SignedInUser || data.user is AnonymousUser) {
-                    data.phone.isValid() == true
+                post = post,
+                friendRepository = UserRepository.friends,
+                enabled = if (data.user is SignedInUser || data.user is AnonymousUser) {
+                    data.phone.isValid()
                 } else {
                     false
                 },
             )
             Rn3TileHorizontalDivider(
-                paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
+                paddingValues = Rn3SurfaceDefaults.paddingValues.copy(
                     top = 0.dp,
                     bottom = 0.dp,
                 ),

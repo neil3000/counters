@@ -71,16 +71,16 @@ internal fun EventsRoute(
     when (uiState) {
         Loading -> {}
         is Success -> EventsScreen(
-        modifier,
-            (uiState as Success).eventsData,
-        feedbackTopAppBarAction = FeedbackScreenContext(
-            "EventsScreen",
-            "3Lwm8ZWbaZWmtHL8OnBFSEPxAAbRsmvX",
-        ).toTopAppBarAction(navController::navigateToFeedback),
-        onSettingsTopAppBarActionClicked = navigateToSettings,
-        onConnectBottomBarItemClicked = navigateToConnect,
-        onFriendsBottomBarItemClicked = navigateToFriends,
-        onAddBottomBarItemClicked = navigateToPublication,
+            modifier = modifier,
+            data = (uiState as Success).eventsData,
+            feedbackTopAppBarAction = FeedbackScreenContext(
+                localName = "EventsScreen",
+                localID = "3Lwm8ZWbaZWmtHL8OnBFSEPxAAbRsmvX",
+            ).toTopAppBarAction(navController::navigateToFeedback),
+            onSettingsTopAppBarActionClicked = navigateToSettings,
+            onConnectBottomBarItemClicked = navigateToConnect,
+            onFriendsBottomBarItemClicked = navigateToFriends,
+            onAddBottomBarItemClicked = navigateToPublication,
             onPublicBottomBarItemClicked = navigateToPublic,
     )
     }
@@ -138,9 +138,9 @@ internal fun EventsScreen(
         onBackIconButtonClicked = null,
         topAppBarActions = listOfNotNull(
             TopAppBarAction(
-                Outlined.Settings,
-                stringResource(string.feature_events_topAppBarActions_settings),
-                onSettingsTopAppBarActionClicked,
+                icon = Outlined.Settings,
+                title = stringResource(string.feature_events_topAppBarActions_settings),
+                onClick = onSettingsTopAppBarActionClicked,
             ),
             feedbackTopAppBarAction,
         ),

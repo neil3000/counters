@@ -40,7 +40,7 @@ fun NavController.navigateToFeedback(
     sendAdditionalInfo: Boolean = true,
 ) =
     navigate(
-        "$FEEDBACK_ROUTE?${
+        route = "$FEEDBACK_ROUTE?${
             if (feedbackContext is FeedbackScreenContext) {
                 "contextID=${
                     feedbackContext.getID(
@@ -51,7 +51,7 @@ fun NavController.navigateToFeedback(
                 ""
             }
         }&page=$page&type=$type&description=$description&onCurrentPage=$onCurrentPage&sendScreenshot=$sendScreenshot&sendAdditionalInfo=$sendAdditionalInfo",
-        navOptions,
+        navOptions = navOptions,
     )
 
 fun NavGraphBuilder.feedbackDialog(navController: NavController) {

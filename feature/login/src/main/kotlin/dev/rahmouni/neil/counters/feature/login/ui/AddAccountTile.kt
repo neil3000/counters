@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
@@ -36,8 +35,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalBigPadding
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ShrinkVerticallyTransition
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCorners
 import dev.rahmouni.neil.counters.feature.login.R.string
@@ -47,32 +48,32 @@ internal fun AddAccountTile(expanded: Boolean, shape: Rn3RoundedCorners, onClick
     val haptics = getHaptic()
 
     Surface(
-        tonalElevation = Rn3ExpandableSurfaceDefaults.tonalElevation,
+        tonalElevation = Rn3SurfaceDefaults.tonalElevation,
         shape = shape.toComposeShape(),
     ) {
         Row(
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
                     haptics.click()
                     onClick()
                 }
-                .padding(16.dp),
+                .padding(Rn3AdditionalBigPadding.paddingValues),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
-                Icons.Outlined.Add,
-                null,
+                imageVector = Icons.Outlined.Add,
+                contentDescription = null,
             )
-            Spacer(Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(16.dp))
             Column {
-                Text(stringResource(string.feature_login_addAccount))
+                Text(text = stringResource(string.feature_login_addAccount))
                 AnimatedVisibility(
                     visible = expanded,
                     exit = rn3ShrinkVerticallyTransition(),
                 ) {
                     Text(
-                        stringResource(string.feature_login_SingIntoSync),
+                        text = stringResource(string.feature_login_SingIntoSync),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

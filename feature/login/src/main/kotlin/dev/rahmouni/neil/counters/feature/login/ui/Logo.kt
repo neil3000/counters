@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -56,6 +55,7 @@ import androidx.core.content.ContextCompat
 import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
 import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
 import dev.rahmouni.neil.counters.core.designsystem.R.color
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.icons.Logo
 import kotlin.math.absoluteValue
 
@@ -72,17 +72,17 @@ internal fun Logo() {
 
     LaunchedEffect(Unit) { trigger = true }
     val shinyPosition: Dp by animateDpAsState(
-        if (trigger) 45.dp else (-45).dp,
+        targetValue = if (trigger) 45.dp else (-45).dp,
         animationSpec = tween(delayMillis = 3000, durationMillis = 1500, easing = EaseInOutQuint),
         label = "Shape rotation animation",
     )
 
     with(sharedTransitionScope) {
         Surface(
-            Modifier
+            modifier = Modifier
                 .size(80.dp)
                 .sharedElement(
-                    rememberSharedContentState(key = "Logo_background"),
+                    state = rememberSharedContentState(key = "Logo_background"),
                     animatedVisibilityScope = animatedVisibilityScope,
                     boundsTransform = { initialBounds, targetBounds ->
                         keyframes {
@@ -91,13 +91,13 @@ internal fun Logo() {
                         }
                     },
                 ),
-            color = Color(ContextCompat.getColor(context, color.core_designsystem_color)),
-            shape = RoundedCornerShape(16.dp),
+            color = Color(color = ContextCompat.getColor(context, color.core_designsystem_color)),
+            shape = Rn3SurfaceDefaults.shape,
         ) {
-            Box(Modifier.size(80.dp)) {
+            Box(modifier = Modifier.size(80.dp)) {
                 if (shinyPosition.value.absoluteValue != 45f) {
                     Box(
-                        Modifier
+                        modifier = Modifier
                             .align(Alignment.Center)
                             .offset {
                                 IntOffset(
@@ -147,9 +147,9 @@ internal fun Logo() {
                         ).let { modifier ->
                             when {
                                 else -> Icon(
-                                    Icons.Outlined.Logo,
-                                    null,
-                                    modifier.scale(.75f),
+                                    imageVector = Icons.Outlined.Logo,
+                                    contentDescription = null,
+                                    modifier = modifier.scale(.75f),
                                     tint = Color.White,
                                 )
                             }

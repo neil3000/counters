@@ -68,9 +68,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3OutlinedTextField
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
@@ -110,8 +110,8 @@ internal fun PublicationRoute(
             data = (uiState as Success).publicationData,
         onBackIconButtonClicked = navController::popBackStack,
         feedbackTopAppBarAction = FeedbackScreenContext(
-            "PublicationScreen",
-            "MC4xwGf6j0RfzJV4O8tDBEn3BObAfFQr",
+            localName = "PublicationScreen",
+            localID = "MC4xwGf6j0RfzJV4O8tDBEn3BObAfFQr",
         ).toTopAppBarAction(navController::navigateToFeedback),
         onSettingsTopAppBarActionClicked = navigateToSettings,
         onPublicPostButtonClicked = navigateToPublic,
@@ -188,9 +188,9 @@ internal fun PublicationScreen(
                 actions = listOfNotNull(
                     feedbackTopAppBarAction,
                     TopAppBarAction(
-                        Outlined.Settings,
-                        stringResource(string.feature_publication_topAppBarActions_settings),
-                        onSettingsTopAppBarActionClicked,
+                        icon = Outlined.Settings,
+                        title = stringResource(string.feature_publication_topAppBarActions_settings),
+                        onClick = onSettingsTopAppBarActionClicked,
                     ),
                 ),
             )
@@ -202,7 +202,7 @@ internal fun PublicationScreen(
         sheetContent = {
             Column {
                 Row(
-                    Modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 0.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -309,7 +309,7 @@ internal fun PublicationScreen(
                         }
                     }
                 }
-                Spacer(Modifier.imePadding())
+                Spacer(modifier = Modifier.imePadding())
             }
         },
     ) { innerPadding ->
@@ -327,7 +327,7 @@ internal fun PublicationScreen(
                         }
                     }
                     .fillMaxWidth()
-                    .padding(Rn3ExpandableSurfaceDefaults.paddingValues),
+                    .padding(Rn3SurfaceDefaults.paddingValues),
                 value = currentDescription,
                 onValueChange = { newText -> currentDescription = newText },
                 maxCharacters = 500,

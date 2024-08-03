@@ -72,7 +72,7 @@ fun Rn3Dialog(
             confirmButton = {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp), //TODO: rework spacing
                 ) {
                     Rn3LargeButton(
                         text = stringResource(string.core_designsystem_confirmationDialog_cancelButton_text),

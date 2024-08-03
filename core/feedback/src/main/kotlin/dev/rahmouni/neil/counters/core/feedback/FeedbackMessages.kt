@@ -36,8 +36,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
 
@@ -51,7 +51,7 @@ internal fun FeedbackMessages(messages: List<String>) {
     Spacer(modifier = Modifier.height(16.dp))
 
     Column(
-        modifier = Modifier.padding(Rn3ExpandableSurfaceDefaults.paddingValues),
+        modifier = Modifier.padding(Rn3SurfaceDefaults.paddingValues),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         messages.forEachIndexed { index, message ->
@@ -69,12 +69,12 @@ internal fun FeedbackMessages(messages: List<String>) {
                 },
             ) {
                 Surface(
-                    tonalElevation = Rn3ExpandableSurfaceDefaults.tonalElevation,
+                    tonalElevation = Rn3SurfaceDefaults.tonalElevation,
                     shape = RoundedCornerShape(8.dp),
                 ) {
                     Text(
                         text = message,
-                        modifier = Modifier.padding(Rn3TileSmallHeaderDefaults.paddingValues),
+                        modifier = Modifier.padding(Rn3TextDefaults.paddingValues),
                         style = MaterialTheme.typography.labelMedium.copy(
                             fontWeight = FontWeight.Normal,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,

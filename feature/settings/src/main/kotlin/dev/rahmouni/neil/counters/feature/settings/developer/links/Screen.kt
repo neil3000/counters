@@ -54,8 +54,8 @@ internal fun DeveloperSettingsLinksRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     DeveloperSettingsLinksScreen(
-        modifier,
-        uiState,
+        modifier = modifier,
+        uiState = uiState,
         onBackIconButtonClicked = navController::popBackStack,
         onFavoriteLink = viewModel::favoriteLink,
         onConfirmButtonClicked = viewModel::setLink,
@@ -91,7 +91,7 @@ internal fun DeveloperSettingsLinksScreen(
                     openLinkEditModal(null)
                 },
             ) {
-                Icon(Icons.Outlined.Add, contentDescription = null)
+                Icon(imageVector = Icons.Outlined.Add, contentDescription = null)
             }
         },
     ) {

@@ -57,7 +57,7 @@ fun Rn3TileClickConfirmationDialog(
         error = error,
         onClick = onClick,
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) { //TODO: rework spacing
             Text(text = bodyHeader)
             bodyBulletPoints.forEach { (icon, text) ->
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {

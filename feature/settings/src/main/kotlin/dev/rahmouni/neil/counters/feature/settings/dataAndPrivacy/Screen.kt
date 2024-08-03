@@ -55,12 +55,12 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickConfirmationDialog
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
@@ -192,8 +192,8 @@ private fun DataAndPrivacySettingsPanel(
             },
             expandedContent = {
                 Text(
-                    text = config.getString("metrics_info_short"),
-                    modifier = Modifier.padding(Rn3TileSmallHeaderDefaults.paddingValues.copy(top = 0.dp)),
+                    text = config.getString(key = "metrics_info_short"),
+                    modifier = Modifier.padding(Rn3TextDefaults.paddingValues.copy(top = 0.dp)),
                 )
             },
         )
@@ -220,8 +220,8 @@ private fun DataAndPrivacySettingsPanel(
             },
             expandedContent = {
                 Text(
-                    text = config.getString("crashlytics_info_short"),
-                    modifier = Modifier.padding(Rn3TileSmallHeaderDefaults.paddingValues.copy(top = 0.dp)),
+                    text = config.getString(key = "crashlytics_info_short"),
+                    modifier = Modifier.padding(Rn3TextDefaults.paddingValues.copy(top = 0.dp)),
                 )
             },
         )
@@ -241,17 +241,17 @@ private fun DataAndPrivacySettingsPanel(
         // privacyPolicySummaryTile
         Card(
             modifier = Modifier
-                .padding(Rn3ExpandableSurfaceDefaults.paddingValues)
+                .padding(Rn3SurfaceDefaults.paddingValues)
                 .fillMaxWidth(),
         ) {
             Column {
                 Rn3TileSmallHeader(
                     title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title),
-                    paddingValues = Rn3TileSmallHeaderDefaults.paddingValues.copy(bottom = 8.dp),
+                    paddingValues = Rn3TextDefaults.paddingValues.copy(bottom = 8.dp),
                 )
                 Text(
-                    text = config.getString("privacy_policy_short"),
-                    modifier = Modifier.padding(Rn3TileSmallHeaderDefaults.paddingValues.copy(top = 0.dp)),
+                    text = config.getString(key = "privacy_policy_short"),
+                    modifier = Modifier.padding(Rn3TextDefaults.paddingValues.copy(top = 0.dp)),
                 )
             }
         }

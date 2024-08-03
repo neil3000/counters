@@ -37,7 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 
@@ -52,7 +52,7 @@ internal fun FeedbackOptions(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Rn3ExpandableSurfaceDefaults.paddingValues),
+            .padding(Rn3SurfaceDefaults.paddingValues),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         options.forEach { (key, title) ->

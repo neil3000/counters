@@ -47,10 +47,10 @@ import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.R.color
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
@@ -87,11 +87,11 @@ internal fun PublicFeedRoute(
     when (uiState) {
         Loading -> {}
         is Success -> PublicFeedScreen(
-            modifier,
-            (uiState as Success).publicFeedData,
+            modifier = modifier,
+            data = (uiState as Success).publicFeedData,
             feedbackTopAppBarAction = FeedbackScreenContext(
-                "LocalFeedScreen",
-                "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8",
+                localName = "LocalFeedScreen",
+                localID = "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8",
             ).toTopAppBarAction(navController::navigateToFeedback),
             onSettingsTopAppBarActionClicked = navigateToSettings,
             onConnectBottomBarItemClicked = navigateToConnect,
@@ -154,9 +154,9 @@ internal fun PublicFeedScreen(
         onBackIconButtonClicked = null,
         topAppBarActions = listOfNotNull(
             TopAppBarAction(
-                Outlined.Settings,
-                stringResource(string.feature_feed_topAppBarActions_settings),
-                onSettingsTopAppBarActionClicked,
+                icon = Outlined.Settings,
+                title = stringResource(string.feature_feed_topAppBarActions_settings),
+                onClick = onSettingsTopAppBarActionClicked,
             ),
             feedbackTopAppBarAction,
         ),
@@ -187,8 +187,8 @@ internal fun PublicFeedScreen(
         topAppBarStyle = HOME,
     ) {
         PublicFeedPanel(
-            it,
-            data,
+            paddingValues = it,
+            data = data,
         )
     }
 }
@@ -199,7 +199,7 @@ private fun PublicFeedPanel(
     data: PublicFeedData,
 ) {
     Column(
-        Modifier
+        modifier = Modifier
             .verticalScroll(rememberScrollState())
             .padding(paddingValues),
     ) {
@@ -261,13 +261,13 @@ private fun PublicFeedPanel(
                 post = post,
                 friendRepository = UserRepository.friends,
                 enabled = if (data.user is SignedInUser || data.user is AnonymousUser) {
-                    data.phone.isValid() == true
+                    data.phone.isValid()
                 } else {
                     false
                 },
             )
             Rn3TileHorizontalDivider(
-                paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
+                paddingValues = Rn3SurfaceDefaults.paddingValues.copy(
                     top = 0.dp,
                     bottom = 0.dp,
                 ),

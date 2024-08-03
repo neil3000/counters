@@ -27,10 +27,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.Info
@@ -51,7 +49,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalBigPadding
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
@@ -62,9 +60,9 @@ fun Rn3ExpandableSurface(
     modifier: Modifier = Modifier,
     content: @Composable RowScope.(expanded: Boolean) -> Unit,
     expandedContent: @Composable AnimatedVisibilityScope.() -> Unit,
-    paddingValues: Rn3PaddingValues = Rn3ExpandableSurfaceDefaults.paddingValues,
-    tonalElevation: Dp = Rn3ExpandableSurfaceDefaults.tonalElevation,
-    shape: Shape = Rn3ExpandableSurfaceDefaults.shape,
+    paddingValues: Rn3PaddingValues = Rn3SurfaceDefaults.paddingValues,
+    tonalElevation: Dp = Rn3SurfaceDefaults.tonalElevation,
+    shape: Shape = Rn3SurfaceDefaults.shape,
 ) {
     val haptic = getHaptic()
 
@@ -94,7 +92,7 @@ fun Rn3ExpandableSurface(
             ),
         ) {
             Row(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(Rn3AdditionalBigPadding.paddingValues),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 content(isExpanded)
@@ -116,12 +114,6 @@ fun Rn3ExpandableSurface(
     }
 }
 
-object Rn3ExpandableSurfaceDefaults {
-    val paddingValues = Rn3PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-    val tonalElevation = 2.dp
-    val shape = RoundedCornerShape(16.dp)
-}
-
 @Rn3PreviewComponentDefault
 @Composable
 private fun Default() {
@@ -137,7 +129,7 @@ private fun Default() {
                     Text(
                         text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nec leo justo. Praesent consequat et tortor sit amet sodales. Praesent pulvinar gravida metus, ac pretium dolor.",
                         modifier = Modifier.padding(
-                            Rn3TileSmallHeaderDefaults.paddingValues.copy(
+                            Rn3TextDefaults.paddingValues.copy(
                                 top = 0.dp,
                             ),
                         ),

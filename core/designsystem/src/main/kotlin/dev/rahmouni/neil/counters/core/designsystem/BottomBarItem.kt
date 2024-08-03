@@ -37,7 +37,6 @@ data class BottomBarItem(
     val enabled: Boolean = true,
     val fullSize: Boolean = false,
 ) {
-
     @Composable
     fun Icon() {
         if (fullSize) {

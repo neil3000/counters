@@ -15,25 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.feature.settings.accessibility
+package dev.rahmouni.neil.counters.core.designsystem.paddingValues
 
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
-import androidx.navigation.compose.composable
+import androidx.compose.ui.unit.dp
 
-internal const val ACCESSIBILITY_ROUTE = "accessibility"
-
-internal fun NavController.navigateToAccessibilitySettings(navOptions: NavOptions? = null) =
-    navigate(
-        route = ACCESSIBILITY_ROUTE,
-        navOptions = navOptions,
-    )
-
-internal fun NavGraphBuilder.accessibilityScreen(navController: NavController) {
-    composable(route = ACCESSIBILITY_ROUTE) {
-        AccessibilitySettingsRoute(
-            navController = navController,
-        )
-    }
+object Rn3AdditionalBigPadding {
+    val paddingValues = Rn3PaddingValues(horizontal = 16.dp, vertical = 16.dp)
 }

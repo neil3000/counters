@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -64,14 +63,15 @@ import dev.rahmouni.neil.counters.core.common.toRn3Uri
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LargeButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3OutlinedTextField
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalBigPadding
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rebased.icon
 import dev.rahmouni.neil.counters.core.designsystem.rebased.sortedCountries
@@ -155,20 +155,20 @@ private fun InformationForm(
             .padding(paddingValues)
             .verticalScroll(rememberScrollState()),
     ) {
-        var address by remember { mutableStateOf(data.address) }
-        var phone by remember { mutableStateOf(data.phone) }
+        var address by remember { mutableStateOf(value = data.address) }
+        var phone by remember { mutableStateOf(value = data.phone) }
 
-        var hasUserInteracted by rememberSaveable { mutableStateOf(false) }
+        var hasUserInteracted by rememberSaveable { mutableStateOf(value = false) }
 
-        var countryExpanded by remember { mutableStateOf(false) }
-        var phoneCodeExpanded by remember { mutableStateOf(false) }
+        var countryExpanded by remember { mutableStateOf(value = false) }
+        var phoneCodeExpanded by remember { mutableStateOf(value = false) }
 
-        var isFocusedPostalCode by rememberSaveable { mutableStateOf(false) }
-        var showFullLabelPostalCode by rememberSaveable { mutableStateOf(false) }
+        var isFocusedPostalCode by rememberSaveable { mutableStateOf(value = false) }
+        var showFullLabelPostalCode by rememberSaveable { mutableStateOf(value = false) }
 
         LaunchedEffect(isFocusedPostalCode) {
             if (isFocusedPostalCode) {
-                delay(50)
+                delay(timeMillis = 50)
                 showFullLabelPostalCode = true
             } else {
                 showFullLabelPostalCode = false
@@ -180,7 +180,7 @@ private fun InformationForm(
 
         LaunchedEffect(isFocusedPhoneCode) {
             if (isFocusedPhoneCode) {
-                delay(50)
+                delay(timeMillis = 50)
                 showFullLabelPhoneCode = true
             } else {
                 showFullLabelPhoneCode = false
@@ -197,7 +197,7 @@ private fun InformationForm(
                 Column {
                     Text(
                         modifier = Modifier.padding(
-                            Rn3TileSmallHeaderDefaults.paddingValues.copy(
+                            Rn3TextDefaults.paddingValues.copy(
                                 top = 0.dp,
                             ),
                         ),
@@ -212,7 +212,7 @@ private fun InformationForm(
             },
         )
 
-        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+        Column(modifier = Modifier.padding(Rn3AdditionalBigPadding.paddingValues.only(HORIZONTAL))) {
 
         ExposedDropdownMenuBox(
             expanded = countryExpanded,
@@ -249,7 +249,7 @@ private fun InformationForm(
                                     modifier = Modifier.size(24.dp),
                                     tint = Color.Unspecified,
                                 )
-                                Spacer(Modifier.size(16.dp))
+                                Spacer(modifier = Modifier.size(16.dp))
                                 Text(text = selectedCountry.text())
                             }
                         },
@@ -298,7 +298,7 @@ private fun InformationForm(
                     address = address.copy(postalCode = newPostalCode)
                 },
                 maxCharacters = 20,
-                label = { Text(if (showFullLabelPostalCode || address.postalCode != "") "Postal Code" else "Postal") },
+                label = { Text(text = if (showFullLabelPostalCode || address.postalCode != "") "Postal Code" else "Postal") },
                 beEmpty = true,
                 singleLine = true,
                 enableAutofill = true,
@@ -341,7 +341,7 @@ private fun InformationForm(
                         readOnly = true,
                         value = phone.code?.let { "+${it.phoneCode}" } ?: "",
                         onValueChange = {},
-                        label = { Text(if (showFullLabelPhoneCode || phone.code != null) "Phone Code" else "Code") },
+                        label = { Text(text = if (showFullLabelPhoneCode || phone.code != null) "Phone Code" else "Code") },
                         trailingIcon = {
                             ExposedDropdownMenuDefaults.TrailingIcon(expanded = phoneCodeExpanded)
                         },
@@ -396,18 +396,17 @@ private fun InformationForm(
                     autofillTypes = AutofillType.PhoneNumber,
                 )
             }
-        }
 
-     Rn3LargeButton(
-         modifier = Modifier.padding(Rn3ExpandableSurfaceDefaults.paddingValues),
-         text = "Save",
-         icon = Outlined.Check,
-         color = MaterialTheme.colorScheme.primaryContainer,
-     ) {
-         hasUserInteracted = true
-         if (address.country != null && address.street.isNotEmpty() && address.locality.isNotEmpty()) {
-             onValidateLocationClicked(address, phone)
-         }
-     }
+            Rn3LargeButton(
+                text = "Save",
+                icon = Outlined.Check,
+                color = MaterialTheme.colorScheme.primaryContainer,
+            ) {
+                hasUserInteracted = true
+                if (address.country != null && address.street.isNotEmpty() && address.locality.isNotEmpty()) {
+                    onValidateLocationClicked(address, phone)
+                }
+            }
+    }
     }
 }

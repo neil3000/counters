@@ -27,7 +27,7 @@ import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilitySc
 const val PUBLICATION_ROUTE = "publication"
 
 fun NavController.navigateToPublication(navOptions: NavOptions? = null) =
-    navigate(PUBLICATION_ROUTE, navOptions)
+    navigate(route = PUBLICATION_ROUTE, navOptions = navOptions)
 
 fun NavGraphBuilder.publicationScreen(
     navController: NavController,
@@ -37,7 +37,7 @@ fun NavGraphBuilder.publicationScreen(
     navigateToEvents: () -> Unit,
 ) {
     composable(route = PUBLICATION_ROUTE) {
-        CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
+        CompositionLocalProvider(value = LocalNavAnimatedVisibilityScope provides this) {
             PublicationRoute(
                 navController = navController,
                 navigateToSettings = navigateToSettings,

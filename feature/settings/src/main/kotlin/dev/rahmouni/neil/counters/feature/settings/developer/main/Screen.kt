@@ -86,8 +86,8 @@ internal fun DeveloperSettingsRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     DeveloperSettingsScreen(
-        modifier,
-        uiState,
+        modifier = modifier,
+        uiState = uiState,
         onBackIconButtonClicked = navController::popBackStack,
         onLinksRn3UrlTileClicked = navController::navigateToDeveloperSettingsLinks,
         onClearPersistenceTileClicked = viewModel::clearPersistence,
@@ -115,11 +115,11 @@ internal fun DeveloperSettingsScreen(
         onBackIconButtonClicked = onBackIconButtonClicked,
     ) {
         DeveloperSettingsPanel(
-            it,
-            uiState.developerSettingsData,
-            onLinksRn3UrlTileClicked,
-            onClearPersistenceTileClicked,
-            onSimulateCrashTileClicked,
+            paddingValues = it,
+            data = uiState.developerSettingsData,
+            onLinksRn3UrlTileClicked = onLinksRn3UrlTileClicked,
+            onClearPersistenceTileClicked = onClearPersistenceTileClicked,
+            onSimulateCrashTileClicked = onSimulateCrashTileClicked,
         )
     }
 }
