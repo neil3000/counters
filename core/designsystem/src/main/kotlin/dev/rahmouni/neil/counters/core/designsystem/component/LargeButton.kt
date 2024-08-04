@@ -21,7 +21,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.requiredWidthIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -50,6 +50,42 @@ fun Rn3LargeButton(
     shape: Shape = Rn3SurfaceDefaults.shape,
     onClick: () -> Unit,
 ) {
+    Rn3LargeButton(
+        modifier = modifier,
+        text = {
+            if (leadingIcon != null) Spacer(modifier = Modifier.width(16.dp))
+            Text(
+                text = text,
+                color = MaterialTheme.colorScheme.contentColorFor(color),
+                style = MaterialTheme.typography.bodyLarge,
+            )
+        },
+        icon = {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(24.dp),
+            )
+        },
+        color = color,
+        leadingIcon = leadingIcon,
+        shape = shape,
+    ) {
+        onClick()
+    }
+}
+
+@Composable
+fun Rn3LargeButton(
+    modifier: Modifier = Modifier,
+    text: @Composable (() -> Unit),
+    icon: @Composable (() -> Unit),
+    color: Color = MaterialTheme.colorScheme.surface,
+    leadingIcon: ImageVector? = null,
+    shape: Shape = Rn3SurfaceDefaults.shape,
+    onClick: () -> Unit,
+) {
     val haptics = getHaptic()
 
     Surface(
@@ -64,41 +100,28 @@ fun Rn3LargeButton(
                     haptics.click()
                     onClick()
                 }
-                .padding(Rn3TextDefaults.paddingValues),
+                .padding(Rn3TextDefaults.largePaddingValues),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Row(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-            ) {
+            Row {
                 if (leadingIcon != null) {
                     Icon(
                         imageVector = leadingIcon,
                         contentDescription = null,
                     )
                 }
-                Text(
-                    text = text,
-                    color = MaterialTheme.colorScheme.contentColorFor(color),
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(
-                        Rn3TextDefaults.paddingValues.copy(
-                            start = if (leadingIcon != null) Rn3TextDefaults.paddingValues.start else 0.dp,
-                        ),
-                    ),
-                )
+
+                text()
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
+            Spacer(
                 modifier = Modifier
-                    .size(24.dp),
+                    .weight(1f)
+                    .defaultMinSize(minWidth = 16.dp),
             )
+
+            icon()
         }
     }
 }

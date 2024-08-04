@@ -25,14 +25,11 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -54,6 +51,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -78,6 +76,7 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LargeButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
@@ -92,6 +91,7 @@ import dev.rahmouni.neil.counters.core.designsystem.icons.Contract
 import dev.rahmouni.neil.counters.core.designsystem.icons.DevicesOff
 import dev.rahmouni.neil.counters.core.designsystem.icons.SyncSavedLocally
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.END
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
@@ -341,23 +341,9 @@ private fun SettingsPanel(
                     label = "Rn3UpdateTileDefaults background color",
                 )
 
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(Rn3SurfaceDefaults.paddingValues.copy(top = 0.dp)),
-                    color = color,
-                    shape = Rn3SurfaceDefaults.shape,
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .clickable(enabled = actionPossible()) {
-                                haptics.click()
-                                onUpdateAvailableTileClicked()
-                            }
-                            .padding(Rn3TextDefaults.paddingValues),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                    ) {
+                Rn3LargeButton(
+                    modifier = Modifier.padding(Rn3SurfaceDefaults.paddingValues.copy(top = 0.dp)),
+                    text = {
                         Text(
                             text = when (this@with) {
                                 is UpdateAvailable -> stringResource(string.feature_settings_settingsScreen_updateAvailable)
@@ -366,15 +352,13 @@ private fun SettingsPanel(
                                 NoUpdateAvailable -> "RahNeil_N3:GsKMAaulylNilvukEZCbJI4jWLXbRRzb"
                             },
                             style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.contentColorFor(color),
                             modifier = Modifier.padding(
-                                Rn3TextDefaults.paddingValues.copy(
-                                    start = 0.dp,
-                                ),
+                                Rn3TextDefaults.paddingValues.only(END),
                             ),
                         )
-
-                        Spacer(modifier = Modifier.width(16.dp))
-
+                    },
+                    icon = {
                         when (this@with) {
                             is DownloadingUpdate -> {
                                 val progressFloat by animateFloatAsState(
@@ -392,13 +376,21 @@ private fun SettingsPanel(
                             is UpdateAvailable -> Icon(
                                 imageVector = Outlined.FileDownload,
                                 contentDescription = null,
+                                modifier = Modifier.size(24.dp),
                             )
 
                             is WaitingForRestart -> Icon(
                                 imageVector = Outlined.RestartAlt,
                                 contentDescription = null,
+                                modifier = Modifier.size(24.dp),
                             )
                         }
+                    },
+                    color = color,
+                ) {
+                    if (actionPossible()) {
+                        haptics.click()
+                        onUpdateAvailableTileClicked()
                     }
                 }
             }

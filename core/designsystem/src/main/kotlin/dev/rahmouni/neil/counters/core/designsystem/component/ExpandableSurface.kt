@@ -96,7 +96,9 @@ fun Rn3ExpandableSurface(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 content(isExpanded)
+
                 Spacer(modifier = Modifier.weight(1f))
+
                 Icon(
                     imageVector = Outlined.ExpandMore,
                     contentDescription = null,

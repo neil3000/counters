@@ -22,4 +22,5 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValu
 
 object Rn3TextDefaults {
     val paddingValues = Rn3PaddingValues(horizontal = 16.dp, vertical = 12.dp)
+    val largePaddingValues = Rn3PaddingValues(horizontal = 24.dp, vertical = 20.dp)
 }
