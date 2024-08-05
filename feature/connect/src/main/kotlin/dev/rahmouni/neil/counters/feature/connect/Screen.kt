@@ -37,7 +37,6 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -78,7 +77,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import dev.rahmouni.neil.counters.core.data.model.Friend
+import dev.rahmouni.neil.counters.core.data.model.FriendEntity
+import dev.rahmouni.neil.counters.core.data.model.FriendRawData
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.R.color
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
@@ -89,9 +89,12 @@ import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOM
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.END
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
+import dev.rahmouni.neil.counters.core.model.data.Country
+import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.shapes.MorphableShape
 import dev.rahmouni.neil.counters.core.shapes.loadingShapeParameters
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
@@ -103,6 +106,7 @@ import dev.rahmouni.neil.counters.feature.connect.model.ConnectUiState.Success
 import dev.rahmouni.neil.counters.feature.connect.model.ConnectViewModel
 import dev.rahmouni.neil.counters.feature.connect.model.data.ConnectData
 import dev.rahmouni.neil.counters.feature.connect.ui.Rn3FriendTileClick
+import dev.rahmouni.neil.counters.feature.connect.ui.newFriendModal
 import kotlinx.coroutines.launch
 
 @Composable
@@ -134,6 +138,7 @@ internal fun ConnectRoute(
             onPublicBottomBarItemClicked = navigateToPublic,
             onEventsBottomBarItemClicked = navigateToEvents,
             onAccountTileLoginButtonClicked = navigateToLogin,
+            onAddFriend = viewModel::addFriend,
         )
     }
 
@@ -152,11 +157,14 @@ internal fun ConnectScreen(
     onPublicBottomBarItemClicked: () -> Unit = {},
     onEventsBottomBarItemClicked: () -> Unit = {},
     onAccountTileLoginButtonClicked: () -> Unit = {},
+    onAddFriend: (FriendRawData) -> Unit = {},
 ) {
-    val haptics = getHaptic()
+    val haptic = getHaptic()
     val context = LocalContext.current
 
     val fabExpanded = remember { mutableStateOf(value = true) }
+
+    val openNewFriendModal = newFriendModal(onAddFriend = onAddFriend)
 
     val add = when (data.user) {
         is SignedInUser -> BottomBarItem(
@@ -171,7 +179,7 @@ internal fun ConnectScreen(
             icon = Filled.Add,
             label = stringResource(string.feature_connect_bottomBar_add),
             onClick = {
-                haptics.click()
+                haptic.click()
 
                 Toast
                     .makeText(
@@ -205,7 +213,9 @@ internal fun ConnectScreen(
                 text = { Text(text = stringResource(string.feature_connect_fab_text)) },
                 icon = { Icon(imageVector = Outlined.Add, contentDescription = null) },
                 onClick = {
-                    haptics.click()
+                    haptic.click()
+
+                    openNewFriendModal()
                 },
                 expanded = fabExpanded.value,
             )
@@ -257,7 +267,7 @@ private fun ColumnPanel(
 
     val animatedRotation = remember { Animatable(initialValue = 0f) }
 
-    val users = UserRepository.friends
+    val users = UserRepository.friendEntities
 
     LaunchedEffect(Unit) {
         launch {
@@ -337,11 +347,7 @@ private fun ColumnPanel(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth(),
-                    ) {
+                    Column(modifier = Modifier.weight(1f).padding(Rn3TextDefaults.paddingValues.only(END)),) {
                         Text(
                             text = getDisplayName(context),
                             style = MaterialTheme.typography.titleMedium,
@@ -352,8 +358,6 @@ private fun ColumnPanel(
                         )
                     }
 
-                    Spacer(modifier = Modifier.width(16.dp))
-
                     // loginButton
                     OutlinedButton(onClick = onAccountTileLoginButtonClicked) {
                         Text(text = stringResource(string.feature_connect_loginTile_button))
@@ -362,13 +366,13 @@ private fun ColumnPanel(
             }
         }
 
-        users.forEach { user ->
+        val sortedFriendEntities = users
+            .sortedWith(compareBy<FriendEntity> { !it.nearby }.thenBy { it.name })
+
+        sortedFriendEntities.forEach { friend ->
             Rn3FriendTileClick(
-                title = user.name,
-                onClick = {},
-                button = if (data.phone.isValid()) {
-                    user.nearby
-                } else false,
+                button = data.phone.isValid(),
+                friendEntity = friend,
             )
         }
     }
@@ -376,38 +380,53 @@ private fun ColumnPanel(
 
 
 object UserRepository {
-    val friends = listOf(
-        Friend(
-            userId = "1",
+    val friendEntities = listOf(
+        FriendEntity(
+            uid = "1",
             name = "Alice Smith",
             email = "alice.smith@example.com",
-            phone = "123-456-7890",
-            nearby = true,
+            phone = PhoneInfo(
+                code = Country.BELGIUM,
+                number = "0123456789"
+            ),
         ),
-        Friend(
-            userId = "2",
+        FriendEntity(
+            uid = "2",
             name = "Bob Johnson",
             email = "bob.johnson@example.com",
-            phone = "234-567-8901",
+            phone = PhoneInfo(
+                code = Country.UNITED_KINGDOM,
+                number = "0123456789"
+            ),
             nearby = true,
         ),
-        Friend(
-            userId = "3",
+        FriendEntity(
+            uid = "3",
             name = "Carol Williams",
             email = "carol.williams@example.com",
-            phone = "345-678-9012",
+            phone = PhoneInfo(
+                code = Country.BELGIUM,
+                number = "0123456789"
+            ),
         ),
-        Friend(
-            userId = "4",
+        FriendEntity(
+            uid = "4",
             name = "David Brown",
             email = "david.brown@example.com",
-            phone = "456-789-0123",
+            phone = PhoneInfo(
+                code = Country.FRANCE,
+                number = "0123456789"
+            ),
+            nearby = true
         ),
-        Friend(
-            userId = "5",
+        FriendEntity(
+            uid = "5",
             name = "Eva Davis",
             email = "eva.davis@example.com",
-            phone = "567-890-1234",
+            phone = PhoneInfo(
+                code = Country.BELGIUM,
+                number = "0123456789"
+            ),
         ),
     )
 }

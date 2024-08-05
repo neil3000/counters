@@ -20,7 +20,9 @@ package dev.rahmouni.neil.counters.core.feedback.pages
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Android
 import androidx.compose.material.icons.outlined.LocationOn
@@ -60,7 +62,9 @@ internal fun FeedbackContextPage(
     var sendAdditionalInfoValue by rememberSaveable { mutableStateOf(sendAdditionalInfo) }
 
     Column {
-        FeedbackMessages(messages = listOf(stringResource(string.core_feedback_contextPage_contextMessage)))
+        Spacer(modifier = Modifier.height(8.dp))
+
+        FeedbackMessages(messages = listOf(stringResource(string.core_feedback_contextPage_contextMessage)), paddingValues = Rn3SurfaceDefaults.paddingValues.copy(bottom = 0.dp))
 
         if (hasContext) {
             Rn3TileSwitch(
@@ -99,7 +103,7 @@ internal fun FeedbackContextPage(
         }
 
         Row(
-            Modifier.padding(Rn3SurfaceDefaults.paddingValues),
+            Modifier.padding(Rn3SurfaceDefaults.paddingValues.copy(top = 0.dp, bottom = 6.dp)),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             FilledTonalButton(

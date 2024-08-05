@@ -190,8 +190,11 @@ private fun InformationForm(
         Rn3ExpandableSurface(
             content = {
                 Icon(imageVector = Outlined.Info, contentDescription = null)
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(text = "Why do we need this")
+                Text(
+                    text = "Why do we need this",
+                    modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL)
+                    )
+                )
             },
             expandedContent = {
                 Column {

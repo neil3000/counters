@@ -92,10 +92,10 @@ fun Rn3OutlinedTextField(
         singleLine = singleLine,
         supportingText = {
             when {
-                isTooLarge && maxCharacters != null -> Text(
+                isTooLarge -> Text(
                     text = stringResource(
                         string.core_designsystem_limitCharactersReached,
-                        maxCharacters,
+                        maxCharacters!!,
                     ),
                     color = MaterialTheme.colorScheme.error,
                 )

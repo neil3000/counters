@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="feature_settings_accessibilitySettingsScreen_topAppBarTitle">Accessibility</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_clearMetricsTile_bodyHeader">If you clear local metrics:</string>
     <string name="feature_settings_dataAndPrivacySettingsScreen_clearMetricsTile_title">Clear app metrics</string>
@@ -91,9 +91,9 @@
     <string name="feature_settings_developerSettingsLinksScreen_deleteButton_confirmationDialog_confirmLabel" translatable="false">Delete</string>
     <string name="feature_settings_settingsScreen_switchAccountTile_title">Switch account</string>
     <string name="feature_settings_settingsScreen_editInfoTile_title">Edit your information</string>
-    <string name="feature_settings_confirmationDialog_title">Are you sure ?</string>
+    <string name="feature_settings_confirmationDialog_title">Are you sure?</string>
     <string name="feature_settings_settingsScreen_updateAvailable">Update available</string>
-    <string name="feature_settings_settingsScreen_updateDownloading">Downloading...</string>
+    <string name="feature_settings_settingsScreen_updateDownloading" tools:ignore="TypographyEllipsis">Downloading...</string>
     <string name="feature_settings_settingsScreen_updateRestart">Restart to apply</string>
     <plurals name="feature_settings_linkRn3UrlTile_favoriteIconButton_contentDescription" translatable="false">
         <item quantity="one">Remove from favorites</item>

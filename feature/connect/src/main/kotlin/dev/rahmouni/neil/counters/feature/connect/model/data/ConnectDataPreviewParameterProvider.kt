@@ -18,7 +18,9 @@
 package dev.rahmouni.neil.counters.feature.connect.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import dev.rahmouni.neil.counters.core.data.model.FriendEntity
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
+import dev.rahmouni.neil.counters.core.model.data.Country
 import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
@@ -56,6 +58,27 @@ object PreviewParameterData {
             number = null,
             code = null,
         ),
+        friends = listOf(
+            FriendEntity(
+                uid = "4",
+                name = "David Brown",
+                email = "david.brown@example.com",
+                phone = PhoneInfo(
+                    code = Country.FRANCE,
+                    number = "0123456789"
+                ),
+                nearby = true
+            ),
+            FriendEntity(
+                uid = "5",
+                name = "Eva Davis",
+                email = "eva.davis@example.com",
+                phone = PhoneInfo(
+                    code = Country.BELGIUM,
+                    number = "0123456789"
+                ),
+            ),
+        )
     )
     val connectData_mutations = with(connectData_default) {
         sequenceOf(

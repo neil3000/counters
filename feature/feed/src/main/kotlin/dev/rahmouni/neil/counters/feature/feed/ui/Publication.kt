@@ -1,5 +1,7 @@
 package dev.rahmouni.neil.counters.feature.feed.ui
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,9 +23,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.data.model.Friend
+import dev.rahmouni.neil.counters.core.data.model.FriendEntity
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
@@ -33,16 +36,17 @@ import dev.rahmouni.neil.counters.core.designsystem.rebased.text
 import dev.rahmouni.neil.counters.core.model.data.Country
 
 @Composable
-fun Publication(post: Post, friendRepository: List<Friend>, enabled: Boolean) {
+fun Publication(post: Post, friendEntityRepository: List<FriendEntity>, enabled: Boolean) {
     val haptic = getHaptic()
+    val context = LocalContext.current
 
-    val user = post.userId.let { id ->
-        friendRepository.find { it.userId == id }
+    val friend = post.userId.let { id ->
+        friendEntityRepository.find { it.uid == id }
     }
 
     Row(modifier = Modifier.padding(start = 16.dp, end= 16.dp, top = 2.dp, bottom = 16.dp)) {
         Surface(modifier = Modifier.padding(top = 14.dp)) {
-            if (user != null) {
+            if (friend != null) {
                 Icon(
                     imageVector = Icons.Outlined.AccountCircle,
                     modifier = Modifier
@@ -68,8 +72,8 @@ fun Publication(post: Post, friendRepository: List<Friend>, enabled: Boolean) {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Row(modifier = Modifier.padding(end = 8.dp), verticalAlignment = Alignment.Bottom) {
-                    if (user != null) {
-                        Text(text = user.name, fontWeight = FontWeight.Bold)
+                    if (friend != null) {
+                        Text(text = friend.name ?: friend.phone?.getFormatedNumber() ?: "", fontWeight = FontWeight.Bold)
                     } else {
                         if (post.sharingScope == SharingScope.COUNTRY) {
                             Text(
@@ -110,6 +114,12 @@ fun Publication(post: Post, friendRepository: List<Friend>, enabled: Boolean) {
                                 enabled = enabled,
                                 onClick = {
                                     haptic.click()
+
+                                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                                        data = Uri.parse("sms:${info}")
+                                    }
+
+                                    context.startActivity(intent)
                                 },
                             ) {
                                 Text(info)

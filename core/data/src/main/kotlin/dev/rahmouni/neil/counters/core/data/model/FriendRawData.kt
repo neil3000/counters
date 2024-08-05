@@ -20,24 +20,16 @@ package dev.rahmouni.neil.counters.core.data.model
 import androidx.annotation.Keep
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
+import dev.rahmouni.neil.counters.core.model.data.Country
+import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 
 @Keep
-data class CounterRawData(
+data class FriendRawData(
     @DocumentId val uid: String? = null,
-    val createdAt: Timestamp = Timestamp.now(),
-    val currentValue: Long = 0,
-    val currentValueComputedSegment: Timestamp? = null,
     val ownerUserUid: String = "RahNeil_N3:error:xTdZVv31n9S4fjOB0dFtJBk2ZZR6Ch5F",
-    val title: String? = null,
-    val color: String = "SECONDARY",
-    val unit: String? = null,
-    val prefix: Long? = null,
-)
-
-@Keep
-data class IncrementRawData(
-    @DocumentId val uid: String? = null,
-    val value: Long = 1,
-    val createdAt: Timestamp = Timestamp.now(),
-    val description: String? = null,
+    val name: String? = null,
+    val email: String? = null,
+    val phoneNumber: String? = null,
+    val phoneCode: String? = null,
+    val nearby: Boolean = false,
 )

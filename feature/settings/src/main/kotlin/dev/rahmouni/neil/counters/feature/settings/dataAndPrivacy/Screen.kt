@@ -35,6 +35,7 @@ import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -64,6 +65,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallH
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
@@ -187,8 +189,11 @@ private fun DataAndPrivacySettingsPanel(
         Rn3ExpandableSurface(
             content = {
                 Icon(imageVector = Outlined.Info, contentDescription = null)
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(text = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title))
+                Text(
+                    text = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title),
+                    modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL)
+                    )
+                )
             },
             expandedContent = {
                 Text(
@@ -215,8 +220,11 @@ private fun DataAndPrivacySettingsPanel(
         Rn3ExpandableSurface(
             content = {
                 Icon(imageVector = Outlined.Info, contentDescription = null)
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(text = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title))
+                Text(
+                    text = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title),
+                    modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL)
+                    )
+                )
             },
             expandedContent = {
                 Text(
@@ -239,10 +247,12 @@ private fun DataAndPrivacySettingsPanel(
         )
 
         // privacyPolicySummaryTile
-        Card(
+        Surface(
             modifier = Modifier
                 .padding(Rn3SurfaceDefaults.paddingValues)
                 .fillMaxWidth(),
+            tonalElevation = Rn3SurfaceDefaults.tonalElevation,
+            shape = Rn3SurfaceDefaults.shape,
         ) {
             Column {
                 Rn3TileSmallHeader(

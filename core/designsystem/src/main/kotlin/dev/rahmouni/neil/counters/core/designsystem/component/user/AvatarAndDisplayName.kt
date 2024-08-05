@@ -18,6 +18,7 @@
 package dev.rahmouni.neil.counters.core.designsystem.component.user
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -35,7 +36,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalBigPadding
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
@@ -55,12 +58,7 @@ fun Rn3User.UserAvatarAndName(
     ) {
         Avatar()
 
-        Column(
-            modifier = Modifier
-                .padding(
-                    Rn3AdditionalBigPadding.paddingValues.only(HORIZONTAL),
-                ),
-        ) {
+        Column(modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL))) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = getDisplayName(context),

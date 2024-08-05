@@ -23,6 +23,6 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValu
 
 object Rn3SurfaceDefaults {
     val paddingValues = Rn3PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-    val tonalElevation = 2.dp
+    val tonalElevation = 4.dp
     val shape = RoundedCornerShape(16.dp)
 }

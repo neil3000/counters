@@ -60,7 +60,7 @@ internal fun editLinkModal(
     onDelete: (path: String) -> Unit,
 ): (LinkRn3UrlRawData?) -> Unit {
     val scope = rememberCoroutineScope()
-    val haptics = getHaptic()
+    val haptic = getHaptic()
 
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -136,7 +136,7 @@ internal fun editLinkModal(
                         ) {
                             Button(
                                 onClick = {
-                                    haptics.click()
+                                    haptic.click()
                                     it()
                                 },
                                 colors = ButtonDefaults.rn3ErrorButtonColors(),
@@ -153,7 +153,7 @@ internal fun editLinkModal(
                     Button(
                         onClick = {
                             if (enabled) {
-                                haptics.click()
+                                haptic.click()
                                 hide()
 
                                 onConfirm(

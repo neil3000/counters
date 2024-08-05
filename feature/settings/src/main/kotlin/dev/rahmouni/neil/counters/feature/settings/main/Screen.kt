@@ -28,6 +28,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -257,7 +259,7 @@ private fun SettingsPanel(
     setTravelMode: (Boolean) -> Unit,
     setFriendsMain: (Boolean) -> Unit,
 ) {
-    val haptics = getHaptic()
+    val haptic = getHaptic()
 
     Column(
         modifier = Modifier
@@ -311,10 +313,15 @@ private fun SettingsPanel(
             ) {
                 Row(
                     modifier = Modifier.padding(Rn3TextDefaults.paddingValues),
-                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    data.user.UserAvatarAndName(modifier = Modifier.weight(1f))
+                    data.user.UserAvatarAndName()
+
+                    Spacer(
+                        modifier = Modifier
+                            .weight(1f)
+                            .defaultMinSize(minWidth = 16.dp),
+                    )
 
                     // loginButton
                     OutlinedButton(onClick = onAccountTileLoginButtonClicked) {
@@ -353,9 +360,7 @@ private fun SettingsPanel(
                             },
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.contentColorFor(color),
-                            modifier = Modifier.padding(
-                                Rn3TextDefaults.paddingValues.only(END),
-                            ),
+                            modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(END))
                         )
                     },
                     icon = {
@@ -389,7 +394,7 @@ private fun SettingsPanel(
                     color = color,
                 ) {
                     if (actionPossible()) {
-                        haptics.click()
+                        haptic.click()
                         onUpdateAvailableTileClicked()
                     }
                 }

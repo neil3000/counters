@@ -100,7 +100,7 @@ internal fun EventsScreen(
     onAddBottomBarItemClicked: () -> Unit = {},
     onPublicBottomBarItemClicked: () -> Unit = {},
 ) {
-    val haptics = getHaptic()
+    val haptic = getHaptic()
     val context = LocalContext.current
 
     val add = when (data.user) {
@@ -116,7 +116,7 @@ internal fun EventsScreen(
             icon = Filled.Add,
             label = stringResource(string.feature_events_bottomBar_add),
             onClick = {
-                haptics.click()
+                haptic.click()
 
                 Toast
                     .makeText(

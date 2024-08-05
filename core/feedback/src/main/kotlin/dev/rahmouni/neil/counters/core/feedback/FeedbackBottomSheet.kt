@@ -24,13 +24,15 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.Icons
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Feedback
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -55,7 +57,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
-import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.R.string
 import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackContextPage
 import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackDescriptionPage
@@ -91,20 +92,28 @@ fun FeedbackBottomSheet(
         Column {
             Surface(tonalElevation = Rn3SurfaceDefaults.tonalElevation) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(Rn3SurfaceDefaults.paddingValues.copy(end = 0.dp)),
+                    modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp, start = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = spacedBy(16.dp),
                 ) {
-                    Icon(imageVector = Icons.Outlined.Feedback, contentDescription = null)
-                    Text(
-                        text = stringResource(string.core_feedback_topBar_title),
-                        fontWeight = FontWeight.SemiBold,
+                    Row {
+                        Icon(imageVector = Outlined.Feedback, contentDescription = null)
+
+                        Spacer(modifier = Modifier.width(16.dp))
+
+                        Text(
+                            text = stringResource(string.core_feedback_topBar_title),
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                    }
+
+                    Spacer(
+                        modifier = Modifier
+                            .weight(1f)
+                            .defaultMinSize(minWidth = 16.dp),
                     )
-                    Spacer(Modifier.weight(1f))
+
                     Rn3IconButton(
-                        icon = Icons.Outlined.Close,
+                        icon = Outlined.Close,
                         contentDescription = stringResource(string.core_feedback_closeButton_contentDescription),
                     ) {
                         scope.launch { sheetState.hide() }.invokeOnCompletion {

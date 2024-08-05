@@ -23,8 +23,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dev.rahmouni.neil.counters.core.analytics.AnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
-import dev.rahmouni.neil.counters.core.data.model.CounterRawData
-import dev.rahmouni.neil.counters.core.data.model.IncrementRawData
+import dev.rahmouni.neil.counters.core.data.model.FriendRawData
 import dev.rahmouni.neil.counters.core.data.repository.logCreatedCounter
 import dev.rahmouni.neil.counters.core.data.repository.logCreatedIncrement
 import kotlinx.coroutines.flow.Flow
@@ -32,22 +31,22 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.transformLatest
 import javax.inject.Inject
 
-class FirestoreCountersDataRepository @Inject constructor(
+class FirestoreFriendsDataRepository @Inject constructor(
     private val analyticsHelper: AnalyticsHelper,
     private val authHelper: AuthHelper,
-) : CountersDataRepository {
+) : FriendsDataRepository {
 
-    override val userCounters: Flow<List<CounterRawData>> =
+    override val userFriends: Flow<List<FriendRawData>> =
         authHelper.getUserFlow().transformLatest { user ->
             emitAll(
                 try {
                     Firebase.firestore
-                        .collection("counters")
+                        .collection("friends")
                         .whereEqualTo(
-                            CounterRawData::ownerUserUid.name,
+                            FriendRawData::ownerUserUid.name,
                             user.getUid(),
                         )
-                        .dataObjects<CounterRawData>()
+                        .dataObjects<FriendRawData>()
                 } catch (e: Exception) {
                     throw e
                     // TODO Feedback error
@@ -55,33 +54,15 @@ class FirestoreCountersDataRepository @Inject constructor(
             )
         }
 
-    override fun createCounter(counterRawData: CounterRawData) {
+    override fun addFriend(friendRawData: FriendRawData) {
         Firebase.firestore
-            .collection("counters")
+            .collection("friends")
             .add(
-                counterRawData.copy(
+                friendRawData.copy(
                     ownerUserUid = authHelper.getUser().getUid(),
                 ),
             )
 
         analyticsHelper.logCreatedCounter()
-    }
-
-    override fun createIncrement(
-        counterUid: String,
-        incrementRawData: IncrementRawData,
-    ) {
-        Firebase.firestore
-            .collection("counters")
-            .document(counterUid)
-            .let {
-                it.update(
-                    CounterRawData::currentValue.name,
-                    FieldValue.increment(incrementRawData.value),
-                )
-                it.collection("increments").add(incrementRawData)
-            }
-
-        analyticsHelper.logCreatedIncrement()
     }
 }

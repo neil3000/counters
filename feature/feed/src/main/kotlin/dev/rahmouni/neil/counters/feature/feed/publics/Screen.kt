@@ -42,7 +42,7 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import dev.rahmouni.neil.counters.core.data.model.Friend
+import dev.rahmouni.neil.counters.core.data.model.FriendEntity
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.R.color
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
@@ -60,6 +60,8 @@ import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
+import dev.rahmouni.neil.counters.core.model.data.Country
+import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
@@ -116,7 +118,7 @@ internal fun PublicFeedScreen(
     onAddBottomBarItemClicked: () -> Unit = {},
     onEventsBottomBarItemClicked: () -> Unit = {},
 ) {
-    val haptics = getHaptic()
+    val haptic = getHaptic()
     val context = LocalContext.current
 
     val add = when (data.user) {
@@ -132,7 +134,7 @@ internal fun PublicFeedScreen(
             icon = Filled.Add,
             label = stringResource(string.feature_feed_bottomBar_add),
             onClick = {
-                haptics.click()
+                haptic.click()
 
                 Toast
                     .makeText(
@@ -259,7 +261,7 @@ private fun PublicFeedPanel(
         ).forEach { post ->
             Publication(
                 post = post,
-                friendRepository = UserRepository.friends,
+                friendEntityRepository = UserRepository.friendEntities,
                 enabled = if (data.user is SignedInUser || data.user is AnonymousUser) {
                     data.phone.isValid()
                 } else {
@@ -277,36 +279,51 @@ private fun PublicFeedPanel(
 }
 
 object UserRepository {
-    val friends = listOf(
-        Friend(
-            userId = "1",
+    val friendEntities = listOf(
+        FriendEntity(
+            uid = "1",
             name = "Alice Smith",
             email = "alice.smith@example.com",
-            phone = "123-456-7890",
+            phone = PhoneInfo(
+                code = Country.BELGIUM,
+                number = "0123456789"
+            ),
         ),
-        Friend(
-            userId = "2",
+        FriendEntity(
+            uid = "2",
             name = "Bob Johnson",
             email = "bob.johnson@example.com",
-            phone = "234-567-8901",
+            phone = PhoneInfo(
+                code = Country.BELGIUM,
+                number = "0123456789"
+            ),
         ),
-        Friend(
-            userId = "3",
+        FriendEntity(
+            uid = "3",
             name = "Carol Williams",
             email = "carol.williams@example.com",
-            phone = "345-678-9012",
+            phone = PhoneInfo(
+                code = Country.BELGIUM,
+                number = "0123456789"
+            ),
         ),
-        Friend(
-            userId = "4",
+        FriendEntity(
+            uid = "4",
             name = "David Brown",
             email = "david.brown@example.com",
-            phone = "456-789-0123",
+            phone = PhoneInfo(
+                code = Country.BELGIUM,
+                number = "0123456789"
+            ),
         ),
-        Friend(
-            userId = "5",
+        FriendEntity(
+            uid = "5",
             name = "Eva Davis",
             email = "eva.davis@example.com",
-            phone = "567-890-1234",
+            phone = PhoneInfo(
+                code = Country.BELGIUM,
+                number = "0123456789"
+            ),
         ),
     )
 }

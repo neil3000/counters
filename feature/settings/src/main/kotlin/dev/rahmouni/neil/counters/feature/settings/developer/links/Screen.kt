@@ -73,7 +73,7 @@ internal fun DeveloperSettingsLinksScreen(
     onConfirmButtonClicked: (LinkRn3UrlRawData) -> Unit = { _ -> },
     onDeleteButtonClicked: (String) -> Unit = { _ -> },
 ) {
-    val haptics = getHaptic()
+    val haptic = getHaptic()
 
     val openLinkEditModal =
         editLinkModal(onConfirm = onConfirmButtonClicked, onDelete = onDeleteButtonClicked)
@@ -86,7 +86,7 @@ internal fun DeveloperSettingsLinksScreen(
             FloatingActionButton(
                 modifier = it,
                 onClick = {
-                    haptics.click()
+                    haptic.click()
 
                     openLinkEditModal(null)
                 },

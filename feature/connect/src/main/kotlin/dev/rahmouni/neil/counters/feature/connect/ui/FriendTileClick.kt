@@ -17,6 +17,9 @@
 
 package dev.rahmouni.neil.counters.feature.connect.ui
 
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,45 +35,71 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.data.model.FriendEntity
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
+import dev.rahmouni.neil.counters.feature.connect.R.string
 
 @Composable
 fun Rn3FriendTileClick(
     modifier: Modifier = Modifier,
-    title: String,
     icon: ImageVector = Outlined.AccountCircle,
     button: Boolean = false,
-    onClick: () -> Unit,
+    friendEntity: FriendEntity,
 ) {
     val haptic = getHaptic()
+    val context = LocalContext.current
 
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(top = 4.dp, bottom = 4.dp, start = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Row {
             Icon(imageVector = icon, contentDescription = null)
-            Text(modifier = Modifier.padding(horizontal = 16.dp), text = title)
+            Text(modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL)), text = friendEntity.name ?: "")
         }
         Row {
-            if (button) {
+            if (button && friendEntity.nearby) {
                 Button(
                     onClick = {
                         haptic.click()
+
+                        val intent = Intent(Intent.ACTION_VIEW).apply {
+                            data = Uri.parse("sms:${friendEntity.phone!!.getFormatedNumber()}")
+                        }
+
+                        context.startActivity(intent)
                     },
                 ) {
-                    Text("Contact")
+                    Text(stringResource(string.feature_connect_friendTileClick_button))
                 }
             }
             Rn3IconButton(
                 icon = Icons.Default.ChevronRight,
-                contentDescription = "Go to user settings",
-                onClick = onClick,
+                contentDescription = stringResource(string.feature_connect_friendTileClick_iconButton_contentDescription),
+                onClick = {
+                    haptic.click()
+
+                    Toast
+                        .makeText(
+                            context,
+                            context.getString(
+                                string.feature_connect_friendTileClick_iconButton_toast,
+                                friendEntity.name,
+                            ),
+                            Toast.LENGTH_SHORT,
+                        )
+                        .show()
+                },
             )
         }
     }

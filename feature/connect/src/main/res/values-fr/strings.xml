@@ -25,4 +25,6 @@
     <string name="feature_connect_bottomBar_friends">Amis</string>
     <string name="feature_connect_bottomBar_events">Évènements</string>
     <string name="feature_connect_bottomBar_add_disabled">Vous ne pouvez pas poster si vous n\'êtes pas connecté</string>
+    <string name="feature_connect_loginTile_supportingtext">Connectez-vous pour enregistrer vos Amis sur tous les appareils</string>
+    <string name="feature_connect_loginTile_button">Se connecter</string>
 </resources>

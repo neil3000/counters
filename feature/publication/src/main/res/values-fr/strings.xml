@@ -18,4 +18,15 @@
 <resources>
     <string name="feature_publication_topAppBarActions_settings">Paramètres</string>
     <string name="feature_publication_topAppBarTitle">Publier</string>
+    <string name="feature_publication_textField_label">Votre post</string>
+    <string name="feature_publication_textField_characterLimit">La limite de 500 caractères est atteinte</string>
+    <string name="feature_publication_textField_isEmpty">Le champ est vide</string>
+    <string name="feature_publication_postButton">Poster</string>
+    <string name="feature_publication_analyseButton">Analyser</string>
+    <string name="feature_publication_informationButton_description">Informations à propos de la catégorisation</string>
+    <string name="feature_publication_imageButton_description">Importer une image</string>
+    <string name="feature_publication_infoDialog_title">Comment fonctionne la catégorisation</string>
+    <string name="feature_publication_infoDialog_textTitle">La catégorisation de votre message est gérée par Gemini.</string>
+    <string name="feature_publication_infoDialog_textReport">Si vous n\'êtes pas d\'accord avec la catégorisation attribuée à votre message, vous pouvez l\'indiquer en utilisant le bouton de rapport.</string>
+    <string name="feature_publication_infoDialog_button">Rapporter</string>
 </resources>

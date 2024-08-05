@@ -20,11 +20,8 @@ package dev.rahmouni.neil.counters.core.designsystem.component
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.requiredWidthIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalAbsoluteTonalElevation
 import androidx.compose.material3.MaterialTheme
@@ -53,11 +50,11 @@ fun Rn3LargeButton(
     Rn3LargeButton(
         modifier = modifier,
         text = {
-            if (leadingIcon != null) Spacer(modifier = Modifier.width(16.dp))
             Text(
                 text = text,
                 color = MaterialTheme.colorScheme.contentColorFor(color),
                 style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(start = if (leadingIcon != null) 16.dp else 0.dp, end = 16.dp)
             )
         },
         icon = {
@@ -86,25 +83,25 @@ fun Rn3LargeButton(
     shape: Shape = Rn3SurfaceDefaults.shape,
     onClick: () -> Unit,
 ) {
-    val haptics = getHaptic()
+    val haptic = getHaptic()
 
     Surface(
+        modifier = modifier,
         color = color,
         shape = shape,
-        modifier = modifier.requiredWidthIn(min = 280.dp),
         tonalElevation = -LocalAbsoluteTonalElevation.current,
     ) {
         Row(
             modifier = Modifier
                 .clickable {
-                    haptics.click()
+                    haptic.click()
                     onClick()
                 }
                 .padding(Rn3TextDefaults.largePaddingValues),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Row {
+            Row(modifier = Modifier.weight(1f),) {
                 if (leadingIcon != null) {
                     Icon(
                         imageVector = leadingIcon,
@@ -114,12 +111,6 @@ fun Rn3LargeButton(
 
                 text()
             }
-
-            Spacer(
-                modifier = Modifier
-                    .weight(1f)
-                    .defaultMinSize(minWidth = 16.dp),
-            )
 
             icon()
         }

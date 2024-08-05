@@ -56,16 +56,16 @@ internal fun LinkRn3UrlRawData.Tile(
     onLongPress: () -> Unit,
 ) {
     val context = LocalContext.current
-    val haptics = getHaptic()
+    val haptic = getHaptic()
 
     Rn3TileClick(
         modifier = modifier.combinedClickable(
             onClick = {
-                haptics.click()
+                haptic.click()
                 context.copyText(label = path, text = "https://counters.rahmouni.dev/$path")
             },
             onLongClick = {
-                haptics.longPress()
+                haptic.longPress()
                 onLongPress()
             },
         ),

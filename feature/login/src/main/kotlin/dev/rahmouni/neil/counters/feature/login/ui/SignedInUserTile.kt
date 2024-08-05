@@ -38,7 +38,7 @@ import dev.rahmouni.neil.counters.core.user.Rn3User
 
 @Composable
 internal fun Rn3User.Tile(shape: Rn3RoundedCorners, onClick: () -> Unit) {
-    val haptics = getHaptic()
+    val haptic = getHaptic()
 
     Surface(
         tonalElevation = Rn3SurfaceDefaults.tonalElevation,
@@ -49,7 +49,7 @@ internal fun Rn3User.Tile(shape: Rn3RoundedCorners, onClick: () -> Unit) {
                 .fillMaxWidth()
                 .clickable(
                     onClick = {
-                        haptics.click()
+                        haptic.click()
                         onClick()
                     },
                 )

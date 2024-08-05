@@ -21,5 +21,20 @@ data class PhoneInfo(
     val number: String?,
     val code: Country?,
 ) {
-    fun isValid(): Boolean = number != null && code != null
+    fun isValid(): Boolean {
+        if (number == null || code == null) {
+            return false
+        }
+
+        return number.matches(Regex(code.regex))
+    }
+
+    fun getFormatedNumber(): String? {
+        return if (isValid()) {
+            val formattedNumber = number?.removePrefix("0")
+            "+${code?.phoneCode}$formattedNumber"
+        } else {
+            null
+        }
+    }
 }

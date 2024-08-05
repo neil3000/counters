@@ -25,6 +25,9 @@
     <string name="feature_connect_bottomBar_friends">Friends</string>
     <string name="feature_connect_bottomBar_events">Events</string>
     <string name="feature_connect_bottomBar_add_disabled">You can\'t post if you\'re not connected</string>
-    <string name="feature_connect_loginTile_supportingtext">Log you in to save your friends across devices</string>
+    <string name="feature_connect_loginTile_supportingtext">Log you in to save your Friends across devices</string>
     <string name="feature_connect_loginTile_button">Login</string>
+    <string name="feature_connect_friendTileClick_button">I\'m close</string>
+    <string name="feature_connect_friendTileClick_iconButton_contentDescription">Go to user settings</string>
+    <string name="feature_connect_friendTileClick_iconButton_toast">Got to %1$s settings</string>
 </resources>

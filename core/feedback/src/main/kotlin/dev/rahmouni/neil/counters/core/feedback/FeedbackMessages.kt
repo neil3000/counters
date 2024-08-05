@@ -38,20 +38,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
 
 @Composable
-internal fun FeedbackMessages(messages: List<String>) {
+internal fun FeedbackMessages(messages: List<String>, paddingValues: Rn3PaddingValues = Rn3SurfaceDefaults.paddingValues) {
     var trigger by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         trigger = true
     }
 
-    Spacer(modifier = Modifier.height(16.dp))
-
     Column(
-        modifier = Modifier.padding(Rn3SurfaceDefaults.paddingValues),
+        modifier = Modifier.padding(paddingValues),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         messages.forEachIndexed { index, message ->

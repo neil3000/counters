@@ -34,6 +34,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.R.string
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.END
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.toRn3FormattedString
 
 @Composable
@@ -57,20 +60,24 @@ fun Rn3TileClickConfirmationDialog(
         error = error,
         onClick = onClick,
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) { //TODO: rework spacing
-            Text(text = bodyHeader)
+        Column {
+            Text(
+                text = bodyHeader,
+                modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(END))
+            )
             bodyBulletPoints.forEach { (icon, text) ->
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Spacer(modifier = Modifier.height(2.dp))
-
+                Row {
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        modifier = Modifier.size(SuggestionChipDefaults.IconSize),
+                        modifier = Modifier.padding(Rn3TextDefaults.paddingValues.copy(end = 0.dp, bottom = 0.dp)).size(SuggestionChipDefaults.IconSize),
                         tint = MaterialTheme.colorScheme.secondary,
                     )
 
-                    Text(text = text.toRn3FormattedString())
+                    Text(
+                        text = text.toRn3FormattedString(),
+                        modifier = Modifier.padding(Rn3TextDefaults.paddingValues.copy(bottom = 0.dp))
+                    )
                 }
             }
         }

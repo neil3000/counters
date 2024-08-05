@@ -45,7 +45,7 @@ import dev.rahmouni.neil.counters.feature.login.R.string
 
 @Composable
 internal fun AddAccountTile(expanded: Boolean, shape: Rn3RoundedCorners, onClick: () -> Unit) {
-    val haptics = getHaptic()
+    val haptic = getHaptic()
 
     Surface(
         tonalElevation = Rn3SurfaceDefaults.tonalElevation,
@@ -55,7 +55,7 @@ internal fun AddAccountTile(expanded: Boolean, shape: Rn3RoundedCorners, onClick
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
-                    haptics.click()
+                    haptic.click()
                     onClick()
                 }
                 .padding(Rn3AdditionalBigPadding.paddingValues),

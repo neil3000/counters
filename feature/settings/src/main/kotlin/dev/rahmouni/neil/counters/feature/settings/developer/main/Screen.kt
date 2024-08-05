@@ -143,7 +143,7 @@ private fun DeveloperSettingsPanel(
                     Icon(
                         imageVector = Icons.Outlined.Logo,
                         contentDescription = null,
-                        modifier = Modifier.size(32.dp),
+                        modifier = Modifier.size(24.dp),
                     )
                 },
                 supportingContent = { Text(text = "${BuildConfig.FLAVOR} / ${BuildConfig.BUILD_TYPE}") },

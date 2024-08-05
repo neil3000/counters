@@ -22,7 +22,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +35,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
@@ -54,6 +57,8 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
     var currentType by rememberSaveable { mutableStateOf(feedbackType) }
 
     Column {
+        Spacer(modifier = Modifier.height(8.dp))
+
         FeedbackMessages(
             messages =
             listOf(
@@ -90,7 +95,7 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(Rn3SurfaceDefaults.paddingValues),
+                .padding(Rn3SurfaceDefaults.paddingValues.copy(top = 6.dp, bottom = 6.dp)),
             enabled = trigger,
         ) {
             Text(text = stringResource(string.core_feedback_continueButton_title))

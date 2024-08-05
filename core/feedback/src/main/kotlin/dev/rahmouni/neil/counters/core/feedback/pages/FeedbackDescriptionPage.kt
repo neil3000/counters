@@ -20,7 +20,9 @@ package dev.rahmouni.neil.counters.core.feedback.pages
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -64,6 +66,8 @@ internal fun FeedbackDescriptionPage(
     }
 
     Column {
+        Spacer(modifier = Modifier.height(8.dp))
+
         FeedbackMessages(
             messages =
             listOf(
@@ -95,7 +99,7 @@ internal fun FeedbackDescriptionPage(
         )
 
         Row(
-            modifier = Modifier.padding(Rn3SurfaceDefaults.paddingValues),
+            modifier = Modifier.padding(Rn3SurfaceDefaults.paddingValues.copy(top = 6.dp, bottom = 6.dp)),
             horizontalArrangement = spacedBy(8.dp),
         ) {
             FilledTonalButton(
