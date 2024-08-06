@@ -18,7 +18,7 @@ message UserPreferences {
   bool hasFriendsMainEnabled = 9;
   bool isInformationValid = 10;
   AddressInfo address = 11;
-  PhoneInfo phone = 12;
+  PhoneNumber phone = 12;
 
   // NEXT AVAILABLE ID: 11
 }

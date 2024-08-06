@@ -17,12 +17,12 @@
 
 package dev.rahmouni.neil.counters.feature.feed.publics.model.data
 
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
-import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User
 
 data class PublicFeedData(
     val user: Rn3User,
     val address: AddressInfo,
-    val phone: PhoneInfo,
+    val phone: PhoneNumber?,
 )

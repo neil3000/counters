@@ -16,6 +16,7 @@ import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,10 +53,10 @@ fun Publication(post: Post, friendEntityRepository: List<FriendEntity>, enabled:
                     modifier = Modifier
                         .size(34.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary)
+                        .background(MaterialTheme.colorScheme.primaryContainer)
                         .padding(6.dp),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             } else {
                 post.sharingScope.DisplayIcon(post.location)
@@ -73,7 +74,7 @@ fun Publication(post: Post, friendEntityRepository: List<FriendEntity>, enabled:
             ) {
                 Row(modifier = Modifier.padding(end = 8.dp), verticalAlignment = Alignment.Bottom) {
                     if (friend != null) {
-                        Text(text = friend.name ?: friend.phone?.getFormatedNumber() ?: "", fontWeight = FontWeight.Bold)
+                        Text(text = friend.display(), fontWeight = FontWeight.Bold)
                     } else {
                         if (post.sharingScope == SharingScope.COUNTRY) {
                             Text(
@@ -107,24 +108,22 @@ fun Publication(post: Post, friendEntityRepository: List<FriendEntity>, enabled:
                         modifier = Modifier
                             .padding(top = 14.dp)
                             .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        horizontalArrangement = Arrangement.Center,
                     ) {
-                        post.additionalInfos.forEach { info ->
-                            Button(
+                            OutlinedButton(
                                 enabled = enabled,
                                 onClick = {
                                     haptic.click()
 
                                     val intent = Intent(Intent.ACTION_VIEW).apply {
-                                        data = Uri.parse("sms:${info}")
+                                        data = Uri.parse("sms:${post.additionalInfos[0]}")
                                     }
 
                                     context.startActivity(intent)
                                 },
                             ) {
-                                Text(info)
+                                Text(post.additionalInfos[0])
                             }
-                        }
                     }
                 } else if (post.postType == PostType.POLL) {
                     Poll(post)

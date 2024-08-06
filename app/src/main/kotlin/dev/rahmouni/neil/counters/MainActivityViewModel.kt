@@ -19,6 +19,7 @@ package dev.rahmouni.neil.counters
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.MainActivityUiState.Loading
 import dev.rahmouni.neil.counters.MainActivityUiState.Success
@@ -26,7 +27,6 @@ import dev.rahmouni.neil.counters.core.accessibility.AccessibilityHelper
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
-import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -99,6 +99,6 @@ sealed interface MainActivityUiState {
         val hasTravelModeEnabled: Boolean,
         val hasFriendsMainEnabled: Boolean,
         val address: AddressInfo,
-        val phone: PhoneInfo,
+        val phone: PhoneNumber?,
     ) : MainActivityUiState
 }

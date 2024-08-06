@@ -66,6 +66,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
@@ -157,6 +158,8 @@ internal fun PublicationScreen(
     var isAnalyzed by rememberSaveable { mutableStateOf(false) }
     var currentDescription by rememberSaveable { mutableStateOf("") }
 
+    val phoneUtil = PhoneNumberUtil.getInstance();
+
     var analyse = Analyse(
         AnalyseType.SUCCESS,
         Post(
@@ -233,7 +236,7 @@ internal fun PublicationScreen(
                                     additionalInfos = listOf("test"),
                                 ),
                             )
-                            if (analyse.post.postType == PostType.CONTACT && !data.phone.isValid()
+                            if (analyse.post.postType == PostType.CONTACT && !phoneUtil.isValidNumber(data.phone)
                             ) {
                                 analyse.result = AnalyseType.NEEDPHONE
                             }

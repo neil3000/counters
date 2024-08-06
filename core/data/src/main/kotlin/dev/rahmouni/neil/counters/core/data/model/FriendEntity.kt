@@ -17,17 +17,27 @@
 
 package dev.rahmouni.neil.counters.core.data.model
 
+import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dev.rahmouni.neil.counters.core.model.data.Country
-import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
-import dev.rahmouni.neil.counters.core.data.model.FriendRawData
 
 data class FriendEntity(
     val uid: String,
     val name: String?,
     val email: String?,
-    val phone: PhoneInfo?,
+    val phone: PhoneNumber?,
     val nearby: Boolean = false,
-)
+) {
+    fun display(): String {
+        return name?.takeIf { it.isNotEmpty() } ?: formatPhone() ?: ""
+    }
+
+    fun formatPhone(): String? {
+        val phoneUtil = PhoneNumberUtil.getInstance();
+        return if (phone != null) phoneUtil.format(phone, INTERNATIONAL) else null
+    }
+}
 
 fun FriendRawData.toEntity(): FriendEntity {
         if (uid == null) throw IllegalStateException("Attempted to convert a FriendRawData with null uid to a FriendEntity")
@@ -36,10 +46,12 @@ fun FriendRawData.toEntity(): FriendEntity {
             uid = uid,
             name = name,
             email = email,
-            phone = PhoneInfo(
-                code = Country.getCountryFromIso(phoneCode),
-                number = phoneNumber
-            ),
+            phone = if (phoneNumber != null && phoneCode != null) {
+                PhoneNumber().apply {
+                    countryCode = Country.getCountryFromIso(phoneCode)!!.phoneCode
+                    nationalNumber = phoneNumber.toLong()
+                }
+            } else null,
             nearby = nearby,
         )
     }

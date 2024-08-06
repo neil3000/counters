@@ -3,9 +3,9 @@ syntax = "proto3";
 option java_package = "rahmouni.neil.counters.core.datastore";
 option java_multiple_files = true;
 
-message PhoneInfo {
-  string  number = 1;
-  string  code = 2;
+message PhoneNumber {
+  string number = 1;
+  string code = 2;
 
   // NEXT AVAILABLE ID: 3
 }

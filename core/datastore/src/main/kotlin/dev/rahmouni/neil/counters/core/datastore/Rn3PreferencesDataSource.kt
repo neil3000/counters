@@ -18,9 +18,9 @@
 package dev.rahmouni.neil.counters.core.datastore
 
 import androidx.datastore.core.DataStore
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
 import dev.rahmouni.neil.counters.core.model.data.Country
-import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.model.data.UserData
 import kotlinx.coroutines.flow.map
 import rahmouni.neil.counters.core.datastore.UserPreferences
@@ -50,10 +50,12 @@ class Rn3PreferencesDataSource @Inject constructor(
                 postalCode = userPref.address.postalCode.ifBlank { null },
                 auxiliaryDetails = userPref.address.auxiliaryDetails.ifBlank { null },
             ),
-            phone = PhoneInfo(
-                number = userPref.phone.number.ifBlank { null },
-                code = Country.getCountryFromIso(userPref.phone.code),
-            ),
+            phone = if (userPref.phone.number != null && userPref.phone.code != null) {
+                PhoneNumber().apply {
+                    countryCode = Country.getCountryFromIso(userPref.phone.code)!!.phoneCode
+                    nationalNumber = userPref.phone.number.toLong()
+                }
+            } else null,
         )
     }
 
@@ -132,12 +134,12 @@ class Rn3PreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun setPhoneInfo(phoneInfo: PhoneInfo) {
+    suspend fun setPhoneNumber(phoneNumber: PhoneNumber) {
         userPreferences.updateData {
             it.copy {
                 this.phone = this.phone.copy {
-                    this.code = phoneInfo.code?.isoCode ?: ""
-                    this.number = phoneInfo.number ?: ""
+                    this.code = Country.getCountryFromPhoneCode(phoneNumber.countryCode)?.isoCode ?: ""
+                    this.number = phoneNumber.nationalNumber.toString()
                 }
             }
         }

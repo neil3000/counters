@@ -17,6 +17,7 @@
 
 package dev.rahmouni.neil.counters.core.data.repository.userData
 
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dev.rahmouni.neil.counters.core.analytics.AnalyticsHelper
 import dev.rahmouni.neil.counters.core.data.repository.logAccessibilityAltTextPreferenceChanged
 import dev.rahmouni.neil.counters.core.data.repository.logAccessibilityEmphasizedSwitchesPreferenceChanged
@@ -27,7 +28,6 @@ import dev.rahmouni.neil.counters.core.data.repository.logMetricsPreferenceChang
 import dev.rahmouni.neil.counters.core.data.repository.logTravelModePreferenceChanged
 import dev.rahmouni.neil.counters.core.datastore.Rn3PreferencesDataSource
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
-import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.model.data.UserData
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -87,7 +87,7 @@ internal class OfflineFirstUserDataRepository @Inject constructor(
         rn3PreferencesDataSource.setAddressInfo(value)
     }
 
-    override suspend fun setPhoneInfo(value: PhoneInfo) {
-        rn3PreferencesDataSource.setPhoneInfo(value)
+    override suspend fun setPhoneNumber(value: PhoneNumber) {
+        rn3PreferencesDataSource.setPhoneNumber(value)
     }
 }

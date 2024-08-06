@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -65,16 +66,16 @@ fun Rn3FriendTileClick(
     ) {
         Row {
             Icon(imageVector = icon, contentDescription = null)
-            Text(modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL)), text = friendEntity.name ?: "")
+            Text(modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL)), text = friendEntity.display())
         }
         Row {
             if (button && friendEntity.nearby) {
-                Button(
+                OutlinedButton(
                     onClick = {
                         haptic.click()
 
                         val intent = Intent(Intent.ACTION_VIEW).apply {
-                            data = Uri.parse("sms:${friendEntity.phone!!.getFormatedNumber()}")
+                            data = Uri.parse("sms:${friendEntity.formatPhone()}")
                         }
 
                         context.startActivity(intent)
@@ -92,10 +93,7 @@ fun Rn3FriendTileClick(
                     Toast
                         .makeText(
                             context,
-                            context.getString(
-                                string.feature_connect_friendTileClick_iconButton_toast,
-                                friendEntity.name,
-                            ),
+                            friendEntity.display(),
                             Toast.LENGTH_SHORT,
                         )
                         .show()

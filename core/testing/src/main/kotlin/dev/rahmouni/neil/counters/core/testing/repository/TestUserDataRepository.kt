@@ -17,9 +17,9 @@
 
 package dev.rahmouni.neil.counters.core.testing.repository
 
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
-import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.model.data.UserData
 import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 import kotlinx.coroutines.flow.Flow
@@ -45,10 +45,7 @@ val emptyUserData = UserData(
         street = "",
         auxiliaryDetails = null,
     ),
-    phone = PhoneInfo(
-        number = null,
-        code = null,
-    ),
+    phone = PhoneNumber(),
 )
 
 class TestUserDataRepository : UserDataRepository {
@@ -138,14 +135,11 @@ class TestUserDataRepository : UserDataRepository {
         }
     }
 
-    override suspend fun setPhoneInfo(value: PhoneInfo) {
+    override suspend fun setPhoneNumber(value: PhoneNumber) {
         currentUserData.let { current ->
             _userData.tryEmit(
                 current.copy(
-                    phone = PhoneInfo(
-                        number = null,
-                        code = null,
-                    ),
+                    phone = PhoneNumber(),
                 ),
             )
         }

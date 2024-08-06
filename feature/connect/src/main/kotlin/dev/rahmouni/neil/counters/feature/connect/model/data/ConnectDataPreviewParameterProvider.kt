@@ -18,10 +18,10 @@
 package dev.rahmouni.neil.counters.feature.connect.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dev.rahmouni.neil.counters.core.data.model.FriendEntity
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
 import dev.rahmouni.neil.counters.core.model.data.Country
-import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.connect.model.data.PreviewParameterData.connectData_default
@@ -54,29 +54,20 @@ object PreviewParameterData {
             street = "",
             auxiliaryDetails = null,
         ),
-        phone = PhoneInfo(
-            number = null,
-            code = null,
-        ),
+        phone = PhoneNumber(),
         friends = listOf(
             FriendEntity(
                 uid = "4",
-                name = "David Brown",
+                name = "",
                 email = "david.brown@example.com",
-                phone = PhoneInfo(
-                    code = Country.FRANCE,
-                    number = "0123456789"
-                ),
+                phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
                 nearby = true
             ),
             FriendEntity(
                 uid = "5",
                 name = "Eva Davis",
                 email = "eva.davis@example.com",
-                phone = PhoneInfo(
-                    code = Country.BELGIUM,
-                    number = "0123456789"
-                ),
+                phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
             ),
         )
     )

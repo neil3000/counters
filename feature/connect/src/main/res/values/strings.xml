@@ -30,4 +30,6 @@
     <string name="feature_connect_friendTileClick_button">I\'m close</string>
     <string name="feature_connect_friendTileClick_iconButton_contentDescription">Go to user settings</string>
     <string name="feature_connect_friendTileClick_iconButton_toast">Got to %1$s settings</string>
+    <string name="feature_connect_newFriendModal_Button">Add friend</string>
+    <string name="feature_connect_newFriendModal_name_label">Name</string>
 </resources>

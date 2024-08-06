@@ -19,11 +19,11 @@ package dev.rahmouni.neil.counters.feature.information.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
-import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.feature.information.model.InformationUiState.Loading
 import dev.rahmouni.neil.counters.feature.information.model.InformationUiState.Success
 import dev.rahmouni.neil.counters.feature.information.model.data.InformationData
@@ -41,11 +41,11 @@ class InformationViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
 ) : ViewModel() {
 
-    fun save(address: AddressInfo, phone: PhoneInfo) {
+    fun save(address: AddressInfo, phone: PhoneNumber?) {
         viewModelScope.launch {
             userDataRepository.setNeedInformation(false)
             userDataRepository.setAddressInfo(address)
-            userDataRepository.setPhoneInfo(phone)
+            phone?.let { userDataRepository.setPhoneNumber(it) }
         }
     }
 

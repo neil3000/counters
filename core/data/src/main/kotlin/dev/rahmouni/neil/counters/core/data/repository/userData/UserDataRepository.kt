@@ -17,8 +17,8 @@
 
 package dev.rahmouni.neil.counters.core.data.repository.userData
 
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
-import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.model.data.UserData
 import kotlinx.coroutines.flow.Flow
 
@@ -53,5 +53,5 @@ interface UserDataRepository {
     suspend fun setNeedInformation(value: Boolean)
     suspend fun setNotAppFirstLaunch()
     suspend fun setAddressInfo(value: AddressInfo)
-    suspend fun setPhoneInfo(value: PhoneInfo)
+    suspend fun setPhoneNumber(value: PhoneNumber)
 }

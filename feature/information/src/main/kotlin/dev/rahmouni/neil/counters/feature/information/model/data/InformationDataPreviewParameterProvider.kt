@@ -18,8 +18,8 @@
 package dev.rahmouni.neil.counters.feature.information.model.data
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
-import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.information.model.data.PreviewParameterData.informationData_default
@@ -52,10 +52,7 @@ object PreviewParameterData {
             street = "",
             auxiliaryDetails = null,
         ),
-        phone = PhoneInfo(
-            number = null,
-            code = null,
-        ),
+        phone = PhoneNumber(),
     )
     val informationData_mutations = with(informationData_default) {
         sequenceOf(

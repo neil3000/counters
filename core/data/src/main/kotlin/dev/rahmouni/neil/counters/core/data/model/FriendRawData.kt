@@ -21,7 +21,6 @@ import androidx.annotation.Keep
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 import dev.rahmouni.neil.counters.core.model.data.Country
-import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 
 @Keep
 data class FriendRawData(

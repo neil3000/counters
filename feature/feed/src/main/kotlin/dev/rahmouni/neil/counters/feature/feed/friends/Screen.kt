@@ -42,6 +42,8 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dev.rahmouni.neil.counters.core.data.model.FriendEntity
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.R.color
@@ -61,7 +63,6 @@ import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.model.data.Country
-import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
@@ -200,6 +201,8 @@ private fun FriendsFeedPanel(
     paddingValues: Rn3PaddingValues,
     data: FriendsFeedData,
 ) {
+    val phoneUtil = PhoneNumberUtil.getInstance()
+
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -263,7 +266,7 @@ private fun FriendsFeedPanel(
                 post = post,
                 friendEntityRepository = UserRepository.friendEntities,
                 enabled = if (data.user is SignedInUser || data.user is AnonymousUser) {
-                    data.phone.isValid()
+                    phoneUtil.isValidNumber(data.phone)
                 } else {
                     false
                 },
@@ -284,46 +287,31 @@ object UserRepository {
             uid = "1",
             name = "Alice Smith",
             email = "alice.smith@example.com",
-            phone = PhoneInfo(
-                code = Country.BELGIUM,
-                number = "0123456789"
-            ),
+            phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
         ),
         FriendEntity(
             uid = "2",
             name = "Bob Johnson",
             email = "bob.johnson@example.com",
-            phone = PhoneInfo(
-                code = Country.BELGIUM,
-                number = "0123456789"
-            ),
+            phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
         ),
         FriendEntity(
             uid = "3",
             name = "Carol Williams",
             email = "carol.williams@example.com",
-            phone = PhoneInfo(
-                code = Country.BELGIUM,
-                number = "0123456789"
-            ),
+            phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
         ),
         FriendEntity(
             uid = "4",
-            name = "David Brown",
+            name = "",
             email = "david.brown@example.com",
-            phone = PhoneInfo(
-                code = Country.BELGIUM,
-                number = "0123456789"
-            ),
+            phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
         ),
         FriendEntity(
             uid = "5",
             name = "Eva Davis",
             email = "eva.davis@example.com",
-            phone = PhoneInfo(
-                code = Country.BELGIUM,
-                number = "0123456789"
-            ),
+            phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
         ),
     )
 }

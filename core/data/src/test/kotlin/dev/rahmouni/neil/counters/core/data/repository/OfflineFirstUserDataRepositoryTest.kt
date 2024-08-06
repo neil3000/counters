@@ -17,12 +17,12 @@
 
 package dev.rahmouni.neil.counters.core.data.repository
 
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dev.rahmouni.neil.counters.core.analytics.NoOpAnalyticsHelper
 import dev.rahmouni.neil.counters.core.data.repository.userData.OfflineFirstUserDataRepository
 import dev.rahmouni.neil.counters.core.datastore.Rn3PreferencesDataSource
 import dev.rahmouni.neil.counters.core.datastore.test.testUserPreferencesDataStore
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
-import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.model.data.UserData
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
@@ -82,10 +82,7 @@ class OfflineFirstUserDataRepositoryTest {
                         street = "",
                         auxiliaryDetails = null,
                     ),
-                    phone = PhoneInfo(
-                        number = null,
-                        code = null,
-                    ),
+                    phone = PhoneNumber(),
                 ),
                 subject.userData.first(),
             )

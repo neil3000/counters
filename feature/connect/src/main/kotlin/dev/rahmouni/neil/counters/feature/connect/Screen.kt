@@ -26,6 +26,7 @@ import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -60,6 +61,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -77,6 +79,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import dev.rahmouni.neil.counters.core.data.model.FriendEntity
 import dev.rahmouni.neil.counters.core.data.model.FriendRawData
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
@@ -94,7 +97,6 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.model.data.Country
-import dev.rahmouni.neil.counters.core.model.data.PhoneInfo
 import dev.rahmouni.neil.counters.core.shapes.MorphableShape
 import dev.rahmouni.neil.counters.core.shapes.loadingShapeParameters
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
@@ -163,6 +165,15 @@ internal fun ConnectScreen(
     val context = LocalContext.current
 
     val fabExpanded = remember { mutableStateOf(value = true) }
+
+    val scrollState = rememberScrollState()
+
+    LaunchedEffect(scrollState) {
+        snapshotFlow { scrollState.value }
+            .collect { scrollPosition ->
+                fabExpanded.value = scrollPosition == 0
+            }
+    }
 
     val openNewFriendModal = newFriendModal(onAddFriend = onAddFriend)
 
@@ -251,6 +262,7 @@ internal fun ConnectScreen(
             data = data,
             context = context,
             onAccountTileLoginButtonClicked = onAccountTileLoginButtonClicked,
+            scrollState = scrollState,
         )
     }
 }
@@ -261,13 +273,14 @@ private fun ColumnPanel(
     data: ConnectData,
     context: Context,
     onAccountTileLoginButtonClicked: () -> Unit,
+    scrollState: ScrollState,
 ) {
     val morphCursor by remember { mutableIntStateOf(value = 0) }
     val morphProgress = remember { Animatable(initialValue = 0f) }
 
     val animatedRotation = remember { Animatable(initialValue = 0f) }
 
-    val users = UserRepository.friendEntities
+    val phoneUtil = PhoneNumberUtil.getInstance();
 
     LaunchedEffect(Unit) {
         launch {
@@ -283,7 +296,8 @@ private fun ColumnPanel(
 
     Column(
         modifier = Modifier
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(scrollState)
+            .fillMaxWidth()
             .padding(paddingValues.add(bottom = 80.dp)),
         horizontalAlignment = CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -292,7 +306,7 @@ private fun ColumnPanel(
             is SignedInUser -> {
                     Box(
                         modifier = Modifier
-                            .widthIn(max = 200.dp)
+                            .widthIn(max = 150.dp)
                             .fillMaxWidth()
                             .aspectRatio(ratio = 1f)
                             .clip(
@@ -306,7 +320,7 @@ private fun ColumnPanel(
                                     morphProgress.value,
                                 ),
                             )
-                            .background(MaterialTheme.colorScheme.primary),
+                            .background(MaterialTheme.colorScheme.onPrimaryContainer),
                     ) {
                         Image(
                             painter = rememberAsyncImagePainter(data.user.pfpUri),
@@ -347,7 +361,7 @@ private fun ColumnPanel(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Column(modifier = Modifier.weight(1f).padding(Rn3TextDefaults.paddingValues.only(END)),) {
+                    Column(modifier = Modifier.weight(1f).padding(Rn3TextDefaults.paddingValues.only(END))) {
                         Text(
                             text = getDisplayName(context),
                             style = MaterialTheme.typography.titleMedium,
@@ -366,67 +380,13 @@ private fun ColumnPanel(
             }
         }
 
-        val sortedFriendEntities = users
-            .sortedWith(compareBy<FriendEntity> { !it.nearby }.thenBy { it.name })
+        val sortedFriendEntities = data.friends.sortedWith(compareBy<FriendEntity> { !it.nearby }.thenBy { it.name })
 
         sortedFriendEntities.forEach { friend ->
             Rn3FriendTileClick(
-                button = data.phone.isValid(),
+                button = phoneUtil.isValidNumber(data.phone),
                 friendEntity = friend,
             )
         }
     }
-}
-
-
-object UserRepository {
-    val friendEntities = listOf(
-        FriendEntity(
-            uid = "1",
-            name = "Alice Smith",
-            email = "alice.smith@example.com",
-            phone = PhoneInfo(
-                code = Country.BELGIUM,
-                number = "0123456789"
-            ),
-        ),
-        FriendEntity(
-            uid = "2",
-            name = "Bob Johnson",
-            email = "bob.johnson@example.com",
-            phone = PhoneInfo(
-                code = Country.UNITED_KINGDOM,
-                number = "0123456789"
-            ),
-            nearby = true,
-        ),
-        FriendEntity(
-            uid = "3",
-            name = "Carol Williams",
-            email = "carol.williams@example.com",
-            phone = PhoneInfo(
-                code = Country.BELGIUM,
-                number = "0123456789"
-            ),
-        ),
-        FriendEntity(
-            uid = "4",
-            name = "David Brown",
-            email = "david.brown@example.com",
-            phone = PhoneInfo(
-                code = Country.FRANCE,
-                number = "0123456789"
-            ),
-            nearby = true
-        ),
-        FriendEntity(
-            uid = "5",
-            name = "Eva Davis",
-            email = "eva.davis@example.com",
-            phone = PhoneInfo(
-                code = Country.BELGIUM,
-                number = "0123456789"
-            ),
-        ),
-    )
 }

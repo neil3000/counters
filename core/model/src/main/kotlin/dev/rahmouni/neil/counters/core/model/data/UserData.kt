@@ -17,6 +17,8 @@
 
 package dev.rahmouni.neil.counters.core.model.data
 
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
+
 data class UserData(
     val hasAccessibilityEmphasizedSwitchesEnabled: Boolean,
     val hasAccessibilityIconTooltipsEnabled: Boolean,
@@ -29,5 +31,5 @@ data class UserData(
     val needInformation: Boolean,
     val isAppFirstLaunch: Boolean,
     val address: AddressInfo,
-    val phone: PhoneInfo,
+    val phone: PhoneNumber?,
 )

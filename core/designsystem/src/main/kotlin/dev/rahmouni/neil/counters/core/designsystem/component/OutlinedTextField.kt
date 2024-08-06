@@ -18,6 +18,7 @@
 package dev.rahmouni.neil.counters.core.designsystem.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -25,6 +26,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -40,6 +42,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalAutofill
 import androidx.compose.ui.platform.LocalAutofillTree
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import dev.rahmouni.neil.counters.core.designsystem.R.string
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentVariation
@@ -62,9 +65,14 @@ fun Rn3OutlinedTextField(
     enableAutofill: Boolean = false,
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     autofillTypes: AutofillType? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(),
 ) {
     var isEmpty by rememberSaveable { mutableStateOf(value.isEmpty()) }
     val isTooLarge = maxCharacters?.let { value.length >= it } ?: false
+
+    LaunchedEffect(value) {
+        isEmpty = value.isEmpty()
+    }
 
     OutlinedTextField(
         value = value,
@@ -107,6 +115,7 @@ fun Rn3OutlinedTextField(
             }
         },
         colors = colors,
+        keyboardOptions = keyboardOptions
     )
 }
 

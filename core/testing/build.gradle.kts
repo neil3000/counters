@@ -40,4 +40,5 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     implementation(projects.core.common)
     implementation(projects.core.designsystem)
+    implementation (libs.libphonenumber)
 }
