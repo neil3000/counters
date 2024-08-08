@@ -37,7 +37,6 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Feedback
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -85,14 +84,15 @@ fun FeedbackBottomSheet(
             navController.popBackStack()
         },
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface,
         scrimColor = Color.Transparent,
         dragHandle = {},
     ) {
         Column {
             Surface(tonalElevation = Rn3SurfaceDefaults.tonalElevation) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp, start = 16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp, bottom = 4.dp, start = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Row {

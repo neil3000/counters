@@ -22,5 +22,5 @@ plugins {
 dependencies {
     api(libs.kotlinx.datetime)
 
-    implementation (libs.libphonenumber)
+    implementation(libs.libphonenumber)
 }

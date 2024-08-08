@@ -18,7 +18,7 @@
 package dev.rahmouni.neil.counters.core.model.data
 
 data class AddressInfo(
-    val country: Country?,
+    var country: Country?,
     val region: String?,
     val locality: String,
     val street: String,

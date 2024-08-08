@@ -64,7 +64,7 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.TRANSPARENT
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
-import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalBigPadding
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalPadding
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCorners
@@ -222,7 +222,7 @@ private fun LoginPanel(
         Column(
             modifier = Modifier
                 .padding(
-                    Rn3AdditionalBigPadding.paddingValues.only(HORIZONTAL),
+                    Rn3AdditionalPadding.paddingValues.only(HORIZONTAL),
                 )
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,

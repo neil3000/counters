@@ -61,13 +61,15 @@ object PreviewParameterData {
                 name = "",
                 email = "david.brown@example.com",
                 phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
-                nearby = true
+                nearby = true,
+                userId = ""
             ),
             FriendEntity(
                 uid = "5",
                 name = "Eva Davis",
                 email = "eva.davis@example.com",
                 phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
+                userId = ""
             ),
         )
     )

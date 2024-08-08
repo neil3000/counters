@@ -17,14 +17,16 @@
 
 package dev.rahmouni.neil.counters.core.designsystem.rebased
 
-import androidx.compose.ui.graphics.vector.ImageVector
 import java.time.LocalDateTime
 
 data class Event(
-    val timestamp: LocalDateTime,
+    val id: String,
+    val userId: String,
+    val sharingScope: SharingScope,
+    val createdAt: LocalDateTime,
     val title: String,
-    val content: String,
-    val place: String,
-    val placeIcon: ImageVector,
-    val buttons: List<String>? = null,
+    val description: String,
+    val location: String,
+    val image: String? = null,
+    val private: Boolean = true
 )

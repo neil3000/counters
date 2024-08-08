@@ -19,6 +19,6 @@ package dev.rahmouni.neil.counters.core.designsystem.paddingValues
 
 import androidx.compose.ui.unit.dp
 
-object Rn3AdditionalBigPadding {
+object Rn3AdditionalPadding {
     val paddingValues = Rn3PaddingValues(horizontal = 16.dp, vertical = 16.dp)
 }

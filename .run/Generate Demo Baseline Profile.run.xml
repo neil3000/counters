@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright 2022 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,8 +22,8 @@
     In this run configuration we leverage rerun parameter that always reruns the requested task regardless of cache.
     We also leverage enable-display parameter to be able to verify the generator works as intended.
     -->
-    <configuration name="Generate Demo Baseline Profile" default="false"
-        factoryName="Gradle" type="GradleRunConfiguration">
+    <configuration name="Generate Demo Baseline Profile" default="false" factoryName="Gradle"
+        type="GradleRunConfiguration">
         <ExternalSystemSettings>
             <option name="executionName" />
             <option name="externalProjectPath" value="$PROJECT_DIR$" />

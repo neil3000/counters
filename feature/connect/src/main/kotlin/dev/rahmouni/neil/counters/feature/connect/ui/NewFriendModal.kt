@@ -48,7 +48,7 @@ import dev.rahmouni.neil.counters.core.data.model.FriendRawData
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3OutlinedTextField
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
-import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalBigPadding
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalPadding
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Rn3PhoneForm
@@ -94,7 +94,7 @@ internal fun newFriendModal(onAddFriend: (friendRawData: FriendRawData) -> Unit)
                 },
             sheetState = bottomSheetState,
         ) {
-            Column(modifier = Modifier.padding(Rn3AdditionalBigPadding.paddingValues.only(HORIZONTAL))) {
+            Column(modifier = Modifier.padding(Rn3AdditionalPadding.paddingValues.only(HORIZONTAL))) {
                 Rn3OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
@@ -108,6 +108,7 @@ internal fun newFriendModal(onAddFriend: (friendRawData: FriendRawData) -> Unit)
                     phone = phone,
                     onPhoneChanged = { updatedPhoneNumber -> phone = updatedPhoneNumber },
                     hasUserInteracted = hasUserInteracted,
+                    keyboardOptionsNumber = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
             }
             Button(
@@ -126,8 +127,9 @@ internal fun newFriendModal(onAddFriend: (friendRawData: FriendRawData) -> Unit)
                         )
                     }
                 },
-                modifier = Modifier.padding(
-                    Rn3SurfaceDefaults.paddingValues.copy(top = 4.dp, bottom = 6.dp)).fillMaxWidth()
+                modifier = Modifier
+                    .padding(Rn3SurfaceDefaults.paddingValues.copy(top = 4.dp, bottom = 12.dp))
+                    .fillMaxWidth()
             ) {
                 Text(text = stringResource(R.string.feature_connect_newFriendModal_Button))
             }

@@ -18,21 +18,11 @@
 package dev.rahmouni.neil.counters.core.designsystem.rebased
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MenuAnchorType
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,13 +35,14 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.AutofillType
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
+import dev.rahmouni.neil.counters.core.designsystem.R
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3OutlinedTextField
 import dev.rahmouni.neil.counters.core.model.data.Country
 import kotlinx.coroutines.delay
@@ -63,6 +54,7 @@ fun Rn3PhoneForm(
     onPhoneChanged: (PhoneNumber) -> Unit,
     hasUserInteracted: Boolean = false,
     beEmpty: Boolean = false,
+    keyboardOptionsNumber: KeyboardOptions,
 ) {
     var isFocusedPhoneCode by rememberSaveable { mutableStateOf(value = false) }
     var showFullLabelPhoneCode by rememberSaveable { mutableStateOf(value = false) }
@@ -70,14 +62,23 @@ fun Rn3PhoneForm(
     val phoneUtil = PhoneNumberUtil.getInstance()
     var formatter = phoneUtil.getAsYouTypeFormatter(Country.getCountryFromPhoneCode(phone.countryCode)?.isoCode ?: "US")
 
-    var formattedText by remember { mutableStateOf("") }
+    var textFieldValue by remember { mutableStateOf(TextFieldValue("")) }
     var rawInput by remember { mutableStateOf("") }
 
-    LaunchedEffect(phone.countryCode) {
-        formatter = phoneUtil.getAsYouTypeFormatter(Country.getCountryFromPhoneCode(phone.countryCode)?.isoCode ?: "US")
-        formattedText = rawInput.fold("") { acc, digit ->
-            formatter.inputDigit(digit).toString()
-        }
+    fun formatPhoneNumber(rawInput: String, countryCode: Int): Pair<String, String> {
+        formatter = phoneUtil.getAsYouTypeFormatter(Country.getCountryFromPhoneCode(countryCode)?.isoCode ?: "US")
+        val formattedNumber = if (rawInput != "0") {
+            rawInput.fold("") { acc, digit ->
+                formatter.inputDigit(digit).toString()
+            }
+        } else ""
+        return Pair(formattedNumber, rawInput.filter { it.isDigit() })
+    }
+
+    LaunchedEffect(key1 = phone.countryCode, key2 = "init") {
+        val (formattedNumber, digitsOnly) = formatPhoneNumber(phone.nationalNumber.toString(), phone.countryCode)
+        textFieldValue = TextFieldValue(formattedNumber, TextRange(formattedNumber.length))
+        rawInput = digitsOnly
     }
 
     LaunchedEffect(isFocusedPhoneCode) {
@@ -93,7 +94,11 @@ fun Rn3PhoneForm(
         Rn3CountryDropDownMenu(
             modifier = Modifier.weight(1f),
             value = if (phone.countryCode != 0) "+${phone.countryCode}" else "",
-            label = { Text(text = if (showFullLabelPhoneCode || phone.countryCode != 0) "Phone Code" else "Code") },
+            label = { Text(
+                text = if (showFullLabelPhoneCode || phone.countryCode != 0) stringResource(
+                    R.string.core_designsystem_phoneForm_phoneCode_full,
+                ) else stringResource(R.string.core_designsystem_phoneForm_phoneCode_small),
+            ) },
             textItem = { phoneCode ->
                 Row(verticalAlignment = CenterVertically) {
                     Icon(
@@ -109,39 +114,54 @@ fun Rn3PhoneForm(
             hasUserInteracted = hasUserInteracted,
             enableAutofill = true,
             autofill = AutofillType.PhoneCountryCode,
+            onValueChange = { phoneCode ->
+                phone.countryCode = phoneCode.phoneCode
+                onPhoneChanged(
+                    phone.setCountryCode(phoneCode.phoneCode)
+                )
+                            },
             beEmpty = beEmpty,
-        ) { phoneCode ->
-            onPhoneChanged(
-                phone.setCountryCode(phoneCode.phoneCode)
-            )
-        }
+        )
 
         Rn3OutlinedTextField(
             modifier = Modifier.weight(1.5f),
-            value = formattedText,
+            value = textFieldValue,
             onValueChange = { newValue ->
-                val newDigitsOnly = newValue.filter { it.isDigit() }
-                if (newDigitsOnly != rawInput) {
-                    formatter.clear()
-                    formattedText = if (newDigitsOnly.isEmpty()) {
-                        ""
-                    } else {
-                        newDigitsOnly.fold("") { _, digit ->
-                            formatter.inputDigit(digit).toString()
-                        }
-                    }
-                    rawInput = newDigitsOnly
-                    onPhoneChanged(phone.setNationalNumber(newDigitsOnly.toLongOrNull() ?: 0L))
+                val newDigitsOnly = newValue.text.filter { it.isDigit() }
+                val cursorPosition = newValue.selection.start
+                formatter.clear()
+                val formattedText = newDigitsOnly.fold("") { _, digit ->
+                    formatter.inputDigit(digit).toString()
                 }
+                val cursorOffset = calculateCursorOffset(newValue.text, formattedText, cursorPosition)
+                textFieldValue = TextFieldValue(formattedText, TextRange(cursorOffset))
+                rawInput = newDigitsOnly
+                onPhoneChanged(phone.setNationalNumber(newDigitsOnly.toLongOrNull() ?: 0L))
             },
             hasUserInteracted = hasUserInteracted,
             maxCharacters = 20,
-            label = { Text(text = "Phone number") },
+            label = { Text(text = stringResource(R.string.core_designsystem_phoneForm_phoneNumber)) },
             singleLine = true,
             enableAutofill = true,
             beEmpty = beEmpty,
             autofillTypes = AutofillType.PhoneNumber,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, capitalization = KeyboardCapitalization.Sentences)
+            keyboardOptions = keyboardOptionsNumber,
         )
     }
+}
+
+fun calculateCursorOffset(originalText: String, formattedText: String, cursorPosition: Int): Int {
+    val originalDigits = originalText.substring(0, cursorPosition).count { it.isDigit() }
+    var digitsCounted = 0
+    var formattedPosition = 0
+    for (ch in formattedText) {
+        if (ch.isDigit()) {
+            if (digitsCounted == originalDigits) {
+                break
+            }
+            digitsCounted++
+        }
+        formattedPosition++
+    }
+    return formattedPosition
 }

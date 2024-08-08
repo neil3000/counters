@@ -41,7 +41,7 @@ dependencies {
     api(platform(libs.firebase.bom))
     api(libs.firebase.firestore)
 
-    implementation (libs.libphonenumber)
+    implementation(libs.libphonenumber)
 
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.kotlinx.serialization.json)

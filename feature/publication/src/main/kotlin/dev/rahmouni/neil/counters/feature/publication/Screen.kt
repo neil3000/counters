@@ -109,16 +109,16 @@ internal fun PublicationRoute(
         is Success -> PublicationScreen(
             modifier = modifier,
             data = (uiState as Success).publicationData,
-        onBackIconButtonClicked = navController::popBackStack,
-        feedbackTopAppBarAction = FeedbackScreenContext(
-            localName = "PublicationScreen",
-            localID = "MC4xwGf6j0RfzJV4O8tDBEn3BObAfFQr",
-        ).toTopAppBarAction(navController::navigateToFeedback),
-        onSettingsTopAppBarActionClicked = navigateToSettings,
-        onPublicPostButtonClicked = navigateToPublic,
-        onFriendsPostButtonClicked = navigateToFriends,
-        onEventsPostButtonClicked = navigateToEvents,
-    )
+            onBackIconButtonClicked = navController::popBackStack,
+            feedbackTopAppBarAction = FeedbackScreenContext(
+                localName = "PublicationScreen",
+                localID = "MC4xwGf6j0RfzJV4O8tDBEn3BObAfFQr",
+            ).toTopAppBarAction(navController::navigateToFeedback),
+            onSettingsTopAppBarActionClicked = navigateToSettings,
+            onPublicPostButtonClicked = navigateToPublic,
+            onFriendsPostButtonClicked = navigateToFriends,
+            onEventsPostButtonClicked = navigateToEvents,
+        )
     }
 
     TrackScreenViewEvent(screenName = "Publication")
@@ -147,12 +147,9 @@ internal fun PublicationScreen(
     val haptic = getHaptic()
 
     val focusRequester = remember { FocusRequester() }
-    var textFieldInitialized by remember { mutableStateOf(false) }
 
-    LaunchedEffect(textFieldInitialized) {
-        if (textFieldInitialized) {
-            focusRequester.requestFocus()
-        }
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
     }
 
     var isAnalyzed by rememberSaveable { mutableStateOf(false) }
@@ -162,15 +159,16 @@ internal fun PublicationScreen(
 
     var analyse = Analyse(
         AnalyseType.SUCCESS,
+        feed = FeedType.PUBLIC,
         Post(
             id = "test",
             userId = "test",
-            feed = FeedType.PUBLIC,
             sharingScope = SharingScope.STREET,
             location = "Street King James",
             timestamp = LocalDateTime.now(),
             content = currentDescription,
             postType = PostType.TEXT,
+            categories = listOf("Test 1","test 2")
         ),
     )
 
@@ -224,16 +222,17 @@ internal fun PublicationScreen(
                             isAnalyzed = true
                             analyse = Analyse(
                                 AnalyseType.SUCCESS,
+                                feed = FeedType.PUBLIC,
                                 Post(
                                     id = "test",
                                     userId = "test",
-                                    feed = FeedType.PUBLIC,
                                     sharingScope = SharingScope.STREET,
                                     location = "Street King James",
                                     timestamp = LocalDateTime.now(),
                                     content = currentDescription,
                                     postType = PostType.CONTACT,
-                                    additionalInfos = listOf("test"),
+                                    additionalInfos = listOf(Pair("test", 1)),
+                                    categories = listOf("Test 1","test 2")
                                 ),
                             )
                             if (analyse.post.postType == PostType.CONTACT && !phoneUtil.isValidNumber(data.phone)
@@ -282,7 +281,7 @@ internal fun PublicationScreen(
                             Text(
                                 modifier = Modifier.padding(horizontal = 4.dp),
                                 text = analyse.result.text(
-                                    analyse.post.feed.text(),
+                                    analyse.feed.text(),
                                     analyse.post.sharingScope.text(),
                                 ),
                                 softWrap = true,
@@ -292,7 +291,7 @@ internal fun PublicationScreen(
                             modifier = Modifier.width(IntrinsicSize.Min),
                             onClick = {
                                 haptic.click()
-                                when (analyse.post.feed) {
+                                when (analyse.feed) {
                                     FeedType.PUBLIC -> {
                                         onPublicPostButtonClicked()
                                     }
@@ -324,11 +323,6 @@ internal fun PublicationScreen(
             Rn3OutlinedTextField(
                 modifier = Modifier
                     .focusRequester(focusRequester)
-                    .onFocusChanged {
-                        if (it.isFocused) {
-                            textFieldInitialized = true
-                        }
-                    }
                     .fillMaxWidth()
                     .padding(Rn3SurfaceDefaults.paddingValues),
                 value = currentDescription,

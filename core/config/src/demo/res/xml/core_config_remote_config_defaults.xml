@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     Copyright (C) 2024 Rahmouni Neïl
 
     This program is free software: you can redistribute it and/or modify
@@ -43,7 +42,8 @@
     </entry>
     <entry>
         <key>privacy_policy_short</key>
-        <value>• The application stores all data locally, ensuring no personal information is collected.\n• Requires Internet access for crash reports and minimal usage statistics.
+        <value>• The application stores all data locally, ensuring no personal information is
+            collected.\n• Requires Internet access for crash reports and minimal usage statistics.
         </value>
     </entry>
     <entry>

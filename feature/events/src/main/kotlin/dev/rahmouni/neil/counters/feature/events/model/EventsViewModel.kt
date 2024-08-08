@@ -21,10 +21,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
+import dev.rahmouni.neil.counters.core.data.model.toEntity
+import dev.rahmouni.neil.counters.core.data.repository.countersData.FriendsDataRepository
 import dev.rahmouni.neil.counters.feature.events.model.EventsUiState.Success
+import dev.rahmouni.neil.counters.feature.events.model.EventsUiState.Loading
 import dev.rahmouni.neil.counters.feature.events.model.data.EventsData
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -33,22 +37,23 @@ import kotlin.time.Duration.Companion.seconds
 @HiltViewModel
 class EventsViewModel @Inject constructor(
     authHelper: AuthHelper,
+    private val friendsDataRepository: FriendsDataRepository,
 ) : ViewModel() {
 
     val uiState: StateFlow<EventsUiState> =
-        authHelper.getUserFlow().map { user ->
+        combine(
+            friendsDataRepository.userFriends,
+            authHelper.getUserFlow(),
+        ) { friends, user ->
             Success(
                 EventsData(
                     user = user,
+                    friends = friends.map { it.toEntity() }
                 ),
             )
         }.stateIn(
             scope = viewModelScope,
-            initialValue = Success(
-                EventsData(
-                    user = authHelper.getUser(),
-                ),
-            ),
+            initialValue = Loading,
             started = WhileSubscribed(5.seconds.inWholeMilliseconds),
         )
 }

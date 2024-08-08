@@ -95,7 +95,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.play.app.update)
     implementation(libs.play.app.update.ktx)
-    implementation (libs.libphonenumber)
+    implementation(libs.libphonenumber)
 
     ksp(libs.hilt.compiler)
 

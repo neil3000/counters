@@ -37,7 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
-import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalBigPadding
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalPadding
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ShrinkVerticallyTransition
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCorners
@@ -58,7 +58,7 @@ internal fun AddAccountTile(expanded: Boolean, shape: Rn3RoundedCorners, onClick
                     haptic.click()
                     onClick()
                 }
-                .padding(Rn3AdditionalBigPadding.paddingValues),
+                .padding(Rn3AdditionalPadding.paddingValues),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(

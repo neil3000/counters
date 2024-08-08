@@ -53,7 +53,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
-import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalBigPadding
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition

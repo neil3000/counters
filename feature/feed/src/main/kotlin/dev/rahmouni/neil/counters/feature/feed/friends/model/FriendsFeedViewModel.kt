@@ -21,6 +21,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
+import dev.rahmouni.neil.counters.core.data.model.toEntity
+import dev.rahmouni.neil.counters.core.data.repository.countersData.FriendsDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 import dev.rahmouni.neil.counters.feature.feed.friends.model.FriendsFeedUiState.Loading
 import dev.rahmouni.neil.counters.feature.feed.friends.model.FriendsFeedUiState.Success
@@ -36,18 +38,21 @@ import kotlin.time.Duration.Companion.seconds
 class FriendsFeedViewModel @Inject constructor(
     authHelper: AuthHelper,
     userDataRepository: UserDataRepository,
+    private val friendsDataRepository: FriendsDataRepository,
 ) : ViewModel() {
 
     val uiState: StateFlow<FriendsFeedUiState> =
         combine(
             userDataRepository.userData,
+            friendsDataRepository.userFriends,
             authHelper.getUserFlow(),
-        ) { userData, user ->
+        ) { userData, friends, user ->
             Success(
                 FriendsFeedData(
                     user = user,
                     address = userData.address,
                     phone = userData.phone,
+                    friends = friends.map { it.toEntity() }
                 ),
             )
         }.stateIn(

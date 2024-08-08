@@ -44,4 +44,7 @@
     <string name="core_designsystem_sharingScope_neighborhood">Neighborhood</string>
     <string name="core_designsystem_sharingScope_street">Street</string>
     <string name="core_designsystem_sharingScope_building">Building</string>
+    <string name="core_designsystem_phoneForm_phoneCode_full">Phone Code</string>
+    <string name="core_designsystem_phoneForm_phoneCode_small">Code</string>
+    <string name="core_designsystem_phoneForm_phoneNumber">Phone number</string>
 </resources>

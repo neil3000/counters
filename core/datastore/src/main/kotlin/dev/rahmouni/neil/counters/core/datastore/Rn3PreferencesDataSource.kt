@@ -138,7 +138,8 @@ class Rn3PreferencesDataSource @Inject constructor(
         userPreferences.updateData {
             it.copy {
                 this.phone = this.phone.copy {
-                    this.code = Country.getCountryFromPhoneCode(phoneNumber.countryCode)?.isoCode ?: ""
+                    this.code =
+                        Country.getCountryFromPhoneCode(phoneNumber.countryCode)?.isoCode ?: ""
                     this.number = phoneNumber.nationalNumber.toString()
                 }
             }

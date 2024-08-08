@@ -28,6 +28,7 @@ sealed interface Rn3User {
     data class AnonymousUser(
         internal val uid: String,
     ) : Rn3User
+
     data class SignedInUser(
         internal val uid: String,
         internal val displayName: String,

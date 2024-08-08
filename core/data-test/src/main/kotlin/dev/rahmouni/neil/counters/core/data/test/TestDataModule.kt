@@ -22,8 +22,8 @@ import dagger.Module
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import dev.rahmouni.neil.counters.core.data.di.DataModule
-import dev.rahmouni.neil.counters.core.data.repository.countersData.FriendsDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.countersData.FirestoreFriendsDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.countersData.FriendsDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.linksRn3UrlData.FirestoreLinksRn3UrlDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.linksRn3UrlData.LinksRn3UrlDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository

@@ -18,9 +18,7 @@
 package dev.rahmouni.neil.counters.core.data.model
 
 import androidx.annotation.Keep
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
-import dev.rahmouni.neil.counters.core.model.data.Country
 
 @Keep
 data class FriendRawData(
@@ -31,4 +29,5 @@ data class FriendRawData(
     val phoneNumber: String? = null,
     val phoneCode: String? = null,
     val nearby: Boolean = false,
+    val userId: String? = null,
 )

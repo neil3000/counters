@@ -28,6 +28,7 @@ data class FriendEntity(
     val email: String?,
     val phone: PhoneNumber?,
     val nearby: Boolean = false,
+    val userId: String?,
 ) {
     fun display(): String {
         return name?.takeIf { it.isNotEmpty() } ?: formatPhone() ?: ""
@@ -40,19 +41,20 @@ data class FriendEntity(
 }
 
 fun FriendRawData.toEntity(): FriendEntity {
-        if (uid == null) throw IllegalStateException("Attempted to convert a FriendRawData with null uid to a FriendEntity")
+    if (uid == null) throw IllegalStateException("Attempted to convert a FriendRawData with null uid to a FriendEntity")
 
-        return FriendEntity(
-            uid = uid,
-            name = name,
-            email = email,
-            phone = if (phoneNumber != null && phoneCode != null) {
-                PhoneNumber().apply {
-                    countryCode = Country.getCountryFromIso(phoneCode)!!.phoneCode
-                    nationalNumber = phoneNumber.toLong()
-                }
-            } else null,
-            nearby = nearby,
-        )
-    }
+    return FriendEntity(
+        uid = uid,
+        name = name,
+        email = email,
+        phone = if (phoneNumber != null && phoneCode != null) {
+            PhoneNumber().apply {
+                countryCode = Country.getCountryFromIso(phoneCode)!!.phoneCode
+                nationalNumber = phoneNumber.toLong()
+            }
+        } else null,
+        nearby = nearby,
+        userId = userId,
+    )
+}
 

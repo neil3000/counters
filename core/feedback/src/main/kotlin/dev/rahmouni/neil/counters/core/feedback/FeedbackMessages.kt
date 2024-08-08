@@ -21,8 +21,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -39,12 +37,14 @@ import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
-import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
 
 @Composable
-internal fun FeedbackMessages(messages: List<String>, paddingValues: Rn3PaddingValues = Rn3SurfaceDefaults.paddingValues) {
+internal fun FeedbackMessages(
+    messages: List<String>,
+    paddingValues: Rn3PaddingValues = Rn3SurfaceDefaults.paddingValues,
+) {
     var trigger by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         trigger = true
