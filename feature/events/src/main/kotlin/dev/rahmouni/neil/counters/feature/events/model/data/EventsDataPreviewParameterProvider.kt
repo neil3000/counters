@@ -42,7 +42,7 @@ object PreviewParameterData {
             isAdmin = false,
             email = "androidPreview@rahmouni.dev",
         ),
-        friends = emptyList()
+        friends = emptyList(),
     )
     val eventsData_mutations = with(eventsData_default) {
         sequenceOf(

@@ -19,9 +19,7 @@ package dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons.Outlined
@@ -33,7 +31,6 @@ import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material.icons.outlined.ToggleOff
 import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material.icons.outlined.Warning
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -191,8 +188,9 @@ private fun DataAndPrivacySettingsPanel(
                 Icon(imageVector = Outlined.Info, contentDescription = null)
                 Text(
                     text = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title),
-                    modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL)
-                    )
+                    modifier = Modifier.padding(
+                        Rn3TextDefaults.paddingValues.only(HORIZONTAL),
+                    ),
                 )
             },
             expandedContent = {
@@ -222,8 +220,9 @@ private fun DataAndPrivacySettingsPanel(
                 Icon(imageVector = Outlined.Info, contentDescription = null)
                 Text(
                     text = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title),
-                    modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL)
-                    )
+                    modifier = Modifier.padding(
+                        Rn3TextDefaults.paddingValues.only(HORIZONTAL),
+                    ),
                 )
             },
             expandedContent = {

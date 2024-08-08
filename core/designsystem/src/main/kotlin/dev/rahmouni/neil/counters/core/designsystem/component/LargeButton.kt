@@ -54,7 +54,10 @@ fun Rn3LargeButton(
                 text = text,
                 color = MaterialTheme.colorScheme.contentColorFor(color),
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(start = if (leadingIcon != null) 16.dp else 0.dp, end = 16.dp)
+                modifier = Modifier.padding(
+                    start = if (leadingIcon != null) 16.dp else 0.dp,
+                    end = 16.dp,
+                ),
             )
         },
         icon = {
@@ -101,7 +104,7 @@ fun Rn3LargeButton(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Row(modifier = Modifier.weight(1f),) {
+            Row(modifier = Modifier.weight(1f)) {
                 if (leadingIcon != null) {
                     Icon(
                         imageVector = leadingIcon,

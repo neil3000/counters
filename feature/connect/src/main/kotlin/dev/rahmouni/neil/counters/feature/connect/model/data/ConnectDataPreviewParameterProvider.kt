@@ -60,18 +60,20 @@ object PreviewParameterData {
                 uid = "4",
                 name = "",
                 email = "david.brown@example.com",
-                phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
+                phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode)
+                    .setNationalNumber(123456789),
                 nearby = true,
-                userId = ""
+                userId = "",
             ),
             FriendEntity(
                 uid = "5",
                 name = "Eva Davis",
                 email = "eva.davis@example.com",
-                phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
-                userId = ""
+                phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode)
+                    .setNationalNumber(123456789),
+                userId = "",
             ),
-        )
+        ),
     )
     val connectData_mutations = with(connectData_default) {
         sequenceOf(

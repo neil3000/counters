@@ -79,7 +79,6 @@ import dev.rahmouni.neil.counters.core.designsystem.rebased.text
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
-import dev.rahmouni.neil.counters.core.model.data.Country
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.feature.information.model.InformationUiState.Loading
 import dev.rahmouni.neil.counters.feature.information.model.InformationUiState.Success
@@ -164,7 +163,7 @@ private fun InformationForm(
                 Text(
                     text = stringResource(R.string.feature_information_expandableSurface_title),
                     modifier = Modifier.padding(
-                        Rn3TextDefaults.paddingValues.only(HORIZONTAL)
+                        Rn3TextDefaults.paddingValues.only(HORIZONTAL),
                     ),
                 )
             },
@@ -184,7 +183,7 @@ private fun InformationForm(
                 }
             },
         )
-        
+
         Spacer(modifier = Modifier.height(8.dp))
 
         Column(modifier = Modifier.padding(Rn3AdditionalPadding.paddingValues.only(HORIZONTAL))) {
@@ -199,7 +198,7 @@ private fun InformationForm(
                 onPhoneChanged = { updatedPhoneNumber -> phone = updatedPhoneNumber },
                 hasUserInteracted = hasUserInteracted,
                 beEmpty = true,
-                keyboardOptionsNumber = KeyboardOptions(keyboardType = KeyboardType.Number)
+                keyboardOptionsNumber = KeyboardOptions(keyboardType = KeyboardType.Number),
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -235,7 +234,7 @@ private fun AddressForm(
         } else {
             showFullLabelPostalCode = false
         }
-    } 
+    }
 
     Column {
         Rn3CountryDropDownMenu(
@@ -251,8 +250,9 @@ private fun AddressForm(
                     )
                     Spacer(Modifier.size(8.dp))
                     Text(text = (phoneCode.text()))
-                }},
-            setIsFocused = {  },
+                }
+            },
+            setIsFocused = { },
             hasUserInteracted = hasUserInteracted,
             enableAutofill = true,
             autofill = AutofillType.PhoneCountryCode,
@@ -274,7 +274,7 @@ private fun AddressForm(
             autofillTypes = AutofillType.AddressRegion,
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Next,
             ),
         )
 
@@ -293,7 +293,7 @@ private fun AddressForm(
                 autofillTypes = AutofillType.AddressLocality,
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Words,
-                    imeAction = ImeAction.Next
+                    imeAction = ImeAction.Next,
                 ),
             )
 
@@ -321,7 +321,7 @@ private fun AddressForm(
                 autofillTypes = AutofillType.PostalCode,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
+                    imeAction = ImeAction.Next,
                 ),
             )
         }
@@ -337,7 +337,7 @@ private fun AddressForm(
             autofillTypes = AutofillType.AddressStreet,
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Next,
             ),
         )
 
@@ -355,7 +355,7 @@ private fun AddressForm(
             autofillTypes = AutofillType.AddressAuxiliaryDetails,
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Next,
             ),
         )
     }

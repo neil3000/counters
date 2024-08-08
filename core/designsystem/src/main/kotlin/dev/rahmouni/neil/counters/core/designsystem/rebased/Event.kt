@@ -28,5 +28,5 @@ data class Event(
     val description: String,
     val location: String,
     val image: String? = null,
-    val private: Boolean = true
+    val private: Boolean = true,
 )

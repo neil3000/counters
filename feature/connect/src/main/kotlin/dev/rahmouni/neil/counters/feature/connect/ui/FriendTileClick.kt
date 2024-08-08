@@ -28,7 +28,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -66,7 +65,10 @@ fun Rn3FriendTileClick(
     ) {
         Row {
             Icon(imageVector = icon, contentDescription = null)
-            Text(modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL)), text = friendEntity.display())
+            Text(
+                modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL)),
+                text = friendEntity.display(),
+            )
         }
         Row {
             if (button && friendEntity.nearby) {

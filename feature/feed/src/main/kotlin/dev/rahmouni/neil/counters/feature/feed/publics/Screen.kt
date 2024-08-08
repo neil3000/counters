@@ -37,26 +37,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
-import dev.rahmouni.neil.counters.core.data.model.FriendEntity
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.R.color
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
-import dev.rahmouni.neil.counters.core.designsystem.rebased.FeedType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
 import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
@@ -127,7 +122,12 @@ internal fun PublicFeedScreen(
             icon = Filled.Add,
             label = stringResource(string.feature_feed_bottomBar_add),
             onClick = onAddBottomBarItemClicked,
-            unselectedIconColor = Color(ContextCompat.getColor(context, color.core_designsystem_color)),
+            unselectedIconColor = Color(
+                ContextCompat.getColor(
+                    context,
+                    color.core_designsystem_color,
+                ),
+            ),
             fullSize = true,
         )
 
@@ -201,7 +201,7 @@ private fun PublicFeedPanel(
     paddingValues: Rn3PaddingValues,
     data: PublicFeedData,
 ) {
-    val phoneUtil = PhoneNumberUtil.getInstance();
+    val phoneUtil = PhoneNumberUtil.getInstance()
 
     Column(
         modifier = Modifier
@@ -217,7 +217,7 @@ private fun PublicFeedPanel(
                 timestamp = LocalDateTime.now(),
                 content = "The Street King Charles was under construction, but now it's all clear! The renovation has finished, making this spot more accessible and enjoyable. Explore the new look of this iconic street and join me on this adventure.",
                 postType = PostType.TEXT,
-                categories = listOf("Test 1","test 2")
+                categories = listOf("Test 1", "test 2"),
             ),
             Post(
                 id = "test",
@@ -227,8 +227,14 @@ private fun PublicFeedPanel(
                 timestamp = LocalDateTime.now().minusMinutes(30),
                 content = "I'm selling my road bike in excellent condition! It's perfect for anyone looking to explore the city or commute efficiently. Details: Brand - Trek, Model - Emonda, Year - 2020, Color - Black. Contact me if interested!",
                 postType = PostType.CONTACT,
-                additionalInfos = listOf(Pair("I'm interested",PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789))),
-                categories = listOf("Test 1","test 2")
+                additionalInfos = listOf(
+                    Pair(
+                        "I'm interested",
+                        PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode)
+                            .setNationalNumber(123456789),
+                    ),
+                ),
+                categories = listOf("Test 1", "test 2"),
             ),
             Post(
                 id = "test",
@@ -238,7 +244,7 @@ private fun PublicFeedPanel(
                 timestamp = LocalDateTime.now().minusHours(3),
                 content = "Exciting news for nature enthusiasts! England welcomes its newest national park, providing vast spaces for hiking, wildlife exploration, and stunning scenery. Discover the endless trails and the beauty of our protected lands. Join us in celebrating this great addition to our national heritage.",
                 postType = PostType.TEXT,
-                categories = listOf("Test 1","test 2")
+                categories = listOf("Test 1", "test 2"),
             ),
             Post(
                 id = "test",
@@ -248,7 +254,7 @@ private fun PublicFeedPanel(
                 timestamp = LocalDateTime.now().minusDays(1),
                 content = "Seems like there's an impromptu concert every night next door! The music and noise levels from my neighbors have become a real challenge.",
                 postType = PostType.TEXT,
-                categories = listOf("Test 1","test 2")
+                categories = listOf("Test 1", "test 2"),
             ),
             Post(
                 id = "test",
@@ -258,8 +264,8 @@ private fun PublicFeedPanel(
                 timestamp = LocalDateTime.now().minusDays(5),
                 content = "Is anyone else experiencing a power outage in Chelsea?",
                 postType = PostType.POLL,
-                additionalInfos = listOf(Pair("Yes",2), Pair("No",1)),
-                categories = listOf("Test 1","test 2")
+                additionalInfos = listOf(Pair("Yes", 2), Pair("No", 1)),
+                categories = listOf("Test 1", "test 2"),
             ),
         ).forEach { post ->
             Publication(

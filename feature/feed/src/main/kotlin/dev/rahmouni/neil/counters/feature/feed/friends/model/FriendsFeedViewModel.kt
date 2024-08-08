@@ -52,7 +52,7 @@ class FriendsFeedViewModel @Inject constructor(
                     user = user,
                     address = userData.address,
                     phone = userData.phone,
-                    friends = friends.map { it.toEntity() }
+                    friends = friends.map { it.toEntity() },
                 ),
             )
         }.stateIn(

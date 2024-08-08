@@ -19,13 +19,11 @@ package dev.rahmouni.neil.counters.feature.connect.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,7 +34,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.autofill.AutofillType
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -67,9 +64,9 @@ internal fun newFriendModal(onAddFriend: (friendRawData: FriendRawData) -> Unit)
 
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    var phone by remember { mutableStateOf(PhoneNumber())}
+    var phone by remember { mutableStateOf(PhoneNumber()) }
 
-    val phoneUtil = PhoneNumberUtil.getInstance();
+    val phoneUtil = PhoneNumberUtil.getInstance()
 
     var name by rememberSaveable { mutableStateOf("") }
 
@@ -91,7 +88,7 @@ internal fun newFriendModal(onAddFriend: (friendRawData: FriendRawData) -> Unit)
                 name = ""
                 phone = PhoneNumber()
                 hasUserInteracted = false
-                },
+            },
             sheetState = bottomSheetState,
         ) {
             Column(modifier = Modifier.padding(Rn3AdditionalPadding.paddingValues.only(HORIZONTAL))) {
@@ -101,14 +98,17 @@ internal fun newFriendModal(onAddFriend: (friendRawData: FriendRawData) -> Unit)
                     label = { Text(stringResource(R.string.feature_connect_newFriendModal_name_label)) },
                     hasUserInteracted = hasUserInteracted,
                     beEmpty = true,
-                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words, imeAction = ImeAction.Next)
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Words,
+                        imeAction = ImeAction.Next,
+                    ),
                 )
 
                 Rn3PhoneForm(
                     phone = phone,
                     onPhoneChanged = { updatedPhoneNumber -> phone = updatedPhoneNumber },
                     hasUserInteracted = hasUserInteracted,
-                    keyboardOptionsNumber = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    keyboardOptionsNumber = KeyboardOptions(keyboardType = KeyboardType.Number),
                 )
             }
             Button(
@@ -129,12 +129,12 @@ internal fun newFriendModal(onAddFriend: (friendRawData: FriendRawData) -> Unit)
                 },
                 modifier = Modifier
                     .padding(Rn3SurfaceDefaults.paddingValues.copy(top = 4.dp, bottom = 12.dp))
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) {
                 Text(text = stringResource(R.string.feature_connect_newFriendModal_Button))
             }
         }
     }
 
-    return { openBottomSheet = true  }
+    return { openBottomSheet = true }
 }

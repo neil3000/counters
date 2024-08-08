@@ -18,9 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Category
-import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Report
-import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -37,17 +35,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.data.model.FriendEntity
-import dev.rahmouni.neil.counters.core.designsystem.DropdownMenu
-import dev.rahmouni.neil.counters.core.designsystem.R
-import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Switch
@@ -78,136 +71,155 @@ fun Publication(post: Post, enabled: Boolean, friend: FriendEntity? = null) {
 
     Column {
         Surface(tonalElevation = Rn3SurfaceDefaults.tonalElevation) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(Rn3SurfaceDefaults.paddingValues),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-            if (friend != null) {
-                Icon(
-                    imageVector = Icons.Outlined.AccountCircle,
-                    modifier = Modifier
-                        .size(34.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primaryContainer)
-                        .padding(6.dp),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                )
-            } else {
-                post.sharingScope.DisplayIcon(post.location)
-            }
-                Column(horizontalAlignment = Alignment.Start, modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL))) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(Rn3SurfaceDefaults.paddingValues),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     if (friend != null) {
-                        Text(text = friend.display(), style = MaterialTheme.typography.titleMedium)
+                        Icon(
+                            imageVector = Icons.Outlined.AccountCircle,
+                            modifier = Modifier
+                                .size(34.dp)
+                                .clip(CircleShape)
+                                .background(MaterialTheme.colorScheme.primaryContainer)
+                                .padding(6.dp),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                        )
                     } else {
-                        if (post.sharingScope == SharingScope.COUNTRY) {
-                            Text(
-                                text = Country.getCountryFromIso(post.location)?.text()
-                                    ?: "Country not found",
-                                fontWeight = FontWeight.Bold,
-                            )
-                        }
-                        else {
-                            Text(text = post.location, style = MaterialTheme.typography.titleMedium)
-                        }
+                        post.sharingScope.DisplayIcon(post.location)
                     }
-                    Text(
-                        text = post.timeElapsed(),
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.alpha(0.5f)
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.Start,
+                        modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL)),
+                    ) {
+                        if (friend != null) {
+                            Text(
+                                text = friend.display(),
+                                style = MaterialTheme.typography.titleMedium,
+                            )
+                        } else {
+                            if (post.sharingScope == SharingScope.COUNTRY) {
+                                Text(
+                                    text = Country.getCountryFromIso(post.location)?.text()
+                                        ?: "Country not found",
+                                    fontWeight = FontWeight.Bold,
+                                )
+                            } else {
+                                Text(
+                                    text = post.location,
+                                    style = MaterialTheme.typography.titleMedium,
+                                )
+                            }
+                        }
+                        Text(
+                            text = post.timeElapsed(),
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.alpha(0.5f),
+                        )
+                    }
                 }
-            }
-            Box {
-                Rn3IconButton(icon = Icons.Default.MoreHoriz, contentDescription = "Action on the publication") { expanded = true }
+                Box {
+                    Rn3IconButton(
+                        icon = Icons.Default.MoreHoriz,
+                        contentDescription = "Action on the publication",
+                    ) { expanded = true }
 
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
-                ) {
-                    DropdownMenuItem(
-                        text = { Text("report publication") },
-                        onClick = {
-                            haptic.click()
-                        },
-                        leadingIcon = {
-                            Icon(imageVector = Icons.Outlined.Report, contentDescription = null)
-                        },
-                    )
-                    DropdownMenuItem(
-                        modifier = Modifier
-                            .toggleable(
-                                value = cat1Checked,
-                                interactionSource = cat1InteractionSource,
-                                indication = indication,
-                                role = Role.Switch,
-                                enabled = enabled,
-                            ) {
-                                if (enabled) {
-                                    cat1Checked = false
-                                    haptic.toggle(it)
-                                }
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("report publication") },
+                            onClick = {
+                                haptic.click()
                             },
-                        text = { Text(text = "see less " + post.categories[0]) },
-                        onClick = {
-                            haptic.click()
-                        },
-                        leadingIcon = {
-                            Icon(imageVector = Icons.Outlined.Category, contentDescription = null)
-                        },
-                        trailingIcon = {
-                            Rn3Switch(
-                                checked = cat1Checked,
-                                contentDescription = null,
-                                interactionSource = cat1InteractionSource,
-                                onCheckedChange = null,
-                                enabled = enabled,
-                            )
-                        }
-                    )
-                    DropdownMenuItem(
-                        modifier = Modifier
-                            .toggleable(
-                                value = cat2Checked,
-                                interactionSource = cat2InteractionSource,
-                                indication = indication,
-                                role = Role.Switch,
-                                enabled = enabled,
-                            ) {
-                                if (enabled) {
-                                    cat2Checked = false
-                                    haptic.toggle(it)
-                                }
+                            leadingIcon = {
+                                Icon(imageVector = Icons.Outlined.Report, contentDescription = null)
                             },
-                        text = { Text(text = "see less " + post.categories[0] + " about " + post.categories[1]) },
-                        onClick = {
-                            haptic.click()
-                        },
-                        leadingIcon = {
-                            Icon(imageVector = Icons.Outlined.Category, contentDescription = null)
-                        },
-                        trailingIcon = {
-                            Rn3Switch(
-                                checked = cat2Checked,
-                                contentDescription = null,
-                                interactionSource = cat2InteractionSource,
-                                onCheckedChange = null,
-                                enabled = enabled,
-                            )
-                        }
-                    )
+                        )
+                        DropdownMenuItem(
+                            modifier = Modifier
+                                .toggleable(
+                                    value = cat1Checked,
+                                    interactionSource = cat1InteractionSource,
+                                    indication = indication,
+                                    role = Role.Switch,
+                                    enabled = enabled,
+                                ) {
+                                    if (enabled) {
+                                        cat1Checked = false
+                                        haptic.toggle(it)
+                                    }
+                                },
+                            text = { Text(text = "see less " + post.categories[0]) },
+                            onClick = {
+                                haptic.click()
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Category,
+                                    contentDescription = null,
+                                )
+                            },
+                            trailingIcon = {
+                                Rn3Switch(
+                                    checked = cat1Checked,
+                                    contentDescription = null,
+                                    interactionSource = cat1InteractionSource,
+                                    onCheckedChange = null,
+                                    enabled = enabled,
+                                )
+                            },
+                        )
+                        DropdownMenuItem(
+                            modifier = Modifier
+                                .toggleable(
+                                    value = cat2Checked,
+                                    interactionSource = cat2InteractionSource,
+                                    indication = indication,
+                                    role = Role.Switch,
+                                    enabled = enabled,
+                                ) {
+                                    if (enabled) {
+                                        cat2Checked = false
+                                        haptic.toggle(it)
+                                    }
+                                },
+                            text = { Text(text = "see less " + post.categories[0] + " about " + post.categories[1]) },
+                            onClick = {
+                                haptic.click()
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Category,
+                                    contentDescription = null,
+                                )
+                            },
+                            trailingIcon = {
+                                Rn3Switch(
+                                    checked = cat2Checked,
+                                    contentDescription = null,
+                                    interactionSource = cat2InteractionSource,
+                                    onCheckedChange = null,
+                                    enabled = enabled,
+                                )
+                            },
+                        )
+                    }
                 }
             }
-        }}
+        }
         Column(modifier = Modifier.padding(Rn3TextDefaults.paddingValues)) {
             Text(
                 text = post.content,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(end = 8.dp),
-                textAlign = TextAlign.Justify
+                textAlign = TextAlign.Justify,
             )
             if (post.additionalInfos.isNotEmpty()) {
                 if (post.postType == PostType.CONTACT) {
@@ -217,20 +229,20 @@ fun Publication(post: Post, enabled: Boolean, friend: FriendEntity? = null) {
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
                     ) {
-                            OutlinedButton(
-                                enabled = enabled,
-                                onClick = {
-                                    haptic.click()
+                        OutlinedButton(
+                            enabled = enabled,
+                            onClick = {
+                                haptic.click()
 
-                                    val intent = Intent(Intent.ACTION_VIEW).apply {
-                                        data = Uri.parse("sms:${post.additionalInfos[0].second}")
-                                    }
+                                val intent = Intent(Intent.ACTION_VIEW).apply {
+                                    data = Uri.parse("sms:${post.additionalInfos[0].second}")
+                                }
 
-                                    context.startActivity(intent)
-                                },
-                            ) {
-                                Text(text = post.additionalInfos[0].first)
-                            }
+                                context.startActivity(intent)
+                            },
+                        ) {
+                            Text(text = post.additionalInfos[0].first)
+                        }
                     }
                 } else if (post.postType == PostType.POLL) {
                     Poll(post)

@@ -4,12 +4,12 @@ option java_package = "rahmouni.neil.counters.core.datastore";
 option java_multiple_files = true;
 
 message AddressInfo {
-  string country = 1;
-  string region = 2;
-  string locality = 3;
-  string street = 4;
-  string postalCode = 5;
-  string auxiliaryDetails = 6;
+    string country = 1;
+    string region = 2;
+    string locality = 3;
+    string street = 4;
+    string postalCode = 5;
+    string auxiliaryDetails = 6;
 
-  // NEXT AVAILABLE ID: 7
+    // NEXT AVAILABLE ID: 7
 }

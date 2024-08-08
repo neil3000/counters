@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
-import dev.rahmouni.neil.counters.core.data.model.FriendEntity
 import dev.rahmouni.neil.counters.core.data.model.FriendRawData
 import dev.rahmouni.neil.counters.core.data.model.toEntity
 import dev.rahmouni.neil.counters.core.data.repository.countersData.FriendsDataRepository
@@ -59,7 +58,8 @@ class ConnectViewModel @Inject constructor(
                     user = user,
                     address = userData.address,
                     phone = userData.phone,
-                    friends = friends.sortedWith(compareBy<FriendRawData> { it.nearby }.thenBy { it.name }).map { it.toEntity() }
+                    friends = friends.sortedWith(compareBy<FriendRawData> { it.nearby }.thenBy { it.name })
+                        .map { it.toEntity() },
                 ),
             )
         }.stateIn(

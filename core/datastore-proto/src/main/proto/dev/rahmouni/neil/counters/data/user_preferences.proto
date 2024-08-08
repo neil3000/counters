@@ -1,24 +1,24 @@
 syntax = "proto3";
 
+import "dev/rahmouni/neil/counters/data/address.proto";
+import "dev/rahmouni/neil/counters/data/phone.proto";
+
 option java_package = "rahmouni.neil.counters.core.datastore";
 option java_multiple_files = true;
 
-import "dev/rahmouni/neil/counters/data/phone.proto";
-import "dev/rahmouni/neil/counters/data/address.proto";
-
 message UserPreferences {
-  bool accessibility_hasEmphasizedSwitchesEnabled = 1;
-  bool accessibility_hasIconTooltipsDisabled = 2;
-  bool accessibility_hasAltTextEnabled = 3;
-  bool hasMetricsDisabled = 4;
-  bool hasCrashlyticsDisabled = 5;
-  bool shouldNotShowLoginScreenOnStartup = 6;
-  bool isNotAppFirstLaunch = 7;
-  bool hasTravelModeEnabled = 8;
-  bool hasFriendsMainEnabled = 9;
-  bool isInformationValid = 10;
-  AddressInfo address = 11;
-  PhoneNumber phone = 12;
+    bool accessibility_hasEmphasizedSwitchesEnabled = 1;
+    bool accessibility_hasIconTooltipsDisabled = 2;
+    bool accessibility_hasAltTextEnabled = 3;
+    bool hasMetricsDisabled = 4;
+    bool hasCrashlyticsDisabled = 5;
+    bool shouldNotShowLoginScreenOnStartup = 6;
+    bool isNotAppFirstLaunch = 7;
+    bool hasTravelModeEnabled = 8;
+    bool hasFriendsMainEnabled = 9;
+    bool isInformationValid = 10;
+    AddressInfo address = 11;
+    PhoneNumber phone = 12;
 
-  // NEXT AVAILABLE ID: 11
+    // NEXT AVAILABLE ID: 11
 }

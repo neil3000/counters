@@ -31,7 +31,7 @@ dependencies {
 
     implementation(libs.androidx.appcompat)
     implementation(libs.coil.kt.compose)
-    implementation (libs.libphonenumber)
+    implementation(libs.libphonenumber)
 
     implementation(projects.core.data)
 }

@@ -25,7 +25,6 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -360,7 +359,7 @@ private fun SettingsPanel(
                             },
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.contentColorFor(color),
-                            modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(END))
+                            modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(END)),
                         )
                     },
                     icon = {

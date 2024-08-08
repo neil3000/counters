@@ -51,15 +51,10 @@ import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Event
-import dev.rahmouni.neil.counters.core.designsystem.rebased.FeedType
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
-import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
-import dev.rahmouni.neil.counters.core.model.data.Country
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
-import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
 import dev.rahmouni.neil.counters.feature.events.R.string
 import dev.rahmouni.neil.counters.feature.events.model.EventsUiState.Loading
@@ -96,7 +91,7 @@ internal fun EventsRoute(
             onFriendsBottomBarItemClicked = navigateToFriends,
             onAddBottomBarItemClicked = navigateToPublication,
             onPublicBottomBarItemClicked = navigateToPublic,
-    )
+        )
     }
 
     TrackScreenViewEvent(screenName = "events")
@@ -122,7 +117,12 @@ internal fun EventsScreen(
             icon = Filled.Add,
             label = stringResource(string.feature_events_bottomBar_add),
             onClick = onAddBottomBarItemClicked,
-            unselectedIconColor = Color(ContextCompat.getColor(context, color.core_designsystem_color)),
+            unselectedIconColor = Color(
+                ContextCompat.getColor(
+                    context,
+                    color.core_designsystem_color,
+                ),
+            ),
             fullSize = true,
         )
 

@@ -4,8 +4,8 @@ option java_package = "rahmouni.neil.counters.core.datastore";
 option java_multiple_files = true;
 
 message PhoneNumber {
-  string number = 1;
-  string code = 2;
+    string number = 1;
+    string code = 2;
 
-  // NEXT AVAILABLE ID: 3
+    // NEXT AVAILABLE ID: 3
 }

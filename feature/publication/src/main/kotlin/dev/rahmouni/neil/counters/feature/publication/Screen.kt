@@ -59,7 +59,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -155,7 +154,7 @@ internal fun PublicationScreen(
     var isAnalyzed by rememberSaveable { mutableStateOf(false) }
     var currentDescription by rememberSaveable { mutableStateOf("") }
 
-    val phoneUtil = PhoneNumberUtil.getInstance();
+    val phoneUtil = PhoneNumberUtil.getInstance()
 
     var analyse = Analyse(
         AnalyseType.SUCCESS,
@@ -168,7 +167,7 @@ internal fun PublicationScreen(
             timestamp = LocalDateTime.now(),
             content = currentDescription,
             postType = PostType.TEXT,
-            categories = listOf("Test 1","test 2")
+            categories = listOf("Test 1", "test 2"),
         ),
     )
 
@@ -211,44 +210,47 @@ internal fun PublicationScreen(
                 ) {
 
                     if (!isAnalyzed) {
-                    Rn3IconButton(
-                        icon = Outlined.AddPhotoAlternate,
-                        contentDescription = stringResource(string.feature_publication_imageButton_description),
-                        onClick = {},
-                    )
-                    Button(
-                        onClick = {
-                            haptic.click()
-                            isAnalyzed = true
-                            analyse = Analyse(
-                                AnalyseType.SUCCESS,
-                                feed = FeedType.PUBLIC,
-                                Post(
-                                    id = "test",
-                                    userId = "test",
-                                    sharingScope = SharingScope.STREET,
-                                    location = "Street King James",
-                                    timestamp = LocalDateTime.now(),
-                                    content = currentDescription,
-                                    postType = PostType.CONTACT,
-                                    additionalInfos = listOf(Pair("test", 1)),
-                                    categories = listOf("Test 1","test 2")
-                                ),
-                            )
-                            if (analyse.post.postType == PostType.CONTACT && !phoneUtil.isValidNumber(data.phone)
-                            ) {
-                                analyse.result = AnalyseType.NEEDPHONE
-                            }
-                        },
-                        enabled = !isAnalyzed && currentDescription.isNotEmpty(),
-                    ) {
-                        Text(text = stringResource(string.feature_publication_analyseButton))
-                    }
+                        Rn3IconButton(
+                            icon = Outlined.AddPhotoAlternate,
+                            contentDescription = stringResource(string.feature_publication_imageButton_description),
+                            onClick = {},
+                        )
+                        Button(
+                            onClick = {
+                                haptic.click()
+                                isAnalyzed = true
+                                analyse = Analyse(
+                                    AnalyseType.SUCCESS,
+                                    feed = FeedType.PUBLIC,
+                                    Post(
+                                        id = "test",
+                                        userId = "test",
+                                        sharingScope = SharingScope.STREET,
+                                        location = "Street King James",
+                                        timestamp = LocalDateTime.now(),
+                                        content = currentDescription,
+                                        postType = PostType.CONTACT,
+                                        additionalInfos = listOf(Pair("test", 1)),
+                                        categories = listOf("Test 1", "test 2"),
+                                    ),
+                                )
+                                if (analyse.post.postType == PostType.CONTACT && !phoneUtil.isValidNumber(
+                                        data.phone,
+                                    )
+                                ) {
+                                    analyse.result = AnalyseType.NEEDPHONE
+                                }
+                            },
+                            enabled = !isAnalyzed && currentDescription.isNotEmpty(),
+                        ) {
+                            Text(text = stringResource(string.feature_publication_analyseButton))
+                        }
                     } else {
-                        Row (
+                        Row(
                             modifier = Modifier.weight(1f),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Start) {
+                            horizontalArrangement = Arrangement.Start,
+                        ) {
                             Rn3Dialog(
                                 icon = Outlined.Report,
                                 title = stringResource(string.feature_publication_infoDialog_title),
@@ -256,17 +258,17 @@ internal fun PublicationScreen(
                                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                                         Text(text = stringResource(string.feature_publication_infoDialog_textTitle))
                                         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                                        Icon(
-                                            imageVector = Outlined.Report,
-                                            contentDescription = null,
-                                            modifier = Modifier
-                                                .padding(top = 2.dp)
-                                                .size(SuggestionChipDefaults.IconSize),
-                                            tint = MaterialTheme.colorScheme.secondary,
-                                        )
+                                            Icon(
+                                                imageVector = Outlined.Report,
+                                                contentDescription = null,
+                                                modifier = Modifier
+                                                    .padding(top = 2.dp)
+                                                    .size(SuggestionChipDefaults.IconSize),
+                                                tint = MaterialTheme.colorScheme.secondary,
+                                            )
 
-                                        Text(text = stringResource(string.feature_publication_infoDialog_textReport).toRn3FormattedString())
-                                    }
+                                            Text(text = stringResource(string.feature_publication_infoDialog_textReport).toRn3FormattedString())
+                                        }
                                     }
                                 },
                                 confirmLabel = stringResource(string.feature_publication_infoDialog_button),

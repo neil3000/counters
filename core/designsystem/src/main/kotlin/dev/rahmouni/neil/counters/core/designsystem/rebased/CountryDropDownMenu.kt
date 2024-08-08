@@ -55,7 +55,7 @@ fun Rn3CountryDropDownMenu(
         modifier = modifier,
         expanded = expanded,
         onExpandedChange = { expanded = !expanded },
-        ) {
+    ) {
         Rn3OutlinedTextField(
             readOnly = true,
             value = value,
@@ -74,12 +74,12 @@ fun Rn3CountryDropDownMenu(
             enableAutofill = enableAutofill,
             autofillTypes = autofill,
             beEmpty = beEmpty,
-            )
+        )
 
         ExposedDropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
-            ) {
+        ) {
             Country.sortedCountries().forEach { selected ->
                 DropdownMenuItem(
                     text = { textItem(selected) },

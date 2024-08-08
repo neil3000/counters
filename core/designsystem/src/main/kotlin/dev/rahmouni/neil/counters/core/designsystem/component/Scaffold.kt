@@ -142,7 +142,8 @@ fun Rn3Scaffold(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     if (topAppBarStyle == HOME) {
-                        val alternateIcon = (1..1000).random() == 1 || config.getBoolean("alternateIcon_force")
+                        val alternateIcon =
+                            (1..1000).random() == 1 || config.getBoolean("alternateIcon_force")
                         val context = LocalContext.current
 
                         with(sharedTransitionScope) {
@@ -165,7 +166,12 @@ fun Rn3Scaffold(
                                             Modifier
                                         },
                                     ),
-                                color = Color(ContextCompat.getColor(context, color.core_designsystem_color)),
+                                color = Color(
+                                    ContextCompat.getColor(
+                                        context,
+                                        color.core_designsystem_color,
+                                    ),
+                                ),
                                 shape = RoundedCornerShape(8.dp),
                             ) {
                                 Modifier

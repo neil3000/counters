@@ -96,7 +96,6 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValu
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
-import dev.rahmouni.neil.counters.core.model.data.Country
 import dev.rahmouni.neil.counters.core.shapes.MorphableShape
 import dev.rahmouni.neil.counters.core.shapes.loadingShapeParameters
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
@@ -182,7 +181,12 @@ internal fun ConnectScreen(
             icon = Filled.Add,
             label = stringResource(string.feature_connect_bottomBar_add),
             onClick = onAddBottomBarItemClicked,
-            unselectedIconColor = Color(ContextCompat.getColor(context, color.core_designsystem_color)),
+            unselectedIconColor = Color(
+                ContextCompat.getColor(
+                    context,
+                    color.core_designsystem_color,
+                ),
+            ),
             fullSize = true,
         )
 
@@ -280,7 +284,7 @@ private fun ColumnPanel(
 
     val animatedRotation = remember { Animatable(initialValue = 0f) }
 
-    val phoneUtil = PhoneNumberUtil.getInstance();
+    val phoneUtil = PhoneNumberUtil.getInstance()
 
     LaunchedEffect(Unit) {
         launch {
@@ -304,47 +308,47 @@ private fun ColumnPanel(
     ) {
         when (data.user) {
             is SignedInUser -> {
-                    Box(
-                        modifier = Modifier
-                            .widthIn(max = 150.dp)
-                            .fillMaxWidth()
-                            .aspectRatio(ratio = 1f)
-                            .clip(
-                                MorphableShape(
-                                    loadingShapeParameters[morphCursor]
-                                        .genShape(animatedRotation.value)
-                                        .normalized(),
-                                    loadingShapeParameters[(morphCursor + 1) % loadingShapeParameters.size]
-                                        .genShape(animatedRotation.value)
-                                        .normalized(),
-                                    morphProgress.value,
-                                ),
-                            )
-                            .background(MaterialTheme.colorScheme.onPrimaryContainer),
-                    ) {
-                        Image(
-                            painter = rememberAsyncImagePainter(data.user.pfpUri),
-                            contentDescription = data.user.getDisplayName(context),
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.fillMaxSize(),
+                Box(
+                    modifier = Modifier
+                        .widthIn(max = 150.dp)
+                        .fillMaxWidth()
+                        .aspectRatio(ratio = 1f)
+                        .clip(
+                            MorphableShape(
+                                loadingShapeParameters[morphCursor]
+                                    .genShape(animatedRotation.value)
+                                    .normalized(),
+                                loadingShapeParameters[(morphCursor + 1) % loadingShapeParameters.size]
+                                    .genShape(animatedRotation.value)
+                                    .normalized(),
+                                morphProgress.value,
+                            ),
                         )
-                    }
-
-                    Row(
-                        modifier = Modifier.padding(Rn3TextDefaults.paddingValues),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        Text(
-                            text = data.user.getDisplayName(context),
-                            color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.Medium,
-                            fontSize = TextUnit(value = 5f, type = TextUnitType.Em),
-                        )
-
-                        Spacer(modifier = Modifier.height(16.dp))
-                    }
+                        .background(MaterialTheme.colorScheme.onPrimaryContainer),
+                ) {
+                    Image(
+                        painter = rememberAsyncImagePainter(data.user.pfpUri),
+                        contentDescription = data.user.getDisplayName(context),
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
                 }
+
+                Row(
+                    modifier = Modifier.padding(Rn3TextDefaults.paddingValues),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    Text(
+                        text = data.user.getDisplayName(context),
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = TextUnit(value = 5f, type = TextUnitType.Em),
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+            }
 
             else -> Surface(
                 modifier = Modifier
@@ -360,7 +364,11 @@ private fun ColumnPanel(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Column(modifier = Modifier.weight(1f).padding(Rn3TextDefaults.paddingValues.only(END))) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(Rn3TextDefaults.paddingValues.only(END)),
+                    ) {
                         Text(
                             text = getDisplayName(context),
                             style = MaterialTheme.typography.titleMedium,
@@ -379,11 +387,12 @@ private fun ColumnPanel(
             }
         }
 
-        data.friends.sortedWith(compareBy<FriendEntity> { !it.nearby }.thenBy { it.name }).forEach { friend ->
-            Rn3FriendTileClick(
-                button = phoneUtil.isValidNumber(data.phone),
-                friendEntity = friend,
-            )
-        }
+        data.friends.sortedWith(compareBy<FriendEntity> { !it.nearby }.thenBy { it.name })
+            .forEach { friend ->
+                Rn3FriendTileClick(
+                    button = phoneUtil.isValidNumber(data.phone),
+                    friendEntity = friend,
+                )
+            }
     }
 }

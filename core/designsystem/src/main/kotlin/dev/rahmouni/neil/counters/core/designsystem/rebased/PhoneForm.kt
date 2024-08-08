@@ -60,13 +60,17 @@ fun Rn3PhoneForm(
     var showFullLabelPhoneCode by rememberSaveable { mutableStateOf(value = false) }
 
     val phoneUtil = PhoneNumberUtil.getInstance()
-    var formatter = phoneUtil.getAsYouTypeFormatter(Country.getCountryFromPhoneCode(phone.countryCode)?.isoCode ?: "US")
+    var formatter = phoneUtil.getAsYouTypeFormatter(
+        Country.getCountryFromPhoneCode(phone.countryCode)?.isoCode ?: "US",
+    )
 
     var textFieldValue by remember { mutableStateOf(TextFieldValue("")) }
     var rawInput by remember { mutableStateOf("") }
 
     fun formatPhoneNumber(rawInput: String, countryCode: Int): Pair<String, String> {
-        formatter = phoneUtil.getAsYouTypeFormatter(Country.getCountryFromPhoneCode(countryCode)?.isoCode ?: "US")
+        formatter = phoneUtil.getAsYouTypeFormatter(
+            Country.getCountryFromPhoneCode(countryCode)?.isoCode ?: "US",
+        )
         val formattedNumber = if (rawInput != "0") {
             rawInput.fold("") { acc, digit ->
                 formatter.inputDigit(digit).toString()
@@ -76,7 +80,10 @@ fun Rn3PhoneForm(
     }
 
     LaunchedEffect(key1 = phone.countryCode, key2 = "init") {
-        val (formattedNumber, digitsOnly) = formatPhoneNumber(phone.nationalNumber.toString(), phone.countryCode)
+        val (formattedNumber, digitsOnly) = formatPhoneNumber(
+            phone.nationalNumber.toString(),
+            phone.countryCode,
+        )
         textFieldValue = TextFieldValue(formattedNumber, TextRange(formattedNumber.length))
         rawInput = digitsOnly
     }
@@ -94,11 +101,13 @@ fun Rn3PhoneForm(
         Rn3CountryDropDownMenu(
             modifier = Modifier.weight(1f),
             value = if (phone.countryCode != 0) "+${phone.countryCode}" else "",
-            label = { Text(
-                text = if (showFullLabelPhoneCode || phone.countryCode != 0) stringResource(
-                    R.string.core_designsystem_phoneForm_phoneCode_full,
-                ) else stringResource(R.string.core_designsystem_phoneForm_phoneCode_small),
-            ) },
+            label = {
+                Text(
+                    text = if (showFullLabelPhoneCode || phone.countryCode != 0) stringResource(
+                        R.string.core_designsystem_phoneForm_phoneCode_full,
+                    ) else stringResource(R.string.core_designsystem_phoneForm_phoneCode_small),
+                )
+            },
             textItem = { phoneCode ->
                 Row(verticalAlignment = CenterVertically) {
                     Icon(
@@ -109,7 +118,8 @@ fun Rn3PhoneForm(
                     )
                     Spacer(Modifier.size(8.dp))
                     Text(text = ("+" + phoneCode.phoneCode.toString()))
-                }},
+                }
+            },
             setIsFocused = { isFocused -> isFocusedPhoneCode = isFocused },
             hasUserInteracted = hasUserInteracted,
             enableAutofill = true,
@@ -117,9 +127,9 @@ fun Rn3PhoneForm(
             onValueChange = { phoneCode ->
                 phone.countryCode = phoneCode.phoneCode
                 onPhoneChanged(
-                    phone.setCountryCode(phoneCode.phoneCode)
+                    phone.setCountryCode(phoneCode.phoneCode),
                 )
-                            },
+            },
             beEmpty = beEmpty,
         )
 
@@ -133,7 +143,8 @@ fun Rn3PhoneForm(
                 val formattedText = newDigitsOnly.fold("") { _, digit ->
                     formatter.inputDigit(digit).toString()
                 }
-                val cursorOffset = calculateCursorOffset(newValue.text, formattedText, cursorPosition)
+                val cursorOffset =
+                    calculateCursorOffset(newValue.text, formattedText, cursorPosition)
                 textFieldValue = TextFieldValue(formattedText, TextRange(cursorOffset))
                 rawInput = newDigitsOnly
                 onPhoneChanged(phone.setNationalNumber(newDigitsOnly.toLongOrNull() ?: 0L))
