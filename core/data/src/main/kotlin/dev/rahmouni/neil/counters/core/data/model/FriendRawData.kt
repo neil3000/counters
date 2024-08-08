@@ -31,4 +31,5 @@ data class FriendRawData(
     val phoneNumber: String? = null,
     val phoneCode: String? = null,
     val nearby: Boolean = false,
+    val userId: String? = null,
 )

@@ -17,45 +17,30 @@
 
 package dev.rahmouni.neil.counters.core.designsystem.rebased
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MenuAnchorType
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.AutofillType
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3OutlinedTextField
 import dev.rahmouni.neil.counters.core.model.data.Country
-import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun Rn3CountryDropDownMenu(
     modifier: Modifier = Modifier,
     value: String,
+    onValueChange: (Country) -> Unit,
     label: @Composable (() -> Unit)? = null,
     hasUserInteracted: Boolean = false,
     beEmpty: Boolean = false,
@@ -63,7 +48,6 @@ fun Rn3CountryDropDownMenu(
     setIsFocused: (Boolean) -> Unit,
     autofill: AutofillType? = null,
     enableAutofill: Boolean = false,
-    onClick: (Country) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(value = false) }
 
@@ -101,7 +85,7 @@ fun Rn3CountryDropDownMenu(
                     text = { textItem(selected) },
                     onClick = {
                         expanded = false
-                        onClick(selected)
+                        onValueChange(selected)
                     },
                 )
             }

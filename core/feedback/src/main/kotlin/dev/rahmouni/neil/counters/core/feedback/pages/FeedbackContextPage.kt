@@ -29,6 +29,9 @@ import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Screenshot
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.ListItemColors
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -77,6 +80,7 @@ internal fun FeedbackContextPage(
                 },
                 icon = Icons.Outlined.LocationOn,
                 checked = onCurrentPageValue,
+                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
             ) {
                 onCurrentPageValue = it
             }
@@ -89,6 +93,7 @@ internal fun FeedbackContextPage(
                 checked = onCurrentPageValue && sendScreenshotValue,
                 enabled = false,
                 supportingText = stringResource(string.core_feedback_contextPage_screenshotTile_supportingText),
+                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
             ) {
                 sendScreenshotValue = it
             }
@@ -98,12 +103,13 @@ internal fun FeedbackContextPage(
             icon = Icons.Outlined.Android,
             checked = sendAdditionalInfoValue,
             supportingText = stringResource(string.core_feedback_contextPage_additionalInfoTile_supportingText),
+            colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
         ) {
             sendAdditionalInfoValue = it
         }
 
         Row(
-            Modifier.padding(Rn3SurfaceDefaults.paddingValues.copy(top = 0.dp, bottom = 6.dp)),
+            Modifier.padding(Rn3SurfaceDefaults.paddingValues.copy(top = 0.dp, bottom = 12.dp)),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             FilledTonalButton(

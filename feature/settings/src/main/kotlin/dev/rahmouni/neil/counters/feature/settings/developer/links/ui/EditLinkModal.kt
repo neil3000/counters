@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.data.model.LinkRn3UrlRawData
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
-import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalBigPadding
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalPadding
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ErrorButtonColors
@@ -87,7 +87,7 @@ internal fun editLinkModal(
             sheetState = bottomSheetState,
         ) {
             Column(
-                modifier = Modifier.padding(Rn3AdditionalBigPadding.paddingValues.only(HORIZONTAL)),
+                modifier = Modifier.padding(Rn3AdditionalPadding.paddingValues.only(HORIZONTAL)),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 // pathTextField

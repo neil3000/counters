@@ -81,7 +81,7 @@ fun Rn3FriendTileClick(
                         context.startActivity(intent)
                     },
                 ) {
-                    Text(stringResource(string.feature_connect_friendTileClick_button))
+                    Text(text = stringResource(string.feature_connect_friendTileClick_button))
                 }
             }
             Rn3IconButton(

@@ -217,7 +217,7 @@ private fun FriendsFeedPanel(
                 timestamp = LocalDateTime.now(),
                 content = "The Street King Charles was under construction, but now it's all clear! The renovation has finished, making this spot more accessible and enjoyable. Explore the new look of this iconic street and join me on this adventure.",
                 postType = PostType.TEXT,
-                feed = FeedType.FRIENDS,
+                categories = listOf("Test 1","test 2")
             ),
             Post(
                 id = "test",
@@ -227,8 +227,8 @@ private fun FriendsFeedPanel(
                 timestamp = LocalDateTime.now().minusMinutes(30),
                 content = "I'm selling my road bike in excellent condition! It's perfect for anyone looking to explore the city or commute efficiently. Details: Brand - Trek, Model - Emonda, Year - 2020, Color - Black. Contact me if interested!",
                 postType = PostType.CONTACT,
-                additionalInfos = listOf("I'm interested"),
-                feed = FeedType.FRIENDS,
+                additionalInfos = listOf(Pair("I'm interested",PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789))),
+                categories = listOf("Test 1","test 2")
             ),
             Post(
                 id = "test",
@@ -238,7 +238,7 @@ private fun FriendsFeedPanel(
                 timestamp = LocalDateTime.now().minusHours(3),
                 content = "Exciting news for nature enthusiasts! England welcomes its newest national park, providing vast spaces for hiking, wildlife exploration, and stunning scenery. Discover the endless trails and the beauty of our protected lands. Join us in celebrating this great addition to our national heritage.",
                 postType = PostType.TEXT,
-                feed = FeedType.FRIENDS,
+                categories = listOf("Test 1","test 2")
             ),
             Post(
                 id = "test",
@@ -248,7 +248,7 @@ private fun FriendsFeedPanel(
                 timestamp = LocalDateTime.now().minusDays(1),
                 content = "Seems like there's an impromptu concert every night next door! The music and noise levels from my neighbors have become a real challenge.",
                 postType = PostType.TEXT,
-                feed = FeedType.FRIENDS,
+                categories = listOf("Test 1","test 2")
             ),
             Post(
                 id = "test",
@@ -258,60 +258,19 @@ private fun FriendsFeedPanel(
                 timestamp = LocalDateTime.now().minusDays(5),
                 content = "Is anyone else experiencing a power outage in Chelsea?",
                 postType = PostType.POLL,
-                additionalInfos = listOf("Yes", "No"),
-                feed = FeedType.FRIENDS,
+                additionalInfos = listOf(Pair("Yes",2), Pair("No",1)),
+                categories = listOf("Test 1","test 2")
             ),
         ).forEach { post ->
             Publication(
                 post = post,
-                friendEntityRepository = UserRepository.friendEntities,
+                friend = data.friends.find { it.uid == post.userId },
                 enabled = if (data.user is SignedInUser || data.user is AnonymousUser) {
                     phoneUtil.isValidNumber(data.phone)
                 } else {
                     false
                 },
             )
-            Rn3TileHorizontalDivider(
-                paddingValues = Rn3SurfaceDefaults.paddingValues.copy(
-                    top = 0.dp,
-                    bottom = 0.dp,
-                ),
-            )
         }
     }
-}
-
-object UserRepository {
-    val friendEntities = listOf(
-        FriendEntity(
-            uid = "1",
-            name = "Alice Smith",
-            email = "alice.smith@example.com",
-            phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
-        ),
-        FriendEntity(
-            uid = "2",
-            name = "Bob Johnson",
-            email = "bob.johnson@example.com",
-            phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
-        ),
-        FriendEntity(
-            uid = "3",
-            name = "Carol Williams",
-            email = "carol.williams@example.com",
-            phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
-        ),
-        FriendEntity(
-            uid = "4",
-            name = "",
-            email = "david.brown@example.com",
-            phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
-        ),
-        FriendEntity(
-            uid = "5",
-            name = "Eva Davis",
-            email = "eva.davis@example.com",
-            phone = PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode).setNationalNumber(123456789),
-        ),
-    )
 }

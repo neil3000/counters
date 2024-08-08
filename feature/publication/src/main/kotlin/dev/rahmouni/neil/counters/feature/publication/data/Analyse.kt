@@ -17,9 +17,11 @@
 
 package dev.rahmouni.neil.counters.feature.publication.data
 
+import dev.rahmouni.neil.counters.core.designsystem.rebased.FeedType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
 
 data class Analyse(
     var result: AnalyseType,
+    var feed: FeedType,
     val post: Post,
 )

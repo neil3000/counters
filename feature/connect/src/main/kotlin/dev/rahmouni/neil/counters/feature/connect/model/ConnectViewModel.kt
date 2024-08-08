@@ -60,7 +60,6 @@ class ConnectViewModel @Inject constructor(
                     address = userData.address,
                     phone = userData.phone,
                     friends = friends.sortedWith(compareBy<FriendRawData> { it.nearby }.thenBy { it.name }).map { it.toEntity() }
-
                 ),
             )
         }.stateIn(

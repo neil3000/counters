@@ -24,6 +24,8 @@ import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemColors
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,6 +49,7 @@ fun Rn3TileSwitch(
     enabled: Boolean = true,
     thumbContent: @Composable (() -> Unit)? = null,
     checked: Boolean,
+    colors: ListItemColors = ListItemDefaults.colors(),
     onCheckedChange: (Boolean) -> Unit,
 ) {
     val haptic = getHaptic()
@@ -54,6 +57,7 @@ fun Rn3TileSwitch(
     val interactionSource = remember { MutableInteractionSource() }
 
     ListItem(
+        colors = colors,
         headlineContent = { Text(text = title) },
         modifier = modifier
             .toggleable(

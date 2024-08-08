@@ -53,6 +53,7 @@ object PreviewParameterData {
             auxiliaryDetails = null,
         ),
         phone = PhoneNumber(),
+        friends = listOf()
     )
     val publicFeedData_mutations = with(publicFeedData_default) {
         sequenceOf(

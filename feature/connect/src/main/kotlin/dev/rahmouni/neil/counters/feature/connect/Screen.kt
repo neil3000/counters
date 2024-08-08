@@ -326,8 +326,7 @@ private fun ColumnPanel(
                             painter = rememberAsyncImagePainter(data.user.pfpUri),
                             contentDescription = data.user.getDisplayName(context),
                             contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .fillMaxSize(),
+                            modifier = Modifier.fillMaxSize(),
                         )
                     }
 
@@ -380,9 +379,7 @@ private fun ColumnPanel(
             }
         }
 
-        val sortedFriendEntities = data.friends.sortedWith(compareBy<FriendEntity> { !it.nearby }.thenBy { it.name })
-
-        sortedFriendEntities.forEach { friend ->
+        data.friends.sortedWith(compareBy<FriendEntity> { !it.nearby }.thenBy { it.name }).forEach { friend ->
             Rn3FriendTileClick(
                 button = phoneUtil.isValidNumber(data.phone),
                 friendEntity = friend,

@@ -31,7 +31,7 @@ import androidx.compose.ui.Modifier
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.user.UserAvatarAndName
-import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalBigPadding
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalPadding
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCorners
 import dev.rahmouni.neil.counters.core.user.Rn3User
@@ -53,7 +53,7 @@ internal fun Rn3User.Tile(shape: Rn3RoundedCorners, onClick: () -> Unit) {
                         onClick()
                     },
                 )
-                .padding(Rn3AdditionalBigPadding.paddingValues),
+                .padding(Rn3AdditionalPadding.paddingValues),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {

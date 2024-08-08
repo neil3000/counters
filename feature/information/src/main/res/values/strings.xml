@@ -16,4 +16,14 @@
 -->
 
 <resources>
+    <string name="feature_information_dropDownMenu_country">Country</string>
+    <string name="feature_information_textField_region">Region</string>
+    <string name="feature_information_textField_locality">Locality</string>
+    <string name="feature_information_textField_postalCode_full">Postal Code</string>
+    <string name="feature_information_textField_postalCode_small">Postal</string>
+    <string name="feature_information_textField_street">Street</string>
+    <string name="feature_information_textField_auxiliaryDetails">Auxiliary details</string>
+    <string name="feature_information_expandableSurface_title">Why do we need this</string>
+    <string name="feature_information_expandableSurface_location">The core functionality of our application is based on your location</string>
+    <string name="feature_information_expandableSurface_privacyPolicy">Privacy policy</string>
 </resources>

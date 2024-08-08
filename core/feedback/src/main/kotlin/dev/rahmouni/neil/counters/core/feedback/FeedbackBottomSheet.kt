@@ -85,7 +85,6 @@ fun FeedbackBottomSheet(
             navController.popBackStack()
         },
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface,
         scrimColor = Color.Transparent,
         dragHandle = {},
     ) {

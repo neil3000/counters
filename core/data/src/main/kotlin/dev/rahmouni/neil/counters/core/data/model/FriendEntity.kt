@@ -28,6 +28,7 @@ data class FriendEntity(
     val email: String?,
     val phone: PhoneNumber?,
     val nearby: Boolean = false,
+    val userId: String?
 ) {
     fun display(): String {
         return name?.takeIf { it.isNotEmpty() } ?: formatPhone() ?: ""
@@ -53,6 +54,7 @@ fun FriendRawData.toEntity(): FriendEntity {
                 }
             } else null,
             nearby = nearby,
+            userId = userId,
         )
     }
 

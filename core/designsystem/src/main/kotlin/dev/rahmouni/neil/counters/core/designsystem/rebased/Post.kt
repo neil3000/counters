@@ -29,11 +29,10 @@ data class Post(
     val sharingScope: SharingScope,
     val location: String,
     val timestamp: LocalDateTime,
-    val feed: FeedType,
-    val categories: List<String> = emptyList(),
+    val categories: List<String>,
     val content: String,
     val postType: PostType,
-    val additionalInfos: List<String> = emptyList(),
+    val additionalInfos: List<Pair<String, Any>> = emptyList(),
 ) {
     @Composable
     fun timeElapsed(): String {

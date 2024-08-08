@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -42,11 +43,14 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalAutofill
 import androidx.compose.ui.platform.LocalAutofillTree
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import dev.rahmouni.neil.counters.core.designsystem.R.string
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentVariation
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import kotlin.math.sin
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -67,20 +71,64 @@ fun Rn3OutlinedTextField(
     autofillTypes: AutofillType? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions(),
 ) {
-    var isEmpty by rememberSaveable { mutableStateOf(value.isEmpty()) }
-    val isTooLarge = maxCharacters?.let { value.length >= it } ?: false
+    var textFieldValue by remember { mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length))) }
+
+    Rn3OutlinedTextField(
+        modifier = modifier,
+        readOnly = readOnly,
+        value = textFieldValue,
+        trailingIcon = trailingIcon,
+        onValueChange = { newValue ->
+            textFieldValue = newValue
+            onValueChange(newValue.text)
+        },
+        maxCharacters = maxCharacters,
+        label = label,
+        singleLine = singleLine,
+        beEmpty = beEmpty,
+        hasUserInteracted = hasUserInteracted,
+        onTextChange = onTextChange,
+        enableAutofill = enableAutofill,
+        colors = colors,
+        autofillTypes = autofillTypes,
+        keyboardOptions = keyboardOptions,
+    )
+}
+
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun Rn3OutlinedTextField(
+    modifier: Modifier = Modifier,
+    readOnly: Boolean = false,
+    value: TextFieldValue,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    onValueChange: (TextFieldValue) -> Unit,
+    maxCharacters: Int? = null,
+    label: @Composable (() -> Unit)? = null,
+    singleLine: Boolean = true,
+    beEmpty: Boolean = false,
+    hasUserInteracted: Boolean = false,
+    onTextChange: (() -> Unit)? = null,
+    enableAutofill: Boolean = false,
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
+    autofillTypes: AutofillType? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(),
+) {
+    var isEmpty by rememberSaveable { mutableStateOf(value.text.isEmpty()) }
+    val isTooLarge = maxCharacters?.let { value.text.length >= it } ?: false
 
     LaunchedEffect(value) {
-        isEmpty = value.isEmpty()
+        isEmpty = value.text.isEmpty()
     }
 
     OutlinedTextField(
         value = value,
         readOnly = readOnly,
         onValueChange = { text ->
-            if (maxCharacters == null || text.length <= maxCharacters) {
+            if (maxCharacters == null || text.text.length <= maxCharacters) {
                 onValueChange(text)
-                isEmpty = text.isEmpty()
+                isEmpty = text.text.isEmpty()
                 onTextChange?.invoke()
             }
         },
@@ -89,9 +137,9 @@ fun Rn3OutlinedTextField(
             .fillMaxWidth()
             .autofill(
                 autofillTypes = autofillTypes,
-                onFill = {
-                    onValueChange(it)
-                    isEmpty = false
+                onFill = { filled ->
+                    onValueChange(value.copy(text = filled))
+                    isEmpty = filled.isEmpty()
                 },
                 enableAutofill = enableAutofill,
             ),

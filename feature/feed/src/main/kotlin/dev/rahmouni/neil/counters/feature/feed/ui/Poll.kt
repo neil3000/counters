@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.TOP
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
 
 @Composable
@@ -29,8 +31,8 @@ fun Poll(post: Post) {
     var selectedOption by remember { mutableStateOf<String?>(value = null) }
 
     Column(
-        modifier = Modifier.padding(top = 20.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp),
+        modifier = Modifier.padding(Rn3SurfaceDefaults.paddingValues.only(TOP)),
     ) {
         post.additionalInfos.forEachIndexed { index, info ->
             val totalVotes = votesCount.sum()
@@ -42,7 +44,7 @@ fun Poll(post: Post) {
                 tonalElevation = Rn3SurfaceDefaults.tonalElevation,
                 shape = Rn3SurfaceDefaults.shape,
                 onClick = {
-                    selectedOption = info
+                    selectedOption = info.first
                     votesCount[index] += 1
                     haptic.click()
                 },
@@ -54,16 +56,16 @@ fun Poll(post: Post) {
                 ) {
                     Text(
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        text = info,
+                        text = info.first,
                     )
                     Text(
                         text = "$percentage%",
                         style = MaterialTheme.typography.bodyMedium,
                     )
                     RadioButton(
-                        selected = selectedOption == info,
+                        selected = selectedOption == info.first,
                         onClick = {
-                            selectedOption = info
+                            selectedOption = info.first
                             haptic.click()
                         },
                     )
