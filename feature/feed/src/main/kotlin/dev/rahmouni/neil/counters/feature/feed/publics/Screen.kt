@@ -42,7 +42,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.R.color
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
@@ -52,12 +51,8 @@ import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
-import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
-import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
-import dev.rahmouni.neil.counters.core.model.data.Country
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
@@ -67,7 +62,6 @@ import dev.rahmouni.neil.counters.feature.feed.publics.model.PublicFeedUiState.S
 import dev.rahmouni.neil.counters.feature.feed.publics.model.PublicFeedViewModel
 import dev.rahmouni.neil.counters.feature.feed.publics.model.data.PublicFeedData
 import dev.rahmouni.neil.counters.feature.feed.ui.Publication
-import java.time.LocalDateTime
 
 @Composable
 internal fun PublicFeedRoute(
@@ -208,66 +202,7 @@ private fun PublicFeedPanel(
             .verticalScroll(rememberScrollState())
             .padding(paddingValues),
     ) {
-        listOf(
-            Post(
-                id = "test",
-                userId = "test",
-                sharingScope = SharingScope.STREET,
-                location = "Street King Charles",
-                timestamp = LocalDateTime.now(),
-                content = "The Street King Charles was under construction, but now it's all clear! The renovation has finished, making this spot more accessible and enjoyable. Explore the new look of this iconic street and join me on this adventure.",
-                postType = PostType.TEXT,
-                categories = listOf("Test 1", "test 2"),
-            ),
-            Post(
-                id = "test",
-                userId = "test",
-                sharingScope = SharingScope.CITY,
-                location = "London",
-                timestamp = LocalDateTime.now().minusMinutes(30),
-                content = "I'm selling my road bike in excellent condition! It's perfect for anyone looking to explore the city or commute efficiently. Details: Brand - Trek, Model - Emonda, Year - 2020, Color - Black. Contact me if interested!",
-                postType = PostType.CONTACT,
-                additionalInfos = listOf(
-                    Pair(
-                        "I'm interested",
-                        PhoneNumber().setCountryCode(Country.BELGIUM.phoneCode)
-                            .setNationalNumber(123456789),
-                    ),
-                ),
-                categories = listOf("Test 1", "test 2"),
-            ),
-            Post(
-                id = "test",
-                userId = "test",
-                sharingScope = SharingScope.COUNTRY,
-                location = "GB",
-                timestamp = LocalDateTime.now().minusHours(3),
-                content = "Exciting news for nature enthusiasts! England welcomes its newest national park, providing vast spaces for hiking, wildlife exploration, and stunning scenery. Discover the endless trails and the beauty of our protected lands. Join us in celebrating this great addition to our national heritage.",
-                postType = PostType.TEXT,
-                categories = listOf("Test 1", "test 2"),
-            ),
-            Post(
-                id = "test",
-                userId = "4",
-                sharingScope = SharingScope.BUILDING,
-                location = "221B Baker Street",
-                timestamp = LocalDateTime.now().minusDays(1),
-                content = "Seems like there's an impromptu concert every night next door! The music and noise levels from my neighbors have become a real challenge.",
-                postType = PostType.TEXT,
-                categories = listOf("Test 1", "test 2"),
-            ),
-            Post(
-                id = "test",
-                userId = "test",
-                sharingScope = SharingScope.DISTRICT,
-                location = "Chelsea",
-                timestamp = LocalDateTime.now().minusDays(5),
-                content = "Is anyone else experiencing a power outage in Chelsea?",
-                postType = PostType.POLL,
-                additionalInfos = listOf(Pair("Yes", 2), Pair("No", 1)),
-                categories = listOf("Test 1", "test 2"),
-            ),
-        ).forEach { post ->
+        data.posts.forEach { post ->
             Publication(
                 post = post,
                 friend = data.friends.find { it.uid == post.userId },

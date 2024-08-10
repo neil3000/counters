@@ -50,8 +50,6 @@ import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.icons.HumanGreetingProximity
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Event
-import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
@@ -61,8 +59,7 @@ import dev.rahmouni.neil.counters.feature.events.model.EventsUiState.Loading
 import dev.rahmouni.neil.counters.feature.events.model.EventsUiState.Success
 import dev.rahmouni.neil.counters.feature.events.model.EventsViewModel
 import dev.rahmouni.neil.counters.feature.events.model.data.EventsData
-import dev.rahmouni.neil.counters.feature.feed.ui.EventCard
-import java.time.LocalDateTime
+import dev.rahmouni.neil.counters.feature.events.ui.EventCard
 
 @Composable
 internal fun EventsRoute(
@@ -198,55 +195,7 @@ private fun EventsPanel(
             .verticalScroll(rememberScrollState())
             .padding(paddingValues),
     ) {
-        listOf(
-            Event(
-                id = "test",
-                userId = "1",
-                sharingScope = SharingScope.STREET,
-                location = "Street King Charles",
-                createdAt = LocalDateTime.now(),
-                description = "The Street King Charles was under construction, but now it's all clear! The renovation has finished, making this spot more accessible and enjoyable. Explore the new look of this iconic street and join me on this adventure.",
-                title = "test",
-                private = false,
-            ),
-            Event(
-                id = "test",
-                userId = "2",
-                sharingScope = SharingScope.CITY,
-                location = "London",
-                createdAt = LocalDateTime.now().minusMinutes(30),
-                description = "I'm selling my road bike in excellent condition! It's perfect for anyone looking to explore the city or commute efficiently. Details: Brand - Trek, Model - Emonda, Year - 2020, Color - Black. Contact me if interested!",
-                title = "test",
-            ),
-            Event(
-                id = "test",
-                userId = "3",
-                sharingScope = SharingScope.COUNTRY,
-                location = "BE",
-                createdAt = LocalDateTime.now().minusHours(3),
-                description = "Exciting news for nature enthusiasts! England welcomes its newest national park, providing vast spaces for hiking, wildlife exploration, and stunning scenery. Discover the endless trails and the beauty of our protected lands. Join us in celebrating this great addition to our national heritage.",
-                title = "test",
-            ),
-            Event(
-                id = "test",
-                userId = "4",
-                sharingScope = SharingScope.BUILDING,
-                location = "221B Baker Street",
-                createdAt = LocalDateTime.now().minusDays(1),
-                description = "Seems like there's an impromptu concert every night next door! The music and noise levels from my neighbors have become a real challenge.",
-                title = "test",
-                private = false,
-            ),
-            Event(
-                id = "test",
-                userId = "5",
-                sharingScope = SharingScope.DISTRICT,
-                location = "Chelsea",
-                createdAt = LocalDateTime.now().minusDays(5),
-                description = "Is anyone else experiencing a power outage in Chelsea?",
-                title = "test",
-            ),
-        ).forEach { event ->
+        data.posts.forEach { event ->
             EventCard(
                 event = event,
                 friends = data.friends,

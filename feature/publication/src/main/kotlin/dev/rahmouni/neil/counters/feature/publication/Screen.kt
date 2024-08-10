@@ -65,7 +65,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.google.firebase.Timestamp
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import dev.rahmouni.neil.counters.core.data.model.EventFeedRawData
+import dev.rahmouni.neil.counters.core.data.model.PostRawData
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
@@ -74,8 +77,6 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
-import dev.rahmouni.neil.counters.core.designsystem.rebased.FeedType
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
 import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
 import dev.rahmouni.neil.counters.core.designsystem.toRn3FormattedString
@@ -85,11 +86,11 @@ import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.feature.publication.R.string
 import dev.rahmouni.neil.counters.feature.publication.data.Analyse
 import dev.rahmouni.neil.counters.feature.publication.data.AnalyseType
+import dev.rahmouni.neil.counters.feature.publication.model.FeedType
 import dev.rahmouni.neil.counters.feature.publication.model.PublicationUiState.Loading
 import dev.rahmouni.neil.counters.feature.publication.model.PublicationUiState.Success
 import dev.rahmouni.neil.counters.feature.publication.model.PublicationViewModel
 import dev.rahmouni.neil.counters.feature.publication.model.data.PublicationData
-import java.time.LocalDateTime
 
 @Composable
 internal fun PublicationRoute(
@@ -114,9 +115,18 @@ internal fun PublicationRoute(
                 localID = "MC4xwGf6j0RfzJV4O8tDBEn3BObAfFQr",
             ).toTopAppBarAction(navController::navigateToFeedback),
             onSettingsTopAppBarActionClicked = navigateToSettings,
-            onPublicPostButtonClicked = navigateToPublic,
-            onFriendsPostButtonClicked = navigateToFriends,
-            onEventsPostButtonClicked = navigateToEvents,
+            onPublicPostButtonClicked = { postData ->
+                navigateToPublic()
+                viewModel.addPublicPost(postData)
+            },
+            onFriendsPostButtonClicked = { postData ->
+                navigateToFriends()
+                viewModel.addFriendPost(postData)
+            },
+            onEventsPostButtonClicked = { postData ->
+                navigateToEvents()
+                viewModel.addEventPost(postData)
+            },
         )
     }
 
@@ -132,9 +142,9 @@ internal fun PublicationScreen(
     onBackIconButtonClicked: () -> Unit = {},
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
-    onPublicPostButtonClicked: () -> Unit = {},
-    onFriendsPostButtonClicked: () -> Unit = {},
-    onEventsPostButtonClicked: () -> Unit = {},
+    onPublicPostButtonClicked: (PostRawData) -> Unit = {},
+    onFriendsPostButtonClicked: (PostRawData) -> Unit = {},
+    onEventsPostButtonClicked: (EventFeedRawData) -> Unit = {},
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState(
         SheetState(
@@ -157,18 +167,10 @@ internal fun PublicationScreen(
     val phoneUtil = PhoneNumberUtil.getInstance()
 
     var analyse = Analyse(
-        AnalyseType.SUCCESS,
+        result = AnalyseType.SUCCESS,
         feed = FeedType.PUBLIC,
-        Post(
-            id = "test",
-            userId = "test",
-            sharingScope = SharingScope.STREET,
-            location = "Street King James",
-            timestamp = LocalDateTime.now(),
-            content = currentDescription,
-            postType = PostType.TEXT,
-            categories = listOf("Test 1", "test 2"),
-        ),
+        sharingScope = SharingScope.STREET,
+        postType = PostType.CONTACT,
     )
 
     BottomSheetScaffold(
@@ -222,19 +224,10 @@ internal fun PublicationScreen(
                                 analyse = Analyse(
                                     AnalyseType.SUCCESS,
                                     feed = FeedType.PUBLIC,
-                                    Post(
-                                        id = "test",
-                                        userId = "test",
-                                        sharingScope = SharingScope.STREET,
-                                        location = "Street King James",
-                                        timestamp = LocalDateTime.now(),
-                                        content = currentDescription,
-                                        postType = PostType.CONTACT,
-                                        additionalInfos = listOf(Pair("test", 1)),
-                                        categories = listOf("Test 1", "test 2"),
-                                    ),
+                                    sharingScope = SharingScope.STREET,
+                                    postType = PostType.CONTACT,
                                 )
-                                if (analyse.post.postType == PostType.CONTACT && !phoneUtil.isValidNumber(
+                                if (analyse.postType == PostType.CONTACT && !phoneUtil.isValidNumber(
                                         data.phone,
                                     )
                                 ) {
@@ -284,7 +277,7 @@ internal fun PublicationScreen(
                                 modifier = Modifier.padding(horizontal = 4.dp),
                                 text = analyse.result.text(
                                     analyse.feed.text(),
-                                    analyse.post.sharingScope.text(),
+                                    analyse.sharingScope.text(),
                                 ),
                                 softWrap = true,
                             )
@@ -295,15 +288,43 @@ internal fun PublicationScreen(
                                 haptic.click()
                                 when (analyse.feed) {
                                     FeedType.PUBLIC -> {
-                                        onPublicPostButtonClicked()
+                                        onPublicPostButtonClicked(
+                                            PostRawData(
+                                                userId = "test",
+                                                sharingScope = SharingScope.STREET.toString(),
+                                                location = "Street King James",
+                                                timestamp = Timestamp.now(),
+                                                content = currentDescription,
+                                                postType = PostType.TEXT.toString(),
+                                                categories = listOf("Test 1", "test 2"),
+                                            ),
+                                        )
                                     }
 
                                     FeedType.FRIENDS -> {
-                                        onFriendsPostButtonClicked()
+                                        onFriendsPostButtonClicked(
+                                            PostRawData(
+                                                userId = "test",
+                                                sharingScope = SharingScope.STREET.toString(),
+                                                location = "Street King James",
+                                                timestamp = Timestamp.now(),
+                                                content = currentDescription,
+                                                postType = PostType.TEXT.toString(),
+                                                categories = listOf("Test 1", "test 2"),
+                                            ),
+                                        )
                                     }
 
                                     FeedType.EVENTS -> {
-                                        onEventsPostButtonClicked()
+                                        onEventsPostButtonClicked(
+                                            EventFeedRawData(
+                                                userId = "test",
+                                                sharingScope = SharingScope.STREET.toString(),
+                                                location = "Street King James",
+                                                createdAt = Timestamp.now(),
+                                                description = currentDescription,
+                                            ),
+                                        )
                                     }
                                 }
                             },
@@ -324,6 +345,8 @@ internal fun PublicationScreen(
         ) {
             Rn3OutlinedTextField(
                 modifier = Modifier
+                    .imePadding()
+                    .weight(1f)
                     .focusRequester(focusRequester)
                     .fillMaxWidth()
                     .padding(Rn3SurfaceDefaults.paddingValues),

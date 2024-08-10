@@ -21,10 +21,10 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.TOP
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
+import dev.rahmouni.neil.counters.feature.feed.model.PostEntity
 
 @Composable
-fun Poll(post: Post) {
+fun Poll(post: PostEntity) {
     val haptic = getHaptic()
 
     var votesCount by remember { mutableStateOf(post.additionalInfos.map { 0 }.toMutableList()) }
@@ -58,17 +58,19 @@ fun Poll(post: Post) {
                         modifier = Modifier.padding(horizontal = 16.dp),
                         text = info.first,
                     )
-                    Text(
-                        text = "$percentage%",
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                    RadioButton(
-                        selected = selectedOption == info.first,
-                        onClick = {
-                            selectedOption = info.first
-                            haptic.click()
-                        },
-                    )
+                    Row {
+                        Text(
+                            text = "$percentage%",
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                        RadioButton(
+                            selected = selectedOption == info.first,
+                            onClick = {
+                                selectedOption = info.first
+                                haptic.click()
+                            },
+                        )
+                    }
                 }
             }
         }

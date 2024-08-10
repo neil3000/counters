@@ -22,10 +22,16 @@ import dagger.Module
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import dev.rahmouni.neil.counters.core.data.di.DataModule
-import dev.rahmouni.neil.counters.core.data.repository.countersData.FirestoreFriendsDataRepository
-import dev.rahmouni.neil.counters.core.data.repository.countersData.FriendsDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.eventFeedData.EventFeedDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.eventFeedData.FirestoreEventFeedDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.friendData.FirestoreFriendsDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.friendData.FriendsDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.friendFeedData.FirestoreFriendFeedDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.friendFeedData.FriendFeedDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.linksRn3UrlData.FirestoreLinksRn3UrlDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.linksRn3UrlData.LinksRn3UrlDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.publicFeedData.FirestorePublicFeedDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.publicFeedData.PublicFeedDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 import dev.rahmouni.neil.counters.core.data.test.repository.FakeUserDataRepository
 
@@ -41,9 +47,24 @@ internal interface TestDataModule {
     ): UserDataRepository
 
     @Binds
-    fun bindsCountersDataRepository(
-        countersDataRepository: FirestoreFriendsDataRepository,
+    fun bindsFriendsDataRepository(
+        friendsDataRepository: FirestoreFriendsDataRepository,
     ): FriendsDataRepository
+
+    @Binds
+    fun bindsEventFeedDataRepository(
+        eventFeedDataRepository: FirestoreEventFeedDataRepository,
+    ): EventFeedDataRepository
+
+    @Binds
+    fun bindsFriendFeedDataRepository(
+        friendFeedDataRepository: FirestoreFriendFeedDataRepository,
+    ): FriendFeedDataRepository
+
+    @Binds
+    fun bindsPublicFeedDataRepository(
+        publicFeedDataRepository: FirestorePublicFeedDataRepository,
+    ): PublicFeedDataRepository
 
     @Binds
     fun bindsLinksRn3UrlDataRepository(

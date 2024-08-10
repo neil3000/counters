@@ -15,21 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.core.model.data
+package dev.rahmouni.neil.counters.core.data.model
 
-import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
+import androidx.annotation.Keep
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentId
 
-data class UserData(
-    val hasAccessibilityEmphasizedSwitchesEnabled: Boolean,
-    val hasAccessibilityIconTooltipsEnabled: Boolean,
-    val hasAccessibilityAltTextEnabled: Boolean,
-    val hasTravelModeEnabled: Boolean,
-    val hasFriendsMainEnabled: Boolean,
-    val hasMetricsEnabled: Boolean,
-    val hasCrashlyticsEnabled: Boolean,
-    val shouldShowLoginScreenOnStartup: Boolean,
-    val needInformation: Boolean,
-    val isAppFirstLaunch: Boolean,
-    val address: AddressInfo,
-    val phone: PhoneNumber,
+@Keep
+data class PostRawData(
+    @DocumentId val uid: String? = null,
+    val ownerUserUid: String = "RahNeil_N3:error:xTdZVv31n9S4fjOB0dFtJBk2ZZR6Ch5F",
+    val userId: String? = null,
+    val sharingScope: String? = null,
+    val location: String? = null,
+    val timestamp: Timestamp = Timestamp.now(),
+    val categories: List<String> = emptyList(),
+    val content: String? = null,
+    val postType: String? = null,
+    val additionalInfos: Map<String, Any> = emptyMap(),
 )

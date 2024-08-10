@@ -19,8 +19,10 @@ package dev.rahmouni.neil.counters.feature.events.model.data
 
 import dev.rahmouni.neil.counters.core.data.model.FriendEntity
 import dev.rahmouni.neil.counters.core.user.Rn3User
+import dev.rahmouni.neil.counters.feature.events.model.EventFeedEntity
 
 data class EventsData(
     val user: Rn3User,
     val friends: List<FriendEntity>,
+    val posts: List<EventFeedEntity>,
 )

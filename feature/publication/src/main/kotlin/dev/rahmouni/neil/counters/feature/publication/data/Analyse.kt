@@ -17,11 +17,13 @@
 
 package dev.rahmouni.neil.counters.feature.publication.data
 
-import dev.rahmouni.neil.counters.core.designsystem.rebased.FeedType
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
+import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
+import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
+import dev.rahmouni.neil.counters.feature.publication.model.FeedType
 
 data class Analyse(
     var result: AnalyseType,
     var feed: FeedType,
-    val post: Post,
+    var sharingScope: SharingScope,
+    var postType: PostType,
 )

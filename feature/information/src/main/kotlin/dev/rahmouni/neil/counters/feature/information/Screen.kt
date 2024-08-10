@@ -79,6 +79,7 @@ import dev.rahmouni.neil.counters.core.designsystem.rebased.text
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
+import dev.rahmouni.neil.counters.core.model.data.Country
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.feature.information.model.InformationUiState.Loading
 import dev.rahmouni.neil.counters.feature.information.model.InformationUiState.Success
@@ -189,7 +190,18 @@ private fun InformationForm(
         Column(modifier = Modifier.padding(Rn3AdditionalPadding.paddingValues.only(HORIZONTAL))) {
             AddressForm(
                 address = address,
-                onAddressChanged = { updatedAddress -> address = updatedAddress },
+                onCountryChanged = { newCountry -> address = address.copy(country = newCountry) },
+                onRegionChanged = { newRegion -> address = address.copy(region = newRegion) },
+                onLocalityChanged = { newLocality ->
+                    address = address.copy(locality = newLocality)
+                },
+                onPostalCodeChanged = { newPostalCode ->
+                    address = address.copy(postalCode = newPostalCode)
+                },
+                onStreetChanged = { newStreet -> address = address.copy(street = newStreet) },
+                onAuxiliaryDetailsChanged = { newAux ->
+                    address = address.copy(auxiliaryDetails = newAux)
+                },
                 hasUserInteracted = hasUserInteracted,
             )
 
@@ -221,7 +233,12 @@ private fun InformationForm(
 @Composable
 private fun AddressForm(
     address: AddressInfo,
-    onAddressChanged: (AddressInfo) -> Unit,
+    onCountryChanged: (Country) -> Unit,
+    onRegionChanged: (String) -> Unit,
+    onLocalityChanged: (String) -> Unit,
+    onPostalCodeChanged: (String) -> Unit,
+    onStreetChanged: (String) -> Unit,
+    onAuxiliaryDetailsChanged: (String) -> Unit,
     hasUserInteracted: Boolean = false,
 ) {
     var isFocusedPostalCode by rememberSaveable { mutableStateOf(value = false) }
@@ -257,14 +274,14 @@ private fun AddressForm(
             enableAutofill = true,
             autofill = AutofillType.PhoneCountryCode,
             onValueChange = { newCountry ->
-                onAddressChanged(address.copy(country = newCountry))
+                onCountryChanged(newCountry)
             },
             beEmpty = false,
         )
 
         Rn3OutlinedTextField(
             value = address.region ?: "",
-            onValueChange = { newRegion -> onAddressChanged(address.copy(region = newRegion)) },
+            onValueChange = { newRegion -> onRegionChanged(newRegion) },
             hasUserInteracted = hasUserInteracted,
             maxCharacters = 100,
             label = { Text(text = stringResource(R.string.feature_information_textField_region)) },
@@ -283,7 +300,7 @@ private fun AddressForm(
                 modifier = Modifier.weight(1.5f),
                 value = address.locality,
                 onValueChange = { newLocality ->
-                    onAddressChanged(address.copy(locality = newLocality))
+                    onLocalityChanged(newLocality)
                 },
                 hasUserInteracted = hasUserInteracted,
                 maxCharacters = 100,
@@ -305,7 +322,7 @@ private fun AddressForm(
                     },
                 value = address.postalCode ?: "",
                 onValueChange = { newPostalCode ->
-                    onAddressChanged(address.copy(postalCode = newPostalCode))
+                    onPostalCodeChanged(newPostalCode)
                 },
                 maxCharacters = 20,
                 label = {
@@ -328,7 +345,7 @@ private fun AddressForm(
 
         Rn3OutlinedTextField(
             value = address.street,
-            onValueChange = { newStreet -> onAddressChanged(address.copy(street = newStreet)) },
+            onValueChange = { newStreet -> onStreetChanged(newStreet) },
             hasUserInteracted = hasUserInteracted,
             maxCharacters = 200,
             label = { Text(text = stringResource(R.string.feature_information_textField_street)) },
@@ -344,7 +361,7 @@ private fun AddressForm(
         Rn3OutlinedTextField(
             value = address.auxiliaryDetails ?: "",
             onValueChange = { newAuxiliaryDetails ->
-                onAddressChanged(address.copy(auxiliaryDetails = newAuxiliaryDetails))
+                onAuxiliaryDetailsChanged(newAuxiliaryDetails)
             },
             maxCharacters = 200,
             label = { Text(text = stringResource(R.string.feature_information_textField_auxiliaryDetails)) },

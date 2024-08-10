@@ -22,7 +22,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.model.toEntity
-import dev.rahmouni.neil.counters.core.data.repository.countersData.FriendsDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.eventFeedData.EventFeedDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.friendData.FriendsDataRepository
 import dev.rahmouni.neil.counters.feature.events.model.EventsUiState.Loading
 import dev.rahmouni.neil.counters.feature.events.model.EventsUiState.Success
 import dev.rahmouni.neil.counters.feature.events.model.data.EventsData
@@ -37,17 +38,20 @@ import kotlin.time.Duration.Companion.seconds
 class EventsViewModel @Inject constructor(
     authHelper: AuthHelper,
     private val friendsDataRepository: FriendsDataRepository,
+    private val eventFeedDataRepository: EventFeedDataRepository,
 ) : ViewModel() {
 
     val uiState: StateFlow<EventsUiState> =
         combine(
             friendsDataRepository.userFriends,
+            eventFeedDataRepository.userEventPosts,
             authHelper.getUserFlow(),
-        ) { friends, user ->
+        ) { friends, posts, user ->
             Success(
                 EventsData(
                     user = user,
                     friends = friends.map { it.toEntity() },
+                    posts = posts.map { it.toEntity() },
                 ),
             )
         }.stateIn(

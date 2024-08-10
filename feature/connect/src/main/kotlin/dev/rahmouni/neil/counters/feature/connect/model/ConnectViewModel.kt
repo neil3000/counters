@@ -23,7 +23,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.model.FriendRawData
 import dev.rahmouni.neil.counters.core.data.model.toEntity
-import dev.rahmouni.neil.counters.core.data.repository.countersData.FriendsDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.friendData.FriendsDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 import dev.rahmouni.neil.counters.feature.connect.model.ConnectUiState.Loading
 import dev.rahmouni.neil.counters.feature.connect.model.ConnectUiState.Success

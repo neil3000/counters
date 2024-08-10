@@ -21,10 +21,12 @@ import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dev.rahmouni.neil.counters.core.data.model.FriendEntity
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User
+import dev.rahmouni.neil.counters.feature.feed.model.PostEntity
 
 data class PublicFeedData(
     val user: Rn3User,
     val address: AddressInfo,
     val phone: PhoneNumber?,
     val friends: List<FriendEntity>,
+    val posts: List<PostEntity>,
 )

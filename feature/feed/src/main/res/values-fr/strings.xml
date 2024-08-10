@@ -25,4 +25,8 @@
     <string name="feature_feed_bottomBar_friends">Amis</string>
     <string name="feature_feed_bottomBar_events">Évènements</string>
     <string name="feature_feed_bottomBar_add_disabled">Vous ne pouvez pas poster si vous n\'êtes pas connecté</string>
+    <string name="feature_feed_timeElapsed_day">j</string>
+    <string name="feature_feed_timeElapsed_minute">m</string>
+    <string name="feature_feed_timeElapsed_hours">h</string>
+    <string name="feature_feed_timeElapsed_now">maintenant</string>
 </resources>

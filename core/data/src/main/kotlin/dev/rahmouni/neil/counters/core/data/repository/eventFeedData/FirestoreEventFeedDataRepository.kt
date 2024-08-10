@@ -15,36 +15,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.core.data.repository.countersData
+package dev.rahmouni.neil.counters.core.data.repository.eventFeedData
 
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dev.rahmouni.neil.counters.core.analytics.AnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
-import dev.rahmouni.neil.counters.core.data.model.FriendRawData
+import dev.rahmouni.neil.counters.core.data.model.EventFeedRawData
 import dev.rahmouni.neil.counters.core.data.repository.logCreatedCounter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.transformLatest
 import javax.inject.Inject
 
-class FirestoreFriendsDataRepository @Inject constructor(
+class FirestoreEventFeedDataRepository @Inject constructor(
     private val analyticsHelper: AnalyticsHelper,
     private val authHelper: AuthHelper,
-) : FriendsDataRepository {
+) : EventFeedDataRepository {
 
-    override val userFriends: Flow<List<FriendRawData>> =
+    override val userEventPosts: Flow<List<EventFeedRawData>> =
         authHelper.getUserFlow().transformLatest { user ->
             emitAll(
                 try {
                     Firebase.firestore
-                        .collection("friends")
-                        .whereEqualTo(
-                            FriendRawData::ownerUserUid.name,
-                            user.getUid(),
-                        )
-                        .dataObjects<FriendRawData>()
+                        .collection("eventfeed")
+                        .dataObjects<EventFeedRawData>()
                 } catch (e: Exception) {
                     throw e
                     // TODO Feedback error
@@ -52,11 +48,11 @@ class FirestoreFriendsDataRepository @Inject constructor(
             )
         }
 
-    override fun addFriend(friendRawData: FriendRawData) {
+    override fun addEventPost(eventFeedRawData: EventFeedRawData) {
         Firebase.firestore
-            .collection("friends")
+            .collection("eventfeed")
             .add(
-                friendRawData.copy(
+                eventFeedRawData.copy(
                     ownerUserUid = authHelper.getUser().getUid(),
                 ),
             )

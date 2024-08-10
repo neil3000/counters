@@ -15,21 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.core.model.data
+package dev.rahmouni.neil.counters.core.data.repository.publicFeedData
 
-import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
+import dev.rahmouni.neil.counters.core.data.model.PostRawData
+import kotlinx.coroutines.flow.Flow
 
-data class UserData(
-    val hasAccessibilityEmphasizedSwitchesEnabled: Boolean,
-    val hasAccessibilityIconTooltipsEnabled: Boolean,
-    val hasAccessibilityAltTextEnabled: Boolean,
-    val hasTravelModeEnabled: Boolean,
-    val hasFriendsMainEnabled: Boolean,
-    val hasMetricsEnabled: Boolean,
-    val hasCrashlyticsEnabled: Boolean,
-    val shouldShowLoginScreenOnStartup: Boolean,
-    val needInformation: Boolean,
-    val isAppFirstLaunch: Boolean,
-    val address: AddressInfo,
-    val phone: PhoneNumber,
-)
+interface PublicFeedDataRepository {
+
+    val userPublicPosts: Flow<List<PostRawData>>
+
+    fun addPublicPost(postRawData: PostRawData)
+}

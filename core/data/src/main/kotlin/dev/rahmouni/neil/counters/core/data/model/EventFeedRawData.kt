@@ -15,18 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.core.designsystem.rebased
+package dev.rahmouni.neil.counters.core.data.model
 
-import java.time.LocalDateTime
+import androidx.annotation.Keep
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentId
 
-data class Event(
-    val id: String,
-    val userId: String,
-    val sharingScope: SharingScope,
-    val createdAt: LocalDateTime,
-    val title: String,
-    val description: String,
-    val location: String,
-    val image: String? = null,
+@Keep
+data class EventFeedRawData(
+    @DocumentId val uid: String? = null,
+    val ownerUserUid: String = "RahNeil_N3:error:xTdZVv31n9S4fjOB0dFtJBk2ZZR6Ch5F",
+    val userId: String? = null,
+    val sharingScope: String? = null,
+    val createdAt: Timestamp = Timestamp.now(),
+    val title: String? = null,
+    val description: String? = null,
+    val location: String? = null,
+    val date: Timestamp? = null,
     val private: Boolean = true,
 )

@@ -35,7 +35,7 @@ data class FriendEntity(
     }
 
     fun formatPhone(): String? {
-        val phoneUtil = PhoneNumberUtil.getInstance();
+        val phoneUtil = PhoneNumberUtil.getInstance()
         return if (phone != null) phoneUtil.format(phone, INTERNATIONAL) else null
     }
 }
@@ -49,7 +49,7 @@ fun FriendRawData.toEntity(): FriendEntity {
         email = email,
         phone = if (phoneNumber != null && phoneCode != null) {
             PhoneNumber().apply {
-                countryCode = Country.getCountryFromIso(phoneCode)!!.phoneCode
+                countryCode = Country.getCountryFromIso(phoneCode)?.phoneCode ?: 0
                 nationalNumber = phoneNumber.toLong()
             }
         } else null,

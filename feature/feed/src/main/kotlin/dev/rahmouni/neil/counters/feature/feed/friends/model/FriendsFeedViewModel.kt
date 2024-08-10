@@ -22,11 +22,13 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.model.toEntity
-import dev.rahmouni.neil.counters.core.data.repository.countersData.FriendsDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.friendData.FriendsDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.friendFeedData.FriendFeedDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 import dev.rahmouni.neil.counters.feature.feed.friends.model.FriendsFeedUiState.Loading
 import dev.rahmouni.neil.counters.feature.feed.friends.model.FriendsFeedUiState.Success
 import dev.rahmouni.neil.counters.feature.feed.friends.model.data.FriendsFeedData
+import dev.rahmouni.neil.counters.feature.feed.model.toEntity
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -39,20 +41,23 @@ class FriendsFeedViewModel @Inject constructor(
     authHelper: AuthHelper,
     userDataRepository: UserDataRepository,
     private val friendsDataRepository: FriendsDataRepository,
+    private val friendFeedDataRepository: FriendFeedDataRepository,
 ) : ViewModel() {
 
     val uiState: StateFlow<FriendsFeedUiState> =
         combine(
             userDataRepository.userData,
             friendsDataRepository.userFriends,
+            friendFeedDataRepository.userFriendPosts,
             authHelper.getUserFlow(),
-        ) { userData, friends, user ->
+        ) { userData, friends, posts, user ->
             Success(
                 FriendsFeedData(
                     user = user,
                     address = userData.address,
                     phone = userData.phone,
                     friends = friends.map { it.toEntity() },
+                    posts = posts.map { it.toEntity() },
                 ),
             )
         }.stateIn(

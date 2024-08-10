@@ -21,10 +21,16 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.rahmouni.neil.counters.core.data.repository.countersData.FirestoreFriendsDataRepository
-import dev.rahmouni.neil.counters.core.data.repository.countersData.FriendsDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.eventFeedData.EventFeedDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.eventFeedData.FirestoreEventFeedDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.friendData.FirestoreFriendsDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.friendData.FriendsDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.friendFeedData.FirestoreFriendFeedDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.friendFeedData.FriendFeedDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.linksRn3UrlData.FirestoreLinksRn3UrlDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.linksRn3UrlData.LinksRn3UrlDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.publicFeedData.FirestorePublicFeedDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.publicFeedData.PublicFeedDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.userData.OfflineFirstUserDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 
@@ -38,9 +44,24 @@ abstract class DataModule {
     ): UserDataRepository
 
     @Binds
-    internal abstract fun bindsCounterDataRepository(
-        countersDataRepository: FirestoreFriendsDataRepository,
+    internal abstract fun bindsFriendsDataRepository(
+        friendsDataRepository: FirestoreFriendsDataRepository,
     ): FriendsDataRepository
+
+    @Binds
+    internal abstract fun bindsEventFeedDataRepository(
+        eventFeedDataRepository: FirestoreEventFeedDataRepository,
+    ): EventFeedDataRepository
+
+    @Binds
+    internal abstract fun bindsFriendFeedDataRepository(
+        friendFeedDataRepository: FirestoreFriendFeedDataRepository,
+    ): FriendFeedDataRepository
+
+    @Binds
+    internal abstract fun bindsPublicFeedDataRepository(
+        publicFeedDataRepository: FirestorePublicFeedDataRepository,
+    ): PublicFeedDataRepository
 
     @Binds
     internal abstract fun bindsLinksRn3UrlDataRepository(

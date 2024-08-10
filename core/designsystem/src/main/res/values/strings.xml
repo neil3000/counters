@@ -22,10 +22,6 @@
     <string name="core_designsystem_tileUri_inMaintenance_supportingText">In maintenance, check back later ~</string>
     <string name="core_designsystem_tileUri_soonAvailable_supportingText">Available soon ~</string>
     <string name="core_designsystem_tileUri_unavailable_supportingText">Unavailable for now, check back later</string>
-    <string name="core_designsystem_timeElapsed_day">d</string>
-    <string name="core_designsystem_timeElapsed_minute">m</string>
-    <string name="core_designsystem_timeElapsed_hours">h</string>
-    <string name="core_designsystem_timeElapsed_now">now</string>
     <string name="core_designsystem_limitCharactersReached">The limit of %1$s characters has been reached</string>
     <string name="core_designsystem_pleaseFillout">Please fill out this field</string>
     <string name="core_designsystem_countryText_france">France</string>

@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -49,14 +50,17 @@ import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.TOP
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
-import dev.rahmouni.neil.counters.core.designsystem.rebased.Post
 import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
 import dev.rahmouni.neil.counters.core.designsystem.rebased.text
 import dev.rahmouni.neil.counters.core.model.data.Country
+import dev.rahmouni.neil.counters.feature.feed.R.string
+import dev.rahmouni.neil.counters.feature.feed.model.PostEntity
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 @Composable
-fun Publication(post: Post, enabled: Boolean, friend: FriendEntity? = null) {
+fun Publication(post: PostEntity, enabled: Boolean, friend: FriendEntity? = null) {
     val haptic = getHaptic()
     val context = LocalContext.current
 
@@ -68,6 +72,18 @@ fun Publication(post: Post, enabled: Boolean, friend: FriendEntity? = null) {
     val cat1InteractionSource = remember { MutableInteractionSource() }
     val cat2InteractionSource = remember { MutableInteractionSource() }
 
+    @Composable
+    fun timeElapsed(timestamp: LocalDateTime): String {
+        val now = LocalDateTime.now()
+        val totalMinutes = ChronoUnit.MINUTES.between(timestamp, now)
+
+        return when {
+            totalMinutes >= (24 * 60) -> "${totalMinutes / (24 * 60)}" + stringResource(string.feature_feed_timeElapsed_day)
+            totalMinutes >= 60 -> "${totalMinutes / 60}" + stringResource(string.feature_feed_timeElapsed_hours)
+            totalMinutes > 0 -> "$totalMinutes" + stringResource(string.feature_feed_timeElapsed_minute)
+            else -> stringResource(string.feature_feed_timeElapsed_now)
+        }
+    }
 
     Column {
         Surface(tonalElevation = Rn3SurfaceDefaults.tonalElevation) {
@@ -111,13 +127,13 @@ fun Publication(post: Post, enabled: Boolean, friend: FriendEntity? = null) {
                                 )
                             } else {
                                 Text(
-                                    text = post.location,
+                                    text = post.location ?: "Location not found",
                                     style = MaterialTheme.typography.titleMedium,
                                 )
                             }
                         }
                         Text(
-                            text = post.timeElapsed(),
+                            text = timeElapsed(post.timestamp),
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.alpha(0.5f),
                         )
@@ -216,7 +232,7 @@ fun Publication(post: Post, enabled: Boolean, friend: FriendEntity? = null) {
         }
         Column(modifier = Modifier.padding(Rn3TextDefaults.paddingValues)) {
             Text(
-                text = post.content,
+                text = post.content ?: "",
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(end = 8.dp),
                 textAlign = TextAlign.Justify,

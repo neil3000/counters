@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.core.data.repository.countersData
+package dev.rahmouni.neil.counters.core.data.repository.friendFeedData
 
-import dev.rahmouni.neil.counters.core.data.model.FriendRawData
+import dev.rahmouni.neil.counters.core.data.model.PostRawData
 import kotlinx.coroutines.flow.Flow
 
-interface FriendsDataRepository {
+interface FriendFeedDataRepository {
 
-    val userFriends: Flow<List<FriendRawData>>
+    val userFriendPosts: Flow<List<PostRawData>>
 
-    fun addFriend(friendRawData: FriendRawData)
+    fun addFriendPost(postRawData: PostRawData)
 }

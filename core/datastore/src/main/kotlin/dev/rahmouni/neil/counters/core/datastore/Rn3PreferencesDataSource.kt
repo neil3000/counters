@@ -50,12 +50,12 @@ class Rn3PreferencesDataSource @Inject constructor(
                 postalCode = userPref.address.postalCode.ifBlank { null },
                 auxiliaryDetails = userPref.address.auxiliaryDetails.ifBlank { null },
             ),
-            phone = if (userPref.phone.number != null && userPref.phone.code != null) {
+            phone = if (!userPref.phone.number.isNullOrBlank() && !userPref.phone.code.isNullOrBlank()) {
                 PhoneNumber().apply {
                     countryCode = Country.getCountryFromIso(userPref.phone.code)!!.phoneCode
                     nationalNumber = userPref.phone.number.toLong()
                 }
-            } else null,
+            } else PhoneNumber(),
         )
     }
 
