@@ -31,7 +31,7 @@ data class EventFeedEntity(
     val title: String?,
     val description: String?,
     val location: String?,
-    val date: Date?,
+    val date: Date,
     val private: Boolean,
 )
 
@@ -46,7 +46,7 @@ fun EventFeedRawData.toEntity(): EventFeedEntity {
         title = title,
         description = description,
         location = location,
-        date = date?.toDate(),
+        date = date?.toDate() ?: Date(),
         private = private,
     )
 }
