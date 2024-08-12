@@ -3,7 +3,6 @@ package dev.rahmouni.neil.counters.feature.feed.ui
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.LocalIndication
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -101,7 +100,6 @@ fun Publication(post: PostEntity, enabled: Boolean, friend: FriendEntity? = null
                             modifier = Modifier
                                 .size(34.dp)
                                 .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.primaryContainer)
                                 .padding(6.dp),
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onPrimaryContainer,

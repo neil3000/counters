@@ -17,7 +17,6 @@
 
 package dev.rahmouni.neil.counters.core.designsystem.rebased
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -79,7 +78,6 @@ enum class SharingScope(private val resourceId: Int) {
             modifier = Modifier
                 .size(34.dp)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primaryContainer)
                 .padding(6.dp), //TODO: check padding
             contentDescription = null,
             tint = if (this == COUNTRY) Color.Unspecified else MaterialTheme.colorScheme.onPrimaryContainer,
