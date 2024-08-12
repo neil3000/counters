@@ -36,7 +36,7 @@ exports.triage = onDocumentCreated("triaging/{docId}", (event) => {
         "\n```"
     )
     .then((res) => {
-      snapshot.ref.update({ reach: res.response.text() });
+      snapshot.ref.update({ reach: res.response.text().includes("LOCAL") ? "LOCAL" : "GLOBAL" });
       info("Gemini triaged as " + res.response.text());
     })
     .catch((e) => error(e));
