@@ -31,6 +31,8 @@ import dev.rahmouni.neil.counters.core.data.repository.linksRn3UrlData.Firestore
 import dev.rahmouni.neil.counters.core.data.repository.linksRn3UrlData.LinksRn3UrlDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.publicFeedData.FirestorePublicFeedDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.publicFeedData.PublicFeedDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.triagingData.FirestoreTriagingDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.triagingData.TriagingDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.userData.OfflineFirstUserDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 
@@ -62,6 +64,11 @@ abstract class DataModule {
     internal abstract fun bindsPublicFeedDataRepository(
         publicFeedDataRepository: FirestorePublicFeedDataRepository,
     ): PublicFeedDataRepository
+
+    @Binds
+    internal abstract fun bindsTriagingDataRepository(
+        triagingDataRepository: FirestoreTriagingDataRepository,
+    ): TriagingDataRepository
 
     @Binds
     internal abstract fun bindsLinksRn3UrlDataRepository(

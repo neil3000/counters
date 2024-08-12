@@ -20,9 +20,11 @@ package dev.rahmouni.neil.counters.feature.publication.model.data
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import dev.rahmouni.neil.counters.core.model.data.AddressInfo
 import dev.rahmouni.neil.counters.core.user.Rn3User
+import dev.rahmouni.neil.counters.feature.publication.model.TriagingEntity
 
 data class PublicationData(
     val user: Rn3User,
     val address: AddressInfo,
     val phone: PhoneNumber?,
+    val posts: List<TriagingEntity>,
 )

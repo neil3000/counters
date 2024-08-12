@@ -1,4 +1,4 @@
-package dev.rahmouni.neil.counters.feature.publication.data
+package dev.rahmouni.neil.counters.feature.publication.model
 
 enum class AnalyseType(val text: (String, String) -> String) {
     SUCCESS(text = { x, y -> "$x - $y" }),

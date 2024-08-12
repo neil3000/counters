@@ -53,6 +53,7 @@ object PreviewParameterData {
             auxiliaryDetails = null,
         ),
         phone = PhoneNumber(),
+        posts = emptyList(),
     )
     val publicationData_mutations = with(publicationData_default) {
         sequenceOf(

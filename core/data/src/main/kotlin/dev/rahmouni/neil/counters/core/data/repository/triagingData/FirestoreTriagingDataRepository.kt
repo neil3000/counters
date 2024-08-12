@@ -15,33 +15,52 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.core.data.repository.publicFeedData
+package dev.rahmouni.neil.counters.core.data.repository.triagingData
 
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import dev.rahmouni.neil.counters.core.analytics.AnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
-import dev.rahmouni.neil.counters.core.data.model.PostRawData
+import dev.rahmouni.neil.counters.core.data.model.TriagingRawData
+import dev.rahmouni.neil.counters.core.data.repository.logCreatedCounter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.transformLatest
 import javax.inject.Inject
 
-class FirestorePublicFeedDataRepository @Inject constructor(
+class FirestoreTriagingDataRepository @Inject constructor(
+    private val analyticsHelper: AnalyticsHelper,
     private val authHelper: AuthHelper,
-) : PublicFeedDataRepository {
+) : TriagingDataRepository {
 
-    override val userPublicPosts: Flow<List<PostRawData>> =
+    override val userTriagingPosts: Flow<List<TriagingRawData>> =
         authHelper.getUserFlow().transformLatest { user ->
             emitAll(
                 try {
                     Firebase.firestore
-                        .collection("publicfeed")
-                        .dataObjects<PostRawData>()
+                        .collection("triaging")
+                        .whereEqualTo(
+                            TriagingRawData::ownerUserUid.name,
+                            user.getUid(),
+                        )
+                        .dataObjects<TriagingRawData>()
                 } catch (e: Exception) {
                     throw e
                     // TODO Feedback error
                 },
             )
         }
+
+    override fun addTriagingPost(triagingRawData: TriagingRawData) {
+        Firebase.firestore
+            .collection("triaging")
+            .add(
+                triagingRawData.copy(
+                    ownerUserUid = authHelper.getUser().getUid(),
+                ),
+            )
+
+        analyticsHelper.logCreatedCounter()
+    }
 }

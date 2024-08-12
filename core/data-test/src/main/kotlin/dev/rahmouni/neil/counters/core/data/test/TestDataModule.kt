@@ -32,6 +32,8 @@ import dev.rahmouni.neil.counters.core.data.repository.linksRn3UrlData.Firestore
 import dev.rahmouni.neil.counters.core.data.repository.linksRn3UrlData.LinksRn3UrlDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.publicFeedData.FirestorePublicFeedDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.publicFeedData.PublicFeedDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.triagingData.FirestoreTriagingDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.triagingData.TriagingDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 import dev.rahmouni.neil.counters.core.data.test.repository.FakeUserDataRepository
 
@@ -65,6 +67,11 @@ internal interface TestDataModule {
     fun bindsPublicFeedDataRepository(
         publicFeedDataRepository: FirestorePublicFeedDataRepository,
     ): PublicFeedDataRepository
+
+    @Binds
+    fun bindsTriagingDataRepository(
+        triagingDataRepository: FirestoreTriagingDataRepository,
+    ): TriagingDataRepository
 
     @Binds
     fun bindsLinksRn3UrlDataRepository(

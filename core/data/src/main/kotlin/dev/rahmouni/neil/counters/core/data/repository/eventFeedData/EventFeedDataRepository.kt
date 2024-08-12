@@ -21,8 +21,5 @@ import dev.rahmouni.neil.counters.core.data.model.EventFeedRawData
 import kotlinx.coroutines.flow.Flow
 
 interface EventFeedDataRepository {
-
     val userEventPosts: Flow<List<EventFeedRawData>>
-
-    fun addEventPost(eventFeedRawData: EventFeedRawData)
 }

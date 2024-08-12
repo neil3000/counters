@@ -15,11 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.core.data.repository.publicFeedData
+package dev.rahmouni.neil.counters.feature.publication.model
 
-import dev.rahmouni.neil.counters.core.data.model.PostRawData
-import kotlinx.coroutines.flow.Flow
+import dev.rahmouni.neil.counters.core.data.model.TriagingRawData
 
-interface PublicFeedDataRepository {
-    val userPublicPosts: Flow<List<PostRawData>>
+data class TriagingEntity(
+    val uid: String? = null,
+    val text: String,
+)
+
+fun TriagingRawData.toEntity(): TriagingEntity {
+    if (uid == null) throw IllegalStateException("Attempted to convert a TriagingRawData with null uid to a triagingEntity")
+
+    return TriagingEntity(
+        uid = uid,
+        text = text ?: "",
+    )
 }
+
