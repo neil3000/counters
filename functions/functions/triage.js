@@ -27,10 +27,17 @@ exports.triage = onDocumentCreated("triaging/{docId}", (event) => {
     responseMimeType: "application/json",
   };
 
-    const chatSession = model.startChat({ generationConfig });
+  const chatSession = model.startChat({ generationConfig });
 
-    chatSession.sendMessage("I will give you a message and you have to tell me if for you it looks like it is addressed to a worldwide audience similar to a tweet, message or announcement on a public forum by saying \"GLOBAL\", or if it is meant to only be shared in a private / local context or to friends in an area, where you will say \"LOCAL\".\n\nAnswer must be a single word such as \"GLOBAL\" or \"LOCAL\".\n\nHere is a message:\n```"+data.text+"\n```").then((res) => {
-      snapshot.ref.update({ reach: res.response.text() })
-      info("Gemini triaged as "+res.response.text())
-    }).catch(e => error(e));
+  chatSession
+    .sendMessage(
+      'I will give you a message and you have to tell me if for you it looks like it is addressed to a worldwide audience similar to a tweet, message or announcement on a public forum by saying "GLOBAL", or if it is meant to only be shared in a private / local context or to friends in an area, where you will say "LOCAL".\n\nAnswer must be a single word such as "GLOBAL" or "LOCAL".\n\nHere is a message:\n```' +
+        data.text +
+        "\n```"
+    )
+    .then((res) => {
+      snapshot.ref.update({ reach: res.response.text() });
+      info("Gemini triaged as " + res.response.text());
+    })
+    .catch((e) => error(e));
 });
