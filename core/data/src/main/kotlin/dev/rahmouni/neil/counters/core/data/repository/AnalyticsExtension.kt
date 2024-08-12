@@ -117,3 +117,8 @@ internal fun AnalyticsHelper.logAddTriagingPost() =
     logEvent(
         AnalyticsEvent(type = "add_triagingpost"),
     )
+
+internal fun AnalyticsHelper.logRemoveTriagingPost() =
+    logEvent(
+        AnalyticsEvent(type = "remove_triagingpost"),
+    )

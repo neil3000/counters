@@ -23,4 +23,6 @@ interface TriagingDataRepository {
     val userTriagingPosts: Flow<List<TriagingRawData>>
 
     fun addTriagingPost(triagingRawData: TriagingRawData)
+
+    fun removeTriagingPost(triagingRawData: TriagingRawData)
 }

@@ -52,6 +52,10 @@ class PublicationViewModel @Inject constructor(
         triagingDataRepository.addTriagingPost(triagingRawData)
     }
 
+    fun removeTriagingPost(triagingRawData: TriagingRawData) {
+        triagingDataRepository.removeTriagingPost(triagingRawData)
+    }
+
     fun addPublicPost(postRawData: PostRawData) {
         publicFeedDataRepository.addPublicPost(postRawData)
     }
@@ -75,7 +79,7 @@ class PublicationViewModel @Inject constructor(
                     user = user,
                     address = userData.address,
                     phone = userData.phone,
-                    posts = posts.map { it.toEntity() },
+                    posts = posts.sortedBy { it.analysed }.map { it.toEntity() },
                 ),
             )
         }.stateIn(

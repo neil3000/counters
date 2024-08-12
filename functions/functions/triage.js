@@ -37,7 +37,7 @@ exports.triage = onDocumentCreated("triaging/{docId}", (event) => {
         '\n\nPlease respond in the following format: CATEGORY1, CATEGORY2, CATEGORY3, CATEGORY4. For example: NOTADAPTED, PUBLIC, GLOBAL, TEXT. No punctuation marks at all other than the commas and nothing before or after the categories, strictly like the example'
     )
     .then((res) => {
-      const categories = res.response.text().replace(/"/g, '').split(",");
+      const categories = res.response.text().replace(/["{}]/g, '').split(",");
       const analyse = categories[0].trim(); // First category: "SUCCESS", "NOTADAPTED", "NEEDPICTURE"
       const feed = categories[1].trim(); // Second category: "PUBLIC", "FRIENDS", "EVENT"
       const scope = categories[2].trim(); // Third category: "GLOBAL", "COUNTRY", "CITY", "STREET", "BUILDING"

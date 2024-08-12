@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -75,8 +76,10 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3OutlinedTextField
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
 import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
@@ -120,14 +123,20 @@ internal fun PublicationRoute(
             onPublicPostButtonClicked = { postData ->
                 navigateToPublic()
                 viewModel.addPublicPost(postData)
+                viewModel.removeTriagingPost(TriagingRawData(ownerUserUid = postData.ownerUserUid))
             },
             onFriendsPostButtonClicked = { postData ->
                 navigateToFriends()
                 viewModel.addFriendPost(postData)
+                viewModel.removeTriagingPost(TriagingRawData(ownerUserUid = postData.ownerUserUid))
             },
             onEventsPostButtonClicked = { postData ->
                 navigateToEvents()
                 viewModel.addEventPost(postData)
+                viewModel.removeTriagingPost(TriagingRawData(ownerUserUid = postData.ownerUserUid))
+            },
+            onRemovePostButtonClicked = { postData ->
+                viewModel.removeTriagingPost(TriagingRawData(ownerUserUid = postData.ownerUserUid))
             },
         )
     }
@@ -148,6 +157,7 @@ internal fun PublicationScreen(
     onPublicPostButtonClicked: (PostRawData) -> Unit = {},
     onFriendsPostButtonClicked: (PostRawData) -> Unit = {},
     onEventsPostButtonClicked: (EventFeedRawData) -> Unit = {},
+    onRemovePostButtonClicked: (TriagingRawData) -> Unit = {},
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState(
         SheetState(
@@ -165,6 +175,7 @@ internal fun PublicationScreen(
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
+
     var currentDescription by rememberSaveable { mutableStateOf(if (data.posts.isNotEmpty()) data.posts[0].text else "") }
 
     val phoneUtil = PhoneNumberUtil.getInstance()
@@ -217,130 +228,171 @@ internal fun PublicationScreen(
                                 haptic.click()
                                 onAnalyseButtonClicked(
                                     TriagingRawData(
-                                        userId = "test",
                                         text = currentDescription,
                                     ),
                                 )
                             },
-                            enabled = currentDescription.isNotEmpty() && data.posts.isEmpty(),
+                            enabled = currentDescription.isNotEmpty() && (data.posts.isEmpty()),
                         ) {
                             Text(text = stringResource(string.feature_publication_analyseButton))
                         }
-                    } else if (!data.posts[0].analysed) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier.padding(16.dp),
-                        ) {
-                            Text(text = "Loading")
-                            Icon(imageVector = Outlined.Loop, contentDescription = null)
-                        }
                     } else {
                         val post = data.posts[0]
-                        if (post.type == PostType.CONTACT && !phoneUtil.isValidNumber(
-                                data.phone,
-                            )
-                        ) {
-                            post.analyse = AnalyseType.NEEDPHONE
-                        }
-
-                        location = locationDisplay(data)
-
-                        Row(
-                            modifier = Modifier.weight(1f),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Start,
-                        ) {
-                            Rn3Dialog(
-                                icon = Outlined.Report,
-                                title = stringResource(string.feature_publication_infoDialog_title),
-                                body = {
-                                    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                                        Text(text = stringResource(string.feature_publication_infoDialog_textTitle))
-                                        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                                            Icon(
-                                                imageVector = Outlined.Report,
-                                                contentDescription = null,
-                                                modifier = Modifier
-                                                    .padding(top = 2.dp)
-                                                    .size(SuggestionChipDefaults.IconSize),
-                                                tint = MaterialTheme.colorScheme.secondary,
-                                            )
-
-                                            Text(text = stringResource(string.feature_publication_infoDialog_textReport).toRn3FormattedString())
-                                        }
-                                    }
-                                },
-                                confirmLabel = stringResource(string.feature_publication_infoDialog_button),
-                                onConfirm = { /*TODO*/ },
+                        if (!post.analysed) {
+                            Row(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL)),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Start,
                             ) {
-                                Rn3IconButton(
-                                    icon = Outlined.Info,
-                                    contentDescription = stringResource(string.feature_publication_informationButton_description),
-                                    onClick = it,
+                                Text(text = "Loading")
+                                Icon(imageVector = Outlined.Loop, contentDescription = null)
+                            }
+
+                            if (post.analyse != AnalyseType.SUCCESS) {
+                                Button(
+                                    modifier = Modifier.width(IntrinsicSize.Min),
+                                    onClick = {
+                                        haptic.click()
+                                        onRemovePostButtonClicked(
+                                            TriagingRawData(
+                                                ownerUserUid = data.user.getUid(),
+                                            ),
+                                        )
+                                    },
+                                ) {
+                                    Text(text = "Remove")
+                                }
+                            }
+                        } else {
+                            if (post.type == PostType.CONTACT && !phoneUtil.isValidNumber(
+                                    data.phone,
+                                )
+                            ) {
+                                post.analyse = AnalyseType.NEEDPHONE
+                            }
+
+                            location = locationDisplay(data)
+
+                            Row(
+                                modifier = Modifier.weight(1f),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Start,
+                            ) {
+                                Rn3Dialog(
+                                    icon = Outlined.Report,
+                                    title = stringResource(string.feature_publication_infoDialog_title),
+                                    body = {
+                                        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                                            Text(text = stringResource(string.feature_publication_infoDialog_textTitle))
+                                            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                                                Icon(
+                                                    imageVector = Outlined.Report,
+                                                    contentDescription = null,
+                                                    modifier = Modifier
+                                                        .padding(top = 2.dp)
+                                                        .size(SuggestionChipDefaults.IconSize),
+                                                    tint = MaterialTheme.colorScheme.secondary,
+                                                )
+
+                                                Text(text = stringResource(string.feature_publication_infoDialog_textReport).toRn3FormattedString())
+                                            }
+                                        }
+                                    },
+                                    confirmLabel = stringResource(string.feature_publication_infoDialog_button),
+                                    onConfirm = { /*TODO*/ },
+                                ) {
+                                    Rn3IconButton(
+                                        icon = Outlined.Info,
+                                        contentDescription = stringResource(string.feature_publication_informationButton_description),
+                                        onClick = it,
+                                    )
+                                }
+                                Text(
+                                    modifier = Modifier.padding(horizontal = 4.dp),
+                                    text = post.analyse!!.text(
+                                        post.feed!!.text(),
+                                        post.scope!!.text(),
+                                    ),
+                                    softWrap = true,
                                 )
                             }
-                            Text(
-                                modifier = Modifier.padding(horizontal = 4.dp),
-                                text = post.analyse!!.text(
-                                    post.feed!!.text(),
-                                    post.scope!!.text(),
-                                ),
-                                softWrap = true,
-                            )
-                        }
-                        Button(
-                            modifier = Modifier.width(IntrinsicSize.Min),
-                            onClick = {
-                                haptic.click()
-                                when (post.feed!!) {
-                                    FeedType.PUBLIC -> {
-                                        onPublicPostButtonClicked(
-                                            PostRawData(
-                                                userId = data.user.getUid(),
-                                                sharingScope = post.scope.toString(),
-                                                location = location,
-                                                timestamp = Timestamp.now(),
-                                                content = post.text,
-                                                postType = PostType.TEXT.toString(),
-                                                categories = listOf("Test 1", "test 2"),
-                                            ),
-                                        )
-                                    }
+                            if (post.analyse == AnalyseType.SUCCESS) {
+                                Button(
+                                    modifier = Modifier.width(IntrinsicSize.Min),
+                                    onClick = {
+                                        haptic.click()
+                                        when (post.feed!!) {
+                                            FeedType.PUBLIC -> {
+                                                onPublicPostButtonClicked(
+                                                    PostRawData(
+                                                        userId = data.user.getUid(),
+                                                        sharingScope = post.scope.toString(),
+                                                        location = location,
+                                                        timestamp = Timestamp.now(),
+                                                        content = post.text,
+                                                        postType = PostType.TEXT.toString(),
+                                                        categories = listOf("Test 1", "test 2"),
+                                                    ),
+                                                )
+                                            }
 
-                                    FeedType.FRIENDS -> {
-                                        onFriendsPostButtonClicked(
-                                            PostRawData(
-                                                userId = data.user.getUid(),
-                                                sharingScope = post.scope.toString(),
-                                                location = location,
-                                                timestamp = Timestamp.now(),
-                                                content = post.text,
-                                                postType = PostType.TEXT.toString(),
-                                                categories = listOf("Test 1", "test 2"),
-                                            ),
-                                        )
-                                    }
+                                            FeedType.FRIENDS -> {
+                                                onFriendsPostButtonClicked(
+                                                    PostRawData(
+                                                        userId = data.user.getUid(),
+                                                        sharingScope = post.scope.toString(),
+                                                        location = location,
+                                                        timestamp = Timestamp.now(),
+                                                        content = post.text,
+                                                        postType = PostType.TEXT.toString(),
+                                                        categories = listOf("Test 1", "test 2"),
+                                                    ),
+                                                )
+                                            }
 
-                                    FeedType.EVENTS -> {
-                                        onEventsPostButtonClicked(
-                                            EventFeedRawData(
-                                                userId = data.user.getUid(),
-                                                sharingScope = post.scope.toString(),
-                                                location = location,
-                                                description = post.text,
-                                                createdAt = Timestamp.now(),
-                                            ),
-                                        )
-                                    }
+                                            FeedType.EVENTS -> {
+                                                onEventsPostButtonClicked(
+                                                    EventFeedRawData(
+                                                        userId = data.user.getUid(),
+                                                        sharingScope = post.scope.toString(),
+                                                        location = location,
+                                                        description = post.text,
+                                                        createdAt = Timestamp.now(),
+                                                    ),
+                                                )
+                                            }
+                                        }
+                                    },
+                                ) {
+                                    Text(text = stringResource(string.feature_publication_postButton))
                                 }
-                            },
-                            enabled = post.analyse == AnalyseType.SUCCESS,
-                        ) {
-                            Text(text = stringResource(string.feature_publication_postButton))
+                            }
+
+                            if (post.analyse != AnalyseType.SUCCESS) {
+                                Button(
+                                    modifier = Modifier.width(IntrinsicSize.Min),
+                                    onClick = {
+                                        haptic.click()
+                                        onRemovePostButtonClicked(
+                                            TriagingRawData(
+                                                ownerUserUid = data.user.getUid(),
+                                            ),
+                                        )
+                                    },
+                                ) {
+                                    Text(text = "Remove")
+                                }
+                            }
+                        }
                         }
                     }
+                if (data.posts.isEmpty()) {
+                    Spacer(modifier = Modifier.imePadding())
+                } else {
+                    Spacer(modifier = Modifier.height(12.dp))
                 }
-                Spacer(modifier = Modifier.imePadding())
             }
         },
     ) { innerPadding ->
@@ -356,7 +408,7 @@ internal fun PublicationScreen(
                     .focusRequester(focusRequester)
                     .fillMaxWidth()
                     .padding(Rn3SurfaceDefaults.paddingValues),
-                readOnly = if (data.posts.isNotEmpty()) !data.posts[0].analysed else false,
+                readOnly = data.posts.isNotEmpty(),
                 value = currentDescription,
                 onValueChange = { newText -> currentDescription = newText },
                 maxCharacters = 500,

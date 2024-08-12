@@ -23,6 +23,7 @@ import dev.rahmouni.neil.counters.core.analytics.AnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.model.TriagingRawData
 import dev.rahmouni.neil.counters.core.data.repository.logAddTriagingPost
+import dev.rahmouni.neil.counters.core.data.repository.logRemoveTriagingPost
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.transformLatest
@@ -61,5 +62,24 @@ class FirestoreTriagingDataRepository @Inject constructor(
             )
 
         analyticsHelper.logAddTriagingPost()
+    }
+
+    override fun removeTriagingPost(triagingRawData: TriagingRawData) {
+        val userUid = authHelper.getUser().getUid()
+
+        Firebase.firestore
+            .collection("triaging")
+            .whereEqualTo(TriagingRawData::ownerUserUid.name, userUid)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                for (document in querySnapshot.documents) {
+                    document.reference.delete()
+                }
+                analyticsHelper.logRemoveTriagingPost()
+            }
+            .addOnFailureListener { e ->
+                // TODO: Gérer l'erreur
+                throw e
+            }
     }
 }
