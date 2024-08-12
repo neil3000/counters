@@ -16,6 +16,7 @@
 
 package dev.rahmouni.neil.counters.core.designsystem.rebased
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -75,7 +76,8 @@ enum class SharingScope(private val resourceId: Int) {
             imageVector = icon(location),
             modifier = Modifier
                 .size(34.dp)
-                .clip(CircleShape),
+                .clip(CircleShape)
+                .padding(2.dp),
             contentDescription = null,
             tint = if (this == COUNTRY) Color.Unspecified else MaterialTheme.colorScheme.onPrimaryContainer,
         )

@@ -56,7 +56,7 @@ class PublicFeedViewModel @Inject constructor(
                     address = userData.address,
                     phone = userData.phone,
                     friends = friends.map { it.toEntity() },
-                    posts = posts.map { it.toEntity() },
+                    posts = posts.sortedByDescending { it.timestamp }.map { it.toEntity() },
                 ),
             )
         }.stateIn(

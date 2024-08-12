@@ -58,7 +58,7 @@ fun Poll(post: PostEntity) {
                         modifier = Modifier.padding(horizontal = 16.dp),
                         text = info.first,
                     )
-                    Row {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = "$percentage%",
                             style = MaterialTheme.typography.bodyMedium,
