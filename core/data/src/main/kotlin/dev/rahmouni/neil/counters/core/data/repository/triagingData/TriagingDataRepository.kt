@@ -15,11 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.core.data.repository.publicFeedData
+package dev.rahmouni.neil.counters.core.data.repository.triagingData
 
-import dev.rahmouni.neil.counters.core.data.model.PostRawData
+import dev.rahmouni.neil.counters.core.data.model.TriagingRawData
 import kotlinx.coroutines.flow.Flow
 
-interface PublicFeedDataRepository {
-    val userPublicPosts: Flow<List<PostRawData>>
+interface TriagingDataRepository {
+    val userTriagingPosts: Flow<List<TriagingRawData>>
+
+    fun addTriagingPost(triagingRawData: TriagingRawData)
 }

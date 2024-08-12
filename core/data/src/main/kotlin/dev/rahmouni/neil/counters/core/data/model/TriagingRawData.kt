@@ -15,15 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.feature.publication.data
+package dev.rahmouni.neil.counters.core.data.model
 
-import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
-import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
-import dev.rahmouni.neil.counters.feature.publication.model.FeedType
+import androidx.annotation.Keep
+import com.google.firebase.firestore.DocumentId
 
-data class Analyse(
-    var result: AnalyseType,
-    var feed: FeedType,
-    var sharingScope: SharingScope,
-    var postType: PostType,
+@Keep
+data class TriagingRawData(
+    @DocumentId val uid: String? = null,
+    val ownerUserUid: String = "RahNeil_N3:error:xTdZVv31n9S4fjOB0dFtJBk2ZZR6Ch5F",
+    val userId: String? = null,
+    val text: String? = null,
+    val location: String? = null,
 )

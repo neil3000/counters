@@ -21,8 +21,5 @@ import dev.rahmouni.neil.counters.core.data.model.PostRawData
 import kotlinx.coroutines.flow.Flow
 
 interface FriendFeedDataRepository {
-
     val userFriendPosts: Flow<List<PostRawData>>
-
-    fun addFriendPost(postRawData: PostRawData)
 }

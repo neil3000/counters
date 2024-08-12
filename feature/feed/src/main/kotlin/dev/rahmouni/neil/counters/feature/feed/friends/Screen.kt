@@ -205,7 +205,7 @@ private fun FriendsFeedPanel(
         data.posts.forEach { post ->
             Publication(
                 post = post,
-                friend = data.friends.find { it.uid == post.userId },
+                friend = data.friends.find { it.userId == post.userId },
                 enabled = if (data.user is SignedInUser || data.user is AnonymousUser) {
                     phoneUtil.isValidNumber(data.phone)
                 } else {
