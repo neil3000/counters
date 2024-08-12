@@ -1,12 +1,11 @@
-// anywhere in the file:
-/* eslint valid-jsdoc: off */
-
 const { onDocumentCreated } = require("firebase-functions/v2/firestore");
 const { defineString } = require("firebase-functions/params");
 const { initializeApp } = require("firebase-admin/app");
 initializeApp();
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+const GEMINI_API_KEY = defineString("GEMINI_API_KEY");
 
 exports.triage = onDocumentCreated("triaging/{docId}", (event) => {
   const snapshot = event.data;
@@ -16,7 +15,7 @@ exports.triage = onDocumentCreated("triaging/{docId}", (event) => {
   }
   const data = snapshot.data();
 
-  const genAI = new GoogleGenerativeAI(defineString("GEMINI_API_KEY"));
+  const genAI = new GoogleGenerativeAI(GEMINI_API_KEY.value());
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const generationConfig = {
