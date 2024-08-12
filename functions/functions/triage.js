@@ -31,12 +31,19 @@ exports.triage = onDocumentCreated("triaging/{docId}", (event) => {
 
   chatSession
     .sendMessage(
-      'I will give you a message and you have to tell me if for you it looks like it is addressed to a worldwide audience similar to a tweet, message or announcement on a public forum by saying "GLOBAL", or if it is meant to only be shared in a private / local context or to friends in an area, where you will say "LOCAL".\n\nAnswer must be a single word such as "GLOBAL" or "LOCAL".\n\nHere is a message:\n```' +
+      'I will share you a message. This message will be shared on a social media, you have to categorized it returning me only capitalized words separated by a comma.\n\n First category, for you does this message can be send on the app : "SUCCESS", "NOTADAPTED", "NEEDPICTURE"\n\n Second category, the feed (page in witch it will be shared) : "PUBLIC", "FRIENDS", "EVENT"\n\nThird category, at which range should this message be shared : "GLOBAL" (Only for announcements in FRIENDS feed), "COUNTRY", "CITY", "STREET", "BUILDING". If you hesitate between 2 take the lowest, the message has to interest nearly everyone in the scope\n\nLast category, what type of Display does it need : "TEXT", "CONTACT","POLL" \n\nHere is a message:\n```' +
         data.text +
-        "\n```"
+        "\n```" +
+        '\n\nPlease respond in the following format: CATEGORY1, CATEGORY2, CATEGORY3, CATEGORY4. For example: NOTADAPTED, PUBLIC, GLOBAL, TEXT. No punctuation marks at all other than the commas and nothing before or after the categories, strictly like the example'
     )
     .then((res) => {
-      snapshot.ref.update({ reach: res.response.text().includes("LOCAL") ? "LOCAL" : "GLOBAL" });
+      const categories = res.response.text().replace(/"/g, '').split(",");
+      const analyse = categories[0].trim(); // First category: "SUCCESS", "NOTADAPTED", "NEEDPICTURE"
+      const feed = categories[1].trim(); // Second category: "PUBLIC", "FRIENDS", "EVENT"
+      const scope = categories[2].trim(); // Third category: "GLOBAL", "COUNTRY", "CITY", "STREET", "BUILDING"
+      const type = categories[3].trim(); // Last category: "TEXT", "CONTACT", "POLL"
+
+      snapshot.ref.update({ feed: feed, analyse: analyse, scope: scope, type: type, analysed: true });
       info("Gemini triaged as " + res.response.text());
     })
     .catch((e) => error(e));

@@ -25,5 +25,9 @@ data class TriagingRawData(
     val ownerUserUid: String = "RahNeil_N3:error:xTdZVv31n9S4fjOB0dFtJBk2ZZR6Ch5F",
     val userId: String? = null,
     val text: String? = null,
-    val location: String? = null,
+    val analysed: Boolean = false,
+    val feed: String? = null,
+    val scope: String? = null,
+    val analyse: String? = null,
+    val type: String? = null,
 )

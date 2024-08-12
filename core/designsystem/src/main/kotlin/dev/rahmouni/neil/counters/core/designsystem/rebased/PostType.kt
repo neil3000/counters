@@ -13,7 +13,7 @@ enum class PostType {
                 "TEXT" -> TEXT
                 "CONTACT" -> CONTACT
                 "POLL" -> POLL
-                else -> throw IllegalArgumentException("Unknown SharingScope value: $value")
+                else -> TEXT
             }
         }
     }

@@ -22,7 +22,7 @@ import com.google.firebase.ktx.Firebase
 import dev.rahmouni.neil.counters.core.analytics.AnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.model.TriagingRawData
-import dev.rahmouni.neil.counters.core.data.repository.logCreatedCounter
+import dev.rahmouni.neil.counters.core.data.repository.logAddTriagingPost
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.transformLatest
@@ -60,6 +60,6 @@ class FirestoreTriagingDataRepository @Inject constructor(
                 ),
             )
 
-        analyticsHelper.logCreatedCounter()
+        analyticsHelper.logAddTriagingPost()
     }
 }

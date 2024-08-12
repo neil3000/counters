@@ -19,6 +19,7 @@ package dev.rahmouni.neil.counters.feature.publication
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,11 +27,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Loop
 import androidx.compose.material.icons.outlined.Report
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.BottomSheetScaffold
@@ -62,7 +65,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.google.firebase.Timestamp
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import dev.rahmouni.neil.counters.core.data.model.EventFeedRawData
+import dev.rahmouni.neil.counters.core.data.model.PostRawData
 import dev.rahmouni.neil.counters.core.data.model.TriagingRawData
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
@@ -72,11 +78,16 @@ import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.topAppBar.Rn3SmallTopAppBar
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
+import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
+import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
+import dev.rahmouni.neil.counters.core.designsystem.rebased.text
 import dev.rahmouni.neil.counters.core.designsystem.toRn3FormattedString
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.feature.publication.R.string
+import dev.rahmouni.neil.counters.feature.publication.model.AnalyseType
+import dev.rahmouni.neil.counters.feature.publication.model.FeedType
 import dev.rahmouni.neil.counters.feature.publication.model.PublicationUiState.Loading
 import dev.rahmouni.neil.counters.feature.publication.model.PublicationUiState.Success
 import dev.rahmouni.neil.counters.feature.publication.model.PublicationViewModel
@@ -105,12 +116,18 @@ internal fun PublicationRoute(
                 localID = "MC4xwGf6j0RfzJV4O8tDBEn3BObAfFQr",
             ).toTopAppBarAction(navController::navigateToFeedback),
             onSettingsTopAppBarActionClicked = navigateToSettings,
-            onAnalyseButtonClicked = { postData ->
+            onAnalyseButtonClicked = viewModel::addTriagingPost,
+            onPublicPostButtonClicked = { postData ->
                 navigateToPublic()
-                viewModel.addTriagingPost(postData)
+                viewModel.addPublicPost(postData)
             },
-            onPostButtonClicked = {
-                navigateToPublic()
+            onFriendsPostButtonClicked = { postData ->
+                navigateToFriends()
+                viewModel.addFriendPost(postData)
+            },
+            onEventsPostButtonClicked = { postData ->
+                navigateToEvents()
+                viewModel.addEventPost(postData)
             },
         )
     }
@@ -128,7 +145,9 @@ internal fun PublicationScreen(
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
     onAnalyseButtonClicked: (TriagingRawData) -> Unit = {},
-    onPostButtonClicked: (TriagingRawData) -> Unit = {},
+    onPublicPostButtonClicked: (PostRawData) -> Unit = {},
+    onFriendsPostButtonClicked: (PostRawData) -> Unit = {},
+    onEventsPostButtonClicked: (EventFeedRawData) -> Unit = {},
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState(
         SheetState(
@@ -139,14 +158,14 @@ internal fun PublicationScreen(
     )
     val haptic = getHaptic()
 
+    var location by remember { mutableStateOf("") }
+
     val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
-
-    var isAnalyzed by rememberSaveable { mutableStateOf(false) }
-    var currentDescription by rememberSaveable { mutableStateOf("") }
+    var currentDescription by rememberSaveable { mutableStateOf(if (data.posts.isNotEmpty()) data.posts[0].text else "") }
 
     val phoneUtil = PhoneNumberUtil.getInstance()
 
@@ -187,8 +206,7 @@ internal fun PublicationScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-
-                    if (!isAnalyzed) {
+                    if (data.posts.isEmpty()) {
                         Rn3IconButton(
                             icon = Outlined.AddPhotoAlternate,
                             contentDescription = stringResource(string.feature_publication_imageButton_description),
@@ -197,26 +215,36 @@ internal fun PublicationScreen(
                         Button(
                             onClick = {
                                 haptic.click()
-                                isAnalyzed = true
                                 onAnalyseButtonClicked(
                                     TriagingRawData(
                                         userId = "test",
                                         text = currentDescription,
-                                        location = data.address.locality,
                                     ),
                                 )
-//                                if (analyse.postType == PostType.CONTACT && !phoneUtil.isValidNumber(
-//                                        data.phone,
-//                                    )
-//                                ) {
-//                                    analyse.result = AnalyseType.NEEDPHONE
-//                                }
                             },
-                            enabled = !isAnalyzed && currentDescription.isNotEmpty(),
+                            enabled = currentDescription.isNotEmpty() && data.posts.isEmpty(),
                         ) {
                             Text(text = stringResource(string.feature_publication_analyseButton))
                         }
+                    } else if (!data.posts[0].analysed) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.padding(16.dp),
+                        ) {
+                            Text(text = "Loading")
+                            Icon(imageVector = Outlined.Loop, contentDescription = null)
+                        }
                     } else {
+                        val post = data.posts[0]
+                        if (post.type == PostType.CONTACT && !phoneUtil.isValidNumber(
+                                data.phone,
+                            )
+                        ) {
+                            post.analyse = AnalyseType.NEEDPHONE
+                        }
+
+                        location = locationDisplay(data)
+
                         Row(
                             modifier = Modifier.weight(1f),
                             verticalAlignment = Alignment.CenterVertically,
@@ -251,34 +279,65 @@ internal fun PublicationScreen(
                                     onClick = it,
                                 )
                             }
-//                            Text(
-//                                modifier = Modifier.padding(horizontal = 4.dp),
-//                                text = analyse.result.text(
-//                                    analyse.feed.text(),
-//                                    analyse.sharingScope.text(),
-//                                ),
-//                                softWrap = true,
-//                            )
+                            Text(
+                                modifier = Modifier.padding(horizontal = 4.dp),
+                                text = post.analyse!!.text(
+                                    post.feed!!.text(),
+                                    post.scope!!.text(),
+                                ),
+                                softWrap = true,
+                            )
                         }
-//                        Button(
-//                            modifier = Modifier.width(IntrinsicSize.Min),
-//                            onClick = {
-//                                haptic.click()
-//                                when (analyse.feed) {
-//                                    FeedType.PUBLIC -> {
-//                                    }
-//
-//                                    FeedType.FRIENDS -> {
-//                                    }
-//
-//                                    FeedType.EVENTS -> {
-//                                    }
-//                                }
-//                            },
-//                            enabled = analyse.result == AnalyseType.SUCCESS,
-//                        ) {
-//                            Text(text = stringResource(string.feature_publication_postButton))
-//                        }
+                        Button(
+                            modifier = Modifier.width(IntrinsicSize.Min),
+                            onClick = {
+                                haptic.click()
+                                when (post.feed!!) {
+                                    FeedType.PUBLIC -> {
+                                        onPublicPostButtonClicked(
+                                            PostRawData(
+                                                userId = data.user.getUid(),
+                                                sharingScope = post.scope.toString(),
+                                                location = location,
+                                                timestamp = Timestamp.now(),
+                                                content = post.text,
+                                                postType = PostType.TEXT.toString(),
+                                                categories = listOf("Test 1", "test 2"),
+                                            ),
+                                        )
+                                    }
+
+                                    FeedType.FRIENDS -> {
+                                        onFriendsPostButtonClicked(
+                                            PostRawData(
+                                                userId = data.user.getUid(),
+                                                sharingScope = post.scope.toString(),
+                                                location = location,
+                                                timestamp = Timestamp.now(),
+                                                content = post.text,
+                                                postType = PostType.TEXT.toString(),
+                                                categories = listOf("Test 1", "test 2"),
+                                            ),
+                                        )
+                                    }
+
+                                    FeedType.EVENTS -> {
+                                        onEventsPostButtonClicked(
+                                            EventFeedRawData(
+                                                userId = data.user.getUid(),
+                                                sharingScope = post.scope.toString(),
+                                                location = location,
+                                                description = post.text,
+                                                createdAt = Timestamp.now(),
+                                            ),
+                                        )
+                                    }
+                                }
+                            },
+                            enabled = post.analyse == AnalyseType.SUCCESS,
+                        ) {
+                            Text(text = stringResource(string.feature_publication_postButton))
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.imePadding())
@@ -297,6 +356,7 @@ internal fun PublicationScreen(
                     .focusRequester(focusRequester)
                     .fillMaxWidth()
                     .padding(Rn3SurfaceDefaults.paddingValues),
+                readOnly = if (data.posts.isNotEmpty()) !data.posts[0].analysed else false,
                 value = currentDescription,
                 onValueChange = { newText -> currentDescription = newText },
                 maxCharacters = 500,
@@ -304,5 +364,20 @@ internal fun PublicationScreen(
                 singleLine = false,
             )
         }
+    }
+}
+
+@Composable
+fun locationDisplay(data: PublicationData): String {
+    return when (data.posts[0].scope) {
+        SharingScope.GLOBAL -> ""
+        SharingScope.COUNTRY -> data.address.country!!.text()
+        SharingScope.REGION -> ""
+        SharingScope.CITY -> data.address.locality
+        SharingScope.DISTRICT -> ""
+        SharingScope.NEIGHBORHOOD -> ""
+        SharingScope.STREET -> data.address.street
+        SharingScope.BUILDING -> data.address.street
+        null -> "Not Specified"
     }
 }

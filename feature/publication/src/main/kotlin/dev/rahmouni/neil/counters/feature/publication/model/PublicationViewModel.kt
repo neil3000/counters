@@ -20,7 +20,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
+import dev.rahmouni.neil.counters.core.data.model.EventFeedRawData
+import dev.rahmouni.neil.counters.core.data.model.PostRawData
 import dev.rahmouni.neil.counters.core.data.model.TriagingRawData
+import dev.rahmouni.neil.counters.core.data.repository.eventFeedData.EventFeedDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.friendFeedData.FriendFeedDataRepository
+import dev.rahmouni.neil.counters.core.data.repository.publicFeedData.PublicFeedDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.triagingData.TriagingDataRepository
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
 import dev.rahmouni.neil.counters.feature.publication.model.PublicationUiState.Loading
@@ -38,10 +43,25 @@ class PublicationViewModel @Inject constructor(
     authHelper: AuthHelper,
     userDataRepository: UserDataRepository,
     private val triagingDataRepository: TriagingDataRepository,
+    private val publicFeedDataRepository: PublicFeedDataRepository,
+    private val friendFeedDataRepository: FriendFeedDataRepository,
+    private val eventFeedDataRepository: EventFeedDataRepository,
 ) : ViewModel() {
 
     fun addTriagingPost(triagingRawData: TriagingRawData) {
         triagingDataRepository.addTriagingPost(triagingRawData)
+    }
+
+    fun addPublicPost(postRawData: PostRawData) {
+        publicFeedDataRepository.addPublicPost(postRawData)
+    }
+
+    fun addFriendPost(friendRawData: PostRawData) {
+        friendFeedDataRepository.addFriendPost(friendRawData)
+    }
+
+    fun addEventPost(eventFeedRawData: EventFeedRawData) {
+        eventFeedDataRepository.addEventPost(eventFeedRawData)
     }
 
     val uiState: StateFlow<PublicationUiState> =

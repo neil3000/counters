@@ -92,7 +92,7 @@ enum class SharingScope(private val resourceId: Int) {
                 "NEIGHBORHOOD" -> NEIGHBORHOOD
                 "STREET" -> STREET
                 "BUILDING" -> BUILDING
-                else -> throw IllegalArgumentException("Unknown SharingScope value: $value")
+                else -> BUILDING
             }
         }
     }

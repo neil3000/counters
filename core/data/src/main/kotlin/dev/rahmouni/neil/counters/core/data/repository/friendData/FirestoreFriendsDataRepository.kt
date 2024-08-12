@@ -22,7 +22,7 @@ import com.google.firebase.ktx.Firebase
 import dev.rahmouni.neil.counters.core.analytics.AnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.model.FriendRawData
-import dev.rahmouni.neil.counters.core.data.repository.logCreatedCounter
+import dev.rahmouni.neil.counters.core.data.repository.logAddFriend
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.transformLatest
@@ -60,6 +60,6 @@ class FirestoreFriendsDataRepository @Inject constructor(
                 ),
             )
 
-        analyticsHelper.logCreatedCounter()
+        analyticsHelper.logAddFriend()
     }
 }

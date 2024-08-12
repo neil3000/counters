@@ -19,14 +19,17 @@ package dev.rahmouni.neil.counters.core.data.repository.friendFeedData
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import dev.rahmouni.neil.counters.core.analytics.AnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.AuthHelper
 import dev.rahmouni.neil.counters.core.data.model.PostRawData
+import dev.rahmouni.neil.counters.core.data.repository.logAddFriendPost
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.transformLatest
 import javax.inject.Inject
 
 class FirestoreFriendFeedDataRepository @Inject constructor(
+    private val analyticsHelper: AnalyticsHelper,
     private val authHelper: AuthHelper,
 ) : FriendFeedDataRepository {
 
@@ -43,4 +46,16 @@ class FirestoreFriendFeedDataRepository @Inject constructor(
                 },
             )
         }
+
+    override fun addFriendPost(postRawData: PostRawData) {
+        Firebase.firestore
+            .collection("friendfeed")
+            .add(
+                postRawData.copy(
+                    ownerUserUid = authHelper.getUser().getUid(),
+                ),
+            )
+
+        analyticsHelper.logAddFriendPost()
+    }
 }

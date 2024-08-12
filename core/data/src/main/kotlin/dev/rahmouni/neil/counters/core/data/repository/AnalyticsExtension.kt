@@ -93,12 +93,27 @@ internal fun AnalyticsHelper.logFriendsMainPreferenceChanged(value: Boolean) =
         ),
     )
 
-internal fun AnalyticsHelper.logCreatedCounter() =
+internal fun AnalyticsHelper.logAddEventPost() =
     logEvent(
-        AnalyticsEvent(type = "created_counter"),
+        AnalyticsEvent(type = "add_eventpost"),
     )
 
-internal fun AnalyticsHelper.logCreatedIncrement() =
+internal fun AnalyticsHelper.logAddFriendPost() =
     logEvent(
-        AnalyticsEvent(type = "created_increment"),
+        AnalyticsEvent(type = "add_friendpost"),
+    )
+
+internal fun AnalyticsHelper.logAddFriend() =
+    logEvent(
+        AnalyticsEvent(type = "add_friend"),
+    )
+
+internal fun AnalyticsHelper.logAddPublicPost() =
+    logEvent(
+        AnalyticsEvent(type = "add_publicpost"),
+    )
+
+internal fun AnalyticsHelper.logAddTriagingPost() =
+    logEvent(
+        AnalyticsEvent(type = "add_triagingpost"),
     )

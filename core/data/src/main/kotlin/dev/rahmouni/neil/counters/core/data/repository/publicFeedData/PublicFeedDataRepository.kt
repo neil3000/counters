@@ -20,5 +20,8 @@ import dev.rahmouni.neil.counters.core.data.model.PostRawData
 import kotlinx.coroutines.flow.Flow
 
 interface PublicFeedDataRepository {
+
     val userPublicPosts: Flow<List<PostRawData>>
+
+    fun addPublicPost(postRawData: PostRawData)
 }

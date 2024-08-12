@@ -17,10 +17,17 @@
 package dev.rahmouni.neil.counters.feature.publication.model
 
 import dev.rahmouni.neil.counters.core.data.model.TriagingRawData
+import dev.rahmouni.neil.counters.core.designsystem.rebased.PostType
+import dev.rahmouni.neil.counters.core.designsystem.rebased.SharingScope
 
 data class TriagingEntity(
     val uid: String? = null,
     val text: String,
+    val analysed: Boolean,
+    val feed: FeedType?,
+    val scope: SharingScope?,
+    var analyse: AnalyseType?,
+    val type: PostType?,
 )
 
 fun TriagingRawData.toEntity(): TriagingEntity {
@@ -29,6 +36,11 @@ fun TriagingRawData.toEntity(): TriagingEntity {
     return TriagingEntity(
         uid = uid,
         text = text ?: "",
+        analysed = analysed,
+        feed = if (feed.isNullOrBlank()) null else FeedType.fromString(feed),
+        scope = if (scope.isNullOrBlank()) null else SharingScope.fromString(scope),
+        analyse = if (analyse.isNullOrBlank()) null else AnalyseType.fromString(analyse),
+        type = if (type.isNullOrBlank()) null else PostType.fromString(type),
     )
 }
 

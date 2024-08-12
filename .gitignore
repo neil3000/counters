@@ -111,3 +111,4 @@ node_modules/
 # dotenv environment variables file
 .env
 /upload-keystore.jks
+/functions/.env.rebased-01
