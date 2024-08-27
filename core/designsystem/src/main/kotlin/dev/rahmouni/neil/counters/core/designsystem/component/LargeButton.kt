@@ -18,13 +18,10 @@
 package dev.rahmouni.neil.counters.core.designsystem.component
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredWidthIn
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalAbsoluteTonalElevation
 import androidx.compose.material3.MaterialTheme
@@ -38,51 +35,87 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 
 @Composable
 fun Rn3LargeButton(
+    modifier: Modifier = Modifier,
     text: String,
     icon: ImageVector,
     color: Color = MaterialTheme.colorScheme.surface,
     leadingIcon: ImageVector? = null,
-    shape: Shape = RoundedCornerShape(16.dp),
+    shape: Shape = Rn3SurfaceDefaults.shape,
     onClick: () -> Unit,
 ) {
-    val haptics = getHaptic()
-
-    Surface(
-        color = color,
-        shape = shape,
-        modifier = Modifier.requiredWidthIn(min = 280.dp),
-        tonalElevation = -LocalAbsoluteTonalElevation.current,
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .clickable {
-                    haptics.click()
-                    onClick()
-                }
-                .padding(16.dp)
-                .fillMaxWidth(1f),
-        ) {
-            if (leadingIcon != null) {
-                Icon(leadingIcon, null, Modifier.padding(end = 16.dp))
-            }
+    Rn3LargeButton(
+        modifier = modifier,
+        text = {
             Text(
                 text = text,
                 color = MaterialTheme.colorScheme.contentColorFor(color),
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(4.dp),
+                modifier = Modifier.padding(
+                    start = if (leadingIcon != null) 16.dp else 0.dp,
+                    end = 16.dp,
+                ),
             )
-            Spacer(Modifier.weight(1f))
+        },
+        icon = {
             Icon(
-                icon,
-                null,
-                Modifier
-                    .padding(start = 16.dp)
-                    .width(24.dp),
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(24.dp),
             )
+        },
+        color = color,
+        leadingIcon = leadingIcon,
+        shape = shape,
+    ) {
+        onClick()
+    }
+}
+
+@Composable
+fun Rn3LargeButton(
+    modifier: Modifier = Modifier,
+    text: @Composable (() -> Unit),
+    icon: @Composable (() -> Unit),
+    color: Color = MaterialTheme.colorScheme.surface,
+    leadingIcon: ImageVector? = null,
+    shape: Shape = Rn3SurfaceDefaults.shape,
+    onClick: () -> Unit,
+) {
+    val haptic = getHaptic()
+
+    Surface(
+        modifier = modifier,
+        color = color,
+        shape = shape,
+        tonalElevation = -LocalAbsoluteTonalElevation.current,
+    ) {
+        Row(
+            modifier = Modifier
+                .clickable {
+                    haptic.click()
+                    onClick()
+                }
+                .padding(Rn3TextDefaults.largePaddingValues),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Row(modifier = Modifier.weight(1f)) {
+                if (leadingIcon != null) {
+                    Icon(
+                        imageVector = leadingIcon,
+                        contentDescription = null,
+                    )
+                }
+
+                text()
+            }
+
+            icon()
         }
     }
 }

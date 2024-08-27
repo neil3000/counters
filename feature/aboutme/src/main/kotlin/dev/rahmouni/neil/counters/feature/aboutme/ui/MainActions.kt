@@ -36,9 +36,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.common.Rn3Uri
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickChips
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.icons.CoffeeAnimated
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
@@ -70,7 +70,7 @@ fun MainActions(portfolioUri: Rn3Uri) {
 
             Rn3TileHorizontalDivider(
                 color = MaterialTheme.colorScheme.secondary,
-                paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues
+                paddingValues = Rn3SurfaceDefaults.paddingValues
                     .only(HORIZONTAL)
                     .add(vertical = 4.dp),
             )

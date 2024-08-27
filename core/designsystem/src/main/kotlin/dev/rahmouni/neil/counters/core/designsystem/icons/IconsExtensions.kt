@@ -89,7 +89,10 @@ val Outlined.DevicesOff
 
 val customAnimatedIconsList
     @Composable
-    get() = listOf(Outlined.CoffeeAnimated, Outlined.OpenInNewAnimated)
+    get() = listOf(
+        Outlined.CoffeeAnimated,
+        Outlined.OpenInNewAnimated,
+    )
 
 val Outlined.CoffeeAnimated: AnimatedIcon
     get() = AnimatedIcon(R.drawable.core_designsystem_icon_coffee_animated, 1500)

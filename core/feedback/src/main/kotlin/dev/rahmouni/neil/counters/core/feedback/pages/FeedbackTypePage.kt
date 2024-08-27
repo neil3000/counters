@@ -22,8 +22,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,10 +36,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
 import dev.rahmouni.neil.counters.core.feedback.FeedbackOptions
-import dev.rahmouni.neil.counters.core.feedback.R
+import dev.rahmouni.neil.counters.core.feedback.R.string
 import kotlinx.coroutines.delay
 
 @Composable
@@ -47,29 +50,38 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
 
     var trigger by rememberSaveable { mutableStateOf(false) }
     LaunchedEffect(Unit) {
-        delay(1750)
+        delay(timeMillis = 1750)
         trigger = true
     }
 
     var currentType by rememberSaveable { mutableStateOf(feedbackType) }
 
     Column {
+        Spacer(modifier = Modifier.height(8.dp))
+
         FeedbackMessages(
+            messages =
             listOf(
-                stringResource(R.string.core_feedback_typePage_welcomeMessage),
-                stringResource(R.string.core_feedback_typePage_typeMessage),
+                stringResource(string.core_feedback_typePage_welcomeMessage),
+                stringResource(string.core_feedback_typePage_typeMessage),
             ),
         )
 
         AnimatedVisibility(
             visible = trigger,
-            enter = fadeIn(tween(150, 150)) + expandVertically(),
+            enter = fadeIn(
+                animationSpec = tween(
+                    durationMillis = 150,
+                    delayMillis = 150,
+                ),
+            ) + expandVertically(),
         ) {
             FeedbackOptions(
+                options =
                 mapOf(
-                    "BUG" to stringResource(R.string.core_feedback_typePage_bug),
+                    "BUG" to stringResource(string.core_feedback_typePage_bug),
                     "FEATURE" to stringResource(
-                        R.string.core_feedback_typePage_suggestion,
+                        string.core_feedback_typePage_suggestion,
                     ),
                 ),
                 currentType,
@@ -81,12 +93,12 @@ internal fun FeedbackTypePage(feedbackType: String, nextPage: (String) -> Unit) 
                 haptic.click()
                 nextPage(currentType)
             },
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
+                .padding(Rn3SurfaceDefaults.paddingValues.copy(top = 6.dp, bottom = 12.dp)),
             enabled = trigger,
         ) {
-            Text(stringResource(R.string.core_feedback_continueButton_title))
+            Text(text = stringResource(string.core_feedback_continueButton_title))
         }
     }
 }

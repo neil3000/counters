@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
+import dev.rahmouni.neil.counters.core.feedback.R.string
 
 sealed interface FeedbackContext {
     data object FeedbackEmptyContext : FeedbackContext
@@ -33,15 +34,15 @@ sealed interface FeedbackContext {
     ) : FeedbackContext {
 
         fun getID(context: Context): String {
-            return "RahNeil_N3:$localID:$localName:" + context.resources.getString(R.string.core_feedback_localeID)
+            return "RahNeil_N3:$localID:$localName:" + context.resources.getString(string.core_feedback_localeID)
         }
 
         @Composable
         fun toTopAppBarAction(navigateToFeedback: (Context, FeedbackContext) -> Unit): TopAppBarAction =
             LocalContext.current.let { context ->
                 TopAppBarAction(
-                    Icons.Outlined.Feedback,
-                    stringResource(R.string.core_feedback_topAppBarAction_title),
+                    icon = Icons.Outlined.Feedback,
+                    title = stringResource(string.core_feedback_topAppBarAction_title),
                 ) {
                     navigateToFeedback(context, this)
                 }

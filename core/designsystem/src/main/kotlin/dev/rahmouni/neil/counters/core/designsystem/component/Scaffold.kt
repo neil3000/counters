@@ -27,22 +27,27 @@ import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ExposurePlus2
 import androidx.compose.material.icons.outlined.PlusOne
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -51,19 +56,24 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.window.core.layout.WindowHeightSizeClass.Companion.COMPACT
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
+import dev.rahmouni.neil.counters.core.designsystem.BottomBarItem
 import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
 import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
 import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
+import dev.rahmouni.neil.counters.core.designsystem.R.color
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
-import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.DASHBOARD
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.LARGE
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.SMALL
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.TRANSPARENT
@@ -82,9 +92,11 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.toRn3PaddingVa
 fun Rn3Scaffold(
     modifier: Modifier = Modifier,
     topAppBarTitle: String,
+    topAppBarTitleAlignment: Alignment.Horizontal = Start,
     onBackIconButtonClicked: (() -> Unit)?,
     topAppBarActions: List<TopAppBarAction> = emptyList(),
     topAppBarStyle: TopAppBarStyle = LARGE,
+    bottomBarItems: List<BottomBarItem> = emptyList(),
     floatingActionButton: @Composable (Modifier) -> Unit = {},
     content: @Composable (Rn3PaddingValues) -> Unit,
 ) {
@@ -94,53 +106,56 @@ fun Rn3Scaffold(
     when {
         // LARGE
         topAppBarStyle == LARGE && windowHeightClass != COMPACT -> Rn3ScaffoldImpl(
-            modifier,
-            TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
-            content,
-            floatingActionButton,
+            modifier = modifier,
+            scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
+            content = content,
+            floatingActionButton = floatingActionButton,
+            bottomBarItems = bottomBarItems,
         ) { scrollBehavior ->
             Rn3LargeTopAppBar(
-                modifier,
-                topAppBarTitle,
+                modifier = modifier,
+                title = topAppBarTitle,
                 scrollBehavior = scrollBehavior,
                 onBackIconButtonClicked = onBackIconButtonClicked,
                 actions = topAppBarActions,
             )
         }
 
-        // SMALL or DASHBOARD or TRANSPARENT
+        // SMALL or HOME or TRANSPARENT
         else -> Rn3ScaffoldImpl(
-            modifier,
-            TopAppBarDefaults.pinnedScrollBehavior(),
-            content,
-            floatingActionButton,
+            modifier = modifier,
+            scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+            content = content,
+            floatingActionButton = floatingActionButton,
+            bottomBarItems = bottomBarItems,
         ) { scrollBehavior ->
             Rn3SmallTopAppBar(
-                modifier,
+                modifier = modifier,
                 scrollBehavior = scrollBehavior,
                 onBackIconButtonClicked = onBackIconButtonClicked,
                 actions = topAppBarActions,
-                transparent = topAppBarStyle == TRANSPARENT,
+                transparent = (topAppBarStyle == TRANSPARENT),
             ) {
                 val sharedTransitionScope = LocalSharedTransitionScope.current
                     ?: throw IllegalStateException("RahNeil_N3:4F6o9kodw29Oaj8zoDlAWesB1Merqam9")
                 val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
 
                 Row(
-                    horizontalArrangement = spacedBy(12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    if (topAppBarStyle == DASHBOARD) {
-                        val ee1 = (1..1000).random() == 1 || config.getBoolean("ee_1_force")
+                    if (topAppBarStyle == HOME) {
+                        val ee1 =
+                            (1..1000).random() == 1 || config.getBoolean("ee_1_force")
+                        val context = LocalContext.current
 
                         with(sharedTransitionScope) {
                             Surface(
-                                Modifier
+                                modifier = Modifier
                                     .size(36.dp)
                                     .then(
                                         if (animatedVisibilityScope != null) {
                                             Modifier.sharedElement(
-                                                rememberSharedContentState(key = "countersLogo_background"),
+                                                rememberSharedContentState(key = "Logo_background"),
                                                 animatedVisibilityScope = animatedVisibilityScope,
                                                 boundsTransform = { initialBounds, targetBounds ->
                                                     keyframes {
@@ -153,7 +168,12 @@ fun Rn3Scaffold(
                                             Modifier
                                         },
                                     ),
-                                color = Color(136, 18, 41),
+                                color = Color(
+                                    ContextCompat.getColor(
+                                        context,
+                                        color.core_designsystem_color,
+                                    ),
+                                ),
                                 shape = RoundedCornerShape(8.dp),
                             ) {
                                 Modifier
@@ -170,14 +190,14 @@ fun Rn3Scaffold(
                                                                 easing = EaseOutBack,
                                                             ),
                                                         ) { it } + fadeIn(
-                                                            tween(
+                                                            animationSpec = tween(
                                                                 durationMillis = 1,
                                                                 delayMillis = 250,
                                                             ),
                                                         ),
                                                     )
                                                     .sharedElement(
-                                                        rememberSharedContentState(key = "countersLogo_icon"),
+                                                        state = rememberSharedContentState(key = "Logo_icon"),
                                                         animatedVisibilityScope = animatedVisibilityScope,
                                                         boundsTransform = { initialBounds, targetBounds ->
                                                             keyframes {
@@ -193,23 +213,23 @@ fun Rn3Scaffold(
                                     ).let { modifier ->
                                         when {
                                             BuildConfig.DEBUG -> Icon(
-                                                Icons.Outlined.Rn3,
-                                                null,
-                                                modifier.scale(.6f),
+                                                imageVector = Icons.Outlined.Rn3,
+                                                contentDescription = null,
+                                                modifier = modifier.scale(.6f),
                                                 tint = Color.White,
                                             )
 
                                             ee1 -> Icon(
-                                                Icons.Outlined.ExposurePlus2,
-                                                null,
-                                                modifier.scale(.75f),
+                                                imageVector = Icons.Outlined.ExposurePlus2,
+                                                contentDescription = null,
+                                                modifier = modifier.scale(.75f),
                                                 tint = Color.White,
                                             )
 
                                             else -> Icon(
-                                                Icons.Outlined.PlusOne,
-                                                null,
-                                                modifier.scale(.75f),
+                                                imageVector = Icons.Outlined.PlusOne,
+                                                contentDescription = null,
+                                                modifier = modifier.scale(.75f),
                                                 tint = Color.White,
                                             )
                                         }
@@ -217,11 +237,18 @@ fun Rn3Scaffold(
                             }
                         }
                     }
+                    Spacer(modifier = Modifier.width(if (topAppBarStyle == HOME) if (topAppBarTitleAlignment == Start) 12.dp else 0.dp else 32.dp))
+
                     Text(
-                        topAppBarTitle,
+                        text = topAppBarTitle,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentWidth(align = topAppBarTitleAlignment),
                     )
+
+                    Spacer(modifier = Modifier.width(if (topAppBarStyle == HOME) 4.dp else 0.dp))
                 }
             }
         }
@@ -236,10 +263,28 @@ fun Rn3ScaffoldImpl(
     scrollBehavior: TopAppBarScrollBehavior,
     content: @Composable (Rn3PaddingValues) -> Unit,
     floatingActionButton: @Composable (Modifier) -> Unit,
+    bottomBarItems: List<BottomBarItem> = emptyList(),
     topBarComponent: @Composable (scrollBehavior: TopAppBarScrollBehavior) -> Unit,
 ) {
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        bottomBar = {
+            if (bottomBarItems.isNotEmpty()) {
+                NavigationBar {
+                    bottomBarItems.forEachIndexed { _, item ->
+                        NavigationBarItem(
+                            icon = { item.Icon() },
+                            label = { Text(item.label) },
+                            selected = item.selected,
+                            alwaysShowLabel = !item.fullSize,
+                            onClick = item.onClick,
+                            colors = item.colors(),
+                            enabled = item.enabled,
+                        )
+                    }
+                }
+            }
+        },
         topBar = { topBarComponent(scrollBehavior) },
         contentWindowInsets = WindowInsets.statusBars.add(WindowInsets.displayCutout),
         floatingActionButton = { floatingActionButton(Modifier.navigationBarsPadding()) },
@@ -257,13 +302,13 @@ fun Rn3ScaffoldImpl(
  *
  * • [SMALL] represents a classic [SmallTopAppBar][Rn3SmallTopAppBar]
  *
- * • [DASHBOARD] represents a classic [SmallTopAppBar][Rn3SmallTopAppBar] with the Counters Logo before the title.
+ * • [HOME] represents a classic [SmallTopAppBar][Rn3SmallTopAppBar] with the Logo before the title.
  *
  * • [TRANSPARENT] is [SMALL] but with no background color on the appbar.
  */
 enum class TopAppBarStyle {
     LARGE,
     SMALL,
-    DASHBOARD,
+    HOME,
     TRANSPARENT,
 }

@@ -15,13 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters
+package dev.rahmouni.neil.counters.core.designsystem.paddingValues
 
-import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import androidx.compose.ui.unit.dp
 
-/**
- * [Application] class for Counters
- */
-@HiltAndroidApp
-class CountersApplication : Application()
+object Rn3AdditionalPadding {
+    val paddingValues = Rn3PaddingValues(horizontal = 16.dp, vertical = 16.dp)
+}

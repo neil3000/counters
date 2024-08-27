@@ -35,17 +35,17 @@ data class Rn3PaddingValues(
     )
 
     operator fun plus(paddingValues: Rn3PaddingValues): Rn3PaddingValues = Rn3PaddingValues(
-        start + paddingValues.start,
-        end + paddingValues.end,
-        top + paddingValues.top,
-        bottom + paddingValues.bottom,
+        start = start + paddingValues.start,
+        end = end + paddingValues.end,
+        top = top + paddingValues.top,
+        bottom = bottom + paddingValues.bottom,
     )
 
     operator fun times(paddingValues: Rn3PaddingValues): Rn3PaddingValues = Rn3PaddingValues(
-        start * paddingValues.start.value,
-        end * paddingValues.end.value,
-        top * paddingValues.top.value,
-        bottom * paddingValues.bottom.value,
+        start = start * paddingValues.start.value,
+        end = end * paddingValues.end.value,
+        top = top * paddingValues.top.value,
+        bottom = bottom * paddingValues.bottom.value,
     )
 
     fun only(direction: Rn3PaddingValues): Rn3PaddingValues = this * direction

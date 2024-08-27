@@ -19,8 +19,11 @@
 <resources>
     <string name="core_designsystem_confirmationDialog_cancelButton_text">Cancel</string>
     <string name="core_designsystem_confirmationDialog_title">Are you sure?</string>
-    <string name="core_designsystem_largeTopAppBar_navigationIcon_iconButton_arrowBack_contentDescription">Go back</string>
+    <string name="core_designsystem_topAppBar_navigationIcon_iconButton_arrowBack_contentDescription">Go back</string>
     <string name="core_designsystem_tileUri_inMaintenance_supportingText">In maintenance, check back later ~</string>
     <string name="core_designsystem_tileUri_soonAvailable_supportingText">Available soon ~</string>
     <string name="core_designsystem_tileUri_unavailable_supportingText">Unavailable for now, check back later</string>
+    <string name="core_designsystem_limitCharactersReached">The limit of %1$s characters has been reached</string>
+    <string name="core_designsystem_pleaseFillout">Please fill out this field</string>
+    <string name="core_designsystem_topAppBar_actions_iconButton_moreVert_contentDescription">See more</string>
 </resources>

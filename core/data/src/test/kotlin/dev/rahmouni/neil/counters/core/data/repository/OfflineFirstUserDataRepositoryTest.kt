@@ -48,12 +48,12 @@ class OfflineFirstUserDataRepositoryTest {
     @Before
     fun setup() {
         rn3PreferencesDataSource = Rn3PreferencesDataSource(
-            tmpFolder.testUserPreferencesDataStore(testScope),
+            userPreferences = tmpFolder.testUserPreferencesDataStore(testScope),
         )
 
         subject = OfflineFirstUserDataRepository(
             rn3PreferencesDataSource = rn3PreferencesDataSource,
-            analyticsHelper,
+            analyticsHelper = analyticsHelper,
         )
     }
 

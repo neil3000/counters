@@ -20,14 +20,17 @@ package dev.rahmouni.neil.counters.core.feedback.pages
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Android
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Screenshot
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,10 +40,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
-import dev.rahmouni.neil.counters.core.feedback.R
+import dev.rahmouni.neil.counters.core.feedback.R.string
 
 @Composable
 internal fun FeedbackContextPage(
@@ -59,19 +64,25 @@ internal fun FeedbackContextPage(
     var sendAdditionalInfoValue by rememberSaveable { mutableStateOf(sendAdditionalInfo) }
 
     Column {
-        FeedbackMessages(listOf(stringResource(R.string.core_feedback_contextPage_contextMessage)))
+        Spacer(modifier = Modifier.height(8.dp))
+
+        FeedbackMessages(
+            messages = listOf(stringResource(string.core_feedback_contextPage_contextMessage)),
+            paddingValues = Rn3SurfaceDefaults.paddingValues.copy(bottom = 0.dp),
+        )
 
         if (hasContext) {
             Rn3TileSwitch(
                 title = if (bug) {
-                    stringResource(R.string.core_feedback_contextPage_bugPageTile_title)
+                    stringResource(string.core_feedback_contextPage_bugPageTile_title)
                 } else {
                     stringResource(
-                        R.string.core_feedback_contextPage_suggestionPageTile_title,
+                        string.core_feedback_contextPage_suggestionPageTile_title,
                     )
                 },
                 icon = Icons.Outlined.LocationOn,
                 checked = onCurrentPageValue,
+                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
             ) {
                 onCurrentPageValue = it
             }
@@ -79,26 +90,28 @@ internal fun FeedbackContextPage(
         if (bug) {
             // TODO replace `enabled = false` by `enabled = onCurrentPageValue` once that #462 is done
             Rn3TileSwitch(
-                title = stringResource(R.string.core_feedback_contextPage_screenshotTile_title),
+                title = stringResource(string.core_feedback_contextPage_screenshotTile_title),
                 icon = Icons.Outlined.Screenshot,
                 checked = onCurrentPageValue && sendScreenshotValue,
                 enabled = false,
-                supportingText = stringResource(R.string.core_feedback_contextPage_screenshotTile_supportingText),
+                supportingText = stringResource(string.core_feedback_contextPage_screenshotTile_supportingText),
+                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
             ) {
                 sendScreenshotValue = it
             }
         }
         Rn3TileSwitch(
-            title = stringResource(R.string.core_feedback_contextPage_additionalInfoTile_title),
+            title = stringResource(string.core_feedback_contextPage_additionalInfoTile_title),
             icon = Icons.Outlined.Android,
             checked = sendAdditionalInfoValue,
-            supportingText = stringResource(R.string.core_feedback_contextPage_additionalInfoTile_supportingText),
+            supportingText = stringResource(string.core_feedback_contextPage_additionalInfoTile_supportingText),
+            colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         ) {
             sendAdditionalInfoValue = it
         }
 
         Row(
-            Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
+            Modifier.padding(Rn3SurfaceDefaults.paddingValues.copy(top = 0.dp, bottom = 12.dp)),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             FilledTonalButton(
@@ -111,7 +124,7 @@ internal fun FeedbackContextPage(
                     )
                 },
             ) {
-                Text(stringResource(R.string.core_feedback_backButton_title))
+                Text(text = stringResource(string.core_feedback_backButton_title))
             }
             Button(
                 onClick = {
@@ -122,9 +135,9 @@ internal fun FeedbackContextPage(
                         sendAdditionalInfoValue,
                     )
                 },
-                Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
             ) {
-                Text(stringResource(R.string.core_feedback_continueButton_title))
+                Text(text = stringResource(string.core_feedback_continueButton_title))
             }
         }
     }

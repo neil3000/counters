@@ -47,8 +47,10 @@ import dev.rahmouni.neil.counters.core.config.ConfigHelper
 import dev.rahmouni.neil.counters.core.config.LocalConfigHelper
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
-import dev.rahmouni.neil.counters.ui.CountersApp
-import dev.rahmouni.neil.counters.ui.rememberCountersAppState
+import dev.rahmouni.neil.counters.feature.dashboard.DASHBOARD_ROUTE
+import dev.rahmouni.neil.counters.feature.login.LOGIN_ROUTE
+import dev.rahmouni.neil.counters.ui.App
+import dev.rahmouni.neil.counters.ui.rememberAppState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -79,7 +81,7 @@ class MainActivity : ComponentActivity() {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        var uiState: MainActivityUiState by mutableStateOf(Loading)
+        var uiState: MainActivityUiState by mutableStateOf(value = Loading)
 
         // Enable offline persistence for Firestore
         Firebase.firestore.persistentCacheIndexManager?.apply {
@@ -88,7 +90,7 @@ class MainActivity : ComponentActivity() {
 
         // Update the uiState
         lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
                 viewModel.uiState
                     .onEach {
                         uiState = it
@@ -122,14 +124,18 @@ class MainActivity : ComponentActivity() {
         // the UI.
         splashScreen.setKeepOnScreenCondition { uiState is Loading }
 
-        configHelper.init(this)
+        configHelper.init(activity = this)
 
         setContent {
-            val appState = rememberCountersAppState()
+            val appState = rememberAppState()
 
             enableEdgeToEdge()
 
             if (uiState is Success) {
+                val routes = mutableListOf<String>().apply {
+                    if ((uiState as Success).shouldShowLoginScreenOnStartup) add(LOGIN_ROUTE)
+                    add(DASHBOARD_ROUTE)
+                }
                 CompositionLocalProvider(
                     LocalAnalyticsHelper provides analyticsHelper,
                     LocalAccessibilityHelper provides (uiState as Success).accessibilityHelper,
@@ -137,9 +143,9 @@ class MainActivity : ComponentActivity() {
                     LocalAuthHelper provides authHelper,
                 ) {
                     Rn3Theme {
-                        CountersApp(
-                            appState,
-                            showLoginScreen = (uiState as Success).shouldShowLoginScreenOnStartup,
+                        App(
+                            appState = appState,
+                            routes = routes,
                         )
                     }
                 }

@@ -36,6 +36,9 @@ local.properties
 !/.idea/codeStyles/Project.xml
 !/.idea/codeStyles/codeStyleConfig.xml
 
+# Vscode settings
+.vscode/settings.json
+
 # Gradle cache
 .gradle
 
@@ -107,3 +110,5 @@ node_modules/
 
 # dotenv environment variables file
 .env
+/upload-keystore.jks
+/functions/.env.rebased-01

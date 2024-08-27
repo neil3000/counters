@@ -21,6 +21,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.rahmouni.neil.counters.core.data.repository.userData.UserDataRepository
+import dev.rahmouni.neil.counters.feature.settings.accessibility.model.AccessibilitySettingsUiState.Loading
+import dev.rahmouni.neil.counters.feature.settings.accessibility.model.AccessibilitySettingsUiState.Success
 import dev.rahmouni.neil.counters.feature.settings.accessibility.model.data.AccessibilitySettingsData
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
@@ -38,7 +40,7 @@ class AccessibilitySettingsViewModel @Inject constructor(
     val uiState: StateFlow<AccessibilitySettingsUiState> =
         userDataRepository.userData
             .map { userData ->
-                AccessibilitySettingsUiState.Success(
+                Success(
                     accessibilitySettingsData = AccessibilitySettingsData(
                         hasEmphasizedSwitchesEnabled = userData.hasAccessibilityEmphasizedSwitchesEnabled,
                         hasIconTooltipsEnabled = userData.hasAccessibilityIconTooltipsEnabled,
@@ -46,7 +48,7 @@ class AccessibilitySettingsViewModel @Inject constructor(
                 )
             }.stateIn(
                 scope = viewModelScope,
-                initialValue = AccessibilitySettingsUiState.Loading,
+                initialValue = Loading,
                 started = WhileSubscribed(5.seconds.inWholeMilliseconds),
             )
 

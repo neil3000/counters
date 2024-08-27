@@ -33,6 +33,7 @@ import androidx.browser.customtabs.CustomTabsSession
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import dev.rahmouni.neil.counters.core.common.R.string
 import dev.rahmouni.neil.counters.core.common.Rn3Uri.Available
 
 private var mClient: CustomTabsClient? = null
@@ -113,7 +114,7 @@ fun Context.copyText(label: String, text: String) {
     )
 
     if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
-        Toast.makeText(this, getString(R.string.core_common_copiedText_toast), Toast.LENGTH_SHORT)
+        Toast.makeText(this, getString(string.core_common_copiedText_toast), Toast.LENGTH_SHORT)
             .show()
     }
 }

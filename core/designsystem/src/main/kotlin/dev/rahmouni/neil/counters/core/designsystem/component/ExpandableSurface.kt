@@ -22,19 +22,14 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.Info
@@ -49,6 +44,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -56,14 +52,17 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
+import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
+import dev.rahmouni.neil.counters.core.designsystem.rn3ShrinkVerticallyTransition
 
 @Composable
 fun Rn3ExpandableSurface(
     modifier: Modifier = Modifier,
     content: @Composable RowScope.(expanded: Boolean) -> Unit,
     expandedContent: @Composable AnimatedVisibilityScope.() -> Unit,
-    paddingValues: Rn3PaddingValues = Rn3ExpandableSurfaceDefaults.paddingValues,
-    tonalElevation: Dp = Rn3ExpandableSurfaceDefaults.tonalElevation,
+    paddingValues: Rn3PaddingValues = Rn3SurfaceDefaults.paddingValues,
+    tonalElevation: Dp = Rn3SurfaceDefaults.tonalElevation,
+    shape: Shape = Rn3SurfaceDefaults.shape,
 ) {
     val haptic = getHaptic()
 
@@ -80,10 +79,10 @@ fun Rn3ExpandableSurface(
             .fillMaxWidth()
             .padding(paddingValues),
         tonalElevation = tonalElevation,
-        shape = Rn3ExpandableSurfaceDefaults.shape,
+        shape = shape,
     ) {
         Column(
-            Modifier.toggleable(
+            modifier = Modifier.toggleable(
                 value = isExpanded,
                 onValueChange = {
                     haptic.click()
@@ -92,26 +91,33 @@ fun Rn3ExpandableSurface(
                 role = Role.DropdownList,
             ),
         ) {
-            Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                content(isExpanded)
-                Spacer(modifier = Modifier.weight(1f))
-                Icon(Outlined.ExpandMore, null, Modifier.rotate(degreeAnimation))
+            Row(
+                modifier = Modifier
+                    .padding(Rn3TextDefaults.paddingValues)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.weight(1f),
+                ) { content(isExpanded) }
+
+                Icon(
+                    imageVector = Outlined.ExpandMore,
+                    contentDescription = null,
+                    modifier = Modifier.rotate(degreeAnimation),
+                )
             }
             AnimatedVisibility(
                 visible = isExpanded,
-                enter = fadeIn() + expandVertically(),
-                exit = fadeOut() + shrinkVertically(),
+                enter = rn3ExpandVerticallyTransition(),
+                exit = rn3ShrinkVerticallyTransition(),
             ) {
                 expandedContent()
             }
         }
     }
-}
-
-object Rn3ExpandableSurfaceDefaults {
-    val paddingValues = Rn3PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-    val tonalElevation = 2.dp
-    val shape = RoundedCornerShape(16.dp)
 }
 
 @Rn3PreviewComponentDefault
@@ -121,14 +127,18 @@ private fun Default() {
         Surface {
             Rn3ExpandableSurface(
                 content = {
-                    Icon(Outlined.Info, null)
-                    Spacer(Modifier.width(16.dp))
+                    Icon(imageVector = Outlined.Info, contentDescription = null)
+                    Spacer(modifier = Modifier.width(16.dp))
                     Text(text = "Info")
                 },
                 expandedContent = {
                     Text(
                         text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nec leo justo. Praesent consequat et tortor sit amet sodales. Praesent pulvinar gravida metus, ac pretium dolor.",
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        modifier = Modifier.padding(
+                            Rn3TextDefaults.paddingValues.copy(
+                                top = 0.dp,
+                            ),
+                        ),
                     )
                 },
             )

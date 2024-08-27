@@ -19,13 +19,10 @@ package dev.rahmouni.neil.counters.feature.settings.dataAndPrivacy
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.Info
@@ -34,8 +31,8 @@ import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material.icons.outlined.ToggleOff
 import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material.icons.outlined.Warning
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -57,13 +54,15 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickConfirmationDialog
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSwitch
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
@@ -90,18 +89,18 @@ internal fun DataAndPrivacySettingsRoute(
     val config = LocalConfigHelper.current
 
     DataAndPrivacySettingsScreen(
-        modifier,
-        uiState,
+        modifier = modifier,
+        uiState = uiState,
         onBackIconButtonClicked = navController::popBackStack,
         feedbackTopAppBarAction = FeedbackScreenContext(
-            "DataAndPrivacySettingsScreen",
-            "Cql6OgxiWaapWpb38eGNGRZbmFuR8JuQ",
-        ).toTopAppBarAction(navController::navigateToFeedback),
+            localName = "DataAndPrivacySettingsScreen",
+            localID = "Cql6OgxiWaapWpb38eGNGRZbmFuR8JuQ",
+        ).toTopAppBarAction(navigateToFeedback = navController::navigateToFeedback),
         onMetricsTileCheckedChange = viewModel::setMetricsEnabled,
         onClearMetricsTileClicked = analytics::clearMetrics,
         onCrashlyticsTileCheckedChange = viewModel::setCrashlyticsEnabled,
-        privacyPolicyTileUri = config.getString("privacy_policy_url").toRn3Uri {
-            analytics.logDataAndPrivacySettingsUiEvent("privacyPolicyTile")
+        privacyPolicyTileUri = config.getString(key = "privacy_policy_url").toRn3Uri {
+            analytics.logDataAndPrivacySettingsUiEvent(uiId = "privacyPolicyTile")
         },
     )
 
@@ -121,20 +120,20 @@ internal fun DataAndPrivacySettingsScreen(
     privacyPolicyTileUri: Rn3Uri = Rn3Uri.AndroidPreview,
 ) {
     Rn3Scaffold(
-        modifier,
-        stringResource(string.feature_settings_dataAndPrivacySettingsScreen_topAppBarTitle),
-        onBackIconButtonClicked,
+        modifier = modifier,
+        topAppBarTitle = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_topAppBarTitle),
+        onBackIconButtonClicked = onBackIconButtonClicked,
         topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
     ) {
         when (uiState) {
             Loading -> {}
             is Success -> DataAndPrivacySettingsPanel(
-                it,
+                paddingValues = it,
                 data = uiState.dataAndPrivacySettingsData,
-                onMetricsTileCheckedChange,
-                onClearMetricsTileClicked,
-                onCrashlyticsTileCheckedChange,
-                privacyPolicyTileUri,
+                onMetricsTileCheckedChange = onMetricsTileCheckedChange,
+                onClearMetricsTileClicked = onClearMetricsTileClicked,
+                onCrashlyticsTileCheckedChange = onCrashlyticsTileCheckedChange,
+                privacyPolicyTileUri = privacyPolicyTileUri,
             )
         }
     }
@@ -152,7 +151,7 @@ private fun DataAndPrivacySettingsPanel(
     val config = LocalConfigHelper.current
 
     Column(
-        Modifier
+        modifier = Modifier
             .verticalScroll(rememberScrollState())
             .padding(paddingValues),
     ) {
@@ -162,7 +161,7 @@ private fun DataAndPrivacySettingsPanel(
         // metricsTile
         Rn3TileSwitch(
             title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsTile_title),
-            icon = Icons.Outlined.Analytics,
+            icon = Outlined.Analytics,
             checked = data.hasMetricsEnabled,
             onCheckedChange = onMetricsTileCheckedChange,
         )
@@ -170,15 +169,15 @@ private fun DataAndPrivacySettingsPanel(
         // clearMetricsTile
         Rn3TileClickConfirmationDialog(
             title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_clearMetricsTile_title),
-            icon = Icons.Outlined.RestartAlt,
+            icon = Outlined.RestartAlt,
             bodyHeader = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_clearMetricsTile_bodyHeader),
             bodyBulletPoints = mapOf(
-                Icons.Outlined.RestartAlt to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_onDeviceMetricsDataCleared),
-                (if (data.hasMetricsEnabled) Icons.Outlined.ToggleOn else Icons.Outlined.ToggleOff) to pluralStringResource(
+                Outlined.RestartAlt to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_onDeviceMetricsDataCleared),
+                (if (data.hasMetricsEnabled) Outlined.ToggleOn else Outlined.ToggleOff) to pluralStringResource(
                     R.plurals.feature_settings_settingsScreen_accountLogoutTile_body_metricsRemainStateButCanChangeInSettings,
                     data.hasMetricsEnabled.compareTo(false),
                 ),
-                Icons.Outlined.Warning to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_actionCannotBeUndone),
+                Outlined.Warning to stringResource(string.feature_settings_settingsScreen_accountLogoutTile_body_actionCannotBeUndone),
             ),
             onClick = onClearMetricsTileClicked,
         )
@@ -186,14 +185,18 @@ private fun DataAndPrivacySettingsPanel(
         // metricsInfoTile
         Rn3ExpandableSurface(
             content = {
-                Icon(Icons.Outlined.Info, null)
-                Spacer(Modifier.width(16.dp))
-                Text(stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title))
+                Icon(imageVector = Outlined.Info, contentDescription = null)
+                Text(
+                    text = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_metricsInfoTile_title),
+                    modifier = Modifier.padding(
+                        Rn3TextDefaults.paddingValues.only(HORIZONTAL),
+                    ),
+                )
             },
             expandedContent = {
                 Text(
-                    config.getString("metrics_info_short"),
-                    Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
+                    text = config.getString(key = "metrics_info_short"),
+                    modifier = Modifier.padding(Rn3TextDefaults.paddingValues.copy(top = 0.dp)),
                 )
             },
         )
@@ -206,7 +209,7 @@ private fun DataAndPrivacySettingsPanel(
         // crashlyticsTile
         Rn3TileSwitch(
             title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsTile_title),
-            icon = Icons.Outlined.BugReport,
+            icon = Outlined.BugReport,
             checked = data.hasCrashlyticsEnabled,
             onCheckedChange = onCrashlyticsTileCheckedChange,
         )
@@ -214,14 +217,18 @@ private fun DataAndPrivacySettingsPanel(
         // crashlyticsInfoTile
         Rn3ExpandableSurface(
             content = {
-                Icon(Icons.Outlined.Info, null)
-                Spacer(Modifier.width(16.dp))
-                Text(stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title))
+                Icon(imageVector = Outlined.Info, contentDescription = null)
+                Text(
+                    text = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_crashlyticsInfoTile_title),
+                    modifier = Modifier.padding(
+                        Rn3TextDefaults.paddingValues.only(HORIZONTAL),
+                    ),
+                )
             },
             expandedContent = {
                 Text(
-                    config.getString("crashlytics_info_short"),
-                    Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
+                    text = config.getString(key = "crashlytics_info_short"),
+                    modifier = Modifier.padding(Rn3TextDefaults.paddingValues.copy(top = 0.dp)),
                 )
             },
         )
@@ -234,24 +241,26 @@ private fun DataAndPrivacySettingsPanel(
         // privacyPolicyTile
         Rn3TileUri(
             title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicyTile_title),
-            icon = Icons.Outlined.Policy,
+            icon = Outlined.Policy,
             uri = privacyPolicyTileUri,
         )
 
         // privacyPolicySummaryTile
-        Card(
+        Surface(
             modifier = Modifier
-                .padding(vertical = 8.dp, horizontal = 16.dp)
+                .padding(Rn3SurfaceDefaults.paddingValues)
                 .fillMaxWidth(),
+            tonalElevation = Rn3SurfaceDefaults.tonalElevation,
+            shape = Rn3SurfaceDefaults.shape,
         ) {
             Column {
                 Rn3TileSmallHeader(
                     title = stringResource(string.feature_settings_dataAndPrivacySettingsScreen_privacyPolicySummaryTile_title),
-                    paddingValues = Rn3TileSmallHeaderDefaults.paddingValues.copy(bottom = 8.dp),
+                    paddingValues = Rn3TextDefaults.paddingValues.copy(bottom = 8.dp),
                 )
                 Text(
-                    text = config.getString("privacy_policy_short"),
-                    Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp),
+                    text = config.getString(key = "privacy_policy_short"),
+                    modifier = Modifier.padding(Rn3TextDefaults.paddingValues.copy(top = 0.dp)),
                 )
             }
         }

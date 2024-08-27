@@ -56,16 +56,16 @@ internal fun LinkRn3UrlRawData.Tile(
     onLongPress: () -> Unit,
 ) {
     val context = LocalContext.current
-    val haptics = getHaptic()
+    val haptic = getHaptic()
 
     Rn3TileClick(
         modifier = modifier.combinedClickable(
             onClick = {
-                haptics.click()
-                context.copyText(path, "https://counters.rahmouni.dev/$path")
+                haptic.click()
+                context.copyText(label = path, text = "https://counters.rahmouni.dev/$path")
             },
             onLongClick = {
-                haptics.longPress()
+                haptic.longPress()
                 onLongPress()
             },
         ),
@@ -86,9 +86,15 @@ internal fun LinkRn3UrlRawData.Tile(
         },
         supportingContent = {
             Column {
-                description.let { if (!it.isNullOrEmpty()) Text(it, fontStyle = FontStyle.Italic) }
+                description.let {
+                    if (!it.isNullOrEmpty()) Text(
+                        text = it,
+                        fontStyle = FontStyle.Italic,
+                    )
+                }
                 Text(
-                    redirectUrl?.removePrefix("https://")?.removePrefix("counters.rahmouni.dev")
+                    text = redirectUrl?.removePrefix("https://")
+                        ?.removePrefix("counters.rahmouni.dev")
                         ?: "",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -101,7 +107,7 @@ internal fun LinkRn3UrlRawData.Tile(
                 shape = RoundedCornerShape(8.dp),
             ) {
                 AnimatedNumber(currentValue = clicks.toDouble()) { targetValue ->
-                    Box(Modifier.sizeIn(36.dp, 36.dp)) {
+                    Box(modifier = Modifier.sizeIn(36.dp, 36.dp)) {
                         Text(
                             text = targetValue.roundToInt().toString(),
                             style = MaterialTheme.typography.titleMedium,

@@ -25,16 +25,13 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Outlined
@@ -54,6 +51,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -81,13 +79,14 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurface
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ExpandableSurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LargeButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClickConfirmationDialog
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDivider
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileHorizontalDividerDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileUri
 import dev.rahmouni.neil.counters.core.designsystem.component.user.UserAvatarAndName
@@ -97,7 +96,7 @@ import dev.rahmouni.neil.counters.core.designsystem.icons.Discord
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
 import dev.rahmouni.neil.counters.core.designsystem.icons.SyncSavedLocally
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
-import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.END
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
@@ -150,11 +149,11 @@ internal fun SettingsRoute(
     @Suppress("SpellCheckingInspection")
     SettingsScreen(
         modifier = modifier,
-        uiState,
+        uiState = uiState,
         onBackIconButtonClicked = navController::popBackStack,
         feedbackTopAppBarAction = FeedbackScreenContext(
-            "SettingsScreen",
-            "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d",
+            localName = "SettingsScreen",
+            localID = "niFsraaAjn2ceEtyaou8hBuxVcKZmL4d",
         ).toTopAppBarAction(navController::navigateToFeedback),
         onAccountTileSwitchAccountTileClicked = {
             analytics.logSettingsUiEvent("accountTileSwitchAccountTile")
@@ -231,28 +230,28 @@ internal fun SettingsScreen(
     onClickOssLicensesTile: () -> Unit = {},
 ) {
     Rn3Scaffold(
-        modifier,
-        stringResource(string.feature_settings_settingsScreen_topAppBarTitle),
-        onBackIconButtonClicked,
+        modifier = modifier,
+        topAppBarTitle = stringResource(string.feature_settings_settingsScreen_topAppBarTitle),
+        onBackIconButtonClicked = onBackIconButtonClicked,
         topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
     ) {
         when (uiState) {
             Loading -> {}
             is Success -> SettingsPanel(
-                it,
-                uiState.settingsData,
-                onAccountTileSwitchAccountTileClicked,
-                onAccountTileLogoutTileClicked,
-                onAccountTileLoginButtonClicked,
-                onUpdateAvailableTileClicked,
-                onClickDataAndPrivacyTile,
-                onClickAccessibilityTile,
-                changelogTileUri,
-                discordTileUri,
-                onClickContributeTile,
-                onClickAboutMeTile,
-                onClickDeveloperSettingsTile,
-                onClickOssLicensesTile,
+                paddingValues = it,
+                data = uiState.settingsData,
+                onAccountTileSwitchAccountTileClicked = onAccountTileSwitchAccountTileClicked,
+                onAccountTileLogoutTileClicked = onAccountTileLogoutTileClicked,
+                onAccountTileLoginButtonClicked = onAccountTileLoginButtonClicked,
+                onUpdateAvailableTileClicked = onUpdateAvailableTileClicked,
+                onClickDataAndPrivacyTile = onClickDataAndPrivacyTile,
+                onClickAccessibilityTile = onClickAccessibilityTile,
+                changelogTileUri = changelogTileUri,
+                discordTileUri = discordTileUri,
+                onClickContributeTile = onClickContributeTile,
+                onClickAboutMeTile = onClickAboutMeTile,
+                onClickDeveloperSettingsTile = onClickDeveloperSettingsTile,
+                onClickOssLicensesTile = onClickOssLicensesTile,
             )
         }
     }
@@ -275,10 +274,10 @@ private fun SettingsPanel(
     onClickDeveloperSettingsTile: () -> Unit,
     onClickOssLicensesTile: () -> Unit,
 ) {
-    val haptics = getHaptic()
+    val haptic = getHaptic()
 
     Column(
-        Modifier
+        modifier = Modifier
             .verticalScroll(rememberScrollState())
             .padding(paddingValues),
     ) {
@@ -289,7 +288,7 @@ private fun SettingsPanel(
                 expandedContent = {
                     Column {
                         Rn3TileHorizontalDivider(
-                            paddingValues = Rn3TileHorizontalDividerDefaults.paddingValues.copy(
+                            paddingValues = Rn3SurfaceDefaults.paddingValues.copy(
                                 top = 0.dp,
                                 bottom = 0.dp,
                             ),
@@ -297,7 +296,7 @@ private fun SettingsPanel(
 
                         // switchAccountTile
                         Rn3TileClick(
-                            title = "Switch account",
+                            title = stringResource(string.feature_settings_settingsScreen_switchAccountTile_title),
                             icon = Outlined.Group,
                             onClick = onAccountTileSwitchAccountTileClicked,
                         )
@@ -318,26 +317,30 @@ private fun SettingsPanel(
                         )
                     }
                 },
-                tonalElevation = 4.dp,
             )
 
             else -> Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.surfaceContainer,
+                    .padding(Rn3SurfaceDefaults.paddingValues),
+                shape = Rn3SurfaceDefaults.shape,
+                tonalElevation = Rn3SurfaceDefaults.tonalElevation,
             ) {
                 Row(
-                    Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.padding(Rn3TextDefaults.paddingValues),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     data.user.UserAvatarAndName()
 
+                    Spacer(
+                        modifier = Modifier
+                            .weight(1f)
+                            .defaultMinSize(minWidth = 16.dp),
+                    )
+
                     // loginButton
                     OutlinedButton(onClick = onAccountTileLoginButtonClicked) {
-                        Text(stringResource(string.feature_settings_settingsScreen_accountLoginTile_loginButton_text))
+                        Text(text = stringResource(string.feature_settings_settingsScreen_accountLoginTile_loginButton_text))
                     }
                 }
             }
@@ -354,44 +357,28 @@ private fun SettingsPanel(
                         MaterialTheme.colorScheme.primaryContainer
                     } else {
                         MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            Rn3ExpandableSurfaceDefaults.tonalElevation,
+                            Rn3SurfaceDefaults.tonalElevation,
                         )
                     },
-                    label = "Rn3ExpandableSurfaceDefaults background color",
+                    label = "Rn3UpdateTileDefaults background color",
                 )
 
-                Surface(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            Rn3ExpandableSurfaceDefaults.paddingValues
-                                .only(HORIZONTAL)
-                                .add(vertical = 4.dp),
-                        ),
-                    color = color,
-                    shape = Rn3ExpandableSurfaceDefaults.shape,
-                ) {
-                    Row(
-                        Modifier
-                            .clickable(enabled = actionPossible()) {
-                                haptics.click()
-                                onUpdateAvailableTileClicked()
-                            }
-                            .padding(horizontal = 16.dp, vertical = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
+                Rn3LargeButton(
+                    modifier = Modifier.padding(Rn3SurfaceDefaults.paddingValues.copy(top = 0.dp)),
+                    text = {
                         Text(
-                            when (this@with) {
-                                is UpdateAvailable -> "Update available"
-                                is DownloadingUpdate -> "Downloading..."
-                                is WaitingForRestart -> "Restart to apply"
+                            text = when (this@with) {
+                                is UpdateAvailable -> stringResource(string.feature_settings_settingsScreen_updateAvailable)
+                                is DownloadingUpdate -> stringResource(string.feature_settings_settingsScreen_updateDownloading)
+                                is WaitingForRestart -> stringResource(string.feature_settings_settingsScreen_updateRestart)
                                 NoUpdateAvailable -> "RahNeil_N3:GsKMAaulylNilvukEZCbJI4jWLXbRRzb"
                             },
-                            Modifier.padding(top = 2.dp),
                             style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.contentColorFor(color),
+                            modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(END)),
                         )
-                        Spacer(modifier = Modifier.weight(1f))
-
+                    },
+                    icon = {
                         when (this@with) {
                             is DownloadingUpdate -> {
                                 val progressFloat by animateFloatAsState(
@@ -406,9 +393,24 @@ private fun SettingsPanel(
                             }
 
                             NoUpdateAvailable -> {}
-                            is UpdateAvailable -> Icon(Outlined.FileDownload, null)
-                            is WaitingForRestart -> Icon(Outlined.RestartAlt, null)
+                            is UpdateAvailable -> Icon(
+                                imageVector = Outlined.FileDownload,
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp),
+                            )
+
+                            is WaitingForRestart -> Icon(
+                                imageVector = Outlined.RestartAlt,
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp),
+                            )
                         }
+                    },
+                    color = color,
+                ) {
+                    if (actionPossible()) {
+                        haptic.click()
+                        onUpdateAvailableTileClicked()
                     }
                 }
             }

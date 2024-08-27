@@ -33,8 +33,8 @@ import dev.rahmouni.neil.counters.core.common.Rn3Uri.Available
 import dev.rahmouni.neil.counters.core.common.openUri
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3LazyRowWithPadding
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
 import dev.rahmouni.neil.counters.feature.aboutme.R
 import dev.rahmouni.neil.counters.feature.aboutme.model.data.SocialLink
 
@@ -52,7 +52,7 @@ fun SocialLinks(socialLinks: List<SocialLink>) {
         Column {
             Rn3TileSmallHeader(
                 title = stringResource(R.string.feature_aboutme_socialLinks_headerTile_title),
-                paddingValues = Rn3TileSmallHeaderDefaults.paddingValues.copy(bottom = 0.dp),
+                paddingValues = Rn3TextDefaults.paddingValues.copy(bottom = 0.dp),
             )
             Rn3LazyRowWithPadding(
                 Modifier.padding(bottom = 8.dp),

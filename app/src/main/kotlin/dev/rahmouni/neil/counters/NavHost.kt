@@ -28,8 +28,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
@@ -38,39 +44,40 @@ import dev.rahmouni.neil.counters.core.feedback.feedbackDialog
 import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.feature.aboutme.aboutMeScreen
 import dev.rahmouni.neil.counters.feature.aboutme.navigateToAboutMe
-import dev.rahmouni.neil.counters.feature.dashboard.DASHBOARD_ROUTE
 import dev.rahmouni.neil.counters.feature.dashboard.dashboardScreen
-import dev.rahmouni.neil.counters.feature.dashboard.navigateToDashboard
 import dev.rahmouni.neil.counters.feature.login.LOGIN_ROUTE
 import dev.rahmouni.neil.counters.feature.login.loginScreen
 import dev.rahmouni.neil.counters.feature.login.navigateToLogin
 import dev.rahmouni.neil.counters.feature.settings.navigateToSettings
 import dev.rahmouni.neil.counters.feature.settings.settingsNavigation
-import dev.rahmouni.neil.counters.ui.CountersAppState
+import dev.rahmouni.neil.counters.ui.AppState
 import kotlinx.coroutines.delay
+import rahmouni.neil.counters.R.color
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "DesignSystem")
 @Composable
-fun CountersNavHost(
-    appState: CountersAppState,
+fun NavHost(
+    appState: AppState,
     modifier: Modifier = Modifier,
-    showLoginScreen: Boolean,
+    routes: List<String>,
 ) {
     val auth = LocalAuthHelper.current
+    var pageCount by remember { mutableIntStateOf(0) }
 
     val navController = appState.navController
 
     LaunchedEffect(Unit) {
-        delay(100)
-        navController.navigate(if (auth.getUser() is LoggedOutUser || showLoginScreen) LOGIN_ROUTE else DASHBOARD_ROUTE) {
-            popUpTo("SPLASHSCREEN_SET_ROUTE") { inclusive = true }
+        delay(timeMillis = 100)
+        navController.navigate(route = if (auth.getUser() is LoggedOutUser) LOGIN_ROUTE else routes[pageCount]) {
+            if (pageCount < routes.size - 1) pageCount + 1
+            popUpTo(route = "SPLASHSCREEN_SET_ROUTE") { inclusive = true }
         }
     }
 
     Scaffold {
         SharedTransitionLayout {
-            CompositionLocalProvider(LocalSharedTransitionScope provides this) {
+            CompositionLocalProvider(value = LocalSharedTransitionScope provides this) {
                 NavHost(
                     navController = navController,
                     startDestination = "SPLASHSCREEN_SET_ROUTE",
@@ -78,29 +85,41 @@ fun CountersNavHost(
                 ) {
                     aboutMeScreen(navController)
                     dashboardScreen(navController, navController::navigateToSettings)
-                    loginScreen(navController) {
-                        navController.navigateToDashboard {
-                            popUpTo(LOGIN_ROUTE) { inclusive = true }
+
+                    loginScreen(navController = navController) {
+                        if (pageCount < routes.size - 1) pageCount++
+                        navController.navigate(route = routes[pageCount]) {
+                            popUpTo(route = LOGIN_ROUTE) { inclusive = true }
                         }
                     }
+
                     settingsNavigation(
-                        navController,
-                        navController::navigateToLogin,
-                        navController::navigateToAboutMe,
+                        navController = navController,
+                        navigateToLogin = navController::navigateToLogin,
+                        navigateToAboutMe = navController::navigateToAboutMe,
                     )
 
-                    feedbackDialog(navController)
+                    feedbackDialog(navController = navController)
 
-                    composable("SPLASHSCREEN_SET_ROUTE") {
+                    composable(route = "SPLASHSCREEN_SET_ROUTE") {
+                        val context = LocalContext.current
+
                         Box(
-                            Modifier
-                                .background(Color(136, 18, 41))
+                            modifier = Modifier
+                                .background(
+                                    color = Color(
+                                        color = ContextCompat.getColor(
+                                            context,
+                                            color.ic_launcher_background,
+                                        ),
+                                    ),
+                                )
                                 .sharedElement(
-                                    rememberSharedContentState(key = "countersLogo_background"),
+                                    state = rememberSharedContentState(key = "Logo_background"),
                                     animatedVisibilityScope = this@composable,
                                 ),
                         ) {
-                            Spacer(Modifier.fillMaxSize())
+                            Spacer(modifier = Modifier.fillMaxSize())
                         }
                     }
                 }

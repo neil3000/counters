@@ -17,10 +17,8 @@
 
 package dev.rahmouni.neil.counters.core.designsystem.component.tile
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -29,8 +27,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.rahmouni.neil.counters.core.designsystem.component.Rn3ConfirmationDialog
+import dev.rahmouni.neil.counters.core.designsystem.R.string
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Dialog
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.END
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.toRn3FormattedString
 
 @Composable
@@ -54,20 +57,31 @@ fun Rn3TileClickConfirmationDialog(
         error = error,
         onClick = onClick,
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text(bodyHeader)
+        Column {
+            Text(
+                text = bodyHeader,
+                modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(END)),
+            )
             bodyBulletPoints.forEach { (icon, text) ->
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Row {
                     Icon(
-                        icon,
-                        null,
-                        Modifier
-                            .padding(top = 2.dp)
+                        imageVector = icon,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(
+                                Rn3TextDefaults.paddingValues.copy(
+                                    end = 0.dp,
+                                    bottom = 0.dp,
+                                ),
+                            )
                             .size(SuggestionChipDefaults.IconSize),
                         tint = MaterialTheme.colorScheme.secondary,
                     )
 
-                    Text(text.toRn3FormattedString())
+                    Text(
+                        text = text.toRn3FormattedString(),
+                        modifier = Modifier.padding(Rn3TextDefaults.paddingValues.copy(bottom = 0.dp)),
+                    )
                 }
             }
         }
@@ -85,8 +99,9 @@ fun Rn3TileClickConfirmationDialog(
     onClick: () -> Unit,
     body: @Composable () -> Unit,
 ) {
-    Rn3ConfirmationDialog(
+    Rn3Dialog(
         icon = icon,
+        title = stringResource(string.core_designsystem_confirmationDialog_title),
         body = body,
         confirmLabel = title,
         onConfirm = onClick,

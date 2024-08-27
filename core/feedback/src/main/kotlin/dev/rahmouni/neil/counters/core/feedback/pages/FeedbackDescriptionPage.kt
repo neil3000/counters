@@ -20,8 +20,9 @@ package dev.rahmouni.neil.counters.core.feedback.pages
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -41,9 +42,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.feedback.FeedbackMessages
-import dev.rahmouni.neil.counters.core.feedback.R
+import dev.rahmouni.neil.counters.core.feedback.R.string
 
 @Composable
 internal fun FeedbackDescriptionPage(
@@ -63,16 +66,19 @@ internal fun FeedbackDescriptionPage(
     }
 
     Column {
+        Spacer(modifier = Modifier.height(8.dp))
+
         FeedbackMessages(
+            messages =
             listOf(
                 if (bug) {
-                    stringResource(R.string.core_feedback_descriptionPage_bugMessage)
+                    stringResource(string.core_feedback_descriptionPage_bugMessage)
                 } else {
                     stringResource(
-                        R.string.core_feedback_descriptionPage_suggestionMessage,
+                        string.core_feedback_descriptionPage_suggestionMessage,
                     )
                 },
-                stringResource(R.string.core_feedback_descriptionPage_personalInfoMessage),
+                stringResource(string.core_feedback_descriptionPage_personalInfoMessage),
             ),
         )
 
@@ -81,9 +87,9 @@ internal fun FeedbackDescriptionPage(
             onValueChange = { currentDescription = it },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(Rn3SurfaceDefaults.paddingValues)
                 .focusRequester(focusRequester),
-            label = { Text(text = stringResource(R.string.core_feedback_descriptionPage_textField_label)) },
+            label = { Text(text = stringResource(string.core_feedback_descriptionPage_textField_label)) },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
@@ -93,7 +99,12 @@ internal fun FeedbackDescriptionPage(
         )
 
         Row(
-            Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            modifier = Modifier.padding(
+                Rn3SurfaceDefaults.paddingValues.copy(
+                    top = 6.dp,
+                    bottom = 12.dp,
+                ),
+            ),
             horizontalArrangement = spacedBy(8.dp),
         ) {
             FilledTonalButton(
@@ -102,17 +113,17 @@ internal fun FeedbackDescriptionPage(
                     previousPage(currentDescription)
                 },
             ) {
-                Text(stringResource(R.string.core_feedback_backButton_title))
+                Text(text = stringResource(string.core_feedback_backButton_title))
             }
             Button(
                 onClick = {
                     haptic.click()
                     nextPage(currentDescription)
                 },
-                Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 enabled = currentDescription.isNotBlank(),
             ) {
-                Text(stringResource(R.string.core_feedback_continueButton_title))
+                Text(text = stringResource(string.core_feedback_continueButton_title))
             }
         }
     }

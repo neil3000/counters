@@ -56,7 +56,7 @@ fun Rn3TileCopy(
         },
         supportingContent = {
             Text(
-                text,
+                text = text,
                 maxLines = if (truncate) 1 else Int.MAX_VALUE,
                 overflow = TextOverflow.Ellipsis,
             )

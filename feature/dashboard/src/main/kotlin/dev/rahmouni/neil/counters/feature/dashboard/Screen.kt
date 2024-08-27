@@ -48,7 +48,7 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
-import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.DASHBOARD
+import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.HOME
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
@@ -72,8 +72,8 @@ internal fun DashboardRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     DashboardScreen(
-        modifier,
-        uiState,
+        modifier = modifier,
+        uiState = uiState,
         feedbackTopAppBarAction = FeedbackScreenContext(
             "DashboardScreen",
             "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8",
@@ -104,10 +104,10 @@ internal fun DashboardScreen(
     val openNewCounterModal = newCounterModal(onCreateCounter = onCreateCounter)
 
     Rn3Scaffold(
-        modifier,
-        stringResource(R.string.feature_dashboard_dashboardScreen_topAppBarTitle),
-        null,
-        listOfNotNull(
+        modifier = modifier,
+        topAppBarTitle = stringResource(R.string.feature_dashboard_dashboardScreen_topAppBarTitle),
+        onBackIconButtonClicked = null,
+        topAppBarActions = listOfNotNull(
             TopAppBarAction(
                 Icons.Outlined.Settings,
                 stringResource(R.string.feature_dashboard_dashboardScreen_topAppBarActions_settings),
@@ -115,7 +115,7 @@ internal fun DashboardScreen(
             ),
             feedbackTopAppBarAction,
         ),
-        topAppBarStyle = DASHBOARD,
+        topAppBarStyle = HOME,
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 modifier = it,

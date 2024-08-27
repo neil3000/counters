@@ -42,10 +42,10 @@ data class Rn3RoundedCorners(
     )
 
     operator fun plus(roundedCorners: Rn3RoundedCorners): Rn3RoundedCorners = Rn3RoundedCorners(
-        topStart + roundedCorners.topStart,
-        topEnd + roundedCorners.topEnd,
-        bottomStart + roundedCorners.bottomStart,
-        bottomEnd + roundedCorners.bottomEnd,
+        topStart = topStart + roundedCorners.topStart,
+        topEnd = topEnd + roundedCorners.topEnd,
+        bottomStart = bottomStart + roundedCorners.bottomStart,
+        bottomEnd = bottomEnd + roundedCorners.bottomEnd,
     )
 
     fun toComposeShape(): RoundedCornerShape {

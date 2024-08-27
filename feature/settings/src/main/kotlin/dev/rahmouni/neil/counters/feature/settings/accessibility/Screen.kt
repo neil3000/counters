@@ -74,12 +74,12 @@ internal fun AccessibilitySettingsRoute(
     val analyticsHelper = LocalAnalyticsHelper.current
 
     AccessibilitySettingsScreen(
-        modifier,
-        uiState,
+        modifier = modifier,
+        uiState = uiState,
         onBackIconButtonClicked = navController::popBackStack,
         feedbackTopAppBarAction = FeedbackScreenContext(
-            "AccessibilitySettingsScreen",
-            "jrKt4Xe58KDipPJsm1iPUijn6BMsNc8g",
+            localName = "AccessibilitySettingsScreen",
+            localID = "jrKt4Xe58KDipPJsm1iPUijn6BMsNc8g",
         ).toTopAppBarAction(navController::navigateToFeedback),
         setEmphasizedSwitches = viewModel::setEmphasizedSwitches,
         setIconTooltips = viewModel::setIconTooltips,
@@ -104,19 +104,19 @@ internal fun AccessibilitySettingsScreen(
     onClickAndroidAccessibilityTile: () -> Unit = {},
 ) {
     Rn3Scaffold(
-        modifier,
-        stringResource(string.feature_settings_accessibilitySettingsScreen_topAppBarTitle),
-        onBackIconButtonClicked,
+        modifier = modifier,
+        topAppBarTitle = stringResource(string.feature_settings_accessibilitySettingsScreen_topAppBarTitle),
+        onBackIconButtonClicked = onBackIconButtonClicked,
         topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
     ) {
         when (uiState) {
             Loading -> {}
             is Success -> AccessibilitySettingsPanel(
-                it,
-                uiState.accessibilitySettingsData,
-                setEmphasizedSwitches,
-                setIconTooltips,
-                onClickAndroidAccessibilityTile,
+                paddingValues = it,
+                data = uiState.accessibilitySettingsData,
+                setEmphasizedSwitches = setEmphasizedSwitches,
+                setIconTooltips = setIconTooltips,
+                onClickAndroidAccessibilityTile = onClickAndroidAccessibilityTile,
             )
         }
     }
@@ -131,7 +131,7 @@ private fun AccessibilitySettingsPanel(
     onClickAndroidAccessibilityTile: () -> Unit,
 ) {
     Column(
-        Modifier
+        modifier = Modifier
             .verticalScroll(rememberScrollState())
             .padding(paddingValues),
     ) {
@@ -181,7 +181,7 @@ private fun UiStates(
     accessibilitySettingsData: AccessibilitySettingsData,
 ) {
     CompositionLocalProvider(
-        LocalAccessibilityHelper provides AccessibilityHelper(
+        value = LocalAccessibilityHelper provides AccessibilityHelper(
             hasEmphasizedSwitchesEnabled = accessibilitySettingsData.hasEmphasizedSwitchesEnabled,
             hasIconTooltipsEnabled = accessibilitySettingsData.hasIconTooltipsEnabled,
         ),

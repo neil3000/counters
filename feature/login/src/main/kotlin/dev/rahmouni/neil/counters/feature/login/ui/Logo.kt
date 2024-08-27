@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PlusOne
 import androidx.compose.material3.Icon
@@ -49,37 +48,43 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import dev.rahmouni.neil.counters.core.designsystem.BuildConfig
 import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
 import dev.rahmouni.neil.counters.core.designsystem.LocalSharedTransitionScope
+import dev.rahmouni.neil.counters.core.designsystem.R.color
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.icons.Rn3
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalSharedTransitionApi::class, ExperimentalAnimationSpecApi::class)
 @Composable
-internal fun CountersLogo() {
+internal fun Logo() {
     val sharedTransitionScope = LocalSharedTransitionScope.current
         ?: throw IllegalStateException("RahNeil_N3:4F6o9kodw29Oaj8zoDlAWesB1Merqam9")
     val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
         ?: throw IllegalStateException("RahNeil_N3:743RaDiJYkZUoAmVqvPrWsm6BgQ9h78Y")
 
     var trigger by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+
     LaunchedEffect(Unit) { trigger = true }
     val shinyPosition: Dp by animateDpAsState(
-        if (trigger) 45.dp else (-45).dp,
+        targetValue = if (trigger) 45.dp else (-45).dp,
         animationSpec = tween(delayMillis = 3000, durationMillis = 1500, easing = EaseInOutQuint),
         label = "Shape rotation animation",
     )
 
     with(sharedTransitionScope) {
         Surface(
-            Modifier
+            modifier = Modifier
                 .size(80.dp)
                 .sharedElement(
-                    rememberSharedContentState(key = "countersLogo_background"),
+                    state = rememberSharedContentState(key = "Logo_background"),
                     animatedVisibilityScope = animatedVisibilityScope,
                     boundsTransform = { initialBounds, targetBounds ->
                         keyframes {
@@ -88,13 +93,13 @@ internal fun CountersLogo() {
                         }
                     },
                 ),
-            color = Color(136, 18, 41),
-            shape = RoundedCornerShape(16.dp),
+            color = Color(color = ContextCompat.getColor(context, color.core_designsystem_color)),
+            shape = Rn3SurfaceDefaults.shape,
         ) {
-            Box(Modifier.size(80.dp)) {
+            Box(modifier = Modifier.size(80.dp)) {
                 if (shinyPosition.value.absoluteValue != 45f) {
                     Box(
-                        Modifier
+                        modifier = Modifier
                             .align(Alignment.Center)
                             .offset {
                                 IntOffset(
@@ -133,7 +138,7 @@ internal fun CountersLogo() {
                                 ),
                             ),
                         ).sharedElement(
-                            rememberSharedContentState(key = "countersLogo_icon"),
+                            rememberSharedContentState(key = "Logo_icon"),
                             animatedVisibilityScope = animatedVisibilityScope,
                             boundsTransform = { initialBounds, targetBounds ->
                                 keyframes {
@@ -144,16 +149,16 @@ internal fun CountersLogo() {
                         ).let { modifier ->
                             when {
                                 BuildConfig.DEBUG -> Icon(
-                                    Icons.Outlined.Rn3,
-                                    null,
-                                    modifier.scale(.6f),
+                                    imageVector = Icons.Outlined.Rn3,
+                                    contentDescription = null,
+                                    modifier = modifier.scale(.6f),
                                     tint = Color.White,
                                 )
 
                                 else -> Icon(
-                                    Icons.Outlined.PlusOne,
-                                    null,
-                                    modifier.scale(.75f),
+                                    imageVector = Icons.Outlined.PlusOne,
+                                    contentDescription = null,
+                                    modifier = modifier.scale(.75f),
                                     tint = Color.White,
                                 )
                             }

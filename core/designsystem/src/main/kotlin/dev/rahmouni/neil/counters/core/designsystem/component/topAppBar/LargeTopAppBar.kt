@@ -36,7 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import dev.rahmouni.neil.counters.core.designsystem.DropdownMenu
-import dev.rahmouni.neil.counters.core.designsystem.R
+import dev.rahmouni.neil.counters.core.designsystem.R.string
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentVariation
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -56,7 +56,7 @@ fun Rn3LargeTopAppBar(
     LargeTopAppBar(
         title = {
             Text(
-                title,
+                text = title,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -66,7 +66,7 @@ fun Rn3LargeTopAppBar(
             if (onBackIconButtonClicked != null) {
                 Rn3IconButton(
                     icon = Outlined.ArrowBack,
-                    contentDescription = stringResource(R.string.core_designsystem_largeTopAppBar_navigationIcon_iconButton_arrowBack_contentDescription),
+                    contentDescription = stringResource(string.core_designsystem_topAppBar_navigationIcon_iconButton_arrowBack_contentDescription),
                     onClick = onBackIconButtonClicked,
                 )
             }
@@ -76,11 +76,11 @@ fun Rn3LargeTopAppBar(
                 0 -> Unit
                 1 -> actions[0].IconButton()
                 else -> {
-                    var expanded by remember { mutableStateOf(false) }
+                    var expanded by remember { mutableStateOf(value = false) }
 
                     Rn3IconButton(
                         icon = Icons.Outlined.MoreVert,
-                        contentDescription = "See more",
+                        contentDescription = stringResource(string.core_designsystem_topAppBar_actions_iconButton_moreVert_contentDescription),
                     ) { expanded = true }
 
                     actions.DropdownMenu(expanded = expanded) { expanded = false }

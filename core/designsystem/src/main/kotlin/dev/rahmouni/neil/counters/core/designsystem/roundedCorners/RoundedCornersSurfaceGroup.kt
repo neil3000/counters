@@ -28,7 +28,7 @@ fun Rn3RoundedCornersSurfaceGroup(content: SurfaceGroupScope.() -> Unit) {
     val localScope = SurfaceGroupScope()
     localScope.content()
 
-    Column(verticalArrangement = spacedBy(3.dp)) {
+    Column(verticalArrangement = spacedBy(4.dp)) {
         with(localScope.items) {
             var index = 0
             var invisibleCount = 0

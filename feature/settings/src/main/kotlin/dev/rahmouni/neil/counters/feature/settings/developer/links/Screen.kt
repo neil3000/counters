@@ -37,7 +37,7 @@ import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
-import dev.rahmouni.neil.counters.feature.settings.R
+import dev.rahmouni.neil.counters.feature.settings.R.string
 import dev.rahmouni.neil.counters.feature.settings.developer.links.model.DeveloperSettingsLinksUiState
 import dev.rahmouni.neil.counters.feature.settings.developer.links.model.DeveloperSettingsLinksViewModel
 import dev.rahmouni.neil.counters.feature.settings.developer.links.model.data.DeveloperSettingsLinksData
@@ -54,8 +54,8 @@ internal fun DeveloperSettingsLinksRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     DeveloperSettingsLinksScreen(
-        modifier,
-        uiState,
+        modifier = modifier,
+        uiState = uiState,
         onBackIconButtonClicked = navController::popBackStack,
         onFavoriteLink = viewModel::favoriteLink,
         onConfirmButtonClicked = viewModel::setLink,
@@ -73,25 +73,25 @@ internal fun DeveloperSettingsLinksScreen(
     onConfirmButtonClicked: (LinkRn3UrlRawData) -> Unit = { _ -> },
     onDeleteButtonClicked: (String) -> Unit = { _ -> },
 ) {
-    val haptics = getHaptic()
+    val haptic = getHaptic()
 
     val openLinkEditModal =
         editLinkModal(onConfirm = onConfirmButtonClicked, onDelete = onDeleteButtonClicked)
 
     Rn3Scaffold(
-        modifier,
-        stringResource(R.string.feature_settings_developerSettingsLinksScreen_topAppBarTitle),
-        onBackIconButtonClicked,
+        modifier = modifier,
+        topAppBarTitle = stringResource(string.feature_settings_developerSettingsLinksScreen_topAppBarTitle),
+        onBackIconButtonClicked = onBackIconButtonClicked,
         floatingActionButton = {
             FloatingActionButton(
                 modifier = it,
                 onClick = {
-                    haptics.click()
+                    haptic.click()
 
                     openLinkEditModal(null)
                 },
             ) {
-                Icon(Icons.Outlined.Add, contentDescription = null)
+                Icon(imageVector = Icons.Outlined.Add, contentDescription = null)
             }
         },
     ) {

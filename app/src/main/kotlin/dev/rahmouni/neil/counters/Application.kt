@@ -15,21 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.ui
+package dev.rahmouni.neil.counters
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import dev.rahmouni.neil.counters.CountersNavHost
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-@Composable
-fun CountersApp(
-    appState: CountersAppState,
-    modifier: Modifier = Modifier,
-    showLoginScreen: Boolean,
-) {
-    CountersNavHost(
-        appState = appState,
-        modifier = modifier,
-        showLoginScreen = showLoginScreen,
-    )
-}
+/**
+ * [Application] class for Counters
+ */
+@HiltAndroidApp
+class Application : Application()

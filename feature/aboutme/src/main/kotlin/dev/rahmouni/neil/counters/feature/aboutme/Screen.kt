@@ -117,9 +117,9 @@ internal fun AboutMeScreen(
     feedbackTopAppBarAction: TopAppBarAction? = null,
 ) {
     Rn3Scaffold(
-        modifier,
-        stringResource(R.string.feature_aboutme_aboutMeScreen_scaffold_title),
-        onBackIconButtonClicked,
+        modifier = modifier,
+        topAppBarTitle = stringResource(R.string.feature_aboutme_aboutMeScreen_scaffold_title),
+        onBackIconButtonClicked = onBackIconButtonClicked,
         topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
         topAppBarStyle = TopAppBarStyle.SMALL,
     ) {

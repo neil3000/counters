@@ -19,12 +19,8 @@ package dev.rahmouni.neil.counters.core.feedback
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -38,39 +34,47 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
+import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
 
 @Composable
-internal fun FeedbackMessages(messages: List<String>) {
+internal fun FeedbackMessages(
+    messages: List<String>,
+    paddingValues: Rn3PaddingValues = Rn3SurfaceDefaults.paddingValues,
+) {
     var trigger by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         trigger = true
     }
 
     Column(
-        Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp),
+        modifier = Modifier.padding(paddingValues),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         messages.forEachIndexed { index, message ->
             AnimatedVisibility(
                 visible = trigger,
                 enter = if (index > 0) {
-                    expandVertically(
-                        tween(
-                            250,
-                            delayMillis = index * 1000,
-                        ),
-                    ) + fadeIn(tween(250, delayMillis = index * 1000 + 250))
+                    rn3ExpandVerticallyTransition(
+                        fadeDelay = index * 1000 + 250,
+                        fadeDuration = 250,
+                        expandDelay = index * 1000,
+                        expandDuration = 250,
+                    )
                 } else {
                     EnterTransition.None
                 },
             ) {
                 Surface(
-                    color = MaterialTheme.colorScheme.surfaceContainer,
+                    tonalElevation = Rn3SurfaceDefaults.tonalElevation,
                     shape = RoundedCornerShape(8.dp),
                 ) {
                     Text(
                         text = message,
-                        Modifier.padding(vertical = 6.dp, horizontal = 16.dp),
+                        modifier = Modifier.padding(Rn3TextDefaults.paddingValues),
                         style = MaterialTheme.typography.labelMedium.copy(
                             fontWeight = FontWeight.Normal,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,

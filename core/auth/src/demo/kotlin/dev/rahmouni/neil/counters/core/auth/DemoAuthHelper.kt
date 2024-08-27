@@ -43,7 +43,9 @@ internal class DemoAuthHelper @Inject constructor() : AuthHelper {
             email = "demo@rahmouni.dev",
         )
 
-        private val DEMO_ANONYMOUS_USER = AnonymousUser("demoAnonymousUser")
+        private val DEMO_ANONYMOUS_USER = AnonymousUser(
+            "demoAnonymousUser",
+        )
     }
 
     private val currentUser = MutableStateFlow<Rn3User>(DEMO_SIGNEDIN_USER)

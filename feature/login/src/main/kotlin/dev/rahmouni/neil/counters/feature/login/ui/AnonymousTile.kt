@@ -17,6 +17,8 @@
 
 package dev.rahmouni.neil.counters.feature.login.ui
 
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.NoAccounts
@@ -24,19 +26,37 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileClick
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCorners
+import dev.rahmouni.neil.counters.feature.login.R.string
 
 @Composable
 internal fun AnonymousTile(shape: Rn3RoundedCorners, onClick: () -> Unit) {
-    Surface(tonalElevation = 8.dp, shape = shape.toComposeShape()) {
+    Surface(
+        tonalElevation = Rn3SurfaceDefaults.tonalElevation,
+        shape = shape.toComposeShape(),
+    ) {
         Rn3TileClick(
-            title = "Without an account",
-            icon = Icons.Outlined.NoAccounts,
-            supportingContent = { Text("You can sign in later anytime") },
+            title = stringResource(string.feature_login_withoutAccount),
+            leadingContent = {
+                Icon(
+                    imageVector = Icons.Outlined.NoAccounts,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(37.dp)
+                        .padding(horizontal = 2.dp),
+                )
+            },
+            supportingContent = { Text(text = stringResource(string.feature_login_SignInLater)) },
             trailingContent = {
-                Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, null)
+                Icon(
+                    imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
+                    contentDescription = null,
+                )
             },
             onClick = onClick,
         )

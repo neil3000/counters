@@ -49,7 +49,11 @@ object PreviewParameterData {
     )
     val settingsData_mutations = with(settingsData_default) {
         sequenceOf(
-            copy(user = AnonymousUser("androidPreviewID")),
+            copy(
+                user = AnonymousUser(
+                    uid = "androidPreviewID",
+                ),
+            ),
             copy(devSettingsEnabled = true),
             copy(inAppUpdateData = UpdateAvailable(null, null)),
         )

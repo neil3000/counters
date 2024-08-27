@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
@@ -34,39 +33,47 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.getHaptic
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalPadding
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ShrinkVerticallyTransition
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCorners
+import dev.rahmouni.neil.counters.feature.login.R.string
 
 @Composable
 internal fun AddAccountTile(expanded: Boolean, shape: Rn3RoundedCorners, onClick: () -> Unit) {
-    val haptics = getHaptic()
+    val haptic = getHaptic()
 
-    Surface(tonalElevation = 8.dp, shape = shape.toComposeShape()) {
+    Surface(
+        tonalElevation = Rn3SurfaceDefaults.tonalElevation,
+        shape = shape.toComposeShape(),
+    ) {
         Row(
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
-                    haptics.click()
+                    haptic.click()
                     onClick()
                 }
-                .padding(16.dp),
+                .padding(Rn3AdditionalPadding.paddingValues),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
-                Icons.Outlined.Add,
-                null,
+                imageVector = Icons.Outlined.Add,
+                contentDescription = null,
             )
-            Spacer(Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(16.dp))
             Column {
-                Text("Add an account")
+                Text(text = stringResource(string.feature_login_addAccount))
                 AnimatedVisibility(
                     visible = expanded,
                     exit = rn3ShrinkVerticallyTransition(),
                 ) {
                     Text(
-                        "Sign in to sync your data across devices",
+                        text = stringResource(string.feature_login_SingIntoSync),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

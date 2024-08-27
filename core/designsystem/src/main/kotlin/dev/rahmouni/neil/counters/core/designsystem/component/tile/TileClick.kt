@@ -58,7 +58,9 @@ fun Rn3TileClick(
     Rn3TileClick(
         modifier = modifier,
         title = title,
-        icon = icon,
+        leadingContent = {
+            Icon(imageVector = icon, contentDescription = null)
+        },
         supportingContent = if (supportingText != null) {
             { Text(text = supportingText) }
         } else {
@@ -68,7 +70,7 @@ fun Rn3TileClick(
             {
                 Rn3TriggerReverseAnimatedIcon(
                     icon = Outlined.OpenInNewAnimated,
-                    null,
+                    contentDescription = null,
                     interactionSource = { interactionSource },
                 )
             }
@@ -86,34 +88,7 @@ fun Rn3TileClick(
 fun Rn3TileClick(
     modifier: Modifier = Modifier,
     title: String,
-    icon: ImageVector,
-    supportingContent: @Composable (() -> Unit)? = null,
-    trailingContent: @Composable (() -> Unit)? = null,
-    enabled: Boolean = true,
-    error: Boolean = false,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    onClick: () -> Unit,
-) {
-    Rn3TileClick(
-        modifier = modifier,
-        title = title,
-        leadingContent = {
-            Icon(imageVector = icon, contentDescription = null)
-        },
-        supportingContent = supportingContent,
-        trailingContent = trailingContent,
-        enabled = enabled,
-        error = error,
-        interactionSource = interactionSource,
-        onClick = onClick,
-    )
-}
-
-@Composable
-fun Rn3TileClick(
-    modifier: Modifier = Modifier,
-    title: String,
-    leadingContent: @Composable (() -> Unit)?,
+    leadingContent: @Composable (() -> Unit),
     supportingContent: @Composable (() -> Unit)? = null,
     trailingContent: @Composable (() -> Unit)? = null,
     enabled: Boolean = true,

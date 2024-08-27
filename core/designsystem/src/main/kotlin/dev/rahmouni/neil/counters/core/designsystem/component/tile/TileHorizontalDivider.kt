@@ -23,9 +23,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 
@@ -33,16 +33,15 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 fun Rn3TileHorizontalDivider(
     modifier: Modifier = Modifier,
     color: Color = Rn3TileHorizontalDividerDefaults.color,
-    paddingValues: Rn3PaddingValues = Rn3TileHorizontalDividerDefaults.paddingValues,
+    paddingValues: Rn3PaddingValues = Rn3SurfaceDefaults.paddingValues,
 ) {
     HorizontalDivider(
-        modifier.padding(paddingValues),
+        modifier = modifier.padding(paddingValues),
         color = color,
     )
 }
 
 object Rn3TileHorizontalDividerDefaults {
-    val paddingValues = Rn3PaddingValues(horizontal = 16.dp, vertical = 8.dp)
     val color: Color @Composable get() = DividerDefaults.color
 }
 

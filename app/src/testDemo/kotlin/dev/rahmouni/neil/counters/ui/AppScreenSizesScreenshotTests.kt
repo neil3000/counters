@@ -33,6 +33,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
 import dev.rahmouni.neil.counters.core.testing.util.DefaultRoborazziOptions
+import dev.rahmouni.neil.counters.feature.dashboard.DASHBOARD_ROUTE
 import dev.rahmouni.neil.counters.uitesthiltmanifest.HiltComponentActivity
 import org.junit.Before
 import org.junit.Rule
@@ -55,7 +56,7 @@ import java.util.TimeZone
 @Config(application = HiltTestApplication::class, qualifiers = "w1000dp-h1000dp-480dpi")
 @LooperMode(LooperMode.Mode.PAUSED)
 @HiltAndroidTest
-class CountersAppScreenSizesScreenshotTests {
+class AppScreenSizesScreenshotTests {
 
     /**
      * Manages the components' state and is used to perform injection on your test
@@ -91,14 +92,17 @@ class CountersAppScreenSizesScreenshotTests {
     private fun testRn3AppScreenshotWithSize(width: Dp, height: Dp, screenshotName: String) {
         composeTestRule.setContent {
             CompositionLocalProvider(
-                LocalInspectionMode provides true,
+                value = LocalInspectionMode provides true,
             ) {
                 DeviceConfigurationOverride(
                     override = DeviceConfigurationOverride.ForcedSize(DpSize(width, height)),
                 ) {
                     Rn3Theme {
-                        val fakeAppState = rememberCountersAppState()
-                        CountersApp(fakeAppState, showLoginScreen = false)
+                        val fakeAppState = rememberAppState()
+                        App(
+                            appState = fakeAppState,
+                            routes = listOf(DASHBOARD_ROUTE),
+                        )
                     }
                 }
             }

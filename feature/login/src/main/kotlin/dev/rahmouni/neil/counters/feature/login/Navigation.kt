@@ -27,17 +27,17 @@ import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilitySc
 const val LOGIN_ROUTE = "login"
 
 fun NavController.navigateToLogin(navOptions: NavOptions? = null) =
-    navigate(LOGIN_ROUTE, navOptions)
+    navigate(route = LOGIN_ROUTE, navOptions = navOptions)
 
 fun NavGraphBuilder.loginScreen(
     navController: NavController,
-    navigateToDashboard: () -> Unit,
+    navigateToNextPage: () -> Unit,
 ) {
     composable(route = LOGIN_ROUTE) {
-        CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
+        CompositionLocalProvider(value = LocalNavAnimatedVisibilityScope provides this) {
             LoginRoute(
                 navController = navController,
-                navigateToDashboard = navigateToDashboard,
+                navigateToNextPage = navigateToNextPage,
             )
         }
     }

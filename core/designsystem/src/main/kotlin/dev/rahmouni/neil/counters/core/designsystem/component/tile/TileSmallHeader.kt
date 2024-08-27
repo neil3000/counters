@@ -22,9 +22,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValues
 import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 
@@ -32,7 +32,7 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 fun Rn3TileSmallHeader(
     modifier: Modifier = Modifier,
     title: String,
-    paddingValues: Rn3PaddingValues = Rn3TileSmallHeaderDefaults.paddingValues,
+    paddingValues: Rn3PaddingValues = Rn3TextDefaults.paddingValues,
 ) {
     Text(
         text = title,
@@ -40,10 +40,6 @@ fun Rn3TileSmallHeader(
         color = MaterialTheme.colorScheme.primary,
         style = MaterialTheme.typography.titleMedium,
     )
-}
-
-object Rn3TileSmallHeaderDefaults {
-    val paddingValues = Rn3PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 12.dp)
 }
 
 @Rn3PreviewComponentDefault

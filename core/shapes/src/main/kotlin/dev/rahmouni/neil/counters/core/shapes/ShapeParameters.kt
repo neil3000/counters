@@ -73,7 +73,7 @@ class ShapeParameters(
     // Primitive shapes we can draw (so far)
     private val shapes = listOf(
         ShapeItem(
-            "Star",
+            name = "Star",
             shapegen = {
                 RoundedPolygon.star(
                     numVerticesPerRadius = this.sides.floatValue.roundToInt(),
@@ -87,7 +87,7 @@ class ShapeParameters(
             },
         ),
         ShapeItem(
-            "Polygon",
+            name = "Polygon",
             shapegen = {
                 RoundedPolygon(
                     numVertices = this.sides.floatValue.roundToInt(),
@@ -98,7 +98,7 @@ class ShapeParameters(
             usesInnerParameters = false,
         ),
         ShapeItem(
-            "Triangle",
+            name = "Triangle",
             shapegen = {
                 val points = floatArrayOf(
                     radialToCartesian(1f, 270f.toRadians()).x,
@@ -121,7 +121,7 @@ class ShapeParameters(
             usesInnerParameters = false,
         ),
         ShapeItem(
-            "Blob",
+            name = "Blob",
             shapegen = {
                 val sx = this.innerRadius.floatValue.coerceAtLeast(0.1f)
                 val sy = this.roundness.floatValue.coerceAtLeast(0.1f)
@@ -145,7 +145,7 @@ class ShapeParameters(
             usesInnerParameters = false,
         ),
         ShapeItem(
-            "CornerSE",
+            name = "CornerSE",
             shapegen = {
                 RoundedPolygon(
                     squarePoints(),
@@ -164,7 +164,7 @@ class ShapeParameters(
             usesInnerParameters = false,
         ),
         ShapeItem(
-            "Circle",
+            name = "Circle",
             shapegen = {
                 RoundedPolygon.circle(this.sides.floatValue.roundToInt())
             },
@@ -173,7 +173,7 @@ class ShapeParameters(
             usesInnerParameters = false,
         ),
         ShapeItem(
-            "Rectangle",
+            name = "Rectangle",
             shapegen = {
                 RoundedPolygon.rectangle(
                     width = 4f,

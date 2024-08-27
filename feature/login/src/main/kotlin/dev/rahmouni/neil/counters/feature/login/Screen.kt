@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -52,6 +51,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -61,9 +61,12 @@ import dev.rahmouni.neil.counters.core.analytics.LocalAnalyticsHelper
 import dev.rahmouni.neil.counters.core.auth.LocalAuthHelper
 import dev.rahmouni.neil.counters.core.designsystem.TopAppBarAction
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3Scaffold
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
 import dev.rahmouni.neil.counters.core.designsystem.component.TopAppBarStyle.TRANSPARENT
 import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeader
-import dev.rahmouni.neil.counters.core.designsystem.component.tile.Rn3TileSmallHeaderDefaults
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3AdditionalPadding
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCorners
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCornersSurfaceGroup
 import dev.rahmouni.neil.counters.core.designsystem.roundedCorners.Rn3RoundedCornersSurfaceGroupDefaults
@@ -74,10 +77,11 @@ import dev.rahmouni.neil.counters.core.shapes.Shape
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
 import dev.rahmouni.neil.counters.core.user.Rn3User
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
+import dev.rahmouni.neil.counters.feature.login.R.string
 import dev.rahmouni.neil.counters.feature.login.model.LoginViewModel
 import dev.rahmouni.neil.counters.feature.login.ui.AddAccountTile
 import dev.rahmouni.neil.counters.feature.login.ui.AnonymousTile
-import dev.rahmouni.neil.counters.feature.login.ui.CountersLogo
+import dev.rahmouni.neil.counters.feature.login.ui.Logo
 import dev.rahmouni.neil.counters.feature.login.ui.Tile
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -87,7 +91,7 @@ internal fun LoginRoute(
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
     navController: NavController,
-    navigateToDashboard: () -> Unit,
+    navigateToNextPage: () -> Unit,
 ) {
     val auth = LocalAuthHelper.current
     val context = LocalContext.current
@@ -97,11 +101,11 @@ internal fun LoginRoute(
     val user by viewModel.user.collectAsStateWithLifecycle()
 
     LoginScreen(
-        modifier,
+        modifier = modifier,
         user = user,
         feedbackTopAppBarAction = FeedbackScreenContext(
-            "LoginScreen",
-            "KjMSjlWvIFeFt7kp2IPuTAU3yKkdyTqY",
+            localName = "LoginScreen",
+            localID = "KjMSjlWvIFeFt7kp2IPuTAU3yKkdyTqY",
         ).toTopAppBarAction(navController::navigateToFeedback),
         onConfirmSignIn = { anonymous ->
             if (anonymous) {
@@ -123,11 +127,11 @@ internal fun LoginRoute(
             )
 
             viewModel.login()
-            navigateToDashboard()
+            navigateToNextPage()
         },
         onAddAccountTileClicked = {
             scope.launch {
-                auth.signIn(context, false)
+                auth.signIn(context = context, anonymously = false)
             }
         },
     )
@@ -145,13 +149,17 @@ internal fun LoginScreen(
     onAddAccountTileClicked: () -> Unit = {},
 ) {
     Rn3Scaffold(
-        modifier,
-        "",
-        null,
-        listOfNotNull(feedbackTopAppBarAction),
+        modifier = modifier,
+        topAppBarTitle = "",
+        onBackIconButtonClicked = null,
+        topAppBarActions = listOfNotNull(feedbackTopAppBarAction),
         topAppBarStyle = TRANSPARENT,
     ) {
-        LoginPanel(user, onConfirmSignIn, onAddAccountTileClicked)
+        LoginPanel(
+            user = user,
+            onConfirmSignIn = onConfirmSignIn,
+            onAddAccountTileClicked = onAddAccountTileClicked,
+        )
     }
 }
 
@@ -162,30 +170,31 @@ private fun LoginPanel(
     onAddAccountTileClicked: () -> Unit,
 ) {
     val inPreview = LocalInspectionMode.current
-    var trigger by rememberSaveable { mutableStateOf(inPreview) }
+    var trigger by rememberSaveable { mutableStateOf(value = inPreview) }
 
     LaunchedEffect(Unit) {
-        delay(1)
+        delay(timeMillis = 1)
         trigger = true
     }
+
     val infiniteTransition = rememberInfiniteTransition(label = "")
     val bgShapeRotationPerpetual by infiniteTransition.animateFloat(
         initialValue = 0F,
         targetValue = 360F * 2,
         animationSpec = infiniteRepeatable(
-            animation = tween(80_000, easing = LinearEasing),
+            animation = tween(durationMillis = 80_000, easing = LinearEasing),
         ),
         label = "Shape rotation animation -- perpetual",
     )
     val bgShapeRotationIntroduction: Float by animateFloatAsState(
-        if (trigger) 180f else 0f,
+        targetValue = if (trigger) 180f else 0f,
         animationSpec = tween(durationMillis = 5000, easing = EaseOutCirc),
         label = "Shape rotation animation -- introduction",
     )
 
     Box {
         Box(
-            Modifier
+            modifier = Modifier
                 .offset((-120).dp, (-80).dp)
                 .width(300.dp)
                 .aspectRatio(1f)
@@ -193,12 +202,12 @@ private fun LoginPanel(
                     rotationZ =
                         (bgShapeRotationIntroduction + bgShapeRotationPerpetual) / 2f
                 }
-                .clip(Shape(Rn3Shapes.Scallop))
-                .background(MaterialTheme.colorScheme.secondaryContainer),
+                .clip(shape = Shape(polygon = Rn3Shapes.Scallop))
+                .background(color = MaterialTheme.colorScheme.secondaryContainer),
         ) {}
 
         Box(
-            Modifier
+            modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .offset(30.dp, (-50).dp)
                 .width(100.dp)
@@ -206,36 +215,46 @@ private fun LoginPanel(
                 .graphicsLayer {
                     rotationZ = -bgShapeRotationIntroduction - bgShapeRotationPerpetual
                 }
-                .clip(Shape(Rn3Shapes.ScallopPointy))
-                .background(MaterialTheme.colorScheme.tertiaryContainer),
+                .clip(shape = Shape(polygon = Rn3Shapes.ScallopPointy))
+                .background(color = MaterialTheme.colorScheme.tertiaryContainer),
         ) {}
 
         Column(
             modifier = Modifier
-                .padding(horizontal = 24.dp)
+                .padding(
+                    Rn3AdditionalPadding.paddingValues.only(HORIZONTAL),
+                )
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            CountersLogo()
+            Logo()
 
             Text(
-                "Welcome to Counters!",
-                modifier = Modifier.padding(16.dp),
+                text = stringResource(string.feature_login_welcomeMessage_start) + stringResource(
+                    string.feature_login_welcomeMessage_appName,
+                ) + stringResource(
+                    string.feature_login_welcomeMessage_ending,
+                ),
+                modifier = Modifier.padding(Rn3TextDefaults.paddingValues),
                 style = MaterialTheme.typography.titleLarge,
             )
 
             Spacer(Modifier.height(48.dp))
             Rn3TileSmallHeader(
-                Modifier.fillMaxWidth(),
-                "Continue with:",
-                paddingValues = Rn3TileSmallHeaderDefaults.paddingValues.copy(start = 8.dp),
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(string.feature_login_choose),
+                paddingValues = Rn3TextDefaults.paddingValues.copy(
+                    start = 8.dp,
+                    bottom = 10.dp,
+                ),
             )
-            AnonymousTile(Rn3RoundedCorners(all = Rn3RoundedCornersSurfaceGroupDefaults.roundedCornerExternal)) {
+            AnonymousTile(shape = Rn3RoundedCorners(all = Rn3RoundedCornersSurfaceGroupDefaults.roundedCornerExternal)) {
                 onConfirmSignIn(true)
             }
 
-            Spacer(Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+
             Rn3RoundedCornersSurfaceGroup {
                 item(user is SignedInUser) {
                     user.Tile(shape = it) { onConfirmSignIn(false) }

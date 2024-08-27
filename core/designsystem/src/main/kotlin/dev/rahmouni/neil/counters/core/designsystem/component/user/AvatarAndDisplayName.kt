@@ -17,14 +17,13 @@
 
 package dev.rahmouni.neil.counters.core.designsystem.component.user
 
-import android.content.res.Resources
-import android.util.TypedValue
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.VerifiedUser
 import androidx.compose.material3.FilterChipDefaults
@@ -35,56 +34,52 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3TextDefaults
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValuesDirection.HORIZONTAL
+import dev.rahmouni.neil.counters.core.designsystem.paddingValues.padding
 import dev.rahmouni.neil.counters.core.designsystem.rn3ExpandVerticallyTransition
 import dev.rahmouni.neil.counters.core.designsystem.rn3ShrinkVerticallyTransition
 import dev.rahmouni.neil.counters.core.user.Rn3User
 
 @Composable
-fun Rn3User.UserAvatarAndName(modifier: Modifier = Modifier, showEmail: Boolean = false) {
+fun Rn3User.UserAvatarAndName(
+    modifier: Modifier = Modifier,
+    showEmail: Boolean = false,
+) {
     val context = LocalContext.current
 
     Row(
-        modifier.height(
-            with(LocalDensity.current) {
-                TypedValue
-                    .applyDimension(
-                        TypedValue.COMPLEX_UNIT_SP,
-                        20f * 2,
-                        Resources.getSystem().displayMetrics,
-                    )
-                    .toDp() + 4.dp
-            },
-        ),
+        modifier = modifier.defaultMinSize(minHeight = 44.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Avatar()
-        Column(Modifier.padding(top = 2.dp, start = 16.dp, end = 16.dp)) {
+
+        Column(modifier = Modifier.padding(Rn3TextDefaults.paddingValues.only(HORIZONTAL))) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    getDisplayName(context),
+                    text = getDisplayName(context),
                     style = MaterialTheme.typography.titleMedium,
                 )
                 if (isAdmin()) {
+                    Spacer(modifier = Modifier.width(4.dp))
+
                     Icon(
-                        Icons.Outlined.VerifiedUser,
-                        null,
-                        modifier = Modifier
-                            .padding(start = 4.dp)
-                            .size(FilterChipDefaults.IconSize),
+                        imageVector = Icons.Outlined.VerifiedUser,
+                        contentDescription = null,
+                        modifier = Modifier.size(FilterChipDefaults.IconSize),
                         tint = MaterialTheme.colorScheme.secondary,
                     )
                 }
             }
 
             AnimatedVisibility(
-                visible = getEmailAddress() != null && showEmail,
+                visible = (getEmailAddress() != null && showEmail),
                 enter = rn3ExpandVerticallyTransition(),
                 exit = rn3ShrinkVerticallyTransition(),
             ) {
                 Text(
-                    getEmailAddress().toString(),
+                    text = getEmailAddress().toString(),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodyMedium,
                 )

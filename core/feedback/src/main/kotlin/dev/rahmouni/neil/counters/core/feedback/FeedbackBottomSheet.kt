@@ -24,19 +24,19 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Feedback
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -55,6 +55,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import dev.rahmouni.neil.counters.core.designsystem.component.Rn3IconButton
+import dev.rahmouni.neil.counters.core.designsystem.component.Rn3SurfaceDefaults
+import dev.rahmouni.neil.counters.core.feedback.R.string
 import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackContextPage
 import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackDescriptionPage
 import dev.rahmouni.neil.counters.core.feedback.pages.FeedbackTypePage
@@ -82,28 +84,37 @@ fun FeedbackBottomSheet(
             navController.popBackStack()
         },
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface,
         scrimColor = Color.Transparent,
         dragHandle = {},
     ) {
         Column {
-            Surface(tonalElevation = 2.dp) {
+            Surface(tonalElevation = Rn3SurfaceDefaults.tonalElevation) {
                 Row(
-                    Modifier
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
+                        .padding(top = 4.dp, bottom = 4.dp, start = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = spacedBy(16.dp),
                 ) {
-                    Icon(Icons.Outlined.Feedback, null)
-                    Text(
-                        stringResource(R.string.core_feedback_topBar_title),
-                        fontWeight = FontWeight.SemiBold,
+                    Row {
+                        Icon(imageVector = Outlined.Feedback, contentDescription = null)
+
+                        Spacer(modifier = Modifier.width(16.dp))
+
+                        Text(
+                            text = stringResource(string.core_feedback_topBar_title),
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                    }
+
+                    Spacer(
+                        modifier = Modifier
+                            .weight(1f)
+                            .defaultMinSize(minWidth = 16.dp),
                     )
-                    Spacer(Modifier.weight(1f))
+
                     Rn3IconButton(
-                        icon = Icons.Outlined.Close,
-                        contentDescription = stringResource(R.string.core_feedback_closeButton_contentDescription),
+                        icon = Outlined.Close,
+                        contentDescription = stringResource(string.core_feedback_closeButton_contentDescription),
                     ) {
                         scope.launch { sheetState.hide() }.invokeOnCompletion {
                             navController.popBackStack()
@@ -125,7 +136,7 @@ fun FeedbackBottomSheet(
                     targetState = page,
                     transitionSpec = {
                         (expandVertically { height -> height } + fadeIn()).togetherWith(
-                            shrinkVertically { height -> height } + fadeOut(),
+                            exit = shrinkVertically { height -> height } + fadeOut(),
                         )
                             .using(SizeTransform(clip = false))
                     },

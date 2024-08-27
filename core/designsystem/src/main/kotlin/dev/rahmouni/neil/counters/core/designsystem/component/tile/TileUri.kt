@@ -34,7 +34,7 @@ import dev.rahmouni.neil.counters.core.common.Rn3Uri.SoonAvailable
 import dev.rahmouni.neil.counters.core.common.Rn3Uri.Unavailable
 import dev.rahmouni.neil.counters.core.common.openUri
 import dev.rahmouni.neil.counters.core.common.prepareToOpenUri
-import dev.rahmouni.neil.counters.core.designsystem.R
+import dev.rahmouni.neil.counters.core.designsystem.R.string
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentDefault
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewComponentVariation
 import dev.rahmouni.neil.counters.core.designsystem.Rn3Theme
@@ -63,9 +63,9 @@ fun Rn3TileUri(
         } else {
             when (uri) {
                 is AndroidPreview -> supportingText
-                is InMaintenance -> stringResource(R.string.core_designsystem_tileUri_inMaintenance_supportingText)
-                is Unavailable -> stringResource(R.string.core_designsystem_tileUri_unavailable_supportingText)
-                is SoonAvailable -> stringResource(R.string.core_designsystem_tileUri_soonAvailable_supportingText)
+                is InMaintenance -> stringResource(string.core_designsystem_tileUri_inMaintenance_supportingText)
+                is Unavailable -> stringResource(string.core_designsystem_tileUri_unavailable_supportingText)
+                is SoonAvailable -> stringResource(string.core_designsystem_tileUri_soonAvailable_supportingText)
                 is Available -> supportingText
             }
         },

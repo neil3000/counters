@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright (C) 2024 Rahmouni Neïl
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<resources>
+    <string name="feature_login_welcomeMessage_start">"Bienvenue sur "</string>
+    <string name="feature_login_welcomeMessage_ending">" !"</string>
+    <string name="feature_login_choose">Continuer avec :</string>
+    <string name="feature_login_withoutAccount">Sans compte</string>
+    <string name="feature_login_SignInLater">Vous pouvez vous connecter plus tard</string>
+    <string name="feature_login_SingIntoSync">Connecter vous pour synchroniser vos données sur plusieurs appareils</string>
+    <string name="feature_login_addAccount">Ajouter un compte</string>
+</resources>

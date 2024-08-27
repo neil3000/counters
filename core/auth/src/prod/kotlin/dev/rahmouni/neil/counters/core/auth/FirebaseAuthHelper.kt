@@ -31,7 +31,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
-import dev.rahmouni.neil.counters.core.user.Rn3User
 import dev.rahmouni.neil.counters.core.user.Rn3User.AnonymousUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.core.user.Rn3User.SignedInUser
@@ -128,7 +127,9 @@ internal class FirebaseAuthHelper @Inject constructor() : AuthHelper {
     private fun FirebaseUser?.toRn3User(claims: Map<String, Any>): dev.rahmouni.neil.counters.core.user.Rn3User {
         with(this) {
             if (this == null) return LoggedOutUser
-            if (isAnonymous) return AnonymousUser(uid)
+            if (isAnonymous) return AnonymousUser(
+                uid = uid,
+            )
 
             return SignedInUser(
                 uid = uid,
