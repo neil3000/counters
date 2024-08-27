@@ -1,6 +1,15 @@
 {
   "projects": {
-    "default": "rebased-01"
+    "default": "rahneil-n3-counters"
+  },
+  "targets": {
+    "rahneil-n3-counters": {
+      "hosting": {
+        "rn3-url": [
+          "rn3-url"
+        ]
+      }
+    }
   },
   "etags": {}
 }
