@@ -15,23 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
-plugins {
-    alias(libs.plugins.rn3.android.feature)
-    alias(libs.plugins.rn3.android.library.compose)
-    alias(libs.plugins.rn3.android.library.jacoco)
-}
+package dev.rahmouni.neil.counters.feature.dashboard.main
 
-android {
-    namespace = "dev.rahmouni.neil.counters.feature.dashboard"
-}
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
+import androidx.navigation.compose.composable
 
-dependencies {
-    api(libs.androidx.compose.material.iconsExtended)
+const val DASHBOARD_MAIN_ROUTE = "main"
 
-    implementation(libs.androidx.appcompat)
-    implementation(libs.coil.kt.compose)
+internal fun NavController.navigateToDashboardMain(navOptions: NavOptions? = null) =
+    navigate(DASHBOARD_MAIN_ROUTE, navOptions)
 
-    implementation(projects.core.data)
-    implementation(projects.core.shapes)
+internal fun NavGraphBuilder.mainScreen(
+    navController: NavController,
+    navigateToSettings: () -> Unit,
+) {
+    composable(route = DASHBOARD_MAIN_ROUTE) {
+        DashboardRoute(
+            navController = navController,
+            navigateToSettings = navigateToSettings,
+        )
+    }
 }

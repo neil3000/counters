@@ -17,28 +17,26 @@
 
 package dev.rahmouni.neil.counters.feature.dashboard
 
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
-import androidx.navigation.compose.composable
-import dev.rahmouni.neil.counters.core.designsystem.LocalNavAnimatedVisibilityScope
+import androidx.navigation.compose.navigation
+import dev.rahmouni.neil.counters.feature.dashboard.main.DASHBOARD_MAIN_ROUTE
+import dev.rahmouni.neil.counters.feature.dashboard.main.mainScreen
+import dev.rahmouni.neil.counters.feature.dashboard.newCounter.newCounterScreen
 
 const val DASHBOARD_ROUTE = "dashboard"
 
 fun NavController.navigateToDashboard(builder: NavOptionsBuilder.() -> Unit) =
     navigate(DASHBOARD_ROUTE, builder)
 
-fun NavGraphBuilder.dashboardScreen(
+fun NavGraphBuilder.dashboardNavigation(
     navController: NavController,
     navigateToSettings: () -> Unit,
 ) {
-    composable(route = DASHBOARD_ROUTE) {
-        CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
-            DashboardRoute(
-                navController = navController,
-                navigateToSettings = navigateToSettings,
-            )
-        }
+    navigation(startDestination = DASHBOARD_MAIN_ROUTE, route = DASHBOARD_ROUTE) {
+        mainScreen(navController, navigateToSettings)
+        newCounterScreen(navController)
     }
 }

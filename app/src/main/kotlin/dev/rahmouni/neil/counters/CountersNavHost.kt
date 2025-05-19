@@ -39,7 +39,7 @@ import dev.rahmouni.neil.counters.core.user.Rn3User.LoggedOutUser
 import dev.rahmouni.neil.counters.feature.aboutme.aboutMeScreen
 import dev.rahmouni.neil.counters.feature.aboutme.navigateToAboutMe
 import dev.rahmouni.neil.counters.feature.dashboard.DASHBOARD_ROUTE
-import dev.rahmouni.neil.counters.feature.dashboard.dashboardScreen
+import dev.rahmouni.neil.counters.feature.dashboard.dashboardNavigation
 import dev.rahmouni.neil.counters.feature.dashboard.navigateToDashboard
 import dev.rahmouni.neil.counters.feature.login.LOGIN_ROUTE
 import dev.rahmouni.neil.counters.feature.login.loginScreen
@@ -77,7 +77,7 @@ fun CountersNavHost(
                     modifier = modifier,
                 ) {
                     aboutMeScreen(navController)
-                    dashboardScreen(navController, navController::navigateToSettings)
+                    dashboardNavigation(navController, navController::navigateToSettings)
                     loginScreen(navController) {
                         navController.navigateToDashboard {
                             popUpTo(LOGIN_ROUTE) { inclusive = true }

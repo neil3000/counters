@@ -26,17 +26,17 @@ val loadingShapeParameters = listOf(
         shapeId = ShapeParameters.ShapeId.Triangle,
     ),
     Rn3ShapeParameters.ScallopPointy,
-    // Clover
-    ShapeParameters(
+    Rn3ShapeParameters.Clover,
+)
+
+object Rn3ShapeParameters {
+    val Clover = ShapeParameters(
         sides = 4,
         innerRadius = .352f,
         roundness = .32f,
         rotation = 45f,
         shapeId = ShapeParameters.ShapeId.Star,
-    ),
-)
-
-object Rn3ShapeParameters {
+    )
     val Scallop = ShapeParameters(
         sides = 15,
         innerRadius = .892f,
@@ -52,6 +52,7 @@ object Rn3ShapeParameters {
 }
 
 object Rn3Shapes {
+    val Clover = Rn3ShapeParameters.Clover.genShape().normalized()
     val Scallop = Rn3ShapeParameters.Scallop.genShape().normalized()
     val ScallopPointy = Rn3ShapeParameters.ScallopPointy.genShape().normalized()
 }

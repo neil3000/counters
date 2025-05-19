@@ -15,23 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
-plugins {
-    alias(libs.plugins.rn3.android.feature)
-    alias(libs.plugins.rn3.android.library.compose)
-    alias(libs.plugins.rn3.android.library.jacoco)
-}
+package dev.rahmouni.neil.counters.feature.dashboard.newCounter.model
 
-android {
-    namespace = "dev.rahmouni.neil.counters.feature.dashboard"
-}
+import dev.rahmouni.neil.counters.feature.dashboard.newCounter.CounterCategory
 
-dependencies {
-    api(libs.androidx.compose.material.iconsExtended)
-
-    implementation(libs.androidx.appcompat)
-    implementation(libs.coil.kt.compose)
-
-    implementation(projects.core.data)
-    implementation(projects.core.shapes)
+internal sealed interface NewCounterUiState {
+    data class PickingCategory(val category: CounterCategory?) : NewCounterUiState
 }

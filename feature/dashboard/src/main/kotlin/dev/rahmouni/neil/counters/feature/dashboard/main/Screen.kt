@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package dev.rahmouni.neil.counters.feature.dashboard
+package dev.rahmouni.neil.counters.feature.dashboard.main
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.padding
@@ -41,7 +41,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import dev.rahmouni.neil.counters.core.data.model.CounterRawData
 import dev.rahmouni.neil.counters.core.data.model.IncrementRawData
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewScreen
 import dev.rahmouni.neil.counters.core.designsystem.Rn3PreviewUiStates
@@ -54,13 +53,14 @@ import dev.rahmouni.neil.counters.core.designsystem.paddingValues.Rn3PaddingValu
 import dev.rahmouni.neil.counters.core.feedback.FeedbackContext.FeedbackScreenContext
 import dev.rahmouni.neil.counters.core.feedback.navigateToFeedback
 import dev.rahmouni.neil.counters.core.ui.TrackScreenViewEvent
+import dev.rahmouni.neil.counters.feature.dashboard.R
 import dev.rahmouni.neil.counters.feature.dashboard.model.DashboardUiState
 import dev.rahmouni.neil.counters.feature.dashboard.model.DashboardViewModel
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.DashboardData
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.DashboardDataPreviewParameterProvider
 import dev.rahmouni.neil.counters.feature.dashboard.model.data.PreviewParameterData
+import dev.rahmouni.neil.counters.feature.dashboard.newCounter.navigateToDashboardNewCounter
 import dev.rahmouni.neil.counters.feature.dashboard.ui.DashboardCard
-import dev.rahmouni.neil.counters.feature.dashboard.ui.newCounterModal
 
 @Composable
 internal fun DashboardRoute(
@@ -79,7 +79,7 @@ internal fun DashboardRoute(
             "PkS4cSDUBdi2IvRegPIEe46xgk8Bf7h8",
         ).toTopAppBarAction(navController::navigateToFeedback),
         onSettingsTopAppBarActionClicked = navigateToSettings,
-        onCreateCounter = viewModel::createCounter,
+        onNewCounterFabClicked = navController::navigateToDashboardNewCounter,
         onIncrementCounter = viewModel::incrementCounter,
     )
 
@@ -93,15 +93,13 @@ internal fun DashboardScreen(
     uiState: DashboardUiState,
     feedbackTopAppBarAction: TopAppBarAction? = null,
     onSettingsTopAppBarActionClicked: () -> Unit = {},
-    onCreateCounter: (CounterRawData) -> Unit = {},
+    onNewCounterFabClicked: () -> Unit = {},
     onIncrementCounter: (String, IncrementRawData) -> Unit = { _, _ -> },
 ) {
     val haptics = getHaptic()
 
     val gridState = rememberLazyGridState()
     val expandedFab by remember { derivedStateOf { gridState.firstVisibleItemIndex == 0 } }
-
-    val openNewCounterModal = newCounterModal(onCreateCounter = onCreateCounter)
 
     Rn3Scaffold(
         modifier,
@@ -123,7 +121,7 @@ internal fun DashboardScreen(
                 icon = { Icon(Icons.Outlined.Add, null) },
                 onClick = {
                     haptics.click()
-                    openNewCounterModal()
+                    onNewCounterFabClicked()
                 },
                 expanded = expandedFab,
             )
