@@ -1,8 +1,8 @@
 package rahmouni.neil.counters.settings
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -14,12 +14,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.outlined.Analytics
+import androidx.compose.material.icons.outlined.ArrowDownward
+import androidx.compose.material.icons.outlined.ArrowOutward
+import androidx.compose.material.icons.outlined.BugReport
+import androidx.compose.material.icons.outlined.Policy
+import androidx.compose.material.icons.outlined.RestartAlt
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -31,10 +43,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
 import com.google.firebase.analytics.logEvent
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import rahmouni.neil.counters.BuildConfig
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.R
-import rahmouni.neil.counters.database.CountersDatabase // Assuming your Database class name
+import rahmouni.neil.counters.database.CountersDatabase
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
@@ -44,33 +60,76 @@ import rahmouni.neil.counters.utils.tiles.TileClick
 import rahmouni.neil.counters.utils.tiles.TileHeader
 import rahmouni.neil.counters.utils.tiles.TileStartActivity
 import rahmouni.neil.counters.utils.tiles.TileSwitch
-import java.io.File
 import java.io.FileInputStream
-import java.io.FileOutputStream
 
 class DataSettingsActivity : ComponentActivity() {
 
-    // ActivityResultLauncher for creating a document (for database export)
+    private val TAG = "DataSettingsActivity"
+
     private val createDocumentLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
+            if (result.resultCode == RESULT_OK) {
                 result.data?.data?.let { uri ->
-                    try {
-                        val dbFile = getDatabasePath("counters_database")
-                        if (dbFile.exists()) {
-                            contentResolver.openOutputStream(uri)?.use { outputStream ->
-                                FileInputStream(dbFile).use { inputStream ->
-                                    inputStream.copyTo(outputStream)
+                    // Perform the copy operation in a background thread
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            val dbInstance = CountersDatabase.getInstance(applicationContext)
+
+                            // Force a WAL checkpoint to ensure all data is written to the main DB file.
+                            // This is crucial for getting a consistent and complete database copy.
+                            // The query PRAGMA wal_checkpoint(FULL) attempts to checkpoint all data.
+                            // It returns a row with three integers: busy (0 or 1), log (pages in WAL), checkpointed (pages checkpointed).
+                            dbInstance.openHelper.writableDatabase.query("PRAGMA wal_checkpoint(FULL)").use { cursor ->
+                                if (cursor.moveToFirst()) {
+                                    val busy = cursor.getInt(0)
+                                    val logSize = cursor.getInt(1)
+                                    val checkpointedPages = cursor.getInt(2)
+                                    Log.d(TAG, "WAL Checkpoint result: busy=$busy, logPages=$logSize, checkpointedPages=$checkpointedPages")
+                                } else {
+                                    Log.w(TAG, "WAL Checkpoint PRAGMA did not return any rows.")
                                 }
-                                Toast.makeText(this, "Database exported successfully", Toast.LENGTH_SHORT).show()
-                                analytics?.logEvent("database_exported", null)
-                            } ?: throw Exception("Could not open output stream")
-                        } else {
-                            Toast.makeText(this, "Database file not found", Toast.LENGTH_SHORT).show()
+                            }
+
+                            val dbFile = applicationContext.getDatabasePath("counters_database")
+                            Log.d(TAG, "Database path: ${dbFile.absolutePath}, Exists: ${dbFile.exists()}, Size: ${dbFile.length()} bytes")
+
+                            if (dbFile.exists() && dbFile.length() > 0) {
+                                contentResolver.openOutputStream(uri)?.use { outputStream ->
+                                    FileInputStream(dbFile).use { inputStream ->
+                                        val bytesCopied = inputStream.copyTo(outputStream)
+                                        Log.d(TAG, "Bytes copied: $bytesCopied to URI: $uri")
+                                        if (bytesCopied == 0L && dbFile.length() > 0) {
+                                            Log.w(TAG, "Warning: 0 bytes copied even though source file has content. Check stream operations.")
+                                        }
+                                    }
+                                    withContext(Dispatchers.Main) {
+                                        Toast.makeText(this@DataSettingsActivity, "Database exported successfully", Toast.LENGTH_SHORT).show()
+                                    }
+                                    analytics?.logEvent("database_exported") {
+                                        param("file_size", dbFile.length())
+                                    }
+                                } ?: run {
+                                    val errorMsg = "Could not open output stream for URI: $uri"
+                                    Log.e(TAG, errorMsg)
+                                    throw Exception(errorMsg)
+                                }
+                            } else {
+                                val errorMsg = "Database file not found or is empty at path: ${dbFile.absolutePath}. Size: ${dbFile.length()}"
+                                Log.e(TAG, errorMsg)
+                                throw Exception(errorMsg)
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Error exporting database", e)
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(this@DataSettingsActivity, "Error exporting database", Toast.LENGTH_LONG).show()
+                            }
                         }
-                    } catch (e: Exception) {
-                        Toast.makeText(this, "Error exporting database: ${e.message}", Toast.LENGTH_LONG).show()
                     }
+                }
+            } else {
+                Log.d(TAG, "Export cancelled by user or failed: resultCode=${result.resultCode}")
+                if (result.resultCode != RESULT_CANCELED) {
+                    Toast.makeText(this@DataSettingsActivity, "Export operation failed or was cancelled", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -143,7 +202,6 @@ fun DataSettingsPage(onExportDatabase: () -> Unit = {}) {
         LazyColumn(contentPadding = innerPadding, modifier = Modifier.fillMaxHeight()) {
 
             item { TileHeader("Imports & exports") }
-            // Export
             item {
                 TileClick(
                     title = "Export database",
@@ -153,7 +211,6 @@ fun DataSettingsPage(onExportDatabase: () -> Unit = {}) {
                         onExportDatabase()
                     }
                 )
-                // Import
                 TileStartActivity(
                     title = "Import database",
                     icon = Icons.Outlined.ArrowDownward,
@@ -163,7 +220,6 @@ fun DataSettingsPage(onExportDatabase: () -> Unit = {}) {
             }
 
             item { TileHeader("Privacy") }
-            // AppMetrics
             item {
                 TileSwitch(
                     title = stringResource(R.string.dataSettingsActivity_tile_appMetrics_title),
@@ -174,13 +230,11 @@ fun DataSettingsPage(onExportDatabase: () -> Unit = {}) {
                     analytics?.logEvent("changed_settings") {
                         param("Analytics", it.toString())
                     }
-
                     analyticsEnabled = it
                     prefs.analyticsEnabled = it
                 }
             }
             item {
-                // ClearAppMetrics
                 ConfirmationDialog(
                     title = stringResource(R.string.dataSettingsActivity_tile_clearAppMetrics_title),
                     body = { Text(stringResource(R.string.dataSettingsActivity_tile_clearAppMetrics_dialogMessage)) },
@@ -196,12 +250,11 @@ fun DataSettingsPage(onExportDatabase: () -> Unit = {}) {
                         stringResource(R.string.dataSettingsActivity_tile_clearAppMetrics_title),
                         Icons.Outlined.RestartAlt
                     ) {
-                        it()
+                        it() // it() is the showDialog lambda from ConfirmationDialog
                     }
                 }
             }
             item {
-                // CrashReports
                 TileSwitch(
                     title = stringResource(R.string.dataSettingsActivity_tile_crashReports_title),
                     description = stringResource(R.string.dataSettingsActivity_tile_crashReports_secondary),
