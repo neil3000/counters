@@ -1,22 +1,16 @@
 package rahmouni.neil.counters.counter_card.activity
 
-import android.app.Activity
 import android.content.Intent
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import com.google.firebase.analytics.ktx.logEvent
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.analytics.logEvent
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
 import rahmouni.neil.counters.MainActivity
 import rahmouni.neil.counters.R
@@ -24,10 +18,6 @@ import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.counterActivity.goal.CounterGoalSettingsActivity
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.health_connect.HealthConnectAvailability
-import rahmouni.neil.counters.health_connect.HealthConnectManager
-import rahmouni.neil.counters.health_connect.HealthConnectSettingsActivity
-import rahmouni.neil.counters.health_connect.observeAsState
 import rahmouni.neil.counters.options.ValueOption
 import rahmouni.neil.counters.utils.dialogs.ConfirmationDialog
 import rahmouni.neil.counters.utils.tiles.*
@@ -36,19 +26,10 @@ import rahmouni.neil.counters.value_types.ValueType
 @Composable
 fun CounterSettings(
     counter: CounterAugmented?,
-    countersListViewModel: CountersListViewModel,
-    healthConnectManager: HealthConnectManager
+    countersListViewModel: CountersListViewModel
 ) {
-    val activity = (LocalContext.current as Activity)
-    val remoteConfig = FirebaseRemoteConfig.getInstance()
-    val lifecycleState by LocalLifecycleOwner.current.lifecycle.observeAsState()
-
-    val permissionsGranted = rememberSaveable { mutableStateOf(false) }
-
-    LaunchedEffect(lifecycleState) {
-        permissionsGranted.value =
-            healthConnectManager.availability.value == HealthConnectAvailability.INSTALLED && healthConnectManager.hasAllPermissions()
-    }
+    val activity = LocalActivity.current
+    val context = LocalContext.current
 
     LazyColumn {
         item {
@@ -59,7 +40,7 @@ fun CounterSettings(
                 title = stringResource(R.string.counterSettings_tile_name_title),
                 dialogTitle = stringResource(R.string.counterSettings_tile_name_dialogTitle),
                 icon = Icons.Outlined.Title,
-                value = counter?.getDisplayName(activity) ?: "Counter",
+                value = counter?.getDisplayName(context) ?: "Counter",
                 validateInput = { it.isNotEmpty() }
             ) {
                 if (counter != null) {
@@ -75,7 +56,7 @@ fun CounterSettings(
             TileDialogRadioButtons(
                 title = stringResource(R.string.counterSettings_tile_valueType_title),
                 icon = Icons.Outlined.Category,
-                values = ValueType.values().toList(),
+                values = ValueType.entries,
                 selected = counter?.valueType ?: ValueType.NUMBER
             ) {
                 if (counter != null) {
@@ -124,7 +105,7 @@ fun CounterSettings(
                 } else it
             }
         }
-        item { Divider() }
+        item { HorizontalDivider() }
 
 
         item {
@@ -134,7 +115,7 @@ fun CounterSettings(
             TileDialogRadioButtons(
                 title = stringResource(R.string.counterSettings_tile_frequency_title),
                 icon = Icons.Outlined.Event,
-                values = ResetType.values().toList(),
+                values = ResetType.entries,
                 selected = counter?.resetType ?: ResetType.NEVER
             ) {
                 if (counter != null) {
@@ -172,38 +153,29 @@ fun CounterSettings(
                 }
             }
         }
-        item { Divider() }
+        item { HorizontalDivider() }
 
 
         item {
             TileHeader(stringResource(R.string.counterSettings_tile_other_headerTitle))
         }
-        if ((counter?.valueType?.hasHealthConnectIntegration != false) && remoteConfig.getBoolean("issue114__health_connect")) {
             item {
                 TileEndSwitch(
-                    checked = permissionsGranted.value && (counter?.healthConnectEnabled ?: false),
-                    enabled = permissionsGranted.value,
+                    checked = false,
+                    enabled = false,
                     onChange = {
-                        countersListViewModel.updateCounter(
-                            counter!!.copy(
-                                healthConnectEnabled = it
-                            ).toCounter()
-                        )
+                        // Nothing on this version, check previous versions
                     }
                 ) { defaultModifier ->
                     TileStartActivity(
                         title = stringResource(R.string.counterSettings_tile_healthConnect_title),
                         icon = Icons.Outlined.Sync,
-                        activity = HealthConnectSettingsActivity::class.java,
-                        modifier = defaultModifier
-                    ) { intent ->
-                        if (counter != null) {
-                            intent.putExtra("counterID", counter.uid)
-                        } else intent
-                    }
+                        modifier = defaultModifier,
+                        activity = null,
+                        enabled = false
+                    )
                 }
             }
-        }
         item {
             ConfirmationDialog(
                 title = stringResource(R.string.counterSettings_tile_delete_title),
@@ -213,7 +185,7 @@ fun CounterSettings(
                 onConfirm = {
                     val mainAct = Intent(activity, MainActivity::class.java)
                     mainAct.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    activity.startActivity(mainAct)
+                    activity?.startActivity(mainAct)
 
                     if (counter != null) {
                         countersListViewModel.deleteCounterById(counter.uid)

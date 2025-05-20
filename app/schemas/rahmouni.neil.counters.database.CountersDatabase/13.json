@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 13,
-    "identityHash": "ca3cdaea141e04c248fbdd3a2e0dfe35",
+    "identityHash": "375e387453eec4b63c634df6022e56f3",
     "entities": [
       {
         "tableName": "Counter",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `display_name` TEXT, `style` TEXT NOT NULL, `entry_value` INTEGER NOT NULL DEFAULT 1, `reset_type` TEXT NOT NULL DEFAULT 'NEVER', `reset_value` INTEGER NOT NULL DEFAULT 0, `health_connect_enabled` INTEGER NOT NULL DEFAULT false, `health_connect_exercise_type` TEXT NOT NULL DEFAULT 'BACK_EXTENSION', `health_connect_data_type` TEXT NOT NULL DEFAULT 'REPETITIONS', `value_type` TEXT NOT NULL DEFAULT 'NUMBER', `button_plus_value` INTEGER NOT NULL DEFAULT 1, `button_plus_enabled` INTEGER NOT NULL DEFAULT true, `button_minus_value` INTEGER NOT NULL DEFAULT -1, `button_minus_enabled` INTEGER NOT NULL DEFAULT false, `button_done_enabled` INTEGER NOT NULL DEFAULT true, `button_notDone_enabled` INTEGER NOT NULL DEFAULT false, `goal_value` INTEGER DEFAULT null, `goal_enabled` INTEGER NOT NULL DEFAULT false, `goal_reset` TEXT DEFAULT 'NEVER', `suggestions_dismissed` INTEGER NOT NULL DEFAULT false, `goal_type` TEXT NOT NULL DEFAULT 'TIME_PERIOD')",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `display_name` TEXT, `style` TEXT NOT NULL, `entry_value` INTEGER NOT NULL DEFAULT 1, `reset_type` TEXT NOT NULL DEFAULT 'NEVER', `reset_value` INTEGER NOT NULL DEFAULT 0, `health_connect_enabled` INTEGER NOT NULL DEFAULT false, `health_connect_exercise_type` INTEGER NOT NULL DEFAULT BACK_EXTENSION, `health_connect_data_type` INTEGER NOT NULL DEFAULT REPETITIONS, `value_type` TEXT NOT NULL DEFAULT 'NUMBER', `button_plus_value` INTEGER NOT NULL DEFAULT 1, `button_plus_enabled` INTEGER NOT NULL DEFAULT true, `button_minus_value` INTEGER NOT NULL DEFAULT -1, `button_minus_enabled` INTEGER NOT NULL DEFAULT false, `button_done_enabled` INTEGER NOT NULL DEFAULT true, `button_notDone_enabled` INTEGER NOT NULL DEFAULT false, `goal_value` INTEGER DEFAULT null, `goal_enabled` INTEGER NOT NULL DEFAULT false, `goal_reset` TEXT DEFAULT 'NEVER', `suggestions_dismissed` INTEGER NOT NULL DEFAULT false, `goal_type` TEXT NOT NULL DEFAULT 'TIME_PERIOD')",
         "fields": [
           {
             "fieldPath": "uid",
@@ -17,8 +17,7 @@
           {
             "fieldPath": "displayName",
             "columnName": "display_name",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "style",
@@ -57,16 +56,16 @@
           {
             "fieldPath": "healthConnectExerciseType",
             "columnName": "health_connect_exercise_type",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true,
-            "defaultValue": "'BACK_EXTENSION'"
+            "defaultValue": "BACK_EXTENSION"
           },
           {
             "fieldPath": "healthConnectDataType",
             "columnName": "health_connect_data_type",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true,
-            "defaultValue": "'REPETITIONS'"
+            "defaultValue": "REPETITIONS"
           },
           {
             "fieldPath": "valueType",
@@ -121,7 +120,6 @@
             "fieldPath": "goalValue",
             "columnName": "goal_value",
             "affinity": "INTEGER",
-            "notNull": false,
             "defaultValue": "null"
           },
           {
@@ -135,7 +133,6 @@
             "fieldPath": "goalReset",
             "columnName": "goal_reset",
             "affinity": "TEXT",
-            "notNull": false,
             "defaultValue": "'NEVER'"
           },
           {
@@ -158,9 +155,7 @@
           "columnNames": [
             "uid"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "Increment",
@@ -194,8 +189,7 @@
           {
             "fieldPath": "notes",
             "columnName": "notes",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -204,7 +198,6 @@
             "uid"
           ]
         },
-        "indices": [],
         "foreignKeys": [
           {
             "table": "Counter",
@@ -220,10 +213,9 @@
         ]
       }
     ],
-    "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ca3cdaea141e04c248fbdd3a2e0dfe35')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '375e387453eec4b63c634df6022e56f3')"
     ]
   }
 }

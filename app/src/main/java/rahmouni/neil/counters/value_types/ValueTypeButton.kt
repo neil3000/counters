@@ -5,10 +5,8 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -16,8 +14,6 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.Counter
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.health_connect.HealthConnectAvailability
-import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.utils.tiles.TileClick
 import rahmouni.neil.counters.utils.tiles.TileEndSwitch
 import rahmouni.neil.counters.utils.tiles.TileSwitch
@@ -31,7 +27,6 @@ class ValueTypeButton(
     private val updatedCounter: (counter: Counter, enabled: Boolean) -> Counter,
     private val updatedCounterValue: ((counter: Counter, value: Int) -> Counter)? = null,
 ) {
-    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     fun Tile(counter: Counter, countersListViewModel: CountersListViewModel) {
         val keyboardController = LocalSoftwareKeyboardController.current
@@ -141,17 +136,9 @@ class ValueTypeButton(
     @Composable
     fun CardButton(
         counter: CounterAugmented,
-        countersListViewModel: CountersListViewModel?,
-        healthConnectManager: HealthConnectManager
+        countersListViewModel: CountersListViewModel?
     ) {
         val haptic = LocalHapticFeedback.current
-        val context = LocalContext.current
-
-        val permissionsGranted = rememberSaveable { mutableStateOf(false) }
-        LaunchedEffect(Unit) {
-            permissionsGranted.value =
-                healthConnectManager.availability.value == HealthConnectAvailability.INSTALLED && healthConnectManager.hasAllPermissions()
-        }
 
         IconButton(onClick = {
             if (countersListViewModel != null) {
@@ -159,9 +146,7 @@ class ValueTypeButton(
 
                 countersListViewModel.addIncrement(
                     value(counter.toCounter()),
-                    counter,
-                    context,
-                    healthConnectManager,
+                    counter
                 )
             }
         }) {

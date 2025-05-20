@@ -1,8 +1,8 @@
 package rahmouni.neil.counters.counterActivity.goal
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
@@ -18,6 +18,7 @@ import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material.icons.outlined.Pin
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -35,14 +36,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import com.google.firebase.dynamiclinks.ktx.dynamicLinks
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
@@ -66,8 +64,6 @@ class CounterGoalSettingsActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        Firebase.dynamicLinks.getDynamicLink(intent)
-
         val counterID: Int = intent.getIntExtra("counterID", 0)
 
         val countersListViewModel by viewModels<CountersListViewModel> {
@@ -76,7 +72,6 @@ class CounterGoalSettingsActivity : ComponentActivity() {
 
         setContent {
             CountersTheme {
-                androidx.compose.material.Surface {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
                         tonalElevation = 1.dp,
@@ -87,20 +82,19 @@ class CounterGoalSettingsActivity : ComponentActivity() {
                             countersListViewModel
                         )
                     }
-                }
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CounterGoalSettingsPage(
     counterID: Int,
     countersListViewModel: CountersListViewModel,
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val activity = (LocalContext.current as Activity)
+    val activity = LocalActivity.current
     val localHapticFeedback = LocalHapticFeedback.current
     val remoteConfig = FirebaseRemoteConfig.getInstance()
 
@@ -119,7 +113,7 @@ fun CounterGoalSettingsPage(
                         onClick = {
                             localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                            activity.finish()
+                            activity?.finish()
                         }
                     ) {
                         Icon(
@@ -198,7 +192,7 @@ fun CounterGoalSettingsPage(
                     TileDialogRadioButtons(
                         title = stringResource(R.string.counterGoalSettingsActivity_tile_goalType_title),
                         icon = Icons.Outlined.EmojiEvents,
-                        values = GoalType.values().toList(),
+                        values = GoalType.entries,
                         selected = counter?.goalType ?: GoalType.TIME_PERIOD
                     ) {
                         if (counter != null) {
@@ -218,7 +212,7 @@ fun CounterGoalSettingsPage(
                         dialogTitle = stringResource(R.string.counterGoalSettingsActivity_tile_goalTimePeriodReset_dialogTitle),
                         icon = Icons.Outlined.Event,
                         values = listOf(GoalResetType.FollowCounter).plus(
-                            ResetType.values().toList()
+                            ResetType.entries
                         ),
                         selected = counter?.goalReset ?: GoalResetType.FollowCounter,
                         enabled = (counter?.goalType
@@ -233,7 +227,7 @@ fun CounterGoalSettingsPage(
                         }
                     }
                 }
-                item { androidx.compose.material.Divider() }
+                item { HorizontalDivider() }
 
             } else {
                 //GoalReset
@@ -242,7 +236,7 @@ fun CounterGoalSettingsPage(
                         title = stringResource(R.string.counterGoalSettingsActivity_tile_goalReset_title),
                         icon = Icons.Outlined.Event,
                         values = listOf(GoalResetType.FollowCounter).plus(
-                            ResetType.values().toList()
+                            ResetType.entries
                         ),
                         selected = counter?.goalReset ?: GoalResetType.FollowCounter
                     ) {
@@ -255,7 +249,7 @@ fun CounterGoalSettingsPage(
                         }
                     }
                 }
-                item { androidx.compose.material.Divider() }
+                item { HorizontalDivider() }
             }
         }
     }

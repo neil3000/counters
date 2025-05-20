@@ -1,17 +1,17 @@
 package rahmouni.neil.counters
 
 import android.app.Application
+import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.appcheck.FirebaseAppCheck
+import com.google.firebase.analytics.analytics
+import com.google.firebase.appcheck.appCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.installations.FirebaseInstallations
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.crashlytics.crashlytics
+import com.google.firebase.installations.installations
+import com.google.firebase.remoteconfig.remoteConfig
 import rahmouni.neil.counters.database.CountersDatabase
 import rahmouni.neil.counters.database.CountersListRepository
-import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.settings.Prefs
 
 var prefs: Prefs = CountersApplication.prefs!!
@@ -19,7 +19,6 @@ var prefs: Prefs = CountersApplication.prefs!!
 class CountersApplication : Application() {
     private val database by lazy { CountersDatabase.getInstance(this) }
     val countersListRepository by lazy { CountersListRepository(database.countersListDao()) }
-    val healthConnectManager by lazy { HealthConnectManager(this, kotlinx.coroutines.MainScope()) }
 
     companion object {
         var prefs: Prefs? = null
@@ -35,27 +34,28 @@ class CountersApplication : Application() {
         instance = this
         prefs = Prefs(applicationContext)
 
-        FirebaseAppCheck.getInstance().installAppCheckProviderFactory(
+        Firebase.appCheck.installAppCheckProviderFactory(
             PlayIntegrityAppCheckProviderFactory.getInstance()
         )
 
-        val remoteConfig = FirebaseRemoteConfig.getInstance()
+        val remoteConfig = Firebase.remoteConfig
         remoteConfig.setDefaultsAsync(if (BuildConfig.DEBUG) R.xml.remote_config_debug else R.xml.remote_config_defaults)
         if (!BuildConfig.DEBUG) remoteConfig.fetchAndActivate()
 
-        crashlytics = FirebaseCrashlytics.getInstance()
-        crashlytics!!.setCrashlyticsCollectionEnabled(rahmouni.neil.counters.prefs.crashlyticsEnabled && !BuildConfig.DEBUG)
+        crashlytics = Firebase.crashlytics
+        crashlytics!!.isCrashlyticsCollectionEnabled =
+            rahmouni.neil.counters.prefs.crashlyticsEnabled && !BuildConfig.DEBUG
 
         analytics = Firebase.analytics
         analytics?.setAnalyticsCollectionEnabled(rahmouni.neil.counters.prefs.analyticsEnabled && !BuildConfig.DEBUG)
 
-        FirebaseInstallations.getInstance().id.addOnCompleteListener { task ->
+        Firebase.installations.id.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 firebaseInstallationID = task.result
             }
         }
 
-        prefs!!.tipsStatus = prefs!!.tipsStatus + 3
+        prefs!!.tipsStatus += 3
 
         super.onCreate()
     }

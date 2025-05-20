@@ -1,16 +1,15 @@
 package rahmouni.neil.counters.utils.feedback
 
-import android.app.Activity
 import android.os.Build
 import android.os.Build.MANUFACTURER
 import android.os.Build.MODEL
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.ContentAlpha
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Send
@@ -25,13 +24,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import com.google.firebase.dynamiclinks.ktx.dynamicLinks
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.BuildConfig
 import rahmouni.neil.counters.CountersApplication
@@ -49,28 +45,24 @@ class FeedbackActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
-        Firebase.dynamicLinks.getDynamicLink(intent)
-
         setContent {
             CountersTheme {
-                    androidx.compose.material.Surface {
-                        Surface(
-                            modifier = Modifier.fillMaxSize(),
-                            color = MaterialTheme.colorScheme.background
-                        ) {
-                            FeedbackPage(intent.getStringExtra("screenName") ?: "app_null")
-                        }
-                    }
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    FeedbackPage(intent.getStringExtra("screenName") ?: "app_null")
+                }
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeedbackPage(previousScreen: String) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val activity = (LocalContext.current as Activity)
+    val activity = LocalActivity.current
     val localHapticFeedback = LocalHapticFeedback.current
     val remoteConfig = FirebaseRemoteConfig.getInstance()
 
@@ -101,7 +93,7 @@ fun FeedbackPage(previousScreen: String) {
                         onClick = {
                             localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                            activity.finish()
+                            activity?.finish()
                         }
                     ) {
                         Icon(
@@ -119,15 +111,14 @@ fun FeedbackPage(previousScreen: String) {
                     Icon(
                         Icons.AutoMirrored.Outlined.Send,
                         null,
-                        Modifier.alpha(if (canSend) ContentAlpha.high else ContentAlpha.disabled)
+                        Modifier.alpha(if (canSend) 1f else .7f)
                     )
                 },
                 containerColor = if (canSend) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
                 modifier = Modifier
                     .navigationBarsPadding(),
                 onClick = {
-                    if (canSend) {
-
+                    if (activity != null && canSend) {
                         sendEmail(
                             activity,
                             remoteConfig.getString("feedback_email"),
@@ -141,11 +132,13 @@ fun FeedbackPage(previousScreen: String) {
                                             "DESC:\n> $description\n\n" +
                                             "FIREBASE: `${if (sendFirebaseAppInstallationID) (CountersApplication.firebaseInstallationID ?: "Error") else "null"}`\n\n" +
                                             "CONTRIBUTOR: `$acceptContributorBadge`"
+
                                 FeedbackType.FEATURE ->
                                     "VERSION: `${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})`\n\n" +
                                             "DESC:\n> $description\n\n" +
                                             "FIREBASE: `${if (sendFirebaseAppInstallationID) (CountersApplication.firebaseInstallationID ?: "Error") else "null"}`\n\n" +
                                             "CONTRIBUTOR: `$acceptContributorBadge`"
+
                                 FeedbackType.TRANSLATION ->
                                     "VERSION: `${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})`\n\n" +
                                             "SCREEN: `${if (feedbackLocation == FeedbackLocation.PREVIOUS_SCREEN) previousScreen else "null"}`\n\n" +
@@ -165,7 +158,7 @@ fun FeedbackPage(previousScreen: String) {
                 TileDialogRadioButtons(
                     title = stringResource(R.string.feedbackActivity_tile_category_title),
                     icon = Icons.Outlined.Category,
-                    values = FeedbackType.values().toList(),
+                    values = FeedbackType.entries,
                     selected = feedbackType,
                     defaultSecondary = stringResource(R.string.feedbackActivity_tile_category_defaultSecondary)
                 ) {
@@ -177,7 +170,7 @@ fun FeedbackPage(previousScreen: String) {
                 TileDialogRadioButtons(
                     title = stringResource(feedbackType?.location ?: FeedbackType.BUG.location!!),
                     icon = Icons.Outlined.WebAsset,
-                    values = FeedbackLocation.values().toList(),
+                    values = FeedbackLocation.entries,
                     selected = feedbackLocation,
                     enabled = if (feedbackType == null) false else feedbackType?.location != null
                 ) {
@@ -202,7 +195,7 @@ fun FeedbackPage(previousScreen: String) {
                     )
                 }
             }
-            item { Divider() }
+            item { HorizontalDivider() }
 
             // AdditionalInfo
             item { TileHeader(stringResource(R.string.feedbackActivity_tile_additionalInfo_headerTitle)) }

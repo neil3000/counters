@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.requiredWidthIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ContentAlpha
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.AlertDialog
@@ -69,7 +68,7 @@ fun TileDialogRadioButtons(
         },
         leadingContent = { Icon(icon, null) },
         modifier = Modifier
-            .alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
+            .alpha(if (enabled) 1f else .7f)
             .clickable(
                 enabled = enabled,
                 onClick = {

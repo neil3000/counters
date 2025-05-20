@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ContentAlpha
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -49,7 +47,7 @@ fun HeaderSwitch(
             color = animatedColor.value,
             modifier = Modifier
                 .fillMaxWidth()
-                .alpha(if (enabled) ContentAlpha.high else ContentAlpha.medium)
+                .alpha(if (enabled) 1f else .7f)
                 .toggleable(
                     interactionSource = interactionSource,
                     value = checked,

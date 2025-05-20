@@ -1,10 +1,11 @@
 package rahmouni.neil.counters.settings
 
-import android.app.Activity
+import android.content.ClipData
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,8 +13,25 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.outlined.AccessibilityNew
+import androidx.compose.material.icons.outlined.CalendarViewMonth
+import androidx.compose.material.icons.outlined.Code
+import androidx.compose.material.icons.outlined.Feedback
+import androidx.compose.material.icons.outlined.Forum
+import androidx.compose.material.icons.outlined.NewReleases
+import androidx.compose.material.icons.outlined.Shield
+import androidx.compose.material.icons.outlined.StarOutline
+import androidx.compose.material.icons.outlined.Tag
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,14 +40,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.core.view.WindowCompat
-import com.google.firebase.dynamiclinks.ktx.dynamicLinks
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
@@ -40,7 +54,12 @@ import rahmouni.neil.counters.utils.SettingsDots
 import rahmouni.neil.counters.utils.feedback.FeedbackActivity
 import rahmouni.neil.counters.utils.openChromeCustomTab
 import rahmouni.neil.counters.utils.openPlayStoreUrl
-import rahmouni.neil.counters.utils.tiles.*
+import rahmouni.neil.counters.utils.tiles.TileClick
+import rahmouni.neil.counters.utils.tiles.TileDialogRadioButtons
+import rahmouni.neil.counters.utils.tiles.TileHeader
+import rahmouni.neil.counters.utils.tiles.TileRemoteConfig
+import rahmouni.neil.counters.utils.tiles.TileStartActivity
+import rahmouni.neil.counters.utils.tiles.TileSwitch
 
 class SettingsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,35 +68,31 @@ class SettingsActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
-        Firebase.dynamicLinks.getDynamicLink(intent)
-
         setContent {
             CountersTheme {
-                androidx.compose.material.Surface {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        SettingsPage()
-                    }
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    SettingsPage()
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsPage() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val activity = (LocalContext.current as Activity)
+    val activity = LocalActivity.current
     val localHapticFeedback = LocalHapticFeedback.current
-    val clipboard = LocalClipboardManager.current
+    val clipboard = LocalClipboard.current
 
     val remoteConfig = FirebaseRemoteConfig.getInstance()
 
     val showDebug = android.provider.Settings.Secure.getInt(
-        activity.contentResolver,
+        activity?.contentResolver,
         android.provider.Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0
     ) != 0
 
@@ -99,7 +114,7 @@ fun SettingsPage() {
                         onClick = {
                             localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                            activity.finish()
+                            activity?.finish()
                         }
                     ) {
                         Icon(
@@ -121,7 +136,7 @@ fun SettingsPage() {
                 TileDialogRadioButtons(
                     title = stringResource(R.string.settingsActivity_tile_firstDayOfWeek_title),
                     icon = Icons.Outlined.CalendarViewMonth,
-                    values = StartWeekDay.values().toList(),
+                    values = StartWeekDay.entries,
                     selected = startWeekDay ?: StartWeekDay.LOCALE,
                 ) {
                     startWeekDay = it as StartWeekDay
@@ -133,7 +148,7 @@ fun SettingsPage() {
                 TileDialogRadioButtons(
                     title = stringResource(R.string.settingsActivity_tile_displayWeekAs_title),
                     icon = Icons.Outlined.Tag,
-                    values = WeekDisplay.values().toList(),
+                    values = WeekDisplay.entries,
                     selected = weekDisplay ?: WeekDisplay.NUMBER,
                 ) {
                     weekDisplay = it as WeekDisplay
@@ -167,7 +182,9 @@ fun SettingsPage() {
                     title = stringResource(R.string.settingsActivity_tile_changelog_title),
                     icon = Icons.Outlined.NewReleases,
                 ) {
-                    openChromeCustomTab(activity, remoteConfig.getString("changelog_url"))
+                    if (activity != null) {
+                        openChromeCustomTab(activity, remoteConfig.getString("changelog_url"))
+                    }
                 }
             }
             // OpenPlayStorePage
@@ -177,7 +194,10 @@ fun SettingsPage() {
                     icon = Icons.Outlined.StarOutline,
                 ) {
                     analytics?.logEvent("opened_playStore_inAppLink", null)
-                    openPlayStoreUrl(activity, remoteConfig.getString("play_store_url"))
+
+                    if (activity != null) {
+                        openPlayStoreUrl(activity, remoteConfig.getString("play_store_url"))
+                    }
                 }
             }
             // DiscordInvite
@@ -188,10 +208,13 @@ fun SettingsPage() {
                     icon = Icons.Outlined.Forum,
                 ) {
                     analytics?.logEvent("opened_discord_inAppLink", null)
-                    openChromeCustomTab(
-                        activity,
-                        remoteConfig.getString("discord_invite")
-                    )
+
+                    if (activity != null)  {
+                        openChromeCustomTab(
+                            activity,
+                            remoteConfig.getString("discord_invite")
+                        )
+                    }
                 }
             }
             // Feedback
@@ -201,7 +224,7 @@ fun SettingsPage() {
                     description = stringResource(R.string.settingsActivity_tile_feedback_secondary),
                     icon = Icons.Outlined.Feedback,
                 ) {
-                    activity.startActivity(
+                    activity?.startActivity(
                         Intent(activity, FeedbackActivity::class.java).putExtra(
                             "screenName",
                             "SettingsActivity"
@@ -247,7 +270,12 @@ fun SettingsPage() {
                         icon = Icons.Outlined.Tag
                     ) {
                         if (CountersApplication.firebaseInstallationID != null) {
-                            clipboard.setText(AnnotatedString(CountersApplication.firebaseInstallationID!!))
+                            clipboard.nativeClipboard.setPrimaryClip(
+                                ClipData.newPlainText(
+                                    "RahNeil_N3:CountersOld",
+                                    CountersApplication.firebaseInstallationID!!
+                                )
+                            )
                         }
                     }
                 }

@@ -1,11 +1,9 @@
 package rahmouni.neil.counters.settings
 
-import android.app.Activity
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,12 +21,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
-import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.prefs
 import rahmouni.neil.counters.ui.theme.CountersTheme
@@ -42,37 +37,24 @@ class AccessibilitySettingsActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
-        FirebaseDynamicLinks.getInstance()
-            .getDynamicLink(intent)
-            .addOnSuccessListener(this) { pendingDynamicLinkData: PendingDynamicLinkData? ->
-                var deepLink: Uri? = null
-                if (pendingDynamicLinkData != null) {
-                    deepLink = pendingDynamicLinkData.link
-                }
-
-                Log.e("RahNeil_N3:Counters", deepLink.toString())
-            }.addOnFailureListener { e -> Log.e("RahNeil_N3:Counters", e.toString()) }
-
         setContent {
             CountersTheme {
-                androidx.compose.material.Surface {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
                     ) {
                         AccessibilitySettingsPage()
                     }
-                }
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccessibilitySettingsPage() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val activity = (LocalContext.current as Activity)
+    val activity = LocalActivity.current
     val localHapticFeedback = LocalHapticFeedback.current
 
     var iconSwitchesEnabled: Boolean? by rememberSaveable { mutableStateOf(prefs.iconSwitchesEnabled) }
@@ -91,7 +73,7 @@ fun AccessibilitySettingsPage() {
                         onClick = {
                             localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                            activity.finish()
+                            activity?.finish()
                         }
                     ) {
                         Icon(

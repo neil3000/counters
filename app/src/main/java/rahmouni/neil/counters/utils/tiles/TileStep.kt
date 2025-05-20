@@ -1,7 +1,6 @@
 package rahmouni.neil.counters.utils.tiles
 
 import androidx.compose.foundation.clickable
-import androidx.compose.material.ContentAlpha
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.ChevronRight
@@ -53,7 +52,7 @@ fun TileStep(
             }
         },
         modifier = Modifier
-            .alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
+            .alpha(if (enabled) 1f else .7f)
             .clickable(
                 enabled = !done && enabled,
                 onClick = {

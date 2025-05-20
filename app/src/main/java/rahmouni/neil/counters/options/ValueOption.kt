@@ -1,11 +1,9 @@
 package rahmouni.neil.counters.options
 
 import androidx.compose.foundation.clickable
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ListItem
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -13,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -25,7 +22,6 @@ import androidx.compose.ui.res.stringResource
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.value_types.ValueType
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun ValueOption(
     title: String,
@@ -63,27 +59,26 @@ fun ValueOption(
     }
 
     ListItem(
-        text = {
-            androidx.compose.material.Text(
+        headlineContent = {
+            Text(
                 title,
-                Modifier.alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
+                Modifier.alpha(if (enabled) 1f else .7f)
             )
         },
-        secondaryText = {
-            androidx.compose.material.Text(
+        supportingContent = {
+            Text(
                 if (secondaryFormatter != null) stringResource(
                     secondaryFormatter,
                     valueType.formatAsString(value, context)
                 ) else valueType.formatAsString(value, context),
-                Modifier.alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
+                Modifier.alpha(if (enabled) 1f else .7f)
             )
         },
-        singleLineSecondaryText = true,
-        icon = {
+        leadingContent = {
             Icon(
                 icon,
                 null,
-                Modifier.alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
+                Modifier.alpha(if (enabled) 1f else .7f)
             )
         },
         modifier = modifier.then(Modifier

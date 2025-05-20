@@ -1,11 +1,9 @@
 package rahmouni.neil.counters.settings
 
-import android.app.Activity
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,13 +20,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
-import com.google.firebase.analytics.ktx.logEvent
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
-import com.google.firebase.dynamiclinks.PendingDynamicLinkData
+import com.google.firebase.analytics.logEvent
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import rahmouni.neil.counters.BuildConfig
 import rahmouni.neil.counters.CountersApplication.Companion.analytics
@@ -39,6 +34,8 @@ import rahmouni.neil.counters.utils.SettingsDots
 import rahmouni.neil.counters.utils.dialogs.ConfirmationDialog
 import rahmouni.neil.counters.utils.openChromeCustomTab
 import rahmouni.neil.counters.utils.tiles.TileClick
+import rahmouni.neil.counters.utils.tiles.TileHeader
+import rahmouni.neil.counters.utils.tiles.TileStartActivity
 import rahmouni.neil.counters.utils.tiles.TileSwitch
 
 class DataSettingsActivity : ComponentActivity() {
@@ -48,20 +45,8 @@ class DataSettingsActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
-        FirebaseDynamicLinks.getInstance()
-            .getDynamicLink(intent)
-            .addOnSuccessListener(this) { pendingDynamicLinkData: PendingDynamicLinkData? ->
-                var deepLink: Uri? = null
-                if (pendingDynamicLinkData != null) {
-                    deepLink = pendingDynamicLinkData.link
-                }
-
-                Log.e("RahNeil_N3:Counters", deepLink.toString())
-            }.addOnFailureListener { e -> Log.e("RahNeil_N3:Counters", e.toString()) }
-
         setContent {
             CountersTheme {
-                androidx.compose.material.Surface {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
@@ -69,16 +54,15 @@ class DataSettingsActivity : ComponentActivity() {
                         DataSettingsPage()
                     }
                 }
-            }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DataSettingsPage() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val activity = (LocalContext.current as Activity)
+    val activity = LocalActivity.current
     val localHapticFeedback = LocalHapticFeedback.current
     val remoteConfig = FirebaseRemoteConfig.getInstance()
 
@@ -98,7 +82,7 @@ fun DataSettingsPage() {
                         onClick = {
                             localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                            activity.finish()
+                            activity?.finish()
                         }
                     ) {
                         Icon(
@@ -113,6 +97,26 @@ fun DataSettingsPage() {
     ) { innerPadding ->
         LazyColumn(contentPadding = innerPadding, modifier = Modifier.fillMaxHeight()) {
 
+            item { TileHeader("Imports & exports") }
+            // Export
+            item {
+                TileStartActivity(
+                    title = "Export database",
+                    description = "Coming soon ~",
+                    icon = Icons.Outlined.ArrowOutward,
+                    enabled = false,
+                    activity = null
+                )
+                TileStartActivity(
+                    title = "Import database",
+                    description = "Coming soon ~",
+                    icon = Icons.Outlined.ArrowDownward,
+                    enabled = false,
+                    activity = null
+                )
+            }
+
+            item { TileHeader("Privacy") }
             // AppMetrics
             item {
                 TileSwitch(
@@ -172,7 +176,7 @@ fun DataSettingsPage() {
                     title = stringResource(R.string.dataSettingsActivity_tile_privacyPolicy_title),
                     icon = Icons.Outlined.Policy,
                 ) {
-                    openChromeCustomTab(activity, remoteConfig.getString("privacy_policy_url"))
+                    if (activity != null) openChromeCustomTab(activity, remoteConfig.getString("privacy_policy_url"))
                 }
             }
         }

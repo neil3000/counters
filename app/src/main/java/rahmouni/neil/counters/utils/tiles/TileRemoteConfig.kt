@@ -7,8 +7,17 @@ import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.Science
 import androidx.compose.material.icons.outlined.TextFields
 import androidx.compose.material.icons.outlined.ToggleOn
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -47,11 +56,12 @@ fun TileRemoteConfig() {
                         var fVal: Any? = null
                         try {
                             fVal = value.asBoolean()
-                        } catch (_: IllegalArgumentException) { }
+                        } catch (_: IllegalArgumentException) {
+                        }
 
                         var source = "\uD83D\uDFE5 "
 
-                        when(value.source) {
+                        when (value.source) {
                             FirebaseRemoteConfig.VALUE_SOURCE_REMOTE -> source = "\uD83D\uDFE6 "
                             FirebaseRemoteConfig.VALUE_SOURCE_DEFAULT -> source = "\uD83D\uDFE9 "
                         }
@@ -60,32 +70,34 @@ fun TileRemoteConfig() {
                             fVal is Boolean -> {
                                 item {
                                     TileSwitch(
-                                        title = source+key,
+                                        title = source + key,
                                         icon = Icons.Outlined.ToggleOn,
                                         checked = value.asBoolean()
                                     ) {}
                                 }
                             }
+
                             value.asString().startsWith("{") -> {
                                 item {
                                     TileClick(
-                                        title = source+key,
+                                        title = source + key,
                                         description = value.asString(),
                                         icon = Icons.Outlined.Code,
                                     ) {}
                                 }
                             }
+
                             else -> {
                                 item {
                                     TileClick(
-                                        title = source+key,
+                                        title = source + key,
                                         description = value.asString(),
                                         icon = Icons.Outlined.TextFields,
                                     ) {}
                                 }
                             }
                         }
-                        item { Divider()}
+                        item { HorizontalDivider() }
                     }
                 }
             },

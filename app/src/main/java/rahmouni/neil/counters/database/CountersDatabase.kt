@@ -8,10 +8,6 @@ import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.goals.GoalType
-import rahmouni.neil.counters.health_connect.HealthConnectAvailability
-import rahmouni.neil.counters.health_connect.HealthConnectDataType
-import rahmouni.neil.counters.health_connect.HealthConnectExerciseType
-import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.value_types.ValueType
 import java.io.Serializable
 
@@ -101,11 +97,11 @@ data class Counter(
     @ColumnInfo(
         name = "health_connect_exercise_type",
         defaultValue = "BACK_EXTENSION"
-    ) val healthConnectExerciseType: HealthConnectExerciseType = HealthConnectExerciseType.BACK_EXTENSION,
+    ) val healthConnectExerciseType: Int = 0,
     @ColumnInfo(
         name = "health_connect_data_type",
         defaultValue = "REPETITIONS"
-    ) val healthConnectDataType: HealthConnectDataType = HealthConnectDataType.REPETITIONS,
+    ) val healthConnectDataType: Int = 0,
     @ColumnInfo(
         name = "value_type",
         defaultValue = "NUMBER"
@@ -162,11 +158,11 @@ data class CounterAugmented(
     @ColumnInfo(
         name = "health_connect_exercise_type",
         defaultValue = "BACK_EXTENSION"
-    ) val healthConnectExerciseType: HealthConnectExerciseType = HealthConnectExerciseType.BACK_EXTENSION,
+    ) val healthConnectExerciseType: Int = 0,
     @ColumnInfo(
         name = "health_connect_data_type",
         defaultValue = "REPETITIONS"
-    ) val healthConnectDataType: HealthConnectDataType = HealthConnectDataType.REPETITIONS,
+    ) val healthConnectDataType: Int = 0,
     @ColumnInfo(
         name = "value_type",
         defaultValue = "NUMBER"
@@ -272,10 +268,6 @@ data class CounterAugmented(
 
     fun getDisplayNameOrNull(): String? {
         return displayName
-    }
-
-    fun shouldLogHealthConnect(healthConnectManager: HealthConnectManager): Boolean {
-        return healthConnectManager.availability.value == HealthConnectAvailability.GRANTED && healthConnectEnabled
     }
 }
 

@@ -2,9 +2,11 @@ package rahmouni.neil.counters.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -93,6 +95,7 @@ fun CountersTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
+
         darkTheme -> DarkDefaultColorScheme
         else -> LightDefaultColorScheme
     }
@@ -102,24 +105,21 @@ fun CountersTheme(
             color = colorScheme.surface,
             tonalElevation = 2.dp
         )
+
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> BackgroundTheme(
             color = colorScheme.surface,
             tonalElevation = 2.dp,
         )
+
         else -> BackgroundTheme(
             color = colorScheme.surface,
             tonalElevation = 2.dp,
         )
     }
     CompositionLocalProvider(staticCompositionLocalOf { BackgroundTheme() } provides backgroundTheme) {
-        androidx.compose.material.MaterialTheme(
-            colors = if (darkTheme) darkColors() else lightColors(),
-            content = {
-                MaterialTheme(
-                    colorScheme = colorScheme,
-                    content = content
-                )
-            }
+        MaterialTheme(
+            colorScheme = colorScheme,
+            content = content
         )
     }
 }

@@ -1,6 +1,5 @@
 package rahmouni.neil.counters.counter_card.new_increment
 
-//import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
 import androidx.compose.animation.AnimatedVisibility
@@ -16,11 +15,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -29,27 +26,18 @@ import kotlinx.coroutines.launch
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.health_connect.HealthConnectManager
-import java.util.*
 
 @SuppressLint("SimpleDateFormat")
-@OptIn(
-    ExperimentalComposeUiApi::class,
-    ExperimentalMaterial3Api::class
-)
 @Composable
 fun NewIncrement(
     counter: CounterAugmented?,
     countersListViewModel: CountersListViewModel,
-    healthConnectManager: HealthConnectManager,
     onCreate: () -> (Unit)
 ) {
     if (counter != null) {
-        //val remoteConfig = FirebaseRemoteConfig.getInstance()
         val localHapticFeedback = LocalHapticFeedback.current
         val keyboardController = LocalSoftwareKeyboardController.current
         val scope = rememberCoroutineScope()
-        val context = LocalContext.current
 
         var value by rememberSaveable { mutableStateOf("1") }
         var date: Long? by rememberSaveable { mutableStateOf(null) }
@@ -71,8 +59,6 @@ fun NewIncrement(
                     countersListViewModel.addIncrement(
                         value.toInt(),
                         counter,
-                        context,
-                        healthConnectManager,
                         if (date == null) null else SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(
                             date
                         ),
@@ -156,7 +142,7 @@ fun NewIncrement(
             }
 
             AnimatedVisibility(visible = areNotesVisible) {
-                Divider(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp))
+                HorizontalDivider(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp))
 
                 TextField(
                     value = notes ?: "",

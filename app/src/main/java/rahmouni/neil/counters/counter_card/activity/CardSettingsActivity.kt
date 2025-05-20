@@ -1,8 +1,8 @@
 package rahmouni.neil.counters.counter_card.activity
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
@@ -19,13 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import com.google.firebase.dynamiclinks.ktx.dynamicLinks
-import com.google.firebase.ktx.Firebase
 import rahmouni.neil.counters.CounterStyle
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
@@ -33,7 +30,6 @@ import rahmouni.neil.counters.counter_card.CounterCard
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
-import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.options.CounterStyleOption
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
@@ -45,8 +41,6 @@ class CardSettingsActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        Firebase.dynamicLinks.getDynamicLink(intent)
-
         val counterID: Int = intent.getIntExtra("counterID", 0)
 
         val countersListViewModel by viewModels<CountersListViewModel> {
@@ -55,7 +49,6 @@ class CardSettingsActivity : ComponentActivity() {
 
         setContent {
             CountersTheme {
-                androidx.compose.material.Surface {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
                         tonalElevation = 1.dp,
@@ -64,25 +57,22 @@ class CardSettingsActivity : ComponentActivity() {
 
                         CardSettingsPage(
                             counterID,
-                            countersListViewModel,
-                            (application as CountersApplication).healthConnectManager
+                            countersListViewModel
                         )
                     }
                 }
-            }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, androidx.compose.material.ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardSettingsPage(
     counterID: Int,
-    countersListViewModel: CountersListViewModel,
-    healthConnectManager: HealthConnectManager
+    countersListViewModel: CountersListViewModel
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val activity = (LocalContext.current as Activity)
+    val activity = LocalActivity.current
     val localHapticFeedback = LocalHapticFeedback.current
 
     val counter: CounterAugmented? by countersListViewModel.getCounter(counterID).observeAsState()
@@ -112,7 +102,7 @@ fun CardSettingsPage(
                         onClick = {
                             localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                            activity.finish()
+                            activity?.finish()
                         }
                     ) {
                         Icon(
@@ -153,7 +143,6 @@ fun CardSettingsPage(
                                     CounterCard(
                                         data = finalCounter()!!,
                                         countersListViewModel = null,
-                                        healthConnectManager = healthConnectManager,
                                         openNewIncrementSheet = null
                                     )
                                 }
