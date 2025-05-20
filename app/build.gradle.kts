@@ -16,7 +16,7 @@ android {
         applicationId = "rahmouni.neil.counters"
         minSdk = 26
         targetSdk = 35
-        versionCode = 72
+        versionCode = 720027
         versionName = "1.28"
         //resourceConfigurations += ["en", "en-rUS", "en-rGB", "fr", "zh", "zh-rCN"]
 
