@@ -1,9 +1,12 @@
 package rahmouni.neil.counters.counter_card
 
 import android.content.Intent
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -13,20 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.edit
 import rahmouni.neil.counters.counterActivity.CounterActivity
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
-import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.prefs
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CounterCard(
     data: CounterAugmented,
     countersListViewModel: CountersListViewModel?,
-    healthConnectManager: HealthConnectManager,
     modifier: Modifier = Modifier,
     openNewIncrementSheet: ((countersListViewModel: CountersListViewModel) -> (Unit))?,
 ) {
@@ -37,7 +37,8 @@ fun CounterCard(
         colors = CardDefaults.cardColors(containerColor = data.style.getBackGroundColor()),
         modifier = modifier
     ) {
-        Column(modifier = Modifier.combinedClickable(
+        Column(
+            modifier = Modifier.combinedClickable(
             onClick = {
                 if (openNewIncrementSheet != null) {
                     localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -58,8 +59,9 @@ fun CounterCard(
                         countersListViewModel
                     )
 
-                    prefs.preferences.edit().putBoolean("LONG_PRESS_TIP_DISMISSED", true)
-                        .apply()
+                    prefs.preferences.edit {
+                        putBoolean("LONG_PRESS_TIP_DISMISSED", true)
+                    }
                 }
             }
         )) {
@@ -79,27 +81,15 @@ fun CounterCard(
                 val end = buttons.removeFirstOrNull()
 
                 buttons.forEach {
-                    it.CardButton(data, countersListViewModel, healthConnectManager)
+                    it.CardButton(data, countersListViewModel)
                 }
-                if (arrayOf(
-                        "mon amour pour maï",
-                        "my love for maï"
-                    ).contains(data.getDisplayName(context).lowercase().removeSurrounding(" "))
-                ) {
-                    Text(
-                        "∞",
-                        Modifier.padding(start = 8.dp),
-                        style = MaterialTheme.typography.headlineLarge
-                    )
-                } else {
-                    data.valueType.largeDisplay(
-                        this,
-                        data.getCount(),
-                        context,
-                        true
-                    )
-                }
-                end?.CardButton(data, countersListViewModel, healthConnectManager)
+                data.valueType.largeDisplay(
+                    this,
+                    data.getCount(),
+                    context,
+                    true
+                )
+                end?.CardButton(data, countersListViewModel)
             }
         }
     }

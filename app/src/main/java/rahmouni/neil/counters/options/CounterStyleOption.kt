@@ -22,10 +22,7 @@ import rahmouni.neil.counters.R
 import rahmouni.neil.counters.utils.tiles.tile_color_selection.Size
 import rahmouni.neil.counters.utils.tiles.tile_color_selection.TileColorSelection
 
-@OptIn(
-    ExperimentalMaterial3Api::class,
-    androidx.compose.ui.ExperimentalComposeUiApi::class
-)
+@OptIn(androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 fun CounterStyleOption(
     selected: CounterStyle,
@@ -55,16 +52,14 @@ fun CounterStyleOption(
                             .padding(top = 8.dp),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        CounterStyle.values().forEach { cs ->
-                            if (cs.isDynamic == bo) {
-                                item {
-                                    TileColorSelection(
-                                        color = cs.getBackGroundColor(),
-                                        selected = selected == cs,
-                                        size = size
-                                    ) {
-                                        onChange(cs)
-                                    }
+                        CounterStyle.getAvailableValues(bo).forEach { cs ->
+                            item {
+                                TileColorSelection(
+                                    color = cs.getBackGroundColor(),
+                                    selected = selected == cs,
+                                    size = size
+                                ) {
+                                    onChange(cs)
                                 }
                             }
                         }

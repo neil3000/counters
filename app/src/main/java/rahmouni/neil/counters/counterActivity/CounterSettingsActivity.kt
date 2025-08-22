@@ -1,9 +1,9 @@
 package rahmouni.neil.counters.counterActivity
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
@@ -31,15 +31,12 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.core.view.WindowCompat
-import com.google.firebase.dynamiclinks.ktx.dynamicLinks
-import com.google.firebase.ktx.Firebase
 import rahmouni.neil.counters.CountersApplication
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.counter_card.activity.CounterSettings
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 import rahmouni.neil.counters.database.CountersListViewModelFactory
-import rahmouni.neil.counters.health_connect.HealthConnectManager
 import rahmouni.neil.counters.ui.theme.CountersTheme
 import rahmouni.neil.counters.utils.SettingsDots
 
@@ -52,26 +49,21 @@ class CounterSettingsActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
-        Firebase.dynamicLinks.getDynamicLink(intent)
-
         val countersListViewModel by viewModels<CountersListViewModel> {
             CountersListViewModelFactory((this.applicationContext as CountersApplication).countersListRepository)
         }
 
         setContent {
             CountersTheme {
-                androidx.compose.material.Surface {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
                     ) {
                         CounterSettingsPage(
                             counterID,
-                            countersListViewModel,
-                            (application as CountersApplication).healthConnectManager
+                            countersListViewModel
                         )
                     }
-                }
             }
         }
     }
@@ -81,12 +73,12 @@ class CounterSettingsActivity : ComponentActivity() {
 @Composable
 fun CounterSettingsPage(
     counterID: Int,
-    countersListViewModel: CountersListViewModel,
-    healthConnectManager: HealthConnectManager
+    countersListViewModel: CountersListViewModel
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val haptic = LocalHapticFeedback.current
-    val activity = (LocalContext.current as Activity)
+    val activity = LocalActivity.current
+    val context = LocalContext.current
 
     val counter: CounterAugmented? by countersListViewModel.getCounter(counterID).observeAsState()
 
@@ -98,7 +90,7 @@ fun CounterSettingsPage(
                     Text(
                         stringResource(
                             R.string.counterSettingsActivity_topbar_title,
-                            counter?.getDisplayName(activity) ?: "Counter"
+                            counter?.getDisplayName(context) ?: "Counter"
                         ),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -112,7 +104,7 @@ fun CounterSettingsPage(
                         onClick = {
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
 
-                            activity.finish()
+                            activity?.finish()
                         }
                     ) {
                         Icon(
@@ -128,8 +120,7 @@ fun CounterSettingsPage(
         Column(Modifier.padding(innerPadding)) {
             CounterSettings(
                 counter = counter,
-                countersListViewModel = countersListViewModel,
-                healthConnectManager = healthConnectManager
+                countersListViewModel = countersListViewModel
             )
         }
     }

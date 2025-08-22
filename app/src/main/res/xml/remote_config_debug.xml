@@ -46,4 +46,32 @@
         <key>issue114__health_connect</key>
         <value>true</value>
     </entry>
+    <entry>
+        <key>i_233</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>i_253</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>i_268</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>i_270</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>i_271</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>i_272</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>i_273</key>
+        <value>true</value>
+    </entry>
 </defaultsMap>

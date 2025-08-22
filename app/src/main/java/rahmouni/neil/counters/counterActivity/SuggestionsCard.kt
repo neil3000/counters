@@ -2,7 +2,6 @@ package rahmouni.neil.counters.counterActivity
 
 import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -14,8 +13,6 @@ import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
@@ -29,22 +26,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import rahmouni.neil.counters.R
 import rahmouni.neil.counters.ResetType
 import rahmouni.neil.counters.database.CounterAugmented
 import rahmouni.neil.counters.database.CountersListViewModel
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun SuggestionsCard(
     counter: CounterAugmented,
     countersListViewModel: CountersListViewModel,
-    modalBottomSheetState: ModalBottomSheetState
+    openNewIncrementBottomSheetCallback: () -> Unit
 ) {
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
 
     var spawn: Boolean by rememberSaveable { mutableStateOf(false) }
 
@@ -163,10 +157,7 @@ fun SuggestionsCard(
                             modifier = Modifier.padding(horizontal = 4.dp),
                             onClick = {
                                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                                scope.launch {
-                                    modalBottomSheetState.show()
-                                }
+                                openNewIncrementBottomSheetCallback()
                             },
                             label = { Text(stringResource(id = R.string.suggestionsCard_entry_assistChip_label)) },
                             leadingIcon = {

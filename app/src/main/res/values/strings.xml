@@ -245,4 +245,12 @@
     <string name="suggestionsCard_goal_assistChip_label">Set a goal</string>
     <string name="suggestionsCard_entry_assistChip_label">Add entry</string>
     <string name="suggestionsCard_title_assistChip_label">Edit name</string>
+    <string name="goalType_entry_title">Per entry</string>
+    <string name="goalType_entry_secondary">Tracks if an entry reaches the goal</string>
+    <string name="goalType_timePeriod_title">Per time period</string>
+    <string name="goalType_timePeriod_secondary">Tracks if the goal is reached in a time period</string>
+    <string name="counterGoalSettingsActivity_tile_goalType_title">Type</string>
+    <string name="counterGoalSettingsActivity_tile_goalTimePeriodReset_title">Time period</string>
+    <string name="counterGoalSettingsActivity_tile_goalTimePeriodReset_dialogTitle">Resets</string>
+    <string name="counterGoalSettingsActivity_followCounter_formatted_v2">Resets when the counter resets</string>
 </resources>

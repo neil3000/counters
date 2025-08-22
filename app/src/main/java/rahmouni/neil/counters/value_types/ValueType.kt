@@ -22,14 +22,11 @@ enum class ValueType(
     val isValueValid: (String) -> Boolean,
     val picker: @Composable (String, (String) -> Unit) -> Unit,
     val formatAsString: (count: Int, context: Context) -> String,
-    val hasStats: Boolean,
-    val hasHealthConnectIntegration: Boolean,
     val largeDisplay: @Composable RowScope.(count: Int, context: Context, padding: Boolean) -> Unit,
     val mediumDisplay: @Composable (count: Int, context: Context) -> Unit,
     val smallDisplay: @Composable (count: Int, context: Context) -> Unit,
 ) : TileDialogRadioListEnum {
 
-    @OptIn(ExperimentalAnimationApi::class)
     NUMBER(
         R.string.valueType_number,
         { it.toIntOrNull() != null },
@@ -39,18 +36,16 @@ enum class ValueType(
             }
         },
         { count, _ -> count.toString() },
-        true,
-        true,
         { count, _, padding ->
             AnimatedContent(
                 targetState = count,
                 transitionSpec = {
                     if (targetState > initialState) {
-                        slideInVertically { height -> (height / 1.5f).toInt() } + fadeIn() with
-                                slideOutVertically { height -> -(height / 1.5f).toInt() } + fadeOut()
+                        (slideInVertically { height -> (height / 1.5f).toInt() } + fadeIn()).togetherWith(
+                            slideOutVertically { height -> -(height / 1.5f).toInt() } + fadeOut())
                     } else {
-                        slideInVertically { height -> -(height / 1.5f).toInt() } + fadeIn() with
-                                slideOutVertically { height -> (height / 1.5f).toInt() } + fadeOut()
+                        (slideInVertically { height -> -(height / 1.5f).toInt() } + fadeIn()).togetherWith(
+                            slideOutVertically { height -> (height / 1.5f).toInt() } + fadeOut())
                     }.using(SizeTransform(clip = false))
                 }
             )
@@ -68,11 +63,11 @@ enum class ValueType(
                 targetState = count,
                 transitionSpec = {
                     if (targetState > initialState) {
-                        slideInVertically { height -> (height / 1.5f).toInt() } + fadeIn() with
-                                slideOutVertically { height -> -(height / 1.5f).toInt() } + fadeOut()
+                        (slideInVertically { height -> (height / 1.5f).toInt() } + fadeIn()).togetherWith(
+                            slideOutVertically { height -> -(height / 1.5f).toInt() } + fadeOut())
                     } else {
-                        slideInVertically { height -> -(height / 1.5f).toInt() } + fadeIn() with
-                                slideOutVertically { height -> (height / 1.5f).toInt() } + fadeOut()
+                        (slideInVertically { height -> -(height / 1.5f).toInt() } + fadeIn()).togetherWith(
+                            slideOutVertically { height -> (height / 1.5f).toInt() } + fadeOut())
                     }.using(SizeTransform(clip = false))
                 }
             )
@@ -93,7 +88,6 @@ enum class ValueType(
         }
     ),
 
-    @OptIn(ExperimentalAnimationApi::class)
     TASK(
         R.string.valueType_task,
         { it.toIntOrNull() != null && it.toInt().absoluteValue <= 1 },
@@ -107,8 +101,6 @@ enum class ValueType(
                 R.string.valueType_task_notDone
             )
         },
-        false,
-        false,
         { count, context, padding ->
             AnimatedContent(targetState = TASK.formatAsString(count, context))
             { targetValue ->

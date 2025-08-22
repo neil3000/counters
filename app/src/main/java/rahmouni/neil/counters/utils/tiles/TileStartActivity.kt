@@ -2,7 +2,6 @@ package rahmouni.neil.counters.utils.tiles
 
 import android.content.Intent
 import androidx.compose.foundation.clickable
-import androidx.compose.material.ContentAlpha
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
@@ -20,7 +19,7 @@ fun TileStartActivity(
     icon: ImageVector,
     modifier: Modifier = Modifier,
     description: String? = null,
-    activity: Class<*>,
+    activity: Class<*>?,
     enabled: Boolean = true,
     extras: (Intent) -> (Intent) = { it }
 ) {
@@ -35,7 +34,7 @@ fun TileStartActivity(
         leadingContent = { Icon(icon, null) },
         modifier = modifier.then(
             Modifier
-                .alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
+                .alpha(if (enabled) 1f else .7f)
                 .clickable(
                     enabled = enabled,
                     onClick = {

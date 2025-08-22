@@ -3,7 +3,6 @@ package rahmouni.neil.counters.utils.tiles
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material.ContentAlpha
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
@@ -45,7 +44,7 @@ fun TileSwitch(
             )
         },
         modifier = Modifier
-            .alpha(if (enabled) ContentAlpha.high else ContentAlpha.disabled)
+            .alpha(if (enabled) 1f else .7f)
             .toggleable(
                 interactionSource = interactionSource,
                 value = checked,
