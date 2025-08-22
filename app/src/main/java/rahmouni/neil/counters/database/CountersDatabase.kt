@@ -97,11 +97,11 @@ data class Counter(
     @ColumnInfo(
         name = "health_connect_exercise_type",
         defaultValue = "BACK_EXTENSION"
-    ) val healthConnectExerciseType: Int = 0,
+    ) val healthConnectExerciseType: String = "BACK_EXTENSION",
     @ColumnInfo(
         name = "health_connect_data_type",
         defaultValue = "REPETITIONS"
-    ) val healthConnectDataType: Int = 0,
+    ) val healthConnectDataType: String = "REPETITIONS",
     @ColumnInfo(
         name = "value_type",
         defaultValue = "NUMBER"
@@ -158,11 +158,11 @@ data class CounterAugmented(
     @ColumnInfo(
         name = "health_connect_exercise_type",
         defaultValue = "BACK_EXTENSION"
-    ) val healthConnectExerciseType: Int = 0,
+    ) val healthConnectExerciseType: String = "BACK_EXTENSION",
     @ColumnInfo(
         name = "health_connect_data_type",
         defaultValue = "REPETITIONS"
-    ) val healthConnectDataType: Int = 0,
+    ) val healthConnectDataType: String = "REPETITIONS",
     @ColumnInfo(
         name = "value_type",
         defaultValue = "NUMBER"
@@ -207,7 +207,7 @@ data class CounterAugmented(
     @ColumnInfo(name = "count_month") private val monthCount: Int = 0,
     @ColumnInfo(name = "last_increment") val lastIncrement: Int = 1,
     @ColumnInfo(name = "top_increment") val topIncrement: Int = 0,
-    ) {
+) {
     fun toCounter(): Counter {
         return Counter(
             uid = uid,
@@ -242,7 +242,9 @@ data class CounterAugmented(
     }
 
     fun getGoalProgress(): Float {
-        return (if (goalType == GoalType.ENTRY) topIncrement else getRawCount(goalReset ?: resetType)).toFloat() / goalValue
+        return (if (goalType == GoalType.ENTRY) topIncrement else getRawCount(
+            goalReset ?: resetType
+        )).toFloat() / goalValue
     }
 
     fun getRawCount(resetType: ResetType): Int {

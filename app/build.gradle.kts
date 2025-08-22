@@ -16,8 +16,8 @@ android {
         applicationId = "rahmouni.neil.counters"
         minSdk = 26
         targetSdk = 35
-        versionCode = 720029
-        versionName = "1.28"
+        versionCode = 720031
+        versionName = "1.28.1"
         //resourceConfigurations += ["en", "en-rUS", "en-rGB", "fr", "zh", "zh-rCN"]
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
